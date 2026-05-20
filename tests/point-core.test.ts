@@ -108,6 +108,37 @@ fn total(base: Int, bonus: Int): Int {
 		expect(emitPointCoreTypeScript(program)).toContain("score = (score + 1);");
 	});
 
+	test("lowers AI-first record, rule, and label syntax into typed core", () => {
+		const program = parsePointCore(`module Readiness
+
+record DeploySignals
+  has bundle id: Bool
+  submitted for review: Bool
+
+rule deploy readiness
+  input signals: DeploySignals
+  output score: Int
+  score starts at 0
+  add 10 when signals.has bundle id
+  add 20 when signals.submitted for review
+  return score
+
+label deploy readiness
+  input score: Int
+  output Text
+  when score >= 90 return "Ready"
+  otherwise return "Not ready"
+`);
+
+		expect(checkPointCore(program)).toEqual([]);
+		expect(program.declarations.map((declaration) => declaration.kind)).toEqual(["type", "function", "function"]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain("export function deployReadinessScore(signals: DeploySignals): number");
+		expect(emitted).toContain("score += 10;");
+		expect(emitted).toContain("if (signals.hasBundleId)");
+		expect(emitted).toContain("export function deployReadinessLabel(score: number): string");
+	});
+
 	test("emits importable TypeScript for JS ecosystems", () => {
 		const program = parsePointCore(`module Pricing
 

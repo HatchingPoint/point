@@ -3,7 +3,7 @@ import { checkPointCore } from "./check.ts";
 import { createPointCoreIndex, createPointCoreRepairPlan, explainPointCoreRef } from "./context.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { formatPointCore } from "./format.ts";
-import { parsePointCore } from "./parser.ts";
+import { isSemanticPointSyntax, parsePointCore } from "./parser.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -24,12 +24,20 @@ export async function main() {
 	const diagnostics = checkPointCore(program);
 
 	if (command === "fmt") {
+		if (isSemanticPointSyntax(source)) {
+			console.log(`Point core fmt preserved semantic source: ${input}`);
+			return;
+		}
 		await Bun.write(inputPath, formatPointCore(program));
 		console.log(`Point core fmt wrote ${input}`);
 		return;
 	}
 
 	if (command === "fmt-check") {
+		if (isSemanticPointSyntax(source)) {
+			console.log(`Point core fmt check passed: ${input}`);
+			return;
+		}
 		const formatted = formatPointCore(program);
 		if (source !== formatted) {
 			console.error(`Point core fmt check failed: ${input}`);
@@ -111,7 +119,9 @@ async function runProjectCommand(command: string) {
 	if (command === "fmt-all") {
 		await Promise.all(
 			results.map((result) =>
-				Bun.write(resolve(process.cwd(), result.input), formatPointCore(result.program)),
+				isSemanticPointSyntax(result.source)
+					? Promise.resolve()
+					: Bun.write(resolve(process.cwd(), result.input), formatPointCore(result.program)),
 			),
 		);
 		console.log(`Point core fmt wrote ${results.length} files`);
@@ -119,7 +129,9 @@ async function runProjectCommand(command: string) {
 	}
 
 	if (command === "fmt-check-all") {
-		const unformatted = results.filter((result) => result.source !== formatPointCore(result.program));
+		const unformatted = results.filter(
+			(result) => !isSemanticPointSyntax(result.source) && result.source !== formatPointCore(result.program),
+		);
 		if (unformatted.length > 0) {
 			console.error(JSON.stringify({ ok: false, unformatted: unformatted.map((result) => result.input) }, null, 2));
 			process.exit(1);

@@ -54,7 +54,7 @@
       "patterns": [
         {
           "name": "keyword.control.declaration.point",
-          "match": "\\b(guardrails|require|component|page|input|state|data|from|form|field|required|submit|loading|success|empty|error|collection|item|for|in|module|import|let|var|fn|type|return|if|else|and|or)\\b"
+          "match": "\\b(guardrails|require|component|page|input|state|data|from|form|field|required|submit|loading|success|empty|error|collection|item|for|in|module|import|let|var|fn|type|record|rule|label|output|starts|at|add|when|otherwise|return|if|else|and|or)\\b"
         }
       ]
     },

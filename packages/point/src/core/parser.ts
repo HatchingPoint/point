@@ -21,8 +21,239 @@ export class PointCoreParserError extends Error {
 }
 
 export function parsePointCore(source: string): PointCoreProgram {
-	const parser = new CoreParser(lexPointCore(source));
+	const parser = new CoreParser(lexPointCore(lowerSemanticPointSyntax(source)));
 	return parser.parseProgram();
+}
+
+export function isSemanticPointSyntax(source: string): boolean {
+	return source
+		.split(/\r?\n/)
+		.some((line) => /^(record|rule|label)\s+/.test(line.trim()));
+}
+
+function lowerSemanticPointSyntax(source: string): string {
+	if (!isSemanticPointSyntax(source)) return source;
+	const lines = source.split(/\r?\n/);
+	const output: string[] = [];
+	const records = new Map<string, Map<string, string>>();
+	let index = 0;
+
+	while (index < lines.length) {
+		const line = lines[index] ?? "";
+		const trimmed = line.trim();
+		if (!trimmed) {
+			index += 1;
+			continue;
+		}
+		if (trimmed.startsWith("module ")) {
+			output.push(trimmed);
+			index += 1;
+			continue;
+		}
+		if (trimmed.startsWith("record ")) {
+			const lowered = lowerRecord(lines, index, records);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
+		if (trimmed.startsWith("rule ")) {
+			const lowered = lowerRule(lines, index, records);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
+		if (trimmed.startsWith("label ")) {
+			const lowered = lowerLabel(lines, index, records);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
+		output.push(line);
+		index += 1;
+	}
+
+	return `${output.join("\n")}\n`;
+}
+
+function lowerRecord(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+): { lines: string[]; next: number } {
+	const name = (lines[start] ?? "").trim().slice("record ".length).trim();
+	const fields = new Map<string, string>();
+	const output = [`type ${name} {`];
+	let index = start + 1;
+	for (; index < lines.length; index += 1) {
+		const trimmed = (lines[index] ?? "").trim();
+		if (!trimmed) continue;
+		if (isSemanticTopLevel(trimmed)) break;
+		const colon = trimmed.indexOf(":");
+		if (colon === -1) throw new Error(`Expected field type in record ${name}: ${trimmed}`);
+		const label = trimmed.slice(0, colon).trim();
+		const fieldName = toIdentifier(label);
+		fields.set(label, fieldName);
+		output.push(`  ${fieldName}: ${trimmed.slice(colon + 1).trim()}`);
+	}
+	output.push("}", "");
+	records.set(name, fields);
+	return { lines: output, next: index };
+}
+
+function lowerRule(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+): { lines: string[]; next: number } {
+	const label = (lines[start] ?? "").trim().slice("rule ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const params: string[] = [];
+	const paramTypes = new Map<string, string>();
+	let outputName = "result";
+	let outputType = "Void";
+	const statements: string[] = [];
+
+	for (const line of body.lines) {
+		if (line.startsWith("input ")) {
+			const param = parseTypedBinding(line.slice("input ".length));
+			params.push(`${param.name}: ${param.type}`);
+			paramTypes.set(param.name, param.type);
+			continue;
+		}
+		if (line.startsWith("output ")) {
+			const output = parseOutputBinding(line.slice("output ".length));
+			outputName = output.name;
+			outputType = output.type;
+			continue;
+		}
+		const startsAt = line.match(/^([A-Za-z_][A-Za-z0-9_]*) starts at (.+)$/);
+		if (startsAt) {
+			statements.push(`var ${startsAt[1]}: ${outputType} = ${lowerExpression(startsAt[2] ?? "", paramTypes, records)}`);
+			continue;
+		}
+		const addWhen = line.match(/^add (.+) when (.+)$/);
+		if (addWhen) {
+			statements.push(`if ${lowerExpression(addWhen[2] ?? "", paramTypes, records)} {`);
+			statements.push(`  ${outputName} += ${lowerExpression(addWhen[1] ?? "", paramTypes, records)}`);
+			statements.push("}");
+			continue;
+		}
+		if (line.startsWith("return ")) {
+			statements.push(`return ${lowerExpression(line.slice("return ".length), paramTypes, records)}`);
+			continue;
+		}
+		throw new Error(`Unknown rule statement: ${line}`);
+	}
+
+	const functionName = `${toIdentifier(label)}${toPascalCase(outputName)}`;
+	return {
+		lines: [`fn ${functionName}(${params.join(", ")}): ${outputType} {`, ...indentRaw(statements), "}", ""],
+		next: body.next,
+	};
+}
+
+function lowerLabel(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+): { lines: string[]; next: number } {
+	const label = (lines[start] ?? "").trim().slice("label ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const params: string[] = [];
+	const paramTypes = new Map<string, string>();
+	let outputType = "Text";
+	const statements: string[] = [];
+
+	for (const line of body.lines) {
+		if (line.startsWith("input ")) {
+			const param = parseTypedBinding(line.slice("input ".length));
+			params.push(`${param.name}: ${param.type}`);
+			paramTypes.set(param.name, param.type);
+			continue;
+		}
+		if (line.startsWith("output ")) {
+			outputType = parseOutputBinding(line.slice("output ".length)).type;
+			continue;
+		}
+		const whenReturn = line.match(/^when (.+) return (.+)$/);
+		if (whenReturn) {
+			statements.push(`if ${lowerExpression(whenReturn[1] ?? "", paramTypes, records)} {`);
+			statements.push(`  return ${lowerExpression(whenReturn[2] ?? "", paramTypes, records)}`);
+			statements.push("}");
+			continue;
+		}
+		if (line.startsWith("otherwise return ")) {
+			statements.push(`return ${lowerExpression(line.slice("otherwise return ".length), paramTypes, records)}`);
+			continue;
+		}
+		throw new Error(`Unknown label statement: ${line}`);
+	}
+
+	return {
+		lines: [`fn ${toIdentifier(label)}Label(${params.join(", ")}): ${outputType} {`, ...indentRaw(statements), "}", ""],
+		next: body.next,
+	};
+}
+
+function collectSemanticBody(lines: string[], start: number): { lines: string[]; next: number } {
+	const body: string[] = [];
+	let index = start;
+	for (; index < lines.length; index += 1) {
+		const trimmed = (lines[index] ?? "").trim();
+		if (!trimmed) continue;
+		if (isSemanticTopLevel(trimmed)) break;
+		body.push(trimmed);
+	}
+	return { lines: body, next: index };
+}
+
+function isSemanticTopLevel(line: string): boolean {
+	return /^(module|record|rule|label|type|fn|let|var|import)\s+/.test(line);
+}
+
+function parseTypedBinding(source: string): { name: string; type: string } {
+	const colon = source.indexOf(":");
+	if (colon === -1) throw new Error(`Expected typed binding: ${source}`);
+	return { name: source.slice(0, colon).trim(), type: source.slice(colon + 1).trim() };
+}
+
+function parseOutputBinding(source: string): { name: string; type: string } {
+	const colon = source.indexOf(":");
+	if (colon !== -1) return parseTypedBinding(source);
+	return { name: "result", type: source.trim() };
+}
+
+function lowerExpression(
+	source: string,
+	paramTypes: Map<string, string>,
+	records: Map<string, Map<string, string>>,
+): string {
+	let expression = source.trim();
+	for (const [param, type] of paramTypes) {
+		const fields = records.get(type);
+		if (!fields) continue;
+		const labels = [...fields.keys()].sort((a, b) => b.length - a.length);
+		for (const label of labels) {
+			const field = fields.get(label);
+			if (!field) continue;
+			expression = expression.replaceAll(`${param}.${label}`, `${param}.${field}`);
+		}
+	}
+	return expression;
+}
+
+function toIdentifier(label: string): string {
+	const words = label.match(/[A-Za-z0-9]+/g) ?? [];
+	return words.map((word, index) => (index === 0 ? word.toLowerCase() : toPascalCase(word))).join("");
+}
+
+function toPascalCase(label: string): string {
+	const words = label.match(/[A-Za-z0-9]+/g) ?? [];
+	return words.map((word) => `${word.slice(0, 1).toUpperCase()}${word.slice(1)}`).join("");
+}
+
+function indentRaw(lines: string[]): string[] {
+	return lines.map((line) => `  ${line}`);
 }
 
 class CoreParser {

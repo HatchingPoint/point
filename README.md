@@ -11,6 +11,7 @@ It starts by compiling `.point` source into TypeScript so existing React, Vue, B
 - Formatter, checker, TypeScript emitter, AST emitter, and CLI
 - Stable `point://` refs, symbol indexing, explanations, and repair plans for coding agents
 - Mutable local assignment with `var`, `=`, and `+=` for practical business logic
+- AI-first semantic syntax with `record`, `rule`, `label`, `add ... when`, and `otherwise`
 
 ## Quick Start
 
