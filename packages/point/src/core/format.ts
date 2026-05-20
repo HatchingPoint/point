@@ -51,6 +51,7 @@ function formatStatementLines(statement: PointCoreStatement): string[] {
 		return [statement.value ? `return ${formatExpression(statement.value)}` : "return"];
 	}
 	if (statement.kind === "value") return [formatValue(statement)];
+	if (statement.kind === "assignment") return [`${statement.name} ${statement.operator} ${formatExpression(statement.value)}`];
 	if (statement.kind === "if") return formatIf(statement);
 	return [formatExpression(statement.value)];
 }

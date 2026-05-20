@@ -16,7 +16,9 @@ fn add(left: Int, right: Int): Int {
 }
 
 fn annualPrice(monthly: Int): Int {
-  return monthly * 12
+  var price: Int = monthly * 12
+  price += 0
+  return price
 }
 
 fn identity(value: Text): Text {

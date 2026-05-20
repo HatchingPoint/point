@@ -94,7 +94,7 @@
       "patterns": [
         {
           "name": "keyword.operator.assignment.point",
-          "match": "==|!=|<=|>=|\\+|-|\\*|/|="
+          "match": "\\+=|==|!=|<=|>=|\\+|-|\\*|/|="
         },
         {
           "name": "punctuation.accessor.point",

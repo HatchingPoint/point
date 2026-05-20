@@ -17,7 +17,9 @@ export function add(left: number, right: number): number {
 }
 
 export function annualPrice(monthly: number): number {
-  return (monthly * 12);
+  let price: number = (monthly * 12);
+  price += 0;
+  return price;
 }
 
 export function identity(value: string): string {

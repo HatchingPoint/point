@@ -79,6 +79,13 @@ export type PointCoreStatement =
 	| { kind: "return"; value?: PointCoreExpression; span?: PointSourceSpan }
 	| PointCoreValueDeclaration
 	| {
+			kind: "assignment";
+			name: string;
+			operator: "=" | "+=";
+			value: PointCoreExpression;
+			span?: PointSourceSpan;
+	  }
+	| {
 			kind: "if";
 			condition: PointCoreExpression;
 			thenBody: PointCoreStatement[];

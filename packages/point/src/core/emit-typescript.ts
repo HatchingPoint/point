@@ -57,6 +57,7 @@ function emitStatement(statement: PointCoreStatement): string[] {
 		return [statement.value ? `return ${emitExpression(statement.value)};` : "return;"];
 	}
 	if (statement.kind === "value") return [emitValue(statement, false)];
+	if (statement.kind === "assignment") return [`${statement.name} ${statement.operator} ${emitExpression(statement.value)};`];
 	if (statement.kind === "if") {
 		const lines = [
 			`if (${emitCondition(statement.condition)}) {`,

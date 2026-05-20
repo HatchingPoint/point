@@ -90,6 +90,24 @@ fn label(score: Int, active: Bool): Text {
 		expect(formatPointCore(program)).toContain("if score >= 90 and active {");
 	});
 
+	test("supports mutable local assignment and += updates", () => {
+		const program = parsePointCore(`module Scores
+
+fn total(base: Int, bonus: Int): Int {
+  var score: Int = base
+  score += bonus
+  score = score + 1
+  return score
+}
+`);
+
+		expect(checkPointCore(program)).toEqual([]);
+		expect(formatPointCore(program)).toContain("score += bonus");
+		expect(emitPointCoreTypeScript(program)).toContain("let score: number = base;");
+		expect(emitPointCoreTypeScript(program)).toContain("score += bonus;");
+		expect(emitPointCoreTypeScript(program)).toContain("score = (score + 1);");
+	});
+
 	test("emits importable TypeScript for JS ecosystems", () => {
 		const program = parsePointCore(`module Pricing
 
@@ -153,6 +171,13 @@ let badUser: User = { name: "Ada", enabled: true }
 fn badField(user: User): Text {
   return user.email
 }
+
+fn badAssign(value: Int): Int {
+  let locked: Int = 1
+  locked += value
+  value = locked
+  return locked
+}
 `),
 		);
 
@@ -164,6 +189,8 @@ fn badField(user: User): Text {
 			"missing-field",
 			"unknown-field",
 			"unknown-field",
+			"immutable-assignment",
+			"immutable-assignment",
 		]);
 		expect(diagnostics[0]?.span?.start).toEqual({ line: 3, column: 19, offset: 33 });
 		expect(diagnostics[0]).toMatchObject({
@@ -173,6 +200,10 @@ fn badField(user: User): Text {
 			repair: "Return or assign a Int value here.",
 		});
 		expect(diagnostics.at(-1)).toMatchObject({
+			ref: "point://core/Broken/fn.badAssign.value.assignment",
+			repair: "Declare value with var if it needs to change.",
+		});
+		expect(diagnostics.at(-3)).toMatchObject({
 			ref: "point://core/Broken/fn.badField.return",
 			expected: ["name", "active"],
 			actual: "email",

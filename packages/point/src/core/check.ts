@@ -24,6 +24,8 @@ export interface PointCoreDiagnostic {
 }
 
 type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual" | "repair" | "relatedRefs">>;
+type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean };
+type Scope = Map<string, ScopeEntry>;
 
 const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List"]);
 
@@ -36,7 +38,7 @@ class CoreChecker {
 	private readonly diagnostics: PointCoreDiagnostic[] = [];
 	private readonly types = new Set(PRIMITIVE_TYPES);
 	private readonly typeDeclarations = new Map<string, PointCoreTypeDeclaration>();
-	private readonly globals = new Map<string, PointCoreTypeExpression>();
+	private readonly globals: Scope = new Map();
 	private readonly functions = new Map<string, PointCoreFunctionDeclaration>();
 
 	constructor(private readonly program: PointCoreProgram) {}
@@ -70,7 +72,7 @@ class CoreChecker {
 		if (this.globals.has(declaration.name)) {
 			this.push("duplicate-value", `Duplicate value ${declaration.name}`, `value.${declaration.name}`, declaration.span);
 		}
-		this.globals.set(declaration.name, declaration.type);
+		this.globals.set(declaration.name, { type: declaration.type, mutable: declaration.mutable });
 	}
 
 	private checkDeclaration(declaration: PointCoreDeclaration) {
@@ -92,7 +94,7 @@ class CoreChecker {
 		const locals = new Map(this.globals);
 		for (const param of declaration.params) {
 			this.checkType(param.type, `fn.${declaration.name}.${param.name}.type`);
-			locals.set(param.name, param.type);
+			locals.set(param.name, { type: param.type, mutable: false });
 		}
 		for (const statement of declaration.body) {
 			this.checkStatement(statement, declaration, locals);
@@ -102,7 +104,7 @@ class CoreChecker {
 	private checkStatement(
 		statement: PointCoreStatement,
 		fn: PointCoreFunctionDeclaration,
-		locals: Map<string, PointCoreTypeExpression>,
+		locals: Scope,
 	) {
 		if (statement.kind === "return") {
 			if (!statement.value) {
@@ -117,7 +119,11 @@ class CoreChecker {
 		if (statement.kind === "value") {
 			this.checkType(statement.type, `fn.${fn.name}.${statement.name}.type`);
 			this.checkExpressionAssignable(statement.value, statement.type, `fn.${fn.name}.${statement.name}.value`, locals);
-			locals.set(statement.name, statement.type);
+			locals.set(statement.name, { type: statement.type, mutable: statement.mutable });
+			return;
+		}
+		if (statement.kind === "assignment") {
+			this.checkAssignment(statement, fn, locals);
 			return;
 		}
 		if (statement.kind === "if") {
@@ -131,11 +137,42 @@ class CoreChecker {
 		this.typeOfExpression(statement.value, locals, `fn.${fn.name}.expression`);
 	}
 
+	private checkAssignment(
+		statement: Extract<PointCoreStatement, { kind: "assignment" }>,
+		fn: PointCoreFunctionDeclaration,
+		locals: Scope,
+	) {
+		const target = locals.get(statement.name);
+		const path = `fn.${fn.name}.${statement.name}.assignment`;
+		if (!target) {
+			this.push("unknown-identifier", `Unknown identifier ${statement.name}`, path, statement.span, {
+				actual: statement.name,
+				repair: `Declare var ${statement.name}: <Type> before assigning to it.`,
+			});
+			this.typeOfExpression(statement.value, locals, `${path}.value`);
+			return;
+		}
+		if (!target.mutable) {
+			this.push("immutable-assignment", `Cannot assign to immutable value ${statement.name}`, path, statement.span, {
+				actual: statement.name,
+				repair: `Declare ${statement.name} with var if it needs to change.`,
+			});
+		}
+		if (statement.operator === "+=" && !isNumeric(String(target.type.name))) {
+			this.push("operator-type-mismatch", "+= requires a numeric target", path, statement.span, {
+				expected: "Int or Float target",
+				actual: formatType(target.type),
+				repair: "Use += only with Int or Float values.",
+			});
+		}
+		this.checkExpressionAssignable(statement.value, target.type, `${path}.value`, locals);
+	}
+
 	private checkExpressionAssignable(
 		expression: PointCoreExpression,
 		expected: PointCoreTypeExpression,
 		path: string,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 	) {
 		if (expression.kind === "list") {
 			this.checkListAssignable(expression, expected, path, scope);
@@ -159,7 +196,7 @@ class CoreChecker {
 		expression: Extract<PointCoreExpression, { kind: "list" }>,
 		expected: PointCoreTypeExpression,
 		path: string,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 	) {
 		if (expected.name !== "List" || expected.args.length !== 1) {
 			this.push("type-mismatch", `Expected ${formatType(expected)}, got List`, path, expression.span, {
@@ -178,7 +215,7 @@ class CoreChecker {
 		expression: Extract<PointCoreExpression, { kind: "record" }>,
 		expected: PointCoreTypeExpression,
 		path: string,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 	) {
 		const declaration = this.typeDeclarations.get(String(expected.name));
 		if (!declaration) {
@@ -216,7 +253,7 @@ class CoreChecker {
 
 	private typeOfExpression(
 		expression: PointCoreExpression,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 		path: string,
 	): PointCoreTypeExpression | null {
 		if (expression.kind === "literal") {
@@ -236,15 +273,15 @@ class CoreChecker {
 			return null;
 		}
 		if (expression.kind === "identifier") {
-			const type = scope.get(expression.name);
-			if (!type) {
+			const entry = scope.get(expression.name);
+			if (!entry) {
 				this.push("unknown-identifier", `Unknown identifier ${expression.name}`, path, expression.span, {
 					actual: expression.name,
 					repair: `Declare ${expression.name}, pass it as a parameter, or replace it with an in-scope symbol.`,
 				});
 				return null;
 			}
-			return type;
+			return entry.type;
 		}
 		if (expression.kind === "binary") {
 			return this.typeOfBinaryExpression(expression, scope, path);
@@ -278,7 +315,7 @@ class CoreChecker {
 
 	private typeOfListExpression(
 		expression: Extract<PointCoreExpression, { kind: "list" }>,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 		path: string,
 	): PointCoreTypeExpression | null {
 		if (expression.items.length === 0) {
@@ -298,7 +335,7 @@ class CoreChecker {
 
 	private typeOfPropertyExpression(
 		expression: Extract<PointCoreExpression, { kind: "property" }>,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 		path: string,
 	): PointCoreTypeExpression | null {
 		const targetType = this.typeOfExpression(expression.target, scope, `${path}.target`);
@@ -326,7 +363,7 @@ class CoreChecker {
 
 	private typeOfBinaryExpression(
 		expression: Extract<PointCoreExpression, { kind: "binary" }>,
-		scope: Map<string, PointCoreTypeExpression>,
+		scope: Scope,
 		path: string,
 	): PointCoreTypeExpression | null {
 		const left = this.typeOfExpression(expression.left, scope, `${path}.left`);

@@ -123,8 +123,23 @@ class CoreParser {
 		}
 		if (this.matchKeyword("if")) return this.parseIfStatement();
 		if (this.checkKeyword("let") || this.checkKeyword("var")) return this.parseValueDeclaration();
+		if (this.check("identifier") && (this.checkNext("equals") || this.checkNext("plusEquals"))) return this.parseAssignment();
 		const value = this.parseExpression();
 		return { kind: "expression", value, span: value.span };
+	}
+
+	private parseAssignment(): PointCoreStatement {
+		const name = this.consume("identifier", "Expected assignment target");
+		const operator = this.match("plusEquals") ? "+=" : "=";
+		if (operator === "=") this.consume("equals", "Expected assignment operator");
+		const value = this.parseExpression();
+		return {
+			kind: "assignment",
+			name: name.value,
+			operator,
+			value,
+			span: { start: name.span.start, end: value.span?.end ?? this.previous().span.end },
+		};
 	}
 
 	private parseIfStatement(): PointCoreStatement {
@@ -334,13 +349,17 @@ class CoreParser {
 		return this.peek().type === type;
 	}
 
+	private checkNext(type: PointCoreTokenType) {
+		return this.peek(1).type === type;
+	}
+
 	private advance() {
 		if (!this.check("eof")) this.current += 1;
 		return this.previous();
 	}
 
-	private peek() {
-		return this.tokens[this.current] ?? this.tokens[this.tokens.length - 1]!;
+	private peek(offset = 0) {
+		return this.tokens[this.current + offset] ?? this.tokens[this.tokens.length - 1]!;
 	}
 
 	private previous() {
