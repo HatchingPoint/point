@@ -1,8 +1,16 @@
 {
   "name": "point",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
+  "bin": {
+    "point": "./packages/point/src/cli.ts"
+  },
+  "exports": {
+    ".": "./packages/point/src/index.ts",
+    "./cli": "./packages/point/src/cli.ts",
+    "./core": "./packages/point/src/core/index.ts"
+  },
   "workspaces": [
     "packages/*"
   ],
