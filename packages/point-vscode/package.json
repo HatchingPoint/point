@@ -1,0 +1,66 @@
+{
+  "name": "point",
+  "displayName": "Point Language",
+  "description": "Cursor and VS Code language support for Point.",
+  "version": "0.0.0",
+  "private": false,
+  "publisher": "point-lang",
+  "license": "MIT",
+  "files": [
+    "icons/**",
+    "language-configuration.json",
+    "LICENSE",
+    "snippets/**",
+    "syntaxes/**",
+    "README.md"
+  ],
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "point",
+        "aliases": [
+          "Point",
+          "point"
+        ],
+        "extensions": [
+          ".point"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/point.svg",
+          "dark": "./icons/point.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "point",
+        "scopeName": "source.point",
+        "path": "./syntaxes/point.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "point",
+        "path": "./snippets/point.code-snippets"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "point-file-icons",
+        "label": "Point File Icons",
+        "path": "./icons/point-icon-theme.json"
+      }
+    ]
+  },
+  "scripts": {
+    "package:vsix": "bunx @vscode/vsce package --allow-missing-repository --no-dependencies"
+  }
+}

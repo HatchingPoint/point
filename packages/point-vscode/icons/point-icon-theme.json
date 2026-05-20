@@ -1,0 +1,13 @@
+{
+  "iconDefinitions": {
+    "_point": {
+      "iconPath": "./point.svg"
+    }
+  },
+  "fileExtensions": {
+    "point": "_point"
+  },
+  "languageIds": {
+    "point": "_point"
+  }
+}

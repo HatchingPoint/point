@@ -1,0 +1,16 @@
+{
+  "name": "@point-lang/point",
+  "version": "0.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Point language compiler and CLI.",
+  "bin": {
+    "point": "./src/cli.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./cli": "./src/cli.ts",
+    "./core": "./src/core/index.ts"
+  },
+  "license": "MIT"
+}

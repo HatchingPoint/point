@@ -1,0 +1,41 @@
+module Math
+
+type User {
+  name: Text
+  active: Bool
+}
+
+let answer: Int = 42
+
+let defaultUser: User = { name: "Ada", active: true }
+
+let launchScores: List<Int> = [88, 94, 100]
+
+fn add(left: Int, right: Int): Int {
+  return left + right
+}
+
+fn annualPrice(monthly: Int): Int {
+  return monthly * 12
+}
+
+fn identity(value: Text): Text {
+  return value
+}
+
+fn userLabel(user: User): Text {
+  return user.name
+}
+
+fn labelScore(score: Int): Text {
+  if score >= 90 {
+    return "excellent"
+  }
+  else {
+    return "keep going"
+  }
+}
+
+fn canAccess(userActive: Bool, seatCount: Int): Bool {
+  return userActive and seatCount > 0
+}

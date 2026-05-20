@@ -1,0 +1,65 @@
+{
+  "Point page": {
+    "prefix": "page",
+    "description": "Create a Point page block",
+    "body": [
+      "page ${1:PageName} {",
+      "\tui {",
+      "\t\tsection {",
+      "\t\t\ttext \"${2:Hello from Point}\"",
+      "\t\t}",
+      "\t}",
+      "}"
+    ]
+  },
+  "Point component": {
+    "prefix": "component",
+    "description": "Create a Point component block",
+    "body": [
+      "component ${1:ComponentName} {",
+      "\tui {",
+      "\t\tcard {",
+      "\t\t\ttext \"${2:Component content}\"",
+      "\t\t}",
+      "\t}",
+      "}"
+    ]
+  },
+  "Point ui block": {
+    "prefix": "ui",
+    "description": "Insert a ui block",
+    "body": [
+      "ui {",
+      "\tsection {",
+      "\t\ttext \"${1:Content}\"",
+      "\t}",
+      "}"
+    ]
+  },
+  "Point state": {
+    "prefix": "state",
+    "description": "Declare a Point state variable",
+    "body": [
+      "state ${1:name}: ${2:Text} = ${3:\"\"}"
+    ]
+  },
+  "Point data": {
+    "prefix": "data",
+    "description": "Declare a Point data source",
+    "body": [
+      "data ${1:resource} from \"${2:/api/path}\""
+    ]
+  },
+  "Point form": {
+    "prefix": "form",
+    "description": "Create a Point form block",
+    "body": [
+      "form ${1:formName} {",
+      "\tfield ${2:email}: Text required",
+      "\tsubmit {",
+      "\t\taction \"${3:Save}\"",
+      "\t}",
+      "}"
+    ]
+  }
+}
