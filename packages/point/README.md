@@ -5,7 +5,7 @@ Point is an AI-first general-purpose language core for coding-agent-native softw
 This package is the source of truth for Point. It exposes:
 
 - `point` CLI through `src/cli.ts`
-- core language APIs through `@point-lang/point/core`
+- core language APIs through `@hatchingpoint/point/core`
 - core parser, formatter, checker, and TypeScript emitter APIs
 
 Core workflow:

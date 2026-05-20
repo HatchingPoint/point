@@ -6,7 +6,7 @@ It starts by compiling `.point` source into TypeScript so existing React, Vue, B
 
 ## What Exists Today
 
-- Point core language package: `@point-lang/point`
+- Point core language package: `@hatchingpoint/point`
 - Cursor/VS Code extension package: `point`
 - Formatter, checker, TypeScript emitter, AST emitter, and CLI
 - Stable `point://` refs, symbol indexing, explanations, and repair plans for coding agents
@@ -51,4 +51,4 @@ packages/point-vscode
 
 The product and repo are named **Point**.
 
-The npm package uses `@point-lang/point` so it has a collision-resistant public package identity.
+The npm package uses `@hatchingpoint/point` so it has a collision-resistant public package identity owned by Hatching Point.

@@ -2,9 +2,9 @@
   "name": "point",
   "displayName": "Point Language",
   "description": "Cursor and VS Code language support for Point.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
-  "publisher": "point-lang",
+  "publisher": "hatchingpoint",
   "license": "MIT",
   "files": [
     "icons/**",

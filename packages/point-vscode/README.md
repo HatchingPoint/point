@@ -55,7 +55,7 @@ For file icons, choose `Point File Icons` as the active file icon theme. VS Code
 
 This package is shaped to become a public extension package later:
 
-- marketplace id: `point-lang.point`
+- marketplace id: `hatchingpoint.point`
 - extension package name: `point`
 - extension display name: `Point Language`
 

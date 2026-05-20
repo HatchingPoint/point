@@ -1,11 +1,25 @@
 {
-  "name": "@point-lang/point",
-  "version": "0.0.2",
+  "name": "@hatchingpoint/point",
+  "version": "0.0.3",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",
+  "homepage": "https://github.com/HatchingPoint/point#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HatchingPoint/point.git",
+    "directory": "packages/point"
+  },
+  "bugs": {
+    "url": "https://github.com/HatchingPoint/point/issues"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "bin": {
-    "point": "./src/cli.ts"
+    "point": "src/cli.ts"
   },
   "exports": {
     ".": "./src/index.ts",

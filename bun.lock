@@ -10,19 +10,19 @@
       },
     },
     "packages/point": {
-      "name": "@point-lang/point",
-      "version": "0.0.0",
+      "name": "@hatchingpoint/point",
+      "version": "0.0.3",
       "bin": {
         "point": "./src/cli.ts",
       },
     },
     "packages/point-vscode": {
       "name": "point",
-      "version": "0.0.0",
+      "version": "0.0.3",
     },
   },
   "packages": {
-    "@point-lang/point": ["@point-lang/point@workspace:packages/point"],
+    "@hatchingpoint/point": ["@hatchingpoint/point@workspace:packages/point"],
 
     "@types/bun": ["@types/bun@1.3.14", "", { "dependencies": { "bun-types": "1.3.14" } }, "sha512-h1hFqFVcvAvD9j9K7ZW7vd82aSA+rTdznZa+5bwvCwqSB1jmmfLcbIWhOLx1/+boy/xmjgCs/OMUL8hRJSmnPw=="],
 
