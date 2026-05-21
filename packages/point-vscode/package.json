@@ -2,7 +2,7 @@
   "name": "point",
   "displayName": "Point Language",
   "description": "Cursor and VS Code language support for Point.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "publisher": "hatchingpoint",
   "icon": "icons/icon.png",
@@ -80,7 +80,11 @@
         },
         "point.runtime": {
           "type": "string",
-          "enum": ["auto", "bun", "point"],
+          "enum": [
+            "auto",
+            "bun",
+            "point"
+          ],
           "default": "auto",
           "description": "How to run the CLI when point.cliPath is set. auto: use bun for .ts files, otherwise run the path directly."
         }

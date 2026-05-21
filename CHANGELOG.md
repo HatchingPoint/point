@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.7
+
+### Added
+
+- Automated npm publish via GitHub Actions on tag push.
+
 ## 0.0.6
 
 ### Added
