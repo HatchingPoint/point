@@ -541,3 +541,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check-docs` (28 snippets, 24 file refs); `bun run ci` passes (137 tests).
 - Next: P12-1 npm resolution (when merged, refresh point-add npm section); P12-2 std shims; P12-3 runtime spike.
 - Blocked: none (skipped `docs/phase12-plan.md` checkbox edits — parallel agent had local changes).
+
+## Checkpoint 12.P12-1 - npm dependency resolution in point add
+- Completed: Implemented `npm:` dependency resolution in `point add`. `packages/point/src/core/packages.ts` runs `npm install` (or reuses `node_modules/`), locates `point.json` or `src/*.point`, pins path under `node_modules/` in `point.lock`, supports optional `@version` suffix. `modulePathFromLock` resolves `src/` module layouts and project-root lock paths for check/build. Added `@hatchingpoint/point-logic` workspace devDependency. Tests in `tests/point-add.test.ts`. Updated `docs/package-management.md`, `docs/site/ecosystem/npm-packages.md`, `docs/site/reference/cli.md`, and phase12-plan npm checkbox.
+- Verified: `point add logic npm:@hatchingpoint/point-logic` updates manifest and lock; `use logic.store-readiness` resolves via lock; `bun run ci` passes (143 tests).
+- Next: P12-2 std fs/env/time/text shims.
+- Blocked: none

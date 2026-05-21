@@ -24,25 +24,29 @@ point add <name> <spec>
 |------|---------|
 | `workspace:<path>` | Local Point package directory (monorepo / workspace) |
 | `file:<path>` | Local path on disk (relative to project root) |
-| `npm:<package>` | Reserved — CLI returns a clear error until registry support ships |
+| `npm:<package>` | npm registry package (optional `@version` suffix) |
 
 Example:
 
 ```bash
 point add std workspace:std
 point add logic file:packages/point-logic
+point add logic npm:@hatchingpoint/point-logic
+point add logic npm:@hatchingpoint/point-logic@0.0.2
 ```
 
 The command updates `point.json` `dependencies` and regenerates `point.lock` with resolved `path` entries.
+
+For `npm:` specs, the CLI runs `npm install` (or reuses an existing `node_modules/` install), locates `point.json` or `src/*.point` inside the package, and pins the resolved directory under `node_modules/` in `point.lock`. The npm package must include Point source (not just emitted JavaScript) for check/build to resolve `use` imports.
 
 ## Resolution at check/build
 
 Current dependency resolution supports:
 
-- `workspace:<path>` and `file:<path>` specs pinned in `point.lock`.
-- `use <package>.<module>` for lockfile packages (e.g. `use std.text` resolves via the `std` entry’s `path`).
+- `workspace:<path>`, `file:<path>`, and `npm:<package>` specs pinned in `point.lock`.
+- `use <package>.<module>` for lockfile packages (e.g. `use std.text` resolves via the `std` entry’s `path`; npm packages with modules under `src/` resolve automatically).
 - Relative `use Module from "./module.point"` imports.
 
 `check-all`, `build-all`, and related project commands load `point.lock` from the project root when resolving `use` imports without an explicit `from` path.
 
-External package registry resolution (`npm:`) is reserved for a later phase; manifests and lockfiles are intentionally JSON so agents can inspect and update them safely.
+Manifests and lockfiles are intentionally JSON so agents can inspect and update them safely.

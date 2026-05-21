@@ -144,19 +144,22 @@ npm view @hatchingpoint/point-logic version
 
 ## What is not on npm yet
 
-- **`npm:` registry resolution** in `point add` — today use `workspace:` and `file:`; see [point add](/point/ecosystem/point-add) for specs and pending `npm:` support (Phase 12).
 - Every example under `examples/` as a separate package — clone the repo or copy modules instead.
 
 ## Declaring Point package dependencies
 
-Use `point add` to wire local Point packages into `point.json` and `point.lock`:
+Use `point add` to wire Point packages into `point.json` and `point.lock`:
 
 ```bash
 point add std workspace:std
 point add logic file:packages/point-logic
+point add logic npm:@hatchingpoint/point-logic
+point add logic npm:@hatchingpoint/point-logic@0.0.2
 ```
 
-Registry specs (`npm:…`) are parsed but not resolved yet — see [point add](/point/ecosystem/point-add) for full spec reference, lockfile shape, and check/build resolution.
+For `npm:` specs, the CLI installs (or reuses) the package under `node_modules/`, locates `point.json` or `src/*.point`, and pins the path so `use logic.store-readiness` resolves at check/build time. See [point add](/point/ecosystem/point-add) for full spec reference and lockfile shape.
+
+**Note:** Published `@hatchingpoint/point-logic` npm tarballs ship emitted JavaScript in `dist/` only. To consume Point source via `point add … npm:…`, install a package that includes `.point` files (for example a git dependency or local `file:` install during development). For runtime-only consumption, import the emitted JS from npm directly.
 
 ## Common mistakes
 
@@ -167,7 +170,7 @@ Registry specs (`npm:…`) are parsed but not resolved yet — see [point add](/
 
 ## See also
 
-- [point add](/point/ecosystem/point-add) — `workspace:`, `file:`, and pending `npm:` specs
+- [point add](/point/ecosystem/point-add) — `workspace:`, `file:`, and `npm:` specs
 - [Stdlib bridge](/point/stdlib/bridge) — externals and `@hatchingpoint/point/std/*`
 - [Installation](/point/guide/installation) — global CLI setup
 - [CLI reference](/point/reference/cli) — `build`, `build-py`, `check-all`

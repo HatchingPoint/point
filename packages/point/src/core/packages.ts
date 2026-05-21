@@ -1,4 +1,5 @@
-import { existsSync } from "node:fs";
+import { createRequire } from "node:module";
+import { existsSync, readdirSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 export const POINT_MANIFEST = "point.json";
@@ -29,15 +30,36 @@ export interface ParsedDependencySpec {
 	locator: string;
 }
 
+export interface ParsedNpmLocator {
+	name: string;
+	version?: string;
+}
+
+export function parseNpmLocator(locator: string): ParsedNpmLocator {
+	if (locator.startsWith("@")) {
+		const slash = locator.indexOf("/");
+		if (slash < 0) {
+			throw new Error(`Invalid npm package name "${locator}". Scoped packages use @scope/name.`);
+		}
+		const rest = locator.slice(slash + 1);
+		const versionAt = rest.indexOf("@");
+		if (versionAt >= 0) {
+			return { name: `${locator.slice(0, slash + 1 + versionAt)}`, version: rest.slice(versionAt + 1) };
+		}
+		return { name: locator };
+	}
+	const versionAt = locator.lastIndexOf("@");
+	if (versionAt > 0) {
+		return { name: locator.slice(0, versionAt), version: locator.slice(versionAt + 1) };
+	}
+	return { name: locator };
+}
+
 export function parseDependencySpec(spec: string): ParsedDependencySpec {
 	if (spec.startsWith("workspace:")) return { kind: "workspace", locator: spec.slice("workspace:".length) };
 	if (spec.startsWith("file:")) return { kind: "file", locator: spec.slice("file:".length) };
 	if (spec.startsWith("npm:")) return { kind: "npm", locator: spec.slice("npm:".length) };
-	throw new Error(`Invalid dependency spec "${spec}". Use workspace:<path>, file:<path>, or npm:<package> (npm not yet supported).`);
-}
-
-export function npmDependencyNotSupportedMessage(spec: string): string {
-	return `npm: registry dependencies are not supported yet (${spec}). Use workspace:<path> or file:<path> for local Point packages.`;
+	throw new Error(`Invalid dependency spec "${spec}". Use workspace:<path>, file:<path>, or npm:<package>[@version].`);
 }
 
 export async function readPointManifest(cwd = process.cwd()): Promise<PointManifest> {
@@ -74,9 +96,71 @@ export function normalizePackagePath(cwd: string, rawPath: string): string {
 	return relative(cwd, absolute).split("\\").join("/") || ".";
 }
 
-export function resolveDependencySpec(spec: string, cwd = process.cwd()): PointLockPackage {
+export function locatePointPackageRoot(pkgDir: string): string {
+	if (existsSync(join(pkgDir, POINT_MANIFEST))) return pkgDir;
+	const srcDir = join(pkgDir, "src");
+	if (existsSync(srcDir) && readdirSync(srcDir).some((name) => name.endsWith(".point"))) return pkgDir;
+	if (readdirSync(pkgDir).some((name) => name.endsWith(".point"))) return pkgDir;
+	throw new Error(`Point package at ${pkgDir} has no ${POINT_MANIFEST} or src/*.point modules`);
+}
+
+export function resolveNpmPackagePath(cwd: string, packageName: string): string | null {
+	const direct = join(cwd, "node_modules", ...packageName.split("/"));
+	if (existsSync(join(direct, "package.json"))) return direct;
+	try {
+		const req = createRequire(join(cwd, "package.json"));
+		const pkgJson = req.resolve(`${packageName}/package.json`);
+		return resolve(pkgJson, "..");
+	} catch {
+		return null;
+	}
+}
+
+async function readInstalledNpmVersion(pkgDir: string): Promise<string | null> {
+	const pkgJsonPath = join(pkgDir, "package.json");
+	if (!existsSync(pkgJsonPath)) return null;
+	const pkg = (await Bun.file(pkgJsonPath).json()) as { version?: string };
+	return pkg.version ?? null;
+}
+
+export async function ensureNpmPackage(cwd: string, packageName: string, version?: string): Promise<string> {
+	const installed = resolveNpmPackagePath(cwd, packageName);
+	if (installed) {
+		const installedVersion = await readInstalledNpmVersion(installed);
+		if (!version || installedVersion === version) return installed;
+	}
+	const installSpec = version ? `${packageName}@${version}` : packageName;
+	const result = await Bun.$`npm install ${installSpec} --prefix ${cwd} --no-save --no-package-lock`.quiet().nothrow();
+	if (result.exitCode !== 0) {
+		const detail = result.stderr.toString().trim() || result.stdout.toString().trim();
+		throw new Error(`npm install failed for ${installSpec}: ${detail || "unknown error"}`);
+	}
+	const resolved = resolveNpmPackagePath(cwd, packageName);
+	if (!resolved) {
+		throw new Error(`npm package "${packageName}" was not found under node_modules/ after install`);
+	}
+	if (version) {
+		const installedVersion = await readInstalledNpmVersion(resolved);
+		if (installedVersion && installedVersion !== version) {
+			throw new Error(`npm package "${packageName}" resolved to ${installedVersion}, expected ${version}`);
+		}
+	}
+	return resolved;
+}
+
+export async function resolveNpmDependencySpec(spec: string, cwd = process.cwd()): Promise<PointLockPackage> {
 	const parsed = parseDependencySpec(spec);
-	if (parsed.kind === "npm") throw new Error(npmDependencyNotSupportedMessage(spec));
+	if (parsed.kind !== "npm") throw new Error(`Expected npm: spec, got ${spec}`);
+	const { name, version } = parseNpmLocator(parsed.locator);
+	const pkgDir = await ensureNpmPackage(cwd, name, version);
+	locatePointPackageRoot(pkgDir);
+	const npmVersion = (await readInstalledNpmVersion(pkgDir)) ?? version ?? "npm";
+	return { version: npmVersion, path: normalizePackagePath(cwd, pkgDir) };
+}
+
+export async function resolveDependencySpec(spec: string, cwd = process.cwd()): Promise<PointLockPackage> {
+	const parsed = parseDependencySpec(spec);
+	if (parsed.kind === "npm") return resolveNpmDependencySpec(spec, cwd);
 	const path = normalizePackagePath(cwd, parsed.locator);
 	return { version: parsed.kind, path };
 }
@@ -89,7 +173,7 @@ export async function resolveLockFromManifest(manifest: PointManifest, cwd = pro
 		},
 	};
 	for (const [name, spec] of Object.entries(manifest.dependencies ?? {})) {
-		packages[name] = resolveDependencySpec(spec, cwd);
+		packages[name] = await resolveDependencySpec(spec, cwd);
 		const entry = packages[name];
 		if (!entry.path) continue;
 		const nestedManifestPath = join(cwd, entry.path, POINT_MANIFEST);
@@ -123,7 +207,12 @@ export function packageRootFromLock(lock: PointLock | null, packageName: string)
 	return null;
 }
 
-export function modulePathFromLock(lock: PointLock | null, moduleName: string): string {
+function modulePathCandidates(root: string, modulePath: string): string[] {
+	const segments = modulePath.replaceAll(".", "/");
+	return [`${root}/${segments}.point`, `${root}/src/${segments}.point`];
+}
+
+export function modulePathFromLock(lock: PointLock | null, moduleName: string, cwd = process.cwd()): string {
 	const dot = moduleName.indexOf(".");
 	if (dot < 0) {
 		throw new Error(`Use declarations without from must target package modules: ${moduleName}`);
@@ -134,5 +223,8 @@ export function modulePathFromLock(lock: PointLock | null, moduleName: string): 
 	if (!root) {
 		throw new Error(`Unknown package "${packageName}" in ${moduleName}. Add it with: point add ${packageName} <spec>`);
 	}
-	return `${root}/${modulePath.replaceAll(".", "/")}.point`;
+	for (const candidate of modulePathCandidates(root, modulePath)) {
+		if (existsSync(join(cwd, candidate))) return candidate;
+	}
+	return modulePathCandidates(root, modulePath)[0]!;
 }
