@@ -9,7 +9,7 @@ export interface Todo {
 }
 
 export function todoItemView(title: string): JSX.Element {
-  return title;
+  return <>{title}</>;
 }
 
 export async function loadTodosResult(): Promise<string> {
