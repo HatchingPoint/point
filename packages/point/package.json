@@ -26,7 +26,11 @@
     "./cli": "./src/cli.ts",
     "./core": "./src/core/index.ts",
     "./std/json": "./src/std/json.ts",
-    "./std/http": "./src/std/http.ts"
+    "./std/http": "./src/std/http.ts",
+    "./std/text": "./src/std/text.ts",
+    "./std/time": "./src/std/time.ts",
+    "./std/fs": "./src/std/fs.ts",
+    "./std/env": "./src/std/env.ts"
   },
   "publishConfig": {
     "access": "public",
