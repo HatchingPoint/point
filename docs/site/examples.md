@@ -17,6 +17,13 @@ Examples in the Point repo are working fixtures used by checks and tests. They a
 - `examples/view.point` for views
 - `examples/workflow.point` for orchestration
 - `examples/point-tests.point` for tests
+- `examples/adopters/hatchingpoint/readiness-widget.point` for an interactive listing readiness widget (see [live demo](https://hatchingpoint.com/point/examples#live-demo))
+
+## Live demo
+
+Try the App Store listing readiness widget on the public docs site — toggle checklist items and watch score and status update using the same rules as `readiness-widget.point`:
+
+[Open live demo →](https://hatchingpoint.com/point/examples#live-demo)
 
 ## Agent workflow
 
