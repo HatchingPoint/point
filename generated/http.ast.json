@@ -146,6 +146,219 @@
       }
     },
     {
+      "kind": "external",
+      "name": "httpFetchRaw",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "options",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "options",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/http",
+      "importName": "httpFetch",
+      "semantic": {
+        "kind": "external",
+        "name": "http fetch raw"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 232
+        },
+        "end": {
+          "line": 6,
+          "column": 99,
+          "offset": 330
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "httpAssertStatusRaw",
+      "params": [
+        {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "response",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "expectedStatus",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "expected status",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 21,
+              "offset": 20
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/http",
+      "importName": "httpAssertStatus",
+      "semantic": {
+        "kind": "external",
+        "name": "http assert status raw"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 331
+        },
+        "end": {
+          "line": 7,
+          "column": 126,
+          "offset": 456
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "httpAssertJsonBodyRaw",
+      "params": [
+        {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "response",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "expectedJson",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "expected json",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 20,
+              "offset": 19
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/http",
+      "importName": "httpAssertJsonBody",
+      "semantic": {
+        "kind": "external",
+        "name": "http assert json body raw"
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 457
+        },
+        "end": {
+          "line": 8,
+          "column": 130,
+          "offset": 586
+        }
+      }
+    },
+    {
       "kind": "function",
       "name": "httpGetResponse",
       "params": [
@@ -159,12 +372,12 @@
           "semanticName": "url",
           "span": {
             "start": {
-              "line": 8,
+              "line": 11,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 8,
+              "line": 11,
               "column": 10,
               "offset": 9
             }
@@ -199,41 +412,41 @@
                 "name": "url",
                 "span": {
                   "start": {
-                    "line": 11,
+                    "line": 14,
                     "column": 1,
-                    "offset": 318
+                    "offset": 673
                   },
                   "end": {
-                    "line": 11,
+                    "line": 14,
                     "column": 27,
-                    "offset": 344
+                    "offset": 699
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 11,
+                "line": 14,
                 "column": 1,
-                "offset": 318
+                "offset": 673
               },
               "end": {
-                "line": 11,
+                "line": 14,
                 "column": 27,
-                "offset": 344
+                "offset": 699
               }
             }
           },
           "span": {
             "start": {
-              "line": 11,
+              "line": 14,
               "column": 1,
-              "offset": 318
+              "offset": 673
             },
             "end": {
-              "line": 11,
+              "line": 14,
               "column": 27,
-              "offset": 344
+              "offset": 699
             }
           }
         }
@@ -248,14 +461,14 @@
       },
       "span": {
         "start": {
-          "line": 7,
+          "line": 10,
           "column": 1,
-          "offset": 233
+          "offset": 588
         },
         "end": {
-          "line": 7,
+          "line": 10,
           "column": 16,
-          "offset": 248
+          "offset": 603
         }
       }
     },
@@ -273,12 +486,12 @@
           "semanticName": "url",
           "span": {
             "start": {
-              "line": 14,
+              "line": 17,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 14,
+              "line": 17,
               "column": 10,
               "offset": 9
             }
@@ -294,12 +507,12 @@
           "semanticName": "body",
           "span": {
             "start": {
-              "line": 15,
+              "line": 18,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 15,
+              "line": 18,
               "column": 11,
               "offset": 10
             }
@@ -334,14 +547,14 @@
                 "name": "url",
                 "span": {
                   "start": {
-                    "line": 18,
+                    "line": 21,
                     "column": 1,
-                    "offset": 451
+                    "offset": 806
                   },
                   "end": {
-                    "line": 18,
+                    "line": 21,
                     "column": 34,
-                    "offset": 484
+                    "offset": 839
                   }
                 }
               },
@@ -350,41 +563,41 @@
                 "name": "body",
                 "span": {
                   "start": {
-                    "line": 18,
+                    "line": 21,
                     "column": 1,
-                    "offset": 451
+                    "offset": 806
                   },
                   "end": {
-                    "line": 18,
+                    "line": 21,
                     "column": 34,
-                    "offset": 484
+                    "offset": 839
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 18,
+                "line": 21,
                 "column": 1,
-                "offset": 451
+                "offset": 806
               },
               "end": {
-                "line": 18,
+                "line": 21,
                 "column": 34,
-                "offset": 484
+                "offset": 839
               }
             }
           },
           "span": {
             "start": {
-              "line": 18,
+              "line": 21,
               "column": 1,
-              "offset": 451
+              "offset": 806
             },
             "end": {
-              "line": 18,
+              "line": 21,
               "column": 34,
-              "offset": 484
+              "offset": 839
             }
           }
         }
@@ -399,14 +612,430 @@
       },
       "span": {
         "start": {
-          "line": 13,
+          "line": 16,
           "column": 1,
-          "offset": 346
+          "offset": 701
         },
         "end": {
-          "line": 13,
+          "line": 16,
           "column": 17,
-          "offset": 362
+          "offset": 717
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "httpFetchSnapshot",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 24,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "options",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "options",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "httpFetchRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "url",
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 941
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 38,
+                    "offset": 978
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "options",
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 941
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 38,
+                    "offset": 978
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 941
+              },
+              "end": {
+                "line": 28,
+                "column": 38,
+                "offset": 978
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 941
+            },
+            "end": {
+              "line": 28,
+              "column": 38,
+              "offset": 978
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "http fetch",
+        "outputName": "snapshot",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 841
+        },
+        "end": {
+          "line": 23,
+          "column": 18,
+          "offset": 858
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "httpAssertStatusPassed",
+      "params": [
+        {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "response",
+          "span": {
+            "start": {
+              "line": 31,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 31,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "expectedStatus",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "expected status",
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 32,
+              "column": 21,
+              "offset": 20
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "httpAssertStatusRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "response",
+                "span": {
+                  "start": {
+                    "line": 34,
+                    "column": 1,
+                    "offset": 1085
+                  },
+                  "end": {
+                    "line": 34,
+                    "column": 62,
+                    "offset": 1146
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "expectedStatus",
+                "span": {
+                  "start": {
+                    "line": 34,
+                    "column": 1,
+                    "offset": 1085
+                  },
+                  "end": {
+                    "line": 34,
+                    "column": 62,
+                    "offset": 1146
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 1085
+              },
+              "end": {
+                "line": 34,
+                "column": 62,
+                "offset": 1146
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 1085
+            },
+            "end": {
+              "line": 34,
+              "column": 62,
+              "offset": 1146
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "http assert status",
+        "outputName": "passed",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 30,
+          "column": 1,
+          "offset": 980
+        },
+        "end": {
+          "line": 30,
+          "column": 31,
+          "offset": 1010
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "httpAssertJsonBodyPassed",
+      "params": [
+        {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "response",
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 37,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "expectedJson",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "expected json",
+          "span": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 38,
+              "column": 20,
+              "offset": 19
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "httpAssertJsonBodyRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "response",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1255
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 63,
+                    "offset": 1317
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "expectedJson",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1255
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 63,
+                    "offset": 1317
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1255
+              },
+              "end": {
+                "line": 40,
+                "column": 63,
+                "offset": 1317
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 1255
+            },
+            "end": {
+              "line": 40,
+              "column": 63,
+              "offset": 1317
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "http assert json body",
+        "outputName": "passed",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 1148
+        },
+        "end": {
+          "line": 36,
+          "column": 34,
+          "offset": 1181
         }
       }
     }
@@ -564,6 +1193,198 @@
                 "offset": 231
               }
             }
+          },
+          {
+            "label": "http fetch raw",
+            "params": [
+              {
+                "label": "url",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 10,
+                    "offset": 9
+                  }
+                }
+              },
+              {
+                "label": "options",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/http",
+            "importAs": "httpFetch",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 232
+              },
+              "end": {
+                "line": 6,
+                "column": 99,
+                "offset": 330
+              }
+            }
+          },
+          {
+            "label": "http assert status raw",
+            "params": [
+              {
+                "label": "response",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              },
+              {
+                "label": "expected status",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 21,
+                    "offset": 20
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/http",
+            "importAs": "httpAssertStatus",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 331
+              },
+              "end": {
+                "line": 7,
+                "column": 126,
+                "offset": 456
+              }
+            }
+          },
+          {
+            "label": "http assert json body raw",
+            "params": [
+              {
+                "label": "response",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              },
+              {
+                "label": "expected json",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 20,
+                    "offset": 19
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/http",
+            "importAs": "httpAssertJsonBody",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 457
+              },
+              "end": {
+                "line": 8,
+                "column": 130,
+                "offset": 586
+              }
+            }
           }
         ],
         "span": {
@@ -592,12 +1413,12 @@
             },
             "span": {
               "start": {
-                "line": 8,
+                "line": 11,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 8,
+                "line": 11,
                 "column": 10,
                 "offset": 9
               }
@@ -638,55 +1459,55 @@
                   "label": "url",
                   "span": {
                     "start": {
-                      "line": 11,
+                      "line": 14,
                       "column": 1,
-                      "offset": 318
+                      "offset": 673
                     },
                     "end": {
-                      "line": 11,
+                      "line": 14,
                       "column": 27,
-                      "offset": 344
+                      "offset": 699
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 11,
+                  "line": 14,
                   "column": 1,
-                  "offset": 318
+                  "offset": 673
                 },
                 "end": {
-                  "line": 11,
+                  "line": 14,
                   "column": 27,
-                  "offset": 344
+                  "offset": 699
                 }
               }
             },
             "span": {
               "start": {
-                "line": 11,
+                "line": 14,
                 "column": 1,
-                "offset": 318
+                "offset": 673
               },
               "end": {
-                "line": 11,
+                "line": 14,
                 "column": 27,
-                "offset": 344
+                "offset": 699
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 7,
+            "line": 10,
             "column": 1,
-            "offset": 233
+            "offset": 588
           },
           "end": {
-            "line": 7,
+            "line": 10,
             "column": 16,
-            "offset": 248
+            "offset": 603
           }
         }
       },
@@ -703,12 +1524,12 @@
             },
             "span": {
               "start": {
-                "line": 14,
+                "line": 17,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 14,
+                "line": 17,
                 "column": 10,
                 "offset": 9
               }
@@ -723,12 +1544,12 @@
             },
             "span": {
               "start": {
-                "line": 15,
+                "line": 18,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 15,
+                "line": 18,
                 "column": 11,
                 "offset": 10
               }
@@ -769,14 +1590,14 @@
                   "label": "url",
                   "span": {
                     "start": {
-                      "line": 18,
+                      "line": 21,
                       "column": 1,
-                      "offset": 451
+                      "offset": 806
                     },
                     "end": {
-                      "line": 18,
+                      "line": 21,
                       "column": 34,
-                      "offset": 484
+                      "offset": 839
                     }
                   }
                 },
@@ -785,55 +1606,459 @@
                   "label": "body",
                   "span": {
                     "start": {
-                      "line": 18,
+                      "line": 21,
                       "column": 1,
-                      "offset": 451
+                      "offset": 806
                     },
                     "end": {
-                      "line": 18,
+                      "line": 21,
                       "column": 34,
-                      "offset": 484
+                      "offset": 839
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 18,
+                  "line": 21,
                   "column": 1,
-                  "offset": 451
+                  "offset": 806
                 },
                 "end": {
-                  "line": 18,
+                  "line": 21,
                   "column": 34,
-                  "offset": 484
+                  "offset": 839
                 }
               }
             },
             "span": {
               "start": {
-                "line": 18,
+                "line": 21,
                 "column": 1,
-                "offset": 451
+                "offset": 806
               },
               "end": {
-                "line": 18,
+                "line": 21,
                 "column": 34,
-                "offset": 484
+                "offset": 839
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 13,
+            "line": 16,
             "column": 1,
-            "offset": 346
+            "offset": 701
           },
           "end": {
-            "line": 13,
+            "line": 16,
             "column": 17,
-            "offset": 362
+            "offset": 717
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "http fetch",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 24,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          },
+          {
+            "label": "options",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 14,
+                "offset": 13
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "http fetch raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "url",
+                  "span": {
+                    "start": {
+                      "line": 28,
+                      "column": 1,
+                      "offset": 941
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 38,
+                      "offset": 978
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "options",
+                  "span": {
+                    "start": {
+                      "line": 28,
+                      "column": 1,
+                      "offset": 941
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 38,
+                      "offset": 978
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 28,
+                  "column": 1,
+                  "offset": 941
+                },
+                "end": {
+                  "line": 28,
+                  "column": 38,
+                  "offset": 978
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 941
+              },
+              "end": {
+                "line": 28,
+                "column": 38,
+                "offset": 978
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 23,
+            "column": 1,
+            "offset": 841
+          },
+          "end": {
+            "line": 23,
+            "column": 18,
+            "offset": 858
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "http assert status",
+        "inputs": [
+          {
+            "label": "response",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 31,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 31,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "expected status",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 32,
+                "column": 21,
+                "offset": 20
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "passed",
+            "value": {
+              "kind": "call",
+              "callee": "http assert status raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "response",
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 1085
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 62,
+                      "offset": 1146
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "expected status",
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 1085
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 62,
+                      "offset": 1146
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 34,
+                  "column": 1,
+                  "offset": 1085
+                },
+                "end": {
+                  "line": 34,
+                  "column": 62,
+                  "offset": 1146
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 1085
+              },
+              "end": {
+                "line": 34,
+                "column": 62,
+                "offset": 1146
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 30,
+            "column": 1,
+            "offset": 980
+          },
+          "end": {
+            "line": 30,
+            "column": 31,
+            "offset": 1010
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "http assert json body",
+        "inputs": [
+          {
+            "label": "response",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 37,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "expected json",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 38,
+                "column": 20,
+                "offset": 19
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "passed",
+            "value": {
+              "kind": "call",
+              "callee": "http assert json body raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "response",
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1255
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 63,
+                      "offset": 1317
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "expected json",
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1255
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 63,
+                      "offset": 1317
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1255
+                },
+                "end": {
+                  "line": 40,
+                  "column": 63,
+                  "offset": 1317
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1255
+              },
+              "end": {
+                "line": 40,
+                "column": 63,
+                "offset": 1317
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 36,
+            "column": 1,
+            "offset": 1148
+          },
+          "end": {
+            "line": 36,
+            "column": 34,
+            "offset": 1181
           }
         }
       }

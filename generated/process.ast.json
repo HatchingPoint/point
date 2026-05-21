@@ -203,8 +203,8 @@
       }
     },
     {
-      "kind": "function",
-      "name": "spawnCommandResult",
+      "kind": "external",
+      "name": "streamLinesRaw",
       "params": [
         {
           "name": "command",
@@ -216,12 +216,12 @@
           "semanticName": "command",
           "span": {
             "start": {
-              "line": 12,
+              "line": 10,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 12,
+              "line": 10,
               "column": 14,
               "offset": 13
             }
@@ -243,12 +243,12 @@
           "semanticName": "args",
           "span": {
             "start": {
-              "line": 13,
+              "line": 10,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 13,
+              "line": 10,
               "column": 17,
               "offset": 16
             }
@@ -270,12 +270,116 @@
           "semanticName": "env",
           "span": {
             "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/process",
+      "importName": "processStreamLines",
+      "semantic": {
+        "kind": "external",
+        "name": "stream lines raw"
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 259
+        },
+        "end": {
+          "line": 10,
+          "column": 137,
+          "offset": 395
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "spawnCommandResult",
+      "params": [
+        {
+          "name": "command",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "command",
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 13,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "args",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "args",
+          "span": {
+            "start": {
               "line": 14,
               "column": 1,
               "offset": 0
             },
             "end": {
               "line": 14,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "env",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "env",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
               "column": 16,
               "offset": 15
             }
@@ -310,14 +414,14 @@
                 "name": "command",
                 "span": {
                   "start": {
-                    "line": 17,
+                    "line": 18,
                     "column": 1,
-                    "offset": 411
+                    "offset": 548
                   },
                   "end": {
-                    "line": 17,
+                    "line": 18,
                     "column": 39,
-                    "offset": 449
+                    "offset": 586
                   }
                 }
               },
@@ -326,14 +430,14 @@
                 "name": "args",
                 "span": {
                   "start": {
-                    "line": 17,
+                    "line": 18,
                     "column": 1,
-                    "offset": 411
+                    "offset": 548
                   },
                   "end": {
-                    "line": 17,
+                    "line": 18,
                     "column": 39,
-                    "offset": 449
+                    "offset": 586
                   }
                 }
               },
@@ -342,41 +446,41 @@
                 "name": "env",
                 "span": {
                   "start": {
-                    "line": 17,
+                    "line": 18,
                     "column": 1,
-                    "offset": 411
+                    "offset": 548
                   },
                   "end": {
-                    "line": 17,
+                    "line": 18,
                     "column": 39,
-                    "offset": 449
+                    "offset": 586
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 17,
+                "line": 18,
                 "column": 1,
-                "offset": 411
+                "offset": 548
               },
               "end": {
-                "line": 17,
+                "line": 18,
                 "column": 39,
-                "offset": 449
+                "offset": 586
               }
             }
           },
           "span": {
             "start": {
-              "line": 17,
+              "line": 18,
               "column": 1,
-              "offset": 411
+              "offset": 548
             },
             "end": {
-              "line": 17,
+              "line": 18,
               "column": 39,
-              "offset": 449
+              "offset": 586
             }
           }
         }
@@ -391,14 +495,204 @@
       },
       "span": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 1,
-          "offset": 260
+          "offset": 397
         },
         "end": {
-          "line": 11,
+          "line": 12,
           "column": 21,
-          "offset": 280
+          "offset": 417
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "streamLinesFromProcessLine",
+      "params": [
+        {
+          "name": "command",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "command",
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 21,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "args",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "args",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "env",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "env",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "yield",
+          "value": {
+            "kind": "call",
+            "callee": "streamLinesRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "command",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 730
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 45,
+                    "offset": 774
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "args",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 730
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 45,
+                    "offset": 774
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "env",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 730
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 45,
+                    "offset": 774
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 730
+              },
+              "end": {
+                "line": 26,
+                "column": 45,
+                "offset": 774
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 730
+            },
+            "end": {
+              "line": 26,
+              "column": 45,
+              "offset": 774
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "stream lines from process",
+        "outputName": "line",
+        "effects": [
+          "process"
+        ],
+        "isStreamAction": true
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 588
+        },
+        "end": {
+          "line": 20,
+          "column": 33,
+          "offset": 620
         }
       }
     },
@@ -416,12 +710,12 @@
           "semanticName": "result",
           "span": {
             "start": {
-              "line": 20,
+              "line": 29,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 20,
+              "line": 29,
               "column": 23,
               "offset": 22
             }
@@ -443,41 +737,41 @@
               "name": "result",
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 31,
                   "column": 1,
-                  "offset": 531
+                  "offset": 856
                 },
                 "end": {
-                  "line": 22,
+                  "line": 31,
                   "column": 26,
-                  "offset": 556
+                  "offset": 881
                 }
               }
             },
             "name": "stdout",
             "span": {
               "start": {
-                "line": 22,
+                "line": 31,
                 "column": 1,
-                "offset": 531
+                "offset": 856
               },
               "end": {
-                "line": 22,
+                "line": 31,
                 "column": 26,
-                "offset": 556
+                "offset": 881
               }
             }
           },
           "span": {
             "start": {
-              "line": 22,
+              "line": 31,
               "column": 1,
-              "offset": 531
+              "offset": 856
             },
             "end": {
-              "line": 22,
+              "line": 31,
               "column": 26,
-              "offset": 556
+              "offset": 881
             }
           }
         }
@@ -490,14 +784,14 @@
       },
       "span": {
         "start": {
-          "line": 19,
+          "line": 28,
           "column": 1,
-          "offset": 451
+          "offset": 776
         },
         "end": {
-          "line": 19,
+          "line": 28,
           "column": 27,
-          "offset": 477
+          "offset": 802
         }
       }
     },
@@ -515,12 +809,12 @@
           "semanticName": "result",
           "span": {
             "start": {
-              "line": 25,
+              "line": 34,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 25,
+              "line": 34,
               "column": 23,
               "offset": 22
             }
@@ -542,41 +836,41 @@
               "name": "result",
               "span": {
                 "start": {
-                  "line": 27,
+                  "line": 36,
                   "column": 1,
-                  "offset": 643
+                  "offset": 968
                 },
                 "end": {
-                  "line": 27,
+                  "line": 36,
                   "column": 32,
-                  "offset": 674
+                  "offset": 999
                 }
               }
             },
             "name": "exitCode",
             "span": {
               "start": {
-                "line": 27,
+                "line": 36,
                 "column": 1,
-                "offset": 643
+                "offset": 968
               },
               "end": {
-                "line": 27,
+                "line": 36,
                 "column": 32,
-                "offset": 674
+                "offset": 999
               }
             }
           },
           "span": {
             "start": {
-              "line": 27,
+              "line": 36,
               "column": 1,
-              "offset": 643
+              "offset": 968
             },
             "end": {
-              "line": 27,
+              "line": 36,
               "column": 32,
-              "offset": 674
+              "offset": 999
             }
           }
         }
@@ -589,14 +883,14 @@
       },
       "span": {
         "start": {
-          "line": 24,
+          "line": 33,
           "column": 1,
-          "offset": 558
+          "offset": 883
         },
         "end": {
-          "line": 24,
+          "line": 33,
           "column": 30,
-          "offset": 587
+          "offset": 912
         }
       }
     }
@@ -809,6 +1103,102 @@
                 "offset": 258
               }
             }
+          },
+          {
+            "label": "stream lines raw",
+            "params": [
+              {
+                "label": "command",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              },
+              {
+                "label": "args",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "env",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/process",
+            "importAs": "processStreamLines",
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 259
+              },
+              "end": {
+                "line": 10,
+                "column": 137,
+                "offset": 395
+              }
+            }
           }
         ],
         "span": {
@@ -837,12 +1227,12 @@
             },
             "span": {
               "start": {
-                "line": 12,
+                "line": 13,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 12,
+                "line": 13,
                 "column": 14,
                 "offset": 13
               }
@@ -863,12 +1253,12 @@
             },
             "span": {
               "start": {
-                "line": 13,
+                "line": 14,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 13,
+                "line": 14,
                 "column": 17,
                 "offset": 16
               }
@@ -889,12 +1279,12 @@
             },
             "span": {
               "start": {
-                "line": 14,
+                "line": 15,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 14,
+                "line": 15,
                 "column": 16,
                 "offset": 15
               }
@@ -935,14 +1325,14 @@
                   "label": "command",
                   "span": {
                     "start": {
-                      "line": 17,
+                      "line": 18,
                       "column": 1,
-                      "offset": 411
+                      "offset": 548
                     },
                     "end": {
-                      "line": 17,
+                      "line": 18,
                       "column": 39,
-                      "offset": 449
+                      "offset": 586
                     }
                   }
                 },
@@ -951,14 +1341,14 @@
                   "label": "args",
                   "span": {
                     "start": {
-                      "line": 17,
+                      "line": 18,
                       "column": 1,
-                      "offset": 411
+                      "offset": 548
                     },
                     "end": {
-                      "line": 17,
+                      "line": 18,
                       "column": 39,
-                      "offset": 449
+                      "offset": 586
                     }
                   }
                 },
@@ -967,55 +1357,239 @@
                   "label": "env",
                   "span": {
                     "start": {
-                      "line": 17,
+                      "line": 18,
                       "column": 1,
-                      "offset": 411
+                      "offset": 548
                     },
                     "end": {
-                      "line": 17,
+                      "line": 18,
                       "column": 39,
-                      "offset": 449
+                      "offset": 586
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 17,
+                  "line": 18,
                   "column": 1,
-                  "offset": 411
+                  "offset": 548
                 },
                 "end": {
-                  "line": 17,
+                  "line": 18,
                   "column": 39,
-                  "offset": 449
+                  "offset": 586
                 }
               }
             },
             "span": {
               "start": {
-                "line": 17,
+                "line": 18,
                 "column": 1,
-                "offset": 411
+                "offset": 548
               },
               "end": {
-                "line": 17,
+                "line": 18,
                 "column": 39,
-                "offset": 449
+                "offset": 586
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 11,
+            "line": 12,
             "column": 1,
-            "offset": 260
+            "offset": 397
           },
           "end": {
-            "line": 11,
+            "line": 12,
             "column": 21,
-            "offset": 280
+            "offset": 417
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "stream lines from process",
+        "inputs": [
+          {
+            "label": "command",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 14,
+                "offset": 13
+              }
+            }
+          },
+          {
+            "label": "args",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 22,
+                "column": 17,
+                "offset": 16
+              }
+            }
+          },
+          {
+            "label": "env",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 23,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "line",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "process"
+        ],
+        "body": [
+          {
+            "kind": "yield",
+            "value": {
+              "kind": "call",
+              "callee": "stream lines raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "command",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 730
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 45,
+                      "offset": 774
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "args",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 730
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 45,
+                      "offset": 774
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "env",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 730
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 45,
+                      "offset": 774
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 730
+                },
+                "end": {
+                  "line": 26,
+                  "column": 45,
+                  "offset": 774
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 730
+              },
+              "end": {
+                "line": 26,
+                "column": 45,
+                "offset": 774
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 588
+          },
+          "end": {
+            "line": 20,
+            "column": 33,
+            "offset": 620
           }
         }
       },
@@ -1032,12 +1606,12 @@
             },
             "span": {
               "start": {
-                "line": 20,
+                "line": 29,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 20,
+                "line": 29,
                 "column": 23,
                 "offset": 22
               }
@@ -1063,55 +1637,55 @@
                 "label": "result",
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 31,
                     "column": 1,
-                    "offset": 531
+                    "offset": 856
                   },
                   "end": {
-                    "line": 22,
+                    "line": 31,
                     "column": 26,
-                    "offset": 556
+                    "offset": 881
                   }
                 }
               },
               "label": "stdout",
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 31,
                   "column": 1,
-                  "offset": 531
+                  "offset": 856
                 },
                 "end": {
-                  "line": 22,
+                  "line": 31,
                   "column": 26,
-                  "offset": 556
+                  "offset": 881
                 }
               }
             },
             "span": {
               "start": {
-                "line": 22,
+                "line": 31,
                 "column": 1,
-                "offset": 531
+                "offset": 856
               },
               "end": {
-                "line": 22,
+                "line": 31,
                 "column": 26,
-                "offset": 556
+                "offset": 881
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 19,
+            "line": 28,
             "column": 1,
-            "offset": 451
+            "offset": 776
           },
           "end": {
-            "line": 19,
+            "line": 28,
             "column": 27,
-            "offset": 477
+            "offset": 802
           }
         }
       },
@@ -1128,12 +1702,12 @@
             },
             "span": {
               "start": {
-                "line": 25,
+                "line": 34,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 25,
+                "line": 34,
                 "column": 23,
                 "offset": 22
               }
@@ -1159,55 +1733,55 @@
                 "label": "result",
                 "span": {
                   "start": {
-                    "line": 27,
+                    "line": 36,
                     "column": 1,
-                    "offset": 643
+                    "offset": 968
                   },
                   "end": {
-                    "line": 27,
+                    "line": 36,
                     "column": 32,
-                    "offset": 674
+                    "offset": 999
                   }
                 }
               },
               "label": "exit code",
               "span": {
                 "start": {
-                  "line": 27,
+                  "line": 36,
                   "column": 1,
-                  "offset": 643
+                  "offset": 968
                 },
                 "end": {
-                  "line": 27,
+                  "line": 36,
                   "column": 32,
-                  "offset": 674
+                  "offset": 999
                 }
               }
             },
             "span": {
               "start": {
-                "line": 27,
+                "line": 36,
                 "column": 1,
-                "offset": 643
+                "offset": 968
               },
               "end": {
-                "line": 27,
+                "line": 36,
                 "column": 32,
-                "offset": 674
+                "offset": 999
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 24,
+            "line": 33,
             "column": 1,
-            "offset": 558
+            "offset": 883
           },
           "end": {
-            "line": 24,
+            "line": 33,
             "column": 30,
-            "offset": 587
+            "offset": 912
           }
         }
       }

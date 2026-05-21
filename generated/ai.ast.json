@@ -1,0 +1,2504 @@
+{
+  "kind": "coreProgram",
+  "module": "StdAi",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "openaiCompleteRaw",
+      "params": [
+        {
+          "name": "key",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "key",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/ai",
+      "importName": "openaiComplete",
+      "semantic": {
+        "kind": "external",
+        "name": "openai complete raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 39
+        },
+        "end": {
+          "line": 4,
+          "column": 135,
+          "offset": 173
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "openaiStreamRaw",
+      "params": [
+        {
+          "name": "key",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "key",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/ai",
+      "importName": "openaiStream",
+      "semantic": {
+        "kind": "external",
+        "name": "openai stream raw"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 174
+        },
+        "end": {
+          "line": 5,
+          "column": 131,
+          "offset": 304
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "anthropicCompleteRaw",
+      "params": [
+        {
+          "name": "key",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "key",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/ai",
+      "importName": "anthropicComplete",
+      "semantic": {
+        "kind": "external",
+        "name": "anthropic complete raw"
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 334
+        },
+        "end": {
+          "line": 8,
+          "column": 141,
+          "offset": 474
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "anthropicStreamRaw",
+      "params": [
+        {
+          "name": "key",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "key",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/ai",
+      "importName": "anthropicStream",
+      "semantic": {
+        "kind": "external",
+        "name": "anthropic stream raw"
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 475
+        },
+        "end": {
+          "line": 9,
+          "column": 137,
+          "offset": 611
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "envGetRaw",
+      "params": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Maybe",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/env",
+      "importName": "envGet",
+      "semantic": {
+        "kind": "external",
+        "name": "env get raw"
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 636
+        },
+        "end": {
+          "line": 12,
+          "column": 85,
+          "offset": 720
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "completeTextWithOpenaiText",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "openaiCompleteRaw",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "envGetRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "OPENAI_API_KEY",
+                    "span": {
+                      "start": {
+                        "line": 19,
+                        "column": 1,
+                        "offset": 843
+                      },
+                      "end": {
+                        "line": 19,
+                        "column": 75,
+                        "offset": 917
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 843
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 75,
+                    "offset": 917
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "prompt",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 843
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 75,
+                    "offset": 917
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "model",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 843
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 75,
+                    "offset": 917
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 843
+              },
+              "end": {
+                "line": 19,
+                "column": 75,
+                "offset": 917
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 843
+            },
+            "end": {
+              "line": 19,
+              "column": 75,
+              "offset": 917
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "complete text with openai",
+        "outputName": "text",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 1,
+          "offset": 722
+        },
+        "end": {
+          "line": 14,
+          "column": 33,
+          "offset": 754
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "streamTextWithOpenaiText",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "openaiStreamRaw",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "envGetRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "OPENAI_API_KEY",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 1038
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 73,
+                        "offset": 1110
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 1038
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 73,
+                    "offset": 1110
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "prompt",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 1038
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 73,
+                    "offset": 1110
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "model",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 1038
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 73,
+                    "offset": 1110
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 1038
+              },
+              "end": {
+                "line": 26,
+                "column": 73,
+                "offset": 1110
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 1038
+            },
+            "end": {
+              "line": 26,
+              "column": 73,
+              "offset": 1110
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "stream text with openai",
+        "outputName": "text",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 919
+        },
+        "end": {
+          "line": 21,
+          "column": 31,
+          "offset": 949
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "completeTextWithAnthropicText",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 29,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 30,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "anthropicCompleteRaw",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "envGetRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "ANTHROPIC_API_KEY",
+                    "span": {
+                      "start": {
+                        "line": 33,
+                        "column": 1,
+                        "offset": 1236
+                      },
+                      "end": {
+                        "line": 33,
+                        "column": 81,
+                        "offset": 1316
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 33,
+                    "column": 1,
+                    "offset": 1236
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": 81,
+                    "offset": 1316
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "prompt",
+                "span": {
+                  "start": {
+                    "line": 33,
+                    "column": 1,
+                    "offset": 1236
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": 81,
+                    "offset": 1316
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "model",
+                "span": {
+                  "start": {
+                    "line": 33,
+                    "column": 1,
+                    "offset": 1236
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": 81,
+                    "offset": 1316
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 1236
+              },
+              "end": {
+                "line": 33,
+                "column": 81,
+                "offset": 1316
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 1236
+            },
+            "end": {
+              "line": 33,
+              "column": 81,
+              "offset": 1316
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "complete text with anthropic",
+        "outputName": "text",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 1112
+        },
+        "end": {
+          "line": 28,
+          "column": 36,
+          "offset": 1147
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "streamTextWithAnthropicText",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 36,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 36,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 37,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "anthropicStreamRaw",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "envGetRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "ANTHROPIC_API_KEY",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 1440
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 79,
+                        "offset": 1518
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1440
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 79,
+                    "offset": 1518
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "prompt",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1440
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 79,
+                    "offset": 1518
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "model",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1440
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 79,
+                    "offset": 1518
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1440
+              },
+              "end": {
+                "line": 40,
+                "column": 79,
+                "offset": 1518
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 1440
+            },
+            "end": {
+              "line": 40,
+              "column": 79,
+              "offset": 1518
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "stream text with anthropic",
+        "outputName": "text",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 1318
+        },
+        "end": {
+          "line": 35,
+          "column": 34,
+          "offset": 1351
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 13,
+      "offset": 12
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdAi",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "openai provider",
+        "functions": [
+          {
+            "label": "openai complete raw",
+            "params": [
+              {
+                "label": "key",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Maybe",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "prompt",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              },
+              {
+                "label": "model",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/ai",
+            "importAs": "openaiComplete",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 39
+              },
+              "end": {
+                "line": 4,
+                "column": 135,
+                "offset": 173
+              }
+            }
+          },
+          {
+            "label": "openai stream raw",
+            "params": [
+              {
+                "label": "key",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Maybe",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "prompt",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              },
+              {
+                "label": "model",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/ai",
+            "importAs": "openaiStream",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 174
+              },
+              "end": {
+                "line": 5,
+                "column": 131,
+                "offset": 304
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 14
+          },
+          "end": {
+            "line": 3,
+            "column": 25,
+            "offset": 38
+          }
+        }
+      },
+      {
+        "kind": "external",
+        "name": "anthropic provider",
+        "functions": [
+          {
+            "label": "anthropic complete raw",
+            "params": [
+              {
+                "label": "key",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Maybe",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "prompt",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              },
+              {
+                "label": "model",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/ai",
+            "importAs": "anthropicComplete",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 334
+              },
+              "end": {
+                "line": 8,
+                "column": 141,
+                "offset": 474
+              }
+            }
+          },
+          {
+            "label": "anthropic stream raw",
+            "params": [
+              {
+                "label": "key",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Maybe",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "prompt",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              },
+              {
+                "label": "model",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/ai",
+            "importAs": "anthropicStream",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 475
+              },
+              "end": {
+                "line": 9,
+                "column": 137,
+                "offset": 611
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 306
+          },
+          "end": {
+            "line": 7,
+            "column": 28,
+            "offset": 333
+          }
+        }
+      },
+      {
+        "kind": "external",
+        "name": "point std env",
+        "functions": [
+          {
+            "label": "env get raw",
+            "params": [
+              {
+                "label": "name",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 12,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Maybe",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/env",
+            "importAs": "envGet",
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 636
+              },
+              "end": {
+                "line": 12,
+                "column": 85,
+                "offset": 720
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 613
+          },
+          "end": {
+            "line": 11,
+            "column": 23,
+            "offset": 635
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "complete text with openai",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          },
+          {
+            "label": "model",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "openai complete raw",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "env get raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "OPENAI_API_KEY",
+                      "span": {
+                        "start": {
+                          "line": 19,
+                          "column": 1,
+                          "offset": 843
+                        },
+                        "end": {
+                          "line": 19,
+                          "column": 75,
+                          "offset": 917
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 843
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 75,
+                      "offset": 917
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "prompt",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 843
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 75,
+                      "offset": 917
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "model",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 843
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 75,
+                      "offset": 917
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 843
+                },
+                "end": {
+                  "line": 19,
+                  "column": 75,
+                  "offset": 917
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 843
+              },
+              "end": {
+                "line": 19,
+                "column": 75,
+                "offset": 917
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 14,
+            "column": 1,
+            "offset": 722
+          },
+          "end": {
+            "line": 14,
+            "column": 33,
+            "offset": 754
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "stream text with openai",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 22,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          },
+          {
+            "label": "model",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 23,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "openai stream raw",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "env get raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "OPENAI_API_KEY",
+                      "span": {
+                        "start": {
+                          "line": 26,
+                          "column": 1,
+                          "offset": 1038
+                        },
+                        "end": {
+                          "line": 26,
+                          "column": 73,
+                          "offset": 1110
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 1038
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 73,
+                      "offset": 1110
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "prompt",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 1038
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 73,
+                      "offset": 1110
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "model",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 1038
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 73,
+                      "offset": 1110
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 1038
+                },
+                "end": {
+                  "line": 26,
+                  "column": 73,
+                  "offset": 1110
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 1038
+              },
+              "end": {
+                "line": 26,
+                "column": 73,
+                "offset": 1110
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 919
+          },
+          "end": {
+            "line": 21,
+            "column": 31,
+            "offset": 949
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "complete text with anthropic",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 29,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          },
+          {
+            "label": "model",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 30,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "anthropic complete raw",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "env get raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "ANTHROPIC_API_KEY",
+                      "span": {
+                        "start": {
+                          "line": 33,
+                          "column": 1,
+                          "offset": 1236
+                        },
+                        "end": {
+                          "line": 33,
+                          "column": 81,
+                          "offset": 1316
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 33,
+                      "column": 1,
+                      "offset": 1236
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 81,
+                      "offset": 1316
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "prompt",
+                  "span": {
+                    "start": {
+                      "line": 33,
+                      "column": 1,
+                      "offset": 1236
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 81,
+                      "offset": 1316
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "model",
+                  "span": {
+                    "start": {
+                      "line": 33,
+                      "column": 1,
+                      "offset": 1236
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 81,
+                      "offset": 1316
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 33,
+                  "column": 1,
+                  "offset": 1236
+                },
+                "end": {
+                  "line": 33,
+                  "column": 81,
+                  "offset": 1316
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 1236
+              },
+              "end": {
+                "line": 33,
+                "column": 81,
+                "offset": 1316
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 28,
+            "column": 1,
+            "offset": 1112
+          },
+          "end": {
+            "line": 28,
+            "column": 36,
+            "offset": 1147
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "stream text with anthropic",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 36,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 36,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          },
+          {
+            "label": "model",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 37,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "anthropic stream raw",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "env get raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "ANTHROPIC_API_KEY",
+                      "span": {
+                        "start": {
+                          "line": 40,
+                          "column": 1,
+                          "offset": 1440
+                        },
+                        "end": {
+                          "line": 40,
+                          "column": 79,
+                          "offset": 1518
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1440
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 79,
+                      "offset": 1518
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "prompt",
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1440
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 79,
+                      "offset": 1518
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "model",
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1440
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 79,
+                      "offset": 1518
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1440
+                },
+                "end": {
+                  "line": 40,
+                  "column": 79,
+                  "offset": 1518
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1440
+              },
+              "end": {
+                "line": 40,
+                "column": 79,
+                "offset": 1518
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 35,
+            "column": 1,
+            "offset": 1318
+          },
+          "end": {
+            "line": 35,
+            "column": 34,
+            "offset": 1351
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 13,
+        "offset": 12
+      }
+    }
+  }
+}

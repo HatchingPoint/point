@@ -1,0 +1,537 @@
+{
+  "kind": "coreProgram",
+  "module": "StdSql",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "sqlQueryRaw",
+      "params": [
+        {
+          "name": "sql",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "sql",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "params",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "params",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/sql",
+      "importName": "sqlQueryRaw",
+      "semantic": {
+        "kind": "external",
+        "name": "sql query raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 38
+        },
+        "end": {
+          "line": 4,
+          "column": 113,
+          "offset": 150
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sqlQueryRows",
+      "params": [
+        {
+          "name": "sql",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "sql",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "params",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "params",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlQueryRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "sql",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 262
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 36,
+                    "offset": 297
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "params",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 262
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 36,
+                    "offset": 297
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 262
+              },
+              "end": {
+                "line": 11,
+                "column": 36,
+                "offset": 297
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 262
+            },
+            "end": {
+              "line": 11,
+              "column": 36,
+              "offset": 297
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "sql query",
+        "outputName": "rows",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 152
+        },
+        "end": {
+          "line": 6,
+          "column": 17,
+          "offset": 168
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 14,
+      "offset": 13
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdSql",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std sql",
+        "functions": [
+          {
+            "label": "sql query raw",
+            "params": [
+              {
+                "label": "sql",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 10,
+                    "offset": 9
+                  }
+                }
+              },
+              {
+                "label": "params",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 19,
+                    "offset": 18
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/sql",
+            "importAs": "sqlQueryRaw",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 38
+              },
+              "end": {
+                "line": 4,
+                "column": 113,
+                "offset": 150
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 15
+          },
+          "end": {
+            "line": 3,
+            "column": 23,
+            "offset": 37
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "sql query",
+        "inputs": [
+          {
+            "label": "sql",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          },
+          {
+            "label": "params",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 19,
+                "offset": 18
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "rows",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql query raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "sql",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 262
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 36,
+                      "offset": 297
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "params",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 262
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 36,
+                      "offset": 297
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 262
+                },
+                "end": {
+                  "line": 11,
+                  "column": 36,
+                  "offset": 297
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 262
+              },
+              "end": {
+                "line": 11,
+                "column": 36,
+                "offset": 297
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 152
+          },
+          "end": {
+            "line": 6,
+            "column": 17,
+            "offset": 168
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 14,
+        "offset": 13
+      }
+    }
+  }
+}

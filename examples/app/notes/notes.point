@@ -37,11 +37,11 @@ view notes list
 
 view note create form
   input draft: Create Note Input
-  input on draft change: Handler Create Note Input
+  input on draft change: Handler<Create Note Input>
   on change call on draft change
   form
-    bind field "Title" to draft.title
-    bind field "Body" to draft.body
+  bind field "Title" to draft.title
+  bind field "Body" to draft.body
   render "Create a note"
 
 layout notes shell
@@ -57,7 +57,7 @@ page notes list page
 page note create page
   layout notes shell
   input draft: Create Note Input
-  input on draft change: Handler Create Note Input
+  input on draft change: Handler<Create Note Input>
   title "New note"
   description "Create a note"
   main render note create form(draft, on draft change)

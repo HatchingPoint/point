@@ -1,0 +1,181 @@
+{
+  "kind": "coreProgram",
+  "module": "SupportGreeting",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "SupportContext",
+      "fields": [
+        {
+          "name": "userName",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "user name",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 47
+            },
+            "end": {
+              "line": 4,
+              "column": 18,
+              "offset": 64
+            }
+          }
+        },
+        {
+          "name": "tier",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "tier",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 65
+            },
+            "end": {
+              "line": 5,
+              "column": 13,
+              "offset": 77
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Support Context"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 24
+        },
+        "end": {
+          "line": 3,
+          "column": 23,
+          "offset": 46
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 23,
+      "offset": 22
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "SupportGreeting",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Support Context",
+        "fields": [
+          {
+            "label": "user name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 47
+              },
+              "end": {
+                "line": 4,
+                "column": 18,
+                "offset": 64
+              }
+            }
+          },
+          {
+            "label": "tier",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 65
+              },
+              "end": {
+                "line": 5,
+                "column": 13,
+                "offset": 77
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 24
+          },
+          "end": {
+            "line": 3,
+            "column": 23,
+            "offset": 46
+          }
+        }
+      },
+      {
+        "kind": "prompt",
+        "name": "support greeting",
+        "version": "1",
+        "recordName": "Support Context",
+        "template": "Hello {user name}, thank you for contacting support. Your {tier} plan is ready to help.",
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 79
+          },
+          "end": {
+            "line": 7,
+            "column": 24,
+            "offset": 102
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 23,
+        "offset": 22
+      }
+    }
+  }
+}

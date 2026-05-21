@@ -143,6 +143,7 @@
       "body": [
         {
           "kind": "value",
+          "mutable": false,
           "name": "createdUser",
           "type": {
             "kind": "typeRef",
@@ -209,7 +210,6 @@
               }
             }
           },
-          "mutable": false,
           "span": {
             "start": {
               "line": 12,

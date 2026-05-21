@@ -163,6 +163,7 @@
       "body": [
         {
           "kind": "value",
+          "mutable": true,
           "name": "score",
           "type": {
             "kind": "typeRef",
@@ -185,7 +186,6 @@
               }
             }
           },
-          "mutable": true,
           "span": {
             "start": {
               "line": 13,
@@ -1443,7 +1443,7 @@
         "effects": [],
         "viewControls": {
           "changeCallback": "onSignalsChange",
-          "checkboxes": [
+          "fields": [
             {
               "label": "Screenshots",
               "target": {
@@ -1479,7 +1479,8 @@
                 }
               },
               "recordParam": "signals",
-              "fieldName": "hasScreenshots"
+              "fieldName": "hasScreenshots",
+              "inputKind": "checkbox"
             },
             {
               "label": "Description",
@@ -1516,7 +1517,8 @@
                 }
               },
               "recordParam": "signals",
-              "fieldName": "hasDescription"
+              "fieldName": "hasDescription",
+              "inputKind": "checkbox"
             },
             {
               "label": "Privacy policy",
@@ -1553,7 +1555,8 @@
                 }
               },
               "recordParam": "signals",
-              "fieldName": "hasPrivacyPolicy"
+              "fieldName": "hasPrivacyPolicy",
+              "inputKind": "checkbox"
             },
             {
               "label": "Support URL",
@@ -1590,7 +1593,8 @@
                 }
               },
               "recordParam": "signals",
-              "fieldName": "hasSupportUrl"
+              "fieldName": "hasSupportUrl",
+              "inputKind": "checkbox"
             },
             {
               "label": "Age rating",
@@ -1627,7 +1631,8 @@
                 }
               },
               "recordParam": "signals",
-              "fieldName": "hasAgeRating"
+              "fieldName": "hasAgeRating",
+              "inputKind": "checkbox"
             }
           ]
         }

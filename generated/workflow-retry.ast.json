@@ -1,0 +1,2282 @@
+{
+  "kind": "coreProgram",
+  "module": "SignupRetry",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "canSignupPolicy",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "!=",
+            "left": {
+              "kind": "identifier",
+              "name": "email",
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 72
+                },
+                "end": {
+                  "line": 7,
+                  "column": 22,
+                  "offset": 93
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "",
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 72
+                },
+                "end": {
+                  "line": 7,
+                  "column": 22,
+                  "offset": 93
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 72
+              },
+              "end": {
+                "line": 7,
+                "column": 22,
+                "offset": 93
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 72
+            },
+            "end": {
+              "line": 7,
+              "column": 22,
+              "offset": 93
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "policy",
+        "name": "can signup",
+        "outputName": "policy",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 34
+        },
+        "end": {
+          "line": 5,
+          "column": 18,
+          "offset": 51
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "verifyEmailOk",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "Error",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "Mailbox unavailable",
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 180
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 37,
+                    "offset": 216
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 180
+              },
+              "end": {
+                "line": 13,
+                "column": 37,
+                "offset": 216
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 180
+            },
+            "end": {
+              "line": 13,
+              "column": 37,
+              "offset": 216
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "verify email",
+        "outputName": "ok",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 95
+        },
+        "end": {
+          "line": 9,
+          "column": 20,
+          "offset": 114
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "registerUser",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "email",
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 306
+              },
+              "end": {
+                "line": 19,
+                "column": 15,
+                "offset": 320
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 306
+            },
+            "end": {
+              "line": 19,
+              "column": 15,
+              "offset": 320
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "register user",
+        "outputName": "user",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 218
+        },
+        "end": {
+          "line": 15,
+          "column": 21,
+          "offset": 238
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "importUserFlowWorkflow",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "call",
+              "callee": "canSignupPolicy",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "email",
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 397
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 45,
+                      "offset": 441
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 397
+                },
+                "end": {
+                  "line": 24,
+                  "column": 45,
+                  "offset": 441
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": false,
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 397
+                },
+                "end": {
+                  "line": 24,
+                  "column": 45,
+                  "offset": 441
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 397
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 441
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "Error",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "Email verification failed",
+                    "span": {
+                      "start": {
+                        "line": 28,
+                        "column": 1,
+                        "offset": 518
+                      },
+                      "end": {
+                        "line": 28,
+                        "column": 56,
+                        "offset": 573
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 518
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 56,
+                    "offset": 573
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 397
+                },
+                "end": {
+                  "line": 24,
+                  "column": 45,
+                  "offset": 441
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 397
+            },
+            "end": {
+              "line": 24,
+              "column": 45,
+              "offset": 441
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "__pointStepDone",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": false,
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 397
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 441
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 397
+            },
+            "end": {
+              "line": 24,
+              "column": 45,
+              "offset": 441
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "verified",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "call",
+            "callee": "Error",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 397
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 441
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 397
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 441
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 397
+            },
+            "end": {
+              "line": 24,
+              "column": 45,
+              "offset": 441
+            }
+          }
+        },
+        {
+          "kind": "for",
+          "itemName": "__pointAttempt",
+          "iterable": {
+            "kind": "list",
+            "items": [
+              {
+                "kind": "literal",
+                "value": 0,
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 397
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 441
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 1,
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 397
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 441
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 2,
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 397
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 441
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 397
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 441
+              }
+            }
+          },
+          "body": [
+            {
+              "kind": "if",
+              "condition": {
+                "kind": "binary",
+                "operator": "==",
+                "left": {
+                  "kind": "identifier",
+                  "name": "__pointStepDone",
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 397
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 45,
+                      "offset": 441
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 397
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 45,
+                      "offset": 441
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 397
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 441
+                  }
+                }
+              },
+              "thenBody": [
+                {
+                  "kind": "assignment",
+                  "name": "verified",
+                  "operator": "=",
+                  "value": {
+                    "kind": "await",
+                    "value": {
+                      "kind": "call",
+                      "callee": "pointWorkflowTimedStep",
+                      "args": [
+                        {
+                          "kind": "call",
+                          "callee": "verifyEmailOk",
+                          "args": [
+                            {
+                              "kind": "identifier",
+                              "name": "email",
+                              "span": {
+                                "start": {
+                                  "line": 24,
+                                  "column": 1,
+                                  "offset": 397
+                                },
+                                "end": {
+                                  "line": 24,
+                                  "column": 45,
+                                  "offset": 441
+                                }
+                              }
+                            }
+                          ],
+                          "span": {
+                            "start": {
+                              "line": 24,
+                              "column": 1,
+                              "offset": 397
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 45,
+                              "offset": 441
+                            }
+                          }
+                        },
+                        {
+                          "kind": "literal",
+                          "value": 5000,
+                          "span": {
+                            "start": {
+                              "line": 24,
+                              "column": 1,
+                              "offset": 397
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 45,
+                              "offset": 441
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 24,
+                          "column": 1,
+                          "offset": 397
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 45,
+                          "offset": 441
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 24,
+                        "column": 1,
+                        "offset": 397
+                      },
+                      "end": {
+                        "line": 24,
+                        "column": 45,
+                        "offset": 441
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 397
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 45,
+                      "offset": 441
+                    }
+                  }
+                },
+                {
+                  "kind": "if",
+                  "condition": {
+                    "kind": "binary",
+                    "operator": "==",
+                    "left": {
+                      "kind": "call",
+                      "callee": "pointIsError",
+                      "args": [
+                        {
+                          "kind": "identifier",
+                          "name": "verified",
+                          "span": {
+                            "start": {
+                              "line": 24,
+                              "column": 1,
+                              "offset": 397
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 45,
+                              "offset": 441
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 24,
+                          "column": 1,
+                          "offset": 397
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 45,
+                          "offset": 441
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "literal",
+                      "value": false,
+                      "span": {
+                        "start": {
+                          "line": 24,
+                          "column": 1,
+                          "offset": 397
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 45,
+                          "offset": 441
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 24,
+                        "column": 1,
+                        "offset": 397
+                      },
+                      "end": {
+                        "line": 24,
+                        "column": 45,
+                        "offset": 441
+                      }
+                    }
+                  },
+                  "thenBody": [
+                    {
+                      "kind": "assignment",
+                      "name": "__pointStepDone",
+                      "operator": "=",
+                      "value": {
+                        "kind": "literal",
+                        "value": true,
+                        "span": {
+                          "start": {
+                            "line": 24,
+                            "column": 1,
+                            "offset": 397
+                          },
+                          "end": {
+                            "line": 24,
+                            "column": 45,
+                            "offset": 441
+                          }
+                        }
+                      },
+                      "span": {
+                        "start": {
+                          "line": 24,
+                          "column": 1,
+                          "offset": 397
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 45,
+                          "offset": 441
+                        }
+                      }
+                    }
+                  ],
+                  "elseBody": [
+                    {
+                      "kind": "if",
+                      "condition": {
+                        "kind": "binary",
+                        "operator": "==",
+                        "left": {
+                          "kind": "identifier",
+                          "name": "__pointAttempt",
+                          "span": {
+                            "start": {
+                              "line": 24,
+                              "column": 1,
+                              "offset": 397
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 45,
+                              "offset": 441
+                            }
+                          }
+                        },
+                        "right": {
+                          "kind": "literal",
+                          "value": 2,
+                          "span": {
+                            "start": {
+                              "line": 24,
+                              "column": 1,
+                              "offset": 397
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 45,
+                              "offset": 441
+                            }
+                          }
+                        },
+                        "span": {
+                          "start": {
+                            "line": 24,
+                            "column": 1,
+                            "offset": 397
+                          },
+                          "end": {
+                            "line": 24,
+                            "column": 45,
+                            "offset": 441
+                          }
+                        }
+                      },
+                      "thenBody": [
+                        {
+                          "kind": "return",
+                          "value": {
+                            "kind": "call",
+                            "callee": "Error",
+                            "args": [
+                              {
+                                "kind": "literal",
+                                "value": "Email verification failed",
+                                "span": {
+                                  "start": {
+                                    "line": 28,
+                                    "column": 1,
+                                    "offset": 518
+                                  },
+                                  "end": {
+                                    "line": 28,
+                                    "column": 56,
+                                    "offset": 573
+                                  }
+                                }
+                              }
+                            ],
+                            "span": {
+                              "start": {
+                                "line": 28,
+                                "column": 1,
+                                "offset": 518
+                              },
+                              "end": {
+                                "line": 28,
+                                "column": 56,
+                                "offset": 573
+                              }
+                            }
+                          },
+                          "span": {
+                            "start": {
+                              "line": 24,
+                              "column": 1,
+                              "offset": 397
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 45,
+                              "offset": 441
+                            }
+                          }
+                        }
+                      ],
+                      "elseBody": [],
+                      "span": {
+                        "start": {
+                          "line": 24,
+                          "column": 1,
+                          "offset": 397
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 45,
+                          "offset": 441
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 397
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 45,
+                      "offset": 441
+                    }
+                  }
+                }
+              ],
+              "elseBody": [],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 397
+                },
+                "end": {
+                  "line": 24,
+                  "column": 45,
+                  "offset": 441
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 397
+            },
+            "end": {
+              "line": 24,
+              "column": 45,
+              "offset": 441
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "__pointStepDone",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": false,
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 574
+              },
+              "end": {
+                "line": 29,
+                "column": 46,
+                "offset": 619
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 574
+            },
+            "end": {
+              "line": 29,
+              "column": 46,
+              "offset": 619
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "imported",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "call",
+            "callee": "Error",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 574
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 46,
+                    "offset": 619
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 574
+              },
+              "end": {
+                "line": 29,
+                "column": 46,
+                "offset": 619
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 574
+            },
+            "end": {
+              "line": 29,
+              "column": 46,
+              "offset": 619
+            }
+          }
+        },
+        {
+          "kind": "for",
+          "itemName": "__pointAttempt",
+          "iterable": {
+            "kind": "list",
+            "items": [
+              {
+                "kind": "literal",
+                "value": 0,
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 574
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 46,
+                    "offset": 619
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 1,
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 574
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 46,
+                    "offset": 619
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 574
+              },
+              "end": {
+                "line": 29,
+                "column": 46,
+                "offset": 619
+              }
+            }
+          },
+          "body": [
+            {
+              "kind": "if",
+              "condition": {
+                "kind": "binary",
+                "operator": "==",
+                "left": {
+                  "kind": "identifier",
+                  "name": "__pointStepDone",
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 574
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 46,
+                      "offset": 619
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 574
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 46,
+                      "offset": 619
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 574
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 46,
+                    "offset": 619
+                  }
+                }
+              },
+              "thenBody": [
+                {
+                  "kind": "assignment",
+                  "name": "imported",
+                  "operator": "=",
+                  "value": {
+                    "kind": "await",
+                    "value": {
+                      "kind": "call",
+                      "callee": "registerUser",
+                      "args": [
+                        {
+                          "kind": "identifier",
+                          "name": "email",
+                          "span": {
+                            "start": {
+                              "line": 29,
+                              "column": 1,
+                              "offset": 574
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 46,
+                              "offset": 619
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 574
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 46,
+                          "offset": 619
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 29,
+                        "column": 1,
+                        "offset": 574
+                      },
+                      "end": {
+                        "line": 29,
+                        "column": 46,
+                        "offset": 619
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 574
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 46,
+                      "offset": 619
+                    }
+                  }
+                },
+                {
+                  "kind": "if",
+                  "condition": {
+                    "kind": "binary",
+                    "operator": "==",
+                    "left": {
+                      "kind": "call",
+                      "callee": "pointIsError",
+                      "args": [
+                        {
+                          "kind": "identifier",
+                          "name": "imported",
+                          "span": {
+                            "start": {
+                              "line": 29,
+                              "column": 1,
+                              "offset": 574
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 46,
+                              "offset": 619
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 574
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 46,
+                          "offset": 619
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "literal",
+                      "value": false,
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 574
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 46,
+                          "offset": 619
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 29,
+                        "column": 1,
+                        "offset": 574
+                      },
+                      "end": {
+                        "line": 29,
+                        "column": 46,
+                        "offset": 619
+                      }
+                    }
+                  },
+                  "thenBody": [
+                    {
+                      "kind": "assignment",
+                      "name": "__pointStepDone",
+                      "operator": "=",
+                      "value": {
+                        "kind": "literal",
+                        "value": true,
+                        "span": {
+                          "start": {
+                            "line": 29,
+                            "column": 1,
+                            "offset": 574
+                          },
+                          "end": {
+                            "line": 29,
+                            "column": 46,
+                            "offset": 619
+                          }
+                        }
+                      },
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 574
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 46,
+                          "offset": 619
+                        }
+                      }
+                    }
+                  ],
+                  "elseBody": [
+                    {
+                      "kind": "if",
+                      "condition": {
+                        "kind": "binary",
+                        "operator": "==",
+                        "left": {
+                          "kind": "identifier",
+                          "name": "__pointAttempt",
+                          "span": {
+                            "start": {
+                              "line": 29,
+                              "column": 1,
+                              "offset": 574
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 46,
+                              "offset": 619
+                            }
+                          }
+                        },
+                        "right": {
+                          "kind": "literal",
+                          "value": 1,
+                          "span": {
+                            "start": {
+                              "line": 29,
+                              "column": 1,
+                              "offset": 574
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 46,
+                              "offset": 619
+                            }
+                          }
+                        },
+                        "span": {
+                          "start": {
+                            "line": 29,
+                            "column": 1,
+                            "offset": 574
+                          },
+                          "end": {
+                            "line": 29,
+                            "column": 46,
+                            "offset": 619
+                          }
+                        }
+                      },
+                      "thenBody": [
+                        {
+                          "kind": "return",
+                          "value": {
+                            "kind": "call",
+                            "callee": "Error",
+                            "args": [
+                              {
+                                "kind": "literal",
+                                "value": "User import failed",
+                                "span": {
+                                  "start": {
+                                    "line": 31,
+                                    "column": 1,
+                                    "offset": 638
+                                  },
+                                  "end": {
+                                    "line": 31,
+                                    "column": 49,
+                                    "offset": 686
+                                  }
+                                }
+                              }
+                            ],
+                            "span": {
+                              "start": {
+                                "line": 31,
+                                "column": 1,
+                                "offset": 638
+                              },
+                              "end": {
+                                "line": 31,
+                                "column": 49,
+                                "offset": 686
+                              }
+                            }
+                          },
+                          "span": {
+                            "start": {
+                              "line": 29,
+                              "column": 1,
+                              "offset": 574
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 46,
+                              "offset": 619
+                            }
+                          }
+                        }
+                      ],
+                      "elseBody": [],
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 574
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 46,
+                          "offset": 619
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 574
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 46,
+                      "offset": 619
+                    }
+                  }
+                }
+              ],
+              "elseBody": [],
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 574
+                },
+                "end": {
+                  "line": 29,
+                  "column": 46,
+                  "offset": 619
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 574
+            },
+            "end": {
+              "line": 29,
+              "column": 46,
+              "offset": 619
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "imported",
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 687
+              },
+              "end": {
+                "line": 32,
+                "column": 18,
+                "offset": 704
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 687
+            },
+            "end": {
+              "line": 32,
+              "column": 18,
+              "offset": 704
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "workflow",
+        "name": "import user flow",
+        "outputName": "user",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 322
+        },
+        "end": {
+          "line": 21,
+          "column": 26,
+          "offset": 347
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 19,
+      "offset": 18
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "SignupRetry",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.time",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "policy",
+        "name": "can signup",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "require",
+            "condition": {
+              "kind": "binary",
+              "operator": "!=",
+              "left": {
+                "kind": "name",
+                "label": "email",
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 72
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 22,
+                    "offset": 93
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 72
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 22,
+                    "offset": 93
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 72
+                },
+                "end": {
+                  "line": 7,
+                  "column": 22,
+                  "offset": 93
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 72
+              },
+              "end": {
+                "line": 7,
+                "column": 22,
+                "offset": 93
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 34
+          },
+          "end": {
+            "line": 5,
+            "column": 18,
+            "offset": 51
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "verify email",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "error",
+              "message": "Mailbox unavailable",
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 180
+                },
+                "end": {
+                  "line": 13,
+                  "column": 37,
+                  "offset": 216
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 180
+              },
+              "end": {
+                "line": 13,
+                "column": 37,
+                "offset": 216
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 95
+          },
+          "end": {
+            "line": 9,
+            "column": 20,
+            "offset": 114
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "register user",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "user",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "email",
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 306
+                },
+                "end": {
+                  "line": 19,
+                  "column": 15,
+                  "offset": 320
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 306
+              },
+              "end": {
+                "line": 19,
+                "column": 15,
+                "offset": 320
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 218
+          },
+          "end": {
+            "line": 15,
+            "column": 21,
+            "offset": 238
+          }
+        }
+      },
+      {
+        "kind": "workflow",
+        "name": "import user flow",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 22,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "user",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "verified",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "verify email",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "email",
+                    "span": {
+                      "start": {
+                        "line": 24,
+                        "column": 1,
+                        "offset": 397
+                      },
+                      "end": {
+                        "line": 24,
+                        "column": 45,
+                        "offset": 441
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 397
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 441
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 397
+                },
+                "end": {
+                  "line": 24,
+                  "column": 45,
+                  "offset": 441
+                }
+              }
+            },
+            "options": {
+              "retryCount": 3,
+              "timeoutSeconds": 5,
+              "requiredPolicy": "can signup",
+              "onFailure": {
+                "kind": "error",
+                "message": "Email verification failed",
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 518
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 56,
+                    "offset": 573
+                  }
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 397
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 441
+              }
+            }
+          },
+          {
+            "kind": "step",
+            "name": "imported",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "register user",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "email",
+                    "span": {
+                      "start": {
+                        "line": 29,
+                        "column": 1,
+                        "offset": 574
+                      },
+                      "end": {
+                        "line": 29,
+                        "column": 46,
+                        "offset": 619
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 574
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 46,
+                    "offset": 619
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 574
+                },
+                "end": {
+                  "line": 29,
+                  "column": 46,
+                  "offset": 619
+                }
+              }
+            },
+            "options": {
+              "retryCount": 2,
+              "onFailure": {
+                "kind": "error",
+                "message": "User import failed",
+                "span": {
+                  "start": {
+                    "line": 31,
+                    "column": 1,
+                    "offset": 638
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 49,
+                    "offset": 686
+                  }
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 574
+              },
+              "end": {
+                "line": 29,
+                "column": 46,
+                "offset": 619
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "imported",
+              "span": {
+                "start": {
+                  "line": 32,
+                  "column": 1,
+                  "offset": 687
+                },
+                "end": {
+                  "line": 32,
+                  "column": 18,
+                  "offset": 704
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 687
+              },
+              "end": {
+                "line": 32,
+                "column": 18,
+                "offset": 704
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 322
+          },
+          "end": {
+            "line": 21,
+            "column": 26,
+            "offset": 347
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 19,
+        "offset": 18
+      }
+    }
+  }
+}

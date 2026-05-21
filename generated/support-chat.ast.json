@@ -1,0 +1,1670 @@
+{
+  "kind": "coreProgram",
+  "module": "SupportChat",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "openaiStreamRaw",
+      "params": [
+        {
+          "name": "key",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "key",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/ai",
+      "importName": "openaiStream",
+      "semantic": {
+        "kind": "external",
+        "name": "openai stream raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 42
+        },
+        "end": {
+          "line": 4,
+          "column": 131,
+          "offset": 172
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "envGetRaw",
+      "params": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Maybe",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/env",
+      "importName": "envGet",
+      "semantic": {
+        "kind": "external",
+        "name": "env get raw"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 197
+        },
+        "end": {
+          "line": 7,
+          "column": 85,
+          "offset": 281
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "MessageRole",
+      "fields": [],
+      "variantCases": [
+        {
+          "name": "Pending",
+          "fields": [],
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 304
+            },
+            "end": {
+              "line": 10,
+              "column": 10,
+              "offset": 313
+            }
+          }
+        },
+        {
+          "name": "User",
+          "fields": [],
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 314
+            },
+            "end": {
+              "line": 11,
+              "column": 7,
+              "offset": 320
+            }
+          }
+        },
+        {
+          "name": "Assistant",
+          "fields": [],
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 321
+            },
+            "end": {
+              "line": 12,
+              "column": 12,
+              "offset": 332
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "variant",
+        "name": "Message Role"
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 283
+        },
+        "end": {
+          "line": 9,
+          "column": 21,
+          "offset": 303
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "ChatMessage",
+      "fields": [
+        {
+          "name": "role",
+          "type": {
+            "kind": "typeRef",
+            "name": "MessageRole",
+            "args": []
+          },
+          "semanticName": "role",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 354
+            },
+            "end": {
+              "line": 15,
+              "column": 21,
+              "offset": 374
+            }
+          }
+        },
+        {
+          "name": "content",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "content",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 375
+            },
+            "end": {
+              "line": 16,
+              "column": 16,
+              "offset": 390
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Chat Message"
+      },
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 1,
+          "offset": 334
+        },
+        "end": {
+          "line": 14,
+          "column": 20,
+          "offset": 353
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "SupportContext",
+      "fields": [
+        {
+          "name": "userName",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "user name",
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 415
+            },
+            "end": {
+              "line": 19,
+              "column": 18,
+              "offset": 432
+            }
+          }
+        },
+        {
+          "name": "tier",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "tier",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 433
+            },
+            "end": {
+              "line": 20,
+              "column": 13,
+              "offset": 445
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Support Context"
+      },
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 392
+        },
+        "end": {
+          "line": 18,
+          "column": 23,
+          "offset": 414
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "buildGreetingPrompt",
+      "params": [
+        {
+          "name": "context",
+          "type": {
+            "kind": "typeRef",
+            "name": "SupportContext",
+            "args": []
+          },
+          "semanticName": "context",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 25,
+              "offset": 24
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "literal",
+                    "value": "Hello ",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 546
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 127,
+                        "offset": 672
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "identifier",
+                      "name": "context",
+                      "span": {
+                        "start": {
+                          "line": 26,
+                          "column": 1,
+                          "offset": 546
+                        },
+                        "end": {
+                          "line": 26,
+                          "column": 127,
+                          "offset": 672
+                        }
+                      }
+                    },
+                    "name": "userName",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 546
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 127,
+                        "offset": 672
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 546
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 127,
+                      "offset": 672
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": ", thank you for contacting support. Your ",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 546
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 127,
+                      "offset": 672
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 546
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 127,
+                    "offset": 672
+                  }
+                }
+              },
+              "right": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "context",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 546
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 127,
+                      "offset": 672
+                    }
+                  }
+                },
+                "name": "tier",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 546
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 127,
+                    "offset": 672
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 546
+                },
+                "end": {
+                  "line": 26,
+                  "column": 127,
+                  "offset": 672
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": " plan is ready to help.",
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 546
+                },
+                "end": {
+                  "line": 26,
+                  "column": 127,
+                  "offset": 672
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 546
+              },
+              "end": {
+                "line": 26,
+                "column": 127,
+                "offset": 672
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 546
+            },
+            "end": {
+              "line": 26,
+              "column": 127,
+              "offset": 672
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "build greeting prompt",
+        "outputName": "prompt",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 447
+        },
+        "end": {
+          "line": 22,
+          "column": 29,
+          "offset": 475
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "summarizeSupportText",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 29,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "model",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "model",
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 30,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "openaiStreamRaw",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "envGetRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "OPENAI_API_KEY",
+                    "span": {
+                      "start": {
+                        "line": 33,
+                        "column": 1,
+                        "offset": 787
+                      },
+                      "end": {
+                        "line": 33,
+                        "column": 73,
+                        "offset": 859
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 33,
+                    "column": 1,
+                    "offset": 787
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": 73,
+                    "offset": 859
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "prompt",
+                "span": {
+                  "start": {
+                    "line": 33,
+                    "column": 1,
+                    "offset": 787
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": 73,
+                    "offset": 859
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "model",
+                "span": {
+                  "start": {
+                    "line": 33,
+                    "column": 1,
+                    "offset": 787
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": 73,
+                    "offset": 859
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 787
+              },
+              "end": {
+                "line": 33,
+                "column": 73,
+                "offset": 859
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 787
+            },
+            "end": {
+              "line": 33,
+              "column": 73,
+              "offset": 859
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "summarize support",
+        "outputName": "text",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 674
+        },
+        "end": {
+          "line": 28,
+          "column": 25,
+          "offset": 698
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 19,
+      "offset": 18
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "SupportChat",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std ai",
+        "functions": [
+          {
+            "label": "openai stream raw",
+            "params": [
+              {
+                "label": "key",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Maybe",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "prompt",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              },
+              {
+                "label": "model",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/ai",
+            "importAs": "openaiStream",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 42
+              },
+              "end": {
+                "line": 4,
+                "column": 131,
+                "offset": 172
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 20
+          },
+          "end": {
+            "line": 3,
+            "column": 22,
+            "offset": 41
+          }
+        }
+      },
+      {
+        "kind": "external",
+        "name": "point std env",
+        "functions": [
+          {
+            "label": "env get raw",
+            "params": [
+              {
+                "label": "name",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Maybe",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/env",
+            "importAs": "envGet",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 197
+              },
+              "end": {
+                "line": 7,
+                "column": 85,
+                "offset": 281
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 174
+          },
+          "end": {
+            "line": 6,
+            "column": 23,
+            "offset": 196
+          }
+        }
+      },
+      {
+        "kind": "variant",
+        "name": "Message Role",
+        "cases": [
+          {
+            "label": "Pending",
+            "fields": [],
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 304
+              },
+              "end": {
+                "line": 10,
+                "column": 10,
+                "offset": 313
+              }
+            }
+          },
+          {
+            "label": "User",
+            "fields": [],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 314
+              },
+              "end": {
+                "line": 11,
+                "column": 7,
+                "offset": 320
+              }
+            }
+          },
+          {
+            "label": "Assistant",
+            "fields": [],
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 321
+              },
+              "end": {
+                "line": 12,
+                "column": 12,
+                "offset": 332
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 283
+          },
+          "end": {
+            "line": 9,
+            "column": 21,
+            "offset": 303
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Chat Message",
+        "fields": [
+          {
+            "label": "role",
+            "type": {
+              "kind": "typeRef",
+              "name": "Message Role",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 354
+              },
+              "end": {
+                "line": 15,
+                "column": 21,
+                "offset": 374
+              }
+            }
+          },
+          {
+            "label": "content",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 375
+              },
+              "end": {
+                "line": 16,
+                "column": 16,
+                "offset": 390
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 14,
+            "column": 1,
+            "offset": 334
+          },
+          "end": {
+            "line": 14,
+            "column": 20,
+            "offset": 353
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Support Context",
+        "fields": [
+          {
+            "label": "user name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 415
+              },
+              "end": {
+                "line": 19,
+                "column": 18,
+                "offset": 432
+              }
+            }
+          },
+          {
+            "label": "tier",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 433
+              },
+              "end": {
+                "line": 20,
+                "column": 13,
+                "offset": 445
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 18,
+            "column": 1,
+            "offset": 392
+          },
+          "end": {
+            "line": 18,
+            "column": 23,
+            "offset": 414
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "build greeting prompt",
+        "inputs": [
+          {
+            "label": "context",
+            "type": {
+              "kind": "typeRef",
+              "name": "Support Context",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 23,
+                "column": 25,
+                "offset": 24
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "+",
+                    "left": {
+                      "kind": "literal",
+                      "value": "Hello ",
+                      "span": {
+                        "start": {
+                          "line": 26,
+                          "column": 1,
+                          "offset": 546
+                        },
+                        "end": {
+                          "line": 26,
+                          "column": 127,
+                          "offset": 672
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "property",
+                      "target": {
+                        "kind": "name",
+                        "label": "context",
+                        "span": {
+                          "start": {
+                            "line": 26,
+                            "column": 1,
+                            "offset": 546
+                          },
+                          "end": {
+                            "line": 26,
+                            "column": 127,
+                            "offset": 672
+                          }
+                        }
+                      },
+                      "label": "user name",
+                      "span": {
+                        "start": {
+                          "line": 26,
+                          "column": 1,
+                          "offset": 546
+                        },
+                        "end": {
+                          "line": 26,
+                          "column": 127,
+                          "offset": 672
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 546
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 127,
+                        "offset": 672
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "literal",
+                    "value": ", thank you for contacting support. Your ",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 546
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 127,
+                        "offset": 672
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 546
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 127,
+                      "offset": 672
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "context",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 546
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 127,
+                        "offset": 672
+                      }
+                    }
+                  },
+                  "label": "tier",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 546
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 127,
+                      "offset": 672
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 546
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 127,
+                    "offset": 672
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": " plan is ready to help.",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 546
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 127,
+                    "offset": 672
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 546
+                },
+                "end": {
+                  "line": 26,
+                  "column": 127,
+                  "offset": 672
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 546
+              },
+              "end": {
+                "line": 26,
+                "column": 127,
+                "offset": 672
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 22,
+            "column": 1,
+            "offset": 447
+          },
+          "end": {
+            "line": 22,
+            "column": 29,
+            "offset": 475
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "summarize support",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 29,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          },
+          {
+            "label": "model",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 30,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "openai stream raw",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "env get raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "OPENAI_API_KEY",
+                      "span": {
+                        "start": {
+                          "line": 33,
+                          "column": 1,
+                          "offset": 787
+                        },
+                        "end": {
+                          "line": 33,
+                          "column": 73,
+                          "offset": 859
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 33,
+                      "column": 1,
+                      "offset": 787
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 73,
+                      "offset": 859
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "prompt",
+                  "span": {
+                    "start": {
+                      "line": 33,
+                      "column": 1,
+                      "offset": 787
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 73,
+                      "offset": 859
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "model",
+                  "span": {
+                    "start": {
+                      "line": 33,
+                      "column": 1,
+                      "offset": 787
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 73,
+                      "offset": 859
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 33,
+                  "column": 1,
+                  "offset": 787
+                },
+                "end": {
+                  "line": 33,
+                  "column": 73,
+                  "offset": 859
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 787
+              },
+              "end": {
+                "line": 33,
+                "column": 73,
+                "offset": 859
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 28,
+            "column": 1,
+            "offset": 674
+          },
+          "end": {
+            "line": 28,
+            "column": 25,
+            "offset": 698
+          }
+        }
+      },
+      {
+        "kind": "session",
+        "name": "support chat",
+        "messageRecordName": "Chat Message",
+        "messagesField": {
+          "label": "messages",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Chat Message",
+                "args": []
+              }
+            ]
+          },
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 37,
+              "column": 29,
+              "offset": 28
+            }
+          }
+        },
+        "streamActionName": "summarize support",
+        "span": {
+          "start": {
+            "line": 35,
+            "column": 1,
+            "offset": 861
+          },
+          "end": {
+            "line": 35,
+            "column": 21,
+            "offset": 881
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 19,
+        "offset": 18
+      }
+    }
+  }
+}

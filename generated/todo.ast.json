@@ -224,6 +224,7 @@
       "body": [
         {
           "kind": "value",
+          "mutable": false,
           "name": "loadedTodos",
           "type": {
             "kind": "typeRef",
@@ -262,7 +263,6 @@
               }
             }
           },
-          "mutable": false,
           "span": {
             "start": {
               "line": 20,

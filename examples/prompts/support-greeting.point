@@ -7,4 +7,4 @@ record Support Context
 prompt support greeting
   version 1
   input Support Context
-  template Hello {user name}, thank you for contacting support. Your {tier} plan is ready to help.
+  template "Hello {user name}, thank you for contacting support. Your {tier} plan is ready to help."

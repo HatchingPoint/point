@@ -24,7 +24,7 @@ view log stream panel
   each line in messages render line.line
 
 view log stream with handler
-  input on log line: Handler Log Line
+  input on log line: Handler<Log Line>
   subscribe to "/ws/logs"
   on message call on log line
   render "Streaming logs..."

@@ -1,0 +1,4156 @@
+{
+  "kind": "coreProgram",
+  "module": "DocumentIngest",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "allowedUrlPolicy",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "!=",
+            "left": {
+              "kind": "identifier",
+              "name": "url",
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 60
+                },
+                "end": {
+                  "line": 5,
+                  "column": 20,
+                  "offset": 79
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "",
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 60
+                },
+                "end": {
+                  "line": 5,
+                  "column": 20,
+                  "offset": 79
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 60
+              },
+              "end": {
+                "line": 5,
+                "column": 20,
+                "offset": 79
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 60
+            },
+            "end": {
+              "line": 5,
+              "column": 20,
+              "offset": 79
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "policy",
+        "name": "allowed url",
+        "outputName": "policy",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 23
+        },
+        "end": {
+          "line": 3,
+          "column": 19,
+          "offset": 41
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "fetchDocumentBody",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "url",
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 168
+              },
+              "end": {
+                "line": 11,
+                "column": 13,
+                "offset": 180
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 168
+            },
+            "end": {
+              "line": 11,
+              "column": 13,
+              "offset": 180
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "fetch document",
+        "outputName": "body",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 81
+        },
+        "end": {
+          "line": 7,
+          "column": 22,
+          "offset": 102
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "parseDocumentParsed",
+      "params": [
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 20,
+              "offset": 19
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "body",
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 278
+              },
+              "end": {
+                "line": 17,
+                "column": 14,
+                "offset": 291
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 278
+            },
+            "end": {
+              "line": 17,
+              "column": 14,
+              "offset": 291
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "parse document",
+        "outputName": "parsed",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 182
+        },
+        "end": {
+          "line": 13,
+          "column": 22,
+          "offset": 203
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "classifyDocumentCategory",
+      "params": [
+        {
+          "name": "parsed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "parsed",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 20,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "general",
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 396
+              },
+              "end": {
+                "line": 23,
+                "column": 19,
+                "offset": 414
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 396
+            },
+            "end": {
+              "line": 23,
+              "column": 19,
+              "offset": 414
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "classify document",
+        "outputName": "category",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 293
+        },
+        "end": {
+          "line": 19,
+          "column": 25,
+          "offset": 317
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "storeDocumentPath",
+      "params": [
+        {
+          "name": "documentId",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "document id",
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 26,
+              "column": 27,
+              "offset": 26
+            }
+          }
+        },
+        {
+          "name": "category",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "category",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 24,
+              "offset": 23
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "documentId",
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 552
+              },
+              "end": {
+                "line": 30,
+                "column": 21,
+                "offset": 572
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 552
+            },
+            "end": {
+              "line": 30,
+              "column": 21,
+              "offset": 572
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "store document",
+        "outputName": "path",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 416
+        },
+        "end": {
+          "line": 25,
+          "column": 22,
+          "offset": 437
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "documentIngestPipeline",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 33,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "__pointPipelineLog",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Handler",
+                "args": [
+                  {
+                    "kind": "typeRef",
+                    "name": "Void",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          "semanticName": "__pointPipelineLog",
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 574
+            },
+            "end": {
+              "line": 32,
+              "column": 25,
+              "offset": 598
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "expression",
+          "value": {
+            "kind": "call",
+            "callee": "pointPipelineEmitLog",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "__pointPipelineLog",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "document ingest",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "fetched",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "start",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 648
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 691
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "call",
+              "callee": "allowedUrlPolicy",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "url",
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 648
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 44,
+                      "offset": 691
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": false,
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "Error",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "Fetch failed",
+                    "span": {
+                      "start": {
+                        "line": 38,
+                        "column": 1,
+                        "offset": 741
+                      },
+                      "end": {
+                        "line": 38,
+                        "column": 43,
+                        "offset": 783
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 38,
+                    "column": 1,
+                    "offset": 741
+                  },
+                  "end": {
+                    "line": 38,
+                    "column": 43,
+                    "offset": 783
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 648
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 691
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "__pointStepDone",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": false,
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 648
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 691
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "fetched",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "call",
+            "callee": "Error",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 648
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 691
+            }
+          }
+        },
+        {
+          "kind": "for",
+          "itemName": "__pointAttempt",
+          "iterable": {
+            "kind": "list",
+            "items": [
+              {
+                "kind": "literal",
+                "value": 0,
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 1,
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          "body": [
+            {
+              "kind": "if",
+              "condition": {
+                "kind": "binary",
+                "operator": "==",
+                "left": {
+                  "kind": "identifier",
+                  "name": "__pointStepDone",
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 648
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 44,
+                      "offset": 691
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 648
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 44,
+                      "offset": 691
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              "thenBody": [
+                {
+                  "kind": "assignment",
+                  "name": "fetched",
+                  "operator": "=",
+                  "value": {
+                    "kind": "await",
+                    "value": {
+                      "kind": "call",
+                      "callee": "fetchDocumentBody",
+                      "args": [
+                        {
+                          "kind": "identifier",
+                          "name": "url",
+                          "span": {
+                            "start": {
+                              "line": 35,
+                              "column": 1,
+                              "offset": 648
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 44,
+                              "offset": 691
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 35,
+                          "column": 1,
+                          "offset": 648
+                        },
+                        "end": {
+                          "line": 35,
+                          "column": 44,
+                          "offset": 691
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 648
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 44,
+                      "offset": 691
+                    }
+                  }
+                },
+                {
+                  "kind": "if",
+                  "condition": {
+                    "kind": "binary",
+                    "operator": "==",
+                    "left": {
+                      "kind": "call",
+                      "callee": "pointIsError",
+                      "args": [
+                        {
+                          "kind": "identifier",
+                          "name": "fetched",
+                          "span": {
+                            "start": {
+                              "line": 35,
+                              "column": 1,
+                              "offset": 648
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 44,
+                              "offset": 691
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 35,
+                          "column": 1,
+                          "offset": 648
+                        },
+                        "end": {
+                          "line": 35,
+                          "column": 44,
+                          "offset": 691
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "literal",
+                      "value": false,
+                      "span": {
+                        "start": {
+                          "line": 35,
+                          "column": 1,
+                          "offset": 648
+                        },
+                        "end": {
+                          "line": 35,
+                          "column": 44,
+                          "offset": 691
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  "thenBody": [
+                    {
+                      "kind": "assignment",
+                      "name": "__pointStepDone",
+                      "operator": "=",
+                      "value": {
+                        "kind": "literal",
+                        "value": true,
+                        "span": {
+                          "start": {
+                            "line": 35,
+                            "column": 1,
+                            "offset": 648
+                          },
+                          "end": {
+                            "line": 35,
+                            "column": 44,
+                            "offset": 691
+                          }
+                        }
+                      },
+                      "span": {
+                        "start": {
+                          "line": 35,
+                          "column": 1,
+                          "offset": 648
+                        },
+                        "end": {
+                          "line": 35,
+                          "column": 44,
+                          "offset": 691
+                        }
+                      }
+                    }
+                  ],
+                  "elseBody": [
+                    {
+                      "kind": "if",
+                      "condition": {
+                        "kind": "binary",
+                        "operator": "==",
+                        "left": {
+                          "kind": "identifier",
+                          "name": "__pointAttempt",
+                          "span": {
+                            "start": {
+                              "line": 35,
+                              "column": 1,
+                              "offset": 648
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 44,
+                              "offset": 691
+                            }
+                          }
+                        },
+                        "right": {
+                          "kind": "literal",
+                          "value": 1,
+                          "span": {
+                            "start": {
+                              "line": 35,
+                              "column": 1,
+                              "offset": 648
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 44,
+                              "offset": 691
+                            }
+                          }
+                        },
+                        "span": {
+                          "start": {
+                            "line": 35,
+                            "column": 1,
+                            "offset": 648
+                          },
+                          "end": {
+                            "line": 35,
+                            "column": 44,
+                            "offset": 691
+                          }
+                        }
+                      },
+                      "thenBody": [
+                        {
+                          "kind": "return",
+                          "value": {
+                            "kind": "call",
+                            "callee": "Error",
+                            "args": [
+                              {
+                                "kind": "literal",
+                                "value": "Fetch failed",
+                                "span": {
+                                  "start": {
+                                    "line": 38,
+                                    "column": 1,
+                                    "offset": 741
+                                  },
+                                  "end": {
+                                    "line": 38,
+                                    "column": 43,
+                                    "offset": 783
+                                  }
+                                }
+                              }
+                            ],
+                            "span": {
+                              "start": {
+                                "line": 38,
+                                "column": 1,
+                                "offset": 741
+                              },
+                              "end": {
+                                "line": 38,
+                                "column": 43,
+                                "offset": 783
+                              }
+                            }
+                          },
+                          "span": {
+                            "start": {
+                              "line": 35,
+                              "column": 1,
+                              "offset": 648
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 44,
+                              "offset": 691
+                            }
+                          }
+                        }
+                      ],
+                      "elseBody": [],
+                      "span": {
+                        "start": {
+                          "line": 35,
+                          "column": 1,
+                          "offset": 648
+                        },
+                        "end": {
+                          "line": 35,
+                          "column": 44,
+                          "offset": 691
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 648
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 44,
+                      "offset": 691
+                    }
+                  }
+                }
+              ],
+              "elseBody": [],
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 648
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 691
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "pointIsError",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "fetched",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "fetched",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "failure",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "fetched",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            }
+          ],
+          "elseBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "fetched",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "complete",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 648
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 691
+            }
+          }
+        },
+        {
+          "kind": "expression",
+          "value": {
+            "kind": "call",
+            "callee": "pointPipelineEmitLog",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "__pointPipelineLog",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "document ingest",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "parsed",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "start",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 784
+              },
+              "end": {
+                "line": 39,
+                "column": 47,
+                "offset": 830
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 784
+            },
+            "end": {
+              "line": 39,
+              "column": 47,
+              "offset": 830
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": false,
+          "name": "parsed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "parseDocumentParsed",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "fetched",
+                  "span": {
+                    "start": {
+                      "line": 39,
+                      "column": 1,
+                      "offset": 784
+                    },
+                    "end": {
+                      "line": 39,
+                      "column": 47,
+                      "offset": 830
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 784
+                },
+                "end": {
+                  "line": 39,
+                  "column": 47,
+                  "offset": 830
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 784
+              },
+              "end": {
+                "line": 39,
+                "column": 47,
+                "offset": 830
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 784
+            },
+            "end": {
+              "line": 39,
+              "column": 47,
+              "offset": 830
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "pointIsError",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "parsed",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 784
+              },
+              "end": {
+                "line": 39,
+                "column": 47,
+                "offset": 830
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "parsed",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "failure",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "parsed",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 784
+                },
+                "end": {
+                  "line": 39,
+                  "column": 47,
+                  "offset": 830
+                }
+              }
+            }
+          ],
+          "elseBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "parsed",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "complete",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 784
+                },
+                "end": {
+                  "line": 39,
+                  "column": 47,
+                  "offset": 830
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 784
+            },
+            "end": {
+              "line": 39,
+              "column": 47,
+              "offset": 830
+            }
+          }
+        },
+        {
+          "kind": "expression",
+          "value": {
+            "kind": "call",
+            "callee": "pointPipelineEmitLog",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "__pointPipelineLog",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "document ingest",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "classified",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "start",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 831
+              },
+              "end": {
+                "line": 40,
+                "column": 53,
+                "offset": 883
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 831
+            },
+            "end": {
+              "line": 40,
+              "column": 53,
+              "offset": 883
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": false,
+          "name": "classified",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "classifyDocumentCategory",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "parsed",
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 831
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 53,
+                      "offset": 883
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 831
+                },
+                "end": {
+                  "line": 40,
+                  "column": 53,
+                  "offset": 883
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 831
+              },
+              "end": {
+                "line": 40,
+                "column": 53,
+                "offset": 883
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 831
+            },
+            "end": {
+              "line": 40,
+              "column": 53,
+              "offset": 883
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "pointIsError",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "classified",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 831
+              },
+              "end": {
+                "line": 40,
+                "column": 53,
+                "offset": 883
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "classified",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "failure",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "classified",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 831
+                },
+                "end": {
+                  "line": 40,
+                  "column": 53,
+                  "offset": 883
+                }
+              }
+            }
+          ],
+          "elseBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "classified",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "complete",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 831
+                },
+                "end": {
+                  "line": 40,
+                  "column": 53,
+                  "offset": 883
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 831
+            },
+            "end": {
+              "line": 40,
+              "column": 53,
+              "offset": 883
+            }
+          }
+        },
+        {
+          "kind": "expression",
+          "value": {
+            "kind": "call",
+            "callee": "pointPipelineEmitLog",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "__pointPipelineLog",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "document ingest",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "stored",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "start",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 884
+              },
+              "end": {
+                "line": 41,
+                "column": 58,
+                "offset": 941
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 884
+            },
+            "end": {
+              "line": 41,
+              "column": 58,
+              "offset": 941
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": false,
+          "name": "stored",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "storeDocumentPath",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "parsed",
+                  "span": {
+                    "start": {
+                      "line": 41,
+                      "column": 1,
+                      "offset": 884
+                    },
+                    "end": {
+                      "line": 41,
+                      "column": 58,
+                      "offset": 941
+                    }
+                  }
+                },
+                {
+                  "kind": "identifier",
+                  "name": "classified",
+                  "span": {
+                    "start": {
+                      "line": 41,
+                      "column": 1,
+                      "offset": 884
+                    },
+                    "end": {
+                      "line": 41,
+                      "column": 58,
+                      "offset": 941
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 884
+                },
+                "end": {
+                  "line": 41,
+                  "column": 58,
+                  "offset": 941
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 884
+              },
+              "end": {
+                "line": 41,
+                "column": 58,
+                "offset": 941
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 884
+            },
+            "end": {
+              "line": 41,
+              "column": 58,
+              "offset": 941
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "pointIsError",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "stored",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 884
+              },
+              "end": {
+                "line": 41,
+                "column": 58,
+                "offset": 941
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "stored",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "failure",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "stored",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 884
+                },
+                "end": {
+                  "line": 41,
+                  "column": 58,
+                  "offset": 941
+                }
+              }
+            }
+          ],
+          "elseBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "document ingest",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "stored",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "complete",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 884
+                },
+                "end": {
+                  "line": 41,
+                  "column": 58,
+                  "offset": 941
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 884
+            },
+            "end": {
+              "line": 41,
+              "column": 58,
+              "offset": 941
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "stored",
+            "span": {
+              "start": {
+                "line": 42,
+                "column": 1,
+                "offset": 942
+              },
+              "end": {
+                "line": 42,
+                "column": 16,
+                "offset": 957
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 42,
+              "column": 1,
+              "offset": 942
+            },
+            "end": {
+              "line": 42,
+              "column": 16,
+              "offset": 957
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "pipeline",
+        "name": "document ingest",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 574
+        },
+        "end": {
+          "line": 32,
+          "column": 25,
+          "offset": 598
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 22,
+      "offset": 21
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "DocumentIngest",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "policy",
+        "name": "allowed url",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "require",
+            "condition": {
+              "kind": "binary",
+              "operator": "!=",
+              "left": {
+                "kind": "name",
+                "label": "url",
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 60
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 20,
+                    "offset": 79
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 60
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 20,
+                    "offset": 79
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 60
+                },
+                "end": {
+                  "line": 5,
+                  "column": 20,
+                  "offset": 79
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 60
+              },
+              "end": {
+                "line": 5,
+                "column": 20,
+                "offset": 79
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 23
+          },
+          "end": {
+            "line": 3,
+            "column": 19,
+            "offset": 41
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "fetch document",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "url",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 168
+                },
+                "end": {
+                  "line": 11,
+                  "column": 13,
+                  "offset": 180
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 168
+              },
+              "end": {
+                "line": 11,
+                "column": 13,
+                "offset": 180
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 81
+          },
+          "end": {
+            "line": 7,
+            "column": 22,
+            "offset": 102
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "parse document",
+        "inputs": [
+          {
+            "label": "body",
+            "type": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 20,
+                "offset": 19
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "parsed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "body",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 278
+                },
+                "end": {
+                  "line": 17,
+                  "column": 14,
+                  "offset": 291
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 278
+              },
+              "end": {
+                "line": 17,
+                "column": 14,
+                "offset": 291
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 182
+          },
+          "end": {
+            "line": 13,
+            "column": 22,
+            "offset": 203
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "classify document",
+        "inputs": [
+          {
+            "label": "parsed",
+            "type": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "category",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "general",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 396
+                },
+                "end": {
+                  "line": 23,
+                  "column": 19,
+                  "offset": 414
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 396
+              },
+              "end": {
+                "line": 23,
+                "column": 19,
+                "offset": 414
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 293
+          },
+          "end": {
+            "line": 19,
+            "column": 25,
+            "offset": 317
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "store document",
+        "inputs": [
+          {
+            "label": "document id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 26,
+                "column": 27,
+                "offset": 26
+              }
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 24,
+                "offset": 23
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "document id",
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 552
+                },
+                "end": {
+                  "line": 30,
+                  "column": 21,
+                  "offset": 572
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 552
+              },
+              "end": {
+                "line": 30,
+                "column": 21,
+                "offset": 572
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 25,
+            "column": 1,
+            "offset": 416
+          },
+          "end": {
+            "line": 25,
+            "column": 22,
+            "offset": 437
+          }
+        }
+      },
+      {
+        "kind": "pipeline",
+        "name": "document ingest",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 33,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "fetched",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "fetch document",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "url",
+                    "span": {
+                      "start": {
+                        "line": 35,
+                        "column": 1,
+                        "offset": 648
+                      },
+                      "end": {
+                        "line": 35,
+                        "column": 44,
+                        "offset": 691
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 648
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 44,
+                    "offset": 691
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 648
+                },
+                "end": {
+                  "line": 35,
+                  "column": 44,
+                  "offset": 691
+                }
+              }
+            },
+            "options": {
+              "retryCount": 2,
+              "requiredPolicy": "allowed url",
+              "onFailure": {
+                "kind": "error",
+                "message": "Fetch failed",
+                "span": {
+                  "start": {
+                    "line": 38,
+                    "column": 1,
+                    "offset": 741
+                  },
+                  "end": {
+                    "line": 38,
+                    "column": 43,
+                    "offset": 783
+                  }
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 648
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 691
+              }
+            }
+          },
+          {
+            "kind": "step",
+            "name": "parsed",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "parse document",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "fetched",
+                    "span": {
+                      "start": {
+                        "line": 39,
+                        "column": 1,
+                        "offset": 784
+                      },
+                      "end": {
+                        "line": 39,
+                        "column": 47,
+                        "offset": 830
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 784
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 47,
+                    "offset": 830
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 784
+                },
+                "end": {
+                  "line": 39,
+                  "column": 47,
+                  "offset": 830
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 784
+              },
+              "end": {
+                "line": 39,
+                "column": 47,
+                "offset": 830
+              }
+            }
+          },
+          {
+            "kind": "step",
+            "name": "classified",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "classify document",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "parsed",
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 831
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 53,
+                        "offset": 883
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 831
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 53,
+                    "offset": 883
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 831
+                },
+                "end": {
+                  "line": 40,
+                  "column": 53,
+                  "offset": 883
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 831
+              },
+              "end": {
+                "line": 40,
+                "column": 53,
+                "offset": 883
+              }
+            }
+          },
+          {
+            "kind": "step",
+            "name": "stored",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "store document",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "parsed",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  },
+                  {
+                    "kind": "name",
+                    "label": "classified",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 884
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 58,
+                        "offset": 941
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 884
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 58,
+                    "offset": 941
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 884
+                },
+                "end": {
+                  "line": 41,
+                  "column": 58,
+                  "offset": 941
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 884
+              },
+              "end": {
+                "line": 41,
+                "column": 58,
+                "offset": 941
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "stored",
+              "span": {
+                "start": {
+                  "line": 42,
+                  "column": 1,
+                  "offset": 942
+                },
+                "end": {
+                  "line": 42,
+                  "column": 16,
+                  "offset": 957
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 42,
+                "column": 1,
+                "offset": 942
+              },
+              "end": {
+                "line": 42,
+                "column": 16,
+                "offset": 957
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 574
+          },
+          "end": {
+            "line": 32,
+            "column": 25,
+            "offset": 598
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 22,
+        "offset": 21
+      }
+    }
+  }
+}

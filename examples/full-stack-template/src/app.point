@@ -17,14 +17,14 @@ view admin nav
 
 view settings form
   input settings: WorkspaceSettings
-  input on settings change: Handler WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
   on change call on settings change
   form
-    bind field "Workspace name" to settings.workspace name
-    bind checkbox "Email notifications" to settings.notifications enabled
+  bind field "Workspace name" to settings.workspace name
+  bind checkbox "Email notifications" to settings.notifications enabled
   tabs
-    tab "General" render "Theme: " + settings.theme
-    tab "Advanced" render "Notification settings apply workspace-wide"
+  tab "General" render "Theme: " + settings.theme
+  tab "Advanced" render "Notification settings apply workspace-wide"
   modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active for this workspace"
 
 calculation sample members
@@ -55,7 +55,7 @@ layout admin shell
 page settings page
   layout admin shell
   input settings: WorkspaceSettings
-  input on settings change: Handler WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
   title "Settings"
   description "Manage workspace preferences"
   main render settings form(settings, on settings change)

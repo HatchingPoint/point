@@ -274,6 +274,7 @@
       "body": [
         {
           "kind": "value",
+          "mutable": true,
           "name": "total",
           "type": {
             "kind": "typeRef",
@@ -296,7 +297,6 @@
               }
             }
           },
-          "mutable": true,
           "span": {
             "start": {
               "line": 16,

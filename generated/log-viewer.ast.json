@@ -1,0 +1,1637 @@
+{
+  "kind": "coreProgram",
+  "module": "LogViewer",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "streamLinesRaw",
+      "params": [
+        {
+          "name": "command",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "command",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "args",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "args",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "env",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "env",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/process",
+      "importName": "processStreamLines",
+      "semantic": {
+        "kind": "external",
+        "name": "stream lines raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 45
+        },
+        "end": {
+          "line": 4,
+          "column": 137,
+          "offset": 181
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "LogLine",
+      "fields": [
+        {
+          "name": "line",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "line",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 199
+            },
+            "end": {
+              "line": 7,
+              "column": 13,
+              "offset": 211
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Log Line"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 183
+        },
+        "end": {
+          "line": 6,
+          "column": 16,
+          "offset": 198
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "tailDemoLogsLine",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "yield",
+          "value": {
+            "kind": "call",
+            "callee": "streamLinesRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "sh",
+                "span": {
+                  "start": {
+                    "line": 12,
+                    "column": 1,
+                    "offset": 273
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 123,
+                    "offset": 395
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "kind": "literal",
+                    "value": "-c",
+                    "span": {
+                      "start": {
+                        "line": 12,
+                        "column": 1,
+                        "offset": 273
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 123,
+                        "offset": 395
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "i=0; while [ $i -lt 24 ]; do echo demo-line-$i; i=$((i+1)); sleep 0.15; done",
+                    "span": {
+                      "start": {
+                        "line": 12,
+                        "column": 1,
+                        "offset": 273
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 123,
+                        "offset": 395
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 12,
+                    "column": 1,
+                    "offset": 273
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 123,
+                    "offset": 395
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [],
+                "span": {
+                  "start": {
+                    "line": 12,
+                    "column": 1,
+                    "offset": 273
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 123,
+                    "offset": 395
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 273
+              },
+              "end": {
+                "line": 12,
+                "column": 123,
+                "offset": 395
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 273
+            },
+            "end": {
+              "line": 12,
+              "column": 123,
+              "offset": 395
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "tail demo logs",
+        "outputName": "line",
+        "effects": [
+          "process"
+        ],
+        "isStreamAction": true
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 213
+        },
+        "end": {
+          "line": 9,
+          "column": 22,
+          "offset": 234
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logsStreamRouteConnect",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Void",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return"
+        }
+      ],
+      "semantic": {
+        "kind": "streamRoute",
+        "name": "logs",
+        "outputName": "connect",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 452
+        },
+        "end": {
+          "line": 17,
+          "column": 47,
+          "offset": 498
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logsStreamRouteDisconnect",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Void",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": null,
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 499
+              },
+              "end": {
+                "line": 18,
+                "column": 28,
+                "offset": 526
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 499
+            },
+            "end": {
+              "line": 18,
+              "column": 28,
+              "offset": 526
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "streamRoute",
+        "name": "logs",
+        "outputName": "disconnect",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 499
+        },
+        "end": {
+          "line": 18,
+          "column": 28,
+          "offset": 526
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logStreamPanelView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [],
+      "semantic": {
+        "kind": "view",
+        "name": "log stream panel",
+        "outputName": "view",
+        "effects": [],
+        "viewEach": [
+          {
+            "itemName": "line",
+            "itemIdentifier": "line",
+            "iterable": {
+              "kind": "identifier",
+              "name": "messages",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 681
+                },
+                "end": {
+                  "line": 24,
+                  "column": 41,
+                  "offset": 721
+                }
+              }
+            },
+            "render": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "line",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 681
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 41,
+                    "offset": 721
+                  }
+                }
+              },
+              "name": "line",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 681
+                },
+                "end": {
+                  "line": 24,
+                  "column": 41,
+                  "offset": 721
+                }
+              }
+            }
+          }
+        ],
+        "viewStreamSubscribe": {
+          "routeName": "logs",
+          "path": "/ws/logs",
+          "messageTypeName": "Log Line",
+          "bindingName": "messages",
+          "connecting": {
+            "kind": "literal",
+            "value": "Connecting to log stream...",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 577
+              },
+              "end": {
+                "line": 22,
+                "column": 55,
+                "offset": 631
+              }
+            }
+          },
+          "disconnected": {
+            "kind": "literal",
+            "value": "Stream disconnected",
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 632
+              },
+              "end": {
+                "line": 23,
+                "column": 49,
+                "offset": 680
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 528
+        },
+        "end": {
+          "line": 20,
+          "column": 22,
+          "offset": 549
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logStreamWithHandlerView",
+      "params": [
+        {
+          "name": "onLogLine",
+          "type": {
+            "kind": "typeRef",
+            "name": "Handler",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "LogLine",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "on log line",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 31,
+              "offset": 30
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Streaming logs...",
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 847
+              },
+              "end": {
+                "line": 30,
+                "column": 29,
+                "offset": 875
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 847
+            },
+            "end": {
+              "line": 30,
+              "column": 29,
+              "offset": 875
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "view",
+        "name": "log stream with handler",
+        "outputName": "view",
+        "effects": [],
+        "viewStreamSubscribe": {
+          "routeName": "logs",
+          "path": "/ws/logs",
+          "messageTypeName": "Log Line",
+          "bindingName": "messages",
+          "messageCallback": "onLogLine"
+        }
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 723
+        },
+        "end": {
+          "line": 26,
+          "column": 29,
+          "offset": 751
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logViewerPage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "logStreamPanelView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 982
+              },
+              "end": {
+                "line": 35,
+                "column": 33,
+                "offset": 1014
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 877
+            },
+            "end": {
+              "line": 32,
+              "column": 21,
+              "offset": 897
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "log viewer page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "title": {
+            "kind": "literal",
+            "value": "Log Viewer",
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 898
+              },
+              "end": {
+                "line": 33,
+                "column": 21,
+                "offset": 918
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Live subprocess stdout streamed over WebSocket",
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 919
+              },
+              "end": {
+                "line": 34,
+                "column": 63,
+                "offset": 981
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "logStreamPanelView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 982
+              },
+              "end": {
+                "line": 35,
+                "column": 33,
+                "offset": 1014
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 877
+        },
+        "end": {
+          "line": 32,
+          "column": 21,
+          "offset": 897
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "serveLogViewerCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Log viewer ready — WebSocket at /ws/logs",
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1141
+              },
+              "end": {
+                "line": 43,
+                "column": 52,
+                "offset": 1192
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 43,
+              "column": 1,
+              "offset": 1141
+            },
+            "end": {
+              "line": 43,
+              "column": 52,
+              "offset": 1192
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "serve log viewer",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 41,
+          "column": 1,
+          "offset": 1094
+        },
+        "end": {
+          "line": 41,
+          "column": 25,
+          "offset": 1118
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 17,
+      "offset": 16
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "LogViewer",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std process",
+        "functions": [
+          {
+            "label": "stream lines raw",
+            "params": [
+              {
+                "label": "command",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              },
+              {
+                "label": "args",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "env",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/process",
+            "importAs": "processStreamLines",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 45
+              },
+              "end": {
+                "line": 4,
+                "column": 137,
+                "offset": 181
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 18
+          },
+          "end": {
+            "line": 3,
+            "column": 27,
+            "offset": 44
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Log Line",
+        "fields": [
+          {
+            "label": "line",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 199
+              },
+              "end": {
+                "line": 7,
+                "column": 13,
+                "offset": 211
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 183
+          },
+          "end": {
+            "line": 6,
+            "column": 16,
+            "offset": 198
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "tail demo logs",
+        "inputs": [],
+        "output": {
+          "name": "line",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "process"
+        ],
+        "body": [
+          {
+            "kind": "yield",
+            "value": {
+              "kind": "call",
+              "callee": "stream lines raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "sh",
+                  "span": {
+                    "start": {
+                      "line": 12,
+                      "column": 1,
+                      "offset": 273
+                    },
+                    "end": {
+                      "line": 12,
+                      "column": 123,
+                      "offset": 395
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [
+                    {
+                      "kind": "literal",
+                      "value": "-c",
+                      "span": {
+                        "start": {
+                          "line": 12,
+                          "column": 1,
+                          "offset": 273
+                        },
+                        "end": {
+                          "line": 12,
+                          "column": 123,
+                          "offset": 395
+                        }
+                      }
+                    },
+                    {
+                      "kind": "literal",
+                      "value": "i=0; while [ $i -lt 24 ]; do echo demo-line-$i; i=$((i+1)); sleep 0.15; done",
+                      "span": {
+                        "start": {
+                          "line": 12,
+                          "column": 1,
+                          "offset": 273
+                        },
+                        "end": {
+                          "line": 12,
+                          "column": 123,
+                          "offset": 395
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 12,
+                      "column": 1,
+                      "offset": 273
+                    },
+                    "end": {
+                      "line": 12,
+                      "column": 123,
+                      "offset": 395
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 12,
+                      "column": 1,
+                      "offset": 273
+                    },
+                    "end": {
+                      "line": 12,
+                      "column": 123,
+                      "offset": 395
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 12,
+                  "column": 1,
+                  "offset": 273
+                },
+                "end": {
+                  "line": 12,
+                  "column": 123,
+                  "offset": 395
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 273
+              },
+              "end": {
+                "line": 12,
+                "column": 123,
+                "offset": 395
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 213
+          },
+          "end": {
+            "line": 9,
+            "column": 22,
+            "offset": 234
+          }
+        }
+      },
+      {
+        "kind": "streamRoute",
+        "name": "logs",
+        "path": "/ws/logs",
+        "messageType": {
+          "kind": "typeRef",
+          "name": "Log Line",
+          "args": []
+        },
+        "handlers": [
+          {
+            "event": "connect",
+            "mode": "streamFromAction",
+            "actionName": "tail demo logs",
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 452
+              },
+              "end": {
+                "line": 17,
+                "column": 47,
+                "offset": 498
+              }
+            }
+          },
+          {
+            "event": "disconnect",
+            "mode": "return",
+            "value": {
+              "kind": "literal",
+              "value": null,
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 499
+                },
+                "end": {
+                  "line": 18,
+                  "column": 28,
+                  "offset": 526
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 499
+              },
+              "end": {
+                "line": 18,
+                "column": 28,
+                "offset": 526
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 14,
+            "column": 1,
+            "offset": 397
+          },
+          "end": {
+            "line": 14,
+            "column": 18,
+            "offset": 414
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "log stream panel",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "streamSubscribeRoute",
+            "routeName": "logs",
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 550
+              },
+              "end": {
+                "line": 21,
+                "column": 27,
+                "offset": 576
+              }
+            }
+          },
+          {
+            "kind": "whenConnectingRender",
+            "value": {
+              "kind": "literal",
+              "value": "Connecting to log stream...",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 577
+                },
+                "end": {
+                  "line": 22,
+                  "column": 55,
+                  "offset": 631
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 577
+              },
+              "end": {
+                "line": 22,
+                "column": 55,
+                "offset": 631
+              }
+            }
+          },
+          {
+            "kind": "whenDisconnectedRender",
+            "value": {
+              "kind": "literal",
+              "value": "Stream disconnected",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 632
+                },
+                "end": {
+                  "line": 23,
+                  "column": 49,
+                  "offset": 680
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 632
+              },
+              "end": {
+                "line": 23,
+                "column": 49,
+                "offset": 680
+              }
+            }
+          },
+          {
+            "kind": "eachRender",
+            "item": "line",
+            "iterable": {
+              "kind": "name",
+              "label": "messages",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 681
+                },
+                "end": {
+                  "line": 24,
+                  "column": 41,
+                  "offset": 721
+                }
+              }
+            },
+            "value": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "line",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 681
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 41,
+                    "offset": 721
+                  }
+                }
+              },
+              "label": "line",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 681
+                },
+                "end": {
+                  "line": 24,
+                  "column": 41,
+                  "offset": 721
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 681
+              },
+              "end": {
+                "line": 24,
+                "column": 41,
+                "offset": 721
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 528
+          },
+          "end": {
+            "line": 20,
+            "column": 22,
+            "offset": 549
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "log stream with handler",
+        "inputs": [
+          {
+            "label": "on log line",
+            "type": {
+              "kind": "typeRef",
+              "name": "Handler",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Log Line",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 31,
+                "offset": 30
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "streamSubscribePath",
+            "path": "/ws/logs",
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 791
+              },
+              "end": {
+                "line": 28,
+                "column": 26,
+                "offset": 816
+              }
+            }
+          },
+          {
+            "kind": "onMessageCall",
+            "callback": "on log line",
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 817
+              },
+              "end": {
+                "line": 29,
+                "column": 30,
+                "offset": 846
+              }
+            }
+          },
+          {
+            "kind": "render",
+            "value": {
+              "kind": "literal",
+              "value": "Streaming logs...",
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 847
+                },
+                "end": {
+                  "line": 30,
+                  "column": 29,
+                  "offset": 875
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 847
+              },
+              "end": {
+                "line": 30,
+                "column": 29,
+                "offset": 875
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 723
+          },
+          "end": {
+            "line": 26,
+            "column": 29,
+            "offset": 751
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "log viewer page",
+        "inputs": [],
+        "title": {
+          "kind": "literal",
+          "value": "Log Viewer",
+          "span": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 898
+            },
+            "end": {
+              "line": 33,
+              "column": 21,
+              "offset": 918
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Live subprocess stdout streamed over WebSocket",
+          "span": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 919
+            },
+            "end": {
+              "line": 34,
+              "column": 63,
+              "offset": 981
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "log stream panel",
+          "args": [],
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 982
+            },
+            "end": {
+              "line": 35,
+              "column": 33,
+              "offset": 1014
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 877
+          },
+          "end": {
+            "line": 32,
+            "column": 21,
+            "offset": 897
+          }
+        }
+      },
+      {
+        "kind": "navigation",
+        "name": "log viewer app",
+        "routes": [
+          {
+            "path": "/",
+            "pageName": "log viewer page",
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 1042
+              },
+              "end": {
+                "line": 38,
+                "column": 32,
+                "offset": 1073
+              }
+            }
+          }
+        ],
+        "bootstrapRouter": true,
+        "span": {
+          "start": {
+            "line": 37,
+            "column": 1,
+            "offset": 1016
+          },
+          "end": {
+            "line": 37,
+            "column": 26,
+            "offset": 1041
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "serve log viewer",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Log viewer ready — WebSocket at /ws/logs",
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1141
+                },
+                "end": {
+                  "line": 43,
+                  "column": 52,
+                  "offset": 1192
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1141
+              },
+              "end": {
+                "line": 43,
+                "column": 52,
+                "offset": 1192
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 41,
+            "column": 1,
+            "offset": 1094
+          },
+          "end": {
+            "line": 41,
+            "column": 25,
+            "offset": 1118
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 17,
+        "offset": 16
+      }
+    }
+  }
+}

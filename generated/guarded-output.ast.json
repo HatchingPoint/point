@@ -1,0 +1,2233 @@
+{
+  "kind": "coreProgram",
+  "module": "GuardedOutput",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "resolvePath",
+      "params": [
+        {
+          "name": "target",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "target",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "target",
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 163
+              },
+              "end": {
+                "line": 11,
+                "column": 16,
+                "offset": 178
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 163
+            },
+            "end": {
+              "line": 11,
+              "column": 16,
+              "offset": 178
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "resolve path",
+        "outputName": "path",
+        "effects": [
+          "file"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 78
+        },
+        "end": {
+          "line": 7,
+          "column": 20,
+          "offset": 97
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "guardedWritePipeline",
+      "params": [
+        {
+          "name": "target",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "target",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "__pointPipelineLog",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Handler",
+                "args": [
+                  {
+                    "kind": "typeRef",
+                    "name": "Void",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          "semanticName": "__pointPipelineLog",
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 180
+            },
+            "end": {
+              "line": 13,
+              "column": 23,
+              "offset": 202
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "expression",
+          "value": {
+            "kind": "call",
+            "callee": "pointPipelineEmitLog",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "__pointPipelineLog",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "guarded write",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "written",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "start",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 299
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 255
+            },
+            "end": {
+              "line": 16,
+              "column": 45,
+              "offset": 299
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "written",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "resolvePath",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "target",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 255
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 45,
+                      "offset": 299
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 299
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 255
+            },
+            "end": {
+              "line": 16,
+              "column": 45,
+              "offset": 299
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "call",
+                "callee": "pointIsError",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "written",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": false,
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            },
+            "right": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "call",
+                "callee": "pointGuardPathAllowed",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "written",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "outputPathsGuardPatterns",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": false,
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 299
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "written",
+              "operator": "=",
+              "value": {
+                "kind": "call",
+                "callee": "Error",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "Path outside guard output paths",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 255
+            },
+            "end": {
+              "line": 16,
+              "column": 45,
+              "offset": 299
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "pointIsError",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "written",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 299
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "guarded write",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "written",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "failure",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "written",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            }
+          ],
+          "elseBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "guarded write",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "written",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "complete",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 255
+            },
+            "end": {
+              "line": 16,
+              "column": 45,
+              "offset": 299
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "written",
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 336
+              },
+              "end": {
+                "line": 18,
+                "column": 17,
+                "offset": 352
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 336
+            },
+            "end": {
+              "line": 18,
+              "column": 17,
+              "offset": 352
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "pipeline",
+        "name": "guarded write",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 180
+        },
+        "end": {
+          "line": 13,
+          "column": 23,
+          "offset": 202
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "blockedWritePipeline",
+      "params": [
+        {
+          "name": "target",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "target",
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 21,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        },
+        {
+          "name": "__pointPipelineLog",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Handler",
+                "args": [
+                  {
+                    "kind": "typeRef",
+                    "name": "Void",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          },
+          "semanticName": "__pointPipelineLog",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 354
+            },
+            "end": {
+              "line": 20,
+              "column": 23,
+              "offset": 376
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "expression",
+          "value": {
+            "kind": "call",
+            "callee": "pointPipelineEmitLog",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "__pointPipelineLog",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "blocked write",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "written",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "start",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 429
+              },
+              "end": {
+                "line": 23,
+                "column": 45,
+                "offset": 473
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 429
+            },
+            "end": {
+              "line": 23,
+              "column": 45,
+              "offset": 473
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "written",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "resolvePath",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "target",
+                  "span": {
+                    "start": {
+                      "line": 23,
+                      "column": 1,
+                      "offset": 429
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 45,
+                      "offset": 473
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 429
+              },
+              "end": {
+                "line": 23,
+                "column": 45,
+                "offset": 473
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 429
+            },
+            "end": {
+              "line": 23,
+              "column": 45,
+              "offset": 473
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "call",
+                "callee": "pointIsError",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "written",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": false,
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            },
+            "right": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "call",
+                "callee": "pointGuardPathAllowed",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "written",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "outputPathsGuardPatterns",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": false,
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 429
+              },
+              "end": {
+                "line": 23,
+                "column": 45,
+                "offset": 473
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "written",
+              "operator": "=",
+              "value": {
+                "kind": "call",
+                "callee": "Error",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "Path outside guard output paths",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 429
+            },
+            "end": {
+              "line": 23,
+              "column": 45,
+              "offset": 473
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "pointIsError",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "written",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 429
+              },
+              "end": {
+                "line": 23,
+                "column": 45,
+                "offset": 473
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "blocked write",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "written",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "failure",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "written",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            }
+          ],
+          "elseBody": [
+            {
+              "kind": "expression",
+              "value": {
+                "kind": "call",
+                "callee": "pointPipelineEmitLog",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "name": "__pointPipelineLog",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "blocked write",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "written",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "complete",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 429
+            },
+            "end": {
+              "line": 23,
+              "column": 45,
+              "offset": 473
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "written",
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 510
+              },
+              "end": {
+                "line": 25,
+                "column": 17,
+                "offset": 526
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 510
+            },
+            "end": {
+              "line": 25,
+              "column": 17,
+              "offset": 526
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "pipeline",
+        "name": "blocked write",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 354
+        },
+        "end": {
+          "line": 20,
+          "column": 23,
+          "offset": 376
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 21,
+      "offset": 20
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "GuardedOutput",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "guard",
+        "name": "output paths",
+        "patterns": [
+          "output/**",
+          "tmp/*"
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 22
+          },
+          "end": {
+            "line": 3,
+            "column": 19,
+            "offset": 40
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "resolve path",
+        "inputs": [
+          {
+            "label": "target",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "file"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "target",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 163
+                },
+                "end": {
+                  "line": 11,
+                  "column": 16,
+                  "offset": 178
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 163
+              },
+              "end": {
+                "line": 11,
+                "column": 16,
+                "offset": 178
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 78
+          },
+          "end": {
+            "line": 7,
+            "column": 20,
+            "offset": 97
+          }
+        }
+      },
+      {
+        "kind": "pipeline",
+        "name": "guarded write",
+        "inputs": [
+          {
+            "label": "target",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "written",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "resolve path",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "target",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 255
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 299
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 299
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 299
+                }
+              }
+            },
+            "options": {
+              "fileScopeGuard": "output paths"
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 299
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "written",
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 336
+                },
+                "end": {
+                  "line": 18,
+                  "column": 17,
+                  "offset": 352
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 336
+              },
+              "end": {
+                "line": 18,
+                "column": 17,
+                "offset": 352
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 180
+          },
+          "end": {
+            "line": 13,
+            "column": 23,
+            "offset": 202
+          }
+        }
+      },
+      {
+        "kind": "pipeline",
+        "name": "blocked write",
+        "inputs": [
+          {
+            "label": "target",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "written",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "resolve path",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "target",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 45,
+                        "offset": 473
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 429
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 45,
+                    "offset": 473
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 429
+                },
+                "end": {
+                  "line": 23,
+                  "column": 45,
+                  "offset": 473
+                }
+              }
+            },
+            "options": {
+              "fileScopeGuard": "output paths"
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 429
+              },
+              "end": {
+                "line": 23,
+                "column": 45,
+                "offset": 473
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "written",
+              "span": {
+                "start": {
+                  "line": 25,
+                  "column": 1,
+                  "offset": 510
+                },
+                "end": {
+                  "line": 25,
+                  "column": 17,
+                  "offset": 526
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 510
+              },
+              "end": {
+                "line": 25,
+                "column": 17,
+                "offset": 526
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 354
+          },
+          "end": {
+            "line": 20,
+            "column": 23,
+            "offset": 376
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 21,
+        "offset": 20
+      }
+    }
+  }
+}

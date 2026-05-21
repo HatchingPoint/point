@@ -1,0 +1,5704 @@
+{
+  "kind": "coreProgram",
+  "module": "MiddlewareIntegration",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "AuthHeaders",
+      "fields": [
+        {
+          "name": "authorization",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "authorization",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 80
+            },
+            "end": {
+              "line": 8,
+              "column": 22,
+              "offset": 101
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Auth Headers"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 60
+        },
+        "end": {
+          "line": 7,
+          "column": 20,
+          "offset": 79
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "ItemQuery",
+      "fields": [
+        {
+          "name": "limit",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "limit",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 121
+            },
+            "end": {
+              "line": 11,
+              "column": 14,
+              "offset": 134
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Item Query"
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 103
+        },
+        "end": {
+          "line": 10,
+          "column": 18,
+          "offset": 120
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "CreateItemBody",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 160
+            },
+            "end": {
+              "line": 14,
+              "column": 13,
+              "offset": 172
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Create Item Body"
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 136
+        },
+        "end": {
+          "line": 13,
+          "column": 24,
+          "offset": 159
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "ItemResponse",
+      "fields": [
+        {
+          "name": "item",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "item",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 195
+            },
+            "end": {
+              "line": 17,
+              "column": 13,
+              "offset": 207
+            }
+          }
+        },
+        {
+          "name": "authenticated",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "semanticName": "authenticated",
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 208
+            },
+            "end": {
+              "line": 18,
+              "column": 22,
+              "offset": 229
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Item Response"
+      },
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 174
+        },
+        "end": {
+          "line": 16,
+          "column": 21,
+          "offset": 194
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "demoJwtSecret",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "demo-jwt-secret",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 281
+              },
+              "end": {
+                "line": 22,
+                "column": 30,
+                "offset": 310
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 281
+            },
+            "end": {
+              "line": 22,
+              "column": 30,
+              "offset": 310
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "demo jwt secret",
+        "outputName": "secret",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 231
+        },
+        "end": {
+          "line": 20,
+          "column": 28,
+          "offset": 258
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "integrationDemoToken",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "signJwtToken",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "{\"sub\":\"demo-user\"}",
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 368
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 68,
+                    "offset": 435
+                  }
+                }
+              },
+              {
+                "kind": "call",
+                "callee": "demoJwtSecret",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 26,
+                    "column": 1,
+                    "offset": 368
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 68,
+                    "offset": 435
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 368
+              },
+              "end": {
+                "line": 26,
+                "column": 68,
+                "offset": 435
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 368
+            },
+            "end": {
+              "line": 26,
+              "column": 68,
+              "offset": 435
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "integration demo token",
+        "outputName": "token",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 312
+        },
+        "end": {
+          "line": 24,
+          "column": 35,
+          "offset": 346
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "requireAuthMiddleware",
+      "params": [
+        {
+          "name": "headers",
+          "type": {
+            "kind": "typeRef",
+            "name": "AuthHeaders",
+            "args": []
+          },
+          "semanticName": "headers",
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 29,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Maybe",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "call",
+              "callee": "jwtAuthOk",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "headers",
+                    "span": {
+                      "start": {
+                        "line": 31,
+                        "column": 1,
+                        "offset": 521
+                      },
+                      "end": {
+                        "line": 31,
+                        "column": 104,
+                        "offset": 624
+                      }
+                    }
+                  },
+                  "name": "authorization",
+                  "span": {
+                    "start": {
+                      "line": 31,
+                      "column": 1,
+                      "offset": 521
+                    },
+                    "end": {
+                      "line": 31,
+                      "column": 104,
+                      "offset": 624
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "demoJwtSecret",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 31,
+                      "column": 1,
+                      "offset": 521
+                    },
+                    "end": {
+                      "line": 31,
+                      "column": 104,
+                      "offset": 624
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 521
+                },
+                "end": {
+                  "line": 31,
+                  "column": 104,
+                  "offset": 624
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": false,
+              "span": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 521
+                },
+                "end": {
+                  "line": 31,
+                  "column": 104,
+                  "offset": 624
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 31,
+                "column": 1,
+                "offset": 521
+              },
+              "end": {
+                "line": 31,
+                "column": 104,
+                "offset": 624
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "{\"error\":\"unauthorized\"}",
+                "span": {
+                  "start": {
+                    "line": 31,
+                    "column": 1,
+                    "offset": 521
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 104,
+                    "offset": 624
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 521
+                },
+                "end": {
+                  "line": 31,
+                  "column": 104,
+                  "offset": 624
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 31,
+              "column": 1,
+              "offset": 521
+            },
+            "end": {
+              "line": 31,
+              "column": 104,
+              "offset": 624
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": null,
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 625
+              },
+              "end": {
+                "line": 32,
+                "column": 24,
+                "offset": 648
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 625
+            },
+            "end": {
+              "line": 32,
+              "column": 24,
+              "offset": 648
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "middleware",
+        "name": "require auth",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 437
+        },
+        "end": {
+          "line": 28,
+          "column": 24,
+          "offset": 460
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "getItemRoute",
+      "params": [
+        {
+          "name": "headers",
+          "type": {
+            "kind": "typeRef",
+            "name": "AuthHeaders",
+            "args": []
+          },
+          "semanticName": "headers",
+          "span": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 38,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        },
+        {
+          "name": "query",
+          "type": {
+            "kind": "typeRef",
+            "name": "ItemQuery",
+            "args": []
+          },
+          "semanticName": "query",
+          "span": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 39,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "ItemResponse",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointJsonResponse",
+            "args": [
+              {
+                "kind": "record",
+                "fields": [
+                  {
+                    "name": "item",
+                    "value": {
+                      "kind": "property",
+                      "target": {
+                        "kind": "identifier",
+                        "name": "query",
+                        "span": {
+                          "start": {
+                            "line": 41,
+                            "column": 1,
+                            "offset": 805
+                          },
+                          "end": {
+                            "line": 41,
+                            "column": 57,
+                            "offset": 861
+                          }
+                        }
+                      },
+                      "name": "limit",
+                      "span": {
+                        "start": {
+                          "line": 41,
+                          "column": 1,
+                          "offset": 805
+                        },
+                        "end": {
+                          "line": 41,
+                          "column": 57,
+                          "offset": 861
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "authenticated",
+                    "value": {
+                      "kind": "literal",
+                      "value": true,
+                      "span": {
+                        "start": {
+                          "line": 41,
+                          "column": 1,
+                          "offset": 805
+                        },
+                        "end": {
+                          "line": 41,
+                          "column": 57,
+                          "offset": 861
+                        }
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 805
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 57,
+                    "offset": 861
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 805
+              },
+              "end": {
+                "line": 41,
+                "column": 57,
+                "offset": 861
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 805
+            },
+            "end": {
+              "line": 41,
+              "column": 57,
+              "offset": 861
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "get item",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 34,
+          "column": 1,
+          "offset": 650
+        },
+        "end": {
+          "line": 34,
+          "column": 15,
+          "offset": 664
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "createItemRoute",
+      "params": [
+        {
+          "name": "headers",
+          "type": {
+            "kind": "typeRef",
+            "name": "AuthHeaders",
+            "args": []
+          },
+          "semanticName": "headers",
+          "span": {
+            "start": {
+              "line": 47,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 47,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        },
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "CreateItemBody",
+            "args": []
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 48,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 48,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "ItemResponse",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointJsonResponse",
+            "args": [
+              {
+                "kind": "record",
+                "fields": [
+                  {
+                    "name": "item",
+                    "value": {
+                      "kind": "property",
+                      "target": {
+                        "kind": "identifier",
+                        "name": "body",
+                        "span": {
+                          "start": {
+                            "line": 50,
+                            "column": 1,
+                            "offset": 1027
+                          },
+                          "end": {
+                            "line": 50,
+                            "column": 66,
+                            "offset": 1092
+                          }
+                        }
+                      },
+                      "name": "name",
+                      "span": {
+                        "start": {
+                          "line": 50,
+                          "column": 1,
+                          "offset": 1027
+                        },
+                        "end": {
+                          "line": 50,
+                          "column": 66,
+                          "offset": 1092
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "authenticated",
+                    "value": {
+                      "kind": "literal",
+                      "value": true,
+                      "span": {
+                        "start": {
+                          "line": 50,
+                          "column": 1,
+                          "offset": 1027
+                        },
+                        "end": {
+                          "line": 50,
+                          "column": 66,
+                          "offset": 1092
+                        }
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1027
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 66,
+                    "offset": 1092
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 201,
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1027
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 66,
+                    "offset": 1092
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1027
+              },
+              "end": {
+                "line": 50,
+                "column": 66,
+                "offset": 1092
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 50,
+              "column": 1,
+              "offset": 1027
+            },
+            "end": {
+              "line": 50,
+              "column": 66,
+              "offset": 1092
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "create item",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 43,
+          "column": 1,
+          "offset": 863
+        },
+        "end": {
+          "line": 43,
+          "column": 18,
+          "offset": 880
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "authorizedGetOptions",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 53,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "{\"headers\":{\"authorization\":\"Bearer ",
+                "span": {
+                  "start": {
+                    "line": 55,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 55,
+                    "column": 74,
+                    "offset": 1245
+                  }
+                }
+              },
+              "right": {
+                "kind": "identifier",
+                "name": "token",
+                "span": {
+                  "start": {
+                    "line": 55,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 55,
+                    "column": 74,
+                    "offset": 1245
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 55,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 55,
+                  "column": 74,
+                  "offset": 1245
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "\"}}",
+              "span": {
+                "start": {
+                  "line": 55,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 55,
+                  "column": 74,
+                  "offset": 1245
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 1,
+                "offset": 1172
+              },
+              "end": {
+                "line": 55,
+                "column": 74,
+                "offset": 1245
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 55,
+              "column": 1,
+              "offset": 1172
+            },
+            "end": {
+              "line": 55,
+              "column": 74,
+              "offset": 1245
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "authorized get options",
+        "outputName": "options",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 52,
+          "column": 1,
+          "offset": 1094
+        },
+        "end": {
+          "line": 52,
+          "column": 35,
+          "offset": 1128
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "createItemOptions",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 58,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 58,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "{\"method\":\"POST\",\"headers\":{\"authorization\":\"Bearer ",
+                "span": {
+                  "start": {
+                    "line": 60,
+                    "column": 1,
+                    "offset": 1322
+                  },
+                  "end": {
+                    "line": 60,
+                    "column": 177,
+                    "offset": 1498
+                  }
+                }
+              },
+              "right": {
+                "kind": "identifier",
+                "name": "token",
+                "span": {
+                  "start": {
+                    "line": 60,
+                    "column": 1,
+                    "offset": 1322
+                  },
+                  "end": {
+                    "line": 60,
+                    "column": 177,
+                    "offset": 1498
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 60,
+                  "column": 1,
+                  "offset": 1322
+                },
+                "end": {
+                  "line": 60,
+                  "column": 177,
+                  "offset": 1498
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "\",\"content-type\":\"application/json\"},\"body\":\"{\\\"name\\\":\\\"notebook\\\"}\"}",
+              "span": {
+                "start": {
+                  "line": 60,
+                  "column": 1,
+                  "offset": 1322
+                },
+                "end": {
+                  "line": 60,
+                  "column": 177,
+                  "offset": 1498
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 60,
+                "column": 1,
+                "offset": 1322
+              },
+              "end": {
+                "line": 60,
+                "column": 177,
+                "offset": 1498
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 60,
+              "column": 1,
+              "offset": 1322
+            },
+            "end": {
+              "line": 60,
+              "column": 177,
+              "offset": 1498
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "create item options",
+        "outputName": "options",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 57,
+          "column": 1,
+          "offset": 1247
+        },
+        "end": {
+          "line": 57,
+          "column": 32,
+          "offset": 1278
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "assertMissingAuthResponsePassed",
+      "params": [
+        {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "snapshot",
+          "span": {
+            "start": {
+              "line": 63,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 63,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "httpAssertStatusRaw",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "snapshot",
+                  "span": {
+                    "start": {
+                      "line": 65,
+                      "column": 1,
+                      "offset": 1586
+                    },
+                    "end": {
+                      "line": 65,
+                      "column": 115,
+                      "offset": 1700
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 401,
+                  "span": {
+                    "start": {
+                      "line": 65,
+                      "column": 1,
+                      "offset": 1586
+                    },
+                    "end": {
+                      "line": 65,
+                      "column": 115,
+                      "offset": 1700
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 65,
+                  "column": 1,
+                  "offset": 1586
+                },
+                "end": {
+                  "line": 65,
+                  "column": 115,
+                  "offset": 1700
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "httpAssertJsonBodyRaw",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "snapshot",
+                  "span": {
+                    "start": {
+                      "line": 65,
+                      "column": 1,
+                      "offset": 1586
+                    },
+                    "end": {
+                      "line": 65,
+                      "column": 115,
+                      "offset": 1700
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "{\"error\":\"unauthorized\"}",
+                  "span": {
+                    "start": {
+                      "line": 65,
+                      "column": 1,
+                      "offset": 1586
+                    },
+                    "end": {
+                      "line": 65,
+                      "column": 115,
+                      "offset": 1700
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 65,
+                  "column": 1,
+                  "offset": 1586
+                },
+                "end": {
+                  "line": 65,
+                  "column": 115,
+                  "offset": 1700
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 65,
+                "column": 1,
+                "offset": 1586
+              },
+              "end": {
+                "line": 65,
+                "column": 115,
+                "offset": 1700
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 65,
+              "column": 1,
+              "offset": 1586
+            },
+            "end": {
+              "line": 65,
+              "column": 115,
+              "offset": 1700
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "assert missing auth response",
+        "outputName": "passed",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 62,
+          "column": 1,
+          "offset": 1500
+        },
+        "end": {
+          "line": 62,
+          "column": 41,
+          "offset": 1540
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "assertValidGetItemResponsePassed",
+      "params": [
+        {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "snapshot",
+          "span": {
+            "start": {
+              "line": 68,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 68,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "httpAssertStatusRaw",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "snapshot",
+                  "span": {
+                    "start": {
+                      "line": 70,
+                      "column": 1,
+                      "offset": 1790
+                    },
+                    "end": {
+                      "line": 70,
+                      "column": 129,
+                      "offset": 1918
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 200,
+                  "span": {
+                    "start": {
+                      "line": 70,
+                      "column": 1,
+                      "offset": 1790
+                    },
+                    "end": {
+                      "line": 70,
+                      "column": 129,
+                      "offset": 1918
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 70,
+                  "column": 1,
+                  "offset": 1790
+                },
+                "end": {
+                  "line": 70,
+                  "column": 129,
+                  "offset": 1918
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "httpAssertJsonBodyRaw",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "snapshot",
+                  "span": {
+                    "start": {
+                      "line": 70,
+                      "column": 1,
+                      "offset": 1790
+                    },
+                    "end": {
+                      "line": 70,
+                      "column": 129,
+                      "offset": 1918
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "{\"item\":\"book\",\"authenticated\":true}",
+                  "span": {
+                    "start": {
+                      "line": 70,
+                      "column": 1,
+                      "offset": 1790
+                    },
+                    "end": {
+                      "line": 70,
+                      "column": 129,
+                      "offset": 1918
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 70,
+                  "column": 1,
+                  "offset": 1790
+                },
+                "end": {
+                  "line": 70,
+                  "column": 129,
+                  "offset": 1918
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 70,
+                "column": 1,
+                "offset": 1790
+              },
+              "end": {
+                "line": 70,
+                "column": 129,
+                "offset": 1918
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 70,
+              "column": 1,
+              "offset": 1790
+            },
+            "end": {
+              "line": 70,
+              "column": 129,
+              "offset": 1918
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "assert valid get item response",
+        "outputName": "passed",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 67,
+          "column": 1,
+          "offset": 1702
+        },
+        "end": {
+          "line": 67,
+          "column": 43,
+          "offset": 1744
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "assertCreateItemResponsePassed",
+      "params": [
+        {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "snapshot",
+          "span": {
+            "start": {
+              "line": 73,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 73,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "httpAssertStatusRaw",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "snapshot",
+                  "span": {
+                    "start": {
+                      "line": 75,
+                      "column": 1,
+                      "offset": 2005
+                    },
+                    "end": {
+                      "line": 75,
+                      "column": 133,
+                      "offset": 2137
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 201,
+                  "span": {
+                    "start": {
+                      "line": 75,
+                      "column": 1,
+                      "offset": 2005
+                    },
+                    "end": {
+                      "line": 75,
+                      "column": 133,
+                      "offset": 2137
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 75,
+                  "column": 1,
+                  "offset": 2005
+                },
+                "end": {
+                  "line": 75,
+                  "column": 133,
+                  "offset": 2137
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "httpAssertJsonBodyRaw",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "snapshot",
+                  "span": {
+                    "start": {
+                      "line": 75,
+                      "column": 1,
+                      "offset": 2005
+                    },
+                    "end": {
+                      "line": 75,
+                      "column": 133,
+                      "offset": 2137
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "{\"item\":\"notebook\",\"authenticated\":true}",
+                  "span": {
+                    "start": {
+                      "line": 75,
+                      "column": 1,
+                      "offset": 2005
+                    },
+                    "end": {
+                      "line": 75,
+                      "column": 133,
+                      "offset": 2137
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 75,
+                  "column": 1,
+                  "offset": 2005
+                },
+                "end": {
+                  "line": 75,
+                  "column": 133,
+                  "offset": 2137
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 75,
+                "column": 1,
+                "offset": 2005
+              },
+              "end": {
+                "line": 75,
+                "column": 133,
+                "offset": 2137
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 75,
+              "column": 1,
+              "offset": 2005
+            },
+            "end": {
+              "line": 75,
+              "column": 133,
+              "offset": 2137
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "assert create item response",
+        "outputName": "passed",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 72,
+          "column": 1,
+          "offset": 1920
+        },
+        "end": {
+          "line": 72,
+          "column": 40,
+          "offset": 1959
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "fetchMissingAuthSnapshot",
+      "params": [
+        {
+          "name": "baseUrl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "base url",
+          "span": {
+            "start": {
+              "line": 78,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 78,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "httpFetchSnapshot",
+              "args": [
+                {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "identifier",
+                    "name": "baseUrl",
+                    "span": {
+                      "start": {
+                        "line": 81,
+                        "column": 1,
+                        "offset": 2239
+                      },
+                      "end": {
+                        "line": 81,
+                        "column": 71,
+                        "offset": 2309
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "literal",
+                    "value": "/items?limit=book",
+                    "span": {
+                      "start": {
+                        "line": 81,
+                        "column": 1,
+                        "offset": 2239
+                      },
+                      "end": {
+                        "line": 81,
+                        "column": 71,
+                        "offset": 2309
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 81,
+                      "column": 1,
+                      "offset": 2239
+                    },
+                    "end": {
+                      "line": 81,
+                      "column": 71,
+                      "offset": 2309
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "{}",
+                  "span": {
+                    "start": {
+                      "line": 81,
+                      "column": 1,
+                      "offset": 2239
+                    },
+                    "end": {
+                      "line": 81,
+                      "column": 71,
+                      "offset": 2309
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 81,
+                  "column": 1,
+                  "offset": 2239
+                },
+                "end": {
+                  "line": 81,
+                  "column": 71,
+                  "offset": 2309
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 81,
+                "column": 1,
+                "offset": 2239
+              },
+              "end": {
+                "line": 81,
+                "column": 71,
+                "offset": 2309
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 1,
+              "offset": 2239
+            },
+            "end": {
+              "line": 81,
+              "column": 71,
+              "offset": 2309
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "fetch missing auth snapshot",
+        "outputName": "snapshot",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 77,
+          "column": 1,
+          "offset": 2139
+        },
+        "end": {
+          "line": 77,
+          "column": 35,
+          "offset": 2173
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "fetchAuthorizedGetItemSnapshot",
+      "params": [
+        {
+          "name": "baseUrl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "base url",
+          "span": {
+            "start": {
+              "line": 84,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 84,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 85,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 85,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "httpFetchSnapshot",
+              "args": [
+                {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "identifier",
+                    "name": "baseUrl",
+                    "span": {
+                      "start": {
+                        "line": 88,
+                        "column": 1,
+                        "offset": 2438
+                      },
+                      "end": {
+                        "line": 88,
+                        "column": 94,
+                        "offset": 2531
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "literal",
+                    "value": "/items?limit=book",
+                    "span": {
+                      "start": {
+                        "line": 88,
+                        "column": 1,
+                        "offset": 2438
+                      },
+                      "end": {
+                        "line": 88,
+                        "column": 94,
+                        "offset": 2531
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 88,
+                      "column": 1,
+                      "offset": 2438
+                    },
+                    "end": {
+                      "line": 88,
+                      "column": 94,
+                      "offset": 2531
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "authorizedGetOptions",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "token",
+                      "span": {
+                        "start": {
+                          "line": 88,
+                          "column": 1,
+                          "offset": 2438
+                        },
+                        "end": {
+                          "line": 88,
+                          "column": 94,
+                          "offset": 2531
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 88,
+                      "column": 1,
+                      "offset": 2438
+                    },
+                    "end": {
+                      "line": 88,
+                      "column": 94,
+                      "offset": 2531
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 88,
+                  "column": 1,
+                  "offset": 2438
+                },
+                "end": {
+                  "line": 88,
+                  "column": 94,
+                  "offset": 2531
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 88,
+                "column": 1,
+                "offset": 2438
+              },
+              "end": {
+                "line": 88,
+                "column": 94,
+                "offset": 2531
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 88,
+              "column": 1,
+              "offset": 2438
+            },
+            "end": {
+              "line": 88,
+              "column": 94,
+              "offset": 2531
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "fetch authorized get item snapshot",
+        "outputName": "snapshot",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 83,
+          "column": 1,
+          "offset": 2311
+        },
+        "end": {
+          "line": 83,
+          "column": 42,
+          "offset": 2352
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "fetchCreateItemSnapshot",
+      "params": [
+        {
+          "name": "baseUrl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "base url",
+          "span": {
+            "start": {
+              "line": 91,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 91,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 92,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 92,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "httpFetchSnapshot",
+              "args": [
+                {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "identifier",
+                    "name": "baseUrl",
+                    "span": {
+                      "start": {
+                        "line": 95,
+                        "column": 1,
+                        "offset": 2652
+                      },
+                      "end": {
+                        "line": 95,
+                        "column": 80,
+                        "offset": 2731
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "literal",
+                    "value": "/items",
+                    "span": {
+                      "start": {
+                        "line": 95,
+                        "column": 1,
+                        "offset": 2652
+                      },
+                      "end": {
+                        "line": 95,
+                        "column": 80,
+                        "offset": 2731
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 95,
+                      "column": 1,
+                      "offset": 2652
+                    },
+                    "end": {
+                      "line": 95,
+                      "column": 80,
+                      "offset": 2731
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "createItemOptions",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "token",
+                      "span": {
+                        "start": {
+                          "line": 95,
+                          "column": 1,
+                          "offset": 2652
+                        },
+                        "end": {
+                          "line": 95,
+                          "column": 80,
+                          "offset": 2731
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 95,
+                      "column": 1,
+                      "offset": 2652
+                    },
+                    "end": {
+                      "line": 95,
+                      "column": 80,
+                      "offset": 2731
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 95,
+                  "column": 1,
+                  "offset": 2652
+                },
+                "end": {
+                  "line": 95,
+                  "column": 80,
+                  "offset": 2731
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1,
+                "offset": 2652
+              },
+              "end": {
+                "line": 95,
+                "column": 80,
+                "offset": 2731
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 95,
+              "column": 1,
+              "offset": 2652
+            },
+            "end": {
+              "line": 95,
+              "column": 80,
+              "offset": 2731
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "fetch create item snapshot",
+        "outputName": "snapshot",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 90,
+          "column": 1,
+          "offset": 2533
+        },
+        "end": {
+          "line": 90,
+          "column": 34,
+          "offset": 2566
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "integrationTestMissingAuthPassed",
+      "params": [
+        {
+          "name": "baseUrl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "base url",
+          "span": {
+            "start": {
+              "line": 98,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 98,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "assertMissingAuthResponsePassed",
+            "args": [
+              {
+                "kind": "await",
+                "value": {
+                  "kind": "call",
+                  "callee": "fetchMissingAuthSnapshot",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "baseUrl",
+                      "span": {
+                        "start": {
+                          "line": 101,
+                          "column": 1,
+                          "offset": 2833
+                        },
+                        "end": {
+                          "line": 101,
+                          "column": 80,
+                          "offset": 2912
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 101,
+                      "column": 1,
+                      "offset": 2833
+                    },
+                    "end": {
+                      "line": 101,
+                      "column": 80,
+                      "offset": 2912
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 101,
+                    "column": 1,
+                    "offset": 2833
+                  },
+                  "end": {
+                    "line": 101,
+                    "column": 80,
+                    "offset": 2912
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 101,
+                "column": 1,
+                "offset": 2833
+              },
+              "end": {
+                "line": 101,
+                "column": 80,
+                "offset": 2912
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 101,
+              "column": 1,
+              "offset": 2833
+            },
+            "end": {
+              "line": 101,
+              "column": 80,
+              "offset": 2912
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "integration test missing auth",
+        "outputName": "passed",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 97,
+          "column": 1,
+          "offset": 2733
+        },
+        "end": {
+          "line": 97,
+          "column": 37,
+          "offset": 2769
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "integrationTestValidGetItemPassed",
+      "params": [
+        {
+          "name": "baseUrl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "base url",
+          "span": {
+            "start": {
+              "line": 104,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 104,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "assertValidGetItemResponsePassed",
+            "args": [
+              {
+                "kind": "await",
+                "value": {
+                  "kind": "call",
+                  "callee": "fetchAuthorizedGetItemSnapshot",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "baseUrl",
+                      "span": {
+                        "start": {
+                          "line": 107,
+                          "column": 1,
+                          "offset": 3016
+                        },
+                        "end": {
+                          "line": 107,
+                          "column": 112,
+                          "offset": 3127
+                        }
+                      }
+                    },
+                    {
+                      "kind": "call",
+                      "callee": "integrationDemoToken",
+                      "args": [],
+                      "span": {
+                        "start": {
+                          "line": 107,
+                          "column": 1,
+                          "offset": 3016
+                        },
+                        "end": {
+                          "line": 107,
+                          "column": 112,
+                          "offset": 3127
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 107,
+                      "column": 1,
+                      "offset": 3016
+                    },
+                    "end": {
+                      "line": 107,
+                      "column": 112,
+                      "offset": 3127
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 107,
+                    "column": 1,
+                    "offset": 3016
+                  },
+                  "end": {
+                    "line": 107,
+                    "column": 112,
+                    "offset": 3127
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 107,
+                "column": 1,
+                "offset": 3016
+              },
+              "end": {
+                "line": 107,
+                "column": 112,
+                "offset": 3127
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 107,
+              "column": 1,
+              "offset": 3016
+            },
+            "end": {
+              "line": 107,
+              "column": 112,
+              "offset": 3127
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "integration test valid get item",
+        "outputName": "passed",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 103,
+          "column": 1,
+          "offset": 2914
+        },
+        "end": {
+          "line": 103,
+          "column": 39,
+          "offset": 2952
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "integrationTestCreateItemPassed",
+      "params": [
+        {
+          "name": "baseUrl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "base url",
+          "span": {
+            "start": {
+              "line": 110,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 110,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "assertCreateItemResponsePassed",
+            "args": [
+              {
+                "kind": "await",
+                "value": {
+                  "kind": "call",
+                  "callee": "fetchCreateItemSnapshot",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "baseUrl",
+                      "span": {
+                        "start": {
+                          "line": 113,
+                          "column": 1,
+                          "offset": 3228
+                        },
+                        "end": {
+                          "line": 113,
+                          "column": 102,
+                          "offset": 3329
+                        }
+                      }
+                    },
+                    {
+                      "kind": "call",
+                      "callee": "integrationDemoToken",
+                      "args": [],
+                      "span": {
+                        "start": {
+                          "line": 113,
+                          "column": 1,
+                          "offset": 3228
+                        },
+                        "end": {
+                          "line": 113,
+                          "column": 102,
+                          "offset": 3329
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 113,
+                      "column": 1,
+                      "offset": 3228
+                    },
+                    "end": {
+                      "line": 113,
+                      "column": 102,
+                      "offset": 3329
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 113,
+                    "column": 1,
+                    "offset": 3228
+                  },
+                  "end": {
+                    "line": 113,
+                    "column": 102,
+                    "offset": 3329
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 113,
+                "column": 1,
+                "offset": 3228
+              },
+              "end": {
+                "line": 113,
+                "column": 102,
+                "offset": 3329
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 113,
+              "column": 1,
+              "offset": 3228
+            },
+            "end": {
+              "line": 113,
+              "column": 102,
+              "offset": 3329
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "integration test create item",
+        "outputName": "passed",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 109,
+          "column": 1,
+          "offset": 3129
+        },
+        "end": {
+          "line": 109,
+          "column": 36,
+          "offset": 3164
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "serveMiddlewareIntegrationCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Middleware integration tests ready",
+            "span": {
+              "start": {
+                "line": 117,
+                "column": 1,
+                "offset": 3390
+              },
+              "end": {
+                "line": 117,
+                "column": 46,
+                "offset": 3435
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 117,
+              "column": 1,
+              "offset": 3390
+            },
+            "end": {
+              "line": 117,
+              "column": 46,
+              "offset": 3435
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "serve middleware integration",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 115,
+          "column": 1,
+          "offset": 3331
+        },
+        "end": {
+          "line": 115,
+          "column": 37,
+          "offset": 3367
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 29,
+      "offset": 28
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "MiddlewareIntegration",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.http",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.crypto",
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 15,
+            "offset": 14
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Auth Headers",
+        "fields": [
+          {
+            "label": "authorization",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 80
+              },
+              "end": {
+                "line": 8,
+                "column": 22,
+                "offset": 101
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 60
+          },
+          "end": {
+            "line": 7,
+            "column": 20,
+            "offset": 79
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Item Query",
+        "fields": [
+          {
+            "label": "limit",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 121
+              },
+              "end": {
+                "line": 11,
+                "column": 14,
+                "offset": 134
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 103
+          },
+          "end": {
+            "line": 10,
+            "column": 18,
+            "offset": 120
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Create Item Body",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 160
+              },
+              "end": {
+                "line": 14,
+                "column": 13,
+                "offset": 172
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 136
+          },
+          "end": {
+            "line": 13,
+            "column": 24,
+            "offset": 159
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Item Response",
+        "fields": [
+          {
+            "label": "item",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 195
+              },
+              "end": {
+                "line": 17,
+                "column": 13,
+                "offset": 207
+              }
+            }
+          },
+          {
+            "label": "authenticated",
+            "type": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 208
+              },
+              "end": {
+                "line": 18,
+                "column": 22,
+                "offset": 229
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 16,
+            "column": 1,
+            "offset": 174
+          },
+          "end": {
+            "line": 16,
+            "column": 21,
+            "offset": 194
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "demo jwt secret",
+        "inputs": [],
+        "output": {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "secret",
+            "value": {
+              "kind": "literal",
+              "value": "demo-jwt-secret",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 281
+                },
+                "end": {
+                  "line": 22,
+                  "column": 30,
+                  "offset": 310
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 281
+              },
+              "end": {
+                "line": 22,
+                "column": 30,
+                "offset": 310
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 231
+          },
+          "end": {
+            "line": 20,
+            "column": 28,
+            "offset": 258
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "integration demo token",
+        "inputs": [],
+        "output": {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "token",
+            "value": {
+              "kind": "call",
+              "callee": "signJwtToken",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "{\"sub\":\"demo-user\"}",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 368
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 68,
+                      "offset": 435
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "demoJwtSecret",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 368
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 68,
+                      "offset": 435
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 368
+                },
+                "end": {
+                  "line": 26,
+                  "column": 68,
+                  "offset": 435
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 368
+              },
+              "end": {
+                "line": 26,
+                "column": 68,
+                "offset": 435
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 24,
+            "column": 1,
+            "offset": 312
+          },
+          "end": {
+            "line": 24,
+            "column": 35,
+            "offset": 346
+          }
+        }
+      },
+      {
+        "kind": "middleware",
+        "name": "require auth",
+        "inputs": [
+          {
+            "label": "headers",
+            "type": {
+              "kind": "typeRef",
+              "name": "Auth Headers",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 29,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "call",
+                "callee": "jwtAuthOk",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "headers",
+                      "span": {
+                        "start": {
+                          "line": 31,
+                          "column": 1,
+                          "offset": 521
+                        },
+                        "end": {
+                          "line": 31,
+                          "column": 104,
+                          "offset": 624
+                        }
+                      }
+                    },
+                    "label": "authorization",
+                    "span": {
+                      "start": {
+                        "line": 31,
+                        "column": 1,
+                        "offset": 521
+                      },
+                      "end": {
+                        "line": 31,
+                        "column": 104,
+                        "offset": 624
+                      }
+                    }
+                  },
+                  {
+                    "kind": "call",
+                    "callee": "demoJwtSecret",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 31,
+                        "column": 1,
+                        "offset": 521
+                      },
+                      "end": {
+                        "line": 31,
+                        "column": 104,
+                        "offset": 624
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 31,
+                    "column": 1,
+                    "offset": 521
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 104,
+                    "offset": 624
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": false,
+                "span": {
+                  "start": {
+                    "line": 31,
+                    "column": 1,
+                    "offset": 521
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 104,
+                    "offset": 624
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 521
+                },
+                "end": {
+                  "line": 31,
+                  "column": 104,
+                  "offset": 624
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "{\"error\":\"unauthorized\"}",
+              "span": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 521
+                },
+                "end": {
+                  "line": 31,
+                  "column": 104,
+                  "offset": 624
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 31,
+                "column": 1,
+                "offset": 521
+              },
+              "end": {
+                "line": 31,
+                "column": 104,
+                "offset": 624
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": null,
+              "span": {
+                "start": {
+                  "line": 32,
+                  "column": 1,
+                  "offset": 625
+                },
+                "end": {
+                  "line": 32,
+                  "column": 24,
+                  "offset": 648
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 625
+              },
+              "end": {
+                "line": 32,
+                "column": 24,
+                "offset": 648
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 28,
+            "column": 1,
+            "offset": 437
+          },
+          "end": {
+            "line": 28,
+            "column": 24,
+            "offset": 460
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "get item",
+        "method": "GET",
+        "path": "/items",
+        "before": [
+          "require auth"
+        ],
+        "inputs": [
+          {
+            "label": "headers",
+            "type": {
+              "kind": "typeRef",
+              "name": "Auth Headers",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 38,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          },
+          {
+            "label": "query",
+            "type": {
+              "kind": "typeRef",
+              "name": "Item Query",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 39,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Item Response",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "returnJson",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "item",
+                  "value": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "query",
+                      "span": {
+                        "start": {
+                          "line": 41,
+                          "column": 1,
+                          "offset": 805
+                        },
+                        "end": {
+                          "line": 41,
+                          "column": 57,
+                          "offset": 861
+                        }
+                      }
+                    },
+                    "label": "limit",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 805
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 57,
+                        "offset": 861
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "authenticated",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 805
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 57,
+                        "offset": 861
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 805
+                },
+                "end": {
+                  "line": 41,
+                  "column": 57,
+                  "offset": 861
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 805
+              },
+              "end": {
+                "line": 41,
+                "column": 57,
+                "offset": 861
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 34,
+            "column": 1,
+            "offset": 650
+          },
+          "end": {
+            "line": 34,
+            "column": 15,
+            "offset": 664
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "create item",
+        "method": "POST",
+        "path": "/items",
+        "before": [
+          "require auth"
+        ],
+        "inputs": [
+          {
+            "label": "headers",
+            "type": {
+              "kind": "typeRef",
+              "name": "Auth Headers",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 47,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 47,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          },
+          {
+            "label": "body",
+            "type": {
+              "kind": "typeRef",
+              "name": "Create Item Body",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 48,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Item Response",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "returnJson",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "item",
+                  "value": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "body",
+                      "span": {
+                        "start": {
+                          "line": 50,
+                          "column": 1,
+                          "offset": 1027
+                        },
+                        "end": {
+                          "line": 50,
+                          "column": 66,
+                          "offset": 1092
+                        }
+                      }
+                    },
+                    "label": "name",
+                    "span": {
+                      "start": {
+                        "line": 50,
+                        "column": 1,
+                        "offset": 1027
+                      },
+                      "end": {
+                        "line": 50,
+                        "column": 66,
+                        "offset": 1092
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "authenticated",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 50,
+                        "column": 1,
+                        "offset": 1027
+                      },
+                      "end": {
+                        "line": 50,
+                        "column": 66,
+                        "offset": 1092
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1027
+                },
+                "end": {
+                  "line": 50,
+                  "column": 66,
+                  "offset": 1092
+                }
+              }
+            },
+            "status": {
+              "kind": "literal",
+              "value": 201,
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1027
+                },
+                "end": {
+                  "line": 50,
+                  "column": 66,
+                  "offset": 1092
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1027
+              },
+              "end": {
+                "line": 50,
+                "column": 66,
+                "offset": 1092
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 43,
+            "column": 1,
+            "offset": 863
+          },
+          "end": {
+            "line": 43,
+            "column": 18,
+            "offset": 880
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "authorized get options",
+        "inputs": [
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 53,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 53,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "options",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "options",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "{\"headers\":{\"authorization\":\"Bearer ",
+                  "span": {
+                    "start": {
+                      "line": 55,
+                      "column": 1,
+                      "offset": 1172
+                    },
+                    "end": {
+                      "line": 55,
+                      "column": 74,
+                      "offset": 1245
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "name",
+                  "label": "token",
+                  "span": {
+                    "start": {
+                      "line": 55,
+                      "column": 1,
+                      "offset": 1172
+                    },
+                    "end": {
+                      "line": 55,
+                      "column": 74,
+                      "offset": 1245
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 55,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 55,
+                    "column": 74,
+                    "offset": 1245
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "\"}}",
+                "span": {
+                  "start": {
+                    "line": 55,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 55,
+                    "column": 74,
+                    "offset": 1245
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 55,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 55,
+                  "column": 74,
+                  "offset": 1245
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 1,
+                "offset": 1172
+              },
+              "end": {
+                "line": 55,
+                "column": 74,
+                "offset": 1245
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 52,
+            "column": 1,
+            "offset": 1094
+          },
+          "end": {
+            "line": 52,
+            "column": 35,
+            "offset": 1128
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "create item options",
+        "inputs": [
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 58,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "options",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "options",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "{\"method\":\"POST\",\"headers\":{\"authorization\":\"Bearer ",
+                  "span": {
+                    "start": {
+                      "line": 60,
+                      "column": 1,
+                      "offset": 1322
+                    },
+                    "end": {
+                      "line": 60,
+                      "column": 177,
+                      "offset": 1498
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "name",
+                  "label": "token",
+                  "span": {
+                    "start": {
+                      "line": 60,
+                      "column": 1,
+                      "offset": 1322
+                    },
+                    "end": {
+                      "line": 60,
+                      "column": 177,
+                      "offset": 1498
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 60,
+                    "column": 1,
+                    "offset": 1322
+                  },
+                  "end": {
+                    "line": 60,
+                    "column": 177,
+                    "offset": 1498
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "\",\"content-type\":\"application/json\"},\"body\":\"{\\\"name\\\":\\\"notebook\\\"}\"}",
+                "span": {
+                  "start": {
+                    "line": 60,
+                    "column": 1,
+                    "offset": 1322
+                  },
+                  "end": {
+                    "line": 60,
+                    "column": 177,
+                    "offset": 1498
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 60,
+                  "column": 1,
+                  "offset": 1322
+                },
+                "end": {
+                  "line": 60,
+                  "column": 177,
+                  "offset": 1498
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 60,
+                "column": 1,
+                "offset": 1322
+              },
+              "end": {
+                "line": 60,
+                "column": 177,
+                "offset": 1498
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 57,
+            "column": 1,
+            "offset": 1247
+          },
+          "end": {
+            "line": 57,
+            "column": 32,
+            "offset": 1278
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "assert missing auth response",
+        "inputs": [
+          {
+            "label": "snapshot",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 63,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 63,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "passed",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "httpAssertStatusRaw",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "snapshot",
+                    "span": {
+                      "start": {
+                        "line": 65,
+                        "column": 1,
+                        "offset": 1586
+                      },
+                      "end": {
+                        "line": 65,
+                        "column": 115,
+                        "offset": 1700
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": 401,
+                    "span": {
+                      "start": {
+                        "line": 65,
+                        "column": 1,
+                        "offset": 1586
+                      },
+                      "end": {
+                        "line": 65,
+                        "column": 115,
+                        "offset": 1700
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 65,
+                    "column": 1,
+                    "offset": 1586
+                  },
+                  "end": {
+                    "line": 65,
+                    "column": 115,
+                    "offset": 1700
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "httpAssertJsonBodyRaw",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "snapshot",
+                    "span": {
+                      "start": {
+                        "line": 65,
+                        "column": 1,
+                        "offset": 1586
+                      },
+                      "end": {
+                        "line": 65,
+                        "column": 115,
+                        "offset": 1700
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "{\"error\":\"unauthorized\"}",
+                    "span": {
+                      "start": {
+                        "line": 65,
+                        "column": 1,
+                        "offset": 1586
+                      },
+                      "end": {
+                        "line": 65,
+                        "column": 115,
+                        "offset": 1700
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 65,
+                    "column": 1,
+                    "offset": 1586
+                  },
+                  "end": {
+                    "line": 65,
+                    "column": 115,
+                    "offset": 1700
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 65,
+                  "column": 1,
+                  "offset": 1586
+                },
+                "end": {
+                  "line": 65,
+                  "column": 115,
+                  "offset": 1700
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 65,
+                "column": 1,
+                "offset": 1586
+              },
+              "end": {
+                "line": 65,
+                "column": 115,
+                "offset": 1700
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 62,
+            "column": 1,
+            "offset": 1500
+          },
+          "end": {
+            "line": 62,
+            "column": 41,
+            "offset": 1540
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "assert valid get item response",
+        "inputs": [
+          {
+            "label": "snapshot",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 68,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 68,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "passed",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "httpAssertStatusRaw",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "snapshot",
+                    "span": {
+                      "start": {
+                        "line": 70,
+                        "column": 1,
+                        "offset": 1790
+                      },
+                      "end": {
+                        "line": 70,
+                        "column": 129,
+                        "offset": 1918
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": 200,
+                    "span": {
+                      "start": {
+                        "line": 70,
+                        "column": 1,
+                        "offset": 1790
+                      },
+                      "end": {
+                        "line": 70,
+                        "column": 129,
+                        "offset": 1918
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 70,
+                    "column": 1,
+                    "offset": 1790
+                  },
+                  "end": {
+                    "line": 70,
+                    "column": 129,
+                    "offset": 1918
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "httpAssertJsonBodyRaw",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "snapshot",
+                    "span": {
+                      "start": {
+                        "line": 70,
+                        "column": 1,
+                        "offset": 1790
+                      },
+                      "end": {
+                        "line": 70,
+                        "column": 129,
+                        "offset": 1918
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "{\"item\":\"book\",\"authenticated\":true}",
+                    "span": {
+                      "start": {
+                        "line": 70,
+                        "column": 1,
+                        "offset": 1790
+                      },
+                      "end": {
+                        "line": 70,
+                        "column": 129,
+                        "offset": 1918
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 70,
+                    "column": 1,
+                    "offset": 1790
+                  },
+                  "end": {
+                    "line": 70,
+                    "column": 129,
+                    "offset": 1918
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 70,
+                  "column": 1,
+                  "offset": 1790
+                },
+                "end": {
+                  "line": 70,
+                  "column": 129,
+                  "offset": 1918
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 70,
+                "column": 1,
+                "offset": 1790
+              },
+              "end": {
+                "line": 70,
+                "column": 129,
+                "offset": 1918
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 67,
+            "column": 1,
+            "offset": 1702
+          },
+          "end": {
+            "line": 67,
+            "column": 43,
+            "offset": 1744
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "assert create item response",
+        "inputs": [
+          {
+            "label": "snapshot",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 73,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 73,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "passed",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "httpAssertStatusRaw",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "snapshot",
+                    "span": {
+                      "start": {
+                        "line": 75,
+                        "column": 1,
+                        "offset": 2005
+                      },
+                      "end": {
+                        "line": 75,
+                        "column": 133,
+                        "offset": 2137
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": 201,
+                    "span": {
+                      "start": {
+                        "line": 75,
+                        "column": 1,
+                        "offset": 2005
+                      },
+                      "end": {
+                        "line": 75,
+                        "column": 133,
+                        "offset": 2137
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 75,
+                    "column": 1,
+                    "offset": 2005
+                  },
+                  "end": {
+                    "line": 75,
+                    "column": 133,
+                    "offset": 2137
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "httpAssertJsonBodyRaw",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "snapshot",
+                    "span": {
+                      "start": {
+                        "line": 75,
+                        "column": 1,
+                        "offset": 2005
+                      },
+                      "end": {
+                        "line": 75,
+                        "column": 133,
+                        "offset": 2137
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "{\"item\":\"notebook\",\"authenticated\":true}",
+                    "span": {
+                      "start": {
+                        "line": 75,
+                        "column": 1,
+                        "offset": 2005
+                      },
+                      "end": {
+                        "line": 75,
+                        "column": 133,
+                        "offset": 2137
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 75,
+                    "column": 1,
+                    "offset": 2005
+                  },
+                  "end": {
+                    "line": 75,
+                    "column": 133,
+                    "offset": 2137
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 75,
+                  "column": 1,
+                  "offset": 2005
+                },
+                "end": {
+                  "line": 75,
+                  "column": 133,
+                  "offset": 2137
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 75,
+                "column": 1,
+                "offset": 2005
+              },
+              "end": {
+                "line": 75,
+                "column": 133,
+                "offset": 2137
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 72,
+            "column": 1,
+            "offset": 1920
+          },
+          "end": {
+            "line": 72,
+            "column": 40,
+            "offset": 1959
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "fetch missing auth snapshot",
+        "inputs": [
+          {
+            "label": "base url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 78,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 78,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "httpFetchSnapshot",
+                "args": [
+                  {
+                    "kind": "binary",
+                    "operator": "+",
+                    "left": {
+                      "kind": "name",
+                      "label": "base url",
+                      "span": {
+                        "start": {
+                          "line": 81,
+                          "column": 1,
+                          "offset": 2239
+                        },
+                        "end": {
+                          "line": 81,
+                          "column": 71,
+                          "offset": 2309
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "literal",
+                      "value": "/items?limit=book",
+                      "span": {
+                        "start": {
+                          "line": 81,
+                          "column": 1,
+                          "offset": 2239
+                        },
+                        "end": {
+                          "line": 81,
+                          "column": 71,
+                          "offset": 2309
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 81,
+                        "column": 1,
+                        "offset": 2239
+                      },
+                      "end": {
+                        "line": 81,
+                        "column": 71,
+                        "offset": 2309
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "{}",
+                    "span": {
+                      "start": {
+                        "line": 81,
+                        "column": 1,
+                        "offset": 2239
+                      },
+                      "end": {
+                        "line": 81,
+                        "column": 71,
+                        "offset": 2309
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 81,
+                    "column": 1,
+                    "offset": 2239
+                  },
+                  "end": {
+                    "line": 81,
+                    "column": 71,
+                    "offset": 2309
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 81,
+                  "column": 1,
+                  "offset": 2239
+                },
+                "end": {
+                  "line": 81,
+                  "column": 71,
+                  "offset": 2309
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 81,
+                "column": 1,
+                "offset": 2239
+              },
+              "end": {
+                "line": 81,
+                "column": 71,
+                "offset": 2309
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 77,
+            "column": 1,
+            "offset": 2139
+          },
+          "end": {
+            "line": 77,
+            "column": 35,
+            "offset": 2173
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "fetch authorized get item snapshot",
+        "inputs": [
+          {
+            "label": "base url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 84,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 84,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 85,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 85,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "httpFetchSnapshot",
+                "args": [
+                  {
+                    "kind": "binary",
+                    "operator": "+",
+                    "left": {
+                      "kind": "name",
+                      "label": "base url",
+                      "span": {
+                        "start": {
+                          "line": 88,
+                          "column": 1,
+                          "offset": 2438
+                        },
+                        "end": {
+                          "line": 88,
+                          "column": 94,
+                          "offset": 2531
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "literal",
+                      "value": "/items?limit=book",
+                      "span": {
+                        "start": {
+                          "line": 88,
+                          "column": 1,
+                          "offset": 2438
+                        },
+                        "end": {
+                          "line": 88,
+                          "column": 94,
+                          "offset": 2531
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 88,
+                        "column": 1,
+                        "offset": 2438
+                      },
+                      "end": {
+                        "line": 88,
+                        "column": 94,
+                        "offset": 2531
+                      }
+                    }
+                  },
+                  {
+                    "kind": "call",
+                    "callee": "authorizedGetOptions",
+                    "args": [
+                      {
+                        "kind": "name",
+                        "label": "token",
+                        "span": {
+                          "start": {
+                            "line": 88,
+                            "column": 1,
+                            "offset": 2438
+                          },
+                          "end": {
+                            "line": 88,
+                            "column": 94,
+                            "offset": 2531
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 88,
+                        "column": 1,
+                        "offset": 2438
+                      },
+                      "end": {
+                        "line": 88,
+                        "column": 94,
+                        "offset": 2531
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 88,
+                    "column": 1,
+                    "offset": 2438
+                  },
+                  "end": {
+                    "line": 88,
+                    "column": 94,
+                    "offset": 2531
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 88,
+                  "column": 1,
+                  "offset": 2438
+                },
+                "end": {
+                  "line": 88,
+                  "column": 94,
+                  "offset": 2531
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 88,
+                "column": 1,
+                "offset": 2438
+              },
+              "end": {
+                "line": 88,
+                "column": 94,
+                "offset": 2531
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 83,
+            "column": 1,
+            "offset": 2311
+          },
+          "end": {
+            "line": 83,
+            "column": 42,
+            "offset": 2352
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "fetch create item snapshot",
+        "inputs": [
+          {
+            "label": "base url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 91,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 91,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 92,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 92,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "snapshot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "httpFetchSnapshot",
+                "args": [
+                  {
+                    "kind": "binary",
+                    "operator": "+",
+                    "left": {
+                      "kind": "name",
+                      "label": "base url",
+                      "span": {
+                        "start": {
+                          "line": 95,
+                          "column": 1,
+                          "offset": 2652
+                        },
+                        "end": {
+                          "line": 95,
+                          "column": 80,
+                          "offset": 2731
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "literal",
+                      "value": "/items",
+                      "span": {
+                        "start": {
+                          "line": 95,
+                          "column": 1,
+                          "offset": 2652
+                        },
+                        "end": {
+                          "line": 95,
+                          "column": 80,
+                          "offset": 2731
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 95,
+                        "column": 1,
+                        "offset": 2652
+                      },
+                      "end": {
+                        "line": 95,
+                        "column": 80,
+                        "offset": 2731
+                      }
+                    }
+                  },
+                  {
+                    "kind": "call",
+                    "callee": "createItemOptions",
+                    "args": [
+                      {
+                        "kind": "name",
+                        "label": "token",
+                        "span": {
+                          "start": {
+                            "line": 95,
+                            "column": 1,
+                            "offset": 2652
+                          },
+                          "end": {
+                            "line": 95,
+                            "column": 80,
+                            "offset": 2731
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 95,
+                        "column": 1,
+                        "offset": 2652
+                      },
+                      "end": {
+                        "line": 95,
+                        "column": 80,
+                        "offset": 2731
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 95,
+                    "column": 1,
+                    "offset": 2652
+                  },
+                  "end": {
+                    "line": 95,
+                    "column": 80,
+                    "offset": 2731
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 95,
+                  "column": 1,
+                  "offset": 2652
+                },
+                "end": {
+                  "line": 95,
+                  "column": 80,
+                  "offset": 2731
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1,
+                "offset": 2652
+              },
+              "end": {
+                "line": 95,
+                "column": 80,
+                "offset": 2731
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 90,
+            "column": 1,
+            "offset": 2533
+          },
+          "end": {
+            "line": 90,
+            "column": 34,
+            "offset": 2566
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "integration test missing auth",
+        "inputs": [
+          {
+            "label": "base url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 98,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 98,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "assert missing auth response",
+              "args": [
+                {
+                  "kind": "await",
+                  "value": {
+                    "kind": "call",
+                    "callee": "fetchMissingAuthSnapshot",
+                    "args": [
+                      {
+                        "kind": "name",
+                        "label": "base url",
+                        "span": {
+                          "start": {
+                            "line": 101,
+                            "column": 1,
+                            "offset": 2833
+                          },
+                          "end": {
+                            "line": 101,
+                            "column": 80,
+                            "offset": 2912
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 101,
+                        "column": 1,
+                        "offset": 2833
+                      },
+                      "end": {
+                        "line": 101,
+                        "column": 80,
+                        "offset": 2912
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 101,
+                      "column": 1,
+                      "offset": 2833
+                    },
+                    "end": {
+                      "line": 101,
+                      "column": 80,
+                      "offset": 2912
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 101,
+                  "column": 1,
+                  "offset": 2833
+                },
+                "end": {
+                  "line": 101,
+                  "column": 80,
+                  "offset": 2912
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 101,
+                "column": 1,
+                "offset": 2833
+              },
+              "end": {
+                "line": 101,
+                "column": 80,
+                "offset": 2912
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 97,
+            "column": 1,
+            "offset": 2733
+          },
+          "end": {
+            "line": 97,
+            "column": 37,
+            "offset": 2769
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "integration test valid get item",
+        "inputs": [
+          {
+            "label": "base url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 104,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 104,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "assert valid get item response",
+              "args": [
+                {
+                  "kind": "await",
+                  "value": {
+                    "kind": "call",
+                    "callee": "fetchAuthorizedGetItemSnapshot",
+                    "args": [
+                      {
+                        "kind": "name",
+                        "label": "base url",
+                        "span": {
+                          "start": {
+                            "line": 107,
+                            "column": 1,
+                            "offset": 3016
+                          },
+                          "end": {
+                            "line": 107,
+                            "column": 112,
+                            "offset": 3127
+                          }
+                        }
+                      },
+                      {
+                        "kind": "call",
+                        "callee": "integrationDemoToken",
+                        "args": [],
+                        "span": {
+                          "start": {
+                            "line": 107,
+                            "column": 1,
+                            "offset": 3016
+                          },
+                          "end": {
+                            "line": 107,
+                            "column": 112,
+                            "offset": 3127
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 107,
+                        "column": 1,
+                        "offset": 3016
+                      },
+                      "end": {
+                        "line": 107,
+                        "column": 112,
+                        "offset": 3127
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 107,
+                      "column": 1,
+                      "offset": 3016
+                    },
+                    "end": {
+                      "line": 107,
+                      "column": 112,
+                      "offset": 3127
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 107,
+                  "column": 1,
+                  "offset": 3016
+                },
+                "end": {
+                  "line": 107,
+                  "column": 112,
+                  "offset": 3127
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 107,
+                "column": 1,
+                "offset": 3016
+              },
+              "end": {
+                "line": 107,
+                "column": 112,
+                "offset": 3127
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 103,
+            "column": 1,
+            "offset": 2914
+          },
+          "end": {
+            "line": 103,
+            "column": 39,
+            "offset": 2952
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "integration test create item",
+        "inputs": [
+          {
+            "label": "base url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 110,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 110,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "assert create item response",
+              "args": [
+                {
+                  "kind": "await",
+                  "value": {
+                    "kind": "call",
+                    "callee": "fetchCreateItemSnapshot",
+                    "args": [
+                      {
+                        "kind": "name",
+                        "label": "base url",
+                        "span": {
+                          "start": {
+                            "line": 113,
+                            "column": 1,
+                            "offset": 3228
+                          },
+                          "end": {
+                            "line": 113,
+                            "column": 102,
+                            "offset": 3329
+                          }
+                        }
+                      },
+                      {
+                        "kind": "call",
+                        "callee": "integrationDemoToken",
+                        "args": [],
+                        "span": {
+                          "start": {
+                            "line": 113,
+                            "column": 1,
+                            "offset": 3228
+                          },
+                          "end": {
+                            "line": 113,
+                            "column": 102,
+                            "offset": 3329
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 113,
+                        "column": 1,
+                        "offset": 3228
+                      },
+                      "end": {
+                        "line": 113,
+                        "column": 102,
+                        "offset": 3329
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 113,
+                      "column": 1,
+                      "offset": 3228
+                    },
+                    "end": {
+                      "line": 113,
+                      "column": 102,
+                      "offset": 3329
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 113,
+                  "column": 1,
+                  "offset": 3228
+                },
+                "end": {
+                  "line": 113,
+                  "column": 102,
+                  "offset": 3329
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 113,
+                "column": 1,
+                "offset": 3228
+              },
+              "end": {
+                "line": 113,
+                "column": 102,
+                "offset": 3329
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 109,
+            "column": 1,
+            "offset": 3129
+          },
+          "end": {
+            "line": 109,
+            "column": 36,
+            "offset": 3164
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "serve middleware integration",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Middleware integration tests ready",
+              "span": {
+                "start": {
+                  "line": 117,
+                  "column": 1,
+                  "offset": 3390
+                },
+                "end": {
+                  "line": 117,
+                  "column": 46,
+                  "offset": 3435
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 117,
+                "column": 1,
+                "offset": 3390
+              },
+              "end": {
+                "line": 117,
+                "column": 46,
+                "offset": 3435
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 115,
+            "column": 1,
+            "offset": 3331
+          },
+          "end": {
+            "line": 115,
+            "column": 37,
+            "offset": 3367
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 29,
+        "offset": 28
+      }
+    }
+  }
+}

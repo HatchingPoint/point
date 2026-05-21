@@ -1,0 +1,493 @@
+{
+  "kind": "coreProgram",
+  "module": "AiDemo",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "canCallOpenaiPolicy",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "!=",
+            "left": {
+              "kind": "identifier",
+              "name": "prompt",
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 71
+                },
+                "end": {
+                  "line": 7,
+                  "column": 23,
+                  "offset": 93
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "",
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 71
+                },
+                "end": {
+                  "line": 7,
+                  "column": 23,
+                  "offset": 93
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 71
+              },
+              "end": {
+                "line": 7,
+                "column": 23,
+                "offset": 93
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 71
+            },
+            "end": {
+              "line": 7,
+              "column": 23,
+              "offset": 93
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "policy",
+        "name": "can call openai",
+        "outputName": "policy",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 27
+        },
+        "end": {
+          "line": 5,
+          "column": 23,
+          "offset": 49
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "canCallAnthropicPolicy",
+      "params": [
+        {
+          "name": "prompt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "prompt",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "!=",
+            "left": {
+              "kind": "identifier",
+              "name": "prompt",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 142
+                },
+                "end": {
+                  "line": 11,
+                  "column": 23,
+                  "offset": 164
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 142
+                },
+                "end": {
+                  "line": 11,
+                  "column": 23,
+                  "offset": 164
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 142
+              },
+              "end": {
+                "line": 11,
+                "column": 23,
+                "offset": 164
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 142
+            },
+            "end": {
+              "line": 11,
+              "column": 23,
+              "offset": 164
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "policy",
+        "name": "can call anthropic",
+        "outputName": "policy",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 95
+        },
+        "end": {
+          "line": 9,
+          "column": 26,
+          "offset": 120
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 14,
+      "offset": 13
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "AiDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.ai",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 11,
+            "offset": 10
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "policy",
+        "name": "can call openai",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "require",
+            "condition": {
+              "kind": "binary",
+              "operator": "!=",
+              "left": {
+                "kind": "name",
+                "label": "prompt",
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 71
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 23,
+                    "offset": 93
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 71
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 23,
+                    "offset": 93
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 71
+                },
+                "end": {
+                  "line": 7,
+                  "column": 23,
+                  "offset": 93
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 71
+              },
+              "end": {
+                "line": 7,
+                "column": 23,
+                "offset": 93
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 27
+          },
+          "end": {
+            "line": 5,
+            "column": 23,
+            "offset": 49
+          }
+        }
+      },
+      {
+        "kind": "policy",
+        "name": "can call anthropic",
+        "inputs": [
+          {
+            "label": "prompt",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "require",
+            "condition": {
+              "kind": "binary",
+              "operator": "!=",
+              "left": {
+                "kind": "name",
+                "label": "prompt",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 142
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 23,
+                    "offset": 164
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 142
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 23,
+                    "offset": 164
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 142
+                },
+                "end": {
+                  "line": 11,
+                  "column": 23,
+                  "offset": 164
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 142
+              },
+              "end": {
+                "line": 11,
+                "column": 23,
+                "offset": 164
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 95
+          },
+          "end": {
+            "line": 9,
+            "column": 26,
+            "offset": 120
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 14,
+        "offset": 13
+      }
+    }
+  }
+}
