@@ -58,8 +58,16 @@ export async function publishNpmPackage(token: string, options: { verifyAuth?: b
 }
 
 export async function publishMarketplaceExtension(pat: string): Promise<void> {
+	const root = repoRoot();
+	const extDir = join(root, "packages/point-vscode");
 	console.log("Packaging VS Code extension...");
-	await Bun.$`bun run vscode:package`.cwd(repoRoot());
-	console.log("Publishing VS Code extension to marketplace...");
-	await Bun.$`bunx --yes @vscode/vsce publish --pat ${pat}`.cwd(join(repoRoot(), "packages/point-vscode"));
+	await Bun.$`bun run vscode:package`.cwd(root);
+	const pkg = JSON.parse(readFileSync(join(extDir, "package.json"), "utf8")) as { name: string; version: string };
+	const vsixPath = join(extDir, `${pkg.name}-${pkg.version}.vsix`);
+	if (!existsSync(vsixPath)) {
+		throw new Error(`VSIX not found: ${vsixPath}`);
+	}
+	console.log(`Publishing ${vsixPath} to marketplace...`);
+	// Publish the pre-built VSIX — vsce publish without --packagePath repackages the monorepo and fails.
+	await Bun.$`bunx --yes @vscode/vsce publish --packagePath ${vsixPath} --pat ${pat}`.cwd(extDir);
 }

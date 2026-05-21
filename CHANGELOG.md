@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.9
+
+### Added
+
+- Fix Marketplace publish by uploading pre-built VSIX instead of repackaging monorepo.
+
 ## 0.0.8
 
 ### Added

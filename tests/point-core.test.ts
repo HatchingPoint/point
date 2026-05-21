@@ -306,6 +306,8 @@ command hello cli
 		expect(npmScript).toContain("publishNpmPackage");
 		expect(await Bun.file("scripts/publish-marketplace.ts").exists()).toBe(true);
 		expect(await Bun.file("scripts/bump-version.ts").exists()).toBe(true);
+		const publishLib = await Bun.file("scripts/publish-lib.ts").text();
+		expect(publishLib).toContain("--packagePath");
 		const workflow = await Bun.file(".github/workflows/publish.yml").text();
 		expect(workflow).toContain("NPM_TOKEN");
 		expect(workflow).toContain("VSCE_PAT");
