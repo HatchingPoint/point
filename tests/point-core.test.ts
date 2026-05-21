@@ -345,6 +345,22 @@ command hello cli
 		expect(generated).toContain("openDashboardWorkflow");
 	});
 
+	test("external starter template checks, builds, and runs without hand-written TypeScript", async () => {
+		const app = "examples/starter-template/src/app.point";
+		await Bun.$`bun packages/point/src/cli.ts check ${app}`.quiet();
+		await Bun.$`bun packages/point/src/cli.ts build ${app} generated/starter-app.js`.quiet();
+		const run = await Bun.$`bun packages/point/src/cli.ts run ${app}`.quiet();
+		expect(run.stdout.toString().trim()).toBe("Hello from Point starter");
+		const manifest = await Bun.file("examples/starter-template/point.json").json();
+		expect(manifest.name).toBe("point-starter");
+		expect(manifest.version).toBe("0.1.0");
+		const generated = await Bun.file("generated/starter-app.js").text();
+		expect(generated).toContain("annualPrice");
+		expect(generated).toContain("pricingTierLabel");
+		expect(generated).toContain("getHealthRoute");
+		expect(await Bun.file("examples/starter-template/README.md").exists()).toBe(true);
+	});
+
 	test("dogfood and external adopter modules check and build", async () => {
 		for (const fixture of [
 			"examples/adopters/hatchingpoint/store-readiness.point",
