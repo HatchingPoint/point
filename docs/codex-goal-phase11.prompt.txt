@@ -1,0 +1,14 @@
+You are working on Point Phase 11 Wave 2: ecosystem, stdlib shims, richer views.
+
+Read first:
+- docs/phase11-plan.md
+- docs/codex-goal-phase11.md
+- docs/codex-progress.md
+
+Hard rules:
+- Public .point stays semantic
+- Run bun run ci before done
+- One goal per session; append checkpoint to docs/codex-progress.md
+- Commit on green CI with message from the goal doc
+
+Pick goal: P10-5, P10-2, P11-1, or P11-2 from docs/codex-goal-phase11.md
