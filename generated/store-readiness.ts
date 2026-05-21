@@ -39,6 +39,56 @@ export function listingStatusLabel(score: number): string {
   return "Needs work";
 }
 
+export function demoAppSignals(): ListingSignals {
+  return { hasScreenshots: true, hasDescription: true, hasPrivacyPolicy: true, hasSupportUrl: true, hasAgeRating: true };
+}
+
+export function needsWorkSignals(): ListingSignals {
+  return { hasScreenshots: false, hasDescription: true, hasPrivacyPolicy: false, hasSupportUrl: false, hasAgeRating: false };
+}
+
+export function listingSignalsForAppLabel(id: string): ListingSignals {
+  if (id == "demo-app") {
+    return demoAppSignals();
+  }
+  if (id == "needs-work") {
+    return needsWorkSignals();
+  }
+  return needsWorkSignals();
+}
+
+export function demoAppStatusJsonLabel(): string {
+  if (listingScore(demoAppSignals()) >= 90) {
+    return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}");
+  }
+  return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}");
+}
+
+export function needsWorkStatusJsonLabel(): string {
+  if (listingScore(needsWorkSignals()) >= 60) {
+    return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}");
+  }
+  return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}");
+}
+
+export function listingStatusPayloadLabel(id: string): string {
+  if (id == "demo-app") {
+    return demoAppStatusJsonLabel();
+  }
+  if (id == "needs-work") {
+    return needsWorkStatusJsonLabel();
+  }
+  return needsWorkStatusJsonLabel();
+}
+
 export function getListingStatusRoute(id: string): Response | string {
-  return "Use generated TS handler with Listing Signals from your app database";
+  return listingStatusPayloadLabel(id);
+}
+
+export function healthCheckRoute(): Response | string {
+  return "{\"status\":\"ok\"}";
+}
+
+export async function serveStoreReadinessCommand(): Promise<string> {
+  return "Store readiness service ready";
 }

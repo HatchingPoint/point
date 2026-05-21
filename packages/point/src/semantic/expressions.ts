@@ -138,9 +138,8 @@ function parsePrimaryExpression(source: string, context: PointSemanticExpression
 		return parseRecordExpression(trimmed, context);
 	}
 	if (trimmed.startsWith('"')) {
-		const end = trimmed.indexOf('"', 1);
-		const value = JSON.parse(trimmed.slice(0, end + 1));
-		return { expression: { kind: "literal", value }, consumed: trimmed.slice(end + 1) };
+		const literal = parseJsonStringLiteral(trimmed);
+		return { expression: { kind: "literal", value: literal.value }, consumed: literal.consumed };
 	}
 	if (/^(true|false|null|none)\b/.test(trimmed)) {
 		const match = trimmed.match(/^(true|false|null|none)\b/);
@@ -181,6 +180,24 @@ function parsePrimaryExpression(source: string, context: PointSemanticExpression
 		return { expression, consumed };
 	}
 	throw new Error(`Unable to parse semantic expression: ${source}`);
+}
+
+function parseJsonStringLiteral(source: string): { value: string; consumed: string } {
+	if (!source.startsWith('"')) throw new Error(`Expected string literal: ${source}`);
+	let index = 1;
+	while (index < source.length) {
+		const char = source[index];
+		if (char === "\\") {
+			index += 2;
+			continue;
+		}
+		if (char === '"') {
+			const value = JSON.parse(source.slice(0, index + 1)) as string;
+			return { value, consumed: source.slice(index + 1) };
+		}
+		index += 1;
+	}
+	throw new Error(`Unterminated string literal: ${source}`);
 }
 
 function parseListExpression(source: string, context: PointSemanticExpressionContext): { expression: PointSemanticExpression; consumed: string } {

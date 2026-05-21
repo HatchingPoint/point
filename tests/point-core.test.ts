@@ -335,9 +335,14 @@ command hello cli
 		]) {
 			await Bun.$`bun packages/point/src/cli.ts check ${fixture}`.quiet();
 			const base = fixture.split("/").pop()?.replace(/\.point$/, "") ?? "program";
+			await Bun.$`bun packages/point/src/cli.ts build ${fixture} generated/${base}.js`.quiet();
 			await Bun.$`bun packages/point/src/cli.ts build-ts ${fixture} generated/${base}.ts`.quiet();
+			expect(await Bun.file(`generated/${base}.js`).text()).toContain("export");
 			expect(await Bun.file(`generated/${base}.ts`).text()).toContain("export");
 		}
+		const storeReadiness = await Bun.file("generated/store-readiness.js").text();
+		expect(storeReadiness).toContain("createPointRouteFetchHandler");
+		expect(storeReadiness).toContain("listingStatusPayloadLabel");
 		expect(await Bun.file("examples/adopters/hatchingpoint/README.md").exists()).toBe(true);
 		expect(await Bun.file("examples/adopters/starter-labs/README.md").exists()).toBe(true);
 	});

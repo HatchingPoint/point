@@ -2,16 +2,16 @@
 
 App Store listing readiness scoring used internally for Hatching Point app templates and client apps.
 
-## Modules
+## Module
 
-`store-readiness.point` — pure Point logic:
+`store-readiness.point` — Point logic plus a runnable Bun HTTP service:
 
 - **Listing Signals** record — what a listing must have
 - **listing score** rule — weighted readiness score
 - **listing status** label — human-readable status
-- **get listing status** route — HTTP stub for Hono integration
-
-`readiness-widget.point` — same listing logic plus a **readiness widget** view that emits a React component (`readinessWidgetView`). Use for interactive docs and Next.js embeds; see [Applications — view](/point/language/applications) for the embed recipe.
+- **get listing status** route — JSON readiness payload per app id
+- **health check** route — service health JSON
+- **serve store readiness** command — starts the Bun HTTP server
 
 ## Commands
 
@@ -19,20 +19,51 @@ From the repo root (monorepo dev):
 
 ```bash
 bun packages/point/src/cli.ts check examples/adopters/hatchingpoint/store-readiness.point
-bun packages/point/src/cli.ts build-ts examples/adopters/hatchingpoint/store-readiness.point generated/store-readiness.ts
-bun packages/point/src/cli.ts build-ts examples/adopters/hatchingpoint/readiness-widget.point generated/readiness-widget.ts
+bun packages/point/src/cli.ts build examples/adopters/hatchingpoint/store-readiness.point generated/store-readiness.js
+PORT=3456 bun packages/point/src/cli.ts run examples/adopters/hatchingpoint/store-readiness.point
 ```
 
 With global install:
 
 ```bash
 point check examples/adopters/hatchingpoint/store-readiness.point
-point build-ts examples/adopters/hatchingpoint/store-readiness.point generated/store-readiness.ts
+point build examples/adopters/hatchingpoint/store-readiness.point generated/store-readiness.js
+PORT=3456 point run examples/adopters/hatchingpoint/store-readiness.point
 ```
 
-## Integration
+Only `.point` source and generated JavaScript are part of this module — no hand-written TypeScript.
 
-Import generated TypeScript into a Bun/Hono service. Map your app database fields into `Listing Signals`, call the lowered `listingScore` function, then `listingStatusLabel`.
+## HTTP API
+
+After starting the service (default port `3456`, override with `PORT`):
+
+```bash
+curl -s http://localhost:3456/health
+curl -s http://localhost:3456/apps/demo-app/listing-status
+curl -s http://localhost:3456/apps/needs-work/listing-status
+```
+
+Example responses:
+
+```json
+{"status":"ok"}
+```
+
+```json
+{"id":"demo-app","score":100,"status":"Ready to submit"}
+```
+
+```json
+{"id":"needs-work","score":20,"status":"Needs work"}
+```
+
+Demo app ids are defined in Point source (`demo-app`, `needs-work`). Routes call **listing score** and **listing status** — not placeholder strings.
+
+## Integration test
+
+```bash
+bun test tests/store-readiness-service.test.ts
+```
 
 ## Agent workflow
 

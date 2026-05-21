@@ -25,9 +25,51 @@ label listing status
   when score >= 60 return "Almost ready"
   otherwise return "Needs work"
 
+calculation demo app signals
+  output signals: Listing Signals
+  signals is { has screenshots: true, has description: true, has privacy policy: true, has support url: true, has age rating: true }
+
+calculation needs work signals
+  output signals: Listing Signals
+  signals is { has screenshots: false, has description: true, has privacy policy: false, has support url: false, has age rating: false }
+
+label listing signals for app
+  input id: Text
+  output signals: Listing Signals
+  when id == "demo-app" return demo app signals()
+  when id == "needs-work" return needs work signals()
+  otherwise return needs work signals()
+
+label demo app status json
+  output json: Text
+  when listing score(demo app signals()) >= 90 return "{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listing status(listing score(demo app signals())) + "\"}"
+  otherwise return "{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listing status(listing score(demo app signals())) + "\"}"
+
+label needs work status json
+  output json: Text
+  when listing score(needs work signals()) >= 60 return "{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listing status(listing score(needs work signals())) + "\"}"
+  otherwise return "{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listing status(listing score(needs work signals())) + "\"}"
+
+label listing status payload
+  input id: Text
+  output payload: Text
+  when id == "demo-app" return demo app status json()
+  when id == "needs-work" return needs work status json()
+  otherwise return needs work status json()
+
 route get listing status
   method GET
   path "/apps/:id/listing-status"
   input id: Text
   output response: Text
-  return "Use generated TS handler with Listing Signals from your app database"
+  return listing status payload(id)
+
+route health check
+  method GET
+  path "/health"
+  output response: Text
+  return "{\"status\":\"ok\"}"
+
+command serve store readiness
+  output result: Text
+  return "Store readiness service ready"

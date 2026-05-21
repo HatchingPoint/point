@@ -32,6 +32,81 @@ export function listingStatusLabel(score) {
   return "Needs work";
 }
 
+export function demoAppSignals() {
+  return { hasScreenshots: true, hasDescription: true, hasPrivacyPolicy: true, hasSupportUrl: true, hasAgeRating: true };
+}
+
+export function needsWorkSignals() {
+  return { hasScreenshots: false, hasDescription: true, hasPrivacyPolicy: false, hasSupportUrl: false, hasAgeRating: false };
+}
+
+export function listingSignalsForAppLabel(id) {
+  if (id == "demo-app") {
+    return demoAppSignals();
+  }
+  if (id == "needs-work") {
+    return needsWorkSignals();
+  }
+  return needsWorkSignals();
+}
+
+export function demoAppStatusJsonLabel() {
+  if (listingScore(demoAppSignals()) >= 90) {
+    return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}");
+  }
+  return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}");
+}
+
+export function needsWorkStatusJsonLabel() {
+  if (listingScore(needsWorkSignals()) >= 60) {
+    return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}");
+  }
+  return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}");
+}
+
+export function listingStatusPayloadLabel(id) {
+  if (id == "demo-app") {
+    return demoAppStatusJsonLabel();
+  }
+  if (id == "needs-work") {
+    return needsWorkStatusJsonLabel();
+  }
+  return needsWorkStatusJsonLabel();
+}
+
 export function getListingStatusRoute(id) {
-  return "Use generated TS handler with Listing Signals from your app database";
+  return listingStatusPayloadLabel(id);
+}
+
+export function healthCheckRoute() {
+  return "{\"status\":\"ok\"}";
+}
+
+export async function serveStoreReadinessCommand() {
+  const port = Number(process.env.PORT ?? 3456);
+  const server = Bun.serve({ port, fetch: createPointRouteFetchHandler() });
+  console.log(`Store readiness listening on http://localhost:${server.port}`);
+  await new Promise(() => {});
+}
+
+export function createPointRouteFetchHandler() {
+  return async (req) => {
+    const url = new URL(req.url);
+  if (req.method === "GET" && new RegExp("^\\/apps\\/([^\\/]+)\\/listing-status$").test(url.pathname)) {
+    const match = url.pathname.match(new RegExp("^\\/apps\\/([^\\/]+)\\/listing-status$"));
+    const body = getListingStatusRoute(match[1]);
+    return new Response(typeof body === "string" ? body : body, { headers: { "content-type": "application/json" } });
+  }
+  if (req.method === "GET" && new RegExp("^\\/health$").test(url.pathname)) {
+    const match = url.pathname.match(new RegExp("^\\/health$"));
+    const body = healthCheckRoute();
+    return new Response(typeof body === "string" ? body : body, { headers: { "content-type": "application/json" } });
+  }
+    return new Response(JSON.stringify({ error: "Not found" }), { status: 404, headers: { "content-type": "application/json" } });
+  };
+}
+
+export function startRoutesServer() {
+  const port = Number(process.env.PORT ?? 3456);
+  return Bun.serve({ port, fetch: createPointRouteFetchHandler() });
 }

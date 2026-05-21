@@ -944,6 +944,1638 @@
     },
     {
       "kind": "function",
+      "name": "demoAppSignals",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "ListingSignals",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "hasScreenshots",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 704
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 133,
+                      "offset": 836
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasDescription",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 704
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 133,
+                      "offset": 836
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasPrivacyPolicy",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 704
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 133,
+                      "offset": 836
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasSupportUrl",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 704
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 133,
+                      "offset": 836
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasAgeRating",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 704
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 133,
+                      "offset": 836
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 704
+              },
+              "end": {
+                "line": 30,
+                "column": 133,
+                "offset": 836
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 704
+            },
+            "end": {
+              "line": 30,
+              "column": 133,
+              "offset": 836
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "demo app signals",
+        "outputName": "signals",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 641
+        },
+        "end": {
+          "line": 28,
+          "column": 29,
+          "offset": 669
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "needsWorkSignals",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "ListingSignals",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "hasScreenshots",
+                "value": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 903
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 137,
+                      "offset": 1039
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasDescription",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 903
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 137,
+                      "offset": 1039
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasPrivacyPolicy",
+                "value": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 903
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 137,
+                      "offset": 1039
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasSupportUrl",
+                "value": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 903
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 137,
+                      "offset": 1039
+                    }
+                  }
+                }
+              },
+              {
+                "name": "hasAgeRating",
+                "value": {
+                  "kind": "literal",
+                  "value": false,
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 903
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 137,
+                      "offset": 1039
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 903
+              },
+              "end": {
+                "line": 34,
+                "column": 137,
+                "offset": 1039
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 903
+            },
+            "end": {
+              "line": 34,
+              "column": 137,
+              "offset": 1039
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "needs work signals",
+        "outputName": "signals",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 838
+        },
+        "end": {
+          "line": 32,
+          "column": 31,
+          "offset": 868
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "listingSignalsForAppLabel",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 37,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "ListingSignals",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 1122
+                },
+                "end": {
+                  "line": 39,
+                  "column": 50,
+                  "offset": 1171
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "demo-app",
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 1122
+                },
+                "end": {
+                  "line": 39,
+                  "column": 50,
+                  "offset": 1171
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 1122
+              },
+              "end": {
+                "line": 39,
+                "column": 50,
+                "offset": 1171
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "demoAppSignals",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 1122
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 50,
+                    "offset": 1171
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 1122
+                },
+                "end": {
+                  "line": 39,
+                  "column": 50,
+                  "offset": 1171
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 1122
+            },
+            "end": {
+              "line": 39,
+              "column": 50,
+              "offset": 1171
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 40,
+                  "column": 54,
+                  "offset": 1225
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "needs-work",
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 40,
+                  "column": 54,
+                  "offset": 1225
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1172
+              },
+              "end": {
+                "line": 40,
+                "column": 54,
+                "offset": 1225
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "needsWorkSignals",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 54,
+                    "offset": 1225
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 40,
+                  "column": 54,
+                  "offset": 1225
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 1172
+            },
+            "end": {
+              "line": 40,
+              "column": 54,
+              "offset": 1225
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "needsWorkSignals",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 1226
+              },
+              "end": {
+                "line": 41,
+                "column": 40,
+                "offset": 1265
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 1226
+            },
+            "end": {
+              "line": 41,
+              "column": 40,
+              "offset": 1265
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "listing signals for app",
+        "outputName": "signals",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 1041
+        },
+        "end": {
+          "line": 36,
+          "column": 30,
+          "offset": 1070
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "demoAppStatusJsonLabel",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "call",
+              "callee": "listingScore",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "demoAppSignals",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 45,
+                      "column": 1,
+                      "offset": 1314
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 165,
+                      "offset": 1478
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 45,
+                  "column": 1,
+                  "offset": 1314
+                },
+                "end": {
+                  "line": 45,
+                  "column": 165,
+                  "offset": 1478
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 90,
+              "span": {
+                "start": {
+                  "line": 45,
+                  "column": 1,
+                  "offset": 1314
+                },
+                "end": {
+                  "line": 45,
+                  "column": 165,
+                  "offset": 1478
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 45,
+                "column": 1,
+                "offset": 1314
+              },
+              "end": {
+                "line": 45,
+                "column": 165,
+                "offset": 1478
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "literal",
+                    "value": "{\"id\":\"demo-app\",\"score\":100,\"status\":\"",
+                    "span": {
+                      "start": {
+                        "line": 45,
+                        "column": 1,
+                        "offset": 1314
+                      },
+                      "end": {
+                        "line": 45,
+                        "column": 165,
+                        "offset": 1478
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "call",
+                    "callee": "listingStatusLabel",
+                    "args": [
+                      {
+                        "kind": "call",
+                        "callee": "listingScore",
+                        "args": [
+                          {
+                            "kind": "call",
+                            "callee": "demoAppSignals",
+                            "args": [],
+                            "span": {
+                              "start": {
+                                "line": 45,
+                                "column": 1,
+                                "offset": 1314
+                              },
+                              "end": {
+                                "line": 45,
+                                "column": 165,
+                                "offset": 1478
+                              }
+                            }
+                          }
+                        ],
+                        "span": {
+                          "start": {
+                            "line": 45,
+                            "column": 1,
+                            "offset": 1314
+                          },
+                          "end": {
+                            "line": 45,
+                            "column": 165,
+                            "offset": 1478
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 45,
+                        "column": 1,
+                        "offset": 1314
+                      },
+                      "end": {
+                        "line": 45,
+                        "column": 165,
+                        "offset": 1478
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 45,
+                      "column": 1,
+                      "offset": 1314
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 165,
+                      "offset": 1478
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": "\"}",
+                  "span": {
+                    "start": {
+                      "line": 45,
+                      "column": 1,
+                      "offset": 1314
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 165,
+                      "offset": 1478
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 45,
+                    "column": 1,
+                    "offset": 1314
+                  },
+                  "end": {
+                    "line": 45,
+                    "column": 165,
+                    "offset": 1478
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 45,
+                  "column": 1,
+                  "offset": 1314
+                },
+                "end": {
+                  "line": 45,
+                  "column": 165,
+                  "offset": 1478
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 45,
+              "column": 1,
+              "offset": 1314
+            },
+            "end": {
+              "line": 45,
+              "column": 165,
+              "offset": 1478
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "{\"id\":\"demo-app\",\"score\":100,\"status\":\"",
+                "span": {
+                  "start": {
+                    "line": 46,
+                    "column": 1,
+                    "offset": 1479
+                  },
+                  "end": {
+                    "line": 46,
+                    "column": 130,
+                    "offset": 1608
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "listingStatusLabel",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "listingScore",
+                    "args": [
+                      {
+                        "kind": "call",
+                        "callee": "demoAppSignals",
+                        "args": [],
+                        "span": {
+                          "start": {
+                            "line": 46,
+                            "column": 1,
+                            "offset": 1479
+                          },
+                          "end": {
+                            "line": 46,
+                            "column": 130,
+                            "offset": 1608
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 46,
+                        "column": 1,
+                        "offset": 1479
+                      },
+                      "end": {
+                        "line": 46,
+                        "column": 130,
+                        "offset": 1608
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 46,
+                    "column": 1,
+                    "offset": 1479
+                  },
+                  "end": {
+                    "line": 46,
+                    "column": 130,
+                    "offset": 1608
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 46,
+                  "column": 1,
+                  "offset": 1479
+                },
+                "end": {
+                  "line": 46,
+                  "column": 130,
+                  "offset": 1608
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "\"}",
+              "span": {
+                "start": {
+                  "line": 46,
+                  "column": 1,
+                  "offset": 1479
+                },
+                "end": {
+                  "line": 46,
+                  "column": 130,
+                  "offset": 1608
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 46,
+                "column": 1,
+                "offset": 1479
+              },
+              "end": {
+                "line": 46,
+                "column": 130,
+                "offset": 1608
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 46,
+              "column": 1,
+              "offset": 1479
+            },
+            "end": {
+              "line": 46,
+              "column": 130,
+              "offset": 1608
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "demo app status json",
+        "outputName": "json",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 43,
+          "column": 1,
+          "offset": 1267
+        },
+        "end": {
+          "line": 43,
+          "column": 27,
+          "offset": 1293
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "needsWorkStatusJsonLabel",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "call",
+              "callee": "listingScore",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "needsWorkSignals",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 50,
+                      "column": 1,
+                      "offset": 1659
+                    },
+                    "end": {
+                      "line": 50,
+                      "column": 170,
+                      "offset": 1828
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1659
+                },
+                "end": {
+                  "line": 50,
+                  "column": 170,
+                  "offset": 1828
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 60,
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1659
+                },
+                "end": {
+                  "line": 50,
+                  "column": 170,
+                  "offset": 1828
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1659
+              },
+              "end": {
+                "line": 50,
+                "column": 170,
+                "offset": 1828
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "literal",
+                    "value": "{\"id\":\"needs-work\",\"score\":20,\"status\":\"",
+                    "span": {
+                      "start": {
+                        "line": 50,
+                        "column": 1,
+                        "offset": 1659
+                      },
+                      "end": {
+                        "line": 50,
+                        "column": 170,
+                        "offset": 1828
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "call",
+                    "callee": "listingStatusLabel",
+                    "args": [
+                      {
+                        "kind": "call",
+                        "callee": "listingScore",
+                        "args": [
+                          {
+                            "kind": "call",
+                            "callee": "needsWorkSignals",
+                            "args": [],
+                            "span": {
+                              "start": {
+                                "line": 50,
+                                "column": 1,
+                                "offset": 1659
+                              },
+                              "end": {
+                                "line": 50,
+                                "column": 170,
+                                "offset": 1828
+                              }
+                            }
+                          }
+                        ],
+                        "span": {
+                          "start": {
+                            "line": 50,
+                            "column": 1,
+                            "offset": 1659
+                          },
+                          "end": {
+                            "line": 50,
+                            "column": 170,
+                            "offset": 1828
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 50,
+                        "column": 1,
+                        "offset": 1659
+                      },
+                      "end": {
+                        "line": 50,
+                        "column": 170,
+                        "offset": 1828
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 50,
+                      "column": 1,
+                      "offset": 1659
+                    },
+                    "end": {
+                      "line": 50,
+                      "column": 170,
+                      "offset": 1828
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": "\"}",
+                  "span": {
+                    "start": {
+                      "line": 50,
+                      "column": 1,
+                      "offset": 1659
+                    },
+                    "end": {
+                      "line": 50,
+                      "column": 170,
+                      "offset": 1828
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1659
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 170,
+                    "offset": 1828
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1659
+                },
+                "end": {
+                  "line": 50,
+                  "column": 170,
+                  "offset": 1828
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 50,
+              "column": 1,
+              "offset": 1659
+            },
+            "end": {
+              "line": 50,
+              "column": 170,
+              "offset": 1828
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "{\"id\":\"needs-work\",\"score\":20,\"status\":\"",
+                "span": {
+                  "start": {
+                    "line": 51,
+                    "column": 1,
+                    "offset": 1829
+                  },
+                  "end": {
+                    "line": 51,
+                    "column": 133,
+                    "offset": 1961
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "listingStatusLabel",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "listingScore",
+                    "args": [
+                      {
+                        "kind": "call",
+                        "callee": "needsWorkSignals",
+                        "args": [],
+                        "span": {
+                          "start": {
+                            "line": 51,
+                            "column": 1,
+                            "offset": 1829
+                          },
+                          "end": {
+                            "line": 51,
+                            "column": 133,
+                            "offset": 1961
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 51,
+                        "column": 1,
+                        "offset": 1829
+                      },
+                      "end": {
+                        "line": 51,
+                        "column": 133,
+                        "offset": 1961
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 51,
+                    "column": 1,
+                    "offset": 1829
+                  },
+                  "end": {
+                    "line": 51,
+                    "column": 133,
+                    "offset": 1961
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 51,
+                  "column": 1,
+                  "offset": 1829
+                },
+                "end": {
+                  "line": 51,
+                  "column": 133,
+                  "offset": 1961
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "\"}",
+              "span": {
+                "start": {
+                  "line": 51,
+                  "column": 1,
+                  "offset": 1829
+                },
+                "end": {
+                  "line": 51,
+                  "column": 133,
+                  "offset": 1961
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 51,
+                "column": 1,
+                "offset": 1829
+              },
+              "end": {
+                "line": 51,
+                "column": 133,
+                "offset": 1961
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 1,
+              "offset": 1829
+            },
+            "end": {
+              "line": 51,
+              "column": 133,
+              "offset": 1961
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "needs work status json",
+        "outputName": "json",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 48,
+          "column": 1,
+          "offset": 1610
+        },
+        "end": {
+          "line": 48,
+          "column": 29,
+          "offset": 1638
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "listingStatusPayloadLabel",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 54,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 54,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 2032
+                },
+                "end": {
+                  "line": 56,
+                  "column": 54,
+                  "offset": 2085
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "demo-app",
+              "span": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 2032
+                },
+                "end": {
+                  "line": 56,
+                  "column": 54,
+                  "offset": 2085
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 56,
+                "column": 1,
+                "offset": 2032
+              },
+              "end": {
+                "line": 56,
+                "column": 54,
+                "offset": 2085
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "demoAppStatusJsonLabel",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 56,
+                    "column": 1,
+                    "offset": 2032
+                  },
+                  "end": {
+                    "line": 56,
+                    "column": 54,
+                    "offset": 2085
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 2032
+                },
+                "end": {
+                  "line": 56,
+                  "column": 54,
+                  "offset": 2085
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 56,
+              "column": 1,
+              "offset": 2032
+            },
+            "end": {
+              "line": 56,
+              "column": 54,
+              "offset": 2085
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 57,
+                  "column": 1,
+                  "offset": 2086
+                },
+                "end": {
+                  "line": 57,
+                  "column": 58,
+                  "offset": 2143
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "needs-work",
+              "span": {
+                "start": {
+                  "line": 57,
+                  "column": 1,
+                  "offset": 2086
+                },
+                "end": {
+                  "line": 57,
+                  "column": 58,
+                  "offset": 2143
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 57,
+                "column": 1,
+                "offset": 2086
+              },
+              "end": {
+                "line": 57,
+                "column": 58,
+                "offset": 2143
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "needsWorkStatusJsonLabel",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 57,
+                    "column": 1,
+                    "offset": 2086
+                  },
+                  "end": {
+                    "line": 57,
+                    "column": 58,
+                    "offset": 2143
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 57,
+                  "column": 1,
+                  "offset": 2086
+                },
+                "end": {
+                  "line": 57,
+                  "column": 58,
+                  "offset": 2143
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 57,
+              "column": 1,
+              "offset": 2086
+            },
+            "end": {
+              "line": 57,
+              "column": 58,
+              "offset": 2143
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "needsWorkStatusJsonLabel",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 1,
+                "offset": 2144
+              },
+              "end": {
+                "line": 58,
+                "column": 44,
+                "offset": 2187
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 58,
+              "column": 1,
+              "offset": 2144
+            },
+            "end": {
+              "line": 58,
+              "column": 44,
+              "offset": 2187
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "listing status payload",
+        "outputName": "payload",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 53,
+          "column": 1,
+          "offset": 1963
+        },
+        "end": {
+          "line": 53,
+          "column": 29,
+          "offset": 1991
+        }
+      }
+    },
+    {
+      "kind": "function",
       "name": "getListingStatusRoute",
       "params": [
         {
@@ -956,12 +2588,12 @@
           "semanticName": "id",
           "span": {
             "start": {
-              "line": 31,
+              "line": 63,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 31,
+              "line": 63,
               "column": 9,
               "offset": 8
             }
@@ -977,18 +2609,36 @@
         {
           "kind": "return",
           "value": {
-            "kind": "literal",
-            "value": "Use generated TS handler with Listing Signals from your app database",
+            "kind": "call",
+            "callee": "listingStatusPayloadLabel",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "id",
+                "span": {
+                  "start": {
+                    "line": 65,
+                    "column": 1,
+                    "offset": 2302
+                  },
+                  "end": {
+                    "line": 65,
+                    "column": 36,
+                    "offset": 2337
+                  }
+                }
+              }
+            ],
             "span": {
               "start": {
-                "line": 33,
+                "line": 65,
                 "column": 1,
-                "offset": 754
+                "offset": 2302
               },
               "end": {
-                "line": 33,
-                "column": 80,
-                "offset": 833
+                "line": 65,
+                "column": 36,
+                "offset": 2337
               }
             }
           }
@@ -1002,14 +2652,112 @@
       },
       "span": {
         "start": {
-          "line": 28,
+          "line": 60,
           "column": 1,
-          "offset": 641
+          "offset": 2189
         },
         "end": {
-          "line": 28,
+          "line": 60,
           "column": 25,
-          "offset": 665
+          "offset": 2213
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "healthCheckRoute",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "{\"status\":\"ok\"}",
+            "span": {
+              "start": {
+                "line": 71,
+                "column": 1,
+                "offset": 2412
+              },
+              "end": {
+                "line": 71,
+                "column": 31,
+                "offset": 2442
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "health check",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 67,
+          "column": 1,
+          "offset": 2339
+        },
+        "end": {
+          "line": 67,
+          "column": 19,
+          "offset": 2357
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "serveStoreReadinessCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Store readiness service ready",
+            "span": {
+              "start": {
+                "line": 75,
+                "column": 1,
+                "offset": 2496
+              },
+              "end": {
+                "line": 75,
+                "column": 41,
+                "offset": 2536
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "serve store readiness",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 73,
+          "column": 1,
+          "offset": 2444
+        },
+        "end": {
+          "line": 73,
+          "column": 30,
+          "offset": 2473
         }
       }
     }
@@ -1816,6 +3564,1512 @@
         }
       },
       {
+        "kind": "calculation",
+        "name": "demo app signals",
+        "inputs": [],
+        "output": {
+          "name": "signals",
+          "type": {
+            "kind": "typeRef",
+            "name": "Listing Signals",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "signals",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "has screenshots",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 704
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 133,
+                        "offset": 836
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has description",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 704
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 133,
+                        "offset": 836
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has privacy policy",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 704
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 133,
+                        "offset": 836
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has support url",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 704
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 133,
+                        "offset": 836
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has age rating",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 704
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 133,
+                        "offset": 836
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 704
+                },
+                "end": {
+                  "line": 30,
+                  "column": 133,
+                  "offset": 836
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 704
+              },
+              "end": {
+                "line": 30,
+                "column": 133,
+                "offset": 836
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 28,
+            "column": 1,
+            "offset": 641
+          },
+          "end": {
+            "line": 28,
+            "column": 29,
+            "offset": 669
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "needs work signals",
+        "inputs": [],
+        "output": {
+          "name": "signals",
+          "type": {
+            "kind": "typeRef",
+            "name": "Listing Signals",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "signals",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "has screenshots",
+                  "value": {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 903
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 137,
+                        "offset": 1039
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has description",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 903
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 137,
+                        "offset": 1039
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has privacy policy",
+                  "value": {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 903
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 137,
+                        "offset": 1039
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has support url",
+                  "value": {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 903
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 137,
+                        "offset": 1039
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "has age rating",
+                  "value": {
+                    "kind": "literal",
+                    "value": false,
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 903
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 137,
+                        "offset": 1039
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 34,
+                  "column": 1,
+                  "offset": 903
+                },
+                "end": {
+                  "line": 34,
+                  "column": 137,
+                  "offset": 1039
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 903
+              },
+              "end": {
+                "line": 34,
+                "column": 137,
+                "offset": 1039
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 838
+          },
+          "end": {
+            "line": 32,
+            "column": 31,
+            "offset": 868
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "listing signals for app",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 37,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "signals",
+          "type": {
+            "kind": "typeRef",
+            "name": "Listing Signals",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "name",
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 1122
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 50,
+                    "offset": 1171
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "demo-app",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 1122
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 50,
+                    "offset": 1171
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 1122
+                },
+                "end": {
+                  "line": 39,
+                  "column": 50,
+                  "offset": 1171
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "demo app signals",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 1122
+                },
+                "end": {
+                  "line": 39,
+                  "column": 50,
+                  "offset": 1171
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 1122
+              },
+              "end": {
+                "line": 39,
+                "column": 50,
+                "offset": 1171
+              }
+            }
+          },
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "name",
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 54,
+                    "offset": 1225
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "needs-work",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1172
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 54,
+                    "offset": 1225
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 40,
+                  "column": 54,
+                  "offset": 1225
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "needs work signals",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1172
+                },
+                "end": {
+                  "line": 40,
+                  "column": 54,
+                  "offset": 1225
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1172
+              },
+              "end": {
+                "line": 40,
+                "column": 54,
+                "offset": 1225
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "call",
+              "callee": "needs work signals",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 1226
+                },
+                "end": {
+                  "line": 41,
+                  "column": 40,
+                  "offset": 1265
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 1226
+              },
+              "end": {
+                "line": 41,
+                "column": 40,
+                "offset": 1265
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 36,
+            "column": 1,
+            "offset": 1041
+          },
+          "end": {
+            "line": 36,
+            "column": 30,
+            "offset": 1070
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "demo app status json",
+        "inputs": [],
+        "output": {
+          "name": "json",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "call",
+                "callee": "listing score",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "demo app signals",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 45,
+                        "column": 1,
+                        "offset": 1314
+                      },
+                      "end": {
+                        "line": 45,
+                        "column": 165,
+                        "offset": 1478
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 45,
+                    "column": 1,
+                    "offset": 1314
+                  },
+                  "end": {
+                    "line": 45,
+                    "column": 165,
+                    "offset": 1478
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 90,
+                "span": {
+                  "start": {
+                    "line": 45,
+                    "column": 1,
+                    "offset": 1314
+                  },
+                  "end": {
+                    "line": 45,
+                    "column": 165,
+                    "offset": 1478
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 45,
+                  "column": 1,
+                  "offset": 1314
+                },
+                "end": {
+                  "line": 45,
+                  "column": 165,
+                  "offset": 1478
+                }
+              }
+            },
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "{\"id\":\"demo-app\",\"score\":100,\"status\":\"",
+                  "span": {
+                    "start": {
+                      "line": 45,
+                      "column": 1,
+                      "offset": 1314
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 165,
+                      "offset": 1478
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "call",
+                  "callee": "listing status",
+                  "args": [
+                    {
+                      "kind": "call",
+                      "callee": "listing score",
+                      "args": [
+                        {
+                          "kind": "call",
+                          "callee": "demo app signals",
+                          "args": [],
+                          "span": {
+                            "start": {
+                              "line": 45,
+                              "column": 1,
+                              "offset": 1314
+                            },
+                            "end": {
+                              "line": 45,
+                              "column": 165,
+                              "offset": 1478
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 45,
+                          "column": 1,
+                          "offset": 1314
+                        },
+                        "end": {
+                          "line": 45,
+                          "column": 165,
+                          "offset": 1478
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 45,
+                      "column": 1,
+                      "offset": 1314
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 165,
+                      "offset": 1478
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 45,
+                    "column": 1,
+                    "offset": 1314
+                  },
+                  "end": {
+                    "line": 45,
+                    "column": 165,
+                    "offset": 1478
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "\"}",
+                "span": {
+                  "start": {
+                    "line": 45,
+                    "column": 1,
+                    "offset": 1314
+                  },
+                  "end": {
+                    "line": 45,
+                    "column": 165,
+                    "offset": 1478
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 45,
+                  "column": 1,
+                  "offset": 1314
+                },
+                "end": {
+                  "line": 45,
+                  "column": 165,
+                  "offset": 1478
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 45,
+                "column": 1,
+                "offset": 1314
+              },
+              "end": {
+                "line": 45,
+                "column": 165,
+                "offset": 1478
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "{\"id\":\"demo-app\",\"score\":100,\"status\":\"",
+                  "span": {
+                    "start": {
+                      "line": 46,
+                      "column": 1,
+                      "offset": 1479
+                    },
+                    "end": {
+                      "line": 46,
+                      "column": 130,
+                      "offset": 1608
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "call",
+                  "callee": "listing status",
+                  "args": [
+                    {
+                      "kind": "call",
+                      "callee": "listing score",
+                      "args": [
+                        {
+                          "kind": "call",
+                          "callee": "demo app signals",
+                          "args": [],
+                          "span": {
+                            "start": {
+                              "line": 46,
+                              "column": 1,
+                              "offset": 1479
+                            },
+                            "end": {
+                              "line": 46,
+                              "column": 130,
+                              "offset": 1608
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 46,
+                          "column": 1,
+                          "offset": 1479
+                        },
+                        "end": {
+                          "line": 46,
+                          "column": 130,
+                          "offset": 1608
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 46,
+                      "column": 1,
+                      "offset": 1479
+                    },
+                    "end": {
+                      "line": 46,
+                      "column": 130,
+                      "offset": 1608
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 46,
+                    "column": 1,
+                    "offset": 1479
+                  },
+                  "end": {
+                    "line": 46,
+                    "column": 130,
+                    "offset": 1608
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "\"}",
+                "span": {
+                  "start": {
+                    "line": 46,
+                    "column": 1,
+                    "offset": 1479
+                  },
+                  "end": {
+                    "line": 46,
+                    "column": 130,
+                    "offset": 1608
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 46,
+                  "column": 1,
+                  "offset": 1479
+                },
+                "end": {
+                  "line": 46,
+                  "column": 130,
+                  "offset": 1608
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 46,
+                "column": 1,
+                "offset": 1479
+              },
+              "end": {
+                "line": 46,
+                "column": 130,
+                "offset": 1608
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 43,
+            "column": 1,
+            "offset": 1267
+          },
+          "end": {
+            "line": 43,
+            "column": 27,
+            "offset": 1293
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "needs work status json",
+        "inputs": [],
+        "output": {
+          "name": "json",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "call",
+                "callee": "listing score",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "needs work signals",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 50,
+                        "column": 1,
+                        "offset": 1659
+                      },
+                      "end": {
+                        "line": 50,
+                        "column": 170,
+                        "offset": 1828
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1659
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 170,
+                    "offset": 1828
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 60,
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1659
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 170,
+                    "offset": 1828
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1659
+                },
+                "end": {
+                  "line": 50,
+                  "column": 170,
+                  "offset": 1828
+                }
+              }
+            },
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "{\"id\":\"needs-work\",\"score\":20,\"status\":\"",
+                  "span": {
+                    "start": {
+                      "line": 50,
+                      "column": 1,
+                      "offset": 1659
+                    },
+                    "end": {
+                      "line": 50,
+                      "column": 170,
+                      "offset": 1828
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "call",
+                  "callee": "listing status",
+                  "args": [
+                    {
+                      "kind": "call",
+                      "callee": "listing score",
+                      "args": [
+                        {
+                          "kind": "call",
+                          "callee": "needs work signals",
+                          "args": [],
+                          "span": {
+                            "start": {
+                              "line": 50,
+                              "column": 1,
+                              "offset": 1659
+                            },
+                            "end": {
+                              "line": 50,
+                              "column": 170,
+                              "offset": 1828
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 50,
+                          "column": 1,
+                          "offset": 1659
+                        },
+                        "end": {
+                          "line": 50,
+                          "column": 170,
+                          "offset": 1828
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 50,
+                      "column": 1,
+                      "offset": 1659
+                    },
+                    "end": {
+                      "line": 50,
+                      "column": 170,
+                      "offset": 1828
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1659
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 170,
+                    "offset": 1828
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "\"}",
+                "span": {
+                  "start": {
+                    "line": 50,
+                    "column": 1,
+                    "offset": 1659
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 170,
+                    "offset": 1828
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1659
+                },
+                "end": {
+                  "line": 50,
+                  "column": 170,
+                  "offset": 1828
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1659
+              },
+              "end": {
+                "line": 50,
+                "column": 170,
+                "offset": 1828
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "{\"id\":\"needs-work\",\"score\":20,\"status\":\"",
+                  "span": {
+                    "start": {
+                      "line": 51,
+                      "column": 1,
+                      "offset": 1829
+                    },
+                    "end": {
+                      "line": 51,
+                      "column": 133,
+                      "offset": 1961
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "call",
+                  "callee": "listing status",
+                  "args": [
+                    {
+                      "kind": "call",
+                      "callee": "listing score",
+                      "args": [
+                        {
+                          "kind": "call",
+                          "callee": "needs work signals",
+                          "args": [],
+                          "span": {
+                            "start": {
+                              "line": 51,
+                              "column": 1,
+                              "offset": 1829
+                            },
+                            "end": {
+                              "line": 51,
+                              "column": 133,
+                              "offset": 1961
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 51,
+                          "column": 1,
+                          "offset": 1829
+                        },
+                        "end": {
+                          "line": 51,
+                          "column": 133,
+                          "offset": 1961
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 51,
+                      "column": 1,
+                      "offset": 1829
+                    },
+                    "end": {
+                      "line": 51,
+                      "column": 133,
+                      "offset": 1961
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 51,
+                    "column": 1,
+                    "offset": 1829
+                  },
+                  "end": {
+                    "line": 51,
+                    "column": 133,
+                    "offset": 1961
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "\"}",
+                "span": {
+                  "start": {
+                    "line": 51,
+                    "column": 1,
+                    "offset": 1829
+                  },
+                  "end": {
+                    "line": 51,
+                    "column": 133,
+                    "offset": 1961
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 51,
+                  "column": 1,
+                  "offset": 1829
+                },
+                "end": {
+                  "line": 51,
+                  "column": 133,
+                  "offset": 1961
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 51,
+                "column": 1,
+                "offset": 1829
+              },
+              "end": {
+                "line": 51,
+                "column": 133,
+                "offset": 1961
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 48,
+            "column": 1,
+            "offset": 1610
+          },
+          "end": {
+            "line": 48,
+            "column": 29,
+            "offset": 1638
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "listing status payload",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 54,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 54,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "payload",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "name",
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 56,
+                    "column": 1,
+                    "offset": 2032
+                  },
+                  "end": {
+                    "line": 56,
+                    "column": 54,
+                    "offset": 2085
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "demo-app",
+                "span": {
+                  "start": {
+                    "line": 56,
+                    "column": 1,
+                    "offset": 2032
+                  },
+                  "end": {
+                    "line": 56,
+                    "column": 54,
+                    "offset": 2085
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 2032
+                },
+                "end": {
+                  "line": 56,
+                  "column": 54,
+                  "offset": 2085
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "demo app status json",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 2032
+                },
+                "end": {
+                  "line": 56,
+                  "column": 54,
+                  "offset": 2085
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 56,
+                "column": 1,
+                "offset": 2032
+              },
+              "end": {
+                "line": 56,
+                "column": 54,
+                "offset": 2085
+              }
+            }
+          },
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "name",
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 57,
+                    "column": 1,
+                    "offset": 2086
+                  },
+                  "end": {
+                    "line": 57,
+                    "column": 58,
+                    "offset": 2143
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "needs-work",
+                "span": {
+                  "start": {
+                    "line": 57,
+                    "column": 1,
+                    "offset": 2086
+                  },
+                  "end": {
+                    "line": 57,
+                    "column": 58,
+                    "offset": 2143
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 57,
+                  "column": 1,
+                  "offset": 2086
+                },
+                "end": {
+                  "line": 57,
+                  "column": 58,
+                  "offset": 2143
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "needs work status json",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 57,
+                  "column": 1,
+                  "offset": 2086
+                },
+                "end": {
+                  "line": 57,
+                  "column": 58,
+                  "offset": 2143
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 57,
+                "column": 1,
+                "offset": 2086
+              },
+              "end": {
+                "line": 57,
+                "column": 58,
+                "offset": 2143
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "call",
+              "callee": "needs work status json",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 58,
+                  "column": 1,
+                  "offset": 2144
+                },
+                "end": {
+                  "line": 58,
+                  "column": 44,
+                  "offset": 2187
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 1,
+                "offset": 2144
+              },
+              "end": {
+                "line": 58,
+                "column": 44,
+                "offset": 2187
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 53,
+            "column": 1,
+            "offset": 1963
+          },
+          "end": {
+            "line": 53,
+            "column": 29,
+            "offset": 1991
+          }
+        }
+      },
+      {
         "kind": "route",
         "name": "get listing status",
         "method": "GET",
@@ -1830,12 +5084,12 @@
             },
             "span": {
               "start": {
-                "line": 31,
+                "line": 63,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 31,
+                "line": 63,
                 "column": 9,
                 "offset": 8
               }
@@ -1854,45 +5108,181 @@
           {
             "kind": "return",
             "value": {
-              "kind": "literal",
-              "value": "Use generated TS handler with Listing Signals from your app database",
+              "kind": "call",
+              "callee": "listing status payload",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "id",
+                  "span": {
+                    "start": {
+                      "line": 65,
+                      "column": 1,
+                      "offset": 2302
+                    },
+                    "end": {
+                      "line": 65,
+                      "column": 36,
+                      "offset": 2337
+                    }
+                  }
+                }
+              ],
               "span": {
                 "start": {
-                  "line": 33,
+                  "line": 65,
                   "column": 1,
-                  "offset": 754
+                  "offset": 2302
                 },
                 "end": {
-                  "line": 33,
-                  "column": 80,
-                  "offset": 833
+                  "line": 65,
+                  "column": 36,
+                  "offset": 2337
                 }
               }
             },
             "span": {
               "start": {
-                "line": 33,
+                "line": 65,
                 "column": 1,
-                "offset": 754
+                "offset": 2302
               },
               "end": {
-                "line": 33,
-                "column": 80,
-                "offset": 833
+                "line": 65,
+                "column": 36,
+                "offset": 2337
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 28,
+            "line": 60,
             "column": 1,
-            "offset": 641
+            "offset": 2189
           },
           "end": {
-            "line": 28,
+            "line": 60,
             "column": 25,
-            "offset": 665
+            "offset": 2213
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "health check",
+        "method": "GET",
+        "path": "/health",
+        "inputs": [],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "{\"status\":\"ok\"}",
+              "span": {
+                "start": {
+                  "line": 71,
+                  "column": 1,
+                  "offset": 2412
+                },
+                "end": {
+                  "line": 71,
+                  "column": 31,
+                  "offset": 2442
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 71,
+                "column": 1,
+                "offset": 2412
+              },
+              "end": {
+                "line": 71,
+                "column": 31,
+                "offset": 2442
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 67,
+            "column": 1,
+            "offset": 2339
+          },
+          "end": {
+            "line": 67,
+            "column": 19,
+            "offset": 2357
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "serve store readiness",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Store readiness service ready",
+              "span": {
+                "start": {
+                  "line": 75,
+                  "column": 1,
+                  "offset": 2496
+                },
+                "end": {
+                  "line": 75,
+                  "column": 41,
+                  "offset": 2536
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 75,
+                "column": 1,
+                "offset": 2496
+              },
+              "end": {
+                "line": 75,
+                "column": 41,
+                "offset": 2536
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 73,
+            "column": 1,
+            "offset": 2444
+          },
+          "end": {
+            "line": 73,
+            "column": 30,
+            "offset": 2473
           }
         }
       }

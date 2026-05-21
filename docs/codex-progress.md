@@ -449,3 +449,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (112 tests); `point check-docs` — 21 snippets, 14 file refs.
 - Next: R5 npm package polish; R6–R7 dogfood/view tracks.
 - Blocked: none
+
+## Checkpoint 9.R7 - Dogfood store-readiness HTTP service
+- Completed: Expanded `examples/adopters/hatchingpoint/store-readiness.point` into a runnable Bun HTTP service with demo app data, JSON routes (`/health`, `/apps/:id/listing-status`) using **listing score** and **listing status** logic, `serve store readiness` command, and JS emit bootstrap (`createPointRouteFetchHandler`, `startRoutesServer`) for modules with routes + serve command. Fixed semantic string literal parsing for escaped quotes. Added `tests/store-readiness-service.test.ts` integration tests and curl examples in hatchingpoint README.
+- Verified: `bun run ci` passes (117 tests); integration test hits live routes and asserts JSON scores/statuses.
+- Next: Phase 10 richer UI; optional publish `@hatchingpoint/point-logic` with HTTP layer separate from pure logic package.
+- Blocked: none
