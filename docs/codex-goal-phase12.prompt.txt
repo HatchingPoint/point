@@ -1,0 +1,13 @@
+You are working on Point Phase 12 Wave 1.
+
+Read: docs/phase12-plan.md, docs/codex-goal-phase12.md, docs/codex-progress.md
+
+Hard rules:
+- Public .point stays semantic
+- Full standalone VM is NOT today — P12-3 is research/spike only
+- Run bun run ci before done; commit on pass with message from goal doc
+- Append checkpoint to docs/codex-progress.md
+
+Pick: P12-1 (npm deps), P12-2 (std shims), P12-3 (runtime spike), P12-4 (docs)
+
+If user says parallel/ASAP, run P12-1 + P12-2 + P12-3 + P12-4 in four sessions.
