@@ -1,0 +1,1228 @@
+{
+  "kind": "coreProgram",
+  "module": "StdProcess",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "ProcessResult",
+      "fields": [
+        {
+          "name": "stdout",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "stdout",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 41
+            },
+            "end": {
+              "line": 4,
+              "column": 15,
+              "offset": 55
+            }
+          }
+        },
+        {
+          "name": "stderr",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "stderr",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 56
+            },
+            "end": {
+              "line": 5,
+              "column": 15,
+              "offset": 70
+            }
+          }
+        },
+        {
+          "name": "exitCode",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "exit code",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 71
+            },
+            "end": {
+              "line": 6,
+              "column": 17,
+              "offset": 87
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Process Result"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 19
+        },
+        "end": {
+          "line": 3,
+          "column": 22,
+          "offset": 40
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "spawnRaw",
+      "params": [
+        {
+          "name": "command",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "command",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "args",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "args",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "env",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "env",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "ProcessResult",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/process",
+      "importName": "processSpawn",
+      "semantic": {
+        "kind": "external",
+        "name": "spawn raw"
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 116
+        },
+        "end": {
+          "line": 9,
+          "column": 143,
+          "offset": 258
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "spawnCommandResult",
+      "params": [
+        {
+          "name": "command",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "command",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "args",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "args",
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 13,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "env",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "env",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "ProcessResult",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "spawnRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "command",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 411
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 39,
+                    "offset": 449
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "args",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 411
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 39,
+                    "offset": 449
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "env",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 411
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 39,
+                    "offset": 449
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 411
+              },
+              "end": {
+                "line": 17,
+                "column": 39,
+                "offset": 449
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 411
+            },
+            "end": {
+              "line": 17,
+              "column": 39,
+              "offset": 449
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "spawn command",
+        "outputName": "result",
+        "effects": [
+          "process"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 260
+        },
+        "end": {
+          "line": 11,
+          "column": 21,
+          "offset": 280
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "processStdout",
+      "params": [
+        {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "ProcessResult",
+            "args": []
+          },
+          "semanticName": "result",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 20,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "result",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 531
+                },
+                "end": {
+                  "line": 22,
+                  "column": 26,
+                  "offset": 556
+                }
+              }
+            },
+            "name": "stdout",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 531
+              },
+              "end": {
+                "line": 22,
+                "column": 26,
+                "offset": 556
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 531
+            },
+            "end": {
+              "line": 22,
+              "column": 26,
+              "offset": 556
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "process stdout",
+        "outputName": "stdout",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 451
+        },
+        "end": {
+          "line": 19,
+          "column": 27,
+          "offset": 477
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "processExitCode",
+      "params": [
+        {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "ProcessResult",
+            "args": []
+          },
+          "semanticName": "result",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "result",
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 643
+                },
+                "end": {
+                  "line": 27,
+                  "column": 32,
+                  "offset": 674
+                }
+              }
+            },
+            "name": "exitCode",
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 643
+              },
+              "end": {
+                "line": 27,
+                "column": 32,
+                "offset": 674
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 643
+            },
+            "end": {
+              "line": 27,
+              "column": 32,
+              "offset": 674
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "process exit code",
+        "outputName": "exit code",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 558
+        },
+        "end": {
+          "line": 24,
+          "column": 30,
+          "offset": 587
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 18,
+      "offset": 17
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdProcess",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Process Result",
+        "fields": [
+          {
+            "label": "stdout",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 41
+              },
+              "end": {
+                "line": 4,
+                "column": 15,
+                "offset": 55
+              }
+            }
+          },
+          {
+            "label": "stderr",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 56
+              },
+              "end": {
+                "line": 5,
+                "column": 15,
+                "offset": 70
+              }
+            }
+          },
+          {
+            "label": "exit code",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 71
+              },
+              "end": {
+                "line": 6,
+                "column": 17,
+                "offset": 87
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          },
+          "end": {
+            "line": 3,
+            "column": 22,
+            "offset": 40
+          }
+        }
+      },
+      {
+        "kind": "external",
+        "name": "point std process",
+        "functions": [
+          {
+            "label": "spawn raw",
+            "params": [
+              {
+                "label": "command",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              },
+              {
+                "label": "args",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "env",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Process Result",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/process",
+            "importAs": "processSpawn",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 116
+              },
+              "end": {
+                "line": 9,
+                "column": 143,
+                "offset": 258
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 89
+          },
+          "end": {
+            "line": 8,
+            "column": 27,
+            "offset": 115
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "spawn command",
+        "inputs": [
+          {
+            "label": "command",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 14,
+                "offset": 13
+              }
+            }
+          },
+          {
+            "label": "args",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 13,
+                "column": 17,
+                "offset": 16
+              }
+            }
+          },
+          {
+            "label": "env",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Process Result",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "process"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "spawn raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "command",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 411
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 39,
+                      "offset": 449
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "args",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 411
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 39,
+                      "offset": 449
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "env",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 411
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 39,
+                      "offset": 449
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 411
+                },
+                "end": {
+                  "line": 17,
+                  "column": 39,
+                  "offset": 449
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 411
+              },
+              "end": {
+                "line": 17,
+                "column": 39,
+                "offset": 449
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 260
+          },
+          "end": {
+            "line": 11,
+            "column": 21,
+            "offset": 280
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "process stdout",
+        "inputs": [
+          {
+            "label": "result",
+            "type": {
+              "kind": "typeRef",
+              "name": "Process Result",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "stdout",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "stdout",
+            "value": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "result",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 531
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 26,
+                    "offset": 556
+                  }
+                }
+              },
+              "label": "stdout",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 531
+                },
+                "end": {
+                  "line": 22,
+                  "column": 26,
+                  "offset": 556
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 531
+              },
+              "end": {
+                "line": 22,
+                "column": 26,
+                "offset": 556
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 451
+          },
+          "end": {
+            "line": 19,
+            "column": 27,
+            "offset": 477
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "process exit code",
+        "inputs": [
+          {
+            "label": "result",
+            "type": {
+              "kind": "typeRef",
+              "name": "Process Result",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "exit code",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "exit code",
+            "value": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "result",
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 643
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 32,
+                    "offset": 674
+                  }
+                }
+              },
+              "label": "exit code",
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 643
+                },
+                "end": {
+                  "line": 27,
+                  "column": 32,
+                  "offset": 674
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 643
+              },
+              "end": {
+                "line": 27,
+                "column": 32,
+                "offset": 674
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 24,
+            "column": 1,
+            "offset": 558
+          },
+          "end": {
+            "line": 24,
+            "column": 30,
+            "offset": 587
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 18,
+        "offset": 17
+      }
+    }
+  }
+}

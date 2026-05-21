@@ -14,7 +14,7 @@ Authors work in `.point` files. Generated targets are like `.js` from `.ts` toda
 
 | Layer | Who owns it | What it is |
 |-------|-------------|------------|
-| **Authoring** | You and coding agents | Semantic `.point` blocks — records, rules, calculations, actions, views, routes, commands |
+| **Authoring** | You and coding agents | Semantic `.point` blocks — records, rules, calculations, actions, views, routes, pipelines, commands |
 | **Compiler IR** | Point toolchain | Typed core representation in memory — never edited by authors |
 | **Runtime targets** | Build output | Emitted JavaScript, TypeScript, or Python — checked into `generated/` only as artifacts, not hand-edited |
 
@@ -26,6 +26,7 @@ point fmt
 point build
 point run
 point test
+point dev          # watch, check, emit, reload (v0.1.0)
 ```
 
 You do **not** fix product behavior by patching `generated/*.ts` or `generated/*.js`. If emit is wrong, repair `.point` and rebuild.
@@ -41,10 +42,10 @@ The compiler parses semantic blocks, lowers them to a typed core IR, checks type
 | Target | When it is used |
 |--------|-----------------|
 | **JavaScript** | Default for `point build`, `point run`, and `point test` — authors do not need TypeScript on the daily path |
-| **TypeScript** | Opt-in via `point build-ts` when a surrounding stack wants `.ts` files |
-| **Python** | `point build-py` for pure-logic modules (records, calculations, rules, labels) — actions, views, and routes remain JS/TS for now |
+| **TypeScript** | Opt-in via `point build-ts` when a surrounding stack wants `.ts` files (React views, layouts, pages) |
+| **Python** | `point build-py` for logic, actions, routes, workflows, and commands — views and realtime client code remain JS/TS |
 
-Bun or Node still executes emitted JavaScript. React and Next.js can import generated view components. npm packages remain available through `external` blocks. That is **interop**, not a second authoring language.
+Bun or Node still executes emitted JavaScript. React and Next.js can import generated view components. npm packages and database drivers remain available through `external` blocks. That is **interop**, not a second authoring language.
 
 ## What emit being invisible means
 
@@ -57,19 +58,21 @@ Bun or Node still executes emitted JavaScript. React and Next.js can import gene
 
 Framework glue, config files, and third-party libraries may stay in TypeScript or Python. The goal is that **product logic you care about** — models, rules, commands, and boundaries agents should repair — lives in `.point`.
 
-## Roadmap (Phases 9–11 complete; Phase 12 next)
+## Platform milestones (v0.1.0)
 
 | Milestone | Outcome |
 |-----------|---------|
 | JS-default run/build | ✅ Authors use `point build` and `point run` without managing TypeScript |
-| Python emit (logic + actions) | ✅ `point build-py` / `build-py-all` |
+| Python emit | ✅ `point build-py` / `build-py-all` for automation parity |
 | Point-only npm packages | ✅ `@hatchingpoint/point-logic` — `.point` in `src/`, JS in `dist/` |
-| Richer views and pages | ✅ Controlled checkboxes, `Handler` callbacks, `page` block |
-| Package dependencies | ✅ `point add` with `workspace:` and `file:` specs |
-| Next (Phase 12) | `npm:` registry deps, remaining std shims, external starter template |
+| Multi-page apps | ✅ `layout`, `navigation`, data loading, rich views |
+| Realtime & jobs | ✅ `stream route`, `schedule`, workflow retry/timeout |
+| Database interop | ✅ Any DB via `action` + `external` or `std.sql` |
+| Agent orchestration | ✅ `pipeline`, `session`, `prompt`, `guard` |
+| Dev platform | ✅ `point dev`, `point app new`, full-stack template |
 | Long-term | Optional standalone runtime — not required for adoption today |
 
-See [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python) for a layer-by-layer scope table.
+See [Platform vision](/point/concepts/platform-vision) and [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python) for scope tables.
 
 ## For coding agents
 
@@ -81,6 +84,7 @@ See [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-pyt
 ## See also
 
 - [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python)
+- [Platform vision](/point/concepts/platform-vision)
 - [Philosophy](/point/concepts/philosophy)
 - [Introduction](/point/guide/introduction)
 - [CLI reference](/point/reference/cli)

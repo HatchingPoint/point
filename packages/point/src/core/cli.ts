@@ -7,13 +7,17 @@ import { createSemanticIndex, explainSemanticRef, mapPublicDiagnostics } from ".
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCorePython, isPureLogicProgram } from "./emit-python.ts";
-import { canBundleRunInMemory, executeBundledEntry } from "./run-bridge.ts";
+import { canBundleRunInMemory, executeBundledEntry, bundleJavaScriptForEval } from "./run-bridge.ts";
+import { runtimeSourceLocation } from "./source-map.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
 import { runCheckDocs } from "./check-docs.ts";
+import { runAppNew } from "./app-cli.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock } from "./packages.ts";
 import { runPointLspServer } from "../lsp/server.ts";
+import { parseDevCliFlags, runPointDev } from "./dev.ts";
+import { runPointIntegrationTests } from "./integration-test.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -29,11 +33,30 @@ export async function main() {
 	let input = tail[0] ?? DEFAULT_INPUT;
 	let output = tail[1] ?? DEFAULT_OUTPUT;
 	let runFlags: Record<string, boolean | undefined> | undefined;
+	let buildProduction = false;
 	if (command === "run") {
 		const parsed = parseCliFlags(tail);
 		runFlags = parsed.flags;
 		input = parsed.positional[0] ?? DEFAULT_INPUT;
 		output = parsed.positional[1] ?? DEFAULT_OUTPUT;
+	}
+	if (command === "build" || command === "build-js") {
+		const parsed = parseBuildCliFlags(tail);
+		buildProduction = parsed.production;
+		input = parsed.positional[0] ?? DEFAULT_INPUT;
+		output = parsed.positional[1] ?? DEFAULT_JS_OUTPUT;
+	}
+	if (command === "dev") {
+		const parsed = parseDevCliFlags(tail);
+		await runPointDev(parsed.positional[0] ?? DEFAULT_INPUT, { port: parsed.port });
+		return;
+	}
+	if (command === "test" && tail[0] === "integration") {
+		const integrationInput = tail[1] ?? DEFAULT_INPUT;
+		const result = await runPointIntegrationTests(integrationInput);
+		console.log(JSON.stringify(result, null, 2));
+		if (!result.ok) process.exit(1);
+		return;
 	}
 	if (command.endsWith("-all")) {
 		await runProjectCommand(command);
@@ -53,6 +76,18 @@ export async function main() {
 	if (command === "check-docs") {
 		await runCheckDocs();
 		return;
+	}
+
+	if (command === "app") {
+		const subcommand = Bun.argv[3];
+		if (subcommand === "new") {
+			const appName = Bun.argv[4];
+			const targetDir = Bun.argv[5];
+			if (!appName) throw new Error("Usage: point app new <name> [directory]");
+			await runAppNew(appName, targetDir);
+			return;
+		}
+		throw new Error("Usage: point app new <name> [directory]");
 	}
 
 	if (command === "add") {
@@ -141,8 +176,13 @@ export async function main() {
 		}
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_JS_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-		await Bun.write(outputPath, emitPointCoreJavaScript(program));
-		console.log(`Point core JavaScript build wrote ${outputPath.replaceAll("\\", "/")}`);
+		await Bun.write(outputPath, emitPointCoreJavaScript(program, { production: buildProduction }));
+		const outputLabel = outputPath.replaceAll("\\", "/");
+		console.log(
+			buildProduction
+				? `Point production JavaScript build wrote ${outputLabel} (optimized emit; use host minifier for final bundle)`
+				: `Point core JavaScript build wrote ${outputLabel}`,
+		);
 		return;
 	}
 
@@ -165,14 +205,19 @@ export async function main() {
 		}
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_TS_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-		await Bun.write(outputPath, emitPointCoreTypeScript(program));
+		await Bun.write(outputPath, emitPointCoreTypeScript(program, input));
 		console.log(`Point core TypeScript build wrote ${outputPath.replaceAll("\\", "/")}`);
 		return;
 	}
 
 	if (command === "build-py") {
-		if (diagnostics.length > 0) {
-			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+		const lock = await readPointLock();
+		const coreFile = await loadCoreFile(input, lock);
+		const graph = await createModuleGraphForFile(coreFile, lock);
+		const program = programWithDependencyDeclarations(coreFile, graph);
+		const buildDiagnostics = checkPointCore(program);
+		if (buildDiagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics: buildDiagnostics }, null, 2));
 			process.exit(1);
 		}
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_PY_OUTPUT : output);
@@ -188,19 +233,29 @@ export async function main() {
 			process.exit(1);
 		}
 		let entryName: string | null = null;
+		const emittedJavaScript = emitPointCoreJavaScript(program);
+		let runOutput: string | undefined;
+		let useBundle = false;
 		try {
 			entryName = findRunEntryName(program);
 			if (!entryName) throw new Error("No zero-argument entrypoint found. Define an action or calculation with no inputs.");
-			const useBundle = runFlags?.bundle === true || (runFlags?.bundle !== false && canBundleRunInMemory(program));
+			useBundle = runFlags?.bundle === true || (runFlags?.bundle !== false && canBundleRunInMemory(program));
 			if (runFlags?.bundle === true && !canBundleRunInMemory(program)) {
 				throw new Error("Cannot use --bundle: module has imports, externals, or non-pure logic (views, routes, workflows, commands).");
 			}
 			const value = useBundle
 				? await executeBundledEntry(program, entryName)
-				: await executeTempModuleRun(program, entryName);
+				: await executeTempModuleRun(program, entryName, emittedJavaScript, (path) => {
+						runOutput = path;
+					});
 			if (value !== undefined) console.log(typeof value === "string" ? value : JSON.stringify(value));
 		} catch (error) {
-			console.error(`Runtime error in ${runtimeSourceLocation(program, input, entryName)}: ${error instanceof Error ? error.message : String(error)}`);
+			console.error(
+				`Runtime error in ${runtimeSourceLocation(program, input, entryName, error, emittedJavaScript, {
+					runtimeScriptPath: runOutput,
+					evalBody: useBundle ? bundleJavaScriptForEval(emittedJavaScript).body : undefined,
+				})}: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			process.exit(1);
 		}
 		return;
@@ -272,7 +327,10 @@ async function runProjectCommand(command: string) {
 
 	if (command === "build-all" || command === "build-js-all") {
 		const diagnostics = orderedResults.flatMap((result) =>
-			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({ ...diagnostic, file: result.input })),
+			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({
+				...diagnostic,
+				file: result.input,
+			})),
 		);
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
@@ -282,7 +340,8 @@ async function runProjectCommand(command: string) {
 			const output = jsOutputFor(result.input);
 			const outputPath = resolve(process.cwd(), output);
 			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-			await Bun.write(outputPath, emitPointCoreJavaScript(programWithTypeScriptImports(result, graph)));
+			const program = programWithTypeScriptImports(result, graph);
+			await Bun.write(outputPath, emitPointCoreJavaScript(program));
 		}
 		console.log(`Point core JavaScript build wrote ${results.length} files`);
 		return;
@@ -308,7 +367,10 @@ async function runProjectCommand(command: string) {
 
 	if (command === "build-ts-all") {
 		const diagnostics = orderedResults.flatMap((result) =>
-			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({ ...diagnostic, file: result.input })),
+			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({
+				...diagnostic,
+				file: result.input,
+			})),
 		);
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
@@ -318,7 +380,8 @@ async function runProjectCommand(command: string) {
 			const output = tsOutputFor(result.input);
 			const outputPath = resolve(process.cwd(), output);
 			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-			await Bun.write(outputPath, emitPointCoreTypeScript(programWithTypeScriptImports(result, graph)));
+			const program = programWithTypeScriptImports(result, graph);
+			await Bun.write(outputPath, emitPointCoreTypeScript(program, result.input));
 		}
 		console.log(`Point core TypeScript build wrote ${results.length} files`);
 		return;
@@ -374,12 +437,6 @@ async function discoverInputs(): Promise<string[]> {
 		}
 	}
 	return [...inputs].sort((a, b) => a.localeCompare(b));
-}
-
-function runtimeSourceLocation(program: PointCoreProgram, input: string, entryName: string | null): string {
-	const declaration = program.declarations.find((candidate) => candidate.kind === "function" && candidate.name === entryName);
-	const line = declaration?.span?.start.line;
-	return line ? `${input}:${line}` : input;
 }
 
 async function runRepl(inlineSource: string) {
@@ -446,9 +503,15 @@ function pathToFileUrl(path: string): string {
 	return `file://${path.replaceAll("\\", "/")}`;
 }
 
-async function executeTempModuleRun(program: PointCoreProgram, entryName: string): Promise<unknown> {
+async function executeTempModuleRun(
+	_program: PointCoreProgram,
+	entryName: string,
+	emittedJavaScript: string,
+	onWrite?: (path: string) => void,
+): Promise<unknown> {
 	const runOutput = resolve(tmpdir(), `point-run-${Date.now()}.js`);
-	await Bun.write(runOutput, emitPointCoreJavaScript(program));
+	onWrite?.(runOutput);
+	await Bun.write(runOutput, emittedJavaScript);
 	const mod = await import(pathToFileUrl(runOutput));
 	const entry = mod[entryName];
 	if (typeof entry !== "function") throw new Error(`Entrypoint ${entryName} was not exported.`);
@@ -466,6 +529,16 @@ function parseCliFlags(args: string[]): { flags: Record<string, boolean | undefi
 	return { flags, positional };
 }
 
+export function parseBuildCliFlags(args: string[]): { production: boolean; positional: string[] } {
+	let production = false;
+	const positional: string[] = [];
+	for (const arg of args) {
+		if (arg === "--production") production = true;
+		else positional.push(arg);
+	}
+	return { production, positional };
+}
+
 export function findRunEntryName(program: PointCoreProgram): string | null {
 	const zeroArgFunctions = program.declarations.filter((declaration) => declaration.kind === "function" && declaration.params.length === 0);
 	const preferred =
@@ -475,8 +548,8 @@ export function findRunEntryName(program: PointCoreProgram): string | null {
 	return preferred?.name ?? null;
 }
 
-async function loadCoreFile(input: string, lock: Awaited<ReturnType<typeof readPointLock>>) {
-	const source = await Bun.file(resolve(process.cwd(), input)).text();
+export async function loadCoreFile(input: string, lock: Awaited<ReturnType<typeof readPointLock>>, cwd = process.cwd()) {
+	const source = await Bun.file(resolve(cwd, input)).text();
 	return { input, source, program: parsePointSource(source), uses: parseUseDeclarations(source, input, lock) };
 }
 
@@ -512,7 +585,29 @@ function createModuleGraph(results: CoreFile[], lock: Awaited<ReturnType<typeof 
 	return graph;
 }
 
-function orderByDependencies(results: CoreFile[], graph: ModuleGraph): CoreFile[] {
+export async function createModuleGraphForFile(
+	coreFile: CoreFile,
+	lock: Awaited<ReturnType<typeof readPointLock>>,
+	cwd = process.cwd(),
+): Promise<ModuleGraph> {
+	const loaded = new Map<string, CoreFile>();
+	const pending = [coreFile];
+	while (pending.length > 0) {
+		const current = pending.pop()!;
+		const key = normalizeInput(current.input);
+		if (loaded.has(key)) continue;
+		loaded.set(key, current);
+		for (const use of current.uses) {
+			const dependencyInput = resolveDependencyInput(current.input, use.from, cwd);
+			const dependencyKey = normalizeInput(dependencyInput);
+			if (loaded.has(dependencyKey)) continue;
+			pending.push(await loadCoreFile(dependencyInput, lock, cwd));
+		}
+	}
+	return createModuleGraph([...loaded.values()], lock);
+}
+
+export function orderByDependencies(results: CoreFile[], graph: ModuleGraph): CoreFile[] {
 	const ordered: CoreFile[] = [];
 	const visiting = new Set<string>();
 	const visited = new Set<string>();
@@ -530,7 +625,7 @@ function orderByDependencies(results: CoreFile[], graph: ModuleGraph): CoreFile[
 	return ordered;
 }
 
-function programWithDependencyDeclarations(result: CoreFile, graph: ModuleGraph): PointCoreProgram {
+export function programWithDependencyDeclarations(result: CoreFile, graph: ModuleGraph): PointCoreProgram {
 	const dependencies = graph.get(normalizeInput(result.input))?.dependencies ?? [];
 	return {
 		...result.program,
@@ -538,7 +633,7 @@ function programWithDependencyDeclarations(result: CoreFile, graph: ModuleGraph)
 	};
 }
 
-function programWithTypeScriptImports(result: CoreFile, graph: ModuleGraph): PointCoreProgram {
+export function programWithTypeScriptImports(result: CoreFile, graph: ModuleGraph): PointCoreProgram {
 	const dependencies = graph.get(normalizeInput(result.input))?.dependencies ?? [];
 	const imports: PointCoreDeclaration[] = dependencies.map((dependency) => ({
 		kind: "import",
@@ -555,11 +650,11 @@ function publicDeclarations(program: PointCoreProgram): Array<Extract<PointCoreD
 	);
 }
 
-function resolveDependencyInput(input: string, from: string): string {
+function resolveDependencyInput(input: string, from: string, cwd = process.cwd()): string {
 	const normalized = from.replaceAll("\\", "/");
 	if (normalized.startsWith("./") || normalized.startsWith("../")) {
-		const base = dirname(resolve(process.cwd(), input));
-		return resolve(base, from).replace(resolve(process.cwd()), "").replace(/^[/\\]/, "");
+		const base = dirname(resolve(cwd, input));
+		return resolve(base, from).replace(resolve(cwd), "").replace(/^[/\\]/, "");
 	}
 	return normalized;
 }
@@ -578,7 +673,7 @@ function tsOutputFor(input: string): string {
 	return `${GENERATED_DIR}/${name}.ts`;
 }
 
-function jsOutputFor(input: string): string {
+export function jsOutputFor(input: string): string {
 	const name = outputBaseName(input);
 	return `${GENERATED_DIR}/${name}.js`;
 }
@@ -595,3 +690,4 @@ function pyOutputFor(input: string): string {
 function outputBaseName(input: string): string {
 	return normalizeInput(input).split("/").pop()?.replace(/\.point$/, "") ?? "program";
 }
+

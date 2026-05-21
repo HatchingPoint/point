@@ -1,0 +1,55 @@
+module MiddlewareDemo
+
+external point std crypto
+  check jwt valid(token: Text, secret: Text): Bool from "@hatchingpoint/point/std/crypto" as checkJwtValid
+
+record Auth Headers
+  authorization: Text
+
+record Item Query
+  limit: Text
+
+record Create Item Body
+  name: Text
+
+record Item Response
+  item: Text
+  authenticated: Bool
+
+calculation demo jwt secret
+  output secret: Text
+  secret is "demo-jwt-secret"
+
+middleware require auth
+  input headers: Auth Headers
+  output response: Maybe Text
+  when checkJwtValid(headers.authorization, demoJwtSecret()) == false return "{\"error\":\"unauthorized\"}"
+  otherwise return none
+
+middleware audit request
+  input headers: Auth Headers
+  output response: Maybe Text
+  otherwise return none
+
+route get item
+  method GET
+  path "/items"
+  before require auth
+  before audit request
+  input headers: Auth Headers
+  input query: Item Query
+  output response: Item Response
+  return json { item: query.limit, authenticated: true }
+
+route create item
+  method POST
+  path "/items"
+  before require auth
+  input headers: Auth Headers
+  input body: Create Item Body
+  output response: Item Response
+  return json status 201 { item: body.name, authenticated: true }
+
+command serve middleware demo
+  output result: Text
+  return "Middleware demo ready"

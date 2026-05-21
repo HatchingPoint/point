@@ -2,10 +2,10 @@
 // Point module: Workflows
 
 export async function createUser(email) {
-  return email;
+  return email; // @point 7
 }
 
 export async function signupFlowWorkflow(email) {
-  const createdUser = await createUser(email);
-  return createdUser;
+  const createdUser = await createUser(email); // @point 12
+  return createdUser; // @point 13
 }

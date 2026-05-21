@@ -1,0 +1,42 @@
+module DocumentIngest
+
+policy allowed url
+  input url: Text
+  require url != ""
+
+action fetch document
+  input url: Text
+  output body: Text or Error
+  touches network
+  return url
+
+action parse document
+  input body: Text or Error
+  output parsed: Text or Error
+  touches none
+  return body
+
+action classify document
+  input parsed: Text or Error
+  output category: Text or Error
+  touches none
+  return "general"
+
+action store document
+  input document id: Text or Error
+  input category: Text or Error
+  output path: Text or Error
+  touches network
+  return document id
+
+pipeline document ingest
+  input url: Text
+  output result: Text or Error
+  step fetched is await fetch document(url)
+    retry 2 times
+    require policy allowed url
+    on failure return Error "Fetch failed"
+  step parsed is await parse document(fetched)
+  step classified is await classify document(parsed)
+  step stored is await store document(parsed, classified)
+  return stored

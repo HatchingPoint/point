@@ -5,7 +5,7 @@ import { textLength, textContains, textSplit, textTrim, concatTextValue } from "
 
 import { jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult } from "./json";
 
-import { httpGetRaw, httpPostRaw, httpGetResponse, httpPostResponse } from "./http";
+import { httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed } from "./http";
 
 import { timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMillisecondsResult } from "./time";
 
@@ -14,25 +14,25 @@ import { readFileRaw, writeFileRaw, readFileContents, writeFileResult } from "./
 import { envGetRaw, getEnvVarValue, envWithDefaultResult } from "./env";
 
 export function stdTextExampleMessage(name) {
-  return concatTextValue("Hello ", name);
+  return concatTextValue("Hello ", name); // @point 18
 }
 
 export async function stdJsonExampleResult(value) {
-  return await parseJsonResult(value);
+  return await parseJsonResult(value); // @point 24
 }
 
 export async function stdHttpExampleResponse(url) {
-  return await httpGetResponse(url);
+  return await httpGetResponse(url); // @point 30
 }
 
 export async function stdTimeExampleValue() {
-  return await currentTimeValue();
+  return await currentTimeValue(); // @point 35
 }
 
 export async function stdFsExampleContents(path) {
-  return await readFileContents(path);
+  return await readFileContents(path); // @point 41
 }
 
 export async function stdEnvExampleValue(name) {
-  return await getEnvVarValue(name);
+  return await getEnvVarValue(name); // @point 47
 }

@@ -1,0 +1,11 @@
+module AiDemo
+
+use std.ai
+
+policy can call openai
+  input prompt: Text
+  require prompt != ""
+
+policy can call anthropic
+  input prompt: Text
+  require prompt != ""

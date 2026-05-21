@@ -1,0 +1,14 @@
+module YamlConfigDemo
+
+use std.yaml
+
+calculation serialized config yaml
+  input record: Text
+  output yaml: Text
+  yaml is stringifyYamlResult(record)
+
+action load config
+  input raw yaml: Text
+  output record: Text or Error
+  touches none
+  return await parseYamlResult(raw yaml)

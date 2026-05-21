@@ -3,9 +3,9 @@
 
 
 export function sampleNumbersValues() {
-  return [1, 2, 3];
+  return [1, 2, 3]; // @point 10
 }
 
 export function sampleItem() {
-  return { name: "Pencil", unitPrice: 2, quantity: 4 };
+  return { name: "Pencil", unitPrice: 2, quantity: 4 }; // @point 14
 }

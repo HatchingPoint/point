@@ -27,9 +27,12 @@ export type PointCoreSymbolKind =
 	| "action"
 	| "policy"
 	| "view"
+	| "layout"
+	| "slot"
 	| "page"
 	| "route"
 	| "workflow"
+	| "pipeline"
 	| "command";
 
 export interface PointCoreSymbol {
@@ -261,7 +264,7 @@ function semanticSymbolsForDeclaration(moduleName: string, declaration: PointCor
 	}
 	if (declaration.kind === "function" && declaration.semantic) {
 		const semanticPath = `${declaration.semantic.kind}.${declaration.semantic.name}`;
-		return [
+		const symbols: PointCoreSymbol[] = [
 			{
 				ref: semanticRefFor(moduleName, semanticPath),
 				path: semanticPath,
@@ -286,6 +289,19 @@ function semanticSymbolsForDeclaration(moduleName: string, declaration: PointCor
 				};
 			}),
 		];
+		if (declaration.semantic.kind === "layout" && declaration.semantic.layoutSpec) {
+			for (const slot of declaration.semantic.layoutSpec.slots) {
+				symbols.push({
+					ref: semanticRefFor(moduleName, `${semanticPath}.slot.${slot.name}`),
+					path: `${semanticPath}.slot.${slot.name}`,
+					kind: "slot",
+					name: slot.name,
+					module: moduleName,
+					span: declaration.span ?? null,
+				});
+			}
+		}
+		return symbols;
 	}
 	if (declaration.kind === "external" && declaration.semantic) {
 		const semanticPath = `external.${declaration.semantic.name}`;
@@ -326,13 +342,20 @@ function relatedRefsFor(symbol: PointCoreSymbol, index: PointCoreIndex): string[
 		symbol.kind === "action" ||
 		symbol.kind === "policy" ||
 		symbol.kind === "view" ||
+		symbol.kind === "layout" ||
 		symbol.kind === "page" ||
 		symbol.kind === "route" ||
 		symbol.kind === "workflow" ||
+		symbol.kind === "pipeline" ||
 		symbol.kind === "command"
 	) {
 		return index.refs
-			.filter((candidate) => candidate.path.startsWith(`${symbol.path}.param.`) || candidate.path.startsWith(`${symbol.path}.input.`))
+			.filter(
+				(candidate) =>
+					candidate.path.startsWith(`${symbol.path}.param.`) ||
+					candidate.path.startsWith(`${symbol.path}.input.`) ||
+					candidate.path.startsWith(`${symbol.path}.slot.`),
+			)
 			.map((candidate) => candidate.ref);
 	}
 	return [];
@@ -353,9 +376,12 @@ function summaryFor(symbol: PointCoreSymbol): string {
 	if (symbol.kind === "action") return `Semantic action ${symbol.name} returns ${symbol.type}; effects: ${(symbol.effects ?? []).join(", ") || "none"}.`;
 	if (symbol.kind === "policy") return `Semantic policy ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "view") return `Semantic view ${symbol.name} returns React JSX.`;
+	if (symbol.kind === "layout") return `Semantic layout ${symbol.name} composes page slots as React JSX.`;
+	if (symbol.kind === "slot") return `Layout slot ${symbol.name}.`;
 	if (symbol.kind === "page") return `Semantic page ${symbol.name} returns a Next.js page shell as React JSX.`;
 	if (symbol.kind === "route") return `Semantic route ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "workflow") return `Semantic workflow ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "pipeline") return `Semantic pipeline ${symbol.name} returns ${symbol.type} with typed step events.`;
 	if (symbol.kind === "command") return `Semantic command ${symbol.name} returns ${symbol.type}.`;
 	return `Field ${symbol.name}: ${symbol.type}.`;
 }

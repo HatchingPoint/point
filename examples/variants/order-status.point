@@ -1,0 +1,24 @@
+module Order Variants
+
+variant Order Status
+  Pending
+  Processing
+  Shipped with tracking number: Text
+  Delivered
+  Cancelled with reason: Text
+
+calculation pending status
+  output status: Order Status
+  status is Pending
+
+calculation shipped status
+  output status: Order Status
+  status is Shipped with tracking number: "1Z999AA10123456784"
+
+label status message
+  input status: Order Status
+  output Text
+  on Pending return "Your order is pending"
+  on Shipped with tracking number return "Shipped — tracking " + tracking number
+  on Cancelled with reason return "Cancelled: " + reason
+  otherwise return "In progress"

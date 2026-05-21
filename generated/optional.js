@@ -3,9 +3,9 @@
 
 
 export function missingEmail() {
-  return null;
+  return null; // @point 9
 }
 
 export function knownUser() {
-  return { name: "Ada", email: null };
+  return { name: "Ada", email: null }; // @point 13
 }

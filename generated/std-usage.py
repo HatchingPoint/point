@@ -7,7 +7,7 @@ from text import textLength, textContains, textSplit, textTrim, concatTextValue
 
 from json import jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult
 
-from http import httpGetRaw, httpPostRaw, httpGetResponse, httpPostResponse
+from http import httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed
 
 from time import timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMillisecondsResult
 

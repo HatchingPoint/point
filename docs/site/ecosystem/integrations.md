@@ -18,10 +18,13 @@ Views target React-style components. Routes target handler-style server code. Su
 
 ## Interop boundaries
 
-Use `external` declarations for npm packages, Node built-ins, or host APIs. Use `action` blocks when behavior touches effects such as files, network, environment, time, or randomness.
+Use `external` declarations for npm packages, Node built-ins, or host APIs. Use `action` blocks when behavior touches effects such as files, network, environment, time, randomness, or **database** IO.
+
+For relational data, declare a driver `external` or use `std.sql` — see [Database interop](/point/ecosystem/database-interop).
 
 ## See also
 
 - [Effects](/point/language/effects)
+- [Database interop](/point/ecosystem/database-interop)
 - [Applications](/point/language/applications)
 - [Build and emit](/point/toolchain/build-emit)

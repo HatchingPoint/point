@@ -46,12 +46,8 @@ export function readinessSummary(signals: ListingSignals): string {
 export function readinessWidgetView(signals: ListingSignals, onSignalsChange: (value: ListingSignals) => void): JSX.Element {
   return (
     <>
-    <label><input type="checkbox" checked={signals.hasScreenshots} onChange={(e) => onSignalsChange({ ...signals, hasScreenshots: e.target.checked })} />Screenshots</label>
-    <label><input type="checkbox" checked={signals.hasDescription} onChange={(e) => onSignalsChange({ ...signals, hasDescription: e.target.checked })} />Description</label>
-    <label><input type="checkbox" checked={signals.hasPrivacyPolicy} onChange={(e) => onSignalsChange({ ...signals, hasPrivacyPolicy: e.target.checked })} />Privacy policy</label>
-    <label><input type="checkbox" checked={signals.hasSupportUrl} onChange={(e) => onSignalsChange({ ...signals, hasSupportUrl: e.target.checked })} />Support URL</label>
-    <label><input type="checkbox" checked={signals.hasAgeRating} onChange={(e) => onSignalsChange({ ...signals, hasAgeRating: e.target.checked })} />Age rating</label>
-      {listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}
+    <form className="point-form" onSubmit={(event) => event.preventDefault()}><label className="point-form-field"><input type="checkbox" checked={signals.hasScreenshots} onChange={(event) => onSignalsChange({ ...signals, hasScreenshots: event.target.checked })} aria-label="Screenshots" />Screenshots</label><label className="point-form-field"><input type="checkbox" checked={signals.hasDescription} onChange={(event) => onSignalsChange({ ...signals, hasDescription: event.target.checked })} aria-label="Description" />Description</label><label className="point-form-field"><input type="checkbox" checked={signals.hasPrivacyPolicy} onChange={(event) => onSignalsChange({ ...signals, hasPrivacyPolicy: event.target.checked })} aria-label="Privacy policy" />Privacy policy</label><label className="point-form-field"><input type="checkbox" checked={signals.hasSupportUrl} onChange={(event) => onSignalsChange({ ...signals, hasSupportUrl: event.target.checked })} aria-label="Support URL" />Support URL</label><label className="point-form-field"><input type="checkbox" checked={signals.hasAgeRating} onChange={(event) => onSignalsChange({ ...signals, hasAgeRating: event.target.checked })} aria-label="Age rating" />Age rating</label></form>
+    {listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}
     </>
   );
 }

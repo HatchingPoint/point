@@ -3,13 +3,13 @@
 
 
 export function lineTotal(item) {
-  return (item.unitPrice * item.quantity);
+  return (item.unitPrice * item.quantity); // @point 11
 }
 
 export function cartTotal(items) {
-  let total = 0;
-  for (const item of items) {
-    total += (item.unitPrice * item.quantity);
+  let total = 0; // @point 16
+  for (const item of items) { // @point 17
+    total += (item.unitPrice * item.quantity); // @point 18
   }
-  return total;
+  return total; // @point 19
 }

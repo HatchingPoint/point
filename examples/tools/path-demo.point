@@ -1,0 +1,41 @@
+module PathDemo
+
+use std.path
+
+calculation config file path
+  input app root: Text
+  input config segment: Text
+  output path: Text
+  path is joinPaths(app root, config segment)
+
+calculation log file name
+  input file path: Text
+  output name: Text
+  name is pathBasename(file path)
+
+calculation log directory
+  input file path: Text
+  output dir: Text
+  dir is pathDirname(file path)
+
+calculation backup extension
+  input file path: Text
+  output ext: Text
+  ext is pathExtname(file path)
+
+calculation absolute config path
+  input relative path: Text
+  output resolved: Text
+  resolved is resolvePath(relative path)
+
+calculation uses absolute path
+  input file path: Text
+  output absolute: Bool
+  absolute is pathIsAbsolute(file path)
+
+action path demo
+  input app root: Text
+  input config segment: Text
+  output config path: Text
+  touches none
+  return config file path(app root, config segment)

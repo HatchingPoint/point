@@ -1,0 +1,25 @@
+module ProcessRunner
+
+use std.process
+
+action run echo command
+  input message: Text
+  output result: Process Result or Error
+  touches process
+  return await spawnCommandResult("echo", [message], [])
+
+calculation captured stdout
+  input result: Process Result
+  output stdout: Text
+  stdout is processStdout(result)
+
+calculation child exit code
+  input result: Process Result
+  output code: Int
+  code is processExitCode(result)
+
+action process runner demo
+  input message: Text
+  output result: Process Result or Error
+  touches process
+  return await runEchoCommandResult(message)

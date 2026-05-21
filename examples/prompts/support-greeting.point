@@ -1,0 +1,10 @@
+module SupportGreeting
+
+record Support Context
+  user name: Text
+  tier: Text
+
+prompt support greeting
+  version 1
+  input Support Context
+  template Hello {user name}, thank you for contacting support. Your {tier} plan is ready to help.

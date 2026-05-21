@@ -5,7 +5,7 @@ import { textLength, textContains, textSplit, textTrim, concatTextValue } from "
 
 import { jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult } from "./json";
 
-import { httpGetRaw, httpPostRaw, httpGetResponse, httpPostResponse } from "./http";
+import { httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed } from "./http";
 
 import { timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMillisecondsResult } from "./time";
 

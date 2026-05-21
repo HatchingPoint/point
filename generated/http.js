@@ -5,10 +5,28 @@ import { httpGet as httpGetRaw } from "@hatchingpoint/point/std/http";
 
 import { httpPost as httpPostRaw } from "@hatchingpoint/point/std/http";
 
+import { httpFetch as httpFetchRaw } from "@hatchingpoint/point/std/http";
+
+import { httpAssertStatus as httpAssertStatusRaw } from "@hatchingpoint/point/std/http";
+
+import { httpAssertJsonBody as httpAssertJsonBodyRaw } from "@hatchingpoint/point/std/http";
+
 export async function httpGetResponse(url) {
-  return httpGetRaw(url);
+  return httpGetRaw(url); // @point 14
 }
 
 export async function httpPostResponse(url, body) {
-  return httpPostRaw(url, body);
+  return httpPostRaw(url, body); // @point 21
+}
+
+export async function httpFetchSnapshot(url, options) {
+  return httpFetchRaw(url, options); // @point 28
+}
+
+export function httpAssertStatusPassed(response, expectedStatus) {
+  return httpAssertStatusRaw(response, expectedStatus); // @point 34
+}
+
+export function httpAssertJsonBodyPassed(response, expectedJson) {
+  return httpAssertJsonBodyRaw(response, expectedJson); // @point 40
 }

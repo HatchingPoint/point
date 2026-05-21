@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.0
+
+### Added
+
+- **Platform Phases 14–21** — application platform, realtime, data interop, agent orchestration, Python parity, dev tooling, and hardening (339 tests).
+- **Application platform (Phase 15)** — `layout`, `navigation`, `load data from action`, rich views (`form`, `tabs`, `modal`, `each`), Tailwind `class` bridge.
+- **Realtime & processes (Phase 16)** — `stream route`, view `subscribe to`, workflow retry/timeout/policy, `schedule`, subprocess streaming.
+- **Data interop (Phase 17)** — any database via `action` + `external` or `std.sql`; `load data from action` in views. No vendor-specific DB syntax.
+- **Agent orchestration (Phase 18)** — `pipeline`, `session`, `prompt`, `guard output paths`, `std.ai`.
+- **Python parity (Phase 19)** — routes, workflows, commands, full `python_std/` mirror; `bun run test:py-parity`.
+- **Dev platform (Phase 20)** — `point dev`, `point app new`, `point test integration`, `point build --production`, full-stack template.
+- **Language foundations (Phase 14)** — `std.path`, `std.process`, `std.crypto`, `std.yaml`, `std.stream`; route middleware; typed query/body/headers; `variant` types with `on Case` dispatch; statement-level source maps for `point run`.
+- **Examples** — `examples/app/dashboard/`, `examples/app/notes/`, `examples/app/log-viewer/`, `examples/full-stack-template/`, pipelines, agents, prompts.
+
+### Removed
+
+- **Convex integration** — `server query`, `use query`, `point convex sync`, and Convex emit removed as overfit to one vendor. Use generic database interop (`std.sql` + external drivers) instead.
+
+### Changed
+
+- **Docs site** — `docs/site/` updated for 0.1.0: platform vision, database interop, deploy guide, CLI reference, language overview.
+
 ## 0.0.15
 
 ### Added

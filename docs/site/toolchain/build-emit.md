@@ -12,9 +12,10 @@ Point source is the maintained artifact. Build commands emit target files for ru
 
 ```bash
 point build myfile.point generated/myfile.js
+point build --production myfile.point generated/myfile.js
 ```
 
-Use this for daily execution in Bun or Node.
+Use this for daily execution in Bun or Node. Add `--production` for deploy-oriented emit (production header, compact spacing). Pair with your host minifier or bundler — see [Deploy](/point/toolchain/deploy).
 
 ## TypeScript
 
@@ -27,10 +28,11 @@ Use TypeScript emit when a surrounding project wants `.ts` imports or typechecki
 ## Python
 
 ```bash
-point build-py examples/math.point generated/math.py
+point build-py examples/api/middleware-demo.point generated/middleware-demo.py
+point build-py-all
 ```
 
-Python emit currently targets pure logic modules. Actions, routes, views, and richer runtime integrations still emit through JavaScript or TypeScript.
+Python emit covers logic, actions, routes, workflows, and commands where the backend supports them. Views, layouts, navigation, and realtime client code still target JavaScript or TypeScript. See `docs/python-emit-registry.md` in the repo for the full mapping.
 
 ## AST output
 
@@ -42,6 +44,7 @@ AST output is for debugging and tooling, not normal app execution.
 
 ## See also
 
+- [Deploy](/point/toolchain/deploy)
 - [Pipeline](/point/concepts/pipeline)
 - [Authoring vs runtime](/point/concepts/authoring-vs-runtime)
 - [CLI reference](/point/reference/cli)

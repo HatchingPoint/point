@@ -1,0 +1,663 @@
+{
+  "kind": "coreProgram",
+  "module": "StdPath",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "joinPaths",
+      "params": [
+        {
+          "name": "left",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "left",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        },
+        {
+          "name": "right",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "right",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/path",
+      "importName": "pathJoin",
+      "semantic": {
+        "kind": "external",
+        "name": "join paths"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 40
+        },
+        "end": {
+          "line": 4,
+          "column": 93,
+          "offset": 132
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "pathBasename",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/path",
+      "importName": "pathBasename",
+      "semantic": {
+        "kind": "external",
+        "name": "path basename"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 133
+        },
+        "end": {
+          "line": 5,
+          "column": 88,
+          "offset": 220
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "pathDirname",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/path",
+      "importName": "pathDirname",
+      "semantic": {
+        "kind": "external",
+        "name": "path dirname"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 221
+        },
+        "end": {
+          "line": 6,
+          "column": 86,
+          "offset": 306
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "pathExtname",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/path",
+      "importName": "pathExtname",
+      "semantic": {
+        "kind": "external",
+        "name": "path extname"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 307
+        },
+        "end": {
+          "line": 7,
+          "column": 86,
+          "offset": 392
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "resolvePath",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/path",
+      "importName": "pathResolve",
+      "semantic": {
+        "kind": "external",
+        "name": "resolve path"
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 393
+        },
+        "end": {
+          "line": 8,
+          "column": 86,
+          "offset": 478
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "pathIsAbsolute",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/path",
+      "importName": "pathIsAbsolute",
+      "semantic": {
+        "kind": "external",
+        "name": "path is absolute"
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 479
+        },
+        "end": {
+          "line": 9,
+          "column": 93,
+          "offset": 571
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdPath",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std path",
+        "functions": [
+          {
+            "label": "join paths",
+            "params": [
+              {
+                "label": "left",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              },
+              {
+                "label": "right",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/path",
+            "importAs": "pathJoin",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 4,
+                "column": 93,
+                "offset": 132
+              }
+            }
+          },
+          {
+            "label": "path basename",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/path",
+            "importAs": "pathBasename",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 133
+              },
+              "end": {
+                "line": 5,
+                "column": 88,
+                "offset": 220
+              }
+            }
+          },
+          {
+            "label": "path dirname",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/path",
+            "importAs": "pathDirname",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 221
+              },
+              "end": {
+                "line": 6,
+                "column": 86,
+                "offset": 306
+              }
+            }
+          },
+          {
+            "label": "path extname",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/path",
+            "importAs": "pathExtname",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 307
+              },
+              "end": {
+                "line": 7,
+                "column": 86,
+                "offset": 392
+              }
+            }
+          },
+          {
+            "label": "resolve path",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/path",
+            "importAs": "pathResolve",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 393
+              },
+              "end": {
+                "line": 8,
+                "column": 86,
+                "offset": 478
+              }
+            }
+          },
+          {
+            "label": "path is absolute",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/path",
+            "importAs": "pathIsAbsolute",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 479
+              },
+              "end": {
+                "line": 9,
+                "column": 93,
+                "offset": 571
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 39
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

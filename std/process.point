@@ -1,0 +1,36 @@
+module StdProcess
+
+record Process Result
+  stdout: Text
+  stderr: Text
+  exit code: Int
+
+external point std process
+  spawn raw(command: Text, args: List<Text>, env: List<Text>): Process Result or Error from "@hatchingpoint/point/std/process" as processSpawn
+  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from "@hatchingpoint/point/std/process" as processStreamLines
+
+action spawn command
+  input command: Text
+  input args: List<Text>
+  input env: List<Text>
+  output result: Process Result or Error
+  touches process
+  return spawn raw(command, args, env)
+
+action stream lines from process
+  input command: Text
+  input args: List<Text>
+  input env: List<Text>
+  output line: Text
+  touches process
+  yield stream lines raw(command, args, env)
+
+calculation process stdout
+  input result: Process Result
+  output stdout: Text
+  stdout is result.stdout
+
+calculation process exit code
+  input result: Process Result
+  output exit code: Int
+  exit code is result.exit code

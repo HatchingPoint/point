@@ -3,5 +3,5 @@
 
 
 export function productLineTotal(product) {
-  return (product.price * product.quantity);
+  return (product.price * product.quantity); // @point 11
 }

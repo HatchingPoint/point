@@ -1,0 +1,1600 @@
+{
+  "kind": "coreProgram",
+  "module": "PathDemo",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "configFilePath",
+      "params": [
+        {
+          "name": "appRoot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "app root",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "configSegment",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "config segment",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 21,
+              "offset": 20
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "joinPaths",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "appRoot",
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 132
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 46,
+                    "offset": 177
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "configSegment",
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 132
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 46,
+                    "offset": 177
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 9,
+                "column": 46,
+                "offset": 177
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 132
+            },
+            "end": {
+              "line": 9,
+              "column": 46,
+              "offset": 177
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "config file path",
+        "outputName": "path",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 31
+        },
+        "end": {
+          "line": 5,
+          "column": 29,
+          "offset": 59
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logFileName",
+      "params": [
+        {
+          "name": "filePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "file path",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pathBasename",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "filePath",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 249
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 34,
+                    "offset": 282
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 249
+              },
+              "end": {
+                "line": 14,
+                "column": 34,
+                "offset": 282
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 249
+            },
+            "end": {
+              "line": 14,
+              "column": 34,
+              "offset": 282
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "log file name",
+        "outputName": "name",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 179
+        },
+        "end": {
+          "line": 11,
+          "column": 26,
+          "offset": 204
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "logDirectoryDir",
+      "params": [
+        {
+          "name": "filePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "file path",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 17,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pathDirname",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "filePath",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 353
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 32,
+                    "offset": 384
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 353
+              },
+              "end": {
+                "line": 19,
+                "column": 32,
+                "offset": 384
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 353
+            },
+            "end": {
+              "line": 19,
+              "column": 32,
+              "offset": 384
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "log directory",
+        "outputName": "dir",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 284
+        },
+        "end": {
+          "line": 16,
+          "column": 26,
+          "offset": 309
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "backupExtensionExt",
+      "params": [
+        {
+          "name": "filePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "file path",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pathExtname",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "filePath",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 458
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 32,
+                    "offset": 489
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 458
+              },
+              "end": {
+                "line": 24,
+                "column": 32,
+                "offset": 489
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 458
+            },
+            "end": {
+              "line": 24,
+              "column": 32,
+              "offset": 489
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "backup extension",
+        "outputName": "ext",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 386
+        },
+        "end": {
+          "line": 21,
+          "column": 29,
+          "offset": 414
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "absoluteConfigPathResolved",
+      "params": [
+        {
+          "name": "relativePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "relative path",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 20,
+              "offset": 19
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "resolvePath",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "relativePath",
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 576
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 41,
+                    "offset": 616
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 576
+              },
+              "end": {
+                "line": 29,
+                "column": 41,
+                "offset": 616
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 576
+            },
+            "end": {
+              "line": 29,
+              "column": 41,
+              "offset": 616
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "absolute config path",
+        "outputName": "resolved",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 491
+        },
+        "end": {
+          "line": 26,
+          "column": 33,
+          "offset": 523
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "usesAbsolutePathAbsolute",
+      "params": [
+        {
+          "name": "filePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "file path",
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 32,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pathIsAbsolute",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "filePath",
+                "span": {
+                  "start": {
+                    "line": 34,
+                    "column": 1,
+                    "offset": 697
+                  },
+                  "end": {
+                    "line": 34,
+                    "column": 40,
+                    "offset": 736
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 697
+              },
+              "end": {
+                "line": 34,
+                "column": 40,
+                "offset": 736
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 697
+            },
+            "end": {
+              "line": 34,
+              "column": 40,
+              "offset": 736
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "uses absolute path",
+        "outputName": "absolute",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 31,
+          "column": 1,
+          "offset": 618
+        },
+        "end": {
+          "line": 31,
+          "column": 31,
+          "offset": 648
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "pathDemoConfigPath",
+      "params": [
+        {
+          "name": "appRoot",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "app root",
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 37,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "configSegment",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "config segment",
+          "span": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 38,
+              "column": 21,
+              "offset": 20
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "configFilePath",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "appRoot",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 849
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 52,
+                    "offset": 900
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "configSegment",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 849
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 52,
+                    "offset": 900
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 849
+              },
+              "end": {
+                "line": 41,
+                "column": 52,
+                "offset": 900
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 849
+            },
+            "end": {
+              "line": 41,
+              "column": 52,
+              "offset": 900
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "path demo",
+        "outputName": "config path",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 738
+        },
+        "end": {
+          "line": 36,
+          "column": 17,
+          "offset": 754
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 16,
+      "offset": 15
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "PathDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.path",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "calculation",
+        "name": "config file path",
+        "inputs": [
+          {
+            "label": "app root",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "config segment",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 21,
+                "offset": 20
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "path",
+            "value": {
+              "kind": "call",
+              "callee": "joinPaths",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "app root",
+                  "span": {
+                    "start": {
+                      "line": 9,
+                      "column": 1,
+                      "offset": 132
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 46,
+                      "offset": 177
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "config segment",
+                  "span": {
+                    "start": {
+                      "line": 9,
+                      "column": 1,
+                      "offset": 132
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 46,
+                      "offset": 177
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 9,
+                  "column": 1,
+                  "offset": 132
+                },
+                "end": {
+                  "line": 9,
+                  "column": 46,
+                  "offset": 177
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 9,
+                "column": 46,
+                "offset": 177
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 31
+          },
+          "end": {
+            "line": 5,
+            "column": 29,
+            "offset": 59
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "log file name",
+        "inputs": [
+          {
+            "label": "file path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "name",
+            "value": {
+              "kind": "call",
+              "callee": "pathBasename",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "file path",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 249
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 34,
+                      "offset": 282
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 249
+                },
+                "end": {
+                  "line": 14,
+                  "column": 34,
+                  "offset": 282
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 249
+              },
+              "end": {
+                "line": 14,
+                "column": 34,
+                "offset": 282
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 179
+          },
+          "end": {
+            "line": 11,
+            "column": 26,
+            "offset": 204
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "log directory",
+        "inputs": [
+          {
+            "label": "file path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "dir",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "dir",
+            "value": {
+              "kind": "call",
+              "callee": "pathDirname",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "file path",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 353
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 32,
+                      "offset": 384
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 353
+                },
+                "end": {
+                  "line": 19,
+                  "column": 32,
+                  "offset": 384
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 353
+              },
+              "end": {
+                "line": 19,
+                "column": 32,
+                "offset": 384
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 16,
+            "column": 1,
+            "offset": 284
+          },
+          "end": {
+            "line": 16,
+            "column": 26,
+            "offset": 309
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "backup extension",
+        "inputs": [
+          {
+            "label": "file path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 22,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "ext",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ext",
+            "value": {
+              "kind": "call",
+              "callee": "pathExtname",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "file path",
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 458
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 32,
+                      "offset": 489
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 458
+                },
+                "end": {
+                  "line": 24,
+                  "column": 32,
+                  "offset": 489
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 458
+              },
+              "end": {
+                "line": 24,
+                "column": 32,
+                "offset": 489
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 386
+          },
+          "end": {
+            "line": 21,
+            "column": 29,
+            "offset": 414
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "absolute config path",
+        "inputs": [
+          {
+            "label": "relative path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 20,
+                "offset": 19
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "resolved",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "resolved",
+            "value": {
+              "kind": "call",
+              "callee": "resolvePath",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "relative path",
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 576
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 41,
+                      "offset": 616
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 576
+                },
+                "end": {
+                  "line": 29,
+                  "column": 41,
+                  "offset": 616
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 576
+              },
+              "end": {
+                "line": 29,
+                "column": 41,
+                "offset": 616
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 491
+          },
+          "end": {
+            "line": 26,
+            "column": 33,
+            "offset": 523
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "uses absolute path",
+        "inputs": [
+          {
+            "label": "file path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 32,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "absolute",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "absolute",
+            "value": {
+              "kind": "call",
+              "callee": "pathIsAbsolute",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "file path",
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 697
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 40,
+                      "offset": 736
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 34,
+                  "column": 1,
+                  "offset": 697
+                },
+                "end": {
+                  "line": 34,
+                  "column": 40,
+                  "offset": 736
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 697
+              },
+              "end": {
+                "line": 34,
+                "column": 40,
+                "offset": 736
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 31,
+            "column": 1,
+            "offset": 618
+          },
+          "end": {
+            "line": 31,
+            "column": 31,
+            "offset": 648
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "path demo",
+        "inputs": [
+          {
+            "label": "app root",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 37,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "config segment",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 38,
+                "column": 21,
+                "offset": 20
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "config path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "config file path",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "app root",
+                  "span": {
+                    "start": {
+                      "line": 41,
+                      "column": 1,
+                      "offset": 849
+                    },
+                    "end": {
+                      "line": 41,
+                      "column": 52,
+                      "offset": 900
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "config segment",
+                  "span": {
+                    "start": {
+                      "line": 41,
+                      "column": 1,
+                      "offset": 849
+                    },
+                    "end": {
+                      "line": 41,
+                      "column": 52,
+                      "offset": 900
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 849
+                },
+                "end": {
+                  "line": 41,
+                  "column": 52,
+                  "offset": 900
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 849
+              },
+              "end": {
+                "line": 41,
+                "column": 52,
+                "offset": 900
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 36,
+            "column": 1,
+            "offset": 738
+          },
+          "end": {
+            "line": 36,
+            "column": 17,
+            "offset": 754
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 16,
+        "offset": 15
+      }
+    }
+  }
+}

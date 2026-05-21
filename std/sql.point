@@ -1,0 +1,11 @@
+module StdSql
+
+external point std sql
+  sql query raw(sql: Text, params: List<Text>): Text or Error from "@hatchingpoint/point/std/sql" as sqlQueryRaw
+
+action sql query
+  input sql: Text
+  input params: List<Text>
+  output rows: Text or Error
+  touches database
+  return sql query raw(sql, params)

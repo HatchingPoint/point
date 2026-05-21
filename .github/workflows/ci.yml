@@ -12,3 +12,15 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run ci
+
+  # Optional: cross-language JS/Python parity (requires Python 3).
+  py-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: bun install
+      - run: bun run test:py-parity

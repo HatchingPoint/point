@@ -8,9 +8,9 @@ import { sleep as sleepMilliseconds } from "@hatchingpoint/point/std/time";
 import { formatTime as formatTime } from "@hatchingpoint/point/std/time";
 
 export async function currentTimeValue() {
-  return timeNow();
+  return timeNow(); // @point 11
 }
 
 export async function waitMillisecondsResult(ms) {
-  return sleepMilliseconds(ms);
+  return sleepMilliseconds(ms); // @point 17
 }

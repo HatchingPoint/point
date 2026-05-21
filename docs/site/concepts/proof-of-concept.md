@@ -148,8 +148,11 @@ Agents get fast re-check loops; CI can run `point check` and `point check-json` 
 | `point://semantic/` stable refs | ✅ |
 | LSP (`point lsp`) for Neovim, Zed, etc. | ✅ |
 | VS Code / Cursor extension (Marketplace) | ✅ |
-| `point run`, `point test`, `point test-all` | ✅ |
-| Stdlib (`std/json`, `std/http`, …) | ✅ growing |
+| `point run`, `point test`, `point test integration`, `point test-all` | ✅ |
+| `point dev`, `point app new` | ✅ v0.1.0 |
+| Multi-page apps, WebSockets, database actions | ✅ v0.1.0 |
+| Pipelines, sessions, prompts, guards | ✅ v0.1.0 |
+| Stdlib (`std/json`, `std/http`, `std/sql`, …) | ✅ growing |
 | `point add` + lockfile for deps | ✅ |
 
 You do not need a separate “agent tools” repo to get structured diagnostics — they are part of the language CLI.

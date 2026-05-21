@@ -29,6 +29,8 @@ point repair-plan examples/math.point
 
 Then patch the semantic source and run `point check-json` again until it returns success.
 
+For multi-step agent flows, use `pipeline`, `session`, and `prompt` blocks — see `examples/pipelines/` and `examples/agents/support-chat.point`.
+
 ## Public refs are semantic
 
 For public `.point` source, prefer `point://semantic/...` refs. Core refs may appear in internal compiler paths and generated target details, but semantic refs are the right interface for authors and agents.

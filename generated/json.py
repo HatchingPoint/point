@@ -3,9 +3,15 @@
 
 from __future__ import annotations
 
-from @hatchingpoint/point/std/json import jsonParse as jsonParse
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
 
-from @hatchingpoint/point/std/json import jsonStringify as jsonStringify
+from point_std.json import jsonParse as jsonParse
+
+from point_std.json import jsonStringify as jsonStringify
 
 async def parseJsonResult(value: str) -> str | dict[str, str]:
     return jsonParse(value)

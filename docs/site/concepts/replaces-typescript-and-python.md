@@ -10,29 +10,34 @@ Point replaces hand-written TypeScript and Python for **new application logic**.
 
 For the authoring-vs-runtime model and daily workflow, see [Authoring vs runtime](/point/concepts/authoring-vs-runtime).
 
-## What Point replaces now
+## What Point replaces now (v0.1.0)
 
 | Layer | Status |
 |-------|--------|
-| Business logic (records, rules, calculations, labels) | ✅ Author in Point |
-| HTTP routes, actions, workflows, CLI commands | ✅ Author in Point; emit TS/JS |
+| Business logic (records, rules, calculations, labels, variants) | ✅ Author in Point |
+| HTTP routes, middleware, WebSockets, actions, workflows, CLI | ✅ Author in Point; emit TS/JS |
+| Multi-page UI (layout, navigation, forms, tabs, modals) | ✅ Author in Point; emit TSX |
+| Database access | ✅ `action` + `external` or `std.sql` — any driver |
+| Agent pipelines, sessions, prompts | ✅ Author in Point |
 | `point run` / `point test` without editing emit | ✅ JS-default via temp emit; `build-ts` opt-in |
+| Python automation scripts | ✅ `point build-py` for routes, workflows, commands, stdlib |
 | Libraries published from `.point` only | ✅ `@hatchingpoint/point-logic` on npm |
 | Interactive views and pages | ✅ `view`, `page`, controlled checkboxes, `Handler` callbacks |
-| Pure logic Python modules | ✅ `point build-py` for modules like `math.point` |
-| Docs site chrome, rich layout | ⚠️ Often stays in Next.js until layout blocks grow |
-| Compiler self-host | 📋 Incremental; long-term |
+| Docs site chrome, rich layout | ⚠️ Often stays in Next.js while content syncs from `docs/site/` |
+| Xcode, Swift, iOS native tooling | ❌ Outside Point — invoke via externals/commands |
+| Compiler self-host | 📋 Incremental; naming lint pass shipped |
 
 ## What still interops
 
 - **Bun/Node** run emitted JavaScript
-- **React/Next.js** import generated views
+- **React/Next.js** import generated views and pages
 - **npm** via `external` declarations
+- **PostgreSQL, SQLite, etc.** via driver npm packages or `std.sql`
 - **Editor chrome** on hatchingpoint.com may stay in Next.js while content syncs from `docs/site/`
 
 ## Honest limits
 
-Point is not claiming to replace every TypeScript or Python file in a monorepo in one release. Config, framework glue, and third-party libraries may stay in their native languages. The goal is that **product logic you care about** — the rules, models, and commands agents should repair — lives in `.point`.
+Point is not claiming to replace every TypeScript or Python file in a monorepo in one release. Config, framework glue, and third-party libraries may stay in their native languages. Client bundler setup for production React still flows through your frontend toolchain. The goal is that **product logic you care about** — the rules, models, routes, and commands agents should repair — lives in `.point`.
 
 ## For coding agents
 
@@ -43,6 +48,8 @@ Point is not claiming to replace every TypeScript or Python file in a monorepo i
 ## See also
 
 - [Authoring vs runtime](/point/concepts/authoring-vs-runtime)
+- [Platform vision](/point/concepts/platform-vision)
+- [Database interop](/point/ecosystem/database-interop)
 - [Philosophy](/point/concepts/philosophy)
 - [Introduction](/point/guide/introduction)
 - [CLI reference](/point/reference/cli)

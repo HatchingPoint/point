@@ -67,7 +67,7 @@ action http get
 
 Application modules import the std surface with `use std.http` (and similar) instead of repeating npm import paths. The repository includes a multi-module std usage example under `examples/` that wires text, JSON, HTTP, time, filesystem, and env helpers together.
 
-Available std modules today: `std.text`, `std.json`, `std.http`, `std.time`, `std.fs`, and `std.env`. See the repository `std/README.md` for the full API list.
+Available std modules today include `std.text`, `std.json`, `std.http`, `std.time`, `std.fs`, `std.env`, `std.path`, `std.process`, `std.crypto`, `std.yaml`, `std.stream`, `std.sql`, and `std.ai`. See the repository `std/README.md` for the full API list.
 
 ### Why two layers?
 
@@ -95,9 +95,9 @@ action parse user json
 
 After `point build`, the emitted JavaScript contains a normal `import` from `"zod"`. Your app bundler or runtime must resolve that dependency like any other npm import.
 
-## Python interop (pure logic today)
+## Python interop (v0.1.0)
 
-Point can emit **pure logic** modules to Python with `point build-py`. Records, calculations, rules, and labels lower to typed functions and `TypedDict` shapes. This path is for scripts, services, and data pipelines that do not need npm or Node at runtime.
+Point emits Python for logic, actions, routes, workflows, and commands with `point build-py`. Records, calculations, rules, and labels lower to typed functions and `TypedDict` shapes. Views, layouts, and WebSocket client code remain JS/TS targets.
 
 Example from `examples/math.point`:
 

@@ -6,9 +6,9 @@ import { jsonParse as jsonParse } from "@hatchingpoint/point/std/json";
 import { jsonStringify as jsonStringify } from "@hatchingpoint/point/std/json";
 
 export async function parseJsonResult(value) {
-  return jsonParse(value);
+  return jsonParse(value); // @point 11
 }
 
 export function stringifyJsonResult(value) {
-  return jsonStringify(value);
+  return jsonStringify(value); // @point 16
 }

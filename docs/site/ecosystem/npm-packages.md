@@ -113,21 +113,167 @@ action create customer
 
 Your application's `package.json` must list `"stripe"` (or whatever module string you use) alongside `@hatchingpoint/point` when std shims are involved.
 
-## Publishing a Point-only npm library
+## Publish workflow
 
-Follow the `@hatchingpoint/point-logic` pattern:
+Point libraries publish through **npm-compatible registries**. There is no separate Point registry daemon — `point add … npm:…` installs tarballs via npm and pins paths in `point.lock`. Use `@hatchingpoint/point-logic` as the reference layout.
 
-1. Create a package directory with `src/*.point` only.
-2. Add `point.json` and npm `package.json` with `"type": "module"`.
-3. Wire scripts:
-   - `"check": "point check src/your-module.point"`
-   - `"build": "point build src/your-module.point dist/your-module.js"`
-   - `"prepublishOnly": "bun run build"`
-4. Set `"files": ["dist", "point.json", "src/*.point", "README.md", "LICENSE"]` so `point add … npm:…` can resolve modules from the published tarball.
-5. Map `"exports"` to emitted JavaScript entrypoints.
-6. Run `npm publish --access public` after CI passes.
+### 1. Scaffold the package
 
-Pure logic libraries (records, rules, calculations, labels) can also offer Python wheels or `.py` artifacts via `point build-py` in a separate script — keep npm JS as the primary path for actions and std IO until Python action emit is stable.
+```text
+my-point-lib/
+├── package.json
+├── point.json
+├── src/
+│   └── my-module.point
+├── dist/          # generated — gitignore, included in npm files
+└── README.md
+```
+
+**`point.json`** (minimal):
+
+```json
+{
+  "name": "my-point-lib",
+  "version": "0.1.0"
+}
+```
+
+**`package.json`** (scripts and publish surface):
+
+```json
+{
+  "name": "@your-scope/my-point-lib",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "files": ["dist", "point.json", "src/*.point", "README.md", "LICENSE"],
+  "exports": {
+    ".": "./dist/my-module.js"
+  },
+  "scripts": {
+    "check": "point check src/my-module.point",
+    "build": "point build src/my-module.point dist/my-module.js",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
+```
+
+Rules:
+
+- **Only** `.point` under `src/` — no hand-written TypeScript product logic.
+- **`files`** must include `point.json` and `src/*.point` so downstream projects can `point add … npm:…` and run `point check` against your source.
+- **`prepublishOnly`** runs `point build` so `dist/` is fresh before every publish.
+
+### 2. Build and verify locally
+
+```bash
+npm run check
+npm run build
+npm pack --dry-run   # confirm tarball lists dist/, point.json, src/*.point
+```
+
+From the Point monorepo, the same flow applies:
+
+```bash
+bun run --cwd packages/point-logic check
+bun run --cwd packages/point-logic build
+```
+
+Root CI runs `bun run build:logic` on every push to guard the reference package.
+
+### 3. Publish to the public npm registry
+
+Prerequisites: npm account, scope access (`@your-scope`), and `NPM_TOKEN` in CI.
+
+```bash
+npm login
+npm publish --access public
+```
+
+Consumers then declare the dependency:
+
+```bash
+point add mylib npm:@your-scope/my-point-lib
+point add mylib npm:@your-scope/my-point-lib@0.1.0
+```
+
+Runtime-only consumers can skip `point add` and `import` from `@your-scope/my-point-lib` directly in JavaScript — but Point projects that want `use mylib.*` at check time need the published tarball to include `.point` source.
+
+### 4. Publish to GitHub Packages
+
+Use GitHub Packages when the library should stay org-private or versioned beside a GitHub repo.
+
+**Library `package.json`** — point publish at GitHub’s npm endpoint:
+
+```json
+{
+  "name": "@your-org/my-point-lib",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/my-point-lib.git"
+  }
+}
+```
+
+**Publisher `.npmrc`** (repo root or user home):
+
+```ini
+@your-org:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+**Publish:**
+
+```bash
+export GITHUB_TOKEN=ghp_...   # write:packages + read:packages
+npm publish
+```
+
+**GitHub Actions** (typical):
+
+```yaml
+- run: npm ci && npm run check && npm run build
+- run: npm publish
+  env:
+    NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Use `GITHUB_TOKEN` for packages in the same repo; use a PAT with `write:packages` for cross-repo publishes.
+
+**Consumers** add the same scoped `.npmrc`, then:
+
+```bash
+point add mylib npm:@your-org/my-point-lib
+```
+
+See [point add — registry configuration](/point/ecosystem/point-add#registry-configuration) for lockfile behavior and troubleshooting.
+
+### 5. Versioning and CI checklist
+
+| Check | Why |
+|-------|-----|
+| `point check` passes in CI | Catches semantic errors before publish |
+| `point build` produces `dist/` | Tarball must not ship stale emit |
+| `npm pack --dry-run` lists `.point` + `point.json` | Required for `point add npm:` consumers |
+| Semver bump in `package.json` | npm rejects duplicate versions |
+| Changelog / tag (optional) | Team discovery — not enforced by tooling |
+
+Bump `@hatchingpoint/point` when compiler or std shim paths change; bump library packages when product rules change independently.
+
+### 6. Optional Python artifacts
+
+Pure logic libraries (records, rules, calculations, labels) can also ship Python via `point build-py` in a separate CI job or optional npm script. Keep **npm JS** as the primary path for actions and std IO until Python action emit is stable across all block families.
+
+### Hosted index (manual)
+
+A future Point-hosted catalog may list package names, descriptions, and semver ranges. **Today:** maintain discovery in README, internal wikis, or `registry.json` you own. Installation remains `point add <alias> npm:<package>` — no extra CLI flag is required once the tarball is on an npm-compatible registry.
 
 ## Version alignment
 
@@ -168,9 +314,18 @@ For `npm:` specs, the CLI installs (or reuses) the package under `node_modules/`
 - Missing `@hatchingpoint/point` in app dependencies when using `use std.*` (emit imports std shims).
 - Expecting `@hatchingpoint/point-logic` to include HTTP servers — it exports pure scoring functions; see dogfood examples in the repository for route wiring.
 
+## Registry comparison
+
+| Option | Discovery | Auth | `point add npm:` |
+|--------|-----------|------|------------------|
+| npmjs (public) | npmjs.com, search | Optional for install | Works out of the box |
+| GitHub Packages | GitHub repo / org | `GITHUB_TOKEN` / PAT | Works with scoped `.npmrc` |
+| Private mirror | Internal docs | Mirror credentials | Works with `registry=` in `.npmrc` |
+| Point hosted index | Not shipped yet | N/A | Same `npm:` install when index only lists names |
+
 ## See also
 
-- [point add](/point/ecosystem/point-add) — `workspace:`, `file:`, and `npm:` specs
+- [point add](/point/ecosystem/point-add) — `workspace:`, `file:`, `npm:` specs, publish→consume flow
 - [Stdlib bridge](/point/stdlib/bridge) — externals and `@hatchingpoint/point/std/*`
 - [Installation](/point/guide/installation) — global CLI setup
 - [CLI reference](/point/reference/cli) — `build`, `build-py`, `check-all`

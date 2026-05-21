@@ -22,7 +22,7 @@ The checker validates names, types, field access, optional values, result values
 
 ## Emit
 
-`point build` emits JavaScript by default for daily use. `point build-ts` emits TypeScript for typed JavaScript stacks. `point build-py` emits Python for pure logic modules.
+`point build` emits JavaScript by default for daily use. `point build-ts` emits TypeScript for typed JavaScript stacks. `point build-py` emits Python for automation targets (logic, actions, routes, workflows, commands).
 
 Generated files should not be hand-edited to fix product behavior. Repair `.point` source and rebuild.
 

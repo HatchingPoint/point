@@ -1,0 +1,16 @@
+module StdYaml
+
+external point std yaml
+  yaml parse(value: Text): Text or Error from "@hatchingpoint/point/std/yaml" as yamlParse
+  yaml stringify(value: Text): Text from "@hatchingpoint/point/std/yaml" as yamlStringify
+
+action parse yaml
+  input value: Text
+  output result: Text or Error
+  touches none
+  return yaml parse(value)
+
+calculation stringify yaml
+  input value: Text
+  output result: Text
+  result is yaml stringify(value)

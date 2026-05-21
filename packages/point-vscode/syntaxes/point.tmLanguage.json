@@ -52,7 +52,7 @@
       "patterns": [
         {
           "name": "keyword.control.declaration.point",
-          "match": "\\b(module|use|record|calculation|rule|label|input|output|starts|at|as|is|add|to|subtract|from|set|when|otherwise|return|allow|deny|require|render|for|each|in|and|or|await|action|policy|view|route|workflow|command|external)\\b"
+          "match": "\\b(module|use|record|variant|calculation|rule|label|input|output|starts|at|as|is|add|to|subtract|from|set|when|on|otherwise|return|allow|deny|require|render|class|for|each|in|and|or|with|await|action|policy|guard|view|middleware|before|route|workflow|pipeline|session|message|messages|stream|command|schedule|prompt|version|template|every|call|external|method|path|json|status|headers|none|layout|slot|navigation|link|load|page|theme|mount|empty|error|loading|data|form|modal|tabs|tab|bind|field|checkbox|dialog|server|query|mutation|insert|patch|delete|collect|table|scope|retry|timeout|failure|touches|file)\\b"
         }
       ]
     },

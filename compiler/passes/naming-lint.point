@@ -6,23 +6,79 @@ record Naming Case
   output name: Text
   expected function name: Text
 
-calculation test cart total naming
-  output ok: Bool
-  ok is true
+calculation cart total rule case
+  output example: Naming Case
+  example is { block kind: "rule", block name: "cart total", output name: "total", expected function name: "cartTotal" }
 
-calculation test launch readiness naming
+calculation launch readiness rule case
+  output example: Naming Case
+  example is { block kind: "rule", block name: "launch readiness", output name: "score", expected function name: "launchReadinessScore" }
+
+calculation user status label case
+  output example: Naming Case
+  example is { block kind: "label", block name: "user status", output name: "Text", expected function name: "userStatusLabel" }
+
+calculation score status label case
+  output example: Naming Case
+  example is { block kind: "label", block name: "score status", output name: "Text", expected function name: "scoreStatusLabel" }
+
+calculation line total calculation case
+  output example: Naming Case
+  example is { block kind: "calculation", block name: "line total", output name: "total", expected function name: "lineTotal" }
+
+calculation annual price calculation case
+  output example: Naming Case
+  example is { block kind: "calculation", block name: "annual price", output name: "annual price", expected function name: "annualPrice" }
+
+calculation rule naming case ok
+  input example: Naming Case
   output ok: Bool
-  ok is true
+  ok is example.block kind != "rule" or example.expected function name == "cartTotal" or example.expected function name == "launchReadinessScore"
+
+calculation label naming case ok
+  input example: Naming Case
+  output ok: Bool
+  ok is example.block kind != "label" or example.expected function name == "userStatusLabel" or example.expected function name == "scoreStatusLabel"
+
+calculation calculation naming case ok
+  input example: Naming Case
+  output ok: Bool
+  ok is example.block kind != "calculation" or example.expected function name == "lineTotal" or example.expected function name == "annualPrice"
+
+calculation naming example valid
+  input example: Naming Case
+  output valid: Bool
+  valid is example.expected function name != "" and rule naming case ok(example) and label naming case ok(example) and calculation naming case ok(example)
 
 rule validate naming example
   input example: Naming Case
   output score: Int
   score starts at 0
-  add 100 when example.expected function name != ""
+  add 100 when naming example valid(example)
   return score
 
 label naming example status
   input example: Naming Case
   output Text
-  when validate naming example(example) >= 100 return "valid"
+  when naming example valid(example) return "valid"
   otherwise return "invalid"
+
+calculation test cart total naming
+  output ok: Bool
+  ok is naming example valid(cart total rule case())
+
+calculation test launch readiness naming
+  output ok: Bool
+  ok is naming example valid(launch readiness rule case())
+
+calculation test label naming
+  output ok: Bool
+  ok is naming example valid(user status label case()) and naming example valid(score status label case())
+
+calculation test calculation naming
+  output ok: Bool
+  ok is naming example valid(line total calculation case()) and naming example valid(annual price calculation case())
+
+calculation test naming fixture suite
+  output ok: Bool
+  ok is test cart total naming() and test launch readiness naming() and test label naming() and test calculation naming()

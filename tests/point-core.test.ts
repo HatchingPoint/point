@@ -105,6 +105,48 @@ calculation sample item
 		expect(emitted).toContain('return { name: "Pencil", unitPrice: 2, quantity: 4 };');
 	});
 
+	test("supports variant types, discriminated union emit, and on dispatch", () => {
+		const program = parsePointSource(`module Variants
+
+variant Order Status
+  Pending
+  Shipped with tracking number: Text
+
+calculation pending status
+  output status: Order Status
+  status is Pending
+
+label status message
+  input status: Order Status
+  output Text
+  on Pending return "pending"
+  on Shipped with tracking number return "track " + tracking number
+  otherwise return "other"
+`);
+
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain('export type OrderStatus = { kind: "Pending" } | { kind: "Shipped"; trackingNumber: string };');
+		expect(emitted).toContain('return { kind: "Pending" };');
+		expect(emitted).toContain('if (status.kind == "Shipped")');
+		expect(emitted).toContain("status.trackingNumber");
+	});
+
+	test("rejects variant payload access without narrowing", () => {
+		const program = parsePointSource(`module Variants
+
+variant Order Status
+  Shipped with tracking number: Text
+
+calculation bad access
+  input status: Order Status
+  output text: Text
+  return status.tracking number
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "variant-field-access")).toBe(true);
+	});
+
 	test("supports Maybe optional types and nullable diagnostics", () => {
 		const program = parsePointSource(`module Optional
 
@@ -229,9 +271,12 @@ calculation echo
 		const cli = await Bun.file("packages/point/src/core/cli.ts").text();
 		expect(cli).toContain("runtimeSourceLocation");
 		expect(cli).toContain("Runtime error in");
-		const design = await Bun.file("docs/semantic-language-design.md").text();
-		expect(design).toContain("Runtime Source Mapping");
-		expect(design).toContain("declaration-level");
+		const sourceMap = await Bun.file("packages/point/src/core/source-map.ts").text();
+		expect(sourceMap).toContain("tagEmittedLine");
+		expect(sourceMap).toContain("@point");
+		const runDoc = await Bun.file("docs/site/toolchain/run.md").text();
+		expect(runDoc).toContain("statement-level");
+		expect(runDoc).toContain("Views and pages");
 	});
 
 	test("lowers view blocks to React-targeted JSX functions", () => {
@@ -250,6 +295,42 @@ view counter
 		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/Views/view.counter");
 	});
 
+	test("emits Tailwind class modifiers on view render nodes", () => {
+		const program = parsePointSource(`module Views
+
+view counter
+  input count: Int
+  when count > 0 render class "text-lg font-semibold text-green-700" "Counter ready"
+  render class "text-muted" "Counter empty"
+`);
+
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain('className="text-lg font-semibold text-green-700"');
+		expect(emitted).toContain('className="text-muted"');
+		expect(emitted).toContain("Counter ready");
+		expect(emitted).toContain("Counter empty");
+		expect(emitted).toContain('return <div className="text-lg font-semibold text-green-700">Counter ready</div>');
+		expect(emitted).toContain('return <div className="text-muted">Counter empty</div>');
+	});
+
+	test("merges page main slot classes with point-page shell", () => {
+		const program = parsePointSource(`module Demo
+
+view widget
+  render class "rounded border p-4" "Hello"
+
+page demo page
+  title "Demo"
+  main render class "space-y-4" widget()
+`);
+
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain('className="point-page-main space-y-4"');
+		expect(emitted).toContain('className="rounded border p-4"');
+	});
+
 	test("emits readiness widget view with JSX expression renders", async () => {
 		const source = await Bun.file("examples/adopters/hatchingpoint/readiness-widget.point").text();
 		const program = parsePointSource(source);
@@ -258,7 +339,8 @@ view counter
 		expect(emitted).toContain("export function readinessWidgetView(signals: ListingSignals, onSignalsChange: (value: ListingSignals) => void): JSX.Element");
 		expect(emitted).toContain('type="checkbox"');
 		expect(emitted).toContain("checked={signals.hasScreenshots}");
-		expect(emitted).toContain("onChange={(e) => onSignalsChange({ ...signals, hasScreenshots: e.target.checked })}");
+		expect(emitted).toContain("onChange={(event) => onSignalsChange({ ...signals, hasScreenshots: event.target.checked })}");
+		expect(emitted).toContain('className="point-form"');
 		expect(emitted).toContain("Screenshots");
 		expect(emitted).toContain("{listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}");
 		expect(emitted).toContain("export function readinessSummary(signals: ListingSignals): string");
@@ -275,6 +357,49 @@ view counter
 		expect(emitted).toContain('className="point-page-description"');
 		expect(emitted).toContain("{readinessWidgetView(signals, onSignalsChange)}");
 		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/ReadinessPage/page.readiness page");
+	});
+
+	test("emits layout blocks with slot props and page composition", async () => {
+		const source = await Bun.file("examples/app/dashboard/dashboard.point").text();
+		const program = parsePointSource(source);
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain("export type AppShellLayoutSlots = { header?: JSX.Element; sidebar?: JSX.Element; main?: JSX.Element; footer?: JSX.Element }");
+		expect(emitted).toContain("export function appShellLayout(slots: AppShellLayoutSlots = {}): JSX.Element");
+		expect(emitted).toContain('className="point-layout-sidebar"');
+		expect(emitted).toContain("{slots.sidebar ?? <>{dashboardNavView()}</>}");
+		expect(emitted).toContain("export function settingsPage(settings: WorkspaceSettings, onSettingsChange: (value: WorkspaceSettings) => void): JSX.Element");
+		expect(emitted).toContain("return appShellLayout({");
+		expect(emitted).toContain("<h1>Settings</h1>");
+		expect(emitted).toContain("{dashboardNavView()}");
+		const refs = createPointCoreIndex(program).refs.map((symbol) => symbol.ref);
+		expect(refs).toContain("point://semantic/DashboardApp/layout.app shell");
+		expect(refs).toContain("point://semantic/DashboardApp/layout.app shell.slot.sidebar");
+		expect(refs).toContain("point://semantic/DashboardApp/page.settings page");
+	});
+
+	test("reports unknown layout references in check-json diagnostics", () => {
+		const program = parsePointSource(`module Broken
+
+page home page
+  layout missing shell
+  title "Home"
+  main render "Hello"
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "unknown-layout")).toBe(true);
+		expect(diagnostics.find((diagnostic) => diagnostic.code === "unknown-layout")?.ref).toBe("point://semantic/Broken/page.home page");
+	});
+
+	test("requires sidebar and main slots on layouts", () => {
+		const program = parsePointSource(`module Broken
+
+layout incomplete shell
+  slot header render "Top"
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "missing-layout-slot" && diagnostic.message.includes("sidebar"))).toBe(true);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "missing-layout-slot" && diagnostic.message.includes("main"))).toBe(true);
 	});
 
 	test("lowers route blocks to Hono-targeted handlers", () => {
@@ -343,6 +468,21 @@ command hello cli
 		expect(generated).toContain("todoItemView");
 		expect(generated).toContain("getTodosRoute");
 		expect(generated).toContain("openDashboardWorkflow");
+	});
+
+	test("full-stack template checks, builds TypeScript, and runs admin demo", async () => {
+		const app = "examples/full-stack-template/src/app.point";
+		await Bun.$`bun packages/point/src/cli.ts check ${app}`.quiet();
+		await Bun.$`bun packages/point/src/cli.ts build-ts ${app} generated/full-stack-template-app.ts`.quiet();
+		const run = await Bun.$`bun packages/point/src/cli.ts run ${app}`.quiet();
+		expect(run.stdout.toString().trim()).toBe("Admin app navigation ready");
+		const emitted = await Bun.file("generated/full-stack-template-app.ts").text();
+		expect(emitted).toContain("adminShellLayout");
+		expect(emitted).toContain("settingsPage");
+		expect(emitted).toContain("membersPage");
+		expect(await Bun.file("examples/full-stack-template/README.md").exists()).toBe(true);
+		const manifest = await Bun.file("examples/full-stack-template/point.json").json();
+		expect(manifest.name).toBe("full-stack-template");
 	});
 
 	test("external starter template checks, builds, and runs without hand-written TypeScript", async () => {
@@ -471,6 +611,10 @@ calculation annual price
 	test("runs self-hosted naming lint pass", async () => {
 		const result = await Bun.$`bun packages/point/src/cli.ts test compiler/passes/naming-lint.point`.quiet();
 		expect(result.exitCode).toBe(0);
+		const payload = JSON.parse(result.stdout.toString()) as { ok: boolean; tests: Array<{ name: string; ok: boolean }> };
+		expect(payload.ok).toBe(true);
+		expect(payload.tests.length).toBeGreaterThanOrEqual(5);
+		expect(payload.tests.find((test) => test.name === "test naming fixture suite")?.ok).toBe(true);
 	});
 
 	test("ships language spec, agent quick reference, and adoption docs", async () => {

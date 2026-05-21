@@ -8,7 +8,7 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.1.0` (see `npm view @hatchingpoint/point version`)
 
 ## Invocation
 
@@ -30,13 +30,25 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `explain` | Explain a ref: `point explain <file> <ref>` | 0 |
 | `repair-plan` | Ordered repair steps from diagnostics | 1 if diagnostics |
 | `print-ast` | Dump core program JSON | 0 |
-| `build` | Write core AST JSON to output path | 1 on diagnostics |
+| `build` | Emit JavaScript (default `generated/<base>.js`); `--production` for deploy-oriented emit | 1 on diagnostics |
 | `build-ts` | Emit TypeScript (default `generated/<base>.ts`) | 1 on diagnostics |
-| `build-js` | Emit JavaScript | 1 on diagnostics |
+| `build-js` | Alias for `build` (same flags) | 1 on diagnostics |
+| `build-py` | Emit Python (logic, actions, routes, workflows, commands where supported) | 1 on diagnostics |
+| `build-py-all` | Emit Python for all discovered files (skips unsupported blocks) | 1 on diagnostics |
 | `run` | Check, run zero-arg entrypoint (in-memory bundle for pure logic; else temp JS) | 1 on check/runtime error |
+| `dev` | Watch module graph, incremental check/build, restart Bun server or re-run entry | 1 on initial check failure |
 | `test` | Run `test*` Bool calculations/actions | 1 on failure |
+| `test integration` | Start route server and run `integration test*` Bool actions | 1 on failure |
 | `repl` | Evaluate expressions from stdin or inline | 0 |
 | `lsp` | Start stdio language server | runs until stopped |
+
+## App scaffolding
+
+| Command | Purpose | Exit |
+|---------|---------|------|
+| `app new` | Copy full-stack template: `point app new <name> [directory]` | 1 on invalid name or non-empty target |
+
+Creates a project directory with `point.json`, `src/app.point` (layout, navigation, three pages, sample action), and README. Template source: `examples/full-stack-template/` in the Point repo.
 
 ## Package management
 
@@ -67,7 +79,7 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 
 | Variable | Effect |
 |----------|--------|
-| `POINT_INCREMENTAL=1` | Cache unchanged files during `check-all` |
+| `POINT_INCREMENTAL=1` | Cache unchanged files during `check-all` and `point dev` rebuilds |
 
 ## Run and test conventions
 
@@ -78,8 +90,15 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 
 Prefer `check-json`, `index`, `explain`, and `repair-plan` for automation. See [AI overview](/point/ai/overview).
 
+## Build flags
+
+| Flag | Commands | Effect |
+|------|----------|--------|
+| `--production` | `build`, `build-js` | Optimized JavaScript emit for deploy (header + compact spacing; use host minifier for final bundle) |
+
 ## See also
 
+- [Deploy](/point/toolchain/deploy)
 - [LSP](/point/toolchain/lsp)
 - [Diagnostics](/point/reference/diagnostics)
 - [Installation](/point/guide/installation)

@@ -3,13 +3,19 @@
 
 from __future__ import annotations
 
-from @hatchingpoint/point/std/text import textLength as textLength
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
 
-from @hatchingpoint/point/std/text import textContains as textContains
+from point_std.text import textLength as textLength
 
-from @hatchingpoint/point/std/text import textSplit as textSplit
+from point_std.text import textContains as textContains
 
-from @hatchingpoint/point/std/text import textTrim as textTrim
+from point_std.text import textSplit as textSplit
+
+from point_std.text import textTrim as textTrim
 
 def concatTextValue(left: str, right: str) -> str:
     return (left + right)

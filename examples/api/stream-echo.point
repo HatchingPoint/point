@@ -1,0 +1,15 @@
+module StreamEcho
+
+record Echo Message
+  text: Text
+
+stream route echo
+  path "/ws"
+  message Echo Message
+  on connect return "ready"
+  on message message return { text: message.text }
+  on disconnect return none
+
+command serve stream echo
+  output result: Text
+  return "Stream echo ready"

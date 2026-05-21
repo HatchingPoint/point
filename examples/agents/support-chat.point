@@ -1,0 +1,38 @@
+module SupportChat
+
+external point std ai
+  openai stream raw(key: Maybe<Text>, prompt: Text, model: Text): Text or Error from "@hatchingpoint/point/std/ai" as openaiStream
+
+external point std env
+  env get raw(name: Text): Maybe<Text> from "@hatchingpoint/point/std/env" as envGet
+
+variant Message Role
+  Pending
+  User
+  Assistant
+
+record Chat Message
+  role: Message Role
+  content: Text
+
+record Support Context
+  user name: Text
+  tier: Text
+
+action build greeting prompt
+  input context: Support Context
+  output prompt: Text
+  touches none
+  return "Hello " + context.user name + ", thank you for contacting support. Your " + context.tier + " plan is ready to help."
+
+action summarize support
+  input prompt: Text
+  input model: Text
+  output text: Text or Error
+  touches network
+  return openai stream raw(env get raw("OPENAI_API_KEY"), prompt, model)
+
+session support chat
+  message Chat Message
+  messages messages: List<Chat Message>
+  stream response from action summarize support

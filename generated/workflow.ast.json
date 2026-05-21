@@ -62,6 +62,18 @@
                 "offset": 118
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 104
+            },
+            "end": {
+              "line": 7,
+              "column": 15,
+              "offset": 118
+            }
           }
         }
       ],

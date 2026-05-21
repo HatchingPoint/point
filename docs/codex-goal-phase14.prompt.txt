@@ -1,0 +1,15 @@
+Execute docs/codex-goal-phase14.md goals for Phase 14 Wave 1.
+
+Read first:
+- docs/platform-vision-plan.md
+- docs/phase14-plan.md
+- docs/semantic-language-design.md
+- docs/ai-reference-system.md
+
+Hard rules:
+- Public .point stays semantic
+- General-purpose examples only (no factory/App Store-specific language keywords)
+- Run bun run ci before done
+- Append checkpoint to docs/codex-progress.md
+
+Pick ONE goal per session: P14-1, P14-2, P14-3, or P14-4 for parallel Wave 1.

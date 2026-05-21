@@ -3,6 +3,9 @@ module StdHttp
 external point std http
   http get raw(url: Text): Text or Error from "@hatchingpoint/point/std/http" as httpGet
   http post raw(url: Text, body: Text): Text or Error from "@hatchingpoint/point/std/http" as httpPost
+  http fetch raw(url: Text, options: Text): Text from "@hatchingpoint/point/std/http" as httpFetch
+  http assert status raw(response: Text, expected status: Int): Bool from "@hatchingpoint/point/std/http" as httpAssertStatus
+  http assert json body raw(response: Text, expected json: Text): Bool from "@hatchingpoint/point/std/http" as httpAssertJsonBody
 
 action http get
   input url: Text
@@ -16,3 +19,22 @@ action http post
   output response: Text or Error
   touches network
   return http post raw(url, body)
+
+action http fetch
+  input url: Text
+  input options: Text
+  output snapshot: Text
+  touches network
+  return http fetch raw(url, options)
+
+calculation http assert status
+  input response: Text
+  input expected status: Int
+  output passed: Bool
+  passed is http assert status raw(response, expected status)
+
+calculation http assert json body
+  input response: Text
+  input expected json: Text
+  output passed: Bool
+  passed is http assert json body raw(response, expected json)

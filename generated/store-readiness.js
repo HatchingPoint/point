@@ -3,90 +3,182 @@
 
 
 export function listingScore(signals) {
-  let score = 0;
-  if (signals.hasScreenshots) {
-    score += 20;
+  let score = 0; // @point 13
+  if (signals.hasScreenshots) { // @point 14
+    score += 20; // @point 14
   }
-  if (signals.hasDescription) {
-    score += 20;
+  if (signals.hasDescription) { // @point 15
+    score += 20; // @point 15
   }
-  if (signals.hasPrivacyPolicy) {
-    score += 20;
+  if (signals.hasPrivacyPolicy) { // @point 16
+    score += 20; // @point 16
   }
-  if (signals.hasSupportUrl) {
-    score += 20;
+  if (signals.hasSupportUrl) { // @point 17
+    score += 20; // @point 17
   }
-  if (signals.hasAgeRating) {
-    score += 20;
+  if (signals.hasAgeRating) { // @point 18
+    score += 20; // @point 18
   }
-  return score;
+  return score; // @point 19
 }
 
 export function listingStatusLabel(score) {
-  if (score >= 90) {
-    return "Ready to submit";
+  if (score >= 90) { // @point 24
+    return "Ready to submit"; // @point 24
   }
-  if (score >= 60) {
-    return "Almost ready";
+  if (score >= 60) { // @point 25
+    return "Almost ready"; // @point 25
   }
-  return "Needs work";
+  return "Needs work"; // @point 26
 }
 
 export function demoAppSignals() {
-  return { hasScreenshots: true, hasDescription: true, hasPrivacyPolicy: true, hasSupportUrl: true, hasAgeRating: true };
+  return { hasScreenshots: true, hasDescription: true, hasPrivacyPolicy: true, hasSupportUrl: true, hasAgeRating: true }; // @point 30
 }
 
 export function needsWorkSignals() {
-  return { hasScreenshots: false, hasDescription: true, hasPrivacyPolicy: false, hasSupportUrl: false, hasAgeRating: false };
+  return { hasScreenshots: false, hasDescription: true, hasPrivacyPolicy: false, hasSupportUrl: false, hasAgeRating: false }; // @point 34
 }
 
 export function listingSignalsForAppLabel(id) {
-  if (id == "demo-app") {
-    return demoAppSignals();
+  if (id == "demo-app") { // @point 39
+    return demoAppSignals(); // @point 39
   }
-  if (id == "needs-work") {
-    return needsWorkSignals();
+  if (id == "needs-work") { // @point 40
+    return needsWorkSignals(); // @point 40
   }
-  return needsWorkSignals();
+  return needsWorkSignals(); // @point 41
 }
 
 export function demoAppStatusJsonLabel() {
-  if (listingScore(demoAppSignals()) >= 90) {
-    return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}");
+  if (listingScore(demoAppSignals()) >= 90) { // @point 45
+    return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}"); // @point 45
   }
-  return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}");
+  return (("{\"id\":\"demo-app\",\"score\":100,\"status\":\"" + listingStatusLabel(listingScore(demoAppSignals()))) + "\"}"); // @point 46
 }
 
 export function needsWorkStatusJsonLabel() {
-  if (listingScore(needsWorkSignals()) >= 60) {
-    return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}");
+  if (listingScore(needsWorkSignals()) >= 60) { // @point 50
+    return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}"); // @point 50
   }
-  return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}");
+  return (("{\"id\":\"needs-work\",\"score\":20,\"status\":\"" + listingStatusLabel(listingScore(needsWorkSignals()))) + "\"}"); // @point 51
 }
 
 export function listingStatusPayloadLabel(id) {
-  if (id == "demo-app") {
-    return demoAppStatusJsonLabel();
+  if (id == "demo-app") { // @point 56
+    return demoAppStatusJsonLabel(); // @point 56
   }
-  if (id == "needs-work") {
-    return needsWorkStatusJsonLabel();
+  if (id == "needs-work") { // @point 57
+    return needsWorkStatusJsonLabel(); // @point 57
   }
-  return needsWorkStatusJsonLabel();
+  return needsWorkStatusJsonLabel(); // @point 58
 }
 
 export function getListingStatusRoute(id) {
-  return listingStatusPayloadLabel(id);
+  return listingStatusPayloadLabel(id); // @point 65
 }
 
 export function healthCheckRoute() {
-  return "{\"status\":\"ok\"}";
+  return "{\"status\":\"ok\"}"; // @point 71
 }
 
 export async function serveStoreReadinessCommand() {
   const port = Number(process.env.PORT ?? 3456);
-  const server = Bun.serve({ port, fetch: createPointRouteFetchHandler() });
-  console.log(`Store readiness listening on http://localhost:${server.port}`);
+  const server = Bun.serve({
+    port,
+    fetch: createPointRouteFetchHandler(),
+    ...(typeof createPointRouteWebSocketHandlers === "function" ? { websocket: createPointRouteWebSocketHandlers() } : {}),
+  });
+  console.log(`Routes listening on http://localhost:${server.port}`);
   await new Promise(() => {});
+}
+
+function pointRouteResponse(value, init = {}) {
+  if (value instanceof Response) return value;
+  const status = init.status ?? 200;
+  const headers = { "content-type": "application/json", ...(init.headers ?? {}) };
+  const body = typeof value === "string" ? value : JSON.stringify(value);
+  return new Response(body, { status, headers });
+}
+
+function pointJsonResponse(body, status = 200, headers = {}) {
+  return pointRouteResponse(body, { status, headers });
+}
+
+function pointQueryRecord(searchParams, fields) {
+  const record = {};
+  for (const field of fields) {
+    const value = searchParams.get(field);
+    if (value !== null) record[field] = value;
+  }
+  return record;
+}
+
+function pointHeaderRecord(requestHeaders, fields) {
+  const record = {};
+  for (const field of fields) {
+    const value = requestHeaders.get(field) ?? requestHeaders.get(field.toLowerCase());
+    if (value !== null && value !== undefined) record[field] = value;
+  }
+  return record;
+}
+
+async function pointBodyRecord(request, fields) {
+  const contentType = request.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) return {};
+  try {
+    const parsed = await request.json();
+    if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const record = {};
+    for (const field of fields) {
+      if (Object.prototype.hasOwnProperty.call(parsed, field)) record[field] = parsed[field];
+    }
+    return record;
+  } catch {
+    return {};
+  }
+}
+
+function pointParseStreamMessage(rawMessage, fields) {
+  let parsed = rawMessage;
+  if (typeof rawMessage === "string") {
+    try {
+      parsed = JSON.parse(rawMessage);
+    } catch {
+      parsed = {};
+    }
+  }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) parsed = {};
+  const record = {};
+  for (const field of fields) {
+    if (Object.prototype.hasOwnProperty.call(parsed, field)) record[field] = parsed[field];
+  }
+  return record;
+}
+
+function pointSendStreamPayload(ws, value) {
+  if (value == null) return;
+  ws.send(typeof value === "string" ? value : JSON.stringify(value));
+}
+
+function pointWrapStreamLine(line, fields) {
+  if (fields.length === 1) return { [fields[0]]: line };
+  return { line };
+}
+
+const POINT_STREAM_BACKPRESSURE_LIMIT = 65536;
+
+async function pointPumpProcessStreamToWebSocket(ws, streamFactory, messageFields) {
+  const stream = streamFactory();
+  try {
+    for await (const line of stream) {
+      if (ws.readyState !== 1) break;
+      if (ws.bufferedAmount > POINT_STREAM_BACKPRESSURE_LIMIT) continue;
+      pointSendStreamPayload(ws, pointWrapStreamLine(line, messageFields));
+    }
+  } catch {
+    /* stream ended */
+  }
 }
 
 export function createPointRouteFetchHandler() {
@@ -94,13 +186,13 @@ export function createPointRouteFetchHandler() {
     const url = new URL(req.url);
   if (req.method === "GET" && new RegExp("^\\/apps\\/([^\\/]+)\\/listing-status$").test(url.pathname)) {
     const match = url.pathname.match(new RegExp("^\\/apps\\/([^\\/]+)\\/listing-status$"));
-    const body = getListingStatusRoute(match[1]);
-    return new Response(typeof body === "string" ? body : body, { headers: { "content-type": "application/json" } });
+    const handlerResult = getListingStatusRoute(match[1]);
+    return pointRouteResponse(await handlerResult);
   }
   if (req.method === "GET" && new RegExp("^\\/health$").test(url.pathname)) {
     const match = url.pathname.match(new RegExp("^\\/health$"));
-    const body = healthCheckRoute();
-    return new Response(typeof body === "string" ? body : body, { headers: { "content-type": "application/json" } });
+    const handlerResult = healthCheckRoute();
+    return pointRouteResponse(await handlerResult);
   }
     return new Response(JSON.stringify({ error: "Not found" }), { status: 404, headers: { "content-type": "application/json" } });
   };

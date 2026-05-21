@@ -2,9 +2,9 @@
 // Point module: Policies
 
 export function adultUserPolicy(age) {
-  return (age >= 18);
+  return (age >= 18); // @point 5
 }
 
 export function blockedUserPolicy(blocked) {
-  return (blocked == false);
+  return (blocked == false); // @point 9
 }

@@ -1,6 +1,6 @@
 {
   "name": "point",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "bin": {
@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "test": "bun test",
+    "test:py-parity": "bun scripts/py-parity.ts",
     "point": "bun packages/point/src/cli.ts",
     "fmt": "bun packages/point/src/cli.ts fmt-all",
     "fmt-check": "bun packages/point/src/cli.ts fmt-check-all",
@@ -35,6 +36,7 @@
     "point:test": "bun packages/point/src/cli.ts test-all",
     "benchmark:emit": "bun scripts/benchmark-emit.ts",
     "benchmark:phase7": "bun scripts/phase7-benchmark.ts",
+    "benchmark:platform": "bun scripts/benchmark-platform.ts",
     "publish:release": "bun scripts/publish.ts",
     "publish:npm": "bun scripts/publish-npm.ts",
     "publish:logic": "bun scripts/publish-logic.ts",

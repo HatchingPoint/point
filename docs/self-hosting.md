@@ -10,6 +10,8 @@ The first pass lives in `compiler/passes/naming-lint.point`. It encodes naming v
 - rules append their output role without duplicate suffixes
 - labels append `Label`
 
+Phase 21 extended the pass with fixture cases from `examples/cart-total.point` and `examples/math.point`, kind-specific validation calculations, and a suite test (`test naming fixture suite`). See [compiler/passes/README.md](../compiler/passes/README.md).
+
 Run it with:
 
 ```bash

@@ -5,10 +5,28 @@ import { httpGet as httpGetRaw } from "@hatchingpoint/point/std/http";
 
 import { httpPost as httpPostRaw } from "@hatchingpoint/point/std/http";
 
+import { httpFetch as httpFetchRaw } from "@hatchingpoint/point/std/http";
+
+import { httpAssertStatus as httpAssertStatusRaw } from "@hatchingpoint/point/std/http";
+
+import { httpAssertJsonBody as httpAssertJsonBodyRaw } from "@hatchingpoint/point/std/http";
+
 export async function httpGetResponse(url: string): Promise<string | { message: string }> {
   return httpGetRaw(url);
 }
 
 export async function httpPostResponse(url: string, body: string): Promise<string | { message: string }> {
   return httpPostRaw(url, body);
+}
+
+export async function httpFetchSnapshot(url: string, options: string): Promise<string> {
+  return httpFetchRaw(url, options);
+}
+
+export function httpAssertStatusPassed(response: string, expectedStatus: number): boolean {
+  return httpAssertStatusRaw(response, expectedStatus);
+}
+
+export function httpAssertJsonBodyPassed(response: string, expectedJson: string): boolean {
+  return httpAssertJsonBodyRaw(response, expectedJson);
 }

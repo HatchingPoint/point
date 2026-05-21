@@ -29,6 +29,18 @@
                 "offset": 77
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 57
+            },
+            "end": {
+              "line": 5,
+              "column": 21,
+              "offset": 77
+            }
           }
         }
       ],

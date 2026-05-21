@@ -31,9 +31,28 @@ Honest limits (Bun/Node host still required, no owned VM): see `docs/native-targ
 ```bash
 point test examples/point-tests.point
 point test-all
+point test integration examples/api/middleware-integration.point
 ```
 
-Tests are zero-input calculations or actions whose semantic name starts with `test` and returns `Bool`.
+Unit tests are zero-input calculations or actions whose semantic name starts with `test` and returns `Bool`.
+
+Integration tests are actions whose semantic name starts with `integration test`, return `Bool`, and take either zero inputs or one `base url: Text` input. Point starts the module's route server, passes the live base URL into each test, and runs HTTP assertions against real routes.
+
+Author integration tests with `std.http` helpers:
+
+```text
+use std.http
+
+action integration test health route
+  input base url: Text
+  output passed: Bool
+  touches network
+  return httpAssertStatusRaw(await httpFetchSnapshot(base url + "/health", "{}"), 200) and httpAssertJsonBodyRaw(await httpFetchSnapshot(base url + "/health", "{}"), "{\"status\":\"ok\"}")
+```
+
+`http fetch` returns JSON text `{ "status": <code>, "body": "<response text>" }`. Pass request options as JSON text (`method`, `headers`, `body`). Use `http assert status` and `http assert json body` to compare status codes and JSON payloads.
+
+Integration tests require route blocks so Point can call `startRoutesServer()` from emitted JavaScript. They are not picked up by `point test` or `point test-all`; run them explicitly with `point test integration <file>`.
 
 ## REPL
 

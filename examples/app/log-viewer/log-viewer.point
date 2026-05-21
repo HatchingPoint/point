@@ -1,0 +1,43 @@
+module LogViewer
+
+external point std process
+  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from "@hatchingpoint/point/std/process" as processStreamLines
+
+record Log Line
+  line: Text
+
+action tail demo logs
+  output line: Text
+  touches process
+  yield stream lines raw("sh", ["-c", "i=0; while [ $i -lt 24 ]; do echo demo-line-$i; i=$((i+1)); sleep 0.15; done"], [])
+
+stream route logs
+  path "/ws/logs"
+  message Log Line
+  on connect stream from action tail demo logs
+  on disconnect return none
+
+view log stream panel
+  subscribe to stream logs
+  when connecting render "Connecting to log stream..."
+  when disconnected render "Stream disconnected"
+  each line in messages render line.line
+
+view log stream with handler
+  input on log line: Handler Log Line
+  subscribe to "/ws/logs"
+  on message call on log line
+  render "Streaming logs..."
+
+page log viewer page
+  title "Log Viewer"
+  description "Live subprocess stdout streamed over WebSocket"
+  main render log stream panel()
+
+navigation log viewer app
+  path "/" page log viewer page
+  bootstrap router
+
+command serve log viewer
+  output result: Text
+  return "Log viewer ready — WebSocket at /ws/logs"

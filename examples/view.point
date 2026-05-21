@@ -2,5 +2,5 @@ module Views
 
 view counter
   input count: Int
-  when count > 0 render "Counter ready"
-  render "Counter empty"
+  when count > 0 render class "text-lg font-semibold text-green-700" "Counter ready"
+  render class "text-muted" "Counter empty"

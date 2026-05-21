@@ -1,0 +1,20 @@
+module ConformancePipeline
+
+action fetch text
+  input url: Text
+  output body: Text
+  touches none
+  return url
+
+action parse text
+  input body: Text
+  output parsed: Text
+  touches none
+  return body
+
+pipeline text ingest
+  input url: Text
+  output result: Text
+  step fetched is await fetch text(url)
+  step parsed is await parse text(fetched)
+  return parsed

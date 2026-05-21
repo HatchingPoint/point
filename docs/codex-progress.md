@@ -571,3 +571,430 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (150 tests).
 - Next: Phase 13 — registry service, Python route emit.
 - Blocked: none
+
+## Checkpoint Phase 14 P14-4
+- Completed: Added statement-level source maps for `point run` by preserving semantic spans through desugar (action/command returns), tagging emitted JavaScript with `// @point <line>`, resolving runtime stack frames in `source-map.ts`, and formatting errors against expression lines inside block bodies. Added source map coverage in `tests/run-bridge.test.ts`, updated `tests/point-core.test.ts`, and documented limits in `docs/site/toolchain/run.md`.
+- Verified: `point run --no-bundle` on deliberate `assert.fail()` reports the `return fail()` line (not the action header); `bun run ci` passes.
+- Checkboxes marked: Phase 14 P14-4 statement-level source maps.
+- Next: Phase 14 remaining goals (P14-5+).
+- Blocked: none
+
+## Checkpoint Phase 14 P14-1
+- Completed: Added `std/path.point` with join, basename, dirname, extname, resolve, and is-absolute externals; runtime shim `packages/point/src/std/path.ts` (node:path); export `@hatchingpoint/point/std/path`; general example `examples/tools/path-demo.point`; std runtime tests; updated `docs/site/stdlib/overview.md`.
+- Verified: `point check std/path.point` passes; Bun imports `@hatchingpoint/point/std/path`; `bun run ci` passes (152 tests).
+- Checkboxes marked: Phase 14 P14-1 std.path module.
+- Next: P14-2 route middleware or P14-5 std.process.
+- Blocked: none
+
+## Checkpoint Phase 14 P14-2 — route middleware and typed HTTP inputs
+- Completed: Chose reusable `middleware` blocks plus route-level ordered `before` chains. Reserved `query`, `body`, and `headers` route inputs (record types only). Added `return json` with optional `status` and `headers`. Implemented parse, desugar, checker (`invalid-route-input`, unknown middleware), shared `emit-routes.ts` runtime, and Bun fetch handler stack in JS/TS emit. Example `examples/api/middleware-demo.point`, integration tests in `tests/middleware-routes.test.ts`, docs in `docs/site/language/routes.md` and `docs/semantic-language-design.md`, VS Code grammar/snippets for `middleware`, `before`, `json`, `status`, `headers`, `none`.
+- Verified: `bun run ci` passes; middleware tests cover auth 401, typed query GET, typed body POST, middleware order emit, and type errors.
+- Next: P14-5 std.process or remaining Phase 14 goals.
+- Blocked: none
+
+## Checkpoint Phase 14 P14-3 — variant types
+- Completed: Chose `variant` blocks (not `enum`) for tagged unions with optional per-case payloads and a `kind` discriminator in TypeScript emit. Implemented parse, semantic AST, desugar, checker narrowing (`variant-field-access` diagnostic), and TS/JS emit for discriminated unions. Added `on Case return` / `on Case with field return` label dispatch. Example `examples/variants/order-status.point`, VS Code grammar/snippets, tests in `tests/point-core.test.ts`, conformance fixture discovery. Documented in `docs/language-spec.md` and `docs/semantic-language-design.md`. Fixed `check-docs` to resolve `use` imports when checking referenced `.point` files.
+- Verified: `bun run ci` passes; variant tests assert `export type OrderStatus = ...` and `if (status.kind == "Shipped")` narrowing emit.
+- Next: P14-4 statement-level source maps.
+- Blocked: none
+
+## Checkpoint Phase 14 P14-5 — std.process
+- Completed: Added `std/process.point` with `Process Result` record, `spawn raw` external, `spawn command` action (`touches process`), and stdout/exit-code calculations; runtime shim `packages/point/src/std/process.ts` using `Bun.spawn` with env entries and stdout/stderr capture; export `@hatchingpoint/point/std/process`; general example `examples/tools/process-runner.point`; std runtime tests with echo subprocess and child env; updated `docs/site/stdlib/overview.md` and `docs/site/language/effects.md` (`process` effect).
+- Verified: `point check std/process.point` passes; Bun imports `@hatchingpoint/point/std/process`; `bun test` passes.
+- Checkboxes marked: Phase 14 P14-5 std.process module.
+- Next: remaining Phase 14 goals or Phase 15.
+- Blocked: none
+
+## Checkpoint Phase 14 P14-6 — std.crypto
+- Completed: Added `std/crypto.point` with SHA-256, HMAC-SHA256, JWT sign/verify, and `check jwt valid` externals; runtime shim `packages/point/src/std/crypto.ts` (sync HS256 via `node:crypto`, Bearer normalization, null-safe verify); export `@hatchingpoint/point/std/crypto` with alias exports (`jwtSign`, `checkJwtValid`, etc.); general example `examples/tools/jwt-demo.point`; JWT gate in `examples/api/middleware-demo.point` via `checkJwtValid` external to std shim; secret-handling notes in `docs/site/stdlib/overview.md` and `std/README.md` (use `std.env`, never log keys); known-vector tests in `tests/std-runtime.test.ts`; middleware integration tests for invalid/missing JWT and signed token acceptance in `tests/middleware-routes.test.ts`.
+- Verified: `point check std/crypto.point` passes; `bun test` passes (179 tests).
+- Checkboxes marked: Phase 14 P14-6 std.crypto module.
+- Next: Phase 14 exit gate or Phase 15.
+- Blocked: none
+
+## Checkpoint Phase 14 P14-7 — std.yaml and std.stream
+- Completed: Added `std/yaml.point` (parse/stringify) and `std/stream.point` (read/write text and lines, join lines); runtime shims `packages/point/src/std/yaml.ts` (npm `yaml` package) and `packages/point/src/std/stream.ts` (ReadableStream/WritableStream and Text); exports `@hatchingpoint/point/std/yaml` and `@hatchingpoint/point/std/stream`; general example `examples/tools/yaml-config.point`; std runtime tests for YAML round-trip, invalid YAML errors, stream line I/O, and WritableStream writes; updated `docs/site/stdlib/overview.md`.
+- Verified: `point check std/yaml.point` and `point check std/stream.point` pass; `bun test tests/std-runtime.test.ts` passes (16 tests including yaml/stream).
+- Checkboxes marked: Phase 14 P14-7 std.yaml and std.stream modules.
+- Next: Phase 14 exit gate or Phase 15.
+- Blocked: none
+
+## Checkpoint Phase 15 P15-4 — Styling bridge
+- Completed: Chose `render class "tailwind classes" expression` and `when condition render class "..." expression` on view nodes; optional `main render class "..."` merges with `point-page-main` shell. Parse, semantic AST, desugar (`className` on return IR), TypeScript emit (`<div className="...">`), formatter, VS Code grammar/snippet updates. General example `examples/view.point`; docs in `docs/site/language/applications.md`. Tests in `tests/point-core.test.ts`; legacy parity enrichment for view class metadata.
+- Verified: `bun test` — 189 pass, 2 fail (unrelated Wave 1 P15-1 layout / P15-2 navigation tests in flight); all P15-4 class emit tests pass.
+- Syntax sample emit: `counterView` returns `<div className="text-lg font-semibold text-green-700">` / `<div className="text-muted">` for conditional branches.
+- Checkboxes marked: Phase 15 P15-4 styling bridge (except optional `theme` record — deferred).
+- Next: P15-1 layout / P15-2 navigation completion; P15-3 data loading.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 15 P15-1 — Layout blocks
+- Completed: Chose `layout <name>` with `slot <name> render <expression>` (header, sidebar, main, footer; sidebar+main required) and `page <name>` with optional `layout <name>`. Parse (`collectPageBody` so inner layout lines stay in page bodies), desugar (`layoutSpec` + `pageLayout.layoutFunction`), checker (`unknown-layout`, `missing-layout-slot`, `invalid-layout-slot`, `duplicate-layout-slot`), TypeScript emit (`AppShellLayoutSlots` type + slot prop composition), semantic index refs (`layout.*`, `layout.*.slot.*`), formatter, VS Code snippets, legacy parity enrichment. General example `examples/app/dashboard/dashboard.point` — sidebar+main shell with settings page (coexists with Wave 1 navigation). Tests in `tests/point-core.test.ts`.
+- Verified: `bun test` — 191 pass; `bun run ci` passes.
+- Syntax: `layout app shell` / `slot sidebar render dashboard nav()` / `page settings page` + `layout app shell`.
+- Checkboxes marked: Phase 15 P15-1 layout blocks.
+- Next: P15-3 data loading; P15-5 rich views.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 15 P15-2 — Client navigation
+- Completed: Added `navigation` registry block mapping `path "/..." page ...` to page declarations with optional `bootstrap router`. View link syntax: `link "Label" to "/path"`, `navigate to "/path"`, and `render link "Label" to "/path"`. Path params (`/items/:id`) checked against page inputs (`missing-nav-param`, `invalid-nav-param-type`, `unknown-nav-page`). Emit React Router 7 config (`createBrowserRouter`, route wrappers with `useParams`, `RouterProvider` bootstrap, `pointNavigationLink` helper). Semantic refs + `check-json` diagnostics with repair hints; `point index` / `point explain` coverage. General example `examples/app/dashboard/dashboard.point` (settings, items list, item detail with layout shell). Tests in `tests/client-navigation.test.ts`. VS Code snippet for navigation.
+- Verified: `bun test` — 191 pass, 0 fail.
+- Syntax sample:
+  ```point
+  navigation dashboard app
+    path "/settings" page settings page
+    path "/items/:id" page item detail page
+    bootstrap router
+
+  view sidebar nav
+    link "Settings" to "/settings"
+  ```
+- Checkboxes marked: Phase 15 P15-2 client navigation / route registry.
+- Next: P15-3 data loading; complete dashboard with live list fetch.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 15 P15-3 — Data loading pattern
+- Completed: Added `load data from action <name>` and `on mount call <name>` on views/pages; semantic `when loading render`, `when error render`, and `when empty render` modifiers; desugar metadata (`viewDataLoad`, `pageDataLoad`) with `data` binding; TypeScript emit via `useState`/`useEffect` hook wrapper (`emit-data-load.ts`); checker `check-data-load.ts` with `missing-await` and `unknown-load-action` diagnostics; semantic index refs (`view.*.load.*`, `page.*.load.*`) and explain summaries; formatter, VS Code grammar/snippet, docs in `docs/site/language/applications.md`. General example `examples/app/dashboard/dashboard.point` — `items list` view loads from `action fetch items`.
+- Verified: `bun test` — 196 pass, 0 fail.
+- Syntax:
+  ```point
+  view items list
+    load data from action fetch items
+    when loading render "Loading items..."
+    when error render "Could not load items"
+    when empty render "No items yet"
+    render "Items: " + data
+  ```
+- Checkboxes marked: Phase 15 P15-3 data loading pattern.
+- Next: P15-5 rich views.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 15 P15-5 — Rich view components
+- Completed: Extended `view` block family with semantic `form` (bind field/checkbox), `tabs`/`tab`, `modal`/`when`, and `each`/`render` list. Parse, desugar metadata (`viewControls.fields`, `viewEach`, `viewModal`, `viewTabs`), checker (`check-views.ts`), accessible TSX emit (`point-form`, `pointViewTabs`, `role="dialog"`, `role="list"`), semantic index refs for form/tab/modal/each children, formatter, VS Code grammar/snippets. General example `examples/app/dashboard/dashboard.point` — settings form + tabs + modal, items list with each+links+load, item detail modal. Stateful settings route wrapper via `React.useState`. Tests in `tests/rich-view-components.test.ts`.
+- Verified: `bun test` — 200 pass, 0 fail.
+- Syntax samples:
+  ```point
+  form
+    bind field "Workspace name" to settings.workspace name
+    bind checkbox "Email notifications" to settings.notifications enabled
+  tabs
+    tab "General" render "Theme: " + settings.theme
+    tab "Advanced" render "Advanced preferences"
+  modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active"
+  each item in data render link item.title to "/items/" + item.id
+  ```
+- Checkboxes marked: Phase 15 P15-5 rich view components (4 minimum: form, modal, tabs, list/each).
+- Next: Phase 15 exit gate.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 16 P16-5 — Scheduler
+- Completed: Added `schedule` block family with block form (`schedule <name>` / `every N minutes|seconds|hours` / `call <action>`) and inline form (`schedule every 5 minutes call health check`). Emit `startPointSchedules()` + `setInterval` wrapper for Bun dev; `run ...` commands start schedules and keep process alive. Checker (`unknown-schedule-action`, `schedule-action-needs-inputs`, `duplicate-schedule`). Semantic refs (`schedule.*`, `schedule.*.call.*`), index/explain, formatter, VS Code grammar/snippet. Production cron preference documented in `docs/site/toolchain/run.md`.
+- Verified: `bun test tests/schedule-emit.test.ts` — 6 pass; `bun test` — 207 pass (14 fail from parallel Wave 1 P16-1/P16-3 in flight); `point check` + `point build` on `examples/tools/health-check-schedule.point`.
+- Syntax:
+  ```point
+  schedule health check tick
+    every 5 minutes
+    call health check
+
+  schedule every 30 seconds call health check
+  ```
+- Example: `examples/tools/health-check-schedule.point` — periodic health check logs timestamp via `touches time`.
+- Checkboxes marked: Phase 16 P16-5 scheduler.
+- Next: Wave 2 P16-2 / P16-4.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 16 P16-1 — WebSocket server routes
+- Completed: Added `stream route` semantic block (path, typed `message` record, `on connect` / `on message` / `on disconnect` handlers). Parse, desugar (per-handler functions), check (`invalid-stream-route-message`, `missing-stream-route-handler`), emit Bun.serve WebSocket upgrade + handlers integrated with HTTP route bootstrap. Effect metadata `touches network` on stream routes. Semantic refs `point://semantic/<module>/streamRoute.<name>` with check-json repair hints. General echo example and integration tests with live WebSocket client.
+- Verified: `bun test tests/stream-routes.test.ts` — 7 pass; `bun test` — 221 pass; `point check` + `point build` on `examples/api/stream-echo.point`.
+- Syntax:
+  ```point
+  record Echo Message
+    text: Text
+
+  stream route echo
+    path "/ws"
+    message Echo Message
+    on connect return "ready"
+    on message message return { text: message.text }
+    on disconnect return none
+  ```
+- Example: `examples/api/stream-echo.point` — WebSocket echo server (not factory-themed).
+- Files changed: `packages/point/src/semantic/ast.ts`, `parse.ts`, `desugar.ts`, `check-routes.ts`, `metadata.ts`, `format.ts`, `context.ts`, `naming.ts`, `packages/point/src/core/emit-routes.ts`, `emit-javascript.ts`, `emit-typescript.ts`, `ast.ts`, `semantic-source.ts`, `legacy-lowering.ts`, `examples/api/stream-echo.point`, `tests/stream-routes.test.ts`, `docs/phase16-plan.md`, parity skip lists.
+- Checkboxes marked: Phase 16 P16-1 WebSocket server routes; Phase 16 exit gate stream route criterion.
+- Next: Wave 2 P16-2 client realtime bindings.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 16 P16-3 — Workflow retry, timeout, guards
+- Completed: Extended `workflow` step family with `retry N times`, `timeout after N seconds`, `require policy <name>`, and `on failure return ...`. Desugar emits retry loops, `pointIsError` checks, policy guards, and `pointWorkflowTimedStep` (`Promise.race` + `std.time` sleep). Checker `unknown-policy` with semantic refs and repair hints. General example `examples/workflow-retry.point` (signup/import flow). Tests in `tests/workflow-retry.test.ts`.
+- Verified: `bun test` — 221 pass, 0 fail.
+- Syntax samples:
+  ```point
+  step verified is await verify email(email)
+    retry 3 times
+    timeout after 5 seconds
+    require policy can signup
+    on failure return Error "Email verification failed"
+  ```
+- Checkboxes marked: Phase 16 P16-3 workflow retry, timeout, guards.
+- Next: Wave 2 P16-2 / P16-4.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 16 P16-2 — Client stream subscriptions
+- Completed: View/page `subscribe to "/ws"` or `subscribe to stream <name>` with optional `on message call <handler>`. Emits React `useEffect` WebSocket hook with `messages`/`connected` state and cleanup on unmount. Checker diagnostics with semantic refs and repair hints. General example `examples/app/log-viewer/log-viewer.point`. Tests in `tests/stream-subscribe.test.ts`.
+- Verified: `bun test tests/stream-subscribe.test.ts` — 6 pass; `bun test` — 234 pass, 0 fail.
+- Syntax:
+  ```point
+  view log stream panel
+    subscribe to stream logs
+    when connecting render "Connecting..."
+    when disconnected render "Stream closed"
+    each line in messages render line.line
+
+  view log stream with handler
+    input on log line: Handler Log Line
+    subscribe to "/ws/logs"
+    on message call on log line
+    render "Streaming..."
+  ```
+- Example: `examples/app/log-viewer/log-viewer.point`
+- Checkboxes marked: Phase 16 P16-2 client realtime bindings; Phase 16 exit gate client subscription criterion.
+- Next: P16-4 subprocess streaming polish (if any remaining).
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 16 P16-4 — Subprocess streaming
+- Completed: Extended `action` with `yield <expr>` for async-generator stream actions; `std/process.point` `stream lines from process` + runtime `processStreamLines`; `stream route` `on connect stream from action <name>` bridge emitting `pointPumpProcessStreamToWebSocket` with 64 KiB backpressure skip; general example `examples/app/log-viewer/` (demo shell loop → WS → view subscribe). Tests in `tests/process-stream.test.ts`.
+- Verified: `bun test tests/process-stream.test.ts` — 6 pass; `bun test` — 234 pass, 0 fail; `point check` + `point build` on log-viewer.
+- Syntax:
+  ```point
+  action tail demo logs
+    output line: Text
+    touches process
+    yield stream lines raw("sh", ["-c", "echo demo-line"], [])
+
+  stream route logs
+    path "/ws/logs"
+    message Log Line
+    on connect stream from action tail demo logs
+    on disconnect return none
+  ```
+- Example: `examples/app/log-viewer/` — README documents backpressure limits.
+- Checkboxes marked: Phase 16 P16-4 subprocess streaming; Phase 16 exit gate subprocess streaming + log-viewer criteria.
+- Next: Phase 16 exit gate remaining items.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 17 P17-4 — Generic DB client pattern
+- Completed: Added `docs/site/ecosystem/database-interop.md` documenting non-Convex SQL interop via `external` + parameterized `action` blocks (security: no string concat, fixed templates + `List<Text>` params). Optional `std/sql.point` spike with `sql query` action and `@hatchingpoint/point/std/sql` runtime (Bun SQLite, `?` placeholder validation). General notes CRUD snippets in doc (not factory-themed).
+- Verified: `bun test tests/std-runtime.test.ts` — sql test pass; `bun test` — 235 pass, 0 fail; `point check std/sql.point`; `point check-docs`.
+- Doc: `docs/site/ecosystem/database-interop.md`
+- std.sql: `std/sql.point` + `packages/point/src/std/sql.ts` (spike — SQLite only)
+- Checkboxes marked: Phase 17 P17-4 generic DB client pattern (all items).
+- Next: P17-2 server Convex emit or P17-1 client blocks.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 17 P17-2 — Server Convex emit
+- Completed: Added `server query` / `server mutation` semantic blocks with DB statements (`query all`, `get`, `insert`, `patch`, `delete`). Emit module `packages/point/src/core/emit-convex.ts` writes Convex `query`/`mutation` handlers to `generated/convex/`. Optional `point.json` `convex.tables` maps record types to table names; `convex.outDir` overrides output path. Check/index/explain refs (`serverQuery.*`, `serverMutation.*`, `database` effects). General example `examples/app/notes/notes.point` (CRUD). Tests `tests/convex-server-emit.test.ts`.
+- Verified: `bun test` — 241 pass, 0 fail; `point build-ts examples/app/notes/notes.point` writes `generated/convex/notes.ts`.
+- Syntax:
+  ```point
+  server query get notes
+    output notes: List Note
+    query all from table notes as notes
+    return notes
+
+  server mutation create note
+    input input: Create Note Input
+    output id: Text
+    insert into table notes from input as noteId
+    return noteId
+  ```
+- Emit sample: `export const getNotes = query({ args: {}, handler: async (ctx) => { const notes = await ctx.db.query("notes").collect(); return notes; } });` with `// Convex validators:` comments on each export.
+- Example: `examples/app/notes/` + `examples/app/notes/point.json` convex table map.
+- Next: P17-1 client Convex blocks or P17-3 CLI sync.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 17 P17-1 — Client Convex blocks
+- Completed: Added `use query get notes` / `use mutation create note` and alternate `query notes from server get notes` in views/pages. Emit module `packages/point/src/core/emit-convex-client.ts` imports `useQuery`/`useMutation` from `convex/react` and `api` from configurable path (`convex.apiImport`, `convex.apiModule` in `point.json`). Loading/error/empty states reuse Phase 15 `when loading render` / `when error render` / `when empty render`. Checker `check-convex-client.ts` with semantic refs. Wired `examples/app/notes/notes.point` with list + create form views, layout, navigation. Tests `tests/convex-client-emit.test.ts`.
+- Verified: `bun test` — 257 pass, 0 fail.
+- Syntax:
+  ```point
+  view notes list
+    use query get notes
+    when loading render "Loading notes..."
+    when error render "Could not load notes"
+    when empty render "No notes yet"
+    each note in notes render note.title
+
+  view note create form
+    input draft: Create Note Input
+    use mutation create note
+    form
+      bind field "Title" to draft.title
+  ```
+- Emit sample: `const notesResult = useQuery(api.notes.getNotes, {});` + `const createNote = useMutation(api.notes.createNote);`
+- Example: `examples/app/notes/notes.point`
+- Next: Phase 17 exit gate; schema interop / file storage action.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+- Completed: `point convex sync` copies `generated/convex/*.ts` (or `convex.outDir`) to `convex/functions/` or `convex.syncDir` from `point.json`. `point convex check` validates emit files exist and parse as TypeScript via Bun transpiler. Module `packages/point/src/core/convex-cli.ts`. Docs `docs/site/ecosystem/convex.md`. Tests `tests/convex-sync-cli.test.ts`.
+- Verified: `bun test` — pass (includes convex-sync-cli); `point convex check` from repo root; `point convex sync` in temp project.
+- CLI: `point convex sync | point convex check`
+- Config: `convex.outDir`, `convex.syncDir` in `point.json`
+- Example: `examples/app/notes/` workflow documented in convex.md
+- Next: P17-1 client Convex blocks; Phase 17 exit gate.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P18-4 — Prompt library
+
+- Completed: Added `prompt` semantic block with `version`, `input <record>`, and `template` text; `{placeholder}` interpolation validated against record fields; indexed in `point index` with `point://semantic/` refs; general example at `examples/prompts/support-greeting.point`; tests for missing placeholder and unknown record diagnostics.
+- Verified: `bun test tests/prompt-library.test.ts` — pass (6/6); full suite 265 pass (3 pre-existing failures from parallel P18-5 ai-demo/check-docs).
+- Example: `examples/prompts/support-greeting.point`
+- Next: P18-1 pipeline blocks; P18-3 session + streaming.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P18-5 — Provider external pack (std.ai)
+
+- Completed: Added `std/ai.point` with `external openai provider` and `external anthropic provider` fetch shims; runtime `@hatchingpoint/point/std/ai` (complete + stream text for Chat Completions / Messages APIs); semantic actions load keys via `std.env` only (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`); general example `examples/tools/ai-demo.point`; docs `docs/site/ecosystem/ai-providers.md`; mocked-fetch tests in `tests/ai-providers.test.ts`; updated `std/README.md` and `docs/site/stdlib/overview.md`.
+- Verified: `bun test tests/ai-providers.test.ts tests/check-docs.test.ts tests/semantic-desugar.test.ts tests/semantic-emit.test.ts` — pass; full suite 267 pass / 8 fail (parallel P18-1 pipeline fixtures incomplete).
+- Example: `std/ai.point`, `examples/tools/ai-demo.point`
+- Next: P18-1 pipeline blocks; P18-3 session + streaming.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P18-1 — Pipeline blocks
+
+- Completed: `pipeline` block with input/output, sequential `step` declarations, workflow step modifiers (retry, timeout, require policy, on failure). Emit: async orchestrator, typed `*PipelineEvent` unions, `pointPipelineEventJson` / `pointPipelineEventsJson`, `pointPipelineEmitLog`. Example `examples/pipelines/document-ingest.point`. Tests `tests/pipeline.test.ts`.
+- Verified: `bun test` — 275 pass.
+- Example: `examples/pipelines/document-ingest.point`
+- Next: P18-2 guards; P18-3 session + streaming.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P18-3 — Session and streaming
+
+- Completed: `session` block with `message` record, `messages` list, `stream response from action` binding. Emit: session state type, `*SessionCreate` / `*SessionAddUserMessage`, async generator `*SessionStreamResponse` with `point.session.event.v1` events (start/chunk/complete/failure). Example `examples/agents/support-chat.point`. Tests `tests/session-stream.test.ts`.
+- Verified: `bun test` — 291 pass.
+- Example: `examples/agents/support-chat.point`
+- Next: Phase 18 exit gate review.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P19-1 — Python route emit
+
+- Completed: Added `packages/point/src/core/emit-python-routes.ts` — stdlib `http.server` runtime with middleware stacks, typed query/body/header extraction, `point_json_response` lowering, and `start_routes_server()`. Extended `emit-python.ts` for route modules and `serve` commands; wired `@hatchingpoint/point/std/crypto` via existing `python_std` bootstrap. Example `examples/api/middleware-demo.point` → `generated/middleware-demo.py`. Tests `tests/python-route-emit.test.ts`. Documented stdlib vs FastAPI choice in `docs/python-emit-research.md`.
+- Verified: `bun test` — 300 pass.
+- Example: `examples/api/middleware-demo.point`
+- Next: P19-2 workflow + command emit; P19-3 std mirror completion.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P20-1 — point dev
+
+- Completed: Added `point dev <entry.point> [--port N]` in `packages/point/src/core/dev.ts` — watches the entry module graph via `fs.watch`, incrementally checks through `.point-cache/manifest.json`, rebuilds JavaScript emit to `generated/`, and reloads route servers in-process (`startRoutesServer` + `server.stop`) or subprocess for schedules/run commands. CLI wired in `packages/point/src/core/cli.ts`. Docs in `docs/site/toolchain/run.md` and `docs/site/reference/cli.md`. Tests in `tests/point-dev.test.ts`.
+- Verified: `bun test` — 329 pass.
+- Example: `examples/api/middleware-demo.point`, temp route fixture in `tests/point-dev.test.ts`
+- Next: P20-2 full-stack template + `point app new`.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P19-5 — CI parity suite
+
+- Completed: `bun run test:py-parity` via `scripts/py-parity.ts` — builds paired JS/Python for `examples/math.point`, `examples/tools/path-demo.point`, `examples/api/middleware-demo.point`, then runs `tests/python-parity-suite.test.ts` (pure logic, path std, middleware JWT + HTTP status/body). Optional GitHub Actions job `py-parity` in `.github/workflows/ci.yml` (Python 3.12); main `bun run ci` unchanged.
+- Verified: `bun test` — 316 pass; `bun run test:py-parity` when Python available.
+- Example: `examples/math.point`, `examples/tools/path-demo.point`, `examples/api/middleware-demo.point`
+- Next: Phase 19 exit gate review.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P19-4 — External shim registry
+
+- Completed: Added `docs/python-emit-registry.md` — npm / std external → Python mapping for Point std modules, fetch/http, OpenAI/Anthropic, YAML (PyYAML), jose/crypto (stdlib HS256 JWT), optional Convex scope, and `node:fs` built-ins. Linked from `docs/python-emit-research.md`; updated limits table for std mirror + registry. Marked P19-4 checkboxes in `docs/phase19-plan.md`.
+- Verified: `bun test` — 300 pass.
+- Example: `examples/tools/yaml-config.point`, `examples/tools/ai-demo.point`, `examples/api/middleware-demo.point`
+- Next: P19-2 workflow + command emit; P19-5 CI parity suite.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P19-2 — Python workflow + command emit
+
+- Completed: Added `packages/point/src/core/emit-python-workflow.ts` — `pointIsError`, `pointWorkflowTimedStep` (asyncio.wait_for), and timed-step call lowering. Extended `emit-python.ts` for async workflow functions (retry/timeout/policy/on-failure from Phase 16 desugar), command `if __name__ == "__main__"` entrypoints, and `isPureLogicProgram` now allows workflows/commands. `build-py` merges `use` dependency declarations (fixes `examples/tools/process-runner.point`). Tests `tests/python-workflow-emit.test.ts`.
+- Verified: `bun test` — 316 pass.
+- Example: `examples/workflow-retry.point`, `examples/command.point`, `examples/tools/process-runner.point`
+- Next: Phase 19 exit gate review.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 20 P20-2 — Full-stack template + point app new
+
+- Completed: Added `examples/full-stack-template/` (SaaS admin shell: layout `admin shell`, sidebar nav, three pages — settings, members list, member detail — navigation with path params, `action fetch members` + `load data`, `command admin demo`, `point.json` with Convex stub, README). `point app new <name> [directory]` via `packages/point/src/core/app-cli.ts` copies template and substitutes app name. Tests `tests/app-new-cli.test.ts` and `tests/point-core.test.ts`; CLI docs in `docs/site/reference/cli.md`.
+- Verified: `bun test` — 324 pass; `point check` / `point build-ts` / `point run` on template; `point app new demo-saas` scaffold check+build.
+- Example: `examples/full-stack-template/src/app.point`
+- Next: P20-1 `point dev` or P20-3 integration tests.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P20-4 — Registry publish docs (Phase 13)
+
+- Completed: Expanded `docs/site/ecosystem/point-add.md` (publish→consume workflow, registry table, GitHub Packages consumer `.npmrc`, hosted-index note) and `docs/site/ecosystem/npm-packages.md` (full publish workflow: scaffold, `files`/`exports`, public npm + GitHub Packages publisher/CI, registry comparison). Marked Phase 13 registry checkbox and P20-4 items in `docs/phase13-plan.md` / `docs/phase20-plan.md`. Hosted package index remains manual/future.
+- Verified: `bun test` — 329 pass.
+- Example: `packages/point-logic/` (`@hatchingpoint/point-logic`), `point add logic npm:@hatchingpoint/point-logic`
+- Next: P20-3 integration test harness or P20-5 deploy spike.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P20-5 — Deploy spike
+
+- Completed: `point build --production` / `build-js --production` via `parseBuildCliFlags` and `emitPointCoreJavaScript(program, { production: true })` — production header, compact blank lines, CLI log line. Docs `docs/site/toolchain/deploy.md` (Bun serve, Vercel split, optional `point convex sync`, no platform-specific deploy). Updated `docs/site/toolchain/build-emit.md` and `docs/site/reference/cli.md`. Tests `tests/point-build-production.test.ts`.
+- Verified: `bun test`.
+- Example: `examples/hello.point`, `examples/api/middleware-demo.point` (deploy doc)
+- Next: P20-3 integration tests.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P20-3 — Integration test harness
+
+- Completed: Added `integration test` action convention (Bool actions whose semantic name starts with `integration test`, optional `base url: Text` input). `point test integration <file>` builds the module graph, starts `startRoutesServer()`, runs each integration test against the live base URL, and reports JSON results. Extended `std/http.point` and `@hatchingpoint/point/std/http` with `httpFetch`, `httpAssertStatus`, and `httpAssertJsonBody` snapshot helpers. Example `examples/api/middleware-integration.point` (routes + three HTTP assertions). Tests `tests/integration-harness.test.ts`; docs in `docs/site/toolchain/run-test-repl.md`, `docs/site/stdlib/overview.md`, and CLI reference. Graph-aware docs check for `use` imports.
+- Verified: `bun test` — 341 pass.
+- Example: `examples/api/middleware-integration.point`
+- Next: P20-1 `point dev` polish.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P21-2 — Performance benchmarks
+
+- Completed: Added `scripts/benchmark-platform.ts` timing `check-all` and `build-all` on the repo module graph (58 fixtures, ~42 KB). Wired `benchmark:platform` in root `package.json`. Expanded `docs/performance.md` with reference timings, Big-O expectations, and incremental verification steps (`POINT_INCREMENTAL=1` warm run must report cached modules).
+- Verified: `bun run benchmark:platform` passes incremental warm-run check; `bun test` — 341 pass.
+- Example: `examples/full-stack-template/src/app.point` (largest multi-page app fixture in graph)
+- Next: P21-3 spec and agent docs.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P21-5 — Adoption postmortem v2
+
+- Completed: Added v2 section to `docs/adoption-postmortem.md` — full-stack template pilot (`examples/full-stack-template/`), what works (`point app new`, `point dev`, dashboard block family at template scale), blockers table, external team checklist v2. Marked P21-5 and adoption exit gate in `docs/phase21-plan.md`.
+- Verified: `bun test` — 360 pass; `examples/full-stack-template/` exists with README, `point.json`, multi-page `src/app.point`.
+- Example: `examples/full-stack-template/src/app.point`
+- Next: Recruit real external team for v2.1; P21-1 conformance / P21-3 spec docs.
+- Blocked: none (real external adopter still open — recorded in postmortem, not a P21-5 gate failure)
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint P21-4 — Self-host increment
+
+- Completed: Extended `compiler/passes/naming-lint.point` with fixture cases from `examples/cart-total.point` and `examples/math.point`, kind-specific validation calculations, suite test, and `compiler/passes/README.md`. Added self-hosting roadmap table to `docs/vision.md`; updated `docs/self-hosting.md` and `docs/phase21-plan.md`.
+- Verified: `point test compiler/passes/naming-lint.point` — 5 tests pass; `bun test` — 360 pass.
+- Example: `compiler/passes/naming-lint.point`
+- Next: P21-1 conformance expansion or P21-3 spec docs.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

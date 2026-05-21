@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",
@@ -15,6 +15,7 @@
   },
   "files": [
     "src",
+    "python_std",
     "README.md",
     "LICENSE"
   ],
@@ -30,7 +31,17 @@
     "./std/text": "./src/std/text.ts",
     "./std/time": "./src/std/time.ts",
     "./std/fs": "./src/std/fs.ts",
-    "./std/env": "./src/std/env.ts"
+    "./std/env": "./src/std/env.ts",
+    "./std/path": "./src/std/path.ts",
+    "./std/process": "./src/std/process.ts",
+    "./std/crypto": "./src/std/crypto.ts",
+    "./std/yaml": "./src/std/yaml.ts",
+    "./std/stream": "./src/std/stream.ts",
+    "./std/sql": "./src/std/sql.ts",
+    "./std/ai": "./src/std/ai.ts"
+  },
+  "dependencies": {
+    "yaml": "^2.8.0"
   },
   "publishConfig": {
     "access": "public",

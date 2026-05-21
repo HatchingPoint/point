@@ -51,6 +51,18 @@
                 "offset": 115
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 104
+            },
+            "end": {
+              "line": 8,
+              "column": 12,
+              "offset": 115
+            }
           }
         }
       ],
@@ -99,6 +111,7 @@
         "name": "get user",
         "method": "GET",
         "path": "/users/:id",
+        "before": [],
         "inputs": [
           {
             "label": "id",

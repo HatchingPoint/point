@@ -3,11 +3,17 @@
 
 from __future__ import annotations
 
-from @hatchingpoint/point/std/time import now as timeNow
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
 
-from @hatchingpoint/point/std/time import sleep as sleepMilliseconds
+from point_std.time import now as timeNow
 
-from @hatchingpoint/point/std/time import formatTime as formatTime
+from point_std.time import sleep as sleepMilliseconds
+
+from point_std.time import formatTime as formatTime
 
 async def currentTimeValue() -> str:
     return timeNow()

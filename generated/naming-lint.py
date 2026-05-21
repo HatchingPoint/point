@@ -11,19 +11,58 @@ class NamingCase(TypedDict):
     outputName: str
     expectedFunctionName: str
 
-def testCartTotalNamingOk() -> bool:
-    return True
+def cartTotalRuleCaseExample() -> NamingCase:
+    return {"blockKind": "rule", "blockName": "cart total", "outputName": "total", "expectedFunctionName": "cartTotal"}
 
-def testLaunchReadinessNamingOk() -> bool:
-    return True
+def launchReadinessRuleCaseExample() -> NamingCase:
+    return {"blockKind": "rule", "blockName": "launch readiness", "outputName": "score", "expectedFunctionName": "launchReadinessScore"}
+
+def userStatusLabelCaseExample() -> NamingCase:
+    return {"blockKind": "label", "blockName": "user status", "outputName": "Text", "expectedFunctionName": "userStatusLabel"}
+
+def scoreStatusLabelCaseExample() -> NamingCase:
+    return {"blockKind": "label", "blockName": "score status", "outputName": "Text", "expectedFunctionName": "scoreStatusLabel"}
+
+def lineTotalCalculationCaseExample() -> NamingCase:
+    return {"blockKind": "calculation", "blockName": "line total", "outputName": "total", "expectedFunctionName": "lineTotal"}
+
+def annualPriceCalculationCaseExample() -> NamingCase:
+    return {"blockKind": "calculation", "blockName": "annual price", "outputName": "annual price", "expectedFunctionName": "annualPrice"}
+
+def ruleNamingCaseOk(example: NamingCase) -> bool:
+    return (((example["blockKind"] != "rule") or (example["expectedFunctionName"] == "cartTotal")) or (example["expectedFunctionName"] == "launchReadinessScore"))
+
+def labelNamingCaseOk(example: NamingCase) -> bool:
+    return (((example["blockKind"] != "label") or (example["expectedFunctionName"] == "userStatusLabel")) or (example["expectedFunctionName"] == "scoreStatusLabel"))
+
+def calculationNamingCaseOk(example: NamingCase) -> bool:
+    return (((example["blockKind"] != "calculation") or (example["expectedFunctionName"] == "lineTotal")) or (example["expectedFunctionName"] == "annualPrice"))
+
+def namingExampleValid(example: NamingCase) -> bool:
+    return ((((example["expectedFunctionName"] != "") and ruleNamingCaseOk(example)) and labelNamingCaseOk(example)) and calculationNamingCaseOk(example))
 
 def validateNamingExampleScore(example: NamingCase) -> int:
     score: int = 0
-    if example["expectedFunctionName"] != "":
+    if namingExampleValid(example):
         score += 100
     return score
 
 def namingExampleStatusLabel(example: NamingCase) -> str:
-    if validateNamingExampleScore(example) >= 100:
+    if namingExampleValid(example):
         return "valid"
     return "invalid"
+
+def testCartTotalNamingOk() -> bool:
+    return namingExampleValid(cartTotalRuleCaseExample())
+
+def testLaunchReadinessNamingOk() -> bool:
+    return namingExampleValid(launchReadinessRuleCaseExample())
+
+def testLabelNamingOk() -> bool:
+    return (namingExampleValid(userStatusLabelCaseExample()) and namingExampleValid(scoreStatusLabelCaseExample()))
+
+def testCalculationNamingOk() -> bool:
+    return (namingExampleValid(lineTotalCalculationCaseExample()) and namingExampleValid(annualPriceCalculationCaseExample()))
+
+def testNamingFixtureSuiteOk() -> bool:
+    return (((testCartTotalNamingOk() and testLaunchReadinessNamingOk()) and testLabelNamingOk()) and testCalculationNamingOk())

@@ -2,7 +2,9 @@ import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import type { PointCoreDiagnostic } from "./check.ts";
 import { checkPointCore } from "./check.ts";
+import { createModuleGraphForFile, loadCoreFile, programWithDependencyDeclarations } from "./cli.ts";
 import { parsePointSource } from "./parser.ts";
+import { readPointLock } from "./packages.ts";
 
 const DEFAULT_DOCS_DIR = "docs/site";
 const POINT_FENCE = /```point\r?\n([\s\S]*?)```/g;
@@ -71,6 +73,41 @@ function resolvePointFileReference(reference: string, markdownPath: string, cwd:
 	return null;
 }
 
+async function checkPointFile(source: string, filePath: string, label: string, markdownSource: string): Promise<DocsCheckItemResult> {
+	try {
+		const cwd = process.cwd();
+		if (/^\s*use\s+/m.test(source)) {
+			const lock = await readPointLock(cwd);
+			const coreFile = await loadCoreFile(filePath, lock, cwd);
+			const graph = await createModuleGraphForFile(coreFile, lock, cwd);
+			const diagnostics = checkPointCore(programWithDependencyDeclarations(coreFile, graph));
+			return { kind: "file", source: markdownSource, label, ok: diagnostics.length === 0, diagnostics };
+		}
+		const program = parsePointSource(source);
+		const diagnostics = checkPointCore(program);
+		return { kind: "file", source: markdownSource, label, ok: diagnostics.length === 0, diagnostics };
+	} catch (error) {
+		const message = error instanceof Error ? error.message : String(error);
+		return {
+			kind: "file",
+			source: markdownSource,
+			label,
+			ok: false,
+			diagnostics: [
+				{
+					code: "parse-error",
+					message,
+					path: label,
+					ref: `point://docs/${label}`,
+					severity: "error",
+					span: null,
+					repair: "Fix the Point syntax in this docs snippet or referenced file.",
+				},
+			],
+		};
+	}
+}
+
 function checkPointSource(source: string, label: string, kind: "snippet" | "file", markdownSource: string, line?: number): DocsCheckItemResult {
 	try {
 		const program = parsePointSource(source);
@@ -118,7 +155,7 @@ export async function checkDocs(options: { docsDir?: string; cwd?: string } = {}
 			if (checkedFiles.has(filePath)) continue;
 			checkedFiles.add(filePath);
 			const source = await Bun.file(resolve(cwd, filePath)).text();
-			items.push(checkPointSource(source, filePath, "file", markdownPath));
+			items.push(await checkPointFile(source, filePath, filePath, markdownPath));
 		}
 	}
 

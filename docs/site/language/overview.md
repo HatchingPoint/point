@@ -12,7 +12,7 @@ Point source is organized as semantic blocks. Each block has a dedicated page in
 
 | Block | Purpose | Guide page |
 |-------|---------|------------|
-| `record` | Named data shapes | [Records](/point/language/records) |
+| `record`, `variant` | Named data shapes and tagged unions | [Records](/point/language/records), [Types](/point/language/types) |
 | `calculation` | Pure derived values | [Calculations](/point/language/calculations) |
 | `rule` | Scoring and accumulation | [Rules](/point/language/rules) |
 | `label` | Classification to text or other types | [Labels](/point/language/labels) |
@@ -20,12 +20,15 @@ Point source is organized as semantic blocks. Each block has a dedicated page in
 | Loops and mutation | `for each`, `add to`, `set to` | [Control flow](/point/language/control-flow) |
 | `module`, `use` | Multi-file programs | [Modules](/point/language/modules) |
 | `external`, `action`, `policy` | Effects and boundaries | [Effects](/point/language/effects) |
-| `view`, `route`, `workflow`, `command` | Application layer | [Applications](/point/language/applications) |
+| `view`, `page`, `layout`, `navigation` | UI and app shells | [Applications](/point/language/applications) |
+| `route`, `middleware`, `stream route` | HTTP and WebSockets | [Routes](/point/language/routes), [Applications](/point/language/applications) |
+| `workflow`, `schedule`, `command` | Orchestration and CLI | [Applications](/point/language/applications) |
+| `pipeline`, `session`, `prompt`, `guard` | Agent orchestration | [Applications](/point/language/applications) |
 
 ## Pipeline (plain English)
 
 ```text
-.point source → semantic AST → core IR (in memory) → check → emit → TypeScript | JavaScript
+.point source → semantic AST → core IR (in memory) → check → emit → JS | TS | PY
 ```
 
 Authors never write the core IR. It exists so the checker and emitters have a precise model, similar to an internal AST in other compilers.
@@ -38,4 +41,5 @@ Run `point index <file>` to list every declaration with a `point://semantic/` re
 
 - [Grammar summary](/point/reference/grammar)
 - [Introduction](/point/guide/introduction)
+- [Platform vision](/point/concepts/platform-vision)
 - [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python)

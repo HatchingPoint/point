@@ -1,0 +1,37 @@
+module StdCrypto
+
+external point std crypto
+  sha256 hash(value: Text): Text from "@hatchingpoint/point/std/crypto" as cryptoSha256
+  hmac sha256(value: Text, secret: Text): Text from "@hatchingpoint/point/std/crypto" as cryptoHmacSha256
+  jwt sign(payload: Text, secret: Text): Text from "@hatchingpoint/point/std/crypto" as cryptoJwtSign
+  jwt verify(token: Text, secret: Text): Text or Error from "@hatchingpoint/point/std/crypto" as cryptoJwtVerify
+  check jwt valid(token: Text, secret: Text): Bool from "@hatchingpoint/point/std/crypto" as cryptoJwtIsValid
+
+calculation digest sha256
+  input value: Text
+  output digest: Text
+  digest is sha256 hash(value)
+
+calculation digest hmac sha256
+  input value: Text
+  input secret: Text
+  output digest: Text
+  digest is hmac sha256(value, secret)
+
+calculation sign jwt
+  input payload: Text
+  input secret: Text
+  output token: Text
+  token is jwt sign(payload, secret)
+
+calculation verify jwt
+  input token: Text
+  input secret: Text
+  output payload: Text or Error
+  payload is jwt verify(token, secret)
+
+calculation jwt auth ok
+  input token: Text
+  input secret: Text
+  output ok: Bool
+  ok is check jwt valid(token, secret)

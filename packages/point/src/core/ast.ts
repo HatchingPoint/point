@@ -70,8 +70,15 @@ export interface PointCoreTypeDeclaration {
 	kind: "type";
 	name: string;
 	fields: PointCoreParameter[];
+	variantCases?: PointCoreVariantCase[];
 	span?: PointSourceSpan;
 	semantic?: PointSemanticDeclarationMetadata;
+}
+
+export interface PointCoreVariantCase {
+	name: string;
+	fields: PointCoreParameter[];
+	span?: PointSourceSpan;
 }
 
 export interface PointCoreParameter {
@@ -85,31 +92,117 @@ export interface PointSemanticProgramMetadata {
 	source: "semantic";
 }
 
+export interface PointSemanticLayoutSlotContent {
+	name: string;
+	content: PointCoreExpression;
+}
+
+export interface PointSemanticLayoutSpec {
+	name: string;
+	slots: PointSemanticLayoutSlotContent[];
+}
+
 export interface PointSemanticPageLayout {
+	layoutName?: string;
+	layoutFunction?: string;
 	title: PointCoreExpression;
 	description?: PointCoreExpression;
 	main: PointCoreExpression;
+	mainClassName?: string;
+	dataLoad?: PointSemanticDataLoad;
+	streamSubscribe?: PointSemanticStreamSubscribe;
 }
 
-export interface PointSemanticViewCheckboxBinding {
+export interface PointSemanticViewFieldBinding {
 	label: string;
 	target: PointCoreExpression;
 	recordParam: string;
 	fieldName: string;
+	inputKind: "text" | "checkbox";
 }
 
 export interface PointSemanticViewControls {
 	changeCallback: string;
-	checkboxes: PointSemanticViewCheckboxBinding[];
+	fields: PointSemanticViewFieldBinding[];
+}
+
+export interface PointSemanticViewEachSpec {
+	itemName: string;
+	itemIdentifier: string;
+	iterable: PointCoreExpression;
+	render: PointCoreExpression;
+	className?: string;
+	linkPath?: PointCoreExpression;
+}
+
+export interface PointSemanticViewModalSpec {
+	title: string;
+	when?: PointCoreExpression;
+	content: PointCoreExpression;
+	className?: string;
+}
+
+export interface PointSemanticViewTabSpec {
+	label: string;
+	content: PointCoreExpression;
+}
+
+export interface PointSemanticViewTabsSpec {
+	tabs: PointSemanticViewTabSpec[];
+}
+
+export interface PointSemanticViewLink {
+	label: string;
+	path: string;
+}
+
+export interface PointSemanticViewNavigation {
+	links: PointSemanticViewLink[];
+}
+
+export interface PointSemanticDataLoad {
+	actionName: string;
+	actionFunction: string;
+	bindingName: string;
+	loading?: PointCoreExpression;
+	loadingClassName?: string;
+	error?: PointCoreExpression;
+	errorClassName?: string;
+	empty?: PointCoreExpression;
+	emptyClassName?: string;
+}
+
+export interface PointSemanticStreamSubscribe {
+	routeName?: string;
+	path: string;
+	messageTypeName: string;
+	bindingName: string;
+	messageCallback?: string;
+	connecting?: PointCoreExpression;
+	connectingClassName?: string;
+	disconnected?: PointCoreExpression;
+	disconnectedClassName?: string;
+	error?: PointCoreExpression;
+	errorClassName?: string;
 }
 
 export interface PointSemanticDeclarationMetadata {
-	kind: "record" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command";
+	kind: "record" | "variant" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "guard" | "view" | "layout" | "navigation" | "page" | "middleware" | "route" | "streamRoute" | "workflow" | "pipeline" | "session" | "command" | "prompt";
 	name: string;
 	outputName?: string;
 	effects?: string[];
+	layoutSpec?: PointSemanticLayoutSpec;
 	pageLayout?: PointSemanticPageLayout;
 	viewControls?: PointSemanticViewControls;
+	viewNavigation?: PointSemanticViewNavigation;
+	viewEach?: PointSemanticViewEachSpec[];
+	viewModal?: PointSemanticViewModalSpec;
+	viewTabs?: PointSemanticViewTabsSpec;
+	viewDataLoad?: PointSemanticDataLoad;
+	pageDataLoad?: PointSemanticDataLoad;
+	viewStreamSubscribe?: PointSemanticStreamSubscribe;
+	pageStreamSubscribe?: PointSemanticStreamSubscribe;
+	isStreamAction?: boolean;
 }
 
 export interface PointCoreTypeExpression {
@@ -126,7 +219,8 @@ export interface PointCoreRecordField {
 }
 
 export type PointCoreStatement =
-	| { kind: "return"; value?: PointCoreExpression; span?: PointSourceSpan }
+	| { kind: "return"; value?: PointCoreExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "yield"; value?: PointCoreExpression; span?: PointSourceSpan }
 	| PointCoreValueDeclaration
 	| {
 			kind: "assignment";

@@ -14,7 +14,11 @@ Point can replace hand-written TypeScript for product logic that belongs in `.po
 
 ## Does Point replace Python?
 
-Point can emit Python for pure logic modules. It does not yet replace every Python application layer.
+Point emits Python for logic, actions, routes, workflows, and commands (`point build-py`). Views, layouts, and realtime client code still target JavaScript/TypeScript. Full parity for every Python application layer is not the goal — automation and server scripts are.
+
+## Can I use any database?
+
+Yes. Point does not ship an ORM. Use `action` blocks with `touches database`, calling `std.sql` for local SQLite or an `external` block for your driver (PostgreSQL, MySQL, LibSQL, etc.). See [Database interop](/point/ecosystem/database-interop).
 
 ## Do I need VS Code?
 

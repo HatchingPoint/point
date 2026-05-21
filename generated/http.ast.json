@@ -223,6 +223,18 @@
                 "offset": 344
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 318
+            },
+            "end": {
+              "line": 11,
+              "column": 27,
+              "offset": 344
+            }
           }
         }
       ],
@@ -361,6 +373,18 @@
                 "column": 34,
                 "offset": 484
               }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 451
+            },
+            "end": {
+              "line": 18,
+              "column": 34,
+              "offset": 484
             }
           }
         }

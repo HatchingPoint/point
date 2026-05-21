@@ -2,9 +2,9 @@
 // Point module: PointTests
 
 export function testArithmeticPassed() {
-  return ((2 + 2) == 4);
+  return ((2 + 2) == 4); // @point 5
 }
 
 export async function testAsyncValuePassed() {
-  return true;
+  return true; // @point 10
 }

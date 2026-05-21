@@ -4,23 +4,48 @@
 
 - [Why Point exists](./site/concepts/why-point-exists.md)
 - [Proof of concept](./site/concepts/proof-of-concept.md)
-- [Point vs other languages for AI engineering](./site/ai/vs-other-languages.md)
+- [Point vs other languages for AI engineering](./ai/vs-other-languages.md)
 - [Authoring vs runtime](./site/concepts/authoring-vs-runtime.md)
 
 ## One sentence
 
-Point is a general-purpose language you **write**; TypeScript, JavaScript, and Python are what the **machine runs** — generated automatically, not authored by you.
+Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## What we replace today
+## True vision (Phases 14–21)
 
-You replace **hand-written application logic** in TypeScript and Python:
+Point should author **entire applications** — not only business logic fragments embedded in hand-written TypeScript and React.
+
+| Layer | Today (v0.0.15) | Platform vision |
+|-------|-------------------|-----------------|
+| Logic (records, rules, calculations) | ✅ | ✅ |
+| HTTP routes, CLI, workflows | ✅ Basic | Production depth + middleware |
+| UI | ✅ Widgets/pages | Full multi-page apps |
+| Realtime | ❌ | WebSockets, streaming processes |
+| Data | ❌ | Any DB via `external` + `std.sql` (emit, not replace) |
+| Agents | ✅ Repair Point source | Pipelines, sessions, prompts |
+| Python | ⚠️ Partial | Full parity for automation |
+| Dev experience | check/build/run | `point dev`, full-stack template |
+
+**Master roadmap:** [platform-vision-plan.md](./platform-vision-plan.md)
+
+## What we replace
+
+Hand-written **TypeScript, React, Next.js glue, and Python** for product code:
 
 - Data models, business rules, calculations, labels
-- HTTP routes, CLI commands, workflows, side effects
+- HTTP routes, middleware, WebSockets, CLI commands, workflows
+- Multi-page UI, layouts, navigation, forms
+- Database client usage (via `action` + `external` or `std.sql`)
+- Agent pipelines and automation scripts
 - Tests and checks on semantic source
-- Interactive views and pages (emit React; host in Next.js or similar)
 
-You run:
+## What stays outside Point
+
+- **Xcode, Swift, iOS apps** — Point invokes native tools, does not replace them
+- **Database engines** — PostgreSQL, SQLite, etc. — via `external` blocks and std shims, not reimplementation
+- **npm ecosystem** — via `external` blocks and std shims, not reimplementation
+
+## Daily workflow
 
 ```bash
 point check
@@ -28,31 +53,40 @@ point fmt
 point build
 point run
 point test
+point dev          # Phase 20
 ```
 
-You do **not** maintain `generated/*.ts` in git or edit it by hand. `point build` emits JavaScript by default; `point build-ts` and `point build-py` are opt-in targets.
+You do **not** maintain `generated/*` in git or edit it by hand.
 
-## What still interops
-
-- **Bun/Node** runs emitted JavaScript (today)
-- **React/Next.js** imports generated view and page components (today)
-- **npm packages** called via `external` blocks and `@hatchingpoint/point/std/*` shims
-- **Docs site chrome** (sidebar, markdown routing) may stay in Next.js; content syncs from `docs/site/`
-
-## Shipped through Phase 11 (v0.0.13)
+## Shipped through Phase 12 (v0.0.15)
 
 | Milestone | Outcome |
 |-----------|---------|
 | JS-default run/build | ✅ |
-| Python emit (logic + actions, `build-py-all`) | ✅ |
+| Python emit (logic + actions) | ✅ |
 | Point-only npm packages | ✅ `@hatchingpoint/point-logic` |
-| Richer views and `page` block | ✅ Controlled inputs, `Handler` callbacks |
-| `point add` + lockfile | ✅ `workspace:` and `file:` |
-| Std runtime shims | ✅ json, http (more in Phase 12) |
+| Richer views and `page` block | ✅ |
+| `point add` + lockfile + npm: | ✅ |
+| Std runtime shims | ✅ json, http, fs, env, time, text |
+| LSP + Open VSX | ✅ |
 
-**Active:** [phase12-plan.md](./phase12-plan.md) — `npm:` deps, full std shims, starter template, Open VSX.
+**Active:** [platform-vision-plan.md](./platform-vision-plan.md) — Phases 14–21  
+**Next execution:** [phase14-plan.md](./phase14-plan.md) + [codex-goal-phase14.md](./codex-goal-phase14.md)
 
-Scope table: [replaces-typescript-and-python.md](./site/concepts/replaces-typescript-and-python.md).
+## Self-hosting roadmap
+
+The compiler stays in TypeScript today; compiler **policy** moves into Point incrementally. Each milestone is a `.point` module under `compiler/passes/` that runs through `point check`, `point test`, and CI like any other module.
+
+| Milestone | Status | Location |
+|-----------|--------|----------|
+| Naming lint pass | ✅ Phase 21 | `compiler/passes/naming-lint.point` |
+| Effect-boundary lint | 📋 Next | `compiler/passes/` |
+| Formatter validation | 📋 Planned | `compiler/passes/` |
+| Conformance fixtures in Point | 📋 Planned | `compiler/passes/` |
+| Full formatter in Point | 📋 Long-term | after validation pass proves pattern |
+| Parser / desugar in Point | 📋 Long-term | sustained milestones |
+
+Details: [self-hosting.md](./self-hosting.md), pass guide: [compiler/passes/README.md](../compiler/passes/README.md).
 
 ## For coding agents
 
@@ -60,5 +94,6 @@ Scope table: [replaces-typescript-and-python.md](./site/concepts/replaces-typesc
 - Use `check-json`, `index`, `explain`, `repair-plan`
 - Prefer `point://semantic/` refs
 - Do not expose core syntax in public files
+- Do not add platform-specific keywords — keep features general-purpose
 
-See [phase10-plan.md](./phase10-plan.md) and [phase11-plan.md](./phase11-plan.md) for completed exit gates.
+See [phase12-plan.md](./phase12-plan.md) for Phase 12 exit gate.

@@ -2,5 +2,5 @@
 // Point module: Commands
 
 export async function helloCliCommand() {
-  return "Hello CLI";
+  return "Hello CLI"; // @point 5
 }

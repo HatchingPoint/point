@@ -1,0 +1,17 @@
+module HealthCheckSchedule
+
+external point std time
+  time now(): Text from "@hatchingpoint/point/std/time" as now
+
+action health check
+  output timestamp: Text
+  touches time
+  return time now()
+
+schedule health check tick
+  every 5 minutes
+  call health check
+
+command run schedules
+  output status: Text
+  return "schedules running"

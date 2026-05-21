@@ -3,30 +3,30 @@
 
 
 export function discountMultiplier(plan) {
-  return (100 - plan.annualDiscountPercent);
+  return (100 - plan.annualDiscountPercent); // @point 11
 }
 
 export function annualPrice(plan, multiplier) {
-  return (((plan.monthlyPrice * 12) * multiplier) / 100);
+  return (((plan.monthlyPrice * 12) * multiplier) / 100); // @point 17
 }
 
 export function seatTotal(plan, annualPrice) {
-  return (annualPrice * plan.seats);
+  return (annualPrice * plan.seats); // @point 23
 }
 
 export function tierNameLabel(seats) {
-  if (seats <= 1) {
-    return "Solo";
+  if (seats <= 1) { // @point 28
+    return "Solo"; // @point 28
   }
-  if (seats <= 5) {
-    return "Team";
+  if (seats <= 5) { // @point 29
+    return "Team"; // @point 29
   }
-  return "Business";
+  return "Business"; // @point 30
 }
 
 export function priceDisplayLabel(total) {
-  if (total >= 10000) {
-    return "Contact sales";
+  if (total >= 10000) { // @point 35
+    return "Contact sales"; // @point 35
   }
-  return "Standard pricing";
+  return "Standard pricing"; // @point 36
 }

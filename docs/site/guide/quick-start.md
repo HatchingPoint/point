@@ -74,6 +74,16 @@ point repair-plan examples/math.point
 
 The important habit is to use semantic refs such as `point://semantic/Math/label.score status`, not generated target names or line-number guesses.
 
+## Scaffold a full-stack app (v0.1.0)
+
+```bash
+point app new my-app
+cd my-app
+point check src/app.point
+point build-ts src/app.point generated/app.ts
+point dev src/app.point --port 3456
+```
+
 ## See also
 
 - [Installation](/point/guide/installation)

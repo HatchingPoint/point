@@ -2,9 +2,9 @@
 // Point module: Pure Math Demo
 
 export function annualPrice(monthlyPrice) {
-  return (monthlyPrice * 12);
+  return (monthlyPrice * 12); // @point 6
 }
 
 export async function demoResult() {
-  return annualPrice(10);
+  return annualPrice(10); // @point 11
 }

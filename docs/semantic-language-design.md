@@ -89,6 +89,10 @@ Point uses `Maybe<T>` for optional values. The literal `none` represents a missi
 
 Operations that can fail use union-style result outputs such as `output User or Error`. The compiler lowers this to a typed core union and emits a TypeScript union (`User | { message: string }`). Error values are constructed semantically with `return Error "message"`, which lowers to the typed error object in generated TypeScript.
 
+## Variant Types
+
+Point uses `variant` blocks (not `enum`) for tagged unions with optional per-case payloads. Each case lowers to a TypeScript discriminated union member with a `kind` field. Construct values with case literals (`Pending`, `Shipped with tracking number: "1Z..."`). Classify or dispatch in `label` blocks with `on Case return ...` or `on Case with field return ...`; the checker requires narrowing before reading payload fields.
+
 ## External Declarations
 
 External blocks declare explicit interop boundaries:
@@ -146,7 +150,7 @@ Views declare UI in semantic blocks and target React first. A minimal view accep
 
 ## Routes
 
-Routes declare HTTP handlers with explicit `method`, `path`, typed inputs, and typed outputs. The first target is Hono-style handler composition; current generated TypeScript exposes route handler functions returning response values that can be mounted by the Hono adapter.
+Routes declare HTTP handlers with explicit `method`, `path`, typed inputs, and typed outputs. Reusable `middleware` blocks run in route-level `before` order; routes may also take typed `query`, `body`, and `headers` record inputs. JSON handlers use `return json { ... }` with optional `status` and `headers` clauses. The Bun target emits a composable fetch handler stack that parses request parts, runs middleware, and wraps JSON responses.
 
 ## Workflows
 

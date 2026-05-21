@@ -94,11 +94,11 @@ These commands are the core of Point's AI engineering model: agents should navig
 
 ## Roadmap
 
-Phases 0–12 complete (v0.0.15). **Active:** [phase13-plan.md](docs/phase13-plan.md).
+Phases 0–12 complete. **Platform vision Phases 14–21 shipped in v0.1.0** — [platform-vision-plan.md](docs/platform-vision-plan.md) (339 tests).
 
 - [Vision — authoring vs runtime](docs/vision.md)
-- [Phase 10 plan](docs/phase10-plan.md) · [Phase 11 plan](docs/phase11-plan.md)
-- [Phase 12 plan](docs/phase12-plan.md) · [Phase 13 plan](docs/phase13-plan.md)
+- [Platform vision — Phases 14–21](docs/platform-vision-plan.md)
+- [Phase 14 plan](docs/phase14-plan.md) · [Phase 13 plan](docs/phase13-plan.md)
 - [Documentation site plan](docs/docs-site-plan.md)
 
 ## Packages

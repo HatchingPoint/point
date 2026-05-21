@@ -20,8 +20,26 @@ Point uses a small typed surface: primitives, generics, unions, and user record 
 | `Maybe<T>` | Optional (`none` lowers to `null` in TS) |
 | `A or B` | Union / result (`Text or Error`) |
 | Record name | User-defined struct (`Cart Item`) |
+| `variant` | Tagged union; dispatch with `on Case` in labels |
 
 Literals: `"text"`, numbers, `true`, `false`, `none`, `[1, 2]`, `{ name: "Ada" }`.
+
+### Variant dispatch
+
+```point
+variant Order Status
+  Pending
+  Shipped with tracking number: Text
+
+label order status label
+  input status: Order Status
+  output Text
+  on Pending return "Pending"
+  on Shipped with tracking number return tracking number
+  otherwise return "Unknown"
+```
+
+See `examples/variants/order-status.point`.
 
 Operators: `+`, `-`, `*`, `/`, comparisons, `and`, `or`, property access with `.`
 

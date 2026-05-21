@@ -1,0 +1,14 @@
+module ConformanceStreamRoute
+
+record Echo Message
+  text: Text
+
+stream route echo
+  path "/ws"
+  message Echo Message
+  on connect return "ready"
+  on message message return { text: message.text }
+
+command serve stream route
+  output result: Text
+  return "Stream route ready"

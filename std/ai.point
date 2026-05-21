@@ -1,0 +1,40 @@
+module StdAi
+
+external openai provider
+  openai complete raw(key: Maybe<Text>, prompt: Text, model: Text): Text or Error from "@hatchingpoint/point/std/ai" as openaiComplete
+  openai stream raw(key: Maybe<Text>, prompt: Text, model: Text): Text or Error from "@hatchingpoint/point/std/ai" as openaiStream
+
+external anthropic provider
+  anthropic complete raw(key: Maybe<Text>, prompt: Text, model: Text): Text or Error from "@hatchingpoint/point/std/ai" as anthropicComplete
+  anthropic stream raw(key: Maybe<Text>, prompt: Text, model: Text): Text or Error from "@hatchingpoint/point/std/ai" as anthropicStream
+
+external point std env
+  env get raw(name: Text): Maybe<Text> from "@hatchingpoint/point/std/env" as envGet
+
+action complete text with openai
+  input prompt: Text
+  input model: Text
+  output text: Text or Error
+  touches network
+  return openai complete raw(env get raw("OPENAI_API_KEY"), prompt, model)
+
+action stream text with openai
+  input prompt: Text
+  input model: Text
+  output text: Text or Error
+  touches network
+  return openai stream raw(env get raw("OPENAI_API_KEY"), prompt, model)
+
+action complete text with anthropic
+  input prompt: Text
+  input model: Text
+  output text: Text or Error
+  touches network
+  return anthropic complete raw(env get raw("ANTHROPIC_API_KEY"), prompt, model)
+
+action stream text with anthropic
+  input prompt: Text
+  input model: Text
+  output text: Text or Error
+  touches network
+  return anthropic stream raw(env get raw("ANTHROPIC_API_KEY"), prompt, model)

@@ -3,45 +3,45 @@
 
 
 export function listingScore(signals) {
-  let score = 0;
-  if (signals.hasScreenshots) {
-    score += 20;
+  let score = 0; // @point 13
+  if (signals.hasScreenshots) { // @point 14
+    score += 20; // @point 14
   }
-  if (signals.hasDescription) {
-    score += 20;
+  if (signals.hasDescription) { // @point 15
+    score += 20; // @point 15
   }
-  if (signals.hasPrivacyPolicy) {
-    score += 20;
+  if (signals.hasPrivacyPolicy) { // @point 16
+    score += 20; // @point 16
   }
-  if (signals.hasSupportUrl) {
-    score += 20;
+  if (signals.hasSupportUrl) { // @point 17
+    score += 20; // @point 17
   }
-  if (signals.hasAgeRating) {
-    score += 20;
+  if (signals.hasAgeRating) { // @point 18
+    score += 20; // @point 18
   }
-  return score;
+  return score; // @point 19
 }
 
 export function listingStatusLabel(score) {
-  if (score >= 90) {
-    return "Ready to submit";
+  if (score >= 90) { // @point 24
+    return "Ready to submit"; // @point 24
   }
-  if (score >= 60) {
-    return "Almost ready";
+  if (score >= 60) { // @point 25
+    return "Almost ready"; // @point 25
   }
-  return "Needs work";
+  return "Needs work"; // @point 26
 }
 
 export function readinessSummary(signals) {
-  return listingStatusLabel(listingScore(signals));
+  return listingStatusLabel(listingScore(signals)); // @point 31
 }
 
 export function readinessWidgetView(signals, onSignalsChange) {
-  if (listingScore(signals) >= 90) {
-    return readinessSummary(signals);
+  if (listingScore(signals) >= 90) { // @point 42
+    return readinessSummary(signals); // @point 42
   }
-  if (listingScore(signals) >= 60) {
-    return readinessSummary(signals);
+  if (listingScore(signals) >= 60) { // @point 43
+    return readinessSummary(signals); // @point 43
   }
-  return readinessSummary(signals);
+  return readinessSummary(signals); // @point 44
 }

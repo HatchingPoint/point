@@ -3,12 +3,33 @@
 
 from __future__ import annotations
 
-from @hatchingpoint/point/std/http import httpGet as httpGetRaw
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
 
-from @hatchingpoint/point/std/http import httpPost as httpPostRaw
+from point_std.http import httpGet as httpGetRaw
+
+from point_std.http import httpPost as httpPostRaw
+
+from point_std.http import httpFetch as httpFetchRaw
+
+from point_std.http import httpAssertStatus as httpAssertStatusRaw
+
+from point_std.http import httpAssertJsonBody as httpAssertJsonBodyRaw
 
 async def httpGetResponse(url: str) -> str | dict[str, str]:
     return httpGetRaw(url)
 
 async def httpPostResponse(url: str, body: str) -> str | dict[str, str]:
     return httpPostRaw(url, body)
+
+async def httpFetchSnapshot(url: str, options: str) -> str:
+    return httpFetchRaw(url, options)
+
+def httpAssertStatusPassed(response: str, expectedStatus: int) -> bool:
+    return httpAssertStatusRaw(response, expectedStatus)
+
+def httpAssertJsonBodyPassed(response: str, expectedJson: str) -> bool:
+    return httpAssertJsonBodyRaw(response, expectedJson)

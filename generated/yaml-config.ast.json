@@ -1,0 +1,511 @@
+{
+  "kind": "coreProgram",
+  "module": "YamlConfigDemo",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "serializedConfigYaml",
+      "params": [
+        {
+          "name": "record",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "record",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "stringifyYamlResult",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "record",
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 113
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 38,
+                    "offset": 150
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 113
+              },
+              "end": {
+                "line": 8,
+                "column": 38,
+                "offset": 150
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 113
+            },
+            "end": {
+              "line": 8,
+              "column": 38,
+              "offset": 150
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "serialized config yaml",
+        "outputName": "yaml",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 37
+        },
+        "end": {
+          "line": 5,
+          "column": 35,
+          "offset": 71
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "loadConfigRecord",
+      "params": [
+        {
+          "name": "rawYaml",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "raw yaml",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "parseYamlResult",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "rawYaml",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 240
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 41,
+                      "offset": 280
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 240
+                },
+                "end": {
+                  "line": 14,
+                  "column": 41,
+                  "offset": 280
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 240
+              },
+              "end": {
+                "line": 14,
+                "column": 41,
+                "offset": 280
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 240
+            },
+            "end": {
+              "line": 14,
+              "column": 41,
+              "offset": 280
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "load config",
+        "outputName": "record",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 152
+        },
+        "end": {
+          "line": 10,
+          "column": 19,
+          "offset": 170
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 22,
+      "offset": 21
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "YamlConfigDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.yaml",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "calculation",
+        "name": "serialized config yaml",
+        "inputs": [
+          {
+            "label": "record",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "yaml",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "yaml",
+            "value": {
+              "kind": "call",
+              "callee": "stringifyYamlResult",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "record",
+                  "span": {
+                    "start": {
+                      "line": 8,
+                      "column": 1,
+                      "offset": 113
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 38,
+                      "offset": 150
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 8,
+                  "column": 1,
+                  "offset": 113
+                },
+                "end": {
+                  "line": 8,
+                  "column": 38,
+                  "offset": 150
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 113
+              },
+              "end": {
+                "line": 8,
+                "column": 38,
+                "offset": 150
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 37
+          },
+          "end": {
+            "line": 5,
+            "column": 35,
+            "offset": 71
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "load config",
+        "inputs": [
+          {
+            "label": "raw yaml",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 11,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "record",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "parseYamlResult",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "raw yaml",
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 240
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 41,
+                        "offset": 280
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 240
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 41,
+                    "offset": 280
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 240
+                },
+                "end": {
+                  "line": 14,
+                  "column": 41,
+                  "offset": 280
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 240
+              },
+              "end": {
+                "line": 14,
+                "column": 41,
+                "offset": 280
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 152
+          },
+          "end": {
+            "line": 10,
+            "column": 19,
+            "offset": 170
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 22,
+        "offset": 21
+      }
+    }
+  }
+}

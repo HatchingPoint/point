@@ -12,6 +12,7 @@ export interface PointSemanticExpressionContext {
 	atoms: string[];
 	callables: string[];
 	recordFields: Map<string, string[]>;
+	variantCases: Map<string, Map<string, string>>;
 }
 
 export function parseSemanticTypeExpression(source: string): PointSemanticTypeExpression {
@@ -103,6 +104,15 @@ export function withExpressionSpan(expression: PointSemanticExpression, span: Po
 					value: withExpressionSpan(field.value, span),
 				})),
 			};
+		case "variant":
+			return {
+				...expression,
+				span: expression.span ?? span,
+				fields: expression.fields.map((field) => ({
+					...field,
+					value: withExpressionSpan(field.value, span),
+				})),
+			};
 	}
 }
 
@@ -162,6 +172,8 @@ function parsePrimaryExpression(source: string, context: PointSemanticExpression
 	}
 	const callMatch = matchCall(trimmed, context);
 	if (callMatch) return callMatch;
+	const variantMatch = matchVariantLiteral(trimmed, context);
+	if (variantMatch) return variantMatch;
 	const atom = matchAtom(trimmed, context);
 	if (atom) {
 		if (atom.includes(".")) {
@@ -337,23 +349,58 @@ function splitTopLevel(source: string, separator: string): string[] {
 	return parts;
 }
 
+function matchVariantLiteral(
+	source: string,
+	context: PointSemanticExpressionContext,
+): { expression: PointSemanticExpression; consumed: string } | null {
+	const candidates = [...context.variantCases.keys()].sort((a, b) => b.length - a.length);
+	for (const caseLabel of candidates) {
+		if (!source.startsWith(caseLabel)) continue;
+		const next = source[caseLabel.length];
+		if (next && /[A-Za-z0-9_]/.test(next)) continue;
+		let rest = source.slice(caseLabel.length).trimStart();
+		const fields: PointSemanticRecordLiteralField[] = [];
+		if (rest.startsWith("with ")) {
+			rest = rest.slice("with ".length).trimStart();
+			for (const part of splitTopLevel(rest, " and ")) {
+				const colon = part.indexOf(":");
+				if (colon === -1) throw new Error(`Expected variant field value in ${caseLabel}: ${part}`);
+				const label = part.slice(0, colon).trim();
+				const parsed = parseBinaryExpression(part.slice(colon + 1).trimStart(), 0, context);
+				fields.push({ label, value: parsed.expression });
+				rest = parsed.consumed;
+			}
+		}
+		return { expression: { kind: "variant", caseLabel, fields }, consumed: rest };
+	}
+	return null;
+}
+
 export function buildExpressionContext(options: {
 	bindings?: string[];
 	paramTypes?: Map<string, string>;
 	recordFields?: Map<string, Map<string, string>>;
+	variantCases?: Map<string, Map<string, string>>;
 	callables?: string[];
 }): PointSemanticExpressionContext {
 	const bindings = options.bindings ?? [];
 	const callables = options.callables ?? [];
-	const atoms: string[] = [...bindings];
+	const atoms: string[] = [...bindings, ...(options.variantCases ? [...options.variantCases.keys()] : [])];
 	const recordFields = new Map<string, string[]>();
 	for (const [param, type] of options.paramTypes ?? []) {
 		const fields = options.recordFields?.get(type);
-		if (!fields) continue;
-		recordFields.set(type, [...fields.keys()]);
-		for (const label of fields.keys()) atoms.push(`${param}.${label}`);
+		if (fields) {
+			recordFields.set(type, [...fields.keys()]);
+			for (const label of fields.keys()) atoms.push(`${param}.${label}`);
+		}
 	}
-	return { bindings, atoms, callables, recordFields };
+	return {
+		bindings,
+		atoms,
+		callables,
+		recordFields,
+		variantCases: options.variantCases ?? new Map(),
+	};
 }
 
 export function lineSpan(source: string, lineNumber: number): PointSourceSpan {

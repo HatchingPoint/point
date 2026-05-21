@@ -1,0 +1,14 @@
+module ConformanceSchedule
+
+action health ping
+  output status: Text
+  touches none
+  return "ok"
+
+schedule health ping tick
+  every 1 minutes
+  call health ping
+
+command run schedule demo
+  output result: Text
+  return "Schedule ready"

@@ -3,20 +3,20 @@
 
 
 export function annualPrice(monthlyPrice) {
-  return (monthlyPrice * 12);
+  return (monthlyPrice * 12); // @point 9
 }
 
 export function pricingTierLabel(plan) {
-  if (plan.monthlyPrice >= 100) {
-    return "pro";
+  if (plan.monthlyPrice >= 100) { // @point 14
+    return "pro"; // @point 14
   }
-  return "starter";
+  return "starter"; // @point 15
 }
 
 export async function helloCommand() {
-  return "Hello from Point starter";
+  return "Hello from Point starter"; // @point 19
 }
 
 export function getHealthRoute() {
-  return "ok";
+  return "ok"; // @point 25
 }

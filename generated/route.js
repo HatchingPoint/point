@@ -2,5 +2,5 @@
 // Point module: Routes
 
 export function getUserRoute(id) {
-  return id;
+  return id; // @point 8
 }

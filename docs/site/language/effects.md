@@ -33,9 +33,11 @@ action load config
   return read file(path)
 ```
 
-`touches` values include `network`, `file`, `env`, `time`, `random`, or `none`. Action calls inside other actions or workflows require `await` (`missing-await` if omitted).
+`touches` values include `network`, `file`, `env`, `process`, `time`, `random`, `database`, or `none`. Action calls inside other actions or workflows require `await` (`missing-await` if omitted).
 
-## policy
+Database actions declare `touches database` so `point index` and review tools see the IO boundary. Use parameterized queries only — see [Database interop](/point/ecosystem/database-interop).
+
+## policy and guard
 
 Pure boolean guards:
 
@@ -43,11 +45,14 @@ See `examples/policy.point`.
 
 Forms: `allow expr`, `deny expr`, `require expr`.
 
+**`guard output paths`** scopes file writes in pipelines — see `examples/pipelines/guarded-output.point`.
+
 ## Lowering
 
 - `external` → import declarations and call wrappers
 - `action` → `async function` returning `Promise<T>`
 - `policy` → boolean functions
+- `guard` → path allow-list checks in pipeline emit
 
 ## Examples
 
@@ -55,6 +60,7 @@ Forms: `allow expr`, `deny expr`, `require expr`.
 - `examples/action.point` — file touch
 - `examples/async.point` — await
 - `examples/policy.point` — policies
+- `examples/app/notes/notes.point` — database actions
 
 ## Common mistakes
 
@@ -69,5 +75,6 @@ Forms: `allow expr`, `deny expr`, `require expr`.
 ## See also
 
 - [Applications](/point/language/applications)
+- [Database interop](/point/ecosystem/database-interop)
 - [Types](/point/language/types)
 - [CLI: run and test](/point/reference/cli)

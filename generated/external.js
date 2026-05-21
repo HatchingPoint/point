@@ -4,5 +4,5 @@
 import { readFileSync as readFile } from "node:fs";
 
 export function loadConfigContents(path) {
-  return readFile(path);
+  return readFile(path); // @point 9
 }

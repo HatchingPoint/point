@@ -1,4 +1,13 @@
 {
+  "Point variant": {
+    "prefix": "variant",
+    "description": "Create a semantic Point variant (tagged union)",
+    "body": [
+      "variant ${1:Variant Name}",
+      "\t${2:CaseOne}",
+      "\t${3:CaseTwo} with ${4:field name}: ${5:Text}"
+    ]
+  },
   "Point record": {
     "prefix": "record",
     "description": "Create a semantic Point record",
@@ -83,7 +92,39 @@
     "body": [
       "view ${1:view name}",
       "\tinput ${2:title}: Text",
-      "\trender ${2:title}"
+      "\trender class \"${3:text-lg font-semibold}\" ${2:title}"
+    ]
+  },
+  "Point view styled render": {
+    "prefix": "render class",
+    "description": "Render view content with Tailwind classes",
+    "body": [
+      "render class \"${1:text-lg}\" ${2:content}"
+    ]
+  },
+  "Point middleware": {
+    "prefix": "middleware",
+    "description": "Create a semantic Point middleware block",
+    "body": [
+      "middleware ${1:require auth}",
+      "\tinput headers: ${2:Auth Headers}",
+      "\toutput response: Maybe Text",
+      "\twhen ${3:condition} return \"${4:{\\\"error\\\":\\\"unauthorized\\\"}}\"",
+      "\totherwise return none"
+    ]
+  },
+  "Point route with middleware": {
+    "prefix": "routeapi",
+    "description": "Create a route with middleware and JSON response",
+    "body": [
+      "route ${1:get item}",
+      "\tmethod ${2:GET}",
+      "\tpath \"${3:/items}\"",
+      "\tbefore ${4:require auth}",
+      "\tinput headers: ${5:Auth Headers}",
+      "\tinput query: ${6:Item Query}",
+      "\toutput response: ${7:Item Response}",
+      "\treturn json { item: query.limit, authenticated: true }"
     ]
   },
   "Point route": {
@@ -108,6 +149,17 @@
       "\treturn ${3:first result}"
     ]
   },
+  "Point pipeline": {
+    "prefix": "pipeline",
+    "description": "Create a semantic Point pipeline with step events",
+    "body": [
+      "pipeline ${1:pipeline name}",
+      "\tinput ${2:value}: Text",
+      "\toutput result: Text or Error",
+      "\tstep ${3:first result} is await ${4:action name}(${2:value})",
+      "\treturn ${3:first result}"
+    ]
+  },
   "Point command": {
     "prefix": "command",
     "description": "Create a semantic Point command",
@@ -115,6 +167,77 @@
       "command ${1:command name}",
       "\toutput result: Text",
       "\treturn \"${2:ok}\""
+    ]
+  },
+  "Point page": {
+    "prefix": "page",
+    "description": "Create a semantic Point page with optional layout",
+    "body": [
+      "page ${1:page name}",
+      "\tlayout ${2:app shell}",
+      "\ttitle \"${3:Page title}\"",
+      "\tdescription \"${4:Page description}\"",
+      "\tmain render ${5:view name}()"
+    ]
+  },
+  "Point layout": {
+    "prefix": "layout",
+    "description": "Create a semantic Point layout with named slots",
+    "body": [
+      "layout ${1:app shell}",
+      "\tslot sidebar render \"${2:Navigation}\"",
+      "\tslot main render \"${3:Welcome}\""
+    ]
+  },
+  "Point navigation": {
+    "prefix": "navigation",
+    "description": "Register client routes to pages with optional router bootstrap",
+    "body": [
+      "navigation ${1:dashboard app}",
+      "\tpath \"${2:/settings}\" page ${3:settings page}",
+      "\tpath \"${4:/items}\" page ${5:items list page}",
+      "\tbootstrap router"
+    ]
+  },
+  "Point view data load": {
+    "prefix": "viewload",
+    "description": "View with load data from action and loading/error/empty states",
+    "body": [
+      "view ${1:items list}",
+      "\tload data from action ${2:fetch items}",
+      "\twhen loading render \"${3:Loading...}\"",
+      "\twhen error render \"${4:Could not load}\"",
+      "\twhen empty render \"${5:No items yet}\"",
+      "\trender ${6:content}"
+    ]
+  },
+  "Point view form bindings": {
+    "prefix": "view form",
+    "description": "View form with field bindings and tabs",
+    "body": [
+      "view ${1:settings form}",
+      "\tinput ${2:settings}: ${3:Settings}",
+      "\tinput on ${2} change: Handler ${3}",
+      "\ton change call on ${2} change",
+      "\tform",
+      "\t\tbind field \"${4:Label}\" to ${2}.${5:field}",
+      "\ttabs",
+      "\t\ttab \"${6:General}\" render ${7:content}",
+      "\t\ttab \"${8:Advanced}\" render ${9:content}"
+    ]
+  },
+  "Point view list each": {
+    "prefix": "each render",
+    "description": "Render a list with each/link",
+    "body": [
+      "each ${1:item} in ${2:items} render link ${1}.${3:title} to \"${4:/items/}\" + ${1}.${5:id}"
+    ]
+  },
+  "Point view modal": {
+    "prefix": "modal when",
+    "description": "Conditional modal dialog in a view",
+    "body": [
+      "modal \"${1:Title}\" when ${2:show dialog} render \"${3:Body text}\""
     ]
   },
   "Point label": {
@@ -126,6 +249,25 @@
       "\toutput Text",
       "\twhen ${2:score} >= ${3:90} return \"${4:Ready}\"",
       "\totherwise return \"${5:Not ready}\""
+    ]
+  },
+  "Point schedule": {
+    "prefix": "schedule",
+    "description": "Periodic schedule calling an action",
+    "body": [
+      "schedule ${1:health check tick}",
+      "\tevery ${2:5} ${3|minutes,seconds,hours|}",
+      "\tcall ${4:health check}"
+    ]
+  },
+  "Point prompt": {
+    "prefix": "prompt",
+    "description": "Versioned prompt template with record placeholders",
+    "body": [
+      "prompt ${1:support greeting}",
+      "\tversion ${2:1}",
+      "\tinput ${3:Support Context}",
+      "\ttemplate ${4:Hello {user name}}"
     ]
   }
 }

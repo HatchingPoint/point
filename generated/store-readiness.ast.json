@@ -2641,6 +2641,18 @@
                 "offset": 2337
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 65,
+              "column": 1,
+              "offset": 2302
+            },
+            "end": {
+              "line": 65,
+              "column": 36,
+              "offset": 2337
+            }
           }
         }
       ],
@@ -2690,6 +2702,18 @@
                 "offset": 2442
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 71,
+              "column": 1,
+              "offset": 2412
+            },
+            "end": {
+              "line": 71,
+              "column": 31,
+              "offset": 2442
+            }
           }
         }
       ],
@@ -2738,6 +2762,18 @@
                 "column": 41,
                 "offset": 2536
               }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 75,
+              "column": 1,
+              "offset": 2496
+            },
+            "end": {
+              "line": 75,
+              "column": 41,
+              "offset": 2536
             }
           }
         }
@@ -5074,6 +5110,7 @@
         "name": "get listing status",
         "method": "GET",
         "path": "/apps/:id/listing-status",
+        "before": [],
         "inputs": [
           {
             "label": "id",
@@ -5173,6 +5210,7 @@
         "name": "health check",
         "method": "GET",
         "path": "/health",
+        "before": [],
         "inputs": [],
         "output": {
           "name": "response",

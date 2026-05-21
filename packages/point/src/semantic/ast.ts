@@ -17,21 +17,69 @@ export interface PointSemanticUseDeclaration {
 
 export type PointSemanticDeclaration =
 	| PointSemanticRecordDeclaration
+	| PointSemanticVariantDeclaration
 	| PointSemanticCalculationDeclaration
 	| PointSemanticRuleDeclaration
 	| PointSemanticLabelDeclaration
 	| PointSemanticExternalDeclaration
 	| PointSemanticActionDeclaration
 	| PointSemanticPolicyDeclaration
+	| PointSemanticGuardDeclaration
 	| PointSemanticViewDeclaration
+	| PointSemanticLayoutDeclaration
+	| PointSemanticNavigationDeclaration
 	| PointSemanticPageDeclaration
+	| PointSemanticMiddlewareDeclaration
 	| PointSemanticRouteDeclaration
+	| PointSemanticStreamRouteDeclaration
 	| PointSemanticWorkflowDeclaration
-	| PointSemanticCommandDeclaration;
+	| PointSemanticPipelineDeclaration
+	| PointSemanticSessionDeclaration
+	| PointSemanticCommandDeclaration
+	| PointSemanticScheduleDeclaration
+	| PointSemanticPromptDeclaration;
+
+export type PointSemanticScheduleIntervalUnit = "seconds" | "minutes" | "hours";
+
+export interface PointSemanticScheduleInterval {
+	amount: number;
+	unit: PointSemanticScheduleIntervalUnit;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticScheduleDeclaration {
+	kind: "schedule";
+	name: string;
+	interval: PointSemanticScheduleInterval;
+	actionName: string;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticPromptDeclaration {
+	kind: "prompt";
+	name: string;
+	version: string;
+	recordName: string;
+	template: string;
+	span?: PointSourceSpan;
+}
 
 export interface PointSemanticRecordDeclaration {
 	kind: "record";
 	name: string;
+	fields: PointSemanticField[];
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticVariantDeclaration {
+	kind: "variant";
+	name: string;
+	cases: PointSemanticVariantCase[];
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticVariantCase {
+	label: string;
 	fields: PointSemanticField[];
 	span?: PointSourceSpan;
 }
@@ -115,6 +163,13 @@ export interface PointSemanticPolicyDeclaration {
 	span?: PointSourceSpan;
 }
 
+export interface PointSemanticGuardDeclaration {
+	kind: "guard";
+	name: string;
+	patterns: string[];
+	span?: PointSourceSpan;
+}
+
 export interface PointSemanticViewDeclaration {
 	kind: "view";
 	name: string;
@@ -124,13 +179,65 @@ export interface PointSemanticViewDeclaration {
 	span?: PointSourceSpan;
 }
 
+export interface PointSemanticLayoutSlot {
+	name: string;
+	content: PointSemanticExpression;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticLayoutDeclaration {
+	kind: "layout";
+	name: string;
+	slots: PointSemanticLayoutSlot[];
+	span?: PointSourceSpan;
+}
+
 export interface PointSemanticPageDeclaration {
 	kind: "page";
 	name: string;
+	layout?: string;
 	inputs: PointSemanticBinding[];
+	loadData?: string;
 	title: PointSemanticExpression;
 	description?: PointSemanticExpression;
 	main: PointSemanticExpression;
+	mainClassName?: string;
+	whenLoadingRender?: PointSemanticExpression;
+	whenLoadingClassName?: string;
+	whenErrorRender?: PointSemanticExpression;
+	whenErrorClassName?: string;
+	whenEmptyRender?: PointSemanticExpression;
+	whenEmptyClassName?: string;
+	streamSubscribePath?: string;
+	streamSubscribeRoute?: string;
+	onMessageCall?: string;
+	whenConnectingRender?: PointSemanticExpression;
+	whenConnectingClassName?: string;
+	whenDisconnectedRender?: PointSemanticExpression;
+	whenDisconnectedClassName?: string;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticNavigationRoute {
+	path: string;
+	pageName: string;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticNavigationDeclaration {
+	kind: "navigation";
+	name: string;
+	routes: PointSemanticNavigationRoute[];
+	bootstrapRouter: boolean;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticMiddlewareDeclaration {
+	kind: "middleware";
+	name: string;
+	inputs: PointSemanticBinding[];
+	output: PointSemanticOutputBinding;
+	body: PointSemanticMiddlewareStatement[];
 	span?: PointSourceSpan;
 }
 
@@ -139,9 +246,30 @@ export interface PointSemanticRouteDeclaration {
 	name: string;
 	method: string;
 	path: string;
+	before: string[];
 	inputs: PointSemanticBinding[];
 	output: PointSemanticOutputBinding;
 	body: PointSemanticRouteStatement[];
+	span?: PointSourceSpan;
+}
+
+export type PointSemanticStreamRouteEvent = "connect" | "message" | "disconnect";
+
+export interface PointSemanticStreamRouteHandler {
+	event: PointSemanticStreamRouteEvent;
+	inputLabel?: string;
+	mode: "return" | "streamFromAction";
+	value?: PointSemanticExpression;
+	actionName?: string;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticStreamRouteDeclaration {
+	kind: "streamRoute";
+	name: string;
+	path: string;
+	messageType: PointSemanticTypeExpression;
+	handlers: PointSemanticStreamRouteHandler[];
 	span?: PointSourceSpan;
 }
 
@@ -151,6 +279,24 @@ export interface PointSemanticWorkflowDeclaration {
 	inputs: PointSemanticBinding[];
 	output: PointSemanticOutputBinding;
 	body: PointSemanticWorkflowStatement[];
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticPipelineDeclaration {
+	kind: "pipeline";
+	name: string;
+	inputs: PointSemanticBinding[];
+	output: PointSemanticOutputBinding;
+	body: PointSemanticPipelineStatement[];
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticSessionDeclaration {
+	kind: "session";
+	name: string;
+	messageRecordName: string;
+	messagesField: PointSemanticBinding;
+	streamActionName: string;
 	span?: PointSourceSpan;
 }
 
@@ -180,10 +326,12 @@ export type PointSemanticRuleStatement =
 
 export type PointSemanticLabelStatement =
 	| { kind: "whenReturn"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "onVariantReturn"; caseLabel: string; bindings: string[]; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "otherwiseReturn"; value: PointSemanticExpression; span?: PointSourceSpan };
 
 export type PointSemanticActionStatement =
 	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "yield"; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "expression"; value: PointSemanticExpression; span?: PointSourceSpan };
 
 export type PointSemanticPolicyStatement =
@@ -191,16 +339,79 @@ export type PointSemanticPolicyStatement =
 	| { kind: "deny"; condition: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "require"; condition: PointSemanticExpression; span?: PointSourceSpan };
 
-export type PointSemanticViewStatement =
-	| { kind: "render"; value: PointSemanticExpression; span?: PointSourceSpan }
-	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan }
+export interface PointSemanticViewTab {
+	label: string;
+	value: PointSemanticExpression;
+	className?: string;
+	span?: PointSourceSpan;
+}
+
+export type PointSemanticViewBindStatement =
 	| { kind: "bindCheckbox"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "bindField"; label: string; target: PointSemanticExpression; span?: PointSourceSpan };
+
+export type PointSemanticViewStatement =
+	| { kind: "render"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "loadData"; action: string; span?: PointSourceSpan }
+	| { kind: "onMountCall"; action: string; span?: PointSourceSpan }
+	| { kind: "streamSubscribePath"; path: string; span?: PointSourceSpan }
+	| { kind: "streamSubscribeRoute"; routeName: string; span?: PointSourceSpan }
+	| { kind: "onMessageCall"; callback: string; span?: PointSourceSpan }
+	| { kind: "whenConnectingRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "whenDisconnectedRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "whenLoadingRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "whenErrorRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "whenEmptyRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "link"; label: string; path: string; span?: PointSourceSpan }
+	| { kind: "navigate"; path: string; span?: PointSourceSpan }
+	| PointSemanticViewBindStatement
+	| { kind: "form"; bindings: PointSemanticViewBindStatement[]; span?: PointSourceSpan }
+	| { kind: "eachRender"; item: string; iterable: PointSemanticExpression; value: PointSemanticExpression; className?: string; linkPath?: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "modal"; title: string; when?: PointSemanticExpression; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "tabs"; tabs: PointSemanticViewTab[]; span?: PointSourceSpan }
 	| { kind: "onChangeCall"; callback: string; span?: PointSourceSpan };
 
-export type PointSemanticRouteStatement = { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
+export type PointSemanticMiddlewareStatement = PointSemanticLabelStatement;
+
+export type PointSemanticRouteStatement =
+	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan }
+	| {
+			kind: "returnJson";
+			value: PointSemanticExpression;
+			status?: PointSemanticExpression;
+			headers?: PointSemanticExpression;
+			span?: PointSourceSpan;
+	  };
+
+export interface PointSemanticWorkflowStepOptions {
+	retryCount?: number;
+	timeoutSeconds?: number;
+	requiredPolicy?: string;
+	fileScopeGuard?: string;
+	onFailure?: PointSemanticExpression;
+}
+
+export type PointSemanticPipelineStepOptions = PointSemanticWorkflowStepOptions;
 
 export type PointSemanticWorkflowStatement =
-	| { kind: "step"; name: string; value: PointSemanticExpression; span?: PointSourceSpan }
+	| {
+			kind: "step";
+			name: string;
+			value: PointSemanticExpression;
+			options?: PointSemanticWorkflowStepOptions;
+			span?: PointSourceSpan;
+	  }
+	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
+
+export type PointSemanticPipelineStatement =
+	| {
+			kind: "step";
+			name: string;
+			value: PointSemanticExpression;
+			options?: PointSemanticPipelineStepOptions;
+			span?: PointSourceSpan;
+	  }
 	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
 
 export type PointSemanticCommandStatement = { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
@@ -226,6 +437,7 @@ export type PointSemanticExpression =
 	| { kind: "call"; callee: string; args: PointSemanticExpression[]; span?: PointSourceSpan }
 	| { kind: "await"; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "error"; message: string; span?: PointSourceSpan }
+	| { kind: "variant"; caseLabel: string; fields: PointSemanticRecordLiteralField[]; span?: PointSourceSpan }
 	| {
 			kind: "binary";
 			operator: PointSemanticBinaryOperator;

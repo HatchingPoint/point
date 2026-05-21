@@ -1,4 +1,4 @@
-import type { PointCoreProgram } from "../ast.ts";
+import type { PointCoreProgram, PointCoreStatement } from "../ast.ts";
 import { assertSemanticPointSource, isSemanticPointSyntax } from "../semantic-source.ts";
 import { desugarSemanticProgram } from "../../semantic/desugar.ts";
 import { parseSemanticSource } from "../../semantic/parse.ts";
@@ -16,8 +16,57 @@ function parsePointSourceViaLowering(source: string): PointCoreProgram {
 	if (isSemanticPointSyntax(source)) {
 		attachSemanticMetadata(program, source);
 		enrichPageLayouts(program, source);
+		enrichLayoutSpecs(program, source);
+		enrichViewRenderClasses(program, source);
 	}
 	return program;
+}
+
+function enrichViewRenderClasses(program: PointCoreProgram, source: string): void {
+	const desugared = desugarSemanticProgram(parseSemanticSource(source));
+	const viewFunctions = desugared.declarations.filter(
+		(declaration): declaration is Extract<(typeof desugared.declarations)[number], { kind: "function" }> =>
+			declaration.kind === "function" && declaration.semantic?.kind === "view",
+	);
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "function" || declaration.semantic?.kind !== "view") continue;
+		const match = viewFunctions.find((candidate) => candidate.name === declaration.name);
+		if (!match) continue;
+		copyViewRenderClasses(declaration.body, match.body);
+	}
+}
+
+function copyViewRenderClasses(target: PointCoreStatement[], source: PointCoreStatement[]): void {
+	for (let index = 0; index < source.length; index += 1) {
+		const sourceStatement = source[index];
+		const targetStatement = target[index];
+		if (!sourceStatement || !targetStatement) continue;
+		if (sourceStatement.kind === "return" && targetStatement.kind === "return" && sourceStatement.className) {
+			targetStatement.className = sourceStatement.className;
+			continue;
+		}
+		if (sourceStatement.kind === "if" && targetStatement.kind === "if") {
+			const sourceReturn = sourceStatement.thenBody[0];
+			const targetReturn = targetStatement.thenBody[0];
+			if (sourceReturn?.kind === "return" && targetReturn?.kind === "return" && sourceReturn.className) {
+				targetReturn.className = sourceReturn.className;
+			}
+		}
+	}
+}
+
+function enrichLayoutSpecs(program: PointCoreProgram, source: string): void {
+	const desugared = desugarSemanticProgram(parseSemanticSource(source));
+	const layoutFunctions = desugared.declarations.filter(
+		(declaration): declaration is Extract<(typeof desugared.declarations)[number], { kind: "function" }> =>
+			declaration.kind === "function" && declaration.semantic?.kind === "layout",
+	);
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "function" || declaration.semantic?.kind !== "layout") continue;
+		const match = layoutFunctions.find((candidate) => candidate.name === declaration.name);
+		if (!match?.semantic?.layoutSpec) continue;
+		declaration.semantic.layoutSpec = match.semantic.layoutSpec;
+	}
 }
 
 function enrichPageLayouts(program: PointCoreProgram, source: string): void {
@@ -106,8 +155,20 @@ function lowerSemanticPointSyntax(source: string): string {
 			index = lowered.next;
 			continue;
 		}
+		if (trimmed.startsWith("layout ")) {
+			const lowered = lowerLayout(lines, index, records, externalBindings);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
 		if (trimmed.startsWith("page ")) {
 			const lowered = lowerPage(lines, index, records, externalBindings);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
+		if (trimmed.startsWith("stream route ")) {
+			const lowered = lowerStreamRoute(lines, index, records, externalBindings);
 			output.push(...lowered.lines);
 			index = lowered.next;
 			continue;
@@ -130,6 +191,11 @@ function lowerSemanticPointSyntax(source: string): string {
 			index = lowered.next;
 			continue;
 		}
+		if (trimmed.startsWith("schedule ") || trimmed.startsWith("prompt ") || trimmed.startsWith("pipeline ") || trimmed.startsWith("session ") || trimmed.startsWith("guard ")) {
+			const body = collectSemanticBody(lines, index + 1);
+			index = body.next;
+			continue;
+		}
 		output.push(line);
 		index += 1;
 	}
@@ -145,7 +211,7 @@ function assertSemanticPointSource(source: string) {
 	for (const [index, line] of lines.entries()) {
 		const trimmed = line.trim();
 		if (!trimmed || trimmed.startsWith("//")) continue;
-		if (/^(record|calculation|rule|label|external|action|policy|view|page|route|workflow|command)\s+/.test(trimmed)) hasSemanticDeclaration = true;
+		if (/^(record|calculation|rule|label|external|action|policy|view|layout|page|stream route|route|workflow|pipeline|session|command)\s+/.test(trimmed)) hasSemanticDeclaration = true;
 		if (oldStyleTopLevel.test(trimmed)) {
 			throw new Error(
 				`Point source uses internal core syntax at ${index + 1}:1. Use record, calculation, rule, or label instead.`,
@@ -540,7 +606,14 @@ function lowerView(
 			continue;
 		}
 		if (line.startsWith("render ")) {
-			statements.push(`return ${lowerExpression(line.slice("render ".length), paramTypes, records, bindings)}`);
+			statements.push(`return ${lowerClassPrefixedRender(line.slice("render ".length), paramTypes, records, bindings)}`);
+			continue;
+		}
+		const whenRenderClass = line.match(/^when (.+) render class "([^"]+)" (.+)$/);
+		if (whenRenderClass) {
+			statements.push(`if ${lowerExpression(whenRenderClass[1] ?? "", paramTypes, records, bindings)} {`);
+			statements.push(`  return ${lowerExpression(whenRenderClass[3] ?? "", paramTypes, records, bindings)}`);
+			statements.push("}");
 			continue;
 		}
 		const whenRender = line.match(/^when (.+) render (.+)$/);
@@ -559,6 +632,45 @@ function lowerView(
 	};
 }
 
+function lowerClassPrefixedRender(
+	rest: string,
+	paramTypes: Map<string, string>,
+	records: Map<string, Map<string, string>>,
+	bindings: Map<string, string>,
+): string {
+	const classMatch = rest.match(/^class "([^"]+)" (.+)$/);
+	if (classMatch) {
+		return lowerExpression(classMatch[2] ?? "", paramTypes, records, bindings);
+	}
+	return lowerExpression(rest, paramTypes, records, bindings);
+}
+
+function lowerLayout(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+	externalBindings: Map<string, string> = new Map(),
+): { lines: string[]; next: number } {
+	const label = (lines[start] ?? "").trim().slice("layout ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const paramTypes = new Map<string, string>();
+	const bindings = new Map<string, string>(externalBindings);
+	let defaultExpression = '""';
+
+	for (const line of body.lines) {
+		const slotMatch = line.match(/^slot (\w+) render (.+)$/);
+		if (!slotMatch) throw new Error(`Unknown layout statement: ${line}`);
+		if (slotMatch[1] === "main") {
+			defaultExpression = lowerExpression(slotMatch[2] ?? "", paramTypes, records, bindings);
+		}
+	}
+
+	return {
+		lines: [`fn ${semanticFunctionName(label, "layout", "layout")}(): Text {`, `  return ${defaultExpression}`, "}", ""],
+		next: body.next,
+	};
+}
+
 function lowerPage(
 	lines: string[],
 	start: number,
@@ -566,7 +678,7 @@ function lowerPage(
 	externalBindings: Map<string, string> = new Map(),
 ): { lines: string[]; next: number } {
 	const label = (lines[start] ?? "").trim().slice("page ".length).trim();
-	const body = collectSemanticBody(lines, start + 1);
+	const body = collectPageBody(lines, start + 1);
 	const params: string[] = [];
 	const paramTypes = new Map<string, string>();
 	const bindings = new Map<string, string>(externalBindings);
@@ -581,7 +693,14 @@ function lowerPage(
 			bindings.set(param.name, paramName);
 			continue;
 		}
-		if (line.startsWith("title ") || line.startsWith("description ")) continue;
+		if (line.startsWith("title ") || line.startsWith("description ") || line.startsWith("layout ")) continue;
+		if (line.startsWith("main render class ")) {
+			const mainRenderClass = line.match(/^main render class "([^"]+)" (.+)$/);
+			if (mainRenderClass) {
+				mainExpression = lowerExpression(mainRenderClass[2] ?? "", paramTypes, records, bindings);
+				continue;
+			}
+		}
 		if (line.startsWith("main render ")) {
 			mainExpression = lowerExpression(line.slice("main render ".length), paramTypes, records, bindings);
 			continue;
@@ -595,6 +714,55 @@ function lowerPage(
 		lines: [`fn ${semanticFunctionName(label, "page", "page")}(${params.join(", ")}): Text {`, `  return ${mainExpression}`, "}", ""],
 		next: body.next,
 	};
+}
+
+function lowerStreamRoute(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+	externalBindings: Map<string, string> = new Map(),
+): { lines: string[]; next: number } {
+	const label = (lines[start] ?? "").trim().slice("stream route ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const output: string[] = [];
+	let messageType = "Text";
+
+	for (const line of body.lines) {
+		if (line.startsWith("path ")) continue;
+		if (line.startsWith("message ")) {
+			messageType = toPascalCase(line.slice("message ".length).trim());
+			continue;
+		}
+		const handlerMatch = line.match(/^on (connect|message|disconnect)(?:\s+([A-Za-z][A-Za-z0-9_ ]*))?\s+return\s+(.+)$/);
+		if (!handlerMatch) throw new Error(`Unknown stream route statement: ${line}`);
+		const event = handlerMatch[1] ?? "connect";
+		const inputLabel = handlerMatch[2]?.trim();
+		const returnSource = handlerMatch[3] ?? "";
+		const paramTypes = new Map<string, string>();
+		const bindings = new Map<string, string>(externalBindings);
+		const params: string[] = [];
+		if (event === "message" && inputLabel) {
+			const paramName = toIdentifier(inputLabel);
+			params.push(`${paramName}: ${messageType}`);
+			paramTypes.set(paramName, messageType);
+			bindings.set(inputLabel, paramName);
+		}
+		const handlerName =
+			event === "connect"
+				? `${semanticFunctionName(label, "stream", "streamRoute")}Connect`
+				: event === "message"
+					? `${semanticFunctionName(label, "stream", "streamRoute")}Message`
+					: `${semanticFunctionName(label, "stream", "streamRoute")}Disconnect`;
+		const returnType = returnSource.trim() === "none" ? "Void" : event === "message" && returnSource.includes("{") ? messageType : "Text";
+		output.push(
+			`fn ${handlerName}(${params.join(", ")}): ${returnType} {`,
+			`  return ${lowerExpression(returnSource, paramTypes, records, bindings)}`,
+			"}",
+			"",
+		);
+	}
+
+	return { lines: output, next: body.next };
 }
 
 function lowerRoute(
@@ -808,6 +976,7 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 			trimmed.startsWith("action ") ||
 			trimmed.startsWith("policy ") ||
 			trimmed.startsWith("view ") ||
+			trimmed.startsWith("layout ") ||
 			trimmed.startsWith("page ") ||
 			trimmed.startsWith("route ") ||
 			trimmed.startsWith("workflow ") ||
@@ -825,6 +994,8 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 								? "policy"
 								: trimmed.startsWith("view ")
 									? "view"
+									: trimmed.startsWith("layout ")
+										? "layout"
 									: trimmed.startsWith("page ")
 										? "page"
 										: trimmed.startsWith("route ")
@@ -837,7 +1008,7 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 			const body = collectSemanticBody(lines, index + 1);
 			const params = new Map<string, string>();
 			let outputName =
-				kind === "label" ? "label" : kind === "policy" ? "policy" : kind === "view" ? "view" : kind === "page" ? "page" : kind === "route" ? "route" : "result";
+				kind === "label" ? "label" : kind === "policy" ? "policy" : kind === "view" ? "view" : kind === "layout" ? "layout" : kind === "page" ? "page" : kind === "route" ? "route" : "result";
 			const effects: string[] = [];
 			for (const line of body.lines) {
 				if (line.startsWith("input ")) {
@@ -906,6 +1077,7 @@ function collectCallableBindings(source: string): Map<string, string> {
 			declaration.kind === "action" ||
 			declaration.kind === "policy" ||
 			declaration.kind === "view" ||
+			declaration.kind === "layout" ||
 			declaration.kind === "page" ||
 			declaration.kind === "route" ||
 			declaration.kind === "workflow" ||
@@ -924,6 +1096,18 @@ function findSemanticName(names: Map<string, string>, loweredName: string): stri
 	return loweredName;
 }
 
+function collectPageBody(lines: string[], start: number): { lines: string[]; next: number } {
+	const body: string[] = [];
+	let index = start;
+	for (; index < lines.length; index += 1) {
+		const trimmed = (lines[index] ?? "").trim();
+		if (!trimmed) continue;
+		if (isSemanticTopLevel(trimmed) && !trimmed.startsWith("layout ")) break;
+		body.push(trimmed);
+	}
+	return { lines: body, next: index };
+}
+
 function collectSemanticBody(lines: string[], start: number): { lines: string[]; next: number } {
 	const body: string[] = [];
 	let index = start;
@@ -937,7 +1121,7 @@ function collectSemanticBody(lines: string[], start: number): { lines: string[];
 }
 
 function isSemanticTopLevel(line: string): boolean {
-	return /^(module|use|record|calculation|rule|label|external|action|policy|view|page|route|workflow|command|type|fn|let|var|import)\s+/.test(line);
+	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule|prompt|type|fn|let|var|import)\s+/.test(line);
 }
 
 function isSemanticLoopBoundary(line: string): boolean {
@@ -1040,7 +1224,7 @@ function toIdentifier(label: string): string {
 function semanticFunctionName(
 	label: string,
 	outputName: string,
-	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command",
+	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "layout" | "page" | "route" | "streamRoute" | "workflow" | "command",
 ): string {
 	const base = toIdentifier(label);
 	const suffix =
@@ -1050,10 +1234,14 @@ function semanticFunctionName(
 				? "Policy"
 				: kind === "view"
 					? "View"
+					: kind === "layout"
+						? "Layout"
 					: kind === "page"
 						? "Page"
 						: kind === "route"
 						? "Route"
+						: kind === "streamRoute"
+							? "StreamRoute"
 						: kind === "workflow"
 							? "Workflow"
 							: kind === "command"

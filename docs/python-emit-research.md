@@ -1,19 +1,49 @@
 # Python Emit Research
 
-## Status (Phase 10 / Goal P10-3)
+**External shim registry:** [python-emit-registry.md](./python-emit-registry.md) — npm / std externals → Python mappings (P19-4).
 
-Point ships a **Python emit backend** for pure logic modules and **action blocks**. Fixtures:
+## Status (Phase 19 / Goal P19-1)
+
+Point ships a **Python emit backend** for pure logic modules, **action blocks**, and **route blocks with middleware**. Fixtures:
 
 - `examples/math.point` → `generated/math.py` (pure logic)
 - `examples/action.point` → `generated/action.py` (async action + external shim)
+- `examples/api/middleware-demo.point` → `generated/middleware-demo.py` (HTTP routes + middleware)
 
 ```bash
 point build-py examples/math.point generated/math.py
 point build-py examples/action.point generated/action.py
-python -c "import asyncio, importlib.util; spec=importlib.util.spec_from_file_location('a','generated/action.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(asyncio.run(m.loadConfigContents('examples/action.point'))[:20])"
+point build-py examples/api/middleware-demo.point generated/middleware-demo.py
+python generated/middleware-demo.py  # or import start_routes_server()
 ```
 
+### Route runtime choice
+
+Python route emit uses **stdlib `http.server`** (not FastAPI):
+
+- Zero third-party dependencies — matches “boring emit” and works in restricted environments
+- Same middleware chain + typed query/body/header extraction as JavaScript emit
+- FastAPI remains a future option via the [external shim registry](./python-emit-registry.md) if teams want OpenAPI/docs
+
+`@hatchingpoint/point/std/crypto` `checkJwtValid` maps to `packages/point/python_std/point_std/crypto.py` via the Point std bootstrap import path.
+
 Runtime parity with JavaScript emit for pure logic is covered in `tests/python-emit.test.ts`. Action emit smoke test reads `examples/action.point` via the generated async function.
+
+### Cross-language parity suite (P19-5)
+
+```bash
+bun run test:py-parity
+```
+
+Builds and compares paired outputs for:
+
+| Example | Parity scope |
+|---------|----------------|
+| `examples/math.point` | Calculations, rules, labels |
+| `examples/tools/path-demo.point` | `std.path` calculations + action |
+| `examples/api/middleware-demo.point` | JWT secret calculation; HTTP status/body vs JS server |
+
+Tests live in `tests/python-parity-suite.test.ts`. CI: optional `py-parity` job in `.github/workflows/ci.yml` (Python 3.12). Main `bun run ci` stays Bun-only; run parity locally or in the optional job when Python is available.
 
 ## Type mapping
 
@@ -34,6 +64,7 @@ Record field access emits bracket notation (`signals["hasBundleId"]`) so callers
 
 - Records, calculations, rules, labels
 - **Actions** — `async def` with `await` for nested action calls
+- **Routes** — stdlib `http.server` runtime with middleware stacks and typed query/body/header records
 - Conditionals, assignments, arithmetic and boolean operators
 - Module-level typed functions and local typed bindings
 - **`node:fs` readFileSync** — mapped to `pathlib.Path.read_text()` shim
@@ -43,10 +74,10 @@ Record field access emits bracket notation (`signals["hasBundleId"]`) so callers
 | Area | Status |
 |------|--------|
 | Views / JSX | Not emitted (comment placeholder only) |
-| Routes / HTTP | Not emitted |
-| Workflows / commands | Skipped with comment |
-| npm-style externals | `node:fs` readFileSync only; others emit raw import (likely invalid Python) |
-| stdlib bridge | No Python std mirror yet |
+| Routes / HTTP | ✅ stdlib `http.server` runtime + middleware (P19-1) |
+| Workflows / commands | Skipped with comment (except route `serve` commands) |
+| npm-style externals | `node:fs` readFileSync + `@hatchingpoint/point/std/*` → `point_std.*`; see [registry](./python-emit-registry.md) |
+| stdlib bridge | ✅ `packages/point/python_std/` mirrors Phase 14 std modules |
 | Project-wide `build-py-all` | ✅ Skips view/route/workflow/command fixtures; includes actions |
 | Dataclass runtime | TypedDict typing only; values are dicts at runtime |
 

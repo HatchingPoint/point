@@ -672,8 +672,20 @@ Use the same pattern: quote the phase section from this doc, list its checkboxes
 | 9 | Replace TS/Python authoring | Done — [phase9-replacement-plan.md](./phase9-replacement-plan.md) |
 | 10 | Language depth & Python parity | Done — [phase10-plan.md](./phase10-plan.md) |
 | 11 | Ecosystem & stdlib | Done — [phase11-plan.md](./phase11-plan.md) |
-| 12 | Ecosystem scale | **Active** — [phase12-plan.md](./phase12-plan.md) |
+| 12 | Ecosystem scale | Done — [phase12-plan.md](./phase12-plan.md) |
+| 13 | Registry & Python route spike | Planned — [phase13-plan.md](./phase13-plan.md) |
+| 14 | Language foundations | **Next** — [phase14-plan.md](./phase14-plan.md) |
+| 15 | Application platform | Planned — [phase15-plan.md](./phase15-plan.md) |
+| 16 | Realtime & processes | Planned — [phase16-plan.md](./phase16-plan.md) |
+| 17 | Data interop (any DB) | Done — [phase17-plan.md](./phase17-plan.md) |
+| 18 | Agent orchestration | Planned — [phase18-plan.md](./phase18-plan.md) |
+| 19 | Python full parity | Planned — [phase19-plan.md](./phase19-plan.md) |
+| 20 | Dev platform | Planned — [phase20-plan.md](./phase20-plan.md) |
+| 21 | Hardening | Planned — [phase21-plan.md](./phase21-plan.md) |
 
-**Active phase:** Phase 12 — `npm:` deps, std shims, starter template, Open VSX
+**Active phase:** Phase 14 — stdlib depth, HTTP production features, variant types, source maps
+
+**Platform vision:** [platform-vision-plan.md](./platform-vision-plan.md)  
+**Codex Wave 1:** [codex-goal-phase14.md](./codex-goal-phase14.md)
 
 **Last updated:** 2026-05-21

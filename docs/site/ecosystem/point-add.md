@@ -99,7 +99,7 @@ The locator is any existing directory relative to the project root. Resolution p
 
 ### `npm:` — registry packages
 
-Install published Point packages from npm. The CLI runs `npm install --no-save`, locates `point.json` or `src/*.point` in the package, and pins the path under `node_modules/` in `point.lock`:
+Install published Point packages from any npm-compatible registry (public npm, GitHub Packages, or a private mirror). The CLI runs `npm install --no-save` using your project’s npm configuration (`.npmrc`, environment), locates `point.json` or `src/*.point` in the package, and pins the path under `node_modules/` in `point.lock`:
 
 ```bash
 point add logic npm:@hatchingpoint/point-logic
@@ -110,6 +110,35 @@ Then `use logic.store-readiness` resolves through the lockfile.
 
 **Note:** Packages that ship only emitted JavaScript in `dist/` (no `.point` source in the tarball) cannot be typechecked via `point add`. Prefer packages that include Point source, or import emitted JS directly for runtime-only use.
 
+#### Registry configuration
+
+`point add` does not implement a separate Point registry protocol. It delegates to **npm** for download and path resolution. Configure the registry the same way you would for any scoped package:
+
+| Registry | When to use | Project setup |
+|----------|-------------|---------------|
+| [registry.npmjs.org](https://www.npmjs.com/) | Public open-source libraries (`@hatchingpoint/*`) | Default — no extra config |
+| [GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry) | Org-private or repo-scoped packages | `.npmrc` + `publishConfig.registry` on the library |
+| Private Verdaccio / Artifactory | Enterprise mirrors | `.npmrc` `registry=` URL |
+
+**GitHub Packages (consumer)** — in the consuming project root, add `.npmrc` (commit for teams, or use CI secrets locally):
+
+```ini
+@your-org:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+Then install as usual:
+
+```bash
+export GITHUB_TOKEN=ghp_...   # classic PAT with read:packages, or Actions GITHUB_TOKEN
+point add logic npm:@your-org/point-logic
+point check-all
+```
+
+`npm install` honors `.npmrc`, so `point.lock` pins the same `node_modules/@your-org/point-logic` path whether the tarball came from npmjs or GitHub.
+
+**GitHub Packages (publisher)** — see [npm packages — Publish workflow](/point/ecosystem/npm-packages#publish-workflow) for `package.json` `publishConfig` and CI token setup.
+
 ## Resolution at check and build
 
 After dependencies are locked:
@@ -119,6 +148,27 @@ After dependencies are locked:
 - `check-all`, `build-all`, and related project commands load `point.lock` from the project root when building the module graph.
 
 If a package name is missing from the lockfile, check/build report an error that includes the suggested `point add` command.
+
+## Publish → consume workflow
+
+End-to-end flow for a Point library team:
+
+```text
+Author .point  →  point check / point build  →  npm publish  →  point add npm:  →  use pkg.module
+```
+
+| Step | Who | Command / artifact |
+|------|-----|-------------------|
+| 1. Author | Library maintainer | Edit `src/*.point` only; add `point.json` |
+| 2. Verify | CI | `point check`, `point build` (and optional `point build-py`) |
+| 3. Package | Maintainer | `package.json` `"files"` includes `dist/`, `point.json`, `src/*.point` |
+| 4. Publish | Maintainer / CI | `npm publish` (public) or `npm publish --registry https://npm.pkg.github.com` |
+| 5. Declare | App team | `point add <alias> npm:@scope/pkg[@version]` |
+| 6. Import | App authors | `use <alias>.<module>` — resolved via `point.lock` |
+
+Reference implementation: `@hatchingpoint/point-logic` in `packages/point-logic/` (monorepo) — same layout works in a standalone repository.
+
+**Hosted package index:** There is no first-party Point registry service yet. Discovery is via npm search, GitHub repo README, or an internal catalog you maintain manually. Installation still uses `point add … npm:…` against whichever npm registry hosts the tarball.
 
 ## Examples
 
@@ -134,10 +184,16 @@ point add std workspace:std
 point add logic file:packages/point-logic
 ```
 
-**Registry dependency:**
+**Registry dependency (public npm):**
 
 ```bash
 point add logic npm:@hatchingpoint/point-logic
+```
+
+**Registry dependency (GitHub Packages, after `.npmrc` is configured):**
+
+```bash
+point add logic npm:@your-org/point-logic@1.0.0
 ```
 
 ## Common mistakes
@@ -146,6 +202,8 @@ point add logic npm:@hatchingpoint/point-logic
 - Adding a dependency name that does not match how you `use` it — the lockfile alias must match the prefix in `use std.text`, `use logic.store`, etc.
 - Expecting `point add` to install JavaScript npm deps for `external` blocks — those still belong in `package.json`; `point add` is for Point package modules only.
 - Editing `point.lock` paths by hand after moving directories — re-run `point add` or regenerate the lock from the manifest.
+- Publishing or consuming GitHub Packages without a scoped `.npmrc` — npm defaults to registry.npmjs.org and `point add npm:@your-org/...` will 404.
+- Forgetting to include `src/*.point` and `point.json` in the published tarball — consumers cannot `point check` against your package.
 
 ## See also
 

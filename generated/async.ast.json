@@ -51,6 +51,18 @@
                 "offset": 107
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 93
+            },
+            "end": {
+              "line": 7,
+              "column": 15,
+              "offset": 107
+            }
           }
         }
       ],
@@ -156,6 +168,18 @@
                 "column": 29,
                 "offset": 216
               }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 188
+            },
+            "end": {
+              "line": 13,
+              "column": 29,
+              "offset": 216
             }
           }
         }

@@ -1,0 +1,25 @@
+module GuardedOutput
+
+guard output paths
+  allow "output/**"
+  allow "tmp/*"
+
+action resolve path
+  input target: Text
+  output path: Text or Error
+  touches file
+  return target
+
+pipeline guarded write
+  input target: Text
+  output result: Text or Error
+  step written is await resolve path(target)
+    touches file scope output paths
+  return written
+
+pipeline blocked write
+  input target: Text
+  output result: Text or Error
+  step written is await resolve path(target)
+    touches file scope output paths
+  return written

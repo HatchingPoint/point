@@ -3,7 +3,13 @@
 
 from __future__ import annotations
 
-from @hatchingpoint/point/std/env import envGet as envGetRaw
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
+
+from point_std.env import envGet as envGetRaw
 
 async def getEnvVarValue(name: str) -> str | None:
     return envGetRaw(name)

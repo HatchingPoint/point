@@ -50,8 +50,8 @@
                 },
                 "end": {
                   "line": 5,
-                  "column": 40,
-                  "offset": 85
+                  "column": 85,
+                  "offset": 130
                 }
               }
             },
@@ -66,8 +66,8 @@
                 },
                 "end": {
                   "line": 5,
-                  "column": 40,
-                  "offset": 85
+                  "column": 85,
+                  "offset": 130
                 }
               }
             },
@@ -79,8 +79,8 @@
               },
               "end": {
                 "line": 5,
-                "column": 40,
-                "offset": 85
+                "column": 85,
+                "offset": 130
               }
             }
           },
@@ -98,11 +98,12 @@
                   },
                   "end": {
                     "line": 5,
-                    "column": 40,
-                    "offset": 85
+                    "column": 85,
+                    "offset": 130
                   }
                 }
               },
+              "className": "text-lg font-semibold text-green-700",
               "span": {
                 "start": {
                   "line": 5,
@@ -111,8 +112,8 @@
                 },
                 "end": {
                   "line": 5,
-                  "column": 40,
-                  "offset": 85
+                  "column": 85,
+                  "offset": 130
                 }
               }
             }
@@ -126,8 +127,8 @@
             },
             "end": {
               "line": 5,
-              "column": 40,
-              "offset": 85
+              "column": 85,
+              "offset": 130
             }
           }
         },
@@ -140,25 +141,26 @@
               "start": {
                 "line": 6,
                 "column": 1,
-                "offset": 86
+                "offset": 131
               },
               "end": {
                 "line": 6,
-                "column": 25,
-                "offset": 110
+                "column": 44,
+                "offset": 174
               }
             }
           },
+          "className": "text-muted",
           "span": {
             "start": {
               "line": 6,
               "column": 1,
-              "offset": 86
+              "offset": 131
             },
             "end": {
               "line": 6,
-              "column": 25,
-              "offset": 110
+              "column": 44,
+              "offset": 174
             }
           }
         }
@@ -253,8 +255,8 @@
                   },
                   "end": {
                     "line": 5,
-                    "column": 40,
-                    "offset": 85
+                    "column": 85,
+                    "offset": 130
                   }
                 }
               },
@@ -269,8 +271,8 @@
                   },
                   "end": {
                     "line": 5,
-                    "column": 40,
-                    "offset": 85
+                    "column": 85,
+                    "offset": 130
                   }
                 }
               },
@@ -282,11 +284,12 @@
                 },
                 "end": {
                   "line": 5,
-                  "column": 40,
-                  "offset": 85
+                  "column": 85,
+                  "offset": 130
                 }
               }
             },
+            "className": "text-lg font-semibold text-green-700",
             "value": {
               "kind": "literal",
               "value": "Counter ready",
@@ -298,8 +301,8 @@
                 },
                 "end": {
                   "line": 5,
-                  "column": 40,
-                  "offset": 85
+                  "column": 85,
+                  "offset": 130
                 }
               }
             },
@@ -311,8 +314,8 @@
               },
               "end": {
                 "line": 5,
-                "column": 40,
-                "offset": 85
+                "column": 85,
+                "offset": 130
               }
             }
           },
@@ -325,25 +328,26 @@
                 "start": {
                   "line": 6,
                   "column": 1,
-                  "offset": 86
+                  "offset": 131
                 },
                 "end": {
                   "line": 6,
-                  "column": 25,
-                  "offset": 110
+                  "column": 44,
+                  "offset": 174
                 }
               }
             },
+            "className": "text-muted",
             "span": {
               "start": {
                 "line": 6,
                 "column": 1,
-                "offset": 86
+                "offset": 131
               },
               "end": {
                 "line": 6,
-                "column": 25,
-                "offset": 110
+                "column": 44,
+                "offset": 174
               }
             }
           }

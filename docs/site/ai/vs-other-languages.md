@@ -39,7 +39,7 @@ For **human-only** coding, staying on TypeScript or Python is often enough. For 
 
 **Gap for agents:** Same line-based repair story. Business logic in Django/FastAPI apps mixes framework layers with domain code. Optional typing is inconsistent across codebases.
 
-**How Point relates:** `point build-py` emits Python for **pure logic modules** (records, calculations, rules, labels). Actions, views, and routes still target JS/TS today. Point is not claiming to replace every Python service — it targets the **logic agents should patch**, with a path to Python emit where teams need it.
+**How Point relates:** `point build-py` emits Python for logic, actions, routes, workflows, and commands. Views, layouts, and realtime client code still target JS/TS. Point is not claiming to replace every Python service — it targets the **logic and automation agents should patch**, with emit parity for server-side Python where teams need it.
 
 **When Python alone wins:** Notebook-style analytics, heavy C extensions, existing Python-only ops.
 

@@ -1,0 +1,1216 @@
+{
+  "kind": "coreProgram",
+  "module": "JwtDemo",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "signedDemoToken",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "signJwtToken",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "{\"sub\":\"demo-user\",\"role\":\"reader\"}",
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 96
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 90,
+                    "offset": 185
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "demo-jwt-secret",
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 96
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 90,
+                    "offset": 185
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 96
+              },
+              "end": {
+                "line": 9,
+                "column": 90,
+                "offset": 185
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 96
+            },
+            "end": {
+              "line": 9,
+              "column": 90,
+              "offset": 185
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "signed demo token",
+        "outputName": "token",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 45
+        },
+        "end": {
+          "line": 7,
+          "column": 30,
+          "offset": 74
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "verifySignedTokenPayload",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "verifyJwtPayload",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "token",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 271
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 56,
+                    "offset": 326
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "demo-jwt-secret",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 271
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 56,
+                    "offset": 326
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 271
+              },
+              "end": {
+                "line": 14,
+                "column": 56,
+                "offset": 326
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 271
+            },
+            "end": {
+              "line": 14,
+              "column": 56,
+              "offset": 326
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "verify signed token",
+        "outputName": "payload",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 187
+        },
+        "end": {
+          "line": 11,
+          "column": 32,
+          "offset": 218
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "demoTokenValid",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 17,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "jwtAuthOk",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "token",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 398
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 47,
+                    "offset": 444
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "demo-jwt-secret",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 398
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 47,
+                    "offset": 444
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 398
+              },
+              "end": {
+                "line": 19,
+                "column": 47,
+                "offset": 444
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 398
+            },
+            "end": {
+              "line": 19,
+              "column": 47,
+              "offset": 444
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "demo token valid",
+        "outputName": "valid",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 328
+        },
+        "end": {
+          "line": 16,
+          "column": 29,
+          "offset": 356
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "digestDemoDigest",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "digestSha256Digest",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 512
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 38,
+                    "offset": 549
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 512
+              },
+              "end": {
+                "line": 24,
+                "column": 38,
+                "offset": 549
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 512
+            },
+            "end": {
+              "line": 24,
+              "column": 38,
+              "offset": 549
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "digest demo",
+        "outputName": "digest",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 446
+        },
+        "end": {
+          "line": 21,
+          "column": 24,
+          "offset": 469
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "hmacDemoDigest",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 28,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "digestHmacSha256Digest",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 30,
+                    "column": 1,
+                    "offset": 636
+                  },
+                  "end": {
+                    "line": 30,
+                    "column": 50,
+                    "offset": 685
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "secret",
+                "span": {
+                  "start": {
+                    "line": 30,
+                    "column": 1,
+                    "offset": 636
+                  },
+                  "end": {
+                    "line": 30,
+                    "column": 50,
+                    "offset": 685
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 636
+              },
+              "end": {
+                "line": 30,
+                "column": 50,
+                "offset": 685
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 636
+            },
+            "end": {
+              "line": 30,
+              "column": 50,
+              "offset": 685
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "hmac demo",
+        "outputName": "digest",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 551
+        },
+        "end": {
+          "line": 26,
+          "column": 22,
+          "offset": 572
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "JwtDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.crypto",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 15,
+            "offset": 14
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.env",
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 12,
+            "offset": 11
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "calculation",
+        "name": "signed demo token",
+        "inputs": [],
+        "output": {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "token",
+            "value": {
+              "kind": "call",
+              "callee": "signJwtToken",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "{\"sub\":\"demo-user\",\"role\":\"reader\"}",
+                  "span": {
+                    "start": {
+                      "line": 9,
+                      "column": 1,
+                      "offset": 96
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 90,
+                      "offset": 185
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "demo-jwt-secret",
+                  "span": {
+                    "start": {
+                      "line": 9,
+                      "column": 1,
+                      "offset": 96
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 90,
+                      "offset": 185
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 9,
+                  "column": 1,
+                  "offset": 96
+                },
+                "end": {
+                  "line": 9,
+                  "column": 90,
+                  "offset": 185
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 96
+              },
+              "end": {
+                "line": 9,
+                "column": 90,
+                "offset": 185
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 45
+          },
+          "end": {
+            "line": 7,
+            "column": 30,
+            "offset": 74
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "verify signed token",
+        "inputs": [
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "payload",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "payload",
+            "value": {
+              "kind": "call",
+              "callee": "verifyJwtPayload",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "token",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 271
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 56,
+                      "offset": 326
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "demo-jwt-secret",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 271
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 56,
+                      "offset": 326
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 271
+                },
+                "end": {
+                  "line": 14,
+                  "column": 56,
+                  "offset": 326
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 271
+              },
+              "end": {
+                "line": 14,
+                "column": 56,
+                "offset": 326
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 187
+          },
+          "end": {
+            "line": 11,
+            "column": 32,
+            "offset": 218
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "demo token valid",
+        "inputs": [
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "valid",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "valid",
+            "value": {
+              "kind": "call",
+              "callee": "jwtAuthOk",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "token",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 398
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 47,
+                      "offset": 444
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "demo-jwt-secret",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 398
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 47,
+                      "offset": 444
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 398
+                },
+                "end": {
+                  "line": 19,
+                  "column": 47,
+                  "offset": 444
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 398
+              },
+              "end": {
+                "line": 19,
+                "column": 47,
+                "offset": 444
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 16,
+            "column": 1,
+            "offset": 328
+          },
+          "end": {
+            "line": 16,
+            "column": 29,
+            "offset": 356
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "digest demo",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 22,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "digest",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "digest",
+            "value": {
+              "kind": "call",
+              "callee": "digestSha256Digest",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 512
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 38,
+                      "offset": 549
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 512
+                },
+                "end": {
+                  "line": 24,
+                  "column": 38,
+                  "offset": 549
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 512
+              },
+              "end": {
+                "line": 24,
+                "column": 38,
+                "offset": 549
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 446
+          },
+          "end": {
+            "line": 21,
+            "column": 24,
+            "offset": 469
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "hmac demo",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "secret",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 28,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "digest",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "digest",
+            "value": {
+              "kind": "call",
+              "callee": "digestHmacSha256Digest",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 636
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 50,
+                      "offset": 685
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "secret",
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 636
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 50,
+                      "offset": 685
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 636
+                },
+                "end": {
+                  "line": 30,
+                  "column": 50,
+                  "offset": 685
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 636
+              },
+              "end": {
+                "line": 30,
+                "column": 50,
+                "offset": 685
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 551
+          },
+          "end": {
+            "line": 26,
+            "column": 22,
+            "offset": 572
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

@@ -1,0 +1,692 @@
+{
+  "kind": "coreProgram",
+  "module": "StdYaml",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "yamlParse",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/yaml",
+      "importName": "yamlParse",
+      "semantic": {
+        "kind": "external",
+        "name": "yaml parse"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 40
+        },
+        "end": {
+          "line": 4,
+          "column": 91,
+          "offset": 130
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "yamlStringify",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/yaml",
+      "importName": "yamlStringify",
+      "semantic": {
+        "kind": "external",
+        "name": "yaml stringify"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 131
+        },
+        "end": {
+          "line": 5,
+          "column": 90,
+          "offset": 220
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "parseYamlResult",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "yamlParse",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 306
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 27,
+                    "offset": 332
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 306
+              },
+              "end": {
+                "line": 11,
+                "column": 27,
+                "offset": 332
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 306
+            },
+            "end": {
+              "line": 11,
+              "column": 27,
+              "offset": 332
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "parse yaml",
+        "outputName": "result",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 222
+        },
+        "end": {
+          "line": 7,
+          "column": 18,
+          "offset": 239
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stringifyYamlResult",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "yamlStringify",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 403
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 34,
+                    "offset": 436
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 403
+              },
+              "end": {
+                "line": 16,
+                "column": 34,
+                "offset": 436
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 403
+            },
+            "end": {
+              "line": 16,
+              "column": 34,
+              "offset": 436
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "stringify yaml",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 334
+        },
+        "end": {
+          "line": 13,
+          "column": 27,
+          "offset": 360
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdYaml",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std yaml",
+        "functions": [
+          {
+            "label": "yaml parse",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/yaml",
+            "importAs": "yamlParse",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 4,
+                "column": 91,
+                "offset": 130
+              }
+            }
+          },
+          {
+            "label": "yaml stringify",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/yaml",
+            "importAs": "yamlStringify",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 131
+              },
+              "end": {
+                "line": 5,
+                "column": 90,
+                "offset": 220
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 39
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "parse yaml",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "yaml parse",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 306
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 27,
+                      "offset": 332
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 306
+                },
+                "end": {
+                  "line": 11,
+                  "column": 27,
+                  "offset": 332
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 306
+              },
+              "end": {
+                "line": 11,
+                "column": 27,
+                "offset": 332
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 222
+          },
+          "end": {
+            "line": 7,
+            "column": 18,
+            "offset": 239
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "stringify yaml",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "result",
+            "value": {
+              "kind": "call",
+              "callee": "yaml stringify",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 403
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 34,
+                      "offset": 436
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 403
+                },
+                "end": {
+                  "line": 16,
+                  "column": 34,
+                  "offset": 436
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 403
+              },
+              "end": {
+                "line": 16,
+                "column": 34,
+                "offset": 436
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 334
+          },
+          "end": {
+            "line": 13,
+            "column": 27,
+            "offset": 360
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

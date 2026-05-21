@@ -10,7 +10,18 @@ import type {
 	PointCoreValueDeclaration,
 	PointSourceSpan,
 } from "./ast.ts";
-
+import { checkSemanticRoutes } from "../semantic/check-routes.ts";
+import { checkSemanticLayouts } from "../semantic/check-layouts.ts";
+import { checkSemanticNavigation } from "../semantic/check-navigation.ts";
+import { checkSemanticViews } from "../semantic/check-views.ts";
+import { checkSemanticDataLoad } from "../semantic/check-data-load.ts";
+import { checkSemanticStreamSubscribe } from "../semantic/check-stream-subscribe.ts";
+import { checkSemanticSchedules } from "../semantic/check-schedules.ts";
+import { checkSemanticPrompts } from "../semantic/check-prompts.ts";
+import { checkSemanticWorkflows } from "../semantic/check-workflows.ts";
+import { checkSemanticPipelines } from "../semantic/check-pipelines.ts";
+import { checkSemanticSessions } from "../semantic/check-sessions.ts";
+import { checkSemanticGuards } from "../semantic/check-guards.ts";
 export interface PointCoreDiagnostic {
 	code: string;
 	message: string;
@@ -25,7 +36,7 @@ export interface PointCoreDiagnostic {
 }
 
 type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual" | "repair" | "relatedRefs">>;
-type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean };
+type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean; variantCase?: string };
 type Scope = Map<string, ScopeEntry>;
 
 const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or", "Page", "Handler"]);
@@ -47,6 +58,20 @@ class CoreChecker {
 	check(): PointCoreDiagnostic[] {
 		this.collectDeclarations();
 		for (const declaration of this.program.declarations) this.checkDeclaration(declaration);
+		if (this.program.semanticSource) {
+			this.diagnostics.push(...checkSemanticRoutes(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticLayouts(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticNavigation(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticViews(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticDataLoad(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticSchedules(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticPrompts(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticWorkflows(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticPipelines(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticSessions(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticGuards(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticStreamSubscribe(this.program.semanticSource));
+		}
 		return this.diagnostics;
 	}
 
@@ -90,6 +115,14 @@ class CoreChecker {
 			return;
 		}
 		if (declaration.kind === "type") {
+			if (declaration.variantCases) {
+				for (const variantCase of declaration.variantCases) {
+					for (const field of variantCase.fields) {
+						this.checkType(field.type, `type.${declaration.name}.${variantCase.name}.${field.name}`);
+					}
+				}
+				return;
+			}
 			for (const field of declaration.fields) this.checkType(field.type, `type.${declaration.name}.${field.name}`);
 			return;
 		}
@@ -125,7 +158,7 @@ class CoreChecker {
 				}
 				return;
 			}
-			if (fn.semantic?.kind === "page" || fn.semantic?.kind === "view") return;
+			if (fn.semantic?.kind === "page" || fn.semantic?.kind === "view" || fn.semantic?.kind === "layout" || fn.semantic?.kind === "route") return;
 			this.checkExpressionAssignable(statement.value, fn.returnType, `fn.${fn.name}.return`, locals);
 			return;
 		}
@@ -141,7 +174,7 @@ class CoreChecker {
 		}
 		if (statement.kind === "if") {
 			this.checkExpressionAssignable(statement.condition, typeRef("Bool"), `fn.${fn.name}.if.condition`, locals);
-			const thenLocals = new Map(locals);
+			const thenLocals = narrowScopeForCondition(statement.condition, locals);
 			for (const child of statement.thenBody) this.checkStatement(child, fn, thenLocals);
 			const elseLocals = new Map(locals);
 			for (const child of statement.elseBody) this.checkStatement(child, fn, elseLocals);
@@ -212,6 +245,16 @@ class CoreChecker {
 		path: string,
 		scope: Scope,
 	) {
+		if (
+			expression.kind === "call" &&
+			(expression.callee === "pointJsonResponse" ||
+				expression.callee === "pointWorkflowTimedStep" ||
+				expression.callee === "pointPipelineNow" ||
+				expression.callee === "pointPipelineShouldLog" ||
+				expression.callee === "pointPipelineEmitLog")
+		) {
+			return;
+		}
 		if (expected.name === "Maybe" && expected.args.length === 1) {
 			if (expression.kind === "literal" && expression.value === null) return;
 			if (expression.kind !== "record" && expression.kind !== "list") {
@@ -243,6 +286,10 @@ class CoreChecker {
 			this.checkRecordAssignable(expression, expected, path, scope);
 			return;
 		}
+		if (expression.kind === "variant") {
+			this.checkVariantAssignable(expression, expected, path, scope);
+			return;
+		}
 		const actual = this.typeOfExpression(expression, scope, path);
 		if (actual && !sameType(actual, expected)) {
 			this.push("type-mismatch", `Expected ${formatType(expected)}, got ${formatType(actual)}`, path, expression.span, {
@@ -269,6 +316,53 @@ class CoreChecker {
 		}
 		for (const [index, item] of expression.items.entries()) {
 			this.checkExpressionAssignable(item, expected.args[0]!, `${path}.${index}`, scope);
+		}
+	}
+
+	private checkVariantAssignable(
+		expression: Extract<PointCoreExpression, { kind: "variant" }>,
+		expected: PointCoreTypeExpression,
+		path: string,
+		scope: Scope,
+	) {
+		const declaration = this.typeDeclarations.get(String(expected.name));
+		if (!declaration?.variantCases) {
+			this.push("type-mismatch", `Expected ${formatType(expected)}, got variant`, path, expression.span, {
+				expected: formatType(expected),
+				actual: expression.caseName,
+				repair: "Construct a variant literal for a declared variant type.",
+			});
+			return;
+		}
+		const variantCase = declaration.variantCases.find((candidate) => candidate.name === expression.caseName);
+		if (!variantCase) {
+			this.push("unknown-variant-case", `Unknown case ${expression.caseName} on ${expected.name}`, path, expression.span, {
+				expected: declaration.variantCases.map((candidate) => candidate.name),
+				actual: expression.caseName,
+				repair: `Use one of: ${declaration.variantCases.map((candidate) => candidate.name).join(", ")}.`,
+			});
+			return;
+		}
+		const provided = new Map(expression.fields.map((field) => [field.name, field]));
+		for (const field of variantCase.fields) {
+			const value = provided.get(field.name);
+			if (!value) {
+				this.push("missing-field", `Missing field ${field.name}`, `${path}.${field.name}`, expression.span, {
+					expected: variantCase.fields.map((candidate) => candidate.name),
+					actual: [...provided.keys()].join(", "),
+					repair: `Add ${field.name}: ${formatType(field.type)} to this variant literal.`,
+				});
+				continue;
+			}
+			this.checkExpressionAssignable(value.value, field.type, `${path}.${field.name}`, scope);
+			provided.delete(field.name);
+		}
+		for (const extra of provided.values()) {
+			this.push("unknown-field", `Unknown field ${extra.name}`, `${path}.${extra.name}`, extra.span, {
+				expected: variantCase.fields.map((field) => field.name),
+				actual: extra.name,
+				repair: `Use one of: ${variantCase.fields.map((field) => field.name).join(", ")}.`,
+			});
 		}
 	}
 
@@ -355,6 +449,9 @@ class CoreChecker {
 		if (expression.kind === "await") {
 			return this.typeOfExpression(expression.value, scope, path, true);
 		}
+		if (expression.callee === "pointJsonResponse") {
+			return typeRef("Text", [], expression.span);
+		}
 		if (expression.callee === "Error") {
 			if (expression.args.length !== 1) {
 				this.push("arity-mismatch", "Error expects 1 message argument", path, expression.span, {
@@ -370,6 +467,37 @@ class CoreChecker {
 		if (expression.callee === "Ok") {
 			return expression.args[0] ? this.typeOfExpression(expression.args[0], scope, `${path}.value`) : typeRef("Void", [], expression.span);
 		}
+		if (expression.callee === "pointJsonResponse") {
+			if (expression.args[0]) this.typeOfExpression(expression.args[0], scope, `${path}.body`);
+			if (expression.args[1]) this.checkExpressionAssignable(expression.args[1], typeRef("Int"), `${path}.status`, scope);
+			if (expression.args[2]) this.typeOfExpression(expression.args[2], scope, `${path}.headers`);
+			return typeRef("Response", [], expression.span);
+		}
+		if (expression.callee === "pointIsError") {
+			if (expression.args[0]) this.typeOfExpression(expression.args[0], scope, `${path}.value`);
+			return typeRef("Bool", [], expression.span);
+		}
+		if (expression.callee === "pointGuardPathAllowed") {
+			if (expression.args[0]) this.typeOfExpression(expression.args[0], scope, `${path}.path`);
+			return typeRef("Bool", [], expression.span);
+		}
+		if (expression.callee === "pointWorkflowTimedStep") {
+			const run = expression.args[0];
+			if (expression.args[1]) this.checkExpressionAssignable(expression.args[1], typeRef("Int"), `${path}.timeout`, scope);
+			return run ? this.typeOfExpression(run, scope, `${path}.run`, true) : typeRef("Void", [], expression.span);
+		}
+		if (expression.callee === "pointPipelineNow") return typeRef("Int", [], expression.span);
+		if (expression.callee === "pointPipelineShouldLog") return typeRef("Bool", [], expression.span);
+		if (expression.callee === "pointPipelineEmitLog") return typeRef("Void", [], expression.span);
+		const handler = scope.get(expression.callee);
+		if (handler?.type.name === "Handler") {
+			if (expression.args[0]) this.typeOfExpression(expression.args[0], scope, `${path}.arg0`);
+			return typeRef("Void", [], expression.span);
+		}
+		if (handler?.type.name === "Maybe" && handler.type.args[0]?.name === "Handler") {
+			if (expression.args[0]) this.typeOfExpression(expression.args[0], scope, `${path}.arg0`);
+			return typeRef("Void", [], expression.span);
+		}
 		const target = this.functions.get(expression.callee);
 		if (!target) {
 			this.push("unknown-function", `Unknown function ${expression.callee}`, path, expression.span, {
@@ -379,7 +507,7 @@ class CoreChecker {
 			});
 			return null;
 		}
-		if ((target.semantic?.kind === "action" || target.semantic?.kind === "workflow") && !awaitedCall) {
+		if ((target.semantic?.kind === "action" || target.semantic?.kind === "workflow" || target.semantic?.kind === "pipeline") && !awaitedCall) {
 			this.push("missing-await", `Action ${expression.callee} must be awaited`, path, expression.span, {
 				expected: `await ${expression.callee}(...)`,
 				actual: `${expression.callee}(...)`,
@@ -444,6 +572,31 @@ class CoreChecker {
 				repair: "Only access fields on named record types.",
 			});
 			return null;
+		}
+		if (declaration.variantCases) {
+			const scopeEntry = this.findScopeEntry(expression.target, scope);
+			if (expression.name === "kind") {
+				return { kind: "typeRef", name: "Text", args: [], span: expression.span };
+			}
+			if (!scopeEntry?.variantCase) {
+				this.push("variant-field-access", `Cannot access field ${expression.name} on ${formatType(targetType)} without narrowing`, path, expression.span, {
+					expected: `${targetType.name}.kind === "<Case>"`,
+					actual: formatType(targetType),
+					repair: "Dispatch on the variant with on Case return ... or compare .kind before reading payload fields.",
+				});
+				return null;
+			}
+			const variantCase = declaration.variantCases.find((candidate) => candidate.name === scopeEntry.variantCase);
+			const field = variantCase?.fields.find((candidate) => candidate.name === expression.name);
+			if (!field) {
+				this.push("unknown-field", `Unknown field ${expression.name} on ${targetType.name}.${scopeEntry.variantCase}`, path, expression.span, {
+					expected: variantCase?.fields.map((candidate) => candidate.name) ?? [],
+					actual: expression.name,
+					repair: `Use one of: ${variantCase?.fields.map((candidate) => candidate.name).join(", ") ?? ""}.`,
+				});
+				return null;
+			}
+			return field.type;
 		}
 		const field = declaration.fields.find((candidate) => candidate.name === expression.name);
 		if (!field) {
@@ -574,6 +727,35 @@ class CoreChecker {
 	private fieldRefsFor(declaration: PointCoreTypeDeclaration): string[] {
 		return declaration.fields.map((field) => this.refFor(`type.${declaration.name}.${field.name}`));
 	}
+
+	private findScopeEntry(expression: PointCoreExpression, scope: Scope): ScopeEntry | undefined {
+		if (expression.kind === "identifier") return scope.get(expression.name);
+		if (expression.kind === "property") return this.findScopeEntry(expression.target, scope);
+		return undefined;
+	}
+}
+
+function narrowScopeForCondition(condition: PointCoreExpression, locals: Scope): Scope {
+	const match = extractVariantNarrowing(condition);
+	if (!match) return new Map(locals);
+	return applyVariantNarrowing(locals, match);
+}
+
+function extractVariantNarrowing(condition: PointCoreExpression): { identifier: string; caseName: string } | null {
+	if (condition.kind !== "binary" || condition.operator !== "==") return null;
+	const left = condition.left;
+	const right = condition.right;
+	if (left.kind !== "property" || left.name !== "kind" || left.target.kind !== "identifier") return null;
+	if (right.kind !== "literal" || typeof right.value !== "string") return null;
+	return { identifier: left.target.name, caseName: right.value };
+}
+
+function applyVariantNarrowing(locals: Scope, match: { identifier: string; caseName: string }): Scope {
+	const narrowed = new Map(locals);
+	const entry = locals.get(match.identifier);
+	if (!entry) return narrowed;
+	narrowed.set(match.identifier, { ...entry, variantCase: match.caseName });
+	return narrowed;
 }
 
 function isNumeric(type: string): boolean {

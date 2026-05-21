@@ -6,9 +6,9 @@ import { readFile as readFileRaw } from "@hatchingpoint/point/std/fs";
 import { writeFile as writeFileRaw } from "@hatchingpoint/point/std/fs";
 
 export async function readFileContents(path) {
-  return readFileRaw(path);
+  return readFileRaw(path); // @point 11
 }
 
 export async function writeFileResult(path, contents) {
-  return writeFileRaw(path, contents);
+  return writeFileRaw(path, contents); // @point 18
 }

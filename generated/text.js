@@ -10,5 +10,5 @@ import { textSplit as textSplit } from "@hatchingpoint/point/std/text";
 import { textTrim as textTrim } from "@hatchingpoint/point/std/text";
 
 export function concatTextValue(left, right) {
-  return (left + right);
+  return (left + right); // @point 13
 }

@@ -176,6 +176,18 @@
                 "offset": 199
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 176
+            },
+            "end": {
+              "line": 16,
+              "column": 24,
+              "offset": 199
+            }
           }
         }
       ],
@@ -342,6 +354,18 @@
                 "offset": 394
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 381
+            },
+            "end": {
+              "line": 27,
+              "column": 14,
+              "offset": 394
+            }
           }
         }
       ],
@@ -390,6 +414,18 @@
                 "column": 27,
                 "offset": 462
               }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 31,
+              "column": 1,
+              "offset": 436
+            },
+            "end": {
+              "line": 31,
+              "column": 27,
+              "offset": 462
             }
           }
         }
@@ -760,6 +796,7 @@
         "name": "get todos",
         "method": "GET",
         "path": "/todos",
+        "before": [],
         "inputs": [],
         "output": {
           "name": "response",

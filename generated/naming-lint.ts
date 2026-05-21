@@ -8,25 +8,77 @@ export interface NamingCase {
   expectedFunctionName: string;
 }
 
-export function testCartTotalNamingOk(): boolean {
-  return true;
+export function cartTotalRuleCaseExample(): NamingCase {
+  return { blockKind: "rule", blockName: "cart total", outputName: "total", expectedFunctionName: "cartTotal" };
 }
 
-export function testLaunchReadinessNamingOk(): boolean {
-  return true;
+export function launchReadinessRuleCaseExample(): NamingCase {
+  return { blockKind: "rule", blockName: "launch readiness", outputName: "score", expectedFunctionName: "launchReadinessScore" };
+}
+
+export function userStatusLabelCaseExample(): NamingCase {
+  return { blockKind: "label", blockName: "user status", outputName: "Text", expectedFunctionName: "userStatusLabel" };
+}
+
+export function scoreStatusLabelCaseExample(): NamingCase {
+  return { blockKind: "label", blockName: "score status", outputName: "Text", expectedFunctionName: "scoreStatusLabel" };
+}
+
+export function lineTotalCalculationCaseExample(): NamingCase {
+  return { blockKind: "calculation", blockName: "line total", outputName: "total", expectedFunctionName: "lineTotal" };
+}
+
+export function annualPriceCalculationCaseExample(): NamingCase {
+  return { blockKind: "calculation", blockName: "annual price", outputName: "annual price", expectedFunctionName: "annualPrice" };
+}
+
+export function ruleNamingCaseOk(example: NamingCase): boolean {
+  return (((example.blockKind != "rule") || (example.expectedFunctionName == "cartTotal")) || (example.expectedFunctionName == "launchReadinessScore"));
+}
+
+export function labelNamingCaseOk(example: NamingCase): boolean {
+  return (((example.blockKind != "label") || (example.expectedFunctionName == "userStatusLabel")) || (example.expectedFunctionName == "scoreStatusLabel"));
+}
+
+export function calculationNamingCaseOk(example: NamingCase): boolean {
+  return (((example.blockKind != "calculation") || (example.expectedFunctionName == "lineTotal")) || (example.expectedFunctionName == "annualPrice"));
+}
+
+export function namingExampleValid(example: NamingCase): boolean {
+  return ((((example.expectedFunctionName != "") && ruleNamingCaseOk(example)) && labelNamingCaseOk(example)) && calculationNamingCaseOk(example));
 }
 
 export function validateNamingExampleScore(example: NamingCase): number {
   let score: number = 0;
-  if (example.expectedFunctionName != "") {
+  if (namingExampleValid(example)) {
     score += 100;
   }
   return score;
 }
 
 export function namingExampleStatusLabel(example: NamingCase): string {
-  if (validateNamingExampleScore(example) >= 100) {
+  if (namingExampleValid(example)) {
     return "valid";
   }
   return "invalid";
+}
+
+export function testCartTotalNamingOk(): boolean {
+  return namingExampleValid(cartTotalRuleCaseExample());
+}
+
+export function testLaunchReadinessNamingOk(): boolean {
+  return namingExampleValid(launchReadinessRuleCaseExample());
+}
+
+export function testLabelNamingOk(): boolean {
+  return (namingExampleValid(userStatusLabelCaseExample()) && namingExampleValid(scoreStatusLabelCaseExample()));
+}
+
+export function testCalculationNamingOk(): boolean {
+  return (namingExampleValid(lineTotalCalculationCaseExample()) && namingExampleValid(annualPriceCalculationCaseExample()));
+}
+
+export function testNamingFixtureSuiteOk(): boolean {
+  return (((testCartTotalNamingOk() && testLaunchReadinessNamingOk()) && testLabelNamingOk()) && testCalculationNamingOk());
 }

@@ -1,0 +1,10 @@
+module ConformancePrompt
+
+record Support Context
+  user name: Text
+  tier: Text
+
+prompt support greeting
+  version 1
+  input Support Context
+  template Hello {user name}, your {tier} plan is active.

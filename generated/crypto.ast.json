@@ -1,0 +1,2023 @@
+{
+  "kind": "coreProgram",
+  "module": "StdCrypto",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "sha256Hash",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/crypto",
+      "importName": "cryptoSha256",
+      "semantic": {
+        "kind": "external",
+        "name": "sha256 hash"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 44
+        },
+        "end": {
+          "line": 4,
+          "column": 88,
+          "offset": 131
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "hmacSha256",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/crypto",
+      "importName": "cryptoHmacSha256",
+      "semantic": {
+        "kind": "external",
+        "name": "hmac sha256"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 132
+        },
+        "end": {
+          "line": 5,
+          "column": 106,
+          "offset": 237
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "jwtSign",
+      "params": [
+        {
+          "name": "payload",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "payload",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/crypto",
+      "importName": "cryptoJwtSign",
+      "semantic": {
+        "kind": "external",
+        "name": "jwt sign"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 238
+        },
+        "end": {
+          "line": 6,
+          "column": 102,
+          "offset": 339
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "jwtVerify",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/crypto",
+      "importName": "cryptoJwtVerify",
+      "semantic": {
+        "kind": "external",
+        "name": "jwt verify"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 340
+        },
+        "end": {
+          "line": 7,
+          "column": 113,
+          "offset": 452
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "checkJwtValid",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/crypto",
+      "importName": "cryptoJwtIsValid",
+      "semantic": {
+        "kind": "external",
+        "name": "check jwt valid"
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 453
+        },
+        "end": {
+          "line": 8,
+          "column": 110,
+          "offset": 562
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "digestSha256Digest",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sha256Hash",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 632
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 31,
+                    "offset": 662
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 632
+              },
+              "end": {
+                "line": 13,
+                "column": 31,
+                "offset": 662
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 632
+            },
+            "end": {
+              "line": 13,
+              "column": 31,
+              "offset": 662
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "digest sha256",
+        "outputName": "digest",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 564
+        },
+        "end": {
+          "line": 10,
+          "column": 26,
+          "offset": 589
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "digestHmacSha256Digest",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 17,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "hmacSha256",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 758
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 39,
+                    "offset": 796
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "secret",
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 758
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 39,
+                    "offset": 796
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 758
+              },
+              "end": {
+                "line": 19,
+                "column": 39,
+                "offset": 796
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 758
+            },
+            "end": {
+              "line": 19,
+              "column": 39,
+              "offset": 796
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "digest hmac sha256",
+        "outputName": "digest",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 664
+        },
+        "end": {
+          "line": 15,
+          "column": 31,
+          "offset": 694
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "signJwtToken",
+      "params": [
+        {
+          "name": "payload",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "payload",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "jwtSign",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "payload",
+                "span": {
+                  "start": {
+                    "line": 25,
+                    "column": 1,
+                    "offset": 883
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 37,
+                    "offset": 919
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "secret",
+                "span": {
+                  "start": {
+                    "line": 25,
+                    "column": 1,
+                    "offset": 883
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 37,
+                    "offset": 919
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 883
+              },
+              "end": {
+                "line": 25,
+                "column": 37,
+                "offset": 919
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 883
+            },
+            "end": {
+              "line": 25,
+              "column": 37,
+              "offset": 919
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sign jwt",
+        "outputName": "token",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 798
+        },
+        "end": {
+          "line": 21,
+          "column": 21,
+          "offset": 818
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "verifyJwtPayload",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 28,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 29,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "jwtVerify",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "token",
+                "span": {
+                  "start": {
+                    "line": 31,
+                    "column": 1,
+                    "offset": 1017
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 39,
+                    "offset": 1055
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "secret",
+                "span": {
+                  "start": {
+                    "line": 31,
+                    "column": 1,
+                    "offset": 1017
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 39,
+                    "offset": 1055
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 31,
+                "column": 1,
+                "offset": 1017
+              },
+              "end": {
+                "line": 31,
+                "column": 39,
+                "offset": 1055
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 31,
+              "column": 1,
+              "offset": 1017
+            },
+            "end": {
+              "line": 31,
+              "column": 39,
+              "offset": 1055
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "verify jwt",
+        "outputName": "payload",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 1,
+          "offset": 921
+        },
+        "end": {
+          "line": 27,
+          "column": 23,
+          "offset": 943
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jwtAuthOk",
+      "params": [
+        {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "token",
+          "span": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 34,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secret",
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 35,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "checkJwtValid",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "token",
+                "span": {
+                  "start": {
+                    "line": 37,
+                    "column": 1,
+                    "offset": 1140
+                  },
+                  "end": {
+                    "line": 37,
+                    "column": 39,
+                    "offset": 1178
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "secret",
+                "span": {
+                  "start": {
+                    "line": 37,
+                    "column": 1,
+                    "offset": 1140
+                  },
+                  "end": {
+                    "line": 37,
+                    "column": 39,
+                    "offset": 1178
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 1140
+              },
+              "end": {
+                "line": 37,
+                "column": 39,
+                "offset": 1178
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 1140
+            },
+            "end": {
+              "line": 37,
+              "column": 39,
+              "offset": 1178
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "jwt auth ok",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 33,
+          "column": 1,
+          "offset": 1057
+        },
+        "end": {
+          "line": 33,
+          "column": 24,
+          "offset": 1080
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 17,
+      "offset": 16
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdCrypto",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std crypto",
+        "functions": [
+          {
+            "label": "sha256 hash",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/crypto",
+            "importAs": "cryptoSha256",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 44
+              },
+              "end": {
+                "line": 4,
+                "column": 88,
+                "offset": 131
+              }
+            }
+          },
+          {
+            "label": "hmac sha256",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "secret",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/crypto",
+            "importAs": "cryptoHmacSha256",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 5,
+                "column": 106,
+                "offset": 237
+              }
+            }
+          },
+          {
+            "label": "jwt sign",
+            "params": [
+              {
+                "label": "payload",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              },
+              {
+                "label": "secret",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/crypto",
+            "importAs": "cryptoJwtSign",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 238
+              },
+              "end": {
+                "line": 6,
+                "column": 102,
+                "offset": 339
+              }
+            }
+          },
+          {
+            "label": "jwt verify",
+            "params": [
+              {
+                "label": "token",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "secret",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/crypto",
+            "importAs": "cryptoJwtVerify",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 340
+              },
+              "end": {
+                "line": 7,
+                "column": 113,
+                "offset": 452
+              }
+            }
+          },
+          {
+            "label": "check jwt valid",
+            "params": [
+              {
+                "label": "token",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "secret",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/crypto",
+            "importAs": "cryptoJwtIsValid",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 453
+              },
+              "end": {
+                "line": 8,
+                "column": 110,
+                "offset": 562
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 18
+          },
+          "end": {
+            "line": 3,
+            "column": 26,
+            "offset": 43
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "digest sha256",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 11,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "digest",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "digest",
+            "value": {
+              "kind": "call",
+              "callee": "sha256 hash",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 632
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 31,
+                      "offset": 662
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 632
+                },
+                "end": {
+                  "line": 13,
+                  "column": 31,
+                  "offset": 662
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 632
+              },
+              "end": {
+                "line": 13,
+                "column": 31,
+                "offset": 662
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 564
+          },
+          "end": {
+            "line": 10,
+            "column": 26,
+            "offset": 589
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "digest hmac sha256",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "secret",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "digest",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "digest",
+            "value": {
+              "kind": "call",
+              "callee": "hmac sha256",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 758
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 39,
+                      "offset": 796
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "secret",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 758
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 39,
+                      "offset": 796
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 758
+                },
+                "end": {
+                  "line": 19,
+                  "column": 39,
+                  "offset": 796
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 758
+              },
+              "end": {
+                "line": 19,
+                "column": 39,
+                "offset": 796
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 664
+          },
+          "end": {
+            "line": 15,
+            "column": 31,
+            "offset": 694
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sign jwt",
+        "inputs": [
+          {
+            "label": "payload",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 22,
+                "column": 14,
+                "offset": 13
+              }
+            }
+          },
+          {
+            "label": "secret",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 23,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "token",
+            "value": {
+              "kind": "call",
+              "callee": "jwt sign",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "payload",
+                  "span": {
+                    "start": {
+                      "line": 25,
+                      "column": 1,
+                      "offset": 883
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 37,
+                      "offset": 919
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "secret",
+                  "span": {
+                    "start": {
+                      "line": 25,
+                      "column": 1,
+                      "offset": 883
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 37,
+                      "offset": 919
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 25,
+                  "column": 1,
+                  "offset": 883
+                },
+                "end": {
+                  "line": 25,
+                  "column": 37,
+                  "offset": 919
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 883
+              },
+              "end": {
+                "line": 25,
+                "column": 37,
+                "offset": 919
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 798
+          },
+          "end": {
+            "line": 21,
+            "column": 21,
+            "offset": 818
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "verify jwt",
+        "inputs": [
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 28,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "secret",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 29,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "payload",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "payload",
+            "value": {
+              "kind": "call",
+              "callee": "jwt verify",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "token",
+                  "span": {
+                    "start": {
+                      "line": 31,
+                      "column": 1,
+                      "offset": 1017
+                    },
+                    "end": {
+                      "line": 31,
+                      "column": 39,
+                      "offset": 1055
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "secret",
+                  "span": {
+                    "start": {
+                      "line": 31,
+                      "column": 1,
+                      "offset": 1017
+                    },
+                    "end": {
+                      "line": 31,
+                      "column": 39,
+                      "offset": 1055
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 31,
+                  "column": 1,
+                  "offset": 1017
+                },
+                "end": {
+                  "line": 31,
+                  "column": 39,
+                  "offset": 1055
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 31,
+                "column": 1,
+                "offset": 1017
+              },
+              "end": {
+                "line": 31,
+                "column": 39,
+                "offset": 1055
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 27,
+            "column": 1,
+            "offset": 921
+          },
+          "end": {
+            "line": 27,
+            "column": 23,
+            "offset": 943
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "jwt auth ok",
+        "inputs": [
+          {
+            "label": "token",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 34,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "secret",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 35,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "call",
+              "callee": "check jwt valid",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "token",
+                  "span": {
+                    "start": {
+                      "line": 37,
+                      "column": 1,
+                      "offset": 1140
+                    },
+                    "end": {
+                      "line": 37,
+                      "column": 39,
+                      "offset": 1178
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "secret",
+                  "span": {
+                    "start": {
+                      "line": 37,
+                      "column": 1,
+                      "offset": 1140
+                    },
+                    "end": {
+                      "line": 37,
+                      "column": 39,
+                      "offset": 1178
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 37,
+                  "column": 1,
+                  "offset": 1140
+                },
+                "end": {
+                  "line": 37,
+                  "column": 39,
+                  "offset": 1178
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 1140
+              },
+              "end": {
+                "line": 37,
+                "column": 39,
+                "offset": 1178
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 33,
+            "column": 1,
+            "offset": 1057
+          },
+          "end": {
+            "line": 33,
+            "column": 24,
+            "offset": 1080
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 17,
+        "offset": 16
+      }
+    }
+  }
+}

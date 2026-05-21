@@ -1,0 +1,72 @@
+module Notes
+
+external point std sql
+  sql query raw(sql: Text, params: List<Text>): Text or Error from "@hatchingpoint/point/std/sql" as sqlQueryRaw
+
+record Note
+  id: Text
+  title: Text
+  body: Text
+
+record Create Note Input
+  title: Text
+  body: Text
+
+action list notes
+  output rows: Text or Error
+  touches database
+  return sql query raw("SELECT id, title, body FROM notes ORDER BY title", [])
+
+action create note
+  input input: Create Note Input
+  output rows: Text or Error
+  touches database
+  return sql query raw("INSERT INTO notes (title, body) VALUES (?, ?) RETURNING id, title, body", [input.title, input.body])
+
+view notes nav
+  link "Notes" to "/notes"
+  link "New note" to "/notes/new"
+  render "Notes app"
+
+view notes list
+  load data from action list notes
+  when loading render "Loading notes..."
+  when error render "Could not load notes"
+  when empty render "No notes yet"
+  render "Notes"
+
+view note create form
+  input draft: Create Note Input
+  input on draft change: Handler Create Note Input
+  on change call on draft change
+  form
+    bind field "Title" to draft.title
+    bind field "Body" to draft.body
+  render "Create a note"
+
+layout notes shell
+  slot sidebar render notes nav()
+  slot main render "Select a notes page"
+
+page notes list page
+  layout notes shell
+  title "Notes"
+  description "Browse saved notes"
+  main render notes list()
+
+page note create page
+  layout notes shell
+  input draft: Create Note Input
+  input on draft change: Handler Create Note Input
+  title "New note"
+  description "Create a note"
+  main render note create form(draft, on draft change)
+
+navigation notes app
+  path "/notes" page notes list page
+  path "/notes/new" page note create page
+  bootstrap router
+
+command notes demo
+  output result: Text
+  return "Notes app ready"

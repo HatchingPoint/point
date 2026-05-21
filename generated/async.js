@@ -2,9 +2,9 @@
 // Point module: AsyncActions
 
 export async function loadUserName(id) {
-  return "Ada";
+  return "Ada"; // @point 7
 }
 
 export async function loadUserLabel(id) {
-  return await loadUserName(id);
+  return await loadUserName(id); // @point 13
 }

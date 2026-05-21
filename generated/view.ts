@@ -3,7 +3,7 @@
 
 export function counterView(count: number): JSX.Element {
   if (count > 0) {
-    return <>Counter ready</>;
+    return <div className="text-lg font-semibold text-green-700">Counter ready</div>;
   }
-  return <>Counter empty</>;
+  return <div className="text-muted">Counter empty</div>;
 }

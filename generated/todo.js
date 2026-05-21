@@ -5,22 +5,22 @@ import { timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMilliseco
 
 
 export function todoItemView(title) {
-  return title;
+  return title; // @point 11
 }
 
 export async function loadTodosResult() {
-  return "No todos yet";
+  return "No todos yet"; // @point 16
 }
 
 export async function openDashboardWorkflow() {
-  const loadedTodos = await loadTodosResult();
-  return loadedTodos;
+  const loadedTodos = await loadTodosResult(); // @point 20
+  return loadedTodos; // @point 21
 }
 
 export function getTodosRoute() {
-  return "[]";
+  return "[]"; // @point 27
 }
 
 export async function todoDemoCommand() {
-  return "Todo demo ready";
+  return "Todo demo ready"; // @point 31
 }

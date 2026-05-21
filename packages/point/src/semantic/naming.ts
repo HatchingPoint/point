@@ -8,10 +8,14 @@ export function toIdentifier(label: string): string {
 	return words.map((word, index) => (index === 0 ? word.toLowerCase() : toPascalCase(word))).join("");
 }
 
+export function guardPatternsConstName(guardName: string): string {
+	return `${toIdentifier(guardName)}GuardPatterns`;
+}
+
 export function semanticFunctionName(
 	label: string,
 	outputName: string,
-	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command",
+	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "layout" | "page" | "middleware" | "route" | "streamRoute" | "workflow" | "pipeline" | "session" | "command",
 ): string {
 	const base = toIdentifier(label);
 	const suffix =
@@ -21,15 +25,32 @@ export function semanticFunctionName(
 				? "Policy"
 				: kind === "view"
 					? "View"
+					: kind === "layout"
+						? "Layout"
 					: kind === "page"
 						? "Page"
 						: kind === "route"
-						? "Route"
-						: kind === "workflow"
+							? "Route"
+							: kind === "streamRoute"
+								? "StreamRoute"
+							: kind === "middleware"
+								? "Middleware"
+								: kind === "workflow"
 							? "Workflow"
+							: kind === "pipeline"
+								? "Pipeline"
+							: kind === "session"
+								? "Session"
 							: kind === "command"
 								? "Command"
 								: toPascalCase(outputName);
 	if (!suffix) return base;
 	return base.toLowerCase().endsWith(suffix.toLowerCase()) ? base : `${base}${suffix}`;
+}
+
+export function streamRouteHandlerName(routeName: string, event: "connect" | "message" | "disconnect"): string {
+	const base = semanticFunctionName(routeName, "stream", "streamRoute");
+	if (event === "connect") return `${base}Connect`;
+	if (event === "message") return `${base}Message`;
+	return `${base}Disconnect`;
 }

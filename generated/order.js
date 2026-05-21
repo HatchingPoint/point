@@ -4,9 +4,9 @@
 import { Product, productLineTotal } from "./catalog";
 
 export function orderTotal(products) {
-  let total = 0;
-  for (const product of products) {
-    total += product.price;
+  let total = 0; // @point 8
+  for (const product of products) { // @point 9
+    total += product.price; // @point 10
   }
-  return total;
+  return total; // @point 11
 }

@@ -1,0 +1,30 @@
+module JwtDemo
+
+use std.crypto
+
+use std.env
+
+calculation signed demo token
+  output token: Text
+  token is signJwtToken("{\"sub\":\"demo-user\",\"role\":\"reader\"}", "demo-jwt-secret")
+
+calculation verify signed token
+  input token: Text
+  output payload: Text or Error
+  payload is verifyJwtPayload(token, "demo-jwt-secret")
+
+calculation demo token valid
+  input token: Text
+  output valid: Bool
+  valid is jwtAuthOk(token, "demo-jwt-secret")
+
+calculation digest demo
+  input value: Text
+  output digest: Text
+  digest is digestSha256Digest(value)
+
+calculation hmac demo
+  input value: Text
+  input secret: Text
+  output digest: Text
+  digest is digestHmacSha256Digest(value, secret)

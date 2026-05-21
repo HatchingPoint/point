@@ -4,9 +4,9 @@
 import { envGet as envGetRaw } from "@hatchingpoint/point/std/env";
 
 export async function getEnvVarValue(name) {
-  return envGetRaw(name);
+  return envGetRaw(name); // @point 10
 }
 
 export function envWithDefaultResult(value, defaultValue) {
-  return defaultValue;
+  return defaultValue; // @point 16
 }

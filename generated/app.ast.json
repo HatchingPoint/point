@@ -383,6 +383,18 @@
                 "offset": 369
               }
             }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 334
+            },
+            "end": {
+              "line": 19,
+              "column": 36,
+              "offset": 369
+            }
           }
         }
       ],
@@ -431,6 +443,18 @@
                 "column": 14,
                 "offset": 455
               }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 442
+            },
+            "end": {
+              "line": 25,
+              "column": 14,
+              "offset": 455
             }
           }
         }
@@ -862,6 +886,7 @@
         "name": "get health",
         "method": "GET",
         "path": "/health",
+        "before": [],
         "inputs": [],
         "output": {
           "name": "response",

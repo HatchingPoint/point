@@ -1,0 +1,32 @@
+module SignupRetry
+
+use std.time
+
+policy can signup
+  input email: Text
+  require email != ""
+
+action verify email
+  input email: Text
+  output ok: Text or Error
+  touches network
+  return Error "Mailbox unavailable"
+
+action register user
+  input email: Text
+  output user: Text or Error
+  touches network
+  return email
+
+workflow import user flow
+  input email: Text
+  output user: Text or Error
+  step verified is await verify email(email)
+    retry 3 times
+    timeout after 5 seconds
+    require policy can signup
+    on failure return Error "Email verification failed"
+  step imported is await register user(email)
+    retry 2 times
+    on failure return Error "User import failed"
+  return imported

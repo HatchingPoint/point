@@ -1,0 +1,23 @@
+module ConformanceLayoutNav
+
+view app nav
+  link "Home" to "/"
+  render "Navigation"
+
+layout app shell
+  slot sidebar render app nav()
+  slot main render "Select a page"
+
+page home page
+  layout app shell
+  title "Home"
+  description "Conformance layout page"
+  main render "Home page"
+
+navigation app routes
+  path "/" page home page
+  bootstrap router
+
+command layout nav demo
+  output result: Text
+  return "Layout and navigation ready"

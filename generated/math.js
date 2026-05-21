@@ -4,33 +4,33 @@
 
 
 export function annualPrice(monthlyPrice) {
-  return (monthlyPrice * 12);
+  return (monthlyPrice * 12); // @point 15
 }
 
 export function launchReadinessScore(signals) {
-  let score = 0;
-  if (signals.hasBundleId) {
-    score += 30;
+  let score = 0; // @point 20
+  if (signals.hasBundleId) { // @point 21
+    score += 30; // @point 21
   }
-  if (signals.submittedForReview) {
-    score += 40;
+  if (signals.submittedForReview) { // @point 22
+    score += 40; // @point 22
   }
-  if (signals.hasPassingTests) {
-    score += 30;
+  if (signals.hasPassingTests) { // @point 23
+    score += 30; // @point 23
   }
-  return score;
+  return score; // @point 24
 }
 
 export function userStatusLabel(user) {
-  if (user.active) {
-    return "active";
+  if (user.active) { // @point 29
+    return "active"; // @point 29
   }
-  return "inactive";
+  return "inactive"; // @point 30
 }
 
 export function scoreStatusLabel(score) {
-  if (score >= 90) {
-    return "excellent";
+  if (score >= 90) { // @point 35
+    return "excellent"; // @point 35
   }
-  return "keep going";
+  return "keep going"; // @point 36
 }

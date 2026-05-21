@@ -2,5 +2,5 @@
 // Point module: Hello
 
 export async function mainMessage() {
-  return "Hello from Point";
+  return "Hello from Point"; // @point 6
 }

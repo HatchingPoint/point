@@ -1,0 +1,9 @@
+module StdPath
+
+external point std path
+  join paths(left: Text, right: Text): Text from "@hatchingpoint/point/std/path" as pathJoin
+  path basename(value: Text): Text from "@hatchingpoint/point/std/path" as pathBasename
+  path dirname(value: Text): Text from "@hatchingpoint/point/std/path" as pathDirname
+  path extname(value: Text): Text from "@hatchingpoint/point/std/path" as pathExtname
+  resolve path(value: Text): Text from "@hatchingpoint/point/std/path" as pathResolve
+  path is absolute(value: Text): Bool from "@hatchingpoint/point/std/path" as pathIsAbsolute

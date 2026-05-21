@@ -1,0 +1,39 @@
+module StdStream
+
+external point std stream
+  stream read text raw(source: Text): Text or Error from "@hatchingpoint/point/std/stream" as streamReadText
+  stream write text raw(sink: Text, contents: Text): Void or Error from "@hatchingpoint/point/std/stream" as streamWriteText
+  stream read lines raw(source: Text): List<Text> or Error from "@hatchingpoint/point/std/stream" as streamReadLines
+  stream write lines raw(sink: Text, lines: List<Text>): Void or Error from "@hatchingpoint/point/std/stream" as streamWriteLines
+  stream join lines raw(lines: List<Text>): Text from "@hatchingpoint/point/std/stream" as streamJoinLines
+
+action stream read text
+  input source: Text
+  output contents: Text or Error
+  touches none
+  return stream read text raw(source)
+
+action stream write text
+  input sink: Text
+  input contents: Text
+  output result: Void or Error
+  touches none
+  return stream write text raw(sink, contents)
+
+action stream read lines
+  input source: Text
+  output lines: List<Text> or Error
+  touches none
+  return stream read lines raw(source)
+
+action stream write lines
+  input sink: Text
+  input lines: List<Text>
+  output result: Void or Error
+  touches none
+  return stream write lines raw(sink, lines)
+
+calculation join stream lines
+  input lines: List<Text>
+  output text: Text
+  text is stream join lines raw(lines)

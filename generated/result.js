@@ -3,5 +3,5 @@
 
 
 export function findUser() {
-  return { message: "User not found" };
+  return { message: "User not found" }; // @point 8
 }

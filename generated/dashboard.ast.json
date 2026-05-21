@@ -1,0 +1,1684 @@
+{
+  "kind": "coreProgram",
+  "module": "DashboardApp",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Item",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 33
+            },
+            "end": {
+              "line": 4,
+              "column": 11,
+              "offset": 43
+            }
+          }
+        },
+        {
+          "name": "title",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "title",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 44
+            },
+            "end": {
+              "line": 5,
+              "column": 14,
+              "offset": 57
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Item"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 21
+        },
+        "end": {
+          "line": 3,
+          "column": 12,
+          "offset": 32
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "dashboardNavView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Dashboard",
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 138
+              },
+              "end": {
+                "line": 10,
+                "column": 21,
+                "offset": 158
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 138
+            },
+            "end": {
+              "line": 10,
+              "column": 21,
+              "offset": 158
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "view",
+        "name": "dashboard nav",
+        "outputName": "view",
+        "effects": [],
+        "viewNavigation": {
+          "links": [
+            {
+              "label": "Settings",
+              "path": "/settings"
+            },
+            {
+              "label": "Items",
+              "path": "/items"
+            }
+          ]
+        }
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 59
+        },
+        "end": {
+          "line": 7,
+          "column": 19,
+          "offset": 77
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "itemsListView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Sample items: alpha, beta, gamma",
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 176
+              },
+              "end": {
+                "line": 13,
+                "column": 44,
+                "offset": 219
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 176
+            },
+            "end": {
+              "line": 13,
+              "column": 44,
+              "offset": 219
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "view",
+        "name": "items list",
+        "outputName": "view",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 160
+        },
+        "end": {
+          "line": 12,
+          "column": 16,
+          "offset": 175
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "itemDetailView",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "literal",
+              "value": "Item detail for ",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 17,
+                  "column": 33,
+                  "offset": 287
+                }
+              }
+            },
+            "right": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 17,
+                  "column": 33,
+                  "offset": 287
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 17,
+                "column": 33,
+                "offset": 287
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 255
+            },
+            "end": {
+              "line": 17,
+              "column": 33,
+              "offset": 287
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "view",
+        "name": "item detail",
+        "outputName": "view",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 221
+        },
+        "end": {
+          "line": 15,
+          "column": 17,
+          "offset": 237
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "appShellLayout",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "",
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 289
+              },
+              "end": {
+                "line": 19,
+                "column": 17,
+                "offset": 305
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 289
+            },
+            "end": {
+              "line": 19,
+              "column": 17,
+              "offset": 305
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "layout",
+        "name": "app shell",
+        "outputName": "layout",
+        "effects": [],
+        "layoutSpec": {
+          "name": "app shell",
+          "slots": [
+            {
+              "name": "sidebar",
+              "content": {
+                "kind": "call",
+                "callee": "dashboardNavView",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 20,
+                    "column": 1,
+                    "offset": 306
+                  },
+                  "end": {
+                    "line": 20,
+                    "column": 38,
+                    "offset": 343
+                  }
+                }
+              }
+            },
+            {
+              "name": "main",
+              "content": {
+                "kind": "literal",
+                "value": "Select a page from the sidebar",
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 344
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 52,
+                    "offset": 395
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 289
+        },
+        "end": {
+          "line": 19,
+          "column": 17,
+          "offset": 305
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "settingsPage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "dashboardNavView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 499
+              },
+              "end": {
+                "line": 27,
+                "column": 30,
+                "offset": 528
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 397
+            },
+            "end": {
+              "line": 23,
+              "column": 19,
+              "offset": 415
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "settings page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "app shell",
+          "layoutFunction": "appShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Settings",
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 435
+              },
+              "end": {
+                "line": 25,
+                "column": 19,
+                "offset": 453
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Manage workspace preferences",
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 454
+              },
+              "end": {
+                "line": 26,
+                "column": 45,
+                "offset": 498
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "dashboardNavView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 499
+              },
+              "end": {
+                "line": 27,
+                "column": 30,
+                "offset": 528
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 397
+        },
+        "end": {
+          "line": 23,
+          "column": 19,
+          "offset": 415
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "itemsListPage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "itemsListView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 623
+              },
+              "end": {
+                "line": 33,
+                "column": 27,
+                "offset": 649
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 530
+            },
+            "end": {
+              "line": 29,
+              "column": 21,
+              "offset": 550
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "items list page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "app shell",
+          "layoutFunction": "appShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Items",
+            "span": {
+              "start": {
+                "line": 31,
+                "column": 1,
+                "offset": 570
+              },
+              "end": {
+                "line": 31,
+                "column": 16,
+                "offset": 585
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Browse tracked items",
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 586
+              },
+              "end": {
+                "line": 32,
+                "column": 37,
+                "offset": 622
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "itemsListView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 623
+              },
+              "end": {
+                "line": 33,
+                "column": 27,
+                "offset": 649
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 530
+        },
+        "end": {
+          "line": 29,
+          "column": 21,
+          "offset": 550
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "itemDetailPage",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 37,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "itemDetailView",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "id",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 769
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 30,
+                    "offset": 798
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 769
+              },
+              "end": {
+                "line": 40,
+                "column": 30,
+                "offset": 798
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 651
+            },
+            "end": {
+              "line": 35,
+              "column": 22,
+              "offset": 672
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "item detail page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "app shell",
+          "layoutFunction": "appShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Item Detail",
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 709
+              },
+              "end": {
+                "line": 38,
+                "column": 22,
+                "offset": 730
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Inspect a single item",
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 731
+              },
+              "end": {
+                "line": 39,
+                "column": 38,
+                "offset": 768
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "itemDetailView",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "id",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 769
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 30,
+                    "offset": 798
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 769
+              },
+              "end": {
+                "line": 40,
+                "column": 30,
+                "offset": 798
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 651
+        },
+        "end": {
+          "line": 35,
+          "column": 22,
+          "offset": 672
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "dashboardDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Dashboard navigation ready",
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1007
+              },
+              "end": {
+                "line": 50,
+                "column": 38,
+                "offset": 1044
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 50,
+              "column": 1,
+              "offset": 1007
+            },
+            "end": {
+              "line": 50,
+              "column": 38,
+              "offset": 1044
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "dashboard demo",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 48,
+          "column": 1,
+          "offset": 962
+        },
+        "end": {
+          "line": 48,
+          "column": 23,
+          "offset": 984
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 20,
+      "offset": 19
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "DashboardApp",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Item",
+        "fields": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 33
+              },
+              "end": {
+                "line": 4,
+                "column": 11,
+                "offset": 43
+              }
+            }
+          },
+          {
+            "label": "title",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 44
+              },
+              "end": {
+                "line": 5,
+                "column": 14,
+                "offset": 57
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 21
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 32
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "dashboard nav",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "link",
+            "label": "Settings",
+            "path": "/settings",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 78
+              },
+              "end": {
+                "line": 8,
+                "column": 33,
+                "offset": 110
+              }
+            }
+          },
+          {
+            "kind": "link",
+            "label": "Items",
+            "path": "/items",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 111
+              },
+              "end": {
+                "line": 9,
+                "column": 27,
+                "offset": 137
+              }
+            }
+          },
+          {
+            "kind": "render",
+            "value": {
+              "kind": "literal",
+              "value": "Dashboard",
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 138
+                },
+                "end": {
+                  "line": 10,
+                  "column": 21,
+                  "offset": 158
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 138
+              },
+              "end": {
+                "line": 10,
+                "column": 21,
+                "offset": 158
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 59
+          },
+          "end": {
+            "line": 7,
+            "column": 19,
+            "offset": 77
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "items list",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "render",
+            "value": {
+              "kind": "literal",
+              "value": "Sample items: alpha, beta, gamma",
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 176
+                },
+                "end": {
+                  "line": 13,
+                  "column": 44,
+                  "offset": 219
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 176
+              },
+              "end": {
+                "line": 13,
+                "column": 44,
+                "offset": 219
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 12,
+            "column": 1,
+            "offset": 160
+          },
+          "end": {
+            "line": 12,
+            "column": 16,
+            "offset": 175
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "item detail",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "render",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "Item detail for ",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 33,
+                    "offset": 287
+                  }
+                }
+              },
+              "right": {
+                "kind": "name",
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 255
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 33,
+                    "offset": 287
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 255
+                },
+                "end": {
+                  "line": 17,
+                  "column": 33,
+                  "offset": 287
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 17,
+                "column": 33,
+                "offset": 287
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 221
+          },
+          "end": {
+            "line": 15,
+            "column": 17,
+            "offset": 237
+          }
+        }
+      },
+      {
+        "kind": "layout",
+        "name": "app shell",
+        "slots": [
+          {
+            "name": "sidebar",
+            "content": {
+              "kind": "call",
+              "callee": "dashboard nav",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 306
+                },
+                "end": {
+                  "line": 20,
+                  "column": 38,
+                  "offset": 343
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 306
+              },
+              "end": {
+                "line": 20,
+                "column": 38,
+                "offset": 343
+              }
+            }
+          },
+          {
+            "name": "main",
+            "content": {
+              "kind": "literal",
+              "value": "Select a page from the sidebar",
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 344
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52,
+                  "offset": 395
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 344
+              },
+              "end": {
+                "line": 21,
+                "column": 52,
+                "offset": 395
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 289
+          },
+          "end": {
+            "line": 19,
+            "column": 17,
+            "offset": 305
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "settings page",
+        "layout": "app shell",
+        "inputs": [],
+        "title": {
+          "kind": "literal",
+          "value": "Settings",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 435
+            },
+            "end": {
+              "line": 25,
+              "column": 19,
+              "offset": 453
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Manage workspace preferences",
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 454
+            },
+            "end": {
+              "line": 26,
+              "column": 45,
+              "offset": 498
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "dashboard nav",
+          "args": [],
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 499
+            },
+            "end": {
+              "line": 27,
+              "column": 30,
+              "offset": 528
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 23,
+            "column": 1,
+            "offset": 397
+          },
+          "end": {
+            "line": 23,
+            "column": 19,
+            "offset": 415
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "items list page",
+        "layout": "app shell",
+        "inputs": [],
+        "title": {
+          "kind": "literal",
+          "value": "Items",
+          "span": {
+            "start": {
+              "line": 31,
+              "column": 1,
+              "offset": 570
+            },
+            "end": {
+              "line": 31,
+              "column": 16,
+              "offset": 585
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Browse tracked items",
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 586
+            },
+            "end": {
+              "line": 32,
+              "column": 37,
+              "offset": 622
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "items list",
+          "args": [],
+          "span": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 623
+            },
+            "end": {
+              "line": 33,
+              "column": 27,
+              "offset": 649
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 29,
+            "column": 1,
+            "offset": 530
+          },
+          "end": {
+            "line": 29,
+            "column": 21,
+            "offset": 550
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "item detail page",
+        "layout": "app shell",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 37,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "title": {
+          "kind": "literal",
+          "value": "Item Detail",
+          "span": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 709
+            },
+            "end": {
+              "line": 38,
+              "column": 22,
+              "offset": 730
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Inspect a single item",
+          "span": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 731
+            },
+            "end": {
+              "line": 39,
+              "column": 38,
+              "offset": 768
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "item detail",
+          "args": [
+            {
+              "kind": "name",
+              "label": "id",
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 769
+                },
+                "end": {
+                  "line": 40,
+                  "column": 30,
+                  "offset": 798
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 769
+            },
+            "end": {
+              "line": 40,
+              "column": 30,
+              "offset": 798
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 35,
+            "column": 1,
+            "offset": 651
+          },
+          "end": {
+            "line": 35,
+            "column": 22,
+            "offset": 672
+          }
+        }
+      },
+      {
+        "kind": "navigation",
+        "name": "dashboard app",
+        "routes": [
+          {
+            "path": "/settings",
+            "pageName": "settings page",
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 825
+              },
+              "end": {
+                "line": 43,
+                "column": 38,
+                "offset": 862
+              }
+            }
+          },
+          {
+            "path": "/items",
+            "pageName": "items list page",
+            "span": {
+              "start": {
+                "line": 44,
+                "column": 1,
+                "offset": 863
+              },
+              "end": {
+                "line": 44,
+                "column": 37,
+                "offset": 899
+              }
+            }
+          },
+          {
+            "path": "/items/:id",
+            "pageName": "item detail page",
+            "span": {
+              "start": {
+                "line": 45,
+                "column": 1,
+                "offset": 900
+              },
+              "end": {
+                "line": 45,
+                "column": 42,
+                "offset": 941
+              }
+            }
+          }
+        ],
+        "bootstrapRouter": true,
+        "span": {
+          "start": {
+            "line": 42,
+            "column": 1,
+            "offset": 800
+          },
+          "end": {
+            "line": 42,
+            "column": 25,
+            "offset": 824
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "dashboard demo",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Dashboard navigation ready",
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1007
+                },
+                "end": {
+                  "line": 50,
+                  "column": 38,
+                  "offset": 1044
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1007
+              },
+              "end": {
+                "line": 50,
+                "column": 38,
+                "offset": 1044
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 48,
+            "column": 1,
+            "offset": 962
+          },
+          "end": {
+            "line": 48,
+            "column": 23,
+            "offset": 984
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 20,
+        "offset": 19
+      }
+    }
+  }
+}

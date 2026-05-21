@@ -2,8 +2,8 @@
 // Point module: Views
 
 export function counterView(count) {
-  if (count > 0) {
-    return "Counter ready";
+  if (count > 0) { // @point 5
+    return "Counter ready"; // @point 5
   }
-  return "Counter empty";
+  return "Counter empty"; // @point 6
 }

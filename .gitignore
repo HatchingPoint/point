@@ -7,7 +7,9 @@ node_modules
 dist
 coverage
 .tmp
+tests/tmp/
 __pycache__
 *.pyc
 generated/math-parity.*
+generated/math-parity-suite.*
 generated/action-smoke.*

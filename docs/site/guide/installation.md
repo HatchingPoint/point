@@ -10,7 +10,7 @@ Install the Point CLI once, then use it from the terminal, an LSP-capable editor
 
 ## npm
 
-Install the compiler and CLI globally:
+Install the compiler and CLI globally (current release **0.1.0**):
 
 ```bash
 npm install -g @hatchingpoint/point

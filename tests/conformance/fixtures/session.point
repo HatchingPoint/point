@@ -1,0 +1,16 @@
+module ConformanceSession
+
+record Chat Message
+  role: Text
+  content: Text
+
+action echo reply
+  input prompt: Text
+  output text: Text
+  touches none
+  return "Echo: " + prompt
+
+session support chat
+  message Chat Message
+  messages messages: List<Chat Message>
+  stream response from action echo reply
