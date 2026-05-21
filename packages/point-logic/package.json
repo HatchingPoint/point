@@ -1,0 +1,30 @@
+{
+  "name": "@hatchingpoint/point-logic",
+  "version": "0.0.1",
+  "description": "App store listing readiness logic authored in Point and published as emitted JavaScript.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HatchingPoint/point.git",
+    "directory": "packages/point-logic"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dist/store-readiness.js",
+    "./store-readiness": "./dist/store-readiness.js"
+  },
+  "scripts": {
+    "check": "bun ../point/src/cli.ts check src/store-readiness.point",
+    "build": "bun ../point/src/cli.ts build src/store-readiness.point dist/store-readiness.js",
+    "prepublishOnly": "bun run build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

@@ -432,6 +432,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: R5 npm package from `.point` only.
 - Blocked: none
 
+## Checkpoint 9.R5 - npm package from Point source only
+- Completed: Added `packages/point-logic/` with `src/store-readiness.point`, `point.json`, `package.json` (`@hatchingpoint/point-logic`), README (consumer install + usage), and `build` script emitting JS to `dist/` via `point build`. Wired `build:logic` into root `package.json` and `bun run ci`. Added `tests/point-logic-package.test.ts` (src is `.point` only, build from Point, runtime exports, `npm pack` includes `dist/` not `src/`).
+- Verified: `bun run --cwd packages/point-logic build` writes `dist/store-readiness.js`; `listingScore` / `listingStatusLabel` import smoke test passes; `bun run ci` passes (112 tests).
+- Next: R7 dogfood HTTP service; optional npm publish of `@hatchingpoint/point-logic`.
+- Blocked: none
+
 ## Checkpoint 9.R6 - Readiness view widget spike
 - Completed: Added `examples/adopters/hatchingpoint/readiness-widget.point` (listing score + `readiness widget` view); extended TypeScript view emit so non-literal `render` expressions become JSX text children (`<>{expr}</>`); documented Next.js embed in `docs/site/language/applications.md` and hatchingpoint README; tests for widget emit and conformance fixture discovery.
 - Verified: `point build-ts examples/adopters/hatchingpoint/readiness-widget.point` → `readinessWidgetView` returning `JSX.Element`; `bun run ci` passes (112 tests).
