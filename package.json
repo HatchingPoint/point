@@ -45,6 +45,7 @@
     "ci": "bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run vscode:build && bun run vscode:package"
   },
   "devDependencies": {
+    "@hatchingpoint/point": "workspace:packages/point",
     "@types/bun": "^1.3.13",
     "esbuild": "^0.25.0",
     "typescript": "^5.9.3",

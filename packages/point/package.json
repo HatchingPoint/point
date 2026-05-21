@@ -24,7 +24,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./cli": "./src/cli.ts",
-    "./core": "./src/core/index.ts"
+    "./core": "./src/core/index.ts",
+    "./std/json": "./src/std/json.ts",
+    "./std/http": "./src/std/http.ts"
   },
   "publishConfig": {
     "access": "public",

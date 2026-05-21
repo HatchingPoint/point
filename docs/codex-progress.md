@@ -500,6 +500,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P10-2 richer view props; P11-1 point add; P11-2 std json/http shims.
 - Blocked: none
 
+## Checkpoint 11.P11-2 - std json/http runtime shims
+- Completed: Added `packages/point/src/std/json.ts` (`jsonParse`, `jsonStringify` via JSON API) and `packages/point/src/std/http.ts` (`httpGet`, `httpPost` via fetch). Exported `@hatchingpoint/point/std/json` and `std/http` from `packages/point/package.json`. Root workspace devDependency enables runtime import tests. Added `tests/std-runtime.test.ts`.
+- Verified: `std/json.point`, `std/http.point`, and `examples/std-usage.point` check and build; `bun run ci` passes (133 tests).
+- Next: P11-1 point add; remaining std shims (text, time, fs, env).
+- Blocked: none
+
 ## Checkpoint 11.P10-2 - controlled view props and callbacks
 - Completed: Added semantic `Handler T` callback input type, `bind checkbox "Label" to record.field`, and `on change call` view statements. TypeScript emit produces controlled React checkboxes and `(value: T) => void` callback props; conditional view renders fold into a single JSX fragment. Updated `readiness-widget.point` and `readiness-page.point` with interactive listing checkboxes and `onSignalsChange` wiring. Tests in `tests/point-core.test.ts`; legacy parity tests skip controlled-view fixtures. Documented in `docs/site/language/applications.md`.
 - Verified: `point build-ts examples/adopters/hatchingpoint/readiness-widget.point` → `readinessWidgetView(signals, onSignalsChange)` with checkbox JSX; `bun run ci` passes (130 tests).
