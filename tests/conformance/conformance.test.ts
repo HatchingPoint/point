@@ -34,6 +34,8 @@ describe("Point conformance fixtures", () => {
 			expect(fixtures).toContain("examples/math.point");
 			expect(fixtures).toContain("examples/cart-total.point");
 			expect(fixtures).toContain("examples/app/todo.point");
+			expect(fixtures).toContain("examples/adopters/hatchingpoint/store-readiness.point");
+			expect(fixtures).toContain("examples/adopters/starter-labs/subscription-tier.point");
 			expect(fixtures).toContain("compiler/passes/naming-lint.point");
 		},
 	);

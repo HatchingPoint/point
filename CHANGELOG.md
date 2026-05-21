@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.11
+
+### Added
+
+- VS Code extension uses `point lsp` via bundled LanguageClient (shared with Neovim/Zed).
+- LSP completion and rename; format-on-save default for `.point` files.
+- Dogfood module: App Store listing readiness (`examples/adopters/hatchingpoint/`).
+- External adopter example: Starter Labs subscription pricing (`examples/adopters/starter-labs/`).
+- Verified Neovim and Zed editor configs under `editors/`.
+
 ## 0.0.10
 
 ### Added

@@ -31,6 +31,61 @@ export interface LspHover {
 	contents: string;
 }
 
+export interface LspCompletionItem {
+	label: string;
+	kind: number;
+	detail?: string;
+}
+
+const BLOCK_KEYWORDS = [
+	"module",
+	"use",
+	"record",
+	"calculation",
+	"rule",
+	"label",
+	"external",
+	"action",
+	"policy",
+	"view",
+	"route",
+	"workflow",
+	"command",
+];
+
+const STATEMENT_KEYWORDS = [
+	"input",
+	"output",
+	"return",
+	"when",
+	"otherwise",
+	"add",
+	"subtract",
+	"set",
+	"for",
+	"each",
+	"in",
+	"starts",
+	"at",
+	"as",
+	"to",
+	"from",
+	"is",
+	"render",
+	"method",
+	"path",
+	"step",
+	"await",
+	"touches",
+	"and",
+	"or",
+	"none",
+	"true",
+	"false",
+];
+
+const TYPE_KEYWORDS = ["Text", "Int", "Float", "Bool", "Void", "List", "Maybe"];
+
 export interface PointDocumentAnalysis {
 	diagnostics: LspDiagnostic[];
 	symbols: PointSemanticSymbol[];
@@ -126,6 +181,79 @@ export function formatPointDocument(source: string): string {
 	} catch {
 		return source;
 	}
+}
+
+export function completionsForPosition(source: string, line: number, column: number): LspCompletionItem[] {
+	const analysis = analyzePointSource(source);
+	const lines = source.split(/\r?\n/);
+	const lineText = lines[line - 1] ?? "";
+	const before = lineText.slice(0, Math.max(0, column - 1));
+	const items: LspCompletionItem[] = [];
+	const seen = new Set<string>();
+	const add = (label: string, kind: number, detail?: string) => {
+		if (seen.has(label)) return;
+		seen.add(label);
+		items.push({ label, kind, detail });
+	};
+
+	if (/^\s*$/.test(before)) {
+		for (const keyword of BLOCK_KEYWORDS) add(keyword, 14);
+	}
+
+	for (const keyword of [...STATEMENT_KEYWORDS, ...TYPE_KEYWORDS]) add(keyword, 14);
+	for (const symbol of analysis.symbols) {
+		const kind =
+			symbol.kind === "field" ? 5 : symbol.kind === "record" ? 7 : symbol.kind === "param" ? 6 : 3;
+		add(symbol.name, kind, symbol.kind);
+	}
+
+	return items;
+}
+
+export function renameSymbolInDocument(
+	source: string,
+	line: number,
+	column: number,
+	newName: string,
+): { range: LspRange; newText: string } | null {
+	const analysis = analyzePointSource(source);
+	const symbol = symbolAtPoint(analysis.symbols, line, column);
+	if (!symbol?.span || !newName.trim()) return null;
+	const oldName = symbol.name;
+	if (oldName === newName) {
+		return { range: pointSpanToLspRange(symbol.span), newText: oldName };
+	}
+	const escaped = oldName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	const updated = source.replace(new RegExp(escaped, "g"), newName);
+	if (updated === source) return null;
+	return {
+		range: fullDocumentRange(source),
+		newText: updated,
+	};
+}
+
+export function prepareRenameAtPosition(
+	source: string,
+	line: number,
+	column: number,
+): { range: LspRange; placeholder: string } | null {
+	const analysis = analyzePointSource(source);
+	const symbol = symbolAtPoint(analysis.symbols, line, column);
+	if (!symbol?.span) return null;
+	return {
+		range: pointSpanToLspRange(symbol.span),
+		placeholder: symbol.name,
+	};
+}
+
+function fullDocumentRange(text: string): LspRange {
+	const lines = text.split(/\r?\n/);
+	const lastLine = Math.max(0, lines.length - 1);
+	const lastCharacter = lines[lastLine]?.length ?? 0;
+	return {
+		start: { line: 0, character: 0 },
+		end: { line: lastLine, character: lastCharacter },
+	};
 }
 
 function toLspDiagnostic(diagnostic: PointCoreDiagnostic): LspDiagnostic {

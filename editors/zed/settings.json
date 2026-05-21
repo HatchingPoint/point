@@ -1,0 +1,20 @@
+{
+  "lsp": {
+    "point": {
+      "command": {
+        "path": "point",
+        "args": ["lsp"]
+      },
+      "languages": ["Point"],
+      "format_on_save": "on"
+    }
+  },
+  "languages": {
+    "Point": {
+      "name": "Point",
+      "matcher": {
+        "path_suffixes": ["point"]
+      }
+    }
+  }
+}

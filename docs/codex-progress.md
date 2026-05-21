@@ -388,3 +388,16 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (84 tests).
 - Next: manual Neovim/Zed verification; optional VS Code extension migration to LSP client.
 - Blocked: none
+
+## Checkpoint 8.Adoption - LSP v2, dogfood, external adopter, editor configs
+- Completed: LSP completion + rename; hatchingpoint store-readiness dogfood module; starter-labs external adopter example; editors/neovim and editors/zed verified configs; phase8 8.0-8.3 checkboxes.
+- Verified: `bun run ci` passes (91 tests).
+- Next: docs site D1-D5 on LandingPage.
+- Blocked: none
+
+## Checkpoint D1 - Docs shell in LandingPage
+- Completed: Added Point docs container UI in LandingPage with top bar, sticky sidebar, prose column, desktop TOC, mobile menu, copyable code blocks, prev/next footer, and GitHub edit links. Added IA routes for guide, concepts, language, AI, toolchain, stdlib, reference, ecosystem, examples, FAQ, and changelog. Ported existing `/point` and `/point/guide` material into docs home, introduction, quick start, and language overview pages; remaining D1 routes render "Coming soon" stubs.
+- Verified: `npm run build` passes in `C:\Users\mcarr\Documents\clones\LandingPage`.
+- LandingPage base commit: `31ec765` (local changes not pushed).
+- Next: D2 content in `docs/site/` and LandingPage markdown sync/import.
+- Blocked: none

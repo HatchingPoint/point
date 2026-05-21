@@ -2,7 +2,7 @@
   "name": "point",
   "displayName": "Point Language",
   "description": "Cursor and VS Code language support for Point.",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": false,
   "publisher": "hatchingpoint",
   "icon": "icons/icon.png",
@@ -87,11 +87,27 @@
           ],
           "default": "auto",
           "description": "How to run the CLI when point.cliPath is set. auto: use bun for .ts files, otherwise run the path directly."
+        },
+        "point.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Trace LSP communication between the extension and point lsp."
         }
+      }
+    },
+    "configurationDefaults": {
+      "[point]": {
+        "editor.formatOnSave": true
       }
     }
   },
   "scripts": {
-    "package:vsix": "bunx @vscode/vsce package --no-dependencies"
+    "package:vsix": "bun run build:extension && bunx @vscode/vsce package --no-dependencies",
+    "build:extension": "bun run --cwd ../.. scripts/build-vscode-extension.ts"
   }
 }

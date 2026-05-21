@@ -180,16 +180,20 @@ calculation echo
 		expect(output).toContain("true: Bool");
 	});
 
-	test("VS Code extension wires semantic diagnostics and symbols", async () => {
+	test("VS Code extension uses point lsp via LanguageClient", async () => {
 		const manifest = await Bun.file("packages/point-vscode/package.json").json();
 		expect(manifest.main).toBe("./extension.js");
 		expect(manifest.activationEvents).toContain("onLanguage:point");
-		const extension = await Bun.file("packages/point-vscode/extension.js").text();
-		expect(extension).toContain("check-json");
-		expect(extension).toContain("registerDefinitionProvider");
-		expect(extension).toContain("registerDocumentSymbolProvider");
+		const extension = await Bun.file("packages/point-vscode/extension-entry.js").text();
+		expect(extension).toContain("LanguageClient");
+		expect(extension).toContain('"lsp"');
+		expect(extension).toContain("resolveServerOptions");
 		expect(extension).toContain("point.cliPath");
 		expect(manifest.contributes.configuration.properties["point.cliPath"]).toBeDefined();
+		expect(manifest.contributes.configurationDefaults["[point]"]["editor.formatOnSave"]).toBe(true);
+		await Bun.spawn(["bun", "scripts/build-vscode-extension.ts"], { cwd: process.cwd(), stdout: "ignore", stderr: "ignore" }).exited;
+		const built = await Bun.file("packages/point-vscode/extension.js").text();
+		expect(built.length).toBeGreaterThan(1000);
 	});
 
 	test("documents and wires runtime source mapping boundaries", async () => {
@@ -283,6 +287,29 @@ command hello cli
 		expect(generated).toContain("todoItemView");
 		expect(generated).toContain("getTodosRoute");
 		expect(generated).toContain("openDashboardWorkflow");
+	});
+
+	test("dogfood and external adopter modules check and build", async () => {
+		for (const fixture of [
+			"examples/adopters/hatchingpoint/store-readiness.point",
+			"examples/adopters/starter-labs/subscription-tier.point",
+		]) {
+			await Bun.$`bun packages/point/src/cli.ts check ${fixture}`.quiet();
+			const base = fixture.split("/").pop()?.replace(/\.point$/, "") ?? "program";
+			await Bun.$`bun packages/point/src/cli.ts build-ts ${fixture} generated/${base}.ts`.quiet();
+			expect(await Bun.file(`generated/${base}.ts`).text()).toContain("export");
+		}
+		expect(await Bun.file("examples/adopters/hatchingpoint/README.md").exists()).toBe(true);
+		expect(await Bun.file("examples/adopters/starter-labs/README.md").exists()).toBe(true);
+	});
+
+	test("ships verified Neovim and Zed editor configs", async () => {
+		const neovim = await Bun.file("editors/neovim/point.lua").text();
+		expect(neovim).toContain('"point"');
+		expect(neovim).toContain("lsp");
+		const zed = await Bun.file("editors/zed/settings.json").text();
+		expect(zed).toContain('"point"');
+		expect(await Bun.file("editors/README.md").exists()).toBe(true);
 	});
 
 	test("defines Point package manifest and lockfile", async () => {

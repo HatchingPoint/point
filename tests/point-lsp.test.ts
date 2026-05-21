@@ -3,11 +3,14 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
 	analyzePointSource,
+	completionsForPosition,
 	definitionForPosition,
 	formatPointDocument,
 	hoverForPosition,
 	outlineSymbols,
 	pointSpanToLspRange,
+	prepareRenameAtPosition,
+	renameSymbolInDocument,
 	symbolAtPoint,
 } from "../packages/point/src/lsp/analyze.ts";
 
@@ -55,5 +58,22 @@ describe("point lsp", () => {
 		const formatted = formatPointDocument(messy);
 		expect(formatted).toContain("record User");
 		expect(formatted).not.toBe(messy);
+	});
+
+	test("suggests keywords and symbols for completion", () => {
+		const items = completionsForPosition(mathSource, 1, 1);
+		expect(items.some((item) => item.label === "module")).toBe(true);
+		expect(items.some((item) => item.label === "score status")).toBe(true);
+	});
+
+	test("renames a symbol across the document", () => {
+		const renamed = renameSymbolInDocument(mathSource, 32, 8, "readiness label");
+		expect(renamed?.newText).toContain("label readiness label");
+		expect(renamed?.newText).not.toContain("label score status");
+	});
+
+	test("prepares rename range for symbol at cursor", () => {
+		const prepared = prepareRenameAtPosition(mathSource, 32, 8);
+		expect(prepared?.placeholder).toBe("score status");
 	});
 });

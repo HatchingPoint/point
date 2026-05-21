@@ -12,7 +12,7 @@ Cursor and VS Code support for [Point](https://github.com/HatchingPoint/point) â
 3. Install **Point Language** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (works in Cursor too).
 4. Open a `.point` file.
 
-The extension finds `point` on PATH automatically. For monorepo development, set **Point: Cli Path** to your local `cli.ts`.
+The extension starts `point lsp` automatically. For monorepo development, set **Point: Cli Path** to your local `cli.ts`.
 
 ## Features
 
@@ -20,8 +20,14 @@ The extension finds `point` on PATH automatically. For monorepo development, set
 - Syntax highlighting for semantic Point source
 - Snippets for `record`, `calculation`, `rule`, `label`, and more
 - Point file icon theme
-- Diagnostics on save via `point check-json`
-- Go-to-definition and document outline via `point index`
+- **Language Server (`point lsp`)** â€” same server as Neovim and Zed:
+  - Diagnostics (live, not only on save)
+  - Document outline
+  - Go to definition
+  - Hover docs
+  - Completion
+  - Rename symbol
+  - Format on save
 
 ## Settings
 
@@ -29,6 +35,9 @@ The extension finds `point` on PATH automatically. For monorepo development, set
 |---------|---------|-------------|
 | `point.cliPath` | empty | Path to `cli.ts` or `point` executable |
 | `point.runtime` | `auto` | `auto`, `bun`, or `point` when using `cliPath` |
+| `point.trace.server` | `off` | LSP trace: `off`, `messages`, or `verbose` |
+
+Format on save is enabled by default for `.point` files.
 
 ## Requirements
 
@@ -42,4 +51,5 @@ Choose **Point File Icons** as the active file icon theme to show the Point logo
 ## Links
 
 - [Point on GitHub](https://github.com/HatchingPoint/point)
+- [Editor setup (Neovim, Zed)](https://github.com/HatchingPoint/point/blob/main/editors/README.md)
 - [Hatching Point](https://www.hatchingpoint.com/)

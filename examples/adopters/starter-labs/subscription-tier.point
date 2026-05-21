@@ -1,0 +1,36 @@
+module SubscriptionTier
+
+record Plan Inputs
+  monthly price: Int
+  annual discount percent: Int
+  seats: Int
+
+calculation discount multiplier
+  input plan: Plan Inputs
+  output multiplier: Int
+  multiplier is 100 - plan.annual discount percent
+
+calculation annual price
+  input plan: Plan Inputs
+  input multiplier: Int
+  output annual price: Int
+  annual price is plan.monthly price * 12 * multiplier / 100
+
+calculation seat total
+  input plan: Plan Inputs
+  input annual price: Int
+  output total: Int
+  total is annual price * plan.seats
+
+label tier name
+  input seats: Int
+  output Text
+  when seats <= 1 return "Solo"
+  when seats <= 5 return "Team"
+  otherwise return "Business"
+
+label price display
+  input total: Int
+  output Text
+  when total >= 10000 return "Contact sales"
+  otherwise return "Standard pricing"

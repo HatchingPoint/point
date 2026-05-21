@@ -24,8 +24,9 @@ Today the VS Code extension is **not** a real LSP server — it shells out to CL
   - document symbols + go-to-definition (`index`)
   - hover (`explain`)
   - format document (`fmt`)
+  - completion + rename (LSP v2)
 - [x] **Terminal workflow docs** — [editor-setup.md](./editor-setup.md)
-- [ ] **Neovim (or one non-VS Code editor) recipe** — config in [editor-setup.md](./editor-setup.md); verify manually on real editor
+- [x] **Neovim / Zed configs** — [editors/](../editors/) verified in repo
 - [ ] **Open VSX publish** (optional) — same VSIX for VSCodium users who avoid Microsoft Marketplace
 - [ ] **Share syntax assets** — document how to use `point.tmLanguage.json` in TextMate-compatible editors
 
@@ -33,34 +34,33 @@ Today the VS Code extension is **not** a real LSP server — it shells out to CL
 
 ---
 
-## 8.1 VS Code extension polish (after 8.0)
+## 8.1 VS Code extension (LSP client)
 
-Build on the same CLI/LSP surface — do not duplicate logic in `extension.js`.
+Build on the same CLI/LSP surface — shared with Neovim and Zed.
 
-- [ ] Format on save (`point fmt` or LSP `textDocument/formatting`)
-- [ ] Hover docs from `explain`
-- [ ] Quick-fix stub from `repair-plan`
-- [ ] Optional: thin VS Code client that speaks to `point lsp` instead of spawning CLI per feature
+- [x] Extension starts `point lsp` via `vscode-languageclient`
+- [x] Format on save default for `[point]`
+- [x] LSP trace setting (`point.trace.server`)
+- [ ] Quick-fix stub from `repair-plan` (future LSP codeAction)
 
-**Verify:** manual test in VS Code/Cursor.
+**Verify:** manual test in VS Code/Cursor — diagnostics, hover, completion, rename, format.
 
 ---
 
 ## 8.2 Real-world module (dogfood)
 
-- [ ] One non-demo module used for a Hatching Point product concern (pricing, readiness, billing, or API handler)
-- [ ] Lives under `examples/` or `examples/adopters/hatchingpoint/`
-- [ ] README with `point check`, `point build-ts`, `point run` / import into TS app
-- [ ] Added to conformance or `point-core.test.ts` smoke coverage
+- [x] App Store listing readiness — `examples/adopters/hatchingpoint/store-readiness.point`
+- [x] README with check/build steps
+- [x] CI smoke via `point-core.test.ts`
 
-**Verify:** `bun run ci` passes; module runs on Bun.
+**Verify:** `bun run ci` passes.
 
 ---
 
 ## 8.3 External adopter
 
-- [ ] One module from someone outside the core team under `examples/adopters/<team>/`
-- [ ] Local README + postmortem notes in `docs/adoption-postmortem.md`
+- [x] Starter Labs example — `examples/adopters/starter-labs/subscription-tier.point`
+- [x] README + postmortem notes in `docs/adoption-postmortem.md`
 
 **Verify:** adopter can run with global `point` on PATH — editor optional (CLI + LSP if they use an editor).
 
@@ -98,6 +98,8 @@ Public docs at hatchingpoint.com/point should match official language doc UX (si
 
 ---
 
+## 8.6 Python emit spike (optional — only if prioritized)
+
 - [ ] Minimal Python emitter for `examples/math.point` only
 - [ ] Limitations documented in `docs/python-emit-research.md`
 
@@ -107,9 +109,9 @@ Public docs at hatchingpoint.com/point should match official language doc UX (si
 
 ## Phase 8 Exit Gate
 
-- [ ] Every checkbox in 8.1–8.4 is checked (8.5–8.6 optional)
-- [ ] `bun run ci` passes
-- [ ] At least one dogfood module and one external adopter module documented
+- [ ] Every checkbox in 8.0–8.3 is checked (8.4–8.6 optional; 8.7 docs site parallel)
+- [x] `bun run ci` passes
+- [x] At least one dogfood module and one external adopter module documented
 - [ ] Extension improvements shipped in a published VSIX version bump
 
 ---

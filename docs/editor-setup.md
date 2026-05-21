@@ -21,32 +21,25 @@ No separate install, no cloud server. Updating `@hatchingpoint/point` updates th
 
 ## VS Code / Cursor
 
-Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) from the Marketplace. The extension shells out to the CLI today; it works with global `point` on PATH.
-
-Optional future: extension uses `point lsp` directly.
+Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) from the Marketplace. The extension starts **`point lsp`** — the same server as Neovim and Zed. Format on save is enabled by default for `.point` files.
 
 ## Neovim (nvim-lspconfig)
 
-```lua
-vim.lsp.enable("point")
+**Verified config:** `editors/neovim/point.lua` in the Point repo.
 
-vim.lsp.config("point", {
-  cmd = { "point", "lsp" },
-  filetypes = { "point" },
-  root_markers = { "point.json", ".git" },
-})
+```bash
+cp editors/neovim/point.lua ~/.config/nvim/lua/point.lua
 ```
 
-Or with `lspconfig` if you use the older API:
+In `init.lua`: `require("point")`
 
-```lua
-require("lspconfig").point.setup({})
--- registers server named "point" when point-lspconfig plugin exists — use vim.lsp.config above for stock Neovim 0.11+
-```
+Or inline:
 
 Ensure `point` is on PATH (`which point` / `where point`).
 
 ## Zed
+
+**Verified config:** merge `editors/zed/settings.json` into your Zed settings.
 
 Add to `settings.json`:
 

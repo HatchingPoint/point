@@ -1,17 +1,31 @@
 import {
 	analyzePointSource,
+	completionsForPosition,
 	definitionForPosition,
 	formatPointDocument,
 	hoverForPosition,
 	lspPositionToPoint,
 	outlineSymbols,
+	prepareRenameAtPosition,
+	renameSymbolInDocument,
 	type LspRange,
 } from "./analyze.ts";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { LspReader, writeMessage, type JsonRpcMessage } from "./protocol.ts";
 
 type DocumentState = { version: number; text: string };
 
 const documents = new Map<string, DocumentState>();
+
+function lspVersion(): string {
+	try {
+		const pkgPath = join(import.meta.dir, "../../package.json");
+		return (JSON.parse(readFileSync(pkgPath, "utf8")) as { version: string }).version;
+	} catch {
+		return "0.0.0";
+	}
+}
 
 export async function runPointLspServer(): Promise<void> {
 	const reader = new LspReader();
@@ -29,8 +43,10 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 				definitionProvider: true,
 				hoverProvider: true,
 				documentFormattingProvider: true,
+				completionProvider: { triggerCharacters: [".", " "] },
+				renameProvider: { prepareProvider: true },
 			},
-			serverInfo: { name: "point-lsp", version: "0.0.9" },
+			serverInfo: { name: "point-lsp", version: lspVersion() },
 		});
 		return;
 	}
@@ -127,6 +143,65 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 				newText: formatted,
 			},
 		]);
+		return;
+	}
+
+	if (message.method === "textDocument/completion") {
+		const params = message.params as {
+			textDocument: { uri: string };
+			position: { line: number; character: number };
+		};
+		const document = documents.get(params.textDocument.uri);
+		if (!document) {
+			respond(message.id, { isIncomplete: false, items: [] });
+			return;
+		}
+		const point = lspPositionToPoint(params.position.line, params.position.character);
+		const items = completionsForPosition(document.text, point.line, point.column);
+		respond(message.id, { isIncomplete: false, items });
+		return;
+	}
+
+	if (message.method === "textDocument/prepareRename") {
+		const params = message.params as {
+			textDocument: { uri: string };
+			position: { line: number; character: number };
+		};
+		const document = documents.get(params.textDocument.uri);
+		if (!document) {
+			respond(message.id, null);
+			return;
+		}
+		const point = lspPositionToPoint(params.position.line, params.position.character);
+		const prepared = prepareRenameAtPosition(document.text, point.line, point.column);
+		respond(message.id, prepared);
+		return;
+	}
+
+	if (message.method === "textDocument/rename") {
+		const params = message.params as {
+			textDocument: { uri: string };
+			position: { line: number; character: number };
+			newName: string;
+		};
+		const document = documents.get(params.textDocument.uri);
+		if (!document) {
+			respond(message.id, null);
+			return;
+		}
+		const point = lspPositionToPoint(params.position.line, params.position.character);
+		const edit = renameSymbolInDocument(document.text, point.line, point.column, params.newName);
+		if (!edit) {
+			respond(message.id, null);
+			return;
+		}
+		documents.set(params.textDocument.uri, { version: document.version, text: edit.newText });
+		publishDiagnostics(params.textDocument.uri);
+		respond(message.id, {
+			changes: {
+				[params.textDocument.uri]: [edit],
+			},
+		});
 		return;
 	}
 

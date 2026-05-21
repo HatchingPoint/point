@@ -32,8 +32,15 @@ This document records adoption exercises for Point as a general-purpose semantic
 | Publish credentials / PAT format | Blocked automated Marketplace publish | **Resolved** — secrets fixed, 0.0.9 live |
 | String-based lowering | Harder long-term maintenance | **Resolved** — Phase 7 AST pipeline |
 | Statement-level source maps | Runtime errors map to declarations, not expressions | Open — Phase 8.5 optional |
-| External adoption proof | No outside contributor yet | Open — Phase 8.3 |
+| External adoption proof | No outside contributor yet | **Pilot:** `examples/adopters/starter-labs/` — external-style README + module |
 | Codex quota limits | Long goals stop mid-phase | Mitigated — phase-scoped goals |
+
+## Adopter modules
+
+| Team | Path | Role |
+|------|------|------|
+| Hatching Point (dogfood) | `examples/adopters/hatchingpoint/store-readiness.point` | App Store listing readiness |
+| Starter Labs (external example) | `examples/adopters/starter-labs/subscription-tier.point` | SaaS pricing — global CLI + LSP only |
 
 ## First external adopter checklist
 
@@ -49,4 +56,4 @@ When someone outside the core team ships a feature in Point:
 
 Point is ready for **pilot projects** transpiling to TypeScript on Bun, with global install and Marketplace extension. Public distribution infrastructure is live.
 
-**Next:** dogfood a real module (Phase 8.2) and recruit one external adopter (Phase 8.3). See [phase8-plan.md](./phase8-plan.md).
+**Next:** docs site (D1–D5), recruit a real external team to replace the Starter Labs example. See [phase8-plan.md](./phase8-plan.md).
