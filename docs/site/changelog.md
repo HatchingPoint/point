@@ -20,8 +20,8 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
-| **0.0.13** | Phase 10–11: `page` block, `build-py-all`, `point add`, std json/http shims, controlled views, point-logic CI publish |
-| **0.0.12** | Phase 9: JS-default build, Python emit, `check-docs`, point-logic package, store-readiness HTTP service |
+| **0.0.14** | Phase 12 Wave 1: npm `point add`, full std shims, `point run --bundle` |
+| **0.0.13** | Phase 10–11: `page` block, `build-py-all`, `point add` workspace/file, controlled views |
 | **0.0.11** | LSP in VS Code extension, completion/rename, adoption examples |
 
 Full history: Point repository `CHANGELOG.md`.

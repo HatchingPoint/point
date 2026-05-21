@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.14
+
+### Added
+
+- **`npm:` in `point add`** — install registry Point packages, pin `node_modules/` paths in `point.lock`.
+- **Std shims** — `@hatchingpoint/point/std/fs`, `env`, `time`, `text` (plus existing json/http).
+- **`point run --bundle`** — in-memory eval for pure logic modules (no emit files in project).
+- **`examples/pure/math-only.point`** — demo of bundled run.
+
 ## 0.0.13
 
 ### Added
