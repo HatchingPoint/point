@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.13
+
+### Added
+
+- **`page` block** — Next.js-embeddable page shells; readiness-page example.
+- **`point build-py-all`** — batch Python emit for logic and action fixtures.
+- **`point add`** — workspace/file dependency resolution with `point.lock`.
+- **Std runtime shims** — `@hatchingpoint/point/std/json` and `std/http`.
+- **Controlled views** — `Handler` callbacks and `bind checkbox` for interactive React emit.
+- **`@hatchingpoint/point-logic@0.0.2`** — publishes from CI on tag push alongside `@hatchingpoint/point`.
+
 ## 0.0.12
 
 ### Added
