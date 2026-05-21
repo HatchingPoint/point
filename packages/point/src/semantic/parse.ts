@@ -593,6 +593,24 @@ function parseView(
 			});
 			continue;
 		}
+		const bindCheckbox = line.match(/^bind checkbox "(.+)" to (.+)$/);
+		if (bindCheckbox) {
+			statements.push({
+				kind: "bindCheckbox",
+				label: bindCheckbox[1] ?? "",
+				target: parseLineExpression(bindCheckbox[2] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		if (line.startsWith("on change call ")) {
+			statements.push({
+				kind: "onChangeCall",
+				callback: line.slice("on change call ".length).trim(),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
 		throw new Error(`Unknown view statement: ${line}`);
 	}
 
@@ -972,7 +990,10 @@ function typeLabel(type: { kind: "typeRef"; name: string; args: unknown[] }): st
 	if (type.name === "Maybe" && type.args[0]) {
 		return `Maybe<${typeLabel(type.args[0] as { kind: "typeRef"; name: string; args: unknown[] })}>`;
 	}
-	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Maybe", "Or", "Error", "Page"]);
+	if (type.name === "Handler" && type.args[0]) {
+		return `Handler ${typeLabel(type.args[0] as { kind: "typeRef"; name: string; args: unknown[] })}`;
+	}
+	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Maybe", "Or", "Error", "Page", "Handler"]);
 	if (primitives.has(type.name)) return type.name;
 	return toPascalCase(type.name);
 }

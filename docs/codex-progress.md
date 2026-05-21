@@ -463,6 +463,13 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: D5 polish or visual QA on the synced docs pages.
 - Blocked: none
 
+## Checkpoint D2.Polish - Docs coverage and shell UX
+- Completed: Added missing public docs pages for semantic-vs-core, pipeline, check-json, formatting, build/emit, run/test/repl, VS Code, stdlib overview, examples, npm, Marketplace, integrations, FAQ, and changelog. Synced LandingPage docs content now covers 41 pages. Updated the LandingPage docs shell so synced pages no longer show "Soon" badges, removed desktop inner scroll containers, simplified sticky behavior, and reduced card-like visual treatment in navigation/footer.
+- Verified: `bun run check-docs` passes in point repo (28 snippets, 24 file refs); `bun run sync:point-docs` passes in LandingPage and synced 41 pages.
+- LandingPage build: not run per user preference.
+- Next: visual QA in browser and deeper content editing for clarity/tone.
+- Blocked: none
+
 ## Checkpoint 10.P10-4 - build-py-all command
 - Completed: Added `point build-py-all` CLI mirroring `build-all` for pure-logic and action fixtures; `isPureLogicProgram` skips view/route/workflow/command files. Wired `build:py` script into root `package.json` and CI. Tests in `tests/python-emit.test.ts`. Updated `docs/python-emit-research.md` and `docs/site/reference/cli.md`.
 - Verified: `point build-py-all` writes 22 Python files (7 skipped); `bun run ci` passes (122 tests).
@@ -491,4 +498,10 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Completed: Extended `scripts/publish-lib.ts` with configurable package dir and idempotent skip for already-published versions. Added `scripts/publish-logic.ts` and root `publish:logic` script. Updated `scripts/publish-npm.ts` and `scripts/publish.ts` to publish `@hatchingpoint/point-logic` alongside `@hatchingpoint/point`. GitHub Actions publish workflow logs point-logic version on tag push. Bumped `packages/point-logic` to 0.0.2. Documented independent semver and publish commands in `docs/publishing.md`. Extended publish pipeline tests in `tests/point-core.test.ts`.
 - Verified: `bun run ci` passes (124 tests); existing `tests/point-logic-package.test.ts` proves `npm pack` includes `dist/` and excludes `src/`.
 - Next: P10-2 richer view props; P11-1 point add; P11-2 std json/http shims.
+- Blocked: none
+
+## Checkpoint 11.P10-2 - controlled view props and callbacks
+- Completed: Added semantic `Handler T` callback input type, `bind checkbox "Label" to record.field`, and `on change call` view statements. TypeScript emit produces controlled React checkboxes and `(value: T) => void` callback props; conditional view renders fold into a single JSX fragment. Updated `readiness-widget.point` and `readiness-page.point` with interactive listing checkboxes and `onSignalsChange` wiring. Tests in `tests/point-core.test.ts`; legacy parity tests skip controlled-view fixtures. Documented in `docs/site/language/applications.md`.
+- Verified: `point build-ts examples/adopters/hatchingpoint/readiness-widget.point` → `readinessWidgetView(signals, onSignalsChange)` with checkbox JSX; `bun run ci` passes (130 tests).
+- Next: P11-1 point add; P11-2 std json/http shims.
 - Blocked: none

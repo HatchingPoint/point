@@ -36,7 +36,7 @@ export function readinessSummary(signals) {
   return listingStatusLabel(listingScore(signals));
 }
 
-export function readinessWidgetView(signals) {
+export function readinessWidgetView(signals, onSignalsChange) {
   if (listingScore(signals) >= 90) {
     return readinessSummary(signals);
   }

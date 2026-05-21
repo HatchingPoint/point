@@ -255,8 +255,12 @@ view counter
 		const program = parsePointSource(source);
 		expect(checkPointCore(program)).toEqual([]);
 		const emitted = emitPointCoreTypeScript(program);
-		expect(emitted).toContain("export function readinessWidgetView(signals: ListingSignals): JSX.Element");
-		expect(emitted).toContain("return <>{readinessSummary(signals)}</>;");
+		expect(emitted).toContain("export function readinessWidgetView(signals: ListingSignals, onSignalsChange: (value: ListingSignals) => void): JSX.Element");
+		expect(emitted).toContain('type="checkbox"');
+		expect(emitted).toContain("checked={signals.hasScreenshots}");
+		expect(emitted).toContain("onChange={(e) => onSignalsChange({ ...signals, hasScreenshots: e.target.checked })}");
+		expect(emitted).toContain("Screenshots");
+		expect(emitted).toContain("{listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}");
 		expect(emitted).toContain("export function readinessSummary(signals: ListingSignals): string");
 	});
 
@@ -265,11 +269,11 @@ view counter
 		const program = parsePointSource(source);
 		expect(checkPointCore(program)).toEqual([]);
 		const emitted = emitPointCoreTypeScript(program);
-		expect(emitted).toContain("export function readinessPage(signals: ListingSignals): JSX.Element");
+		expect(emitted).toContain("export function readinessPage(signals: ListingSignals, onSignalsChange: (value: ListingSignals) => void): JSX.Element");
 		expect(emitted).toContain('<main className="point-page">');
 		expect(emitted).toContain("<h1>App Store Listing Readiness</h1>");
 		expect(emitted).toContain('className="point-page-description"');
-		expect(emitted).toContain("{readinessWidgetView(signals)}");
+		expect(emitted).toContain("{readinessWidgetView(signals, onSignalsChange)}");
 		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/ReadinessPage/page.readiness page");
 	});
 

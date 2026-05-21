@@ -11,6 +11,10 @@ import { parsePointSourceLegacy } from "../packages/point/src/core/test-only/ind
 
 const repoRoot = join(import.meta.dir, "..");
 const FIXTURE_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/*.point"];
+const LEGACY_PARITY_SKIP = new Set([
+	"examples/adopters/hatchingpoint/readiness-widget.point",
+	"examples/adopters/hatchingpoint/readiness-page.point",
+]);
 
 async function discoverFixtures(): Promise<string[]> {
 	const fixtures = new Set<string>();
@@ -43,6 +47,7 @@ calculation double
 	test("TypeScript and JavaScript emit match legacy pipeline for all fixtures", async () => {
 		const routeServiceFixtures = new Set(["examples/adopters/hatchingpoint/store-readiness.point"]);
 		for (const fixture of await discoverFixtures()) {
+			if (LEGACY_PARITY_SKIP.has(fixture)) continue;
 			const source = readFileSync(join(repoRoot, fixture), "utf8");
 			const legacy = parsePointSourceLegacy(source);
 			const ast = parsePointSource(source);

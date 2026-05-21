@@ -13,6 +13,10 @@ import {
 
 const repoRoot = join(import.meta.dir, "..");
 const FIXTURE_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/*.point"];
+const LEGACY_PARITY_SKIP = new Set([
+	"examples/adopters/hatchingpoint/readiness-widget.point",
+	"examples/adopters/hatchingpoint/readiness-page.point",
+]);
 
 async function discoverFixtures(): Promise<string[]> {
 	const fixtures = new Set<string>();
@@ -33,6 +37,7 @@ describe("semantic desugar", () => {
 
 	test("desugared core AST matches legacy pipeline for all fixtures", async () => {
 		for (const fixture of await discoverFixtures()) {
+			if (LEGACY_PARITY_SKIP.has(fixture)) continue;
 			const source = readFileSync(join(repoRoot, fixture), "utf8");
 			const legacy = parsePointSourceLegacy(source);
 			const desugared = desugarSemanticProgram(parseSemanticSource(source));

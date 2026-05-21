@@ -91,12 +91,25 @@ export interface PointSemanticPageLayout {
 	main: PointCoreExpression;
 }
 
+export interface PointSemanticViewCheckboxBinding {
+	label: string;
+	target: PointCoreExpression;
+	recordParam: string;
+	fieldName: string;
+}
+
+export interface PointSemanticViewControls {
+	changeCallback: string;
+	checkboxes: PointSemanticViewCheckboxBinding[];
+}
+
 export interface PointSemanticDeclarationMetadata {
 	kind: "record" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command";
 	name: string;
 	outputName?: string;
 	effects?: string[];
 	pageLayout?: PointSemanticPageLayout;
+	viewControls?: PointSemanticViewControls;
 }
 
 export interface PointCoreTypeExpression {

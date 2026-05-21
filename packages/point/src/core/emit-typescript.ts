@@ -10,6 +10,8 @@ import type {
 	PointCoreTypeExpression,
 	PointCoreValueDeclaration,
 	PointSemanticPageLayout,
+	PointSemanticViewCheckboxBinding,
+	PointSemanticViewControls,
 } from "./ast.ts";
 
 const BINARY_OPERATORS: Record<string, string> = {
@@ -60,15 +62,53 @@ function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
 				: declaration.semantic?.kind === "route"
 					? "Response | string"
 				: emitTypeExpression(declaration.returnType);
+	const viewControls = declaration.semantic?.viewControls;
 	const bodyLines =
 		declaration.semantic?.kind === "page" && declaration.semantic.pageLayout
 			? emitPageBody(declaration.semantic.pageLayout)
-			: declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind));
+			: declaration.semantic?.kind === "view" && viewControls
+				? emitControlledViewBody(declaration.body, viewControls)
+				: declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind));
 	return [
 		`export ${asyncPrefix}function ${declaration.name}(${declaration.params.map(emitParam).join(", ")}): ${returnType} {`,
 		...indentLines(bodyLines),
 		"}",
 	];
+}
+
+function emitControlledViewBody(body: PointCoreStatement[], controls: PointSemanticViewControls): string[] {
+	const checkboxLines = controls.checkboxes.map((binding) => emitCheckboxControl(binding, controls.changeCallback));
+	const contentJsx = emitViewContentExpression(body);
+	return ["return (", "  <>", ...indentLines(checkboxLines), `    ${contentJsx}`, "  </>", ");"];
+}
+
+function emitCheckboxControl(binding: PointSemanticViewCheckboxBinding, changeCallback: string): string {
+	const checked = emitExpression(binding.target);
+	return `<label><input type="checkbox" checked={${checked}} onChange={(e) => ${changeCallback}({ ...${binding.recordParam}, ${binding.fieldName}: e.target.checked })} />${escapeJsxText(binding.label)}</label>`;
+}
+
+function emitViewContentExpression(body: PointCoreStatement[]): string {
+	let expression = "null";
+	for (let index = body.length - 1; index >= 0; index -= 1) {
+		const statement = body[index];
+		if (!statement) continue;
+		if (statement.kind === "return" && statement.value) {
+			expression = emitViewRenderFragment(statement.value);
+			continue;
+		}
+		if (statement.kind === "if" && statement.thenBody.length === 1 && statement.thenBody[0]?.kind === "return" && statement.thenBody[0].value) {
+			const thenValue = emitViewRenderFragment(statement.thenBody[0].value);
+			expression = `${emitCondition(statement.condition)} ? ${thenValue} : ${expression}`;
+		}
+	}
+	return `{${expression}}`;
+}
+
+function emitViewRenderFragment(expression: PointCoreExpression): string {
+	if (expression.kind === "literal" && typeof expression.value === "string") {
+		return `<>${escapeJsxText(expression.value)}</>`;
+	}
+	return `<>{${emitExpression(expression)}}</>`;
 }
 
 function emitPageBody(layout: PointSemanticPageLayout): string[] {
@@ -145,10 +185,20 @@ function emitValue(declaration: PointCoreValueDeclaration, exported: boolean): s
 }
 
 function emitParam(param: PointCoreParameter): string {
-	return `${param.name}: ${emitTypeExpression(param.type)}`;
+	return `${param.name}: ${emitParamType(param.type)}`;
+}
+
+function emitParamType(type: PointCoreTypeExpression): string {
+	if (type.name === "Handler" && type.args.length === 1) {
+		return `(value: ${emitTypeExpression(type.args[0]!)}) => void`;
+	}
+	return emitTypeExpression(type);
 }
 
 function emitTypeExpression(type: PointCoreTypeExpression): string {
+	if (type.name === "Handler" && type.args.length === 1) {
+		return `(value: ${emitTypeExpression(type.args[0]!)}) => void`;
+	}
 	if (type.name === "List") return `Array<${type.args[0] ? emitTypeExpression(type.args[0]) : "unknown"}>`;
 	if (type.name === "Maybe") return `${type.args[0] ? emitTypeExpression(type.args[0]) : "unknown"} | null`;
 	if (type.name === "Or") return type.args.map(emitTypeExpression).join(" | ");

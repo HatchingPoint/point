@@ -32,6 +32,13 @@ calculation readiness summary
 
 view readiness widget
   input signals: Listing Signals
+  input on signals change: Handler<Listing Signals>
+  on change call on signals change
+  bind checkbox "Screenshots" to signals.has screenshots
+  bind checkbox "Description" to signals.has description
+  bind checkbox "Privacy policy" to signals.has privacy policy
+  bind checkbox "Support URL" to signals.has support url
+  bind checkbox "Age rating" to signals.has age rating
   when listing score(signals) >= 90 render readiness summary(signals)
   when listing score(signals) >= 60 render readiness summary(signals)
   render readiness summary(signals)

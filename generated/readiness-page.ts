@@ -43,24 +43,27 @@ export function readinessSummary(signals: ListingSignals): string {
   return listingStatusLabel(listingScore(signals));
 }
 
-export function readinessWidgetView(signals: ListingSignals): JSX.Element {
-  if (listingScore(signals) >= 90) {
-    return <>{readinessSummary(signals)}</>;
-  }
-  if (listingScore(signals) >= 60) {
-    return <>{readinessSummary(signals)}</>;
-  }
-  return <>{readinessSummary(signals)}</>;
+export function readinessWidgetView(signals: ListingSignals, onSignalsChange: (value: ListingSignals) => void): JSX.Element {
+  return (
+    <>
+    <label><input type="checkbox" checked={signals.hasScreenshots} onChange={(e) => onSignalsChange({ ...signals, hasScreenshots: e.target.checked })} />Screenshots</label>
+    <label><input type="checkbox" checked={signals.hasDescription} onChange={(e) => onSignalsChange({ ...signals, hasDescription: e.target.checked })} />Description</label>
+    <label><input type="checkbox" checked={signals.hasPrivacyPolicy} onChange={(e) => onSignalsChange({ ...signals, hasPrivacyPolicy: e.target.checked })} />Privacy policy</label>
+    <label><input type="checkbox" checked={signals.hasSupportUrl} onChange={(e) => onSignalsChange({ ...signals, hasSupportUrl: e.target.checked })} />Support URL</label>
+    <label><input type="checkbox" checked={signals.hasAgeRating} onChange={(e) => onSignalsChange({ ...signals, hasAgeRating: e.target.checked })} />Age rating</label>
+      {listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}
+    </>
+  );
 }
 
-export function readinessPage(signals: ListingSignals): JSX.Element {
+export function readinessPage(signals: ListingSignals, onSignalsChange: (value: ListingSignals) => void): JSX.Element {
   return (
     <main className="point-page">
       <header className="point-page-header">
         <h1>App Store Listing Readiness</h1>
       <p className="point-page-description">Check your listing before submission</p>
       </header>
-      <section className="point-page-main">{readinessWidgetView(signals)}</section>
+      <section className="point-page-main">{readinessWidgetView(signals, onSignalsChange)}</section>
     </main>
   );
 }

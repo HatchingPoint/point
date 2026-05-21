@@ -11,6 +11,7 @@ import type {
 	PointCoreTypeExpression,
 	PointCoreValueDeclaration,
 	PointSourceSpan,
+	PointSemanticViewControls,
 } from "../core/ast.ts";
 import type {
 	PointSemanticBinding,
@@ -35,6 +36,7 @@ import type {
 	PointSemanticTypeExpression,
 	PointSemanticUseDeclaration,
 	PointSemanticViewDeclaration,
+	PointSemanticViewStatement,
 	PointSemanticPageDeclaration,
 	PointSemanticWorkflowDeclaration,
 	PointSemanticWorkflowStatement,
@@ -301,14 +303,60 @@ function desugarView(
 	const outputType: PointCoreTypeExpression = { kind: "typeRef", name: "Text", args: [] };
 	const { params, bindings } = collectBindings(declaration.inputs, declaration.output);
 	const ctx: DesugarContext = { records, callables, bindings, outputName: "page", outputType };
+	const renderStatements = declaration.body.filter(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "render" | "whenRender" }> =>
+			statement.kind === "render" || statement.kind === "whenRender",
+	);
+	const metadata = semanticDeclarationMetadata(declaration);
+	const viewControls = buildViewControls(declaration, ctx);
+	if (viewControls) metadata.viewControls = viewControls;
 	return {
 		kind: "function",
 		name: semanticFunctionName(declaration.name, "view", "view"),
 		params,
 		returnType: outputType,
-		body: desugarViewBody(declaration.body, ctx),
-		semantic: semanticDeclarationMetadata(declaration),
+		body: desugarViewBody(renderStatements, ctx),
+		semantic: metadata,
 		span: declaration.span,
+	};
+}
+
+function buildViewControls(
+	declaration: PointSemanticViewDeclaration,
+	ctx: DesugarContext,
+): PointSemanticViewControls | undefined {
+	const bindStatements = declaration.body.filter(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "bindCheckbox" }> => statement.kind === "bindCheckbox",
+	);
+	if (bindStatements.length === 0) return undefined;
+
+	const onChangeCall = declaration.body.find(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "onChangeCall" }> => statement.kind === "onChangeCall",
+	);
+	const handlerInput = declaration.inputs.find((input) => input.type.name === "Handler" && input.type.args.length === 1);
+	const callbackLabel = onChangeCall?.callback ?? handlerInput?.label;
+	if (!callbackLabel) {
+		throw new Error(`View ${declaration.name} with bind checkbox requires input Handler T or on change call`);
+	}
+	const changeCallback = toIdentifier(callbackLabel);
+
+	return {
+		changeCallback,
+		checkboxes: bindStatements.map((statement) => {
+			const target = desugarExpression(statement.target, ctx);
+			if (target.kind !== "property") {
+				throw new Error(`bind checkbox target must be a record field access`);
+			}
+			if (target.target.kind !== "identifier") {
+				throw new Error(`bind checkbox target must start with an input record`);
+			}
+			return {
+				label: statement.label,
+				target,
+				recordParam: target.target.name,
+				fieldName: target.name,
+			};
+		}),
 	};
 }
 
@@ -421,7 +469,7 @@ function desugarParameter(binding: PointSemanticBinding): PointCoreParameter {
 }
 
 function desugarType(type: PointSemanticTypeExpression): PointCoreTypeExpression {
-	if (type.name === "List" || type.name === "Maybe" || type.name === "Or") {
+	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler") {
 		return { kind: "typeRef", name: type.name, args: type.args.map(desugarType) };
 	}
 	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Error", "Page"]);

@@ -193,7 +193,9 @@ export type PointSemanticPolicyStatement =
 
 export type PointSemanticViewStatement =
 	| { kind: "render"; value: PointSemanticExpression; span?: PointSourceSpan }
-	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan };
+	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "bindCheckbox"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "onChangeCall"; callback: string; span?: PointSourceSpan };
 
 export type PointSemanticRouteStatement = { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
 

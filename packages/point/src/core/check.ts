@@ -28,7 +28,7 @@ type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual
 type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean };
 type Scope = Map<string, ScopeEntry>;
 
-const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or", "Page"]);
+const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or", "Page", "Handler"]);
 
 export function checkPointCore(program: PointCoreProgram): PointCoreDiagnostic[] {
 	const checker = new CoreChecker(program);
@@ -125,7 +125,7 @@ class CoreChecker {
 				}
 				return;
 			}
-			if (fn.semantic?.kind === "page") return;
+			if (fn.semantic?.kind === "page" || fn.semantic?.kind === "view") return;
 			this.checkExpressionAssignable(statement.value, fn.returnType, `fn.${fn.name}.return`, locals);
 			return;
 		}
@@ -532,7 +532,14 @@ class CoreChecker {
 				repair: "Use syntax such as User or Error.",
 			});
 		}
-		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {
+		if (type.name === "Handler" && type.args.length !== 1) {
+			this.push("invalid-type-arity", "Handler requires one type argument", path, type.span, {
+				expected: "Handler T",
+				actual: formatType(type),
+				repair: "Use Handler Listing Signals or another record type.",
+			});
+		}
+		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.name !== "Handler" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {
 			this.push("invalid-type-arity", `${type.name} does not accept type arguments`, path, type.span, {
 				expected: String(type.name),
 				actual: formatType(type),

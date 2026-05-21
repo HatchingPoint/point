@@ -184,6 +184,8 @@ function formatPolicyStatement(statement: PointSemanticPolicyStatement): string 
 
 function formatViewStatement(statement: PointSemanticViewStatement): string {
 	if (statement.kind === "whenRender") return `when ${formatExpression(statement.condition)} render ${formatExpression(statement.value)}`;
+	if (statement.kind === "bindCheckbox") return `bind checkbox "${statement.label}" to ${formatExpression(statement.target)}`;
+	if (statement.kind === "onChangeCall") return `on change call ${statement.callback}`;
 	return `render ${formatExpression(statement.value)}`;
 }
 

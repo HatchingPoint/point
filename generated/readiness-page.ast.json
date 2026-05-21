@@ -1085,6 +1085,33 @@
               "offset": 24
             }
           }
+        },
+        {
+          "name": "onSignalsChange",
+          "type": {
+            "kind": "typeRef",
+            "name": "Handler",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "ListingSignals",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "on signals change",
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 35,
+              "column": 44,
+              "offset": 43
+            }
+          }
         }
       ],
       "returnType": {
@@ -1107,28 +1134,28 @@
                   "name": "signals",
                   "span": {
                     "start": {
-                      "line": 35,
+                      "line": 42,
                       "column": 1,
-                      "offset": 834
+                      "offset": 1210
                     },
                     "end": {
-                      "line": 35,
+                      "line": 42,
                       "column": 70,
-                      "offset": 903
+                      "offset": 1279
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 35,
+                  "line": 42,
                   "column": 1,
-                  "offset": 834
+                  "offset": 1210
                 },
                 "end": {
-                  "line": 35,
+                  "line": 42,
                   "column": 70,
-                  "offset": 903
+                  "offset": 1279
                 }
               }
             },
@@ -1137,27 +1164,27 @@
               "value": 90,
               "span": {
                 "start": {
-                  "line": 35,
+                  "line": 42,
                   "column": 1,
-                  "offset": 834
+                  "offset": 1210
                 },
                 "end": {
-                  "line": 35,
+                  "line": 42,
                   "column": 70,
-                  "offset": 903
+                  "offset": 1279
                 }
               }
             },
             "span": {
               "start": {
-                "line": 35,
+                "line": 42,
                 "column": 1,
-                "offset": 834
+                "offset": 1210
               },
               "end": {
-                "line": 35,
+                "line": 42,
                 "column": 70,
-                "offset": 903
+                "offset": 1279
               }
             }
           },
@@ -1173,41 +1200,41 @@
                     "name": "signals",
                     "span": {
                       "start": {
-                        "line": 35,
+                        "line": 42,
                         "column": 1,
-                        "offset": 834
+                        "offset": 1210
                       },
                       "end": {
-                        "line": 35,
+                        "line": 42,
                         "column": 70,
-                        "offset": 903
+                        "offset": 1279
                       }
                     }
                   }
                 ],
                 "span": {
                   "start": {
-                    "line": 35,
+                    "line": 42,
                     "column": 1,
-                    "offset": 834
+                    "offset": 1210
                   },
                   "end": {
-                    "line": 35,
+                    "line": 42,
                     "column": 70,
-                    "offset": 903
+                    "offset": 1279
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 35,
+                  "line": 42,
                   "column": 1,
-                  "offset": 834
+                  "offset": 1210
                 },
                 "end": {
-                  "line": 35,
+                  "line": 42,
                   "column": 70,
-                  "offset": 903
+                  "offset": 1279
                 }
               }
             }
@@ -1215,14 +1242,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 35,
+              "line": 42,
               "column": 1,
-              "offset": 834
+              "offset": 1210
             },
             "end": {
-              "line": 35,
+              "line": 42,
               "column": 70,
-              "offset": 903
+              "offset": 1279
             }
           }
         },
@@ -1240,28 +1267,28 @@
                   "name": "signals",
                   "span": {
                     "start": {
-                      "line": 36,
+                      "line": 43,
                       "column": 1,
-                      "offset": 904
+                      "offset": 1280
                     },
                     "end": {
-                      "line": 36,
+                      "line": 43,
                       "column": 70,
-                      "offset": 973
+                      "offset": 1349
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 36,
+                  "line": 43,
                   "column": 1,
-                  "offset": 904
+                  "offset": 1280
                 },
                 "end": {
-                  "line": 36,
+                  "line": 43,
                   "column": 70,
-                  "offset": 973
+                  "offset": 1349
                 }
               }
             },
@@ -1270,27 +1297,27 @@
               "value": 60,
               "span": {
                 "start": {
-                  "line": 36,
+                  "line": 43,
                   "column": 1,
-                  "offset": 904
+                  "offset": 1280
                 },
                 "end": {
-                  "line": 36,
+                  "line": 43,
                   "column": 70,
-                  "offset": 973
+                  "offset": 1349
                 }
               }
             },
             "span": {
               "start": {
-                "line": 36,
+                "line": 43,
                 "column": 1,
-                "offset": 904
+                "offset": 1280
               },
               "end": {
-                "line": 36,
+                "line": 43,
                 "column": 70,
-                "offset": 973
+                "offset": 1349
               }
             }
           },
@@ -1306,41 +1333,41 @@
                     "name": "signals",
                     "span": {
                       "start": {
-                        "line": 36,
+                        "line": 43,
                         "column": 1,
-                        "offset": 904
+                        "offset": 1280
                       },
                       "end": {
-                        "line": 36,
+                        "line": 43,
                         "column": 70,
-                        "offset": 973
+                        "offset": 1349
                       }
                     }
                   }
                 ],
                 "span": {
                   "start": {
-                    "line": 36,
+                    "line": 43,
                     "column": 1,
-                    "offset": 904
+                    "offset": 1280
                   },
                   "end": {
-                    "line": 36,
+                    "line": 43,
                     "column": 70,
-                    "offset": 973
+                    "offset": 1349
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 36,
+                  "line": 43,
                   "column": 1,
-                  "offset": 904
+                  "offset": 1280
                 },
                 "end": {
-                  "line": 36,
+                  "line": 43,
                   "column": 70,
-                  "offset": 973
+                  "offset": 1349
                 }
               }
             }
@@ -1348,14 +1375,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 36,
+              "line": 43,
               "column": 1,
-              "offset": 904
+              "offset": 1280
             },
             "end": {
-              "line": 36,
+              "line": 43,
               "column": 70,
-              "offset": 973
+              "offset": 1349
             }
           }
         },
@@ -1370,41 +1397,41 @@
                 "name": "signals",
                 "span": {
                   "start": {
-                    "line": 37,
+                    "line": 44,
                     "column": 1,
-                    "offset": 974
+                    "offset": 1350
                   },
                   "end": {
-                    "line": 37,
+                    "line": 44,
                     "column": 36,
-                    "offset": 1009
+                    "offset": 1385
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 37,
+                "line": 44,
                 "column": 1,
-                "offset": 974
+                "offset": 1350
               },
               "end": {
-                "line": 37,
+                "line": 44,
                 "column": 36,
-                "offset": 1009
+                "offset": 1385
               }
             }
           },
           "span": {
             "start": {
-              "line": 37,
+              "line": 44,
               "column": 1,
-              "offset": 974
+              "offset": 1350
             },
             "end": {
-              "line": 37,
+              "line": 44,
               "column": 36,
-              "offset": 1009
+              "offset": 1385
             }
           }
         }
@@ -1413,7 +1440,197 @@
         "kind": "view",
         "name": "readiness widget",
         "outputName": "view",
-        "effects": []
+        "effects": [],
+        "viewControls": {
+          "changeCallback": "onSignalsChange",
+          "checkboxes": [
+            {
+              "label": "Screenshots",
+              "target": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "signals",
+                  "span": {
+                    "start": {
+                      "line": 37,
+                      "column": 1,
+                      "offset": 921
+                    },
+                    "end": {
+                      "line": 37,
+                      "column": 57,
+                      "offset": 977
+                    }
+                  }
+                },
+                "name": "hasScreenshots",
+                "span": {
+                  "start": {
+                    "line": 37,
+                    "column": 1,
+                    "offset": 921
+                  },
+                  "end": {
+                    "line": 37,
+                    "column": 57,
+                    "offset": 977
+                  }
+                }
+              },
+              "recordParam": "signals",
+              "fieldName": "hasScreenshots"
+            },
+            {
+              "label": "Description",
+              "target": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "signals",
+                  "span": {
+                    "start": {
+                      "line": 38,
+                      "column": 1,
+                      "offset": 978
+                    },
+                    "end": {
+                      "line": 38,
+                      "column": 57,
+                      "offset": 1034
+                    }
+                  }
+                },
+                "name": "hasDescription",
+                "span": {
+                  "start": {
+                    "line": 38,
+                    "column": 1,
+                    "offset": 978
+                  },
+                  "end": {
+                    "line": 38,
+                    "column": 57,
+                    "offset": 1034
+                  }
+                }
+              },
+              "recordParam": "signals",
+              "fieldName": "hasDescription"
+            },
+            {
+              "label": "Privacy policy",
+              "target": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "signals",
+                  "span": {
+                    "start": {
+                      "line": 39,
+                      "column": 1,
+                      "offset": 1035
+                    },
+                    "end": {
+                      "line": 39,
+                      "column": 63,
+                      "offset": 1097
+                    }
+                  }
+                },
+                "name": "hasPrivacyPolicy",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 1035
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 63,
+                    "offset": 1097
+                  }
+                }
+              },
+              "recordParam": "signals",
+              "fieldName": "hasPrivacyPolicy"
+            },
+            {
+              "label": "Support URL",
+              "target": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "signals",
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1098
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 57,
+                      "offset": 1154
+                    }
+                  }
+                },
+                "name": "hasSupportUrl",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1098
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 57,
+                    "offset": 1154
+                  }
+                }
+              },
+              "recordParam": "signals",
+              "fieldName": "hasSupportUrl"
+            },
+            {
+              "label": "Age rating",
+              "target": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "signals",
+                  "span": {
+                    "start": {
+                      "line": 41,
+                      "column": 1,
+                      "offset": 1155
+                    },
+                    "end": {
+                      "line": 41,
+                      "column": 55,
+                      "offset": 1209
+                    }
+                  }
+                },
+                "name": "hasAgeRating",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 1155
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 55,
+                    "offset": 1209
+                  }
+                }
+              },
+              "recordParam": "signals",
+              "fieldName": "hasAgeRating"
+            }
+          ]
+        }
       },
       "span": {
         "start": {
@@ -1442,14 +1659,41 @@
           "semanticName": "signals",
           "span": {
             "start": {
-              "line": 40,
+              "line": 47,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 40,
+              "line": 47,
               "column": 25,
               "offset": 24
+            }
+          }
+        },
+        {
+          "name": "onSignalsChange",
+          "type": {
+            "kind": "typeRef",
+            "name": "Handler",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "ListingSignals",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "on signals change",
+          "span": {
+            "start": {
+              "line": 48,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 48,
+              "column": 44,
+              "offset": 43
             }
           }
         }
@@ -1471,41 +1715,57 @@
                 "name": "signals",
                 "span": {
                   "start": {
-                    "line": 43,
+                    "line": 51,
                     "column": 1,
-                    "offset": 1155
+                    "offset": 1583
                   },
                   "end": {
-                    "line": 43,
-                    "column": 40,
-                    "offset": 1194
+                    "line": 51,
+                    "column": 59,
+                    "offset": 1641
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "onSignalsChange",
+                "span": {
+                  "start": {
+                    "line": 51,
+                    "column": 1,
+                    "offset": 1583
+                  },
+                  "end": {
+                    "line": 51,
+                    "column": 59,
+                    "offset": 1641
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 43,
+                "line": 51,
                 "column": 1,
-                "offset": 1155
+                "offset": 1583
               },
               "end": {
-                "line": 43,
-                "column": 40,
-                "offset": 1194
+                "line": 51,
+                "column": 59,
+                "offset": 1641
               }
             }
           },
           "span": {
             "start": {
-              "line": 39,
+              "line": 46,
               "column": 1,
-              "offset": 1011
+              "offset": 1387
             },
             "end": {
-              "line": 39,
+              "line": 46,
               "column": 20,
-              "offset": 1030
+              "offset": 1406
             }
           }
         }
@@ -1521,14 +1781,14 @@
             "value": "App Store Listing Readiness",
             "span": {
               "start": {
-                "line": 41,
+                "line": 49,
                 "column": 1,
-                "offset": 1064
+                "offset": 1492
               },
               "end": {
-                "line": 41,
+                "line": 49,
                 "column": 38,
-                "offset": 1101
+                "offset": 1529
               }
             }
           },
@@ -1537,14 +1797,14 @@
             "value": "Check your listing before submission",
             "span": {
               "start": {
-                "line": 42,
+                "line": 50,
                 "column": 1,
-                "offset": 1102
+                "offset": 1530
               },
               "end": {
-                "line": 42,
+                "line": 50,
                 "column": 53,
-                "offset": 1154
+                "offset": 1582
               }
             }
           },
@@ -1557,28 +1817,44 @@
                 "name": "signals",
                 "span": {
                   "start": {
-                    "line": 43,
+                    "line": 51,
                     "column": 1,
-                    "offset": 1155
+                    "offset": 1583
                   },
                   "end": {
-                    "line": 43,
-                    "column": 40,
-                    "offset": 1194
+                    "line": 51,
+                    "column": 59,
+                    "offset": 1641
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "onSignalsChange",
+                "span": {
+                  "start": {
+                    "line": 51,
+                    "column": 1,
+                    "offset": 1583
+                  },
+                  "end": {
+                    "line": 51,
+                    "column": 59,
+                    "offset": 1641
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 43,
+                "line": 51,
                 "column": 1,
-                "offset": 1155
+                "offset": 1583
               },
               "end": {
-                "line": 43,
-                "column": 40,
-                "offset": 1194
+                "line": 51,
+                "column": 59,
+                "offset": 1641
               }
             }
           }
@@ -1586,14 +1862,14 @@
       },
       "span": {
         "start": {
-          "line": 39,
+          "line": 46,
           "column": 1,
-          "offset": 1011
+          "offset": 1387
         },
         "end": {
-          "line": 39,
+          "line": 46,
           "column": 20,
-          "offset": 1030
+          "offset": 1406
         }
       }
     }
@@ -2538,6 +2814,32 @@
                 "offset": 24
               }
             }
+          },
+          {
+            "label": "on signals change",
+            "type": {
+              "kind": "typeRef",
+              "name": "Handler",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Listing Signals",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 35,
+                "column": 44,
+                "offset": 43
+              }
+            }
           }
         ],
         "output": {
@@ -2550,117 +2852,258 @@
         },
         "body": [
           {
-            "kind": "whenRender",
-            "condition": {
-              "kind": "binary",
-              "operator": ">=",
-              "left": {
-                "kind": "call",
-                "callee": "listing score",
-                "args": [
-                  {
-                    "kind": "name",
-                    "label": "signals",
-                    "span": {
-                      "start": {
-                        "line": 35,
-                        "column": 1,
-                        "offset": 834
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 70,
-                        "offset": 903
-                      }
-                    }
-                  }
-                ],
-                "span": {
-                  "start": {
-                    "line": 35,
-                    "column": 1,
-                    "offset": 834
-                  },
-                  "end": {
-                    "line": 35,
-                    "column": 70,
-                    "offset": 903
-                  }
-                }
+            "kind": "onChangeCall",
+            "callback": "on signals change",
+            "span": {
+              "start": {
+                "line": 36,
+                "column": 1,
+                "offset": 886
               },
-              "right": {
-                "kind": "literal",
-                "value": 90,
-                "span": {
-                  "start": {
-                    "line": 35,
-                    "column": 1,
-                    "offset": 834
-                  },
-                  "end": {
-                    "line": 35,
-                    "column": 70,
-                    "offset": 903
-                  }
-                }
-              },
-              "span": {
-                "start": {
-                  "line": 35,
-                  "column": 1,
-                  "offset": 834
-                },
-                "end": {
-                  "line": 35,
-                  "column": 70,
-                  "offset": 903
-                }
+              "end": {
+                "line": 36,
+                "column": 35,
+                "offset": 920
               }
-            },
-            "value": {
-              "kind": "call",
-              "callee": "readiness summary",
-              "args": [
-                {
-                  "kind": "name",
-                  "label": "signals",
-                  "span": {
-                    "start": {
-                      "line": 35,
-                      "column": 1,
-                      "offset": 834
-                    },
-                    "end": {
-                      "line": 35,
-                      "column": 70,
-                      "offset": 903
-                    }
+            }
+          },
+          {
+            "kind": "bindCheckbox",
+            "label": "Screenshots",
+            "target": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 37,
+                    "column": 1,
+                    "offset": 921
+                  },
+                  "end": {
+                    "line": 37,
+                    "column": 57,
+                    "offset": 977
                   }
                 }
-              ],
+              },
+              "label": "has screenshots",
               "span": {
                 "start": {
-                  "line": 35,
+                  "line": 37,
                   "column": 1,
-                  "offset": 834
+                  "offset": 921
                 },
                 "end": {
-                  "line": 35,
-                  "column": 70,
-                  "offset": 903
+                  "line": 37,
+                  "column": 57,
+                  "offset": 977
                 }
               }
             },
             "span": {
               "start": {
-                "line": 35,
+                "line": 37,
                 "column": 1,
-                "offset": 834
+                "offset": 921
               },
               "end": {
-                "line": 35,
-                "column": 70,
-                "offset": 903
+                "line": 37,
+                "column": 57,
+                "offset": 977
+              }
+            }
+          },
+          {
+            "kind": "bindCheckbox",
+            "label": "Description",
+            "target": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 38,
+                    "column": 1,
+                    "offset": 978
+                  },
+                  "end": {
+                    "line": 38,
+                    "column": 57,
+                    "offset": 1034
+                  }
+                }
+              },
+              "label": "has description",
+              "span": {
+                "start": {
+                  "line": 38,
+                  "column": 1,
+                  "offset": 978
+                },
+                "end": {
+                  "line": 38,
+                  "column": 57,
+                  "offset": 1034
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 978
+              },
+              "end": {
+                "line": 38,
+                "column": 57,
+                "offset": 1034
+              }
+            }
+          },
+          {
+            "kind": "bindCheckbox",
+            "label": "Privacy policy",
+            "target": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 39,
+                    "column": 1,
+                    "offset": 1035
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 63,
+                    "offset": 1097
+                  }
+                }
+              },
+              "label": "has privacy policy",
+              "span": {
+                "start": {
+                  "line": 39,
+                  "column": 1,
+                  "offset": 1035
+                },
+                "end": {
+                  "line": 39,
+                  "column": 63,
+                  "offset": 1097
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 1,
+                "offset": 1035
+              },
+              "end": {
+                "line": 39,
+                "column": 63,
+                "offset": 1097
+              }
+            }
+          },
+          {
+            "kind": "bindCheckbox",
+            "label": "Support URL",
+            "target": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1098
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 57,
+                    "offset": 1154
+                  }
+                }
+              },
+              "label": "has support url",
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1098
+                },
+                "end": {
+                  "line": 40,
+                  "column": 57,
+                  "offset": 1154
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1098
+              },
+              "end": {
+                "line": 40,
+                "column": 57,
+                "offset": 1154
+              }
+            }
+          },
+          {
+            "kind": "bindCheckbox",
+            "label": "Age rating",
+            "target": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 1155
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 55,
+                    "offset": 1209
+                  }
+                }
+              },
+              "label": "has age rating",
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 1155
+                },
+                "end": {
+                  "line": 41,
+                  "column": 55,
+                  "offset": 1209
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 1155
+              },
+              "end": {
+                "line": 41,
+                "column": 55,
+                "offset": 1209
               }
             }
           },
@@ -2678,57 +3121,57 @@
                     "label": "signals",
                     "span": {
                       "start": {
-                        "line": 36,
+                        "line": 42,
                         "column": 1,
-                        "offset": 904
+                        "offset": 1210
                       },
                       "end": {
-                        "line": 36,
+                        "line": 42,
                         "column": 70,
-                        "offset": 973
+                        "offset": 1279
                       }
                     }
                   }
                 ],
                 "span": {
                   "start": {
-                    "line": 36,
+                    "line": 42,
                     "column": 1,
-                    "offset": 904
+                    "offset": 1210
                   },
                   "end": {
-                    "line": 36,
+                    "line": 42,
                     "column": 70,
-                    "offset": 973
+                    "offset": 1279
                   }
                 }
               },
               "right": {
                 "kind": "literal",
-                "value": 60,
+                "value": 90,
                 "span": {
                   "start": {
-                    "line": 36,
+                    "line": 42,
                     "column": 1,
-                    "offset": 904
+                    "offset": 1210
                   },
                   "end": {
-                    "line": 36,
+                    "line": 42,
                     "column": 70,
-                    "offset": 973
+                    "offset": 1279
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 36,
+                  "line": 42,
                   "column": 1,
-                  "offset": 904
+                  "offset": 1210
                 },
                 "end": {
-                  "line": 36,
+                  "line": 42,
                   "column": 70,
-                  "offset": 973
+                  "offset": 1279
                 }
               }
             },
@@ -2741,41 +3184,156 @@
                   "label": "signals",
                   "span": {
                     "start": {
-                      "line": 36,
+                      "line": 42,
                       "column": 1,
-                      "offset": 904
+                      "offset": 1210
                     },
                     "end": {
-                      "line": 36,
+                      "line": 42,
                       "column": 70,
-                      "offset": 973
+                      "offset": 1279
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 36,
+                  "line": 42,
                   "column": 1,
-                  "offset": 904
+                  "offset": 1210
                 },
                 "end": {
-                  "line": 36,
+                  "line": 42,
                   "column": 70,
-                  "offset": 973
+                  "offset": 1279
                 }
               }
             },
             "span": {
               "start": {
-                "line": 36,
+                "line": 42,
                 "column": 1,
-                "offset": 904
+                "offset": 1210
               },
               "end": {
-                "line": 36,
+                "line": 42,
                 "column": 70,
-                "offset": 973
+                "offset": 1279
+              }
+            }
+          },
+          {
+            "kind": "whenRender",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "call",
+                "callee": "listing score",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "signals",
+                    "span": {
+                      "start": {
+                        "line": 43,
+                        "column": 1,
+                        "offset": 1280
+                      },
+                      "end": {
+                        "line": 43,
+                        "column": 70,
+                        "offset": 1349
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1280
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 70,
+                    "offset": 1349
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 60,
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1280
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 70,
+                    "offset": 1349
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1280
+                },
+                "end": {
+                  "line": 43,
+                  "column": 70,
+                  "offset": 1349
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "readiness summary",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "signals",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1280
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 70,
+                      "offset": 1349
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1280
+                },
+                "end": {
+                  "line": 43,
+                  "column": 70,
+                  "offset": 1349
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1280
+              },
+              "end": {
+                "line": 43,
+                "column": 70,
+                "offset": 1349
               }
             }
           },
@@ -2790,41 +3348,41 @@
                   "label": "signals",
                   "span": {
                     "start": {
-                      "line": 37,
+                      "line": 44,
                       "column": 1,
-                      "offset": 974
+                      "offset": 1350
                     },
                     "end": {
-                      "line": 37,
+                      "line": 44,
                       "column": 36,
-                      "offset": 1009
+                      "offset": 1385
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 37,
+                  "line": 44,
                   "column": 1,
-                  "offset": 974
+                  "offset": 1350
                 },
                 "end": {
-                  "line": 37,
+                  "line": 44,
                   "column": 36,
-                  "offset": 1009
+                  "offset": 1385
                 }
               }
             },
             "span": {
               "start": {
-                "line": 37,
+                "line": 44,
                 "column": 1,
-                "offset": 974
+                "offset": 1350
               },
               "end": {
-                "line": 37,
+                "line": 44,
                 "column": 36,
-                "offset": 1009
+                "offset": 1385
               }
             }
           }
@@ -2855,14 +3413,40 @@
             },
             "span": {
               "start": {
-                "line": 40,
+                "line": 47,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 40,
+                "line": 47,
                 "column": 25,
                 "offset": 24
+              }
+            }
+          },
+          {
+            "label": "on signals change",
+            "type": {
+              "kind": "typeRef",
+              "name": "Handler",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Listing Signals",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 48,
+                "column": 44,
+                "offset": 43
               }
             }
           }
@@ -2872,14 +3456,14 @@
           "value": "App Store Listing Readiness",
           "span": {
             "start": {
-              "line": 41,
+              "line": 49,
               "column": 1,
-              "offset": 1064
+              "offset": 1492
             },
             "end": {
-              "line": 41,
+              "line": 49,
               "column": 38,
-              "offset": 1101
+              "offset": 1529
             }
           }
         },
@@ -2888,14 +3472,14 @@
           "value": "Check your listing before submission",
           "span": {
             "start": {
-              "line": 42,
+              "line": 50,
               "column": 1,
-              "offset": 1102
+              "offset": 1530
             },
             "end": {
-              "line": 42,
+              "line": 50,
               "column": 53,
-              "offset": 1154
+              "offset": 1582
             }
           }
         },
@@ -2908,41 +3492,57 @@
               "label": "signals",
               "span": {
                 "start": {
-                  "line": 43,
+                  "line": 51,
                   "column": 1,
-                  "offset": 1155
+                  "offset": 1583
                 },
                 "end": {
-                  "line": 43,
-                  "column": 40,
-                  "offset": 1194
+                  "line": 51,
+                  "column": 59,
+                  "offset": 1641
+                }
+              }
+            },
+            {
+              "kind": "name",
+              "label": "on signals change",
+              "span": {
+                "start": {
+                  "line": 51,
+                  "column": 1,
+                  "offset": 1583
+                },
+                "end": {
+                  "line": 51,
+                  "column": 59,
+                  "offset": 1641
                 }
               }
             }
           ],
           "span": {
             "start": {
-              "line": 43,
+              "line": 51,
               "column": 1,
-              "offset": 1155
+              "offset": 1583
             },
             "end": {
-              "line": 43,
-              "column": 40,
-              "offset": 1194
+              "line": 51,
+              "column": 59,
+              "offset": 1641
             }
           }
         },
         "span": {
           "start": {
-            "line": 39,
+            "line": 46,
             "column": 1,
-            "offset": 1011
+            "offset": 1387
           },
           "end": {
-            "line": 39,
+            "line": 46,
             "column": 20,
-            "offset": 1030
+            "offset": 1406
           }
         }
       }

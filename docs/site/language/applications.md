@@ -16,9 +16,31 @@ See `examples/view.point`.
 
 Callable expressions in `render` and `when ... render` clauses emit as JSX text children (`<>{expression}</>`). Use `point build-ts` for React/Next.js targets; default `point build` emits plain strings for views.
 
+### Controlled inputs and callbacks
+
+Views can declare callback props with `Handler T` and bind controlled checkboxes to record fields:
+
+```point
+module Example
+
+record Listing Signals
+  has screenshots: Bool
+
+view readiness widget
+  input signals: Listing Signals
+  input on signals change: Handler Listing Signals
+  on change call on signals change
+  bind checkbox "Screenshots" to signals.has screenshots
+  render "Ready"
+```
+
+- `Handler Listing Signals` emits a React callback prop `(value: ListingSignals) => void`.
+- `bind checkbox "Label" to record.field` emits a controlled `<input type="checkbox">` that spreads the record and calls the callback on change.
+- `on change call on signals change` wires checkbox updates to the named callback input (optional when there is exactly one `Handler` input).
+
 ### Readiness widget (dogfood)
 
-`examples/adopters/hatchingpoint/readiness-widget.point` combines listing score rules with a `readiness widget` view. Build TypeScript:
+`examples/adopters/hatchingpoint/readiness-widget.point` combines listing score rules with interactive checkboxes and a `readiness widget` view. Build TypeScript:
 
 ```bash
 point build-ts examples/adopters/hatchingpoint/readiness-widget.point generated/readiness-widget.ts
@@ -29,7 +51,7 @@ point build-ts examples/adopters/hatchingpoint/readiness-widget.point generated/
 1. Emit with `point build-ts` (or `bun run build:ts` in the monorepo).
 2. Copy or import `generated/readiness-widget.ts` into your Next.js app (e.g. `components/ReadinessWidget.tsx` after renaming if desired).
 3. Ensure the app has React types (`JSX.Element`); add `"jsx": "react-jsx"` in `tsconfig.json` if needed.
-4. Import and render as a controlled component — parent state owns `ListingSignals`:
+4. Import and render as a controlled component — parent state owns `ListingSignals` and passes `onSignalsChange`:
 
 ```tsx
 "use client";
@@ -50,23 +72,11 @@ const emptySignals: ListingSignals = {
 
 export function ReadinessWidget() {
   const [signals, setSignals] = useState(emptySignals);
-  return (
-    <section>
-      <label>
-        <input
-          type="checkbox"
-          checked={signals.hasScreenshots}
-          onChange={(e) =>
-            setSignals((s) => ({ ...s, hasScreenshots: e.target.checked }))
-          }
-        />
-        Screenshots
-      </label>
-      {readinessWidgetView(signals)}
-    </section>
-  );
+  return readinessWidgetView(signals, setSignals);
 }
 ```
+
+The generated view includes checkbox controls and the readiness summary; no manual checkbox JSX is required in the host app.
 
 Doc pages can mount this component in MDX (`<ReadinessWidget />`) after syncing generated output in CI.
 
@@ -86,7 +96,7 @@ point build-ts examples/adopters/hatchingpoint/readiness-page.point generated/re
 
 1. Emit with `point build-ts`.
 2. Import `readinessPage` from the generated file into an app route or client wrapper.
-3. Pass `ListingSignals` from parent state (same shape as the widget example).
+3. Pass `ListingSignals` and `onSignalsChange` from parent state (same shape as the widget example).
 
 ```tsx
 "use client";
@@ -107,16 +117,11 @@ const emptySignals: ListingSignals = {
 
 export default function ReadinessRoute() {
   const [signals, setSignals] = useState(emptySignals);
-  return (
-    <div>
-      {/* Optional controls above the Point-authored page shell */}
-      {readinessPage(signals)}
-    </div>
-  );
+  return readinessPage(signals, setSignals);
 }
 ```
 
-Use `view` for embeddable fragments; use `page` when you want a document shell with title and main content regions.
+Use `view` for embeddable fragments; use `page` when you want a document shell with title and main content regions. Pages forward `Handler` callback props to embedded views in `main render` call expressions.
 
 ## route
 
@@ -138,7 +143,7 @@ CLI entrypoints for `point run`:
 
 ## Lowering
 
-- Views emit JSX-oriented functions
+- Views emit JSX-oriented functions; `Handler T` inputs become callback props; `bind checkbox` emits controlled React inputs
 - Pages emit JSX page shells with title and main slots
 - Routes emit handler functions with method/path metadata
 - Workflows emit async functions with step bindings
