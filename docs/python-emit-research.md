@@ -1,15 +1,19 @@
 # Python Emit Research
 
-## Status (Phase 9 / Goal R2)
+## Status (Phase 10 / Goal P10-3)
 
-Point now ships a **minimal Python emit backend** for pure logic modules. The first fixture is `examples/math.point` → `generated/math.py`.
+Point ships a **Python emit backend** for pure logic modules and **action blocks**. Fixtures:
+
+- `examples/math.point` → `generated/math.py` (pure logic)
+- `examples/action.point` → `generated/action.py` (async action + external shim)
 
 ```bash
 point build-py examples/math.point generated/math.py
-python -c "import importlib.util; spec=importlib.util.spec_from_file_location('m','generated/math.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(m.annualPrice(10))"
+point build-py examples/action.point generated/action.py
+python -c "import asyncio, importlib.util; spec=importlib.util.spec_from_file_location('a','generated/action.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(asyncio.run(m.loadConfigContents('examples/action.point'))[:20])"
 ```
 
-Runtime parity with JavaScript emit is covered in `tests/python-emit.test.ts`.
+Runtime parity with JavaScript emit for pure logic is covered in `tests/python-emit.test.ts`. Action emit smoke test reads `examples/action.point` via the generated async function.
 
 ## Type mapping
 
@@ -29,8 +33,10 @@ Record field access emits bracket notation (`signals["hasBundleId"]`) so callers
 ## Supported today
 
 - Records, calculations, rules, labels
+- **Actions** — `async def` with `await` for nested action calls
 - Conditionals, assignments, arithmetic and boolean operators
 - Module-level typed functions and local typed bindings
+- **`node:fs` readFileSync** — mapped to `pathlib.Path.read_text()` shim
 
 ## Limits (honest)
 
@@ -38,13 +44,15 @@ Record field access emits bracket notation (`signals["hasBundleId"]`) so callers
 |------|--------|
 | Views / JSX | Not emitted (comment placeholder only) |
 | Routes / HTTP | Not emitted |
-| Actions / workflows / commands | Skipped with comment (async Python later) |
-| npm-style externals | Minimal `from module import name` only |
+| Workflows / commands | Skipped with comment |
+| npm-style externals | `node:fs` readFileSync only; others emit raw import (likely invalid Python) |
 | stdlib bridge | No Python std mirror yet |
-| Project-wide `build-py-all` | Not wired — many fixtures include views/actions |
+| Project-wide `build-py-all` | ✅ Skips view/route/workflow/command fixtures; includes actions |
 | Dataclass runtime | TypedDict typing only; values are dicts at runtime |
 
 ## Smoke test without pytest
+
+Pure logic:
 
 ```bash
 point build-py examples/math.point generated/math.py
@@ -53,12 +61,21 @@ python -c "import importlib.util, json; spec=importlib.util.spec_from_file_locat
 
 Expected: `{"annual": 120, "score": 70}`
 
+Action:
+
+```bash
+point build-py examples/action.point generated/action.py
+python -c "import asyncio, importlib.util; spec=importlib.util.spec_from_file_location('action','generated/action.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(asyncio.run(m.loadConfigContents('examples/action.point')).startswith('module Actions'))"
+```
+
+Expected: `True`
+
 ## Roadmap
 
-1. Python emit for actions + async (`async def` / `await`)
+1. ~~Python emit for actions + async (`async def` / `await`)~~ (Phase 10 P10-3)
 2. Effect/import story for Python packages
 3. Conformance suite shared across JS and Python for all pure-logic fixtures
-4. Optional `build-py-all` once view/action fixtures can be skipped safely
+4. ~~`build-py-all` batch emit for action + pure-logic fixtures (P10-4)~~ ✅ `point build-py-all`
 
 ## Original decision (Phase 6)
 

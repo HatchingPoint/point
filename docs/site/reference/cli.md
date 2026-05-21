@@ -50,6 +50,7 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 | `build-all` | Write AST JSON for each file under `generated/` |
 | `build-ts-all` | Emit TypeScript for each file |
 | `build-js-all` | Emit JavaScript for each file |
+| `build-py-all` | Emit Python for pure-logic fixtures (skips views, routes, workflows, commands) |
 | `test-all` | Run tests in all discovered files |
 
 ## Environment

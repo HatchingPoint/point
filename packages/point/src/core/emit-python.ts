@@ -1,6 +1,7 @@
 import type {
 	PointCoreDeclaration,
 	PointCoreExpression,
+	PointCoreExternalDeclaration,
 	PointCoreFunctionDeclaration,
 	PointCoreParameter,
 	PointCorePrimitiveType,
@@ -16,7 +17,12 @@ const BINARY_OPERATORS: Record<string, string> = {
 	or: "or",
 };
 
-const UNSUPPORTED_SEMANTIC_KINDS = new Set(["view", "route", "action", "workflow", "command"]);
+const UNSUPPORTED_SEMANTIC_KINDS = new Set(["view", "page", "route", "workflow", "command"]);
+
+/** True when every declaration is emit-able as Python (no views, routes, workflows, or commands). */
+export function isPureLogicProgram(program: PointCoreProgram): boolean {
+	return !program.declarations.some((declaration) => declaration.semantic && UNSUPPORTED_SEMANTIC_KINDS.has(declaration.semantic.kind));
+}
 
 /** Emit Python from a core AST program (pure logic modules). Production path: parsePointSource → check → emit. */
 export function emitPointCorePython(program: PointCoreProgram): string {
@@ -42,11 +48,7 @@ function emitDeclaration(declaration: PointCoreDeclaration): string[] {
 		const moduleName = declaration.from.replace(/^\.\//, "").replace(/-/g, "_");
 		return [`from ${toPythonModuleName(moduleName)} import ${declaration.names.join(", ")}`];
 	}
-	if (declaration.kind === "external") {
-		const moduleName = declaration.from.replace(/^\.\//, "").replace(/-/g, "_");
-		const imported = declaration.importName ?? declaration.name;
-		return [`from ${toPythonModuleName(moduleName)} import ${imported} as ${declaration.name}`];
-	}
+	if (declaration.kind === "external") return emitExternal(declaration);
 	if (declaration.kind === "type") return emitType(declaration);
 	if (declaration.kind === "value") return [emitValue(declaration)];
 	if (declaration.semantic && UNSUPPORTED_SEMANTIC_KINDS.has(declaration.semantic.kind)) {
@@ -60,6 +62,19 @@ function emitType(declaration: PointCoreTypeDeclaration): string[] {
 		`class ${declaration.name}(TypedDict):`,
 		...declaration.fields.map((field) => `    ${field.name}: ${emitTypeExpression(field.type)}`),
 	];
+}
+
+function emitExternal(declaration: PointCoreExternalDeclaration): string[] {
+	if (declaration.from === "node:fs" && declaration.importName === "readFileSync") {
+		return [
+			`def ${declaration.name}(${declaration.params.map(emitParam).join(", ")}) -> ${emitTypeExpression(declaration.returnType)}:`,
+			"    from pathlib import Path",
+			"    return Path(path).read_text()",
+		];
+	}
+	const moduleName = declaration.from.replace(/^\.\//, "").replace(/-/g, "_");
+	const imported = declaration.importName ?? declaration.name;
+	return [`from ${toPythonModuleName(moduleName)} import ${imported} as ${declaration.name}`];
 }
 
 function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
@@ -79,7 +94,7 @@ function emitReturnType(declaration: PointCoreFunctionDeclaration): string {
 
 function emitStatement(statement: PointCoreStatement, semanticKind?: string): string[] {
 	if (statement.kind === "return") {
-		if (semanticKind === "view") return ["# Point: view return values are not supported in Python emit yet", "return \"\""];
+		if (semanticKind === "view" || semanticKind === "page") return ["# Point: view/page return values are not supported in Python emit yet", "return \"\""];
 		return [statement.value ? `return ${emitExpression(statement.value)}` : "return"];
 	}
 	if (statement.kind === "value") return [emitValue(statement)];

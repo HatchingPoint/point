@@ -6,7 +6,7 @@ import { createPointCoreIndex, createPointCoreRepairPlan, explainPointCoreRef } 
 import { createSemanticIndex, explainSemanticRef, mapPublicDiagnostics } from "../semantic/context.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
-import { emitPointCorePython } from "./emit-python.ts";
+import { emitPointCorePython, isPureLogicProgram } from "./emit-python.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
@@ -295,6 +295,26 @@ async function runProjectCommand(command: string) {
 			await Bun.write(outputPath, emitPointCoreTypeScript(programWithTypeScriptImports(result, graph)));
 		}
 		console.log(`Point core TypeScript build wrote ${results.length} files`);
+		return;
+	}
+
+	if (command === "build-py-all") {
+		const diagnostics = orderedResults.flatMap((result) =>
+			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({ ...diagnostic, file: result.input })),
+		);
+		if (diagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+			process.exit(1);
+		}
+		const pureLogicResults = orderedResults.filter((result) => isPureLogicProgram(result.program));
+		for (const result of pureLogicResults) {
+			const output = pyOutputFor(result.input);
+			const outputPath = resolve(process.cwd(), output);
+			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
+			await Bun.write(outputPath, emitPointCorePython(programWithTypeScriptImports(result, graph)));
+		}
+		const skipped = results.length - pureLogicResults.length;
+		console.log(`Point core Python build wrote ${pureLogicResults.length} files${skipped ? ` (${skipped} skipped)` : ""}`);
 		return;
 	}
 
