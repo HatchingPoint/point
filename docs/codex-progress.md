@@ -455,3 +455,22 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (117 tests); integration test hits live routes and asserts JSON scores/statuses.
 - Next: Phase 10 richer UI; optional publish `@hatchingpoint/point-logic` with HTTP layer separate from pure logic package.
 - Blocked: none
+
+## Checkpoint D2 - Point docs content sync to LandingPage
+- Completed: Added/kept public docs source under `docs/site/` and wired LandingPage to sync it from `../point-1/docs/site` into `src/content/pointDocs.generated.json` using Bun. LandingPage docs routes now prefer synced markdown content and fall back to D1 stubs. Sidebar/routing includes synced concept pages such as authoring-vs-runtime and replaces-typescript-and-python.
+- Verified: `bun run check-docs` passes in point repo (21 snippets, 14 file refs); `bun run sync:point-docs` passes in LandingPage and synced 25 pages.
+- LandingPage build: skipped by user request.
+- Next: D5 polish or visual QA on the synced docs pages.
+- Blocked: none
+
+## Checkpoint 10.P10-4 - build-py-all command
+- Completed: Added `point build-py-all` CLI mirroring `build-all` for pure-logic and action fixtures; `isPureLogicProgram` skips view/route/workflow/command files. Wired `build:py` script into root `package.json` and CI. Tests in `tests/python-emit.test.ts`. Updated `docs/python-emit-research.md` and `docs/site/reference/cli.md`.
+- Verified: `point build-py-all` writes 22 Python files (7 skipped); `bun run ci` passes (122 tests).
+- Next: Phase 10 remaining tracks (P10-1 page/layout, P10-5 point-logic publish, P10-6 stdlib bridge doc).
+- Blocked: none
+
+## Checkpoint 10.P10-6 - Stdlib bridge and npm ecosystem docs
+- Completed: Added `docs/site/stdlib/bridge.md` (stdlib bridge, `external` blocks, `@hatchingpoint/point/std/*`, Python interop limits) and `docs/site/ecosystem/npm-packages.md` (`@hatchingpoint/point`, `@hatchingpoint/point-logic`, publishing pattern). All fenced snippets and file refs pass `point check-docs`.
+- Verified: `bun run ci` passes (122 tests); `point check-docs` — 26 snippets, 16 file refs.
+- Next: LandingPage sync for new stdlib/ecosystem routes; Phase 10 remaining tracks.
+- Blocked: none
