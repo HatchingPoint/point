@@ -517,3 +517,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point add std workspace:std` updates manifest and lock; `bun run ci` passes (133 tests).
 - Next: P11-2 std json/http shims (if not already landed); Phase 11 exit gate.
 - Blocked: none
+
+## Checkpoint 10-11.Close - Phases 10 and 11 complete (v0.0.13)
+- Completed: Phase 10 exit gates (page block, Python action emit, build-py-all, point-logic publish, bridge docs). Phase 11 exit gates (point add, std json/http shims, controlled views, CI publish for point-logic). Release v0.0.13.
+- Verified: `bun run ci` passes (133 tests).
+- Next: Phase 12 — npm: registry resolution, remaining std shims, external starter template, Open VSX.
+- Blocked: none

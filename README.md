@@ -94,12 +94,12 @@ These commands are the core of Point's AI engineering model: agents should navig
 
 ## Roadmap
 
-Phases 0–7 and publish are complete. **Active:** [phase8-plan.md](docs/phase8-plan.md) (adoption, LSP, docs) and **[phase9-replacement-plan.md](docs/phase9-replacement-plan.md)** (replace TS/Python authoring — launch Codex goals here).
+Phases 0–9, 10, and 11 are complete (v0.0.13). **Active:** [phase12-plan.md](docs/phase12-plan.md) (ecosystem, registry, templates).
 
 - [Vision — authoring vs runtime](docs/vision.md)
-- [Phase 9 Codex goals](docs/codex-goal-replacement.md) — pipe [codex-goal-replacement.prompt.txt](docs/codex-goal-replacement.prompt.txt)
+- [Phase 10 plan](docs/phase10-plan.md) · [Phase 11 plan](docs/phase11-plan.md)
+- [Phase 12 plan](docs/phase12-plan.md)
 - [Documentation site plan](docs/docs-site-plan.md)
-- [Codex goal: docs site](docs/codex-goal-docs.md)
 
 ## Packages
 

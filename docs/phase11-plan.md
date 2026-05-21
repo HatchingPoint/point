@@ -1,7 +1,7 @@
 # Phase 11 — Ecosystem & stdlib
 
-**Status:** Active — Wave 2 parallel agents.  
-**Prerequisite:** Phase 10 wave 1 complete (page block, build-py-all, action emit, bridge docs).
+**Status:** Complete (v0.0.13).  
+**Prerequisite:** Phase 10 complete.
 
 **North star:** Point projects depend on other Point packages and a real stdlib — not ad-hoc relative imports and missing npm shims.
 
@@ -9,15 +9,15 @@
 
 ## Success criteria (Phase 11 exit gate)
 
-- [ ] **`point add`** resolves `workspace:` and `file:` dependencies into `point.lock`
-- [ ] **`@hatchingpoint/point-logic`** publishes from CI on tag (or documented workflow)
-- [ ] **Std runtime shims** — `@hatchingpoint/point/std/json` and `std/http` exist and work at runtime
-- [ ] **Richer views** — controlled inputs / callback props in emitted React (P10-2)
-- [ ] `bun run ci` passes
+- [x] **`point add`** resolves `workspace:` and `file:` dependencies into `point.lock`
+- [x] **`@hatchingpoint/point-logic`** publishes from CI on tag push
+- [x] **Std runtime shims** — `@hatchingpoint/point/std/json` and `std/http` exist and work at runtime
+- [x] **Richer views** — controlled inputs / callback props in emitted React (P10-2)
+- [x] `bun run ci` passes (133 tests)
 
 ---
 
-## Wave 2 (launch now)
+## Wave 2 (completed)
 
 | Goal | Focus |
 |------|--------|
@@ -32,6 +32,6 @@
 
 ## After Phase 11
 
-- Phase 12: Public package registry, Open VSX, external starter template
+- Phase 12: Public package registry (`npm:` spec), Open VSX, external starter template
 - Phase 12: Python routes/views emit spike
 - Long-term: standalone runtime (see native-target-research.md)
