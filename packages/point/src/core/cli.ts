@@ -7,6 +7,7 @@ import { createSemanticIndex, explainSemanticRef, mapPublicDiagnostics } from ".
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCorePython, isPureLogicProgram } from "./emit-python.ts";
+import { canBundleRunInMemory, executeBundledEntry } from "./run-bridge.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
@@ -23,7 +24,17 @@ const DEFAULT_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/
 const GENERATED_DIR = "generated";
 
 export async function main() {
-	const [, , command = "check", input = DEFAULT_INPUT, output = DEFAULT_OUTPUT] = Bun.argv;
+	const command = Bun.argv[2] ?? "check";
+	const tail = Bun.argv.slice(3);
+	let input = tail[0] ?? DEFAULT_INPUT;
+	let output = tail[1] ?? DEFAULT_OUTPUT;
+	let runFlags: Record<string, boolean | undefined> | undefined;
+	if (command === "run") {
+		const parsed = parseCliFlags(tail);
+		runFlags = parsed.flags;
+		input = parsed.positional[0] ?? DEFAULT_INPUT;
+		output = parsed.positional[1] ?? DEFAULT_OUTPUT;
+	}
 	if (command.endsWith("-all")) {
 		await runProjectCommand(command);
 		return;
@@ -176,16 +187,17 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		const runOutput = resolve(tmpdir(), `point-run-${Date.now()}.js`);
-		await Bun.write(runOutput, emitPointCoreJavaScript(program));
 		let entryName: string | null = null;
 		try {
-			const mod = await import(pathToFileUrl(runOutput));
 			entryName = findRunEntryName(program);
 			if (!entryName) throw new Error("No zero-argument entrypoint found. Define an action or calculation with no inputs.");
-			const entry = mod[entryName];
-			if (typeof entry !== "function") throw new Error(`Entrypoint ${entryName} was not exported.`);
-			const value = await entry();
+			const useBundle = runFlags?.bundle === true || (runFlags?.bundle !== false && canBundleRunInMemory(program));
+			if (runFlags?.bundle === true && !canBundleRunInMemory(program)) {
+				throw new Error("Cannot use --bundle: module has imports, externals, or non-pure logic (views, routes, workflows, commands).");
+			}
+			const value = useBundle
+				? await executeBundledEntry(program, entryName)
+				: await executeTempModuleRun(program, entryName);
 			if (value !== undefined) console.log(typeof value === "string" ? value : JSON.stringify(value));
 		} catch (error) {
 			console.error(`Runtime error in ${runtimeSourceLocation(program, input, entryName)}: ${error instanceof Error ? error.message : String(error)}`);
@@ -434,6 +446,26 @@ function pathToFileUrl(path: string): string {
 	return `file://${path.replaceAll("\\", "/")}`;
 }
 
+async function executeTempModuleRun(program: PointCoreProgram, entryName: string): Promise<unknown> {
+	const runOutput = resolve(tmpdir(), `point-run-${Date.now()}.js`);
+	await Bun.write(runOutput, emitPointCoreJavaScript(program));
+	const mod = await import(pathToFileUrl(runOutput));
+	const entry = mod[entryName];
+	if (typeof entry !== "function") throw new Error(`Entrypoint ${entryName} was not exported.`);
+	return await entry();
+}
+
+function parseCliFlags(args: string[]): { flags: Record<string, boolean | undefined>; positional: string[] } {
+	const flags: Record<string, boolean | undefined> = {};
+	const positional: string[] = [];
+	for (const arg of args) {
+		if (arg === "--bundle") flags.bundle = true;
+		else if (arg === "--no-bundle") flags.bundle = false;
+		else positional.push(arg);
+	}
+	return { flags, positional };
+}
+
 export function findRunEntryName(program: PointCoreProgram): string | null {
 	const zeroArgFunctions = program.declarations.filter((declaration) => declaration.kind === "function" && declaration.params.length === 0);
 	const preferred =
@@ -524,9 +556,12 @@ function publicDeclarations(program: PointCoreProgram): Array<Extract<PointCoreD
 }
 
 function resolveDependencyInput(input: string, from: string): string {
-	if (from.startsWith("std/")) return from;
-	const base = dirname(resolve(process.cwd(), input));
-	return resolve(base, from).replace(resolve(process.cwd()), "").replace(/^[/\\]/, "");
+	const normalized = from.replaceAll("\\", "/");
+	if (normalized.startsWith("./") || normalized.startsWith("../")) {
+		const base = dirname(resolve(process.cwd(), input));
+		return resolve(base, from).replace(resolve(process.cwd()), "").replace(/^[/\\]/, "");
+	}
+	return normalized;
 }
 
 function normalizeInput(input: string): string {

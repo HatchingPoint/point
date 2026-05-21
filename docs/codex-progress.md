@@ -530,6 +530,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: Phase 12 Wave 1.
 - Blocked: none
 
+## Checkpoint 12.P12-3 - Standalone runtime research and run bridge spike
+- Completed: Updated `docs/native-target-research.md` with Phase 12 decision, timeline, and honest limits (Bun/Node host, no owned VM). Added `packages/point/src/core/run-bridge.ts` with in-memory `Function()` execution for pure logic; `point run --bundle` / `--no-bundle` flags; auto-bundle when eligible. Added `examples/pure/math-only.point` and `tests/run-bridge.test.ts`. Updated `docs/site/toolchain/run-test-repl.md`, `docs/site/reference/cli.md`, and phase12-plan checkbox.
+- Verified: `point run examples/pure/math-only.point` prints `120` without project emit files; `bun run ci` passes (148 tests).
+- Next: P12-1 npm deps, P12-2 std shims, P12-4 point-add docs.
+- Blocked: none
+
 ## Checkpoint 12.P12-4 - point add ecosystem docs
 - Completed: Added `docs/site/ecosystem/point-add.md` covering `workspace:`, `file:`, and pending `npm:` specs, manifest/lockfile shape, and check/build resolution. Updated `docs/site/ecosystem/npm-packages.md` with links to the new page.
 - Verified: `point check-docs` (28 snippets, 24 file refs); `bun run ci` passes (137 tests).

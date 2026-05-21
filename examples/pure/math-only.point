@@ -1,0 +1,11 @@
+module Pure Math Demo
+
+calculation annual price
+  input monthly price: Int
+  output annual price: Int
+  annual price is monthly price * 12
+
+action demo
+  output result: Int
+  touches none
+  return annual price(10)

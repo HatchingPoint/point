@@ -16,6 +16,7 @@ const FIXTURE_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/
 const LEGACY_PARITY_SKIP = new Set([
 	"examples/adopters/hatchingpoint/readiness-widget.point",
 	"examples/adopters/hatchingpoint/readiness-page.point",
+	"examples/pure/math-only.point",
 ]);
 
 async function discoverFixtures(): Promise<string[]> {

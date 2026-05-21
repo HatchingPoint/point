@@ -14,7 +14,17 @@ Point can run command entrypoints, execute tests, and evaluate expressions from 
 point run examples/hello.point
 ```
 
-`run` checks the source, emits temporary JavaScript, and executes a zero-input command or entrypoint.
+`run` checks the source and executes a zero-input command or entrypoint. Authors do not need emit files in the project.
+
+For **pure logic** modules (calculations, rules, labels, simple actions — no imports, externals, views, routes, workflows, or commands), Point runs emitted JavaScript **in memory** via an internal bundle (no OS temp file). Other modules still use a short-lived temp `.js` under the system temp directory.
+
+```bash
+point run examples/pure/math-only.point
+point run --bundle examples/pure/math-only.point   # force in-memory path
+point run --no-bundle examples/hello.point         # force temp-module import
+```
+
+Honest limits (Bun/Node host still required, no owned VM): see `docs/native-target-research.md` in the repository.
 
 ## Test
 

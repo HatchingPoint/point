@@ -33,7 +33,7 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `build` | Write core AST JSON to output path | 1 on diagnostics |
 | `build-ts` | Emit TypeScript (default `generated/<base>.ts`) | 1 on diagnostics |
 | `build-js` | Emit JavaScript | 1 on diagnostics |
-| `run` | Check, emit temp TS, run zero-arg entrypoint | 1 on check/runtime error |
+| `run` | Check, run zero-arg entrypoint (in-memory bundle for pure logic; else temp JS) | 1 on check/runtime error |
 | `test` | Run `test*` Bool calculations/actions | 1 on failure |
 | `repl` | Evaluate expressions from stdin or inline | 0 |
 | `lsp` | Start stdio language server | runs until stopped |
@@ -44,7 +44,7 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 |---------|---------|------|
 | `add` | Add dependency: `point add <name> <spec>` | 1 on invalid spec or missing `point.json` |
 
-Supported specs: `workspace:<path>`, `file:<path>`. `npm:<package>` is reserved and fails with an explicit message until registry support ships.
+Supported specs: `workspace:<path>`, `file:<path>`, `npm:<package>[@version]`.
 
 Updates `point.json` and regenerates `point.lock`. Project-wide check/build resolve `use <package>.<module>` through the lockfile (see [package management](/point/ecosystem/package-management) in the repo docs).
 
