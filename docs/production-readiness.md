@@ -4,6 +4,13 @@ Point is being built as a general-purpose, AI-first language that can be used in
 
 The forward-facing language is semantic product logic. Conventional programming-language-shaped syntax is internal compiler core, not the authoring surface.
 
+## Shipped
+
+- **npm:** `@hatchingpoint/point@0.0.9` — `npm install -g @hatchingpoint/point`
+- **VS Code Marketplace:** [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) — diagnostics, symbols, syntax highlighting
+- **Docs:** [hatchingpoint.com/point](https://www.hatchingpoint.com/point)
+- **CI / publish:** `bun run ci` (78 tests); tag push `v*.*.*` publishes npm + Marketplace
+
 ## Today
 
 Point semantic source supports:
@@ -14,8 +21,8 @@ Point semantic source supports:
 - Property access on named types.
 - Type checking with structured diagnostics.
 - Stable `point://` refs and repair metadata for AI coding-agent loops.
-- Formatting for canonical core output.
-- TypeScript emission for React, Vue, Bun, Node, and Vite consumers.
+- Formatting for canonical semantic source.
+- TypeScript and JavaScript emission for React, Vue, Bun, Node, and Vite consumers.
 
 ## Daily Workflow
 
@@ -45,7 +52,7 @@ The Cursor/VS Code extension lives in `packages/point-vscode`.
 bun run vscode:package
 ```
 
-The extension provides `.point` language registration, syntax highlighting, snippets, and a Point file icon theme.
+The extension provides `.point` language registration, syntax highlighting, snippets, diagnostics on save (`check-json`), document outline (`index`), and a Point file icon theme.
 
 ## Production Path
 
@@ -53,4 +60,4 @@ The extension provides `.point` language registration, syntax highlighting, snip
 2. Emit TypeScript first so existing React/Vue/Bun projects can import Point output.
 3. Grow semantic source with iteration, errors/results, modules across files, async, effects, and package resolution.
 4. Add framework targets later: React components, Vue components, server handlers, edge functions, and app routing.
-5. Publish the core package and editor extension when the generated TypeScript target is stable.
+5. **Done:** core package and editor extension published; focus Phase 8 on editor UX and real-world modules — see [phase8-plan.md](./phase8-plan.md).

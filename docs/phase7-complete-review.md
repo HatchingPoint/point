@@ -128,11 +128,12 @@ bun run build              # emit TypeScript to generated/
 
 | Item | Notes |
 |------|-------|
-| **npm / VS Code marketplace publish** | Phase 6.2 — pipeline exists; blocked on `NPM_TOKEN`, `VSCE_PAT` |
+| **Phase 8 product work** | Editor UX, dogfood module, external adopter — see [phase8-plan.md](./phase8-plan.md) |
 | **Native Point runtime** | Still emits TS/JS; no standalone VM |
-| **Python emit** | Researched, deferred — `docs/python-emit-research.md` |
+| **Python emit (production)** | Researched, deferred — optional spike in Phase 8.6 |
 | **Public core syntax** | Intentionally rejected — `assertSemanticPointSource()` blocks `fn`/`let` in `.point` |
-| **full-language-plan.md checkboxes** | Master plan may still show open boxes; **Phase 7 plan is complete** — see `phase7-ast-plan.md` Exit Gate |
+
+**Shipped (2026-05-21):** `@hatchingpoint/point@0.0.9` on npm, `hatchingpoint.point@0.0.9` on VS Code Marketplace, GitHub Actions publish on tag push, docs at [hatchingpoint.com/point](https://www.hatchingpoint.com/point).
 
 ---
 
@@ -141,13 +142,13 @@ bun run build              # emit TypeScript to generated/
 - **Phases 0–6** ([full-language-plan.md](./full-language-plan.md)): Product language — semantic syntax, stdlib, multi-file, actions, views, routes, tooling, conformance.
 - **Phase 7** ([phase7-ast-plan.md](./phase7-ast-plan.md)): Compiler modernization — core stops being text; AST-only pipeline. **Done.**
 
-**Possible Phase 8+ directions** (not planned in repo yet — pick one for a Codex goal):
+**Phase 8+ directions** — see [phase8-plan.md](./phase8-plan.md):
 
-1. Publish `@hatchingpoint/point` + VS Code extension (credentials)
-2. Update `full-language-plan.md` + README to reflect Phase 7 architecture (remove stale “lowering in parser.ts” references)
-3. Direct JS-only production pipelines (skip TS emit where acceptable)
-4. Python emit prototype
-5. Self-hosted stdlib written in `.point` only (no hand-maintained TS in examples)
+1. Editor: format-on-save, explain hover, repair quick-fixes
+2. Dogfood module for a real Hatching Point use case
+3. First external adopter under `examples/adopters/`
+4. More self-hosted compiler lint passes in Point
+5. Optional: Python emit spike, expression-level source maps
 
 ---
 

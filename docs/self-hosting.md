@@ -24,8 +24,8 @@ This is intentionally small. It proves Point source can express compiler policy 
 1. **Lint passes in Point** — naming, effect boundaries, missing awaits
 2. **Formatter validation in Point** — canonical layout rules checked by semantic rules
 3. **Conformance fixtures in Point** — expected lowering behavior expressed as data + rules
-4. **Full formatter in Point** — replace TypeScript formatter once semantic AST exists (Phase 7)
-5. **Parser/desugar in Point** — long-term; depends on Phase 7 AST modernization
+4. **Full formatter in Point** — semantic formatter exists in TS; optional Point rewrite once a pass proves the pattern
+5. **Parser/desugar in Point** — long-term; depends on sustained self-hosting milestones
 
 ## Rules For Self-Hosted Compiler Code
 

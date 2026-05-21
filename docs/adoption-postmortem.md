@@ -1,6 +1,6 @@
 # Point Adoption Pilot Postmortem
 
-This document records the first end-to-end adoption exercise for Point as a general-purpose semantic language. It substitutes for external-team adoption until marketplace publish credentials are available.
+This document records adoption exercises for Point as a general-purpose semantic language.
 
 ## Pilot scope
 
@@ -18,21 +18,22 @@ This document records the first end-to-end adoption exercise for Point as a gene
 | Area | Result |
 |------|--------|
 | Semantic authoring | Agents and Codex could extend language features without exposing core syntax |
-| Lowering pipeline | String semantic → core → TS remained stable through Phases 0–5 |
+| AST pipeline (Phase 7) | Semantic parse → desugar → core AST → TS emit stable across 26+ fixtures |
 | Agent tooling | Semantic refs, check-json, repair-plan improved fix loops |
 | Runtime | `point run` and `point test` made the language feel executable |
 | Stdlib | `use std.*` reduced repeated externals |
-| CI | Single `bun run ci` gate caught regressions across 25+ fixtures |
+| CI | Single `bun run ci` gate caught regressions (78 tests) |
+| Distribution | npm `@hatchingpoint/point@0.0.9`, Marketplace `hatchingpoint.point@0.0.9`, automated publish on tag |
 
-## What broke or blocked
+## What broke or blocked (historical)
 
-| Issue | Impact | Mitigation |
-|-------|--------|------------|
-| Publish credentials missing | Phase 6.2 npm/marketplace publish blocked | Documented; pipeline scaffold runs credential check |
-| String-based lowering | Harder long-term maintenance | Phase 7 AST plan prepared |
-| Statement-level source maps | Runtime errors map to declarations, not expressions | Documented in performance/runtime docs |
-| Codex quota limits | Long goals stop mid-phase | Phase-scoped goals + Cursor fallback |
-| External adoption proof | No outside contributor yet | This pilot + template for first external feature |
+| Issue | Impact | Status |
+|-------|--------|--------|
+| Publish credentials / PAT format | Blocked automated Marketplace publish | **Resolved** — secrets fixed, 0.0.9 live |
+| String-based lowering | Harder long-term maintenance | **Resolved** — Phase 7 AST pipeline |
+| Statement-level source maps | Runtime errors map to declarations, not expressions | Open — Phase 8.5 optional |
+| External adoption proof | No outside contributor yet | Open — Phase 8.3 |
+| Codex quota limits | Long goals stop mid-phase | Mitigated — phase-scoped goals |
 
 ## First external adopter checklist
 
@@ -46,10 +47,6 @@ When someone outside the core team ships a feature in Point:
 
 ## Recommendation
 
-Point is ready for **internal/full-stack pilot projects** transpiling to TypeScript on Bun. It is **not yet ready** for public marketplace distribution until publish credentials land and Phase 7 compiler modernization completes.
+Point is ready for **pilot projects** transpiling to TypeScript on Bun, with global install and Marketplace extension. Public distribution infrastructure is live.
 
-## Next steps
-
-1. Finish Phase 6 publish when `NPM_TOKEN` / `VSCE_PAT` exist
-2. Execute Phase 7 AST modernization
-3. Recruit one external team to port a small service module to `.point`
+**Next:** dogfood a real module (Phase 8.2) and recruit one external adopter (Phase 8.3). See [phase8-plan.md](./phase8-plan.md).

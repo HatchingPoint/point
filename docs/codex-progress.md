@@ -369,3 +369,16 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (78 tests); VSIX packages as `point-0.0.5.vsix`.
 - Next: create Azure DevOps publisher `hatchingpoint`, set real `VSCE_PAT`, then `bun run publish:release`.
 - Blocked: marketplace publish pending real `VSCE_PAT` (user has placeholder).
+
+## Checkpoint 6.2.Publish — npm and Marketplace live
+- Completed: `@hatchingpoint/point@0.0.9` on npm; `hatchingpoint.point@0.0.9` on VS Code Marketplace; GitHub Actions publish on tag push; VSCE_PAT auth fixed (no quotes in secret); idempotent marketplace publish for retries.
+- Verified: `npm view @hatchingpoint/point version` → 0.0.9; local and CI marketplace publish; hatchingpoint.com/point docs live.
+- Checkboxes marked: Phase 6.2 publish pipeline; Phase 6 Exit Gate complete.
+- Next: Phase 8 — see docs/phase8-plan.md.
+- Blocked: none
+
+## Checkpoint Post-7.DocRefresh — Phase 7 + publish docs aligned
+- Completed: Updated full-language-plan.md (Phase 7 architecture, publish complete, Phase 8 active), phase7-complete-review.md, adoption-postmortem.md, production-readiness.md, README roadmap, codex-goal-post-phase7.md, phase8-plan.md created.
+- Verified: `bun run ci` passes (78 tests).
+- Next: Phase 8.1 editor experience or 8.2 dogfood module.
+- Blocked: none

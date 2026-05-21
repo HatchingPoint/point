@@ -1,8 +1,9 @@
 # Codex Goals After Phase 7
 
-Phase 7 is **complete**. Use this doc to launch **follow-up** Codex work — not to re-run Phase 7.
+Phases 0–7 and publish are **complete**. Use this doc for **Phase 8** work — code and tests only.
 
-**Review first:** [phase7-complete-review.md](./phase7-complete-review.md)  
+**Active plan:** [phase8-plan.md](./phase8-plan.md)  
+**Review:** [phase7-complete-review.md](./phase7-complete-review.md)  
 **Progress log:** [codex-progress.md](./codex-progress.md)
 
 ---
@@ -15,82 +16,60 @@ bun install
 bun run ci
 ```
 
-Expected: pass (~78 tests).
+Expected: pass (78 tests).
 
 ---
 
-## Goal A — Publish packages (Phase 6.2 deferred)
+## Goal A — Publish packages ✅ Done
 
-**Requires:** `NPM_TOKEN`, `VSCE_PAT` in environment or `.env.local`.
-
-```text
-/goal Complete Phase 6.2 publish in docs/full-language-plan.md: npm publish @hatchingpoint/point and VS Code marketplace release using scripts/publish.ts. Read docs/codex-progress.md first. Do not change compiler architecture. Run bun run ci before and after. Append checkpoint to docs/codex-progress.md. Stop and report if credentials are missing — do not fake publish.
-```
-
-```powershell
-Get-Content docs/codex-goal-publish.prompt.txt -Raw | codex exec -
-```
+`@hatchingpoint/point@0.0.9` on npm; `hatchingpoint.point@0.0.9` on VS Code Marketplace; GitHub Actions publish on tag push. See [publishing.md](./publishing.md).
 
 ---
 
-## Goal B — Refresh master plan docs for Phase 7 reality
+## Goal B — Refresh master plan docs ✅ Done
 
-```text
-/goal Update docs/full-language-plan.md and README.md to reflect Phase 7 complete architecture: semantic AST → desugar → core IR (not string lowering in parser.ts). Fix stale paths in Architecture table. Mark Phase 7 complete in roadmap. Do not change compiler behavior. Run bun run ci. Append checkpoint to docs/codex-progress.md.
-```
+`full-language-plan.md`, `phase7-complete-review.md`, and `adoption-postmortem.md` reflect Phase 7 architecture and live publish status.
 
 ---
 
-## Goal C — Explore Python emit (research → spike)
+## Goal C — Phase 8.1 Editor experience
 
 ```text
-/goal Read docs/python-emit-research.md and docs/phase7-complete-review.md. Prototype a minimal Python emitter from PointCoreProgram AST for examples/math.point only. Keep TS emit unchanged. Add tests. Document limitations in docs/python-emit-research.md. Run bun run ci. Do not claim general-purpose Python replacement until math.point passes end-to-end.
+/goal Execute docs/phase8-plan.md section 8.1 only: format-on-save, explain hover, repair quick-fix stub in packages/point-vscode. Read docs/phase8-plan.md and extension.js first. Run bun run ci. Append checkpoint to docs/codex-progress.md. Do not change compiler architecture.
 ```
 
 ---
 
-## Goal D — Audit only (no code changes)
+## Goal D — Phase 8.2 Dogfood module
 
 ```text
-/goal Read docs/phase7-complete-review.md, docs/language-spec.md, and packages/point/src/. Produce a written audit: (1) Is Point general-purpose today? (2) What is semantic vs core IR? (3) Gaps vs Python/TypeScript. (4) Recommended next phase. Do not modify files unless I ask. Output markdown in chat only.
+/goal Execute docs/phase8-plan.md section 8.2: add one real-world Point module under examples/adopters/hatchingpoint/ with README and CI smoke test. Use routes/actions/std.http if appropriate. Run bun run ci. Append checkpoint to docs/codex-progress.md.
+```
+
+---
+
+## Goal E — Python emit spike (optional)
+
+```text
+/goal Read docs/python-emit-research.md and docs/phase7-complete-review.md. Prototype a minimal Python emitter from PointCoreProgram AST for examples/math.point only. Keep TS emit unchanged. Add tests. Document limitations. Run bun run ci.
+```
+
+---
+
+## Goal F — Audit only (no code changes)
+
+```text
+/goal Read docs/phase8-plan.md, docs/phase7-complete-review.md, docs/language-spec.md. Produce audit: gaps vs Python/TS, recommended Phase 8 priority order. Do not modify files unless asked.
 ```
 
 ---
 
 ## Prompt file (multi-goal router)
 
-Save as `docs/codex-goal-post-phase7.prompt.txt` and pipe to Codex:
-
-```text
-You are working on the Point language repo. Phase 7 (AST-only compiler) is COMPLETE.
-
-Read first:
-- docs/phase7-complete-review.md
-- docs/codex-progress.md
-- docs/phase7-ast-plan.md (all checkboxes done)
-
-Hard rules:
-- Public .point source stays SEMANTIC (record, calculation, rule, label, …). Never add fn/let/type to author-facing syntax.
-- Production path: parsePointSource → semantic AST → desugar → core AST → check → emit. No string lowering in production.
-- Core text parser is test-only: packages/point/src/core/test-only/
-- Do not change git config, force push, or skip hooks unless asked.
-- Run bun run ci before declaring done.
-
-Pick the user's requested task from their message. If unclear, ask which goal: Publish (A), Doc refresh (B), Python emit spike (C), or Audit (D) from docs/codex-goal-post-phase7.md.
-
-Append checkpoints to docs/codex-progress.md for any implementation work.
-```
-
----
-
-## Windows: run without paste
+Pipe to Codex:
 
 ```powershell
 Get-Content docs/codex-goal-post-phase7.prompt.txt -Raw | codex exec -
 ```
 
-Then follow up in the same session, e.g.:
-
-```text
-Execute Goal B — refresh full-language-plan.md for Phase 7 architecture.
-```
+Then: `Execute Goal C — Phase 8.1 editor experience.`

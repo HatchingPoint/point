@@ -80,15 +80,15 @@ These commands are the core of Point's AI engineering model: agents should navig
 
 ## Roadmap
 
-The master execution plan for building Point into a full general-purpose language lives in [docs/full-language-plan.md](docs/full-language-plan.md). Work phases in order; do not advance until every checkbox in the current phase is complete.
+Phases 0–7 and publish are complete. **Active work:** [docs/phase8-plan.md](docs/phase8-plan.md) (editor UX, dogfood modules, external adopters, self-hosting passes).
+
+Master history: [docs/full-language-plan.md](docs/full-language-plan.md)
 
 - [Language spec](docs/language-spec.md)
 - [Agent quick reference](docs/agent-quick-reference.md)
-- [Phase 7 complete review](docs/phase7-complete-review.md) — architecture after AST modernization
-- [Phase 7 AST plan](docs/phase7-ast-plan.md) — complete
-- [Post–Phase 7 Codex goals](docs/codex-goal-post-phase7.md)
-
-To run the plan as a long-running Codex CLI goal, see [docs/codex-goal.md](docs/codex-goal.md). For work after Phase 7, see [docs/codex-goal-post-phase7.md](docs/codex-goal-post-phase7.md).
+- [Phase 7 complete review](docs/phase7-complete-review.md)
+- [Phase 8 plan](docs/phase8-plan.md) — **active**
+- [Publishing](docs/publishing.md)
 
 ## Packages
 

@@ -20,40 +20,46 @@ This is the master execution plan for building Point into a complete, general-pu
 
 ## Non-Negotiable Principles
 
-- [ ] Public `.point` source stays **semantic** (`record`, `calculation`, `rule`, `label`, …). Never expose internal core syntax (`fn`, `let`, `type`, braces) in public source.
-- [ ] Every semantic feature **lowers to typed core**, then **emits to a target** (TypeScript first).
-- [ ] Every feature ships with **tests**, **an example**, and **agent-facing diagnostics** (refs, repair hints).
-- [ ] Domain examples (pricing, readiness, billing) are **examples only** — never built-in language features.
-- [ ] Docs, scripts, and generated output paths stay aligned with the repo (`generated/`, root `package.json` scripts).
+- [x] Public `.point` source stays **semantic** (`record`, `calculation`, `rule`, `label`, …). Never expose internal core syntax (`fn`, `let`, `type`, braces) in public source.
+- [x] Every semantic feature **lowers to typed core**, then **emits to a target** (TypeScript first).
+- [x] Every feature ships with **tests**, **an example**, and **agent-facing diagnostics** (refs, repair hints).
+- [x] Domain examples (pricing, readiness, billing) are **examples only** — never built-in language features.
+- [x] Docs, scripts, and generated output paths stay aligned with the repo (`generated/`, root `package.json` scripts).
 
 ---
 
-## Architecture (Do Not Rebuild)
+## Architecture (Phase 7 — do not rebuild)
 
 ```text
 Semantic Source (.point)
   record, calculation, rule, label, action, external, workflow, …
-        ↓ lowering
-Typed Core (internal IR)
+        ↓ parseSemanticSource()
+Semantic AST
+  packages/point/src/semantic/
+        ↓ desugarSemanticProgram() (in memory — no core text)
+Core IR (internal AST)
   fn, type, let, var, if, loops, …
-        ↓ emit
+        ↓ checkPointCore() → emit
 Targets
-  TypeScript → Bun/Node (now), more targets later
+  TypeScript / JavaScript → Bun/Node (now), more targets later
 ```
 
 **Key repo locations**
 
 | Area | Path |
 |------|------|
-| Semantic lowering | `packages/point/src/core/parser.ts` |
-| Lexer | `packages/point/src/core/lexer.ts` |
-| AST types | `packages/point/src/core/ast.ts` |
+| Entry / parsePointSource | `packages/point/src/core/parser.ts` |
+| Semantic AST | `packages/point/src/semantic/ast.ts` |
+| Semantic parser | `packages/point/src/semantic/parse.ts` |
+| Desugar | `packages/point/src/semantic/desugar.ts` |
+| Semantic index / diagnostics | `packages/point/src/semantic/context.ts` |
+| Core IR types | `packages/point/src/core/ast.ts` |
 | Type checker | `packages/point/src/core/check.ts` |
-| TS emitter | `packages/point/src/core/emit-typescript.ts` |
-| Formatter | `packages/point/src/core/format.ts` |
-| Agent refs / index | `packages/point/src/core/context.ts` |
+| TS / JS emit | `packages/point/src/core/emit-typescript.ts`, `emit-javascript.ts` |
+| Semantic formatter | `packages/point/src/semantic/format.ts` |
 | CLI | `packages/point/src/core/cli.ts` |
-| Tests | `tests/point-core.test.ts` |
+| Core text parser (test-only) | `packages/point/src/core/test-only/` |
+| Tests | `tests/point-core.test.ts`, `tests/semantic-*.test.ts`, `tests/core-ir.test.ts` |
 | Examples | `examples/*.point` |
 | Design spec | `docs/semantic-language-design.md` |
 | Agent spec | `docs/ai-reference-system.md` |
@@ -76,8 +82,8 @@ Active section: [SECTION NAME]
 
 Rules:
 - Do not start the next phase or section until every checkbox here is done.
-- Public .point source must stay semantic; implement via lowering in parser.ts.
-- Add tests in tests/point-core.test.ts for every behavior change.
+- Public .point source must stay semantic; implement via semantic parse → desugar → core AST.
+- Add tests in tests/point-core.test.ts (and semantic/core-ir suites as appropriate) for every behavior change.
 - Add or update an example in examples/ when the feature is user-visible.
 - Update editor grammar/snippets if new keywords are introduced.
 - Run verification commands before marking checkboxes complete.
@@ -514,8 +520,8 @@ bun packages/point/src/cli.ts run examples/hello.point
 
 ### 6.2 Publish pipeline
 
-- [ ] Publish `@hatchingpoint/point` to npm **(pending — requires `NPM_TOKEN`)**
-- [ ] Publish VS Code extension to marketplace / Open VSX **(pending — requires `VSCE_PAT`)**
+- [x] Publish `@hatchingpoint/point` to npm (`0.0.9` live; GitHub Actions on tag push)
+- [x] Publish VS Code extension to marketplace (`hatchingpoint.point@0.0.9`; `VSCE_PAT` in Actions)
 - [x] Versioning and changelog policy
 
 ### 6.3 Performance
@@ -546,18 +552,26 @@ bun packages/point/src/cli.ts run examples/hello.point
 
 ### Phase 6 Exit Gate
 
-- [x] Every checkbox in Phase 6 is checked **except publish (pending credentials)**
-- [ ] npm package and extension published **(pending credentials)**
+- [x] Every checkbox in Phase 6 is checked
+- [x] npm package and extension published
 - [x] Language spec and conformance suite exist
 - [x] External adoption proof documented
 
 ---
 
-## Phase 7 — Compiler Modernization (follow-on)
+## Phase 7 — Compiler Modernization
 
-After Phase 6 Exit Gate passes, execute [phase7-ast-plan.md](./phase7-ast-plan.md) to replace string-based core lowering with semantic AST → in-memory desugar → core AST. Codex prompt: [codex-goal-phase7.prompt.txt](./codex-goal-phase7.prompt.txt).
+**Status:** **Complete** — see [phase7-ast-plan.md](./phase7-ast-plan.md) and [phase7-complete-review.md](./phase7-complete-review.md).
 
-Do **not** start Phase 7 until Phase 6 is complete.
+Semantic `.point` → semantic AST → in-memory desugar → core AST → check → emit. Core text parser lives in `packages/point/src/core/test-only/` only.
+
+---
+
+## Phase 8 — Product and Compiler (active)
+
+Execute [phase8-plan.md](./phase8-plan.md). All work is code, tests, and examples — no publish credentials or GitHub setup required.
+
+**Active phase:** Phase 8
 
 ---
 
@@ -652,8 +666,10 @@ Use the same pattern: quote the phase section from this doc, list its checkboxes
 | 3 | Standard library | Done |
 | 4 | Runtime and dev tools | Done |
 | 5 | Application layer | Done |
-| 6 | Production and ecosystem | Done (publish pending credentials) |
+| 6 | Production and ecosystem | Done |
+| 7 | Compiler modernization (AST pipeline) | Done |
+| 8 | Product and compiler | **Active** — [phase8-plan.md](./phase8-plan.md) |
 
-**Active phase:** Phase 6 complete except npm/marketplace publish; Phase 7 ready to start
+**Active phase:** Phase 8 — editor UX, dogfood module, external adopter, self-hosting passes
 
 **Last updated:** 2026-05-21

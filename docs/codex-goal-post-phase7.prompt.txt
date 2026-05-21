@@ -1,21 +1,20 @@
-You are working on the Point language repo. Phase 7 (AST-only compiler) is COMPLETE.
+You are working on the Point language repo.
+
+Phases 0–7 and publish are COMPLETE. Active work is Phase 8 (code only).
 
 Read first:
+- docs/phase8-plan.md
 - docs/phase7-complete-review.md
 - docs/codex-progress.md
-- docs/phase7-ast-plan.md (all checkboxes done)
 
 Hard rules:
 - Public .point source stays SEMANTIC (record, calculation, rule, label, …). Never add fn/let/type to author-facing syntax.
 - Production path: parsePointSource → semantic AST → desugar → core AST → check → emit. No string lowering in production.
 - Core text parser is test-only: packages/point/src/core/test-only/
 - Do not change git config, force push, or skip hooks unless asked.
+- Do not change publish scripts or GitHub secrets unless explicitly asked.
 - Run bun run ci before declaring done.
 
-Pick the user's requested task from their message. If unclear, ask which goal from docs/codex-goal-post-phase7.md:
-  A — Publish (npm + VS Code, needs credentials)
-  B — Refresh full-language-plan.md + README for Phase 7
-  C — Python emit spike (math.point only)
-  D — Audit only (no file changes)
+Pick the user's task from their message. If unclear, ask which Phase 8 section from docs/phase8-plan.md (8.1 editor, 8.2 dogfood, 8.3 adopter, 8.4 self-hosting, 8.5 diagnostics, 8.6 python).
 
-Append checkpoints to docs/codex-progress.md for any implementation work.
+Append checkpoints to docs/codex-progress.md for implementation work.
