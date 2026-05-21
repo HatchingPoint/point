@@ -144,17 +144,19 @@ npm view @hatchingpoint/point-logic version
 
 ## What is not on npm yet
 
-- **`npm:` registry resolution** in `point add` — today use `workspace:` and `file:` (Phase 12).
+- **`npm:` registry resolution** in `point add` — today use `workspace:` and `file:`; see [point add](/point/ecosystem/point-add) for specs and pending `npm:` support (Phase 12).
 - Every example under `examples/` as a separate package — clone the repo or copy modules instead.
 
-## What `point add` supports today
+## Declaring Point package dependencies
+
+Use `point add` to wire local Point packages into `point.json` and `point.lock`:
 
 ```bash
 point add std workspace:std
 point add logic file:packages/point-logic
 ```
 
-This updates `point.json` and regenerates `point.lock`. Registry specs (`npm:…`) return a clear unsupported error until Phase 12.
+Registry specs (`npm:…`) are parsed but not resolved yet — see [point add](/point/ecosystem/point-add) for full spec reference, lockfile shape, and check/build resolution.
 
 ## Common mistakes
 
@@ -165,6 +167,7 @@ This updates `point.json` and regenerates `point.lock`. Registry specs (`npm:…
 
 ## See also
 
+- [point add](/point/ecosystem/point-add) — `workspace:`, `file:`, and pending `npm:` specs
 - [Stdlib bridge](/point/stdlib/bridge) — externals and `@hatchingpoint/point/std/*`
 - [Installation](/point/guide/installation) — global CLI setup
 - [CLI reference](/point/reference/cli) — `build`, `build-py`, `check-all`

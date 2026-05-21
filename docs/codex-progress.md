@@ -529,3 +529,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: point check-docs and bun run ci.
 - Next: Phase 12 Wave 1.
 - Blocked: none
+
+## Checkpoint 12.P12-4 - point add ecosystem docs
+- Completed: Added `docs/site/ecosystem/point-add.md` covering `workspace:`, `file:`, and pending `npm:` specs, manifest/lockfile shape, and check/build resolution. Updated `docs/site/ecosystem/npm-packages.md` with links to the new page.
+- Verified: `point check-docs` (28 snippets, 24 file refs); `bun run ci` passes (137 tests).
+- Next: P12-1 npm resolution (when merged, refresh point-add npm section); P12-2 std shims; P12-3 runtime spike.
+- Blocked: none (skipped `docs/phase12-plan.md` checkbox edits — parallel agent had local changes).
