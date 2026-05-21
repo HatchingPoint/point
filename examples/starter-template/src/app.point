@@ -1,0 +1,25 @@
+module StarterApp
+
+record Plan
+  monthly price: Int
+
+calculation annual price
+  input monthly price: Int
+  output annual price: Int
+  annual price is monthly price * 12
+
+label pricing tier
+  input plan: Plan
+  output Text
+  when plan.monthly price >= 100 return "pro"
+  otherwise return "starter"
+
+command hello
+  output result: Text
+  return "Hello from Point starter"
+
+route get health
+  method GET
+  path "/health"
+  output response: Text
+  return "ok"

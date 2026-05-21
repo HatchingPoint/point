@@ -547,3 +547,21 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point add logic npm:@hatchingpoint/point-logic` updates manifest and lock; `use logic.store-readiness` resolves via lock; `bun run ci` passes (143 tests).
 - Next: P12-2 std fs/env/time/text shims.
 - Blocked: none
+
+## Checkpoint 12.P12-7 - Live readiness demo on LandingPage
+- Completed: Added interactive App Store listing readiness demo to LandingPage `/point/examples` — `ReadinessDemo` client component with static store-readiness scoring logic and checklist checkboxes mirroring `readiness-widget.point`. Updated `docs/site/examples.md` with link to live demo at hatchingpoint.com/point/examples#live-demo. Marked phase12-plan live demo checkbox.
+- Verified: Component uses same score thresholds (20 pts/item, 90/60 status bands) as `examples/adopters/hatchingpoint/readiness-widget.point`; no npm run build required for local dev.
+- Next: P12-8 point-logic npm tarball includes `.point` source.
+- Blocked: none
+
+## Checkpoint 12.P12-8 - point-logic npm includes Point source
+- Completed: Updated `packages/point-logic/package.json` `files` to ship `point.json`, `src/*.point`, and `dist/`; bumped to `@hatchingpoint/point-logic@0.0.3`. Extended `tests/point-logic-package.test.ts` npm pack assertions and `tests/point-add.test.ts` version pin. Documented published tarball layout in `docs/site/ecosystem/npm-packages.md`.
+- Verified: `npm pack` lists `point.json` and `src/store-readiness.point`; `bun run ci` passes (150 tests).
+- Next: Phase 12 Wave 2 remaining gates (Open VSX, external starter publish path).
+- Blocked: none
+
+## Checkpoint 12.P12-5 - External starter template
+- Completed: Added `examples/starter-template/` with `point.json`, `src/app.point` (hello command, annual price calculation, pricing tier rule, health route), and README with install/check/build/run steps. Extended `tests/point-core.test.ts` and `tests/conformance/conformance.test.ts`. Marked phase12-plan external starter checkbox.
+- Verified: `point check/build/run examples/starter-template/src/app.point`; `bun run ci` passes.
+- Next: P12-6 Open VSX publish; P12-7 live readiness demo; P12-8 point-logic npm tarball.
+- Blocked: none

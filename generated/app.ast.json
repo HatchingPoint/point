@@ -1,0 +1,934 @@
+{
+  "kind": "coreProgram",
+  "module": "StarterApp",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Plan",
+      "fields": [
+        {
+          "name": "monthlyPrice",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "monthly price",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 31
+            },
+            "end": {
+              "line": 4,
+              "column": 21,
+              "offset": 51
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Plan"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 19
+        },
+        "end": {
+          "line": 3,
+          "column": 12,
+          "offset": 30
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "annualPrice",
+      "params": [
+        {
+          "name": "monthlyPrice",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "monthly price",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "*",
+            "left": {
+              "kind": "identifier",
+              "name": "monthlyPrice",
+              "span": {
+                "start": {
+                  "line": 9,
+                  "column": 1,
+                  "offset": 132
+                },
+                "end": {
+                  "line": 9,
+                  "column": 37,
+                  "offset": 168
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 12,
+              "span": {
+                "start": {
+                  "line": 9,
+                  "column": 1,
+                  "offset": 132
+                },
+                "end": {
+                  "line": 9,
+                  "column": 37,
+                  "offset": 168
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 9,
+                "column": 37,
+                "offset": 168
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 132
+            },
+            "end": {
+              "line": 9,
+              "column": 37,
+              "offset": 168
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "annual price",
+        "outputName": "annual price",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 53
+        },
+        "end": {
+          "line": 6,
+          "column": 25,
+          "offset": 77
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "pricingTierLabel",
+      "params": [
+        {
+          "name": "plan",
+          "type": {
+            "kind": "typeRef",
+            "name": "Plan",
+            "args": []
+          },
+          "semanticName": "plan",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "plan",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 46,
+                    "offset": 267
+                  }
+                }
+              },
+              "name": "monthlyPrice",
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 14,
+                  "column": 46,
+                  "offset": 267
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 100,
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 14,
+                  "column": 46,
+                  "offset": 267
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 222
+              },
+              "end": {
+                "line": 14,
+                "column": 46,
+                "offset": 267
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "pro",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 46,
+                    "offset": 267
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 14,
+                  "column": 46,
+                  "offset": 267
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 222
+            },
+            "end": {
+              "line": 14,
+              "column": 46,
+              "offset": 267
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "starter",
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 268
+              },
+              "end": {
+                "line": 15,
+                "column": 29,
+                "offset": 296
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 268
+            },
+            "end": {
+              "line": 15,
+              "column": 29,
+              "offset": 296
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "pricing tier",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 170
+        },
+        "end": {
+          "line": 11,
+          "column": 19,
+          "offset": 188
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "helloCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Hello from Point starter",
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 334
+              },
+              "end": {
+                "line": 19,
+                "column": 36,
+                "offset": 369
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "hello",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 298
+        },
+        "end": {
+          "line": 17,
+          "column": 14,
+          "offset": 311
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "getHealthRoute",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "ok",
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 442
+              },
+              "end": {
+                "line": 25,
+                "column": 14,
+                "offset": 455
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "get health",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 371
+        },
+        "end": {
+          "line": 21,
+          "column": 17,
+          "offset": 387
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 18,
+      "offset": 17
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StarterApp",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Plan",
+        "fields": [
+          {
+            "label": "monthly price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 31
+              },
+              "end": {
+                "line": 4,
+                "column": 21,
+                "offset": 51
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 30
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "annual price",
+        "inputs": [
+          {
+            "label": "monthly price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 19,
+                "offset": 18
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "annual price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "annual price",
+            "value": {
+              "kind": "binary",
+              "operator": "*",
+              "left": {
+                "kind": "name",
+                "label": "monthly price",
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 132
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 37,
+                    "offset": 168
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 12,
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 132
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 37,
+                    "offset": 168
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 9,
+                  "column": 1,
+                  "offset": 132
+                },
+                "end": {
+                  "line": 9,
+                  "column": 37,
+                  "offset": 168
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 9,
+                "column": 37,
+                "offset": 168
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 53
+          },
+          "end": {
+            "line": 6,
+            "column": 25,
+            "offset": 77
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "pricing tier",
+        "inputs": [
+          {
+            "label": "plan",
+            "type": {
+              "kind": "typeRef",
+              "name": "Plan",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "plan",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 222
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 46,
+                      "offset": 267
+                    }
+                  }
+                },
+                "label": "monthly price",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 46,
+                    "offset": 267
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 100,
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 46,
+                    "offset": 267
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 14,
+                  "column": 46,
+                  "offset": 267
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "pro",
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 14,
+                  "column": 46,
+                  "offset": 267
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 222
+              },
+              "end": {
+                "line": 14,
+                "column": 46,
+                "offset": 267
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": "starter",
+              "span": {
+                "start": {
+                  "line": 15,
+                  "column": 1,
+                  "offset": 268
+                },
+                "end": {
+                  "line": 15,
+                  "column": 29,
+                  "offset": 296
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 268
+              },
+              "end": {
+                "line": 15,
+                "column": 29,
+                "offset": 296
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 170
+          },
+          "end": {
+            "line": 11,
+            "column": 19,
+            "offset": 188
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "hello",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Hello from Point starter",
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 334
+                },
+                "end": {
+                  "line": 19,
+                  "column": 36,
+                  "offset": 369
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 334
+              },
+              "end": {
+                "line": 19,
+                "column": 36,
+                "offset": 369
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 17,
+            "column": 1,
+            "offset": 298
+          },
+          "end": {
+            "line": 17,
+            "column": 14,
+            "offset": 311
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "get health",
+        "method": "GET",
+        "path": "/health",
+        "inputs": [],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "ok",
+              "span": {
+                "start": {
+                  "line": 25,
+                  "column": 1,
+                  "offset": 442
+                },
+                "end": {
+                  "line": 25,
+                  "column": 14,
+                  "offset": 455
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 442
+              },
+              "end": {
+                "line": 25,
+                "column": 14,
+                "offset": 455
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 371
+          },
+          "end": {
+            "line": 21,
+            "column": 17,
+            "offset": 387
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 18,
+        "offset": 17
+      }
+    }
+  }
+}

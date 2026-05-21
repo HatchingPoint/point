@@ -15,7 +15,7 @@
 - [x] **External starter template** repo (100% `.point` app) — Wave 2
 - [x] **Open VSX** publish — Wave 2
 - [x] **Live readiness demo** on hatchingpoint.com/point/examples — Wave 2
-- [ ] **point-logic ships `.point` source on npm** — Wave 2 (P12-8)
+- [x] **point-logic ships `.point` source on npm** — Wave 2 (P12-8)
 - [x] `bun run ci` passes (148 tests)
 
 ---
