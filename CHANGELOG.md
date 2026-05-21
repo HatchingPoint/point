@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.12
+
+### Added
+
+- **JS-default workflow** — `point build` / `point run` / `point test` emit JavaScript; `build-ts` opt-in.
+- **`point build-py`** — minimal Python emit for pure logic (`examples/math.point` → `generated/math.py`).
+- **`point check-docs`** — validates fenced `.point` in `docs/site/`; wired into CI.
+- **`@hatchingpoint/point-logic`** — npm package authored only from `.point` sources.
+- **Dogfood HTTP service** — `store-readiness.point` Bun routes with real JSON + integration tests.
+- **Readiness widget** — React view example for Next.js embedding.
+- **Public docs** — `docs/site/` language guide, CLI reference, LSP toolchain, authoring vs runtime story.
+
 ## 0.0.11
 
 ### Added

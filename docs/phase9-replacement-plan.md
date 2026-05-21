@@ -1,6 +1,6 @@
 # Phase 9 — Replace TypeScript & Python (Authoring Round)
 
-**Status:** Active — launch parallel Codex agents.  
+**Status:** Complete (v0.0.12).  
 **Prerequisite:** Phases 0–8 core complete (compiler AST pipeline, LSP, npm/Marketplace, adoption examples).
 
 **North star:** Authors write **only `.point`**. They do **not** hand-edit TypeScript or Python. Generated targets are build artifacts — like `.js` from `.ts` today, but Point is the source of truth.
@@ -16,10 +16,11 @@
 | Business logic (records, rules, calculations, labels) | ✅ Already | — |
 | HTTP routes, actions, workflows, commands | ✅ Already (emit TS/JS) | — |
 | `point run` / `point build` without author seeing TS | ✅ **R1** — JS-default `build`/`run`/`test`; `build-ts` opt-in |
-| Libraries published from `.point` only | 🎯 **R5** | — |
+| Libraries published from `.point` only | ✅ **R5** — `@hatchingpoint/point-logic` | — |
 | Pure logic Python modules (`math.point` → `math.py`) | ✅ **R2** | actions/views in Python later |
 | Rich UI / docs layout containers | ⚠️ Partial (**R6** spike) | full page model Phase 10+ |
-| Compiler itself in Point | 📋 **R7** incremental | full self-host years |
+| Dogfood HTTP service | ✅ **R7** — store-readiness Bun routes | — |
+| Compiler itself in Point | 📋 incremental | full self-host years |
 | Standalone VM (no Bun/Node) | ❌ Not this round | native-target-research.md |
 
 ---
@@ -28,8 +29,8 @@
 
 - [x] **`point run` uses JS emit by default** — no temp `.ts` on author path; TS emit opt-in (`--target ts` or `build-ts`)
 - [x] **`examples/math.point` emits runnable `math.py`** with tests proving parity vs TS/JS on pure logic
-- [ ] **One npm-exportable package** built entirely from `.point` (no hand-written TS in `src/`)
-- [ ] **One Hatching Point service module** dogfooded end-to-end (check → build → import/run)
+- [x] **One npm-exportable package** built entirely from `.point` (no hand-written TS in `src/`)
+- [x] **One Hatching Point service module** dogfooded end-to-end (check → build → import/run)
 - [x] **`point check-docs`** validates fenced `.point` in `docs/site/**/*.md`
 - [x] **Public docs** state clearly: Point replaces TS/Python for new logic; emit is invisible
 - [x] `bun run ci` passes

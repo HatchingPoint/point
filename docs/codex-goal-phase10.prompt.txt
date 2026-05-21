@@ -1,0 +1,26 @@
+You are working on Point language Phase 10: language depth, UI blocks, Python action emit, ecosystem.
+
+Read first:
+- docs/phase10-plan.md
+- docs/codex-goal-phase10.md
+- docs/codex-progress.md
+- docs/phase9-replacement-plan.md (completed baseline)
+
+Hard rules:
+- Public .point source stays SEMANTIC. Never add fn/let/type to author-facing syntax.
+- Production path: parsePointSource → semantic AST → desugar → core AST → check → emit.
+- Run bun run ci before declaring compiler work done.
+- LandingPage work: npm run build before done.
+- One goal per session. Append checkpoint to docs/codex-progress.md.
+
+Pick the user's goal from docs/codex-goal-phase10.md:
+
+  P10-1 — page/layout spike
+  P10-2 — richer view props
+  P10-3 — Python action emit
+  P10-4 — build-py-all
+  P10-5 — point-logic publish pipeline
+  P10-6 — stdlib bridge docs
+  P10-7 — LandingPage deploy + widget embed
+
+If user says "launch parallel" or "ASAP", recommend P10-1 + P10-3 + P10-4 + P10-7 in four sessions.
