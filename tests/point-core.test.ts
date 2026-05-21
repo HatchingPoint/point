@@ -297,12 +297,26 @@ command hello cli
 	test("defines publish pipeline and versioning policy", async () => {
 		const pkg = await Bun.file("package.json").json();
 		expect(pkg.scripts["publish:release"]).toBe("bun scripts/publish.ts");
+		expect(pkg.scripts["publish:npm"]).toBe("bun scripts/publish-npm.ts");
+		expect(pkg.scripts["publish:marketplace"]).toBe("bun scripts/publish-marketplace.ts");
+		expect(pkg.scripts["version:patch"]).toBe("bun scripts/bump-version.ts patch");
 		const script = await Bun.file("scripts/publish.ts").text();
-		expect(script).toContain("NPM_TOKEN");
-		expect(script).toContain("VSCE_PAT");
+		expect(script).toContain("publishMarketplaceExtension");
+		const npmScript = await Bun.file("scripts/publish-npm.ts").text();
+		expect(npmScript).toContain("publishNpmPackage");
+		expect(await Bun.file("scripts/publish-marketplace.ts").exists()).toBe(true);
+		expect(await Bun.file("scripts/bump-version.ts").exists()).toBe(true);
+		const workflow = await Bun.file(".github/workflows/publish.yml").text();
+		expect(workflow).toContain("NPM_TOKEN");
+		expect(workflow).toContain("VSCE_PAT");
 		const docs = await Bun.file("docs/publishing.md").text();
 		expect(docs).toContain("semver");
+		expect(docs).toContain("NPM_TOKEN");
 		expect(await Bun.file("CHANGELOG.md").exists()).toBe(true);
+		const pointPkg = await Bun.file("packages/point/package.json").json();
+		const vscodePkg = await Bun.file("packages/point-vscode/package.json").json();
+		expect(pointPkg.version).toBe(vscodePkg.version);
+		expect(pointPkg.publishConfig?.access).toBe("public");
 	});
 
 	test("emits direct JavaScript without type syntax", () => {

@@ -5,7 +5,8 @@
 ### Added
 
 - VS Code Marketplace extension published (`hatchingpoint.point`) with Point logo and install docs.
-- `publish:npm` script for npm-only releases.
+- `publish:npm` script, `publish:marketplace` script, `version:patch|minor|major` bump script, and GitHub Actions publish on tag (npm + Marketplace).
+- npm publish auth fix via temporary `.npmrc` for local and CI releases.
 
 ## 0.0.5
 

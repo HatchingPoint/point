@@ -1,97 +1,125 @@
 # Publishing Point
 
-Publishing requires credentials:
-
-- `NPM_TOKEN` — npm access token for `@hatchingpoint/point`
-- `VSCE_PAT` — Visual Studio Marketplace personal access token for publisher **hatchingpoint**
-
-Release command:
+## Release flow (recommended)
 
 ```bash
-bun run publish:release
+# 1. Bump semver + CHANGELOG (patch | minor | major)
+bun run version:patch --note "Describe the release"
+
+# 2. Commit and tag (version must match tag)
+git add -A
+git commit -m "Release v0.0.7"
+git tag v0.0.7
+git push && git push origin v0.0.7
 ```
 
-The script loads `.env.local` if present (gitignored), runs CI, publishes the npm package, packages the VSIX, and publishes the extension with `@vscode/vsce`.
+Pushing a `v*.*.*` tag triggers **GitHub Actions** to run CI and publish `@hatchingpoint/point` to npm.
+
+If `VSCE_PAT` is set in GitHub secrets, the extension is also published to Marketplace automatically. **If not** (or if Azure DevOps org setup is blocked), upload the VSIX manually — see below.
+
+Requires GitHub Actions secret: `NPM_TOKEN` (required). `VSCE_PAT` (optional).
+
+---
+
+## Credentials
+
+| Secret / env | Used for |
+|--------------|----------|
+| `NPM_TOKEN` | npm publish (local `.env.local` or GitHub Actions secret) |
+| `VSCE_PAT` | Marketplace CLI publish (optional — local `.env.local` or GitHub secret) |
+
+Local publish loads `.env.local` if present (gitignored).
 
 ---
 
 ## One-time setup
 
-### 1. npm package (`@hatchingpoint/point`)
+### npm (`@hatchingpoint/point`)
 
-1. Create an npm account and join org **hatchingpoint** (or create the scope).
-2. Generate an **Automation** or **Publish** access token at [npmjs.com](https://www.npmjs.com/settings/~youruser/tokens).
-3. Add to `.env.local` at repo root (never commit):
+1. npm account with publish access to `@hatchingpoint` scope.
+2. Generate an **Automation** or **Publish** token at [npmjs.com](https://www.npmjs.com/settings/~youruser/tokens).
+3. Local: add to `.env.local`:
+   ```env
+   NPM_TOKEN=npm_...
+   ```
+4. GitHub: repo **Settings → Secrets and variables → Actions → New repository secret** → `NPM_TOKEN`.
 
-```env
-NPM_TOKEN=your_npm_token_here
-```
+### VS Code Marketplace (`hatchingpoint.point`)
 
-### 2. VS Code Marketplace publisher
+**Manual upload (no Azure DevOps needed)** — what you used for 0.0.6:
 
-1. Sign in at [Azure DevOps](https://dev.azure.com) (same Microsoft account as VS Code Marketplace).
-2. Create organization if prompted.
-3. Open [Marketplace publisher management](https://marketplace.visualstudio.com/managecreatorpublisher) → **Create publisher**.
-   - Publisher ID: `hatchingpoint` (must match `packages/point-vscode/package.json`)
-   - Display name: Hatching Point (or your preference)
-4. Create a **Personal Access Token**:
-   - Azure DevOps → User settings → Personal access tokens
-   - Scope: **Marketplace** → **Manage**
-5. Add to `.env.local`:
+1. `bun run vscode:package`
+2. Open [Marketplace publisher page](https://marketplace.visualstudio.com/manage/publishers/hatchingpoint)
+3. **Point Language** → Update → upload `packages/point-vscode/point-*.vsix`
 
-```env
-VSCE_PAT=your_marketplace_pat_here
-```
+**Automated CLI publish (optional)** needs `VSCE_PAT`:
 
-Do not use the literal string `VSCE_PAT` as the value — the publish script rejects that placeholder.
+1. Publisher **hatchingpoint** must exist (done).
+2. Azure DevOps Personal Access Token with **Marketplace → Manage** scope.
+3. Local `.env.local` or GitHub secret `VSCE_PAT`.
 
-### 3. Local extension baseline (before or after publish)
+#### If Azure DevOps “Continue” is broken
 
-**Option A — monorepo dev (what you tried)**
+You do **not** need Azure DevOps to upload VSIX files manually. Only automated `vsce publish` needs a PAT.
 
-1. `Developer: Install Extension from Location...` → `packages/point-vscode`
-2. Bun on PATH
-3. Extension auto-finds `packages/point/src/cli.ts`
+Things to try if you want the PAT later:
 
-**Option B — VSIX without npm**
+- Direct token page (after sign-in): [dev.azure.com/_usersSettings/tokens](https://dev.azure.com/_usersSettings/tokens)
+- Different browser (Edge), incognito, ad blockers off
+- Mobile browser or another device
+- Skip for now — manual VSIX upload per release is fine
+
+---
+
+## Local commands
+
+| Command | What it does |
+|---------|----------------|
+| `bun run version:patch` | Bump patch in all package.json files + CHANGELOG |
+| `bun run version:minor` | Bump minor |
+| `bun run version:major` | Bump major |
+| `bun run publish:npm` | CI + npm publish only |
+| `bun run publish:marketplace` | CI + VSIX + Marketplace publish |
+| `bun run publish:release` | CI + npm + Marketplace (needs both tokens) |
+| `bun run vscode:package` | Build `.vsix` for manual Marketplace upload |
+
+Optional flag for publish scripts when CI already ran:
 
 ```bash
-bun run vscode:package
+SKIP_CI=1 bun run publish:npm
 ```
 
-Install `packages/point-vscode/point-0.0.5.vsix` in Cursor. Set **Point: Cli Path** to your local `packages/point/src/cli.ts` (required — VSIX does not bundle the compiler).
+---
 
-**Option C — published baseline (recommended after release)**
+## Versioning
+
+Point uses semver across:
+
+- `package.json` (repo root)
+- `packages/point/package.json` (`@hatchingpoint/point`)
+- `packages/point-vscode/package.json` (Marketplace extension)
+
+Keep all three in sync. Git tag must match: tag `v0.0.7` ↔ package version `0.0.7`.
+
+- **Patch** — fixes, docs, extension tweaks
+- **Minor** — backward-compatible language features
+- **Major** — breaking language or emit changes
+
+Update `CHANGELOG.md` on every release (bump script prepends a section).
+
+---
+
+## User install path (after publish)
 
 ```bash
 npm install -g @hatchingpoint/point   # requires Bun on PATH
 ```
 
-Install extension from marketplace (or VSIX). Extension finds `point` on PATH automatically.
-
-**Settings** (optional):
-
-| Setting | Purpose |
-|---------|---------|
-| `point.cliPath` | Override CLI path |
-| `point.runtime` | `auto`, `bun`, or `point` |
+Install **Point Language** from [Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (VS Code / Cursor).
 
 ---
 
-## Publish
-
-```bash
-bun run publish:release
-```
-
-Steps performed:
-
-1. `bun run ci`
-2. `npm publish` from `packages/point` → `@hatchingpoint/point`
-3. `bun run vscode:package` → `packages/point-vscode/point-*.vsix`
-4. `vsce publish` → `hatchingpoint.point` on VS Code Marketplace
-
-### Dry run (no upload)
+## Dry run
 
 ```bash
 bun run ci
@@ -99,19 +127,3 @@ bun run vscode:package
 cd packages/point && npm publish --dry-run
 cd packages/point-vscode && bunx @vscode/vsce publish --dry-run
 ```
-
----
-
-## Versioning
-
-Point uses semver:
-
-- Patch: diagnostics, docs, examples, bug fixes.
-- Minor: backward-compatible language features.
-- Major: breaking language or generated-target changes.
-
-Bump `version` in **both** `packages/point/package.json` and `packages/point-vscode/package.json` before release. Update `CHANGELOG.md`.
-
-## Changelog
-
-Every release updates `CHANGELOG.md` with Added, Changed, Fixed, and migration notes when needed.
