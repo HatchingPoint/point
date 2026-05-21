@@ -5,9 +5,9 @@ Cursor and VS Code language support for Point.
 ## Features
 
 - `.point` language registration.
-- TextMate syntax highlighting for Point declarations, semantic UI blocks, types, strings, interpolation, style tokens, collections, and field access.
+- TextMate syntax highlighting for semantic Point source, types, strings, numbers, operators, and field access.
 - Language configuration for comments, brackets, auto-closing pairs, and folding.
-- Editor snippets for `page`, `component`, `ui`, `state`, `data`, and `form`.
+- Editor snippets for `record`, `calculation`, `rule`, and `label`.
 - Point file icon theme using the Point logo mark.
 
 ## Local Use In Cursor (folder install)

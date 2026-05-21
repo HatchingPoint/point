@@ -8,6 +8,7 @@ import {
 	formatPointCore,
 	lexPointCore,
 	parsePointCore,
+	parsePointSource,
 } from "../packages/point/src/core/index.ts";
 
 describe("Point core language", () => {
@@ -108,15 +109,20 @@ fn total(base: Int, bonus: Int): Int {
 		expect(emitPointCoreTypeScript(program)).toContain("score = (score + 1);");
 	});
 
-	test("lowers AI-first record, rule, and label syntax into typed core", () => {
-		const program = parsePointCore(`module Readiness
+	test("lowers semantic record, calculation, rule, and label syntax into typed core", () => {
+		const program = parsePointSource(`module Readiness
 
-record DeploySignals
+record Deploy Signals
   has bundle id: Bool
   submitted for review: Bool
 
+calculation annual price
+  input monthly price: Int
+  output annual price: Int
+  annual price is monthly price * 12
+
 rule deploy readiness
-  input signals: DeploySignals
+  input signals: Deploy Signals
   output score: Int
   score starts at 0
   add 10 when signals.has bundle id
@@ -131,8 +137,11 @@ label deploy readiness
 `);
 
 		expect(checkPointCore(program)).toEqual([]);
-		expect(program.declarations.map((declaration) => declaration.kind)).toEqual(["type", "function", "function"]);
+		expect(program.declarations.map((declaration) => declaration.kind)).toEqual(["type", "function", "function", "function"]);
 		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain("export interface DeploySignals");
+		expect(emitted).toContain("export function annualPrice(monthlyPrice: number): number");
+		expect(emitted).toContain("return (monthlyPrice * 12);");
 		expect(emitted).toContain("export function deployReadinessScore(signals: DeploySignals): number");
 		expect(emitted).toContain("score += 10;");
 		expect(emitted).toContain("if (signals.hasBundleId)");
@@ -140,39 +149,30 @@ label deploy readiness
 	});
 
 	test("emits importable TypeScript for JS ecosystems", () => {
-		const program = parsePointCore(`module Pricing
+		const program = parsePointSource(`module Pricing
 
-type Plan {
+record Plan
   name: Text
-  monthly: Int
-}
+  monthly price: Int
+  active: Bool
 
-let starter: Plan = { name: "Starter", monthly: 29 }
+calculation annual price
+  input monthly price: Int
+  output annual price: Int
+  annual price is monthly price * 12
 
-let prices: List<Int> = [19, 29, 49]
+label plan status
+  input plan: Plan
+  output Text
+  when plan.active return plan.name
+  otherwise return "Inactive"
 
-let defaultMonthly: Int = 29
-
-fn annualPrice(monthly: Int): Int {
-  return monthly * 12
-}
-
-fn canAccess(active: Bool, seats: Int): Bool {
-  return active and seats > 0
-}
-
-fn planLabel(plan: Plan): Text {
-  return plan.name
-}
 `);
 
 		expect(emitPointCoreTypeScript(program)).toContain("export interface Plan");
-		expect(emitPointCoreTypeScript(program)).toContain('export const starter: Plan = { name: "Starter", monthly: 29 };');
-		expect(emitPointCoreTypeScript(program)).toContain("export const prices: Array<number> = [19, 29, 49];");
-		expect(emitPointCoreTypeScript(program)).toContain("export const defaultMonthly: number = 29;");
-		expect(emitPointCoreTypeScript(program)).toContain("export function annualPrice(monthly: number): number");
-		expect(emitPointCoreTypeScript(program)).toContain("return (monthly * 12);");
-		expect(emitPointCoreTypeScript(program)).toContain("return (active && (seats > 0));");
+		expect(emitPointCoreTypeScript(program)).toContain("monthlyPrice: number;");
+		expect(emitPointCoreTypeScript(program)).toContain("export function annualPrice(monthlyPrice: number): number");
+		expect(emitPointCoreTypeScript(program)).toContain("return (monthlyPrice * 12);");
 		expect(emitPointCoreTypeScript(program)).toContain("return plan.name;");
 	});
 
@@ -244,22 +244,21 @@ fn badAssign(value: Int): Int {
 	});
 
 	test("indexes and explains stable Point refs for agents", () => {
-		const program = parsePointCore(`module Billing
+		const program = parsePointSource(`module Billing
 
-type User {
+record User
   name: Text
   active: Bool
-}
 
-let defaultUser: User = { name: "Ada", active: true }
-
-fn userLabel(user: User): Text {
-  return user.name
-}
+label user status
+  input user: User
+  output Text
+  when user.active return user.name
+  otherwise return "inactive"
 `);
 		const index = createPointCoreIndex(program);
 		expect(index.refs.map((symbol) => symbol.ref)).toContain("point://core/Billing/type.User.name");
-		expect(index.refs.map((symbol) => symbol.ref)).toContain("point://core/Billing/fn.userLabel.param.user");
+		expect(index.refs.map((symbol) => symbol.ref)).toContain("point://core/Billing/fn.userStatusLabel.param.user");
 		const explanation = explainPointCoreRef(program, "point://core/Billing/type.User.name");
 		expect(explanation).toMatchObject({
 			found: true,
@@ -292,5 +291,16 @@ fn label(user: User): Text {
 				},
 			],
 		});
+	});
+
+	test("rejects internal core syntax as public Point source", () => {
+		expect(() =>
+			parsePointSource(`module Broken
+
+fn userLabel(user: User): Text {
+  return user.name
+}
+`),
+		).toThrow("Point source uses internal core syntax");
 	});
 });

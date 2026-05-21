@@ -6,7 +6,7 @@ The core idea is that Point source is fluid and concise, while the compiler expo
 
 ## Stable References
 
-Every meaningful symbol and diagnostic path can be addressed with a stable ref:
+Every meaningful symbol and diagnostic path can be addressed with a stable ref. The current implementation exposes internal core refs:
 
 ```text
 point://core/<module>/<path>
@@ -15,9 +15,8 @@ point://core/<module>/<path>
 Examples:
 
 ```text
-point://core/Billing/value.defaultPlan.value
-point://core/Billing/fn.annualPrice.return
-point://core/Billing/type.User.email
+point://core/Billing/<internal-symbol-path>
+point://core/Math/<internal-generated-target>
 ```
 
 These refs are not line-number based. They survive formatting and small edits better than raw file positions, which makes them better for agents.
@@ -30,14 +29,14 @@ These refs are not line-number based. They survive formatting and small edits be
 {
   "code": "unknown-field",
   "message": "Unknown field email on User",
-  "path": "fn.userLabel.return",
-  "ref": "point://core/Billing/fn.userLabel.return",
+  "path": "<internal-return-path>",
+  "ref": "point://core/Billing/<internal-return-path>",
   "expected": ["name", "active"],
   "actual": "email",
   "repair": "Use one of: name, active.",
   "relatedRefs": [
-    "point://core/Billing/type.User.name",
-    "point://core/Billing/type.User.active"
+    "point://core/Billing/<user-name-field>",
+    "point://core/Billing/<user-active-field>"
   ]
 }
 ```
@@ -50,7 +49,7 @@ Point exposes context as compiler output:
 
 ```bash
 point index
-point explain src/point-core/examples/math.point point://core/Math/fn.userLabel
+point explain examples/math.point point://core/Math/<internal-symbol-path>
 point repair-plan
 point check-json
 ```
@@ -67,12 +66,12 @@ point check-json
   "ok": false,
   "steps": [
     {
-      "ref": "point://core/Broken/fn.label.return",
+      "ref": "point://core/Broken/<internal-return-path>",
       "code": "unknown-field",
       "repair": "Use one of: name, active.",
       "relatedRefs": [
-        "point://core/Broken/type.User.name",
-        "point://core/Broken/type.User.active"
+        "point://core/Broken/<user-name-field>",
+        "point://core/Broken/<user-active-field>"
       ]
     }
   ]
@@ -85,7 +84,7 @@ Most languages were built for humans reading source directly. Point is built for
 
 Point should keep moving toward:
 
-- Stable symbol refs for modules, values, functions, params, types, fields, and generated targets.
+- Stable symbol refs for semantic modules, records, fields, calculations, rules, labels, and generated targets.
 - Diagnostics with `expected`, `actual`, `repair`, and `relatedRefs`.
 - Canonical formatting so context paths stay predictable.
 - Explicit effect boundaries so agents know when code touches network, files, env, database, time, or randomness.

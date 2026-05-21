@@ -6,39 +6,40 @@ export interface User {
   active: boolean;
 }
 
-export const answer: number = 42;
-
-export const defaultUser: User = { name: "Ada", active: true };
-
-export const launchScores: Array<number> = [88, 94, 100];
-
-export function add(left: number, right: number): number {
-  return (left + right);
+export interface LaunchSignals {
+  hasBundleId: boolean;
+  submittedForReview: boolean;
+  hasPassingTests: boolean;
 }
 
-export function annualPrice(monthly: number): number {
-  let price: number = (monthly * 12);
-  price += 0;
-  return price;
+export function annualPrice(monthlyPrice: number): number {
+  return (monthlyPrice * 12);
 }
 
-export function identity(value: string): string {
-  return value;
+export function launchReadinessScore(signals: LaunchSignals): number {
+  let score: number = 0;
+  if (signals.hasBundleId) {
+    score += 30;
+  }
+  if (signals.submittedForReview) {
+    score += 40;
+  }
+  if (signals.hasPassingTests) {
+    score += 30;
+  }
+  return score;
 }
 
-export function userLabel(user: User): string {
-  return user.name;
+export function userStatusLabel(user: User): string {
+  if (user.active) {
+    return "active";
+  }
+  return "inactive";
 }
 
-export function labelScore(score: number): string {
+export function scoreStatusLabel(score: number): string {
   if (score >= 90) {
     return "excellent";
   }
-  else {
-    return "keep going";
-  }
-}
-
-export function canAccess(userActive: boolean, seatCount: number): boolean {
-  return (userActive && (seatCount > 0));
+  return "keep going";
 }

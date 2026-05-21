@@ -3,7 +3,7 @@ import { checkPointCore } from "./check.ts";
 import { createPointCoreIndex, createPointCoreRepairPlan, explainPointCoreRef } from "./context.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { formatPointCore } from "./format.ts";
-import { isSemanticPointSyntax, parsePointCore } from "./parser.ts";
+import { isSemanticPointSyntax, parsePointSource } from "./parser.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -20,7 +20,7 @@ export async function main() {
 
 	const inputPath = resolve(process.cwd(), input);
 	const source = await Bun.file(inputPath).text();
-	const program = parsePointCore(source);
+	const program = parsePointSource(source);
 	const diagnostics = checkPointCore(program);
 
 	if (command === "fmt") {
@@ -202,7 +202,7 @@ async function discoverInputs(): Promise<string[]> {
 
 async function loadCoreFile(input: string) {
 	const source = await Bun.file(resolve(process.cwd(), input)).text();
-	return { input, source, program: parsePointCore(source) };
+	return { input, source, program: parsePointSource(source) };
 }
 
 function outputFor(input: string): string {

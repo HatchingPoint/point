@@ -1,43 +1,36 @@
 module Math
 
-type User {
+record User
   name: Text
   active: Bool
-}
 
-let answer: Int = 42
+record Launch Signals
+  has bundle id: Bool
+  submitted for review: Bool
+  has passing tests: Bool
 
-let defaultUser: User = { name: "Ada", active: true }
+calculation annual price
+  input monthly price: Int
+  output annual price: Int
+  annual price is monthly price * 12
 
-let launchScores: List<Int> = [88, 94, 100]
+rule launch readiness
+  input signals: Launch Signals
+  output score: Int
+  score starts at 0
+  add 30 when signals.has bundle id
+  add 40 when signals.submitted for review
+  add 30 when signals.has passing tests
+  return score
 
-fn add(left: Int, right: Int): Int {
-  return left + right
-}
+label user status
+  input user: User
+  output Text
+  when user.active return "active"
+  otherwise return "inactive"
 
-fn annualPrice(monthly: Int): Int {
-  var price: Int = monthly * 12
-  price += 0
-  return price
-}
-
-fn identity(value: Text): Text {
-  return value
-}
-
-fn userLabel(user: User): Text {
-  return user.name
-}
-
-fn labelScore(score: Int): Text {
-  if score >= 90 {
-    return "excellent"
-  }
-  else {
-    return "keep going"
-  }
-}
-
-fn canAccess(userActive: Bool, seatCount: Int): Bool {
-  return userActive and seatCount > 0
-}
+label score status
+  input score: Int
+  output Text
+  when score >= 90 return "excellent"
+  otherwise return "keep going"

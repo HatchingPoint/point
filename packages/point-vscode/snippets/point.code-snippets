@@ -1,65 +1,43 @@
 {
-  "Point page": {
-    "prefix": "page",
-    "description": "Create a Point page block",
+  "Point record": {
+    "prefix": "record",
+    "description": "Create a semantic Point record",
     "body": [
-      "page ${1:PageName} {",
-      "\tui {",
-      "\t\tsection {",
-      "\t\t\ttext \"${2:Hello from Point}\"",
-      "\t\t}",
-      "\t}",
-      "}"
+      "record ${1:Record Name}",
+      "\t${2:field name}: ${3:Text}"
     ]
   },
-  "Point component": {
-    "prefix": "component",
-    "description": "Create a Point component block",
+  "Point calculation": {
+    "prefix": "calculation",
+    "description": "Create a semantic Point calculation",
     "body": [
-      "component ${1:ComponentName} {",
-      "\tui {",
-      "\t\tcard {",
-      "\t\t\ttext \"${2:Component content}\"",
-      "\t\t}",
-      "\t}",
-      "}"
+      "calculation ${1:calculation name}",
+      "\tinput ${2:input name}: ${3:Int}",
+      "\toutput ${4:result}: ${5:Int}",
+      "\t${4:result} is ${2:input name}"
     ]
   },
-  "Point ui block": {
-    "prefix": "ui",
-    "description": "Insert a ui block",
+  "Point rule": {
+    "prefix": "rule",
+    "description": "Create a semantic Point rule",
     "body": [
-      "ui {",
-      "\tsection {",
-      "\t\ttext \"${1:Content}\"",
-      "\t}",
-      "}"
+      "rule ${1:rule name}",
+      "\tinput ${2:signals}: ${3:Signals}",
+      "\toutput ${4:score}: Int",
+      "\t${4:score} starts at 0",
+      "\tadd ${5:10} when ${2:signals}.${6:condition}",
+      "\treturn ${4:score}"
     ]
   },
-  "Point state": {
-    "prefix": "state",
-    "description": "Declare a Point state variable",
+  "Point label": {
+    "prefix": "label",
+    "description": "Create a semantic Point label",
     "body": [
-      "state ${1:name}: ${2:Text} = ${3:\"\"}"
-    ]
-  },
-  "Point data": {
-    "prefix": "data",
-    "description": "Declare a Point data source",
-    "body": [
-      "data ${1:resource} from \"${2:/api/path}\""
-    ]
-  },
-  "Point form": {
-    "prefix": "form",
-    "description": "Create a Point form block",
-    "body": [
-      "form ${1:formName} {",
-      "\tfield ${2:email}: Text required",
-      "\tsubmit {",
-      "\t\taction \"${3:Save}\"",
-      "\t}",
-      "}"
+      "label ${1:label name}",
+      "\tinput ${2:score}: Int",
+      "\toutput Text",
+      "\twhen ${2:score} >= ${3:90} return \"${4:Ready}\"",
+      "\totherwise return \"${5:Not ready}\""
     ]
   }
 }

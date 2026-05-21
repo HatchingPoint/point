@@ -21,7 +21,7 @@
   ],
   "folding": {
     "markers": {
-      "start": "^\\s*(guardrails|component|page|collection|data|form|field|submit|ui|for)\\b",
+      "start": "^\\s*(module|record|calculation|rule|label|action|policy|workflow|external)\\b",
       "end": "^\\s*$"
     }
   },

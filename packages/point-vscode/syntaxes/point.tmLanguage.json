@@ -7,9 +7,7 @@
     { "include": "#strings" },
     { "include": "#numbers" },
     { "include": "#declarations" },
-    { "include": "#semanticBlocks" },
     { "include": "#types" },
-    { "include": "#styleTokens" },
     { "include": "#operators" },
     { "include": "#fieldAccess" },
     { "include": "#identifiers" }
@@ -54,19 +52,7 @@
       "patterns": [
         {
           "name": "keyword.control.declaration.point",
-          "match": "\\b(guardrails|require|component|page|input|state|data|from|form|field|required|submit|loading|success|empty|error|collection|item|for|in|module|import|let|var|fn|type|record|rule|label|output|starts|at|add|when|otherwise|return|if|else|and|or)\\b"
-        }
-      ]
-    },
-    "semanticBlocks": {
-      "patterns": [
-        {
-          "name": "keyword.control.semantic.point",
-          "match": "\\b(ui|text|action|use|dataStatus|formStatus|badge|emptyState|loadingState|style)\\b"
-        },
-        {
-          "name": "support.function.ui-role.point",
-          "match": "\\b(page|card|section|shell|panel|stack|grid|callout)\\b"
+          "match": "\\b(module|record|calculation|rule|label|input|output|starts|at|as|is|add|to|subtract|from|set|when|otherwise|return|allow|deny|require|for|each|in|and|or|action|policy|workflow|external)\\b"
         }
       ]
     },
@@ -79,14 +65,6 @@
         {
           "name": "constant.language.boolean.point",
           "match": "\\b(true|false)\\b"
-        }
-      ]
-    },
-    "styleTokens": {
-      "patterns": [
-        {
-          "name": "support.constant.style.point",
-          "match": "\\b(absolute|accent|activeRaised|animateIn|aspectSquare|backdrop|border|borderAccent|borderDanger|borderDashed|borderStrong|center|cols1|cols2|cols3|cols4|compact|danger|docsHero|flex|flexCol|flexRow|gapLg|gapMd|gapSm|gapXs|glass|grid|grow|hidden|hoverAccent|hoverRaised|hoverSurface|info|inline|lgCols2|lgCols3|lgCols4|lgFlex|lgHidden|lgPaddingLg|mdCols2|mdCols3|mdFlex|mdHidden|mdPaddingLg|muted|overflowAuto|overflowHidden|paddingLg|paddingMd|paddingSm|paddingXl|relative|radiusFull|radiusLg|radiusMd|radiusXl|raised|ring|scrollY|shrink|smCols2|smHidden|stickyTop|stretch|subtle|success|surface|surfaceSoft|textCenter|textLg|textMuted|textSm|textStrong|textUpper|textXs|transition|truncate|warning|xlCols4|xlPaddingXl)\\b"
         }
       ]
     },
