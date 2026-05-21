@@ -15,9 +15,9 @@
 |-------|-------------------------------------|------------------------|
 | Business logic (records, rules, calculations, labels) | ✅ Already | — |
 | HTTP routes, actions, workflows, commands | ✅ Already (emit TS/JS) | — |
-| `point run` / `point build` without author seeing TS | 🎯 **R1** | — |
+| `point run` / `point build` without author seeing TS | ✅ **R1** — JS-default `build`/`run`/`test`; `build-ts` opt-in |
 | Libraries published from `.point` only | 🎯 **R5** | — |
-| Pure logic Python modules (`math.point` → `math.py`) | 🎯 **R2** | actions/views in Python later |
+| Pure logic Python modules (`math.point` → `math.py`) | ✅ **R2** | actions/views in Python later |
 | Rich UI / docs layout containers | ⚠️ Partial (**R6** spike) | full page model Phase 10+ |
 | Compiler itself in Point | 📋 **R7** incremental | full self-host years |
 | Standalone VM (no Bun/Node) | ❌ Not this round | native-target-research.md |
@@ -26,13 +26,13 @@
 
 ## Success criteria (Phase 9 exit gate)
 
-- [ ] **`point run` uses JS emit by default** — no temp `.ts` on author path; TS emit opt-in (`--target ts` or `build-ts`)
-- [ ] **`examples/math.point` emits runnable `math.py`** with tests proving parity vs TS/JS on pure logic
+- [x] **`point run` uses JS emit by default** — no temp `.ts` on author path; TS emit opt-in (`--target ts` or `build-ts`)
+- [x] **`examples/math.point` emits runnable `math.py`** with tests proving parity vs TS/JS on pure logic
 - [ ] **One npm-exportable package** built entirely from `.point` (no hand-written TS in `src/`)
 - [ ] **One Hatching Point service module** dogfooded end-to-end (check → build → import/run)
-- [ ] **`point check-docs`** validates fenced `.point` in `docs/site/**/*.md`
-- [ ] **Public docs** state clearly: Point replaces TS/Python for new logic; emit is invisible
-- [ ] `bun run ci` passes
+- [x] **`point check-docs`** validates fenced `.point` in `docs/site/**/*.md`
+- [x] **Public docs** state clearly: Point replaces TS/Python for new logic; emit is invisible
+- [x] `bun run ci` passes
 
 ---
 

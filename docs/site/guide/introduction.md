@@ -44,16 +44,17 @@ Point does not require a new runtime stack. Today it emits TypeScript and JavaSc
 
 That means Point can be introduced gradually. A team can keep the surrounding application in TypeScript while moving high-leverage product logic into `.point` files that are easier to check, explain, and repair.
 
-## Authoring vs TypeScript and Python
+## Authoring vs runtime
 
-You write `.point` source. The compiler checks it and emits TypeScript or JavaScript (and, for pure logic, Python is on the roadmap) as build artifacts. You do not hand-edit generated targets for product logic.
+You write `.point` source. The compiler checks it and emits JavaScript by default (TypeScript and Python are opt-in targets). Generated output is build artifacts — not source you hand-edit for product logic.
 
-See [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python) for an honest scope table: what Point replaces today, what still interops, and what remains in surrounding stacks.
+See [Authoring vs runtime](/point/concepts/authoring-vs-runtime) for the full model: what you write, what the machine runs, and why emit stays invisible on the daily path. See [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python) for an honest scope table.
 
 ## See also
 
 - [Quick start](/point/guide/quick-start)
 - [Installation](/point/guide/installation)
 - [Philosophy](/point/concepts/philosophy)
+- [Authoring vs runtime](/point/concepts/authoring-vs-runtime)
 - [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python)
 - [AI overview](/point/ai/overview)

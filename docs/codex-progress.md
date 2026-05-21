@@ -431,3 +431,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point run examples/hello.point` prints "Hello from Point" without writing `.ts` to the project; `bun run ci` passes (105 tests).
 - Next: R5 npm package from `.point` only.
 - Blocked: none
+
+## Checkpoint 9.R8 - Authoring vs runtime vision docs
+- Completed: Added `docs/site/concepts/authoring-vs-runtime.md` (canonical public page for authoring vs emit targets). Updated `docs/vision.md` with completed R1/R2 milestones and link to site page. Consolidated duplicate content in `replaces-typescript-and-python.md` (scope table stays; conceptual framing links to authoring-vs-runtime). Linked from `introduction.md`. Marked Phase 9 exit gate checkboxes for R1–R4 and CI.
+- Verified: `bun run ci` passes (112 tests); `point check-docs` — 21 snippets, 14 file refs.
+- Next: R5 npm package polish; R6–R7 dogfood/view tracks.
+- Blocked: none
