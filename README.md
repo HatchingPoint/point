@@ -91,16 +91,11 @@ These commands are the core of Point's AI engineering model: agents should navig
 
 ## Roadmap
 
-Phases 0–7 and publish are complete. **Active work:** [docs/phase8-plan.md](docs/phase8-plan.md) (editor UX, dogfood modules, external adopters, self-hosting passes).
+Phases 0–7 and publish are complete. **Active:** [phase8-plan.md](docs/phase8-plan.md) (adoption, LSP, docs) and **[phase9-replacement-plan.md](docs/phase9-replacement-plan.md)** (replace TS/Python authoring — launch Codex goals here).
 
-Master history: [docs/full-language-plan.md](docs/full-language-plan.md)
-
-- [Language spec](docs/language-spec.md)
-- [Agent quick reference](docs/agent-quick-reference.md)
-- [Phase 7 complete review](docs/phase7-complete-review.md)
-- [Phase 8 plan](docs/phase8-plan.md) — **active**
-- [Publishing](docs/publishing.md)
-- [Documentation site plan](docs/docs-site-plan.md) — public docs on hatchingpoint.com/point
+- [Vision — authoring vs runtime](docs/vision.md)
+- [Phase 9 Codex goals](docs/codex-goal-replacement.md) — pipe [codex-goal-replacement.prompt.txt](docs/codex-goal-replacement.prompt.txt)
+- [Documentation site plan](docs/docs-site-plan.md)
 - [Codex goal: docs site](docs/codex-goal-docs.md)
 
 ## Packages

@@ -401,3 +401,8 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - LandingPage base commit: `31ec765` (local changes not pushed).
 - Next: D2 content in `docs/site/` and LandingPage markdown sync/import.
 - Blocked: none
+
+## Checkpoint 9.Plan - Phase 9 replace TS/Python agent pack
+- Completed: Added docs/phase9-replacement-plan.md, docs/codex-goal-replacement.md, docs/codex-goal-replacement.prompt.txt, docs/vision.md. Parallel goals R1-R8 for JS-default run, Python emit, docs content, check-docs, npm-from-point, view spike, dogfood service.
+- Next: Launch Codex agents R1+R2+R3+R4 in parallel.
+- Blocked: none

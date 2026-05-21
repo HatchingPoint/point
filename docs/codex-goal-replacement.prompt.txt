@@ -1,0 +1,33 @@
+You are working on Point language Phase 9: REPLACE TypeScript and Python as author-facing languages.
+
+North star: developers write ONLY .point — never hand-edit TypeScript or Python. Emit is a build artifact.
+
+Read first:
+- docs/phase9-replacement-plan.md
+- docs/codex-goal-replacement.md
+- docs/codex-progress.md
+- docs/phase7-complete-review.md
+
+Hard rules:
+- Public .point source stays SEMANTIC (record, calculation, rule, label, action, view, route, …). Never add fn/let/type to author-facing syntax.
+- Production path: parsePointSource → semantic AST → desugar → core AST → check → emit.
+- Core text parser is test-only: packages/point/src/core/test-only/
+- Run bun run ci before declaring compiler work done.
+- LandingPage work: npm run build before done.
+- One goal per session. Append checkpoint to docs/codex-progress.md.
+- Do not change git config, force push, or skip hooks unless asked.
+
+Pick the user's goal from docs/codex-goal-replacement.md:
+
+  R1 — JS-default run/build (hide TS from authors)
+  R2 — Python emit for math.point + point build-py
+  R3 — Docs site content D2–D4 + "replaces TS/Python" page
+  R4 — point check-docs for docs/site markdown
+  R5 — npm package built from .point only (needs R1)
+  R6 — view / doc widget spike
+  R7 — dogfood Bun HTTP service in Point
+  R8 — authoring-vs-runtime vision docs only
+
+If user says "launch parallel" or "ASAP", recommend R1+R2+R3+R4 in four sessions.
+
+Do not claim full Python/UI/native replacement until exit gates in phase9-replacement-plan.md are met.
