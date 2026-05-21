@@ -144,8 +144,17 @@ npm view @hatchingpoint/point-logic version
 
 ## What is not on npm yet
 
-- A public Point package registry or `point add` workflow (planned Phase 11).
+- **`npm:` registry resolution** in `point add` — today use `workspace:` and `file:` (Phase 12).
 - Every example under `examples/` as a separate package — clone the repo or copy modules instead.
+
+## What `point add` supports today
+
+```bash
+point add std workspace:std
+point add logic file:packages/point-logic
+```
+
+This updates `point.json` and regenerates `point.lock`. Registry specs (`npm:…`) return a clear unsupported error until Phase 12.
 
 ## Common mistakes
 

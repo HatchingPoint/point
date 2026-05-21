@@ -12,7 +12,7 @@ Point is an AI-first general-purpose language for software teams that want produ
 
 Point source is written as semantic blocks: `record`, `calculation`, `rule`, `label`, `action`, `policy`, `workflow`, `view`, `route`, and `command`. Those blocks describe the shape and intent of software directly.
 
-The compiler parses that semantic source into a semantic AST, lowers it in memory to a typed core IR, checks it, and emits TypeScript or JavaScript. Authors do not write the core IR. It is a compiler artifact, like the internal AST or checked representation in other languages.
+The compiler parses that semantic source into a semantic AST, lowers it in memory to a typed core IR, checks it, and emits JavaScript by default (TypeScript and Python are opt-in). Authors do not write the core IR.
 
 ```point
 module Readiness
@@ -36,7 +36,7 @@ rule launch readiness
 
 Point is for projects where business rules, application boundaries, and AI-assisted changes need clearer structure than a pile of general-purpose functions. It is especially useful when a coding agent should be able to inspect a file, explain a symbol, patch a diagnostic, and re-check without guessing from line numbers.
 
-Point is not limited to one app category. Its current feature set covers data records, pure calculations, rules, labels, optional values, result values, modules, standard library imports, actions, policies, workflows, views, routes, commands, tests, formatting, LSP, and TypeScript emit.
+Point is not limited to one app category. Its current feature set covers data records, pure calculations, rules, labels, optional values, result values, modules, standard library imports, actions, policies, workflows, views, pages, routes, commands, tests, formatting, LSP, and JavaScript/TypeScript/Python emit.
 
 ## How it fits today
 

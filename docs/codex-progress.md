@@ -523,3 +523,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (133 tests).
 - Next: Phase 12 — npm: registry resolution, remaining std shims, external starter template, Open VSX.
 - Blocked: none
+
+## Checkpoint Docs.Truth - Public and internal docs aligned with v0.0.13
+- Completed: Updated vision.md, replaces-typescript-and-python, authoring-vs-runtime, npm-packages, stdlib bridge, introduction, site changelog. Marked phase8-plan, full-language-plan, codex-goal-post-phase7 as historical; active phase is 12.
+- Verified: point check-docs and bun run ci.
+- Next: Phase 12 Wave 1.
+- Blocked: none

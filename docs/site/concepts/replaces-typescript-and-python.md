@@ -17,7 +17,8 @@ For the authoring-vs-runtime model and daily workflow, see [Authoring vs runtime
 | Business logic (records, rules, calculations, labels) | ✅ Author in Point |
 | HTTP routes, actions, workflows, CLI commands | ✅ Author in Point; emit TS/JS |
 | `point run` / `point test` without editing emit | ✅ JS-default via temp emit; `build-ts` opt-in |
-| Libraries published from `.point` only | 🎯 In progress |
+| Libraries published from `.point` only | ✅ `@hatchingpoint/point-logic` on npm |
+| Interactive views and pages | ✅ `view`, `page`, controlled checkboxes, `Handler` callbacks |
 | Pure logic Python modules | ✅ `point build-py` for modules like `math.point` |
 | Docs site chrome, rich layout | ⚠️ Often stays in Next.js until layout blocks grow |
 | Compiler self-host | 📋 Incremental; long-term |

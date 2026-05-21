@@ -60,4 +60,4 @@ The extension provides `.point` language registration, syntax highlighting, snip
 2. Emit TypeScript first so existing React/Vue/Bun projects can import Point output.
 3. Grow semantic source with iteration, errors/results, modules across files, async, effects, and package resolution.
 4. Add framework targets later: React components, Vue components, server handlers, edge functions, and app routing.
-5. **Done:** core package and editor extension published; focus Phase 8 on editor UX and real-world modules — see [phase8-plan.md](./phase8-plan.md).
+5. **Done:** core package, editor extension, LSP, adoption examples, and `@hatchingpoint/point-logic` published. Active: [phase12-plan.md](./phase12-plan.md).

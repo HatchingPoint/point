@@ -1,5 +1,7 @@
 # Point Full Language Plan
 
+> **Status (2026-05):** Phases 0–11 are **complete** (v0.0.13). Active work: [phase12-plan.md](./phase12-plan.md). This document archives Phase 0–7 execution history; use phase9–12 plans for current goals.
+
 This is the master execution plan for building Point into a complete, general-purpose, AI-first language that can eventually replace hand-written TypeScript and Python for new software.
 
 **Do not start the next phase until every checkbox in the current phase is checked.** A phase is incomplete if any box is open, any quality-gate command fails, or any exit criterion is unmet.
@@ -567,11 +569,9 @@ Semantic `.point` → semantic AST → in-memory desugar → core AST → check 
 
 ---
 
-## Phase 8 — Product and Compiler (active)
+## Phase 8 — Product and Compiler (complete)
 
-Execute [phase8-plan.md](./phase8-plan.md). All work is code, tests, and examples — no publish credentials or GitHub setup required.
-
-**Active phase:** Phase 8
+Execute [phase8-plan.md](./phase8-plan.md). Superseded by Phases 9–11 — see [phase12-plan.md](./phase12-plan.md) for active work.
 
 ---
 
@@ -668,8 +668,12 @@ Use the same pattern: quote the phase section from this doc, list its checkboxes
 | 5 | Application layer | Done |
 | 6 | Production and ecosystem | Done |
 | 7 | Compiler modernization (AST pipeline) | Done |
-| 8 | Product and compiler | **Active** — [phase8-plan.md](./phase8-plan.md) |
+| 8 | Product and compiler | Done — [phase8-plan.md](./phase8-plan.md) |
+| 9 | Replace TS/Python authoring | Done — [phase9-replacement-plan.md](./phase9-replacement-plan.md) |
+| 10 | Language depth & Python parity | Done — [phase10-plan.md](./phase10-plan.md) |
+| 11 | Ecosystem & stdlib | Done — [phase11-plan.md](./phase11-plan.md) |
+| 12 | Ecosystem scale | **Active** — [phase12-plan.md](./phase12-plan.md) |
 
-**Active phase:** Phase 8 — editor UX, dogfood module, external adopter, self-hosting passes
+**Active phase:** Phase 12 — `npm:` deps, std shims, starter template, Open VSX
 
 **Last updated:** 2026-05-21

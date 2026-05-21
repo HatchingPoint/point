@@ -1,8 +1,10 @@
 # Codex Goals After Phase 7
 
-Phases 0–7 and publish are **complete**. Use this doc for **Phase 8** work — code and tests only.
+> **Historical.** Phases 8–11 are complete. Use [phase12-plan.md](./phase12-plan.md) and [codex-goal-phase11.md](./codex-goal-phase11.md) for current agent work.
 
-**Active plan:** [phase8-plan.md](./phase8-plan.md)  
+Phases 0–7 and publish are **complete**. This doc archived Phase 8 goals.
+
+**Current plan:** [phase12-plan.md](./phase12-plan.md)  
 **Review:** [phase7-complete-review.md](./phase7-complete-review.md)  
 **Progress log:** [codex-progress.md](./codex-progress.md)
 

@@ -1,7 +1,6 @@
 # Phase 8 — Product and Compiler (Code Only)
 
-**Status:** Active as of 2026-05-21.  
-**Prerequisite:** Phases 0–7 complete. npm (`@hatchingpoint/point@0.0.9`) and VS Code Marketplace (`hatchingpoint.point@0.0.9`) published. GitHub Actions publish pipeline green.
+**Status:** Complete — superseded by Phases 9–11. See [phase9-replacement-plan.md](./phase9-replacement-plan.md), [phase10-plan.md](./phase10-plan.md), [phase11-plan.md](./phase11-plan.md). Active: [phase12-plan.md](./phase12-plan.md).
 
 Everything in this phase is **code and tests in the repo**. No credentials, marketplace setup, or GitHub secret work required.
 

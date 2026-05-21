@@ -120,14 +120,15 @@ python -c "import importlib.util; spec=importlib.util.spec_from_file_location('m
 | Area | JavaScript emit (default) | Python emit |
 |------|---------------------------|-------------|
 | Records, calculations, rules, labels | ✅ | ✅ |
-| Actions, workflows, commands | ✅ async JS | ⏳ skipped with comment |
+| Actions | ✅ async JS | ✅ async Python (minimal; see limits below) |
+| Workflows, commands | ✅ | ⏳ skipped with comment |
 | Views, routes | ✅ React/Hono targets | ⏳ not emitted |
-| npm-style `external` | ✅ ES imports | Minimal `from … import …` only |
-| `use std.*` IO | ✅ via npm bridge | ⏳ no Python std mirror yet |
+| npm-style `external` | ✅ ES imports | Minimal shims only |
+| `use std.*` IO | ✅ via `@hatchingpoint/point/std/*` | ⏳ no Python std mirror yet |
 
-For effectful work in production today, emit JavaScript (default `point build`) and call npm or Node through `external` blocks or `use std.*`. Use Python emit when you need portable pure logic — pricing rules, scoring, labels — without pulling in the JS runtime.
+For effectful work in production today, emit JavaScript (default `point build`) and call npm or Node through `external` blocks or `use std.*`. Use Python emit for portable logic and simple async actions; use JS emit for routes, views, and full std IO.
 
-Phase 10 is extending Python emit for actions and batch `build-py-all` for pure-logic fixtures. See `docs/python-emit-research.md` in the repository for the roadmap.
+See `docs/python-emit-research.md` in the repository for current limits and smoke tests.
 
 ## Production checklist
 

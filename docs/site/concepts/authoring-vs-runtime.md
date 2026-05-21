@@ -57,14 +57,16 @@ Bun or Node still executes emitted JavaScript. React and Next.js can import gene
 
 Framework glue, config files, and third-party libraries may stay in TypeScript or Python. The goal is that **product logic you care about** — models, rules, commands, and boundaries agents should repair — lives in `.point`.
 
-## Roadmap (Phase 9+)
+## Roadmap (Phases 9–11 complete; Phase 12 next)
 
 | Milestone | Outcome |
 |-----------|---------|
 | JS-default run/build | ✅ Authors use `point build` and `point run` without managing TypeScript |
-| Python emit (pure logic) | ✅ `point build-py` for modules like `math.point` |
-| Point-only npm packages | 🎯 Libraries published from `.point` without hand-written TS in `src/` |
-| Richer views | 🎯 More UI without raw React for every screen |
+| Python emit (logic + actions) | ✅ `point build-py` / `build-py-all` |
+| Point-only npm packages | ✅ `@hatchingpoint/point-logic` — `.point` in `src/`, JS in `dist/` |
+| Richer views and pages | ✅ Controlled checkboxes, `Handler` callbacks, `page` block |
+| Package dependencies | ✅ `point add` with `workspace:` and `file:` specs |
+| Next (Phase 12) | `npm:` registry deps, remaining std shims, external starter template |
 | Long-term | Optional standalone runtime — not required for adoption today |
 
 See [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python) for a layer-by-layer scope table.
