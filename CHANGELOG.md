@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.8
+
+### Added
+
+- Verify automated npm and Marketplace publish with VSCE_PAT.
+
 ## 0.0.7
 
 ### Added
