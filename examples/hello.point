@@ -1,0 +1,6 @@
+module Hello
+
+action main
+  output message: Text
+  touches none
+  return "Hello from Point"

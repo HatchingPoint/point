@@ -1,0 +1,11 @@
+module Order
+
+use Catalog from "./catalog.point"
+
+rule order total
+  input products: List<Product>
+  output total: Int
+  total starts at 0
+  for each product in products
+  add product.price to total
+  return total

@@ -1,0 +1,9 @@
+module ExternalExample
+
+external node fs
+  read file(path: Text): Text from "node:fs" as readFileSync
+
+calculation load config
+  input path: Text
+  output contents: Text
+  contents is read file(path)

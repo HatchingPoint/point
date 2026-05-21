@@ -1,0 +1,351 @@
+{
+  "kind": "coreProgram",
+  "module": "ExternalExample",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "readFile",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "node:fs",
+      "importName": "readFileSync",
+      "semantic": {
+        "kind": "external",
+        "name": "read file"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 41
+        },
+        "end": {
+          "line": 4,
+          "column": 61,
+          "offset": 101
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "loadConfigContents",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "readFile",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "path",
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 170
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 30,
+                    "offset": 199
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 170
+              },
+              "end": {
+                "line": 9,
+                "column": 30,
+                "offset": 199
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 170
+            },
+            "end": {
+              "line": 9,
+              "column": 30,
+              "offset": 199
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "load config",
+        "outputName": "contents",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 103
+        },
+        "end": {
+          "line": 6,
+          "column": 24,
+          "offset": 126
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 23,
+      "offset": 22
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "ExternalExample",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "node fs",
+        "functions": [
+          {
+            "label": "read file",
+            "params": [
+              {
+                "label": "path",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "node:fs",
+            "importAs": "readFileSync",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 41
+              },
+              "end": {
+                "line": 4,
+                "column": 61,
+                "offset": 101
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 24
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 40
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "load config",
+        "inputs": [
+          {
+            "label": "path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "contents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "contents",
+            "value": {
+              "kind": "call",
+              "callee": "read file",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "path",
+                  "span": {
+                    "start": {
+                      "line": 9,
+                      "column": 1,
+                      "offset": 170
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 30,
+                      "offset": 199
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 9,
+                  "column": 1,
+                  "offset": 170
+                },
+                "end": {
+                  "line": 9,
+                  "column": 30,
+                  "offset": 199
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 170
+              },
+              "end": {
+                "line": 9,
+                "column": 30,
+                "offset": 199
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 103
+          },
+          "end": {
+            "line": 6,
+            "column": 24,
+            "offset": 126
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 23,
+        "offset": 22
+      }
+    }
+  }
+}

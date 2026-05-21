@@ -1,0 +1,494 @@
+{
+  "kind": "coreProgram",
+  "module": "Catalog",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Product",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 31
+            },
+            "end": {
+              "line": 4,
+              "column": 13,
+              "offset": 43
+            }
+          }
+        },
+        {
+          "name": "price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "price",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 44
+            },
+            "end": {
+              "line": 5,
+              "column": 13,
+              "offset": 56
+            }
+          }
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "quantity",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 57
+            },
+            "end": {
+              "line": 6,
+              "column": 16,
+              "offset": 72
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Product"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 16
+        },
+        "end": {
+          "line": 3,
+          "column": 15,
+          "offset": 30
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "productLineTotal",
+      "params": [
+        {
+          "name": "product",
+          "type": {
+            "kind": "typeRef",
+            "name": "Product",
+            "args": []
+          },
+          "semanticName": "product",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "*",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "product",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 150
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 44,
+                    "offset": 193
+                  }
+                }
+              },
+              "name": "price",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 150
+                },
+                "end": {
+                  "line": 11,
+                  "column": 44,
+                  "offset": 193
+                }
+              }
+            },
+            "right": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "product",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 150
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 44,
+                    "offset": 193
+                  }
+                }
+              },
+              "name": "quantity",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 150
+                },
+                "end": {
+                  "line": 11,
+                  "column": 44,
+                  "offset": 193
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 150
+              },
+              "end": {
+                "line": 11,
+                "column": 44,
+                "offset": 193
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 150
+            },
+            "end": {
+              "line": 11,
+              "column": 44,
+              "offset": 193
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "product line total",
+        "outputName": "total",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 74
+        },
+        "end": {
+          "line": 8,
+          "column": 31,
+          "offset": 104
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Catalog",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Product",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 31
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 43
+              }
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 44
+              },
+              "end": {
+                "line": 5,
+                "column": 13,
+                "offset": 56
+              }
+            }
+          },
+          {
+            "label": "quantity",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 57
+              },
+              "end": {
+                "line": 6,
+                "column": 16,
+                "offset": 72
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 15,
+            "offset": 30
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "product line total",
+        "inputs": [
+          {
+            "label": "product",
+            "type": {
+              "kind": "typeRef",
+              "name": "Product",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 17,
+                "offset": 16
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "total",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "total",
+            "value": {
+              "kind": "binary",
+              "operator": "*",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "product",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 150
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 44,
+                      "offset": 193
+                    }
+                  }
+                },
+                "label": "price",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 150
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 44,
+                    "offset": 193
+                  }
+                }
+              },
+              "right": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "product",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 150
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 44,
+                      "offset": 193
+                    }
+                  }
+                },
+                "label": "quantity",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 150
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 44,
+                    "offset": 193
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 150
+                },
+                "end": {
+                  "line": 11,
+                  "column": 44,
+                  "offset": 193
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 150
+              },
+              "end": {
+                "line": 11,
+                "column": 44,
+                "offset": 193
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 74
+          },
+          "end": {
+            "line": 8,
+            "column": 31,
+            "offset": 104
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

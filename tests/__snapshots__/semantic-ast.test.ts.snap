@@ -1,0 +1,452 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`semantic AST math.point semantic AST shape 1`] = `
+"{
+  "kind": "semanticProgram",
+  "module": "Math",
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "record",
+      "name": "User",
+      "fields": [
+        {
+          "label": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        {
+          "label": "active",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "name": "Launch Signals",
+      "fields": [
+        {
+          "label": "has bundle id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        {
+          "label": "submitted for review",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        {
+          "label": "has passing tests",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        }
+      ]
+    },
+    {
+      "kind": "calculation",
+      "name": "annual price",
+      "inputs": [
+        {
+          "label": "monthly price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        }
+      ],
+      "output": {
+        "name": "annual price",
+        "type": {
+          "kind": "typeRef",
+          "name": "Int",
+          "args": []
+        }
+      },
+      "body": [
+        {
+          "kind": "assignIs",
+          "name": "annual price",
+          "value": {
+            "kind": "binary",
+            "operator": "*",
+            "left": {
+              "kind": "name",
+              "label": "monthly price"
+            },
+            "right": {
+              "kind": "literal",
+              "value": 12
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rule",
+      "name": "launch readiness",
+      "inputs": [
+        {
+          "label": "signals",
+          "type": {
+            "kind": "typeRef",
+            "name": "Launch Signals",
+            "args": []
+          }
+        }
+      ],
+      "output": {
+        "name": "score",
+        "type": {
+          "kind": "typeRef",
+          "name": "Int",
+          "args": []
+        }
+      },
+      "body": [
+        {
+          "kind": "startsAt",
+          "name": "score",
+          "value": {
+            "kind": "literal",
+            "value": 0
+          }
+        },
+        {
+          "kind": "addWhen",
+          "amount": {
+            "kind": "literal",
+            "value": 30
+          },
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "name",
+              "label": "signals"
+            },
+            "label": "has bundle id"
+          }
+        },
+        {
+          "kind": "addWhen",
+          "amount": {
+            "kind": "literal",
+            "value": 40
+          },
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "name",
+              "label": "signals"
+            },
+            "label": "submitted for review"
+          }
+        },
+        {
+          "kind": "addWhen",
+          "amount": {
+            "kind": "literal",
+            "value": 30
+          },
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "name",
+              "label": "signals"
+            },
+            "label": "has passing tests"
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "name",
+            "label": "score"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "label",
+      "name": "user status",
+      "inputs": [
+        {
+          "label": "user",
+          "type": {
+            "kind": "typeRef",
+            "name": "User",
+            "args": []
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": {
+          "kind": "typeRef",
+          "name": "Text",
+          "args": []
+        }
+      },
+      "body": [
+        {
+          "kind": "whenReturn",
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "name",
+              "label": "user"
+            },
+            "label": "active"
+          },
+          "value": {
+            "kind": "literal",
+            "value": "active"
+          }
+        },
+        {
+          "kind": "otherwiseReturn",
+          "value": {
+            "kind": "literal",
+            "value": "inactive"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "label",
+      "name": "score status",
+      "inputs": [
+        {
+          "label": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": {
+          "kind": "typeRef",
+          "name": "Text",
+          "args": []
+        }
+      },
+      "body": [
+        {
+          "kind": "whenReturn",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "name",
+              "label": "score"
+            },
+            "right": {
+              "kind": "literal",
+              "value": 90
+            }
+          },
+          "value": {
+            "kind": "literal",
+            "value": "excellent"
+          }
+        },
+        {
+          "kind": "otherwiseReturn",
+          "value": {
+            "kind": "literal",
+            "value": "keep going"
+          }
+        }
+      ]
+    }
+  ]
+}
+"
+`;
+
+exports[`semantic AST cart-total.point semantic AST shape 1`] = `
+"{
+  "kind": "semanticProgram",
+  "module": "Checkout",
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "record",
+      "name": "Cart Item",
+      "fields": [
+        {
+          "label": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        {
+          "label": "unit price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        {
+          "label": "quantity",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        }
+      ]
+    },
+    {
+      "kind": "calculation",
+      "name": "line total",
+      "inputs": [
+        {
+          "label": "item",
+          "type": {
+            "kind": "typeRef",
+            "name": "Cart Item",
+            "args": []
+          }
+        }
+      ],
+      "output": {
+        "name": "total",
+        "type": {
+          "kind": "typeRef",
+          "name": "Int",
+          "args": []
+        }
+      },
+      "body": [
+        {
+          "kind": "assignIs",
+          "name": "total",
+          "value": {
+            "kind": "binary",
+            "operator": "*",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "item"
+              },
+              "label": "unit price"
+            },
+            "right": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "item"
+              },
+              "label": "quantity"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rule",
+      "name": "cart total",
+      "inputs": [
+        {
+          "label": "items",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Cart Item",
+                "args": []
+              }
+            ]
+          }
+        }
+      ],
+      "output": {
+        "name": "total",
+        "type": {
+          "kind": "typeRef",
+          "name": "Int",
+          "args": []
+        }
+      },
+      "body": [
+        {
+          "kind": "startsAt",
+          "name": "total",
+          "value": {
+            "kind": "literal",
+            "value": 0
+          }
+        },
+        {
+          "kind": "forEach",
+          "item": "item",
+          "iterable": {
+            "kind": "name",
+            "label": "items"
+          },
+          "body": [
+            {
+              "kind": "addTo",
+              "amount": {
+                "kind": "binary",
+                "operator": "*",
+                "left": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "item"
+                  },
+                  "label": "unit price"
+                },
+                "right": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "item"
+                  },
+                  "label": "quantity"
+                }
+              },
+              "target": "total"
+            }
+          ]
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "name",
+            "label": "total"
+          }
+        }
+      ]
+    }
+  ]
+}
+"
+`;

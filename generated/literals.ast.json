@@ -1,0 +1,669 @@
+{
+  "kind": "coreProgram",
+  "module": "Literals",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "CartItem",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 34
+            },
+            "end": {
+              "line": 4,
+              "column": 13,
+              "offset": 46
+            }
+          }
+        },
+        {
+          "name": "unitPrice",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "unit price",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 47
+            },
+            "end": {
+              "line": 5,
+              "column": 18,
+              "offset": 64
+            }
+          }
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "quantity",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 65
+            },
+            "end": {
+              "line": 6,
+              "column": 16,
+              "offset": 80
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Cart Item"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 17
+        },
+        "end": {
+          "line": 3,
+          "column": 17,
+          "offset": 33
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sampleNumbersValues",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "list",
+            "items": [
+              {
+                "kind": "literal",
+                "value": 1,
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 136
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 22,
+                    "offset": 157
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 2,
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 136
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 22,
+                    "offset": 157
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 3,
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 136
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 22,
+                    "offset": 157
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 136
+              },
+              "end": {
+                "line": 10,
+                "column": 22,
+                "offset": 157
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 136
+            },
+            "end": {
+              "line": 10,
+              "column": 22,
+              "offset": 157
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sample numbers",
+        "outputName": "values",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 82
+        },
+        "end": {
+          "line": 8,
+          "column": 27,
+          "offset": 108
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sampleItem",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "CartItem",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "name",
+                "value": {
+                  "kind": "literal",
+                  "value": "Pencil",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 208
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 57,
+                      "offset": 264
+                    }
+                  }
+                }
+              },
+              {
+                "name": "unitPrice",
+                "value": {
+                  "kind": "literal",
+                  "value": 2,
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 208
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 57,
+                      "offset": 264
+                    }
+                  }
+                }
+              },
+              {
+                "name": "quantity",
+                "value": {
+                  "kind": "literal",
+                  "value": 4,
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 208
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 57,
+                      "offset": 264
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 208
+              },
+              "end": {
+                "line": 14,
+                "column": 57,
+                "offset": 264
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 208
+            },
+            "end": {
+              "line": 14,
+              "column": 57,
+              "offset": 264
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sample item",
+        "outputName": "item",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 159
+        },
+        "end": {
+          "line": 12,
+          "column": 24,
+          "offset": 182
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 16,
+      "offset": 15
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Literals",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Cart Item",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 34
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 46
+              }
+            }
+          },
+          {
+            "label": "unit price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 47
+              },
+              "end": {
+                "line": 5,
+                "column": 18,
+                "offset": 64
+              }
+            }
+          },
+          {
+            "label": "quantity",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 65
+              },
+              "end": {
+                "line": 6,
+                "column": 16,
+                "offset": 80
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 17
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 33
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sample numbers",
+        "inputs": [],
+        "output": {
+          "name": "values",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Int",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "values",
+            "value": {
+              "kind": "list",
+              "items": [
+                {
+                  "kind": "literal",
+                  "value": 1,
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 136
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 22,
+                      "offset": 157
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 2,
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 136
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 22,
+                      "offset": 157
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 3,
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 136
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 22,
+                      "offset": 157
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 136
+                },
+                "end": {
+                  "line": 10,
+                  "column": 22,
+                  "offset": 157
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 136
+              },
+              "end": {
+                "line": 10,
+                "column": 22,
+                "offset": 157
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 82
+          },
+          "end": {
+            "line": 8,
+            "column": 27,
+            "offset": 108
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sample item",
+        "inputs": [],
+        "output": {
+          "name": "item",
+          "type": {
+            "kind": "typeRef",
+            "name": "Cart Item",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "item",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "name",
+                  "value": {
+                    "kind": "literal",
+                    "value": "Pencil",
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 208
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 57,
+                        "offset": 264
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "unit price",
+                  "value": {
+                    "kind": "literal",
+                    "value": 2,
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 208
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 57,
+                        "offset": 264
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "quantity",
+                  "value": {
+                    "kind": "literal",
+                    "value": 4,
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 208
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 57,
+                        "offset": 264
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 208
+                },
+                "end": {
+                  "line": 14,
+                  "column": 57,
+                  "offset": 264
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 208
+              },
+              "end": {
+                "line": 14,
+                "column": 57,
+                "offset": 264
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 12,
+            "column": 1,
+            "offset": 159
+          },
+          "end": {
+            "line": 12,
+            "column": 24,
+            "offset": 182
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 16,
+        "offset": 15
+      }
+    }
+  }
+}

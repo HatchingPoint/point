@@ -1,0 +1,152 @@
+{
+  "kind": "coreProgram",
+  "module": "Hello",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "mainMessage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Hello from Point",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 64
+              },
+              "end": {
+                "line": 6,
+                "column": 28,
+                "offset": 91
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "main",
+        "outputName": "message",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 14
+        },
+        "end": {
+          "line": 3,
+          "column": 12,
+          "offset": 25
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 13,
+      "offset": 12
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Hello",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "action",
+        "name": "main",
+        "inputs": [],
+        "output": {
+          "name": "message",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Hello from Point",
+              "span": {
+                "start": {
+                  "line": 6,
+                  "column": 1,
+                  "offset": 64
+                },
+                "end": {
+                  "line": 6,
+                  "column": 28,
+                  "offset": 91
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 64
+              },
+              "end": {
+                "line": 6,
+                "column": 28,
+                "offset": 91
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 14
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 25
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 13,
+        "offset": 12
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import type { PointSemanticProgram } from "../semantic/ast.ts";
+
 export type PointCorePrimitiveType = "Text" | "Int" | "Float" | "Bool" | "Void";
 
 export interface PointSourcePosition {
@@ -16,10 +18,13 @@ export interface PointCoreProgram {
 	module?: string;
 	declarations: PointCoreDeclaration[];
 	span?: PointSourceSpan;
+	semantic?: PointSemanticProgramMetadata;
+	semanticSource?: PointSemanticProgram;
 }
 
 export type PointCoreDeclaration =
 	| PointCoreImportDeclaration
+	| PointCoreExternalDeclaration
 	| PointCoreValueDeclaration
 	| PointCoreFunctionDeclaration
 	| PointCoreTypeDeclaration;
@@ -47,6 +52,18 @@ export interface PointCoreFunctionDeclaration {
 	returnType: PointCoreTypeExpression;
 	body: PointCoreStatement[];
 	span?: PointSourceSpan;
+	semantic?: PointSemanticDeclarationMetadata;
+}
+
+export interface PointCoreExternalDeclaration {
+	kind: "external";
+	name: string;
+	params: PointCoreParameter[];
+	returnType: PointCoreTypeExpression;
+	from: string;
+	importName?: string;
+	span?: PointSourceSpan;
+	semantic?: PointSemanticDeclarationMetadata;
 }
 
 export interface PointCoreTypeDeclaration {
@@ -54,12 +71,25 @@ export interface PointCoreTypeDeclaration {
 	name: string;
 	fields: PointCoreParameter[];
 	span?: PointSourceSpan;
+	semantic?: PointSemanticDeclarationMetadata;
 }
 
 export interface PointCoreParameter {
 	name: string;
 	type: PointCoreTypeExpression;
 	span?: PointSourceSpan;
+	semanticName?: string;
+}
+
+export interface PointSemanticProgramMetadata {
+	source: "semantic";
+}
+
+export interface PointSemanticDeclarationMetadata {
+	kind: "record" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "view" | "route" | "workflow" | "command";
+	name: string;
+	outputName?: string;
+	effects?: string[];
 }
 
 export interface PointCoreTypeExpression {
@@ -81,7 +111,7 @@ export type PointCoreStatement =
 	| {
 			kind: "assignment";
 			name: string;
-			operator: "=" | "+=";
+			operator: "=" | "+=" | "-=";
 			value: PointCoreExpression;
 			span?: PointSourceSpan;
 	  }
@@ -92,14 +122,22 @@ export type PointCoreStatement =
 			elseBody: PointCoreStatement[];
 			span?: PointSourceSpan;
 	  }
+	| {
+			kind: "for";
+			itemName: string;
+			iterable: PointCoreExpression;
+			body: PointCoreStatement[];
+			span?: PointSourceSpan;
+	  }
 	| { kind: "expression"; value: PointCoreExpression; span?: PointSourceSpan };
 
 export type PointCoreExpression =
-	| { kind: "literal"; value: string | number | boolean; span?: PointSourceSpan }
+	| { kind: "literal"; value: string | number | boolean | null; span?: PointSourceSpan }
 	| { kind: "identifier"; name: string; span?: PointSourceSpan }
 	| { kind: "list"; items: PointCoreExpression[]; span?: PointSourceSpan }
 	| { kind: "record"; fields: PointCoreRecordField[]; span?: PointSourceSpan }
 	| { kind: "property"; target: PointCoreExpression; name: string; span?: PointSourceSpan }
+	| { kind: "await"; value: PointCoreExpression; span?: PointSourceSpan }
 	| {
 			kind: "binary";
 			operator: PointCoreBinaryOperator;

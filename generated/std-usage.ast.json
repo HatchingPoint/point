@@ -1,0 +1,1474 @@
+{
+  "kind": "coreProgram",
+  "module": "StdUsage",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "stdTextExampleMessage",
+      "params": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "concatTextValue",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "Hello ",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 169
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 45,
+                    "offset": 213
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "name",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 169
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 45,
+                    "offset": 213
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 169
+              },
+              "end": {
+                "line": 18,
+                "column": 45,
+                "offset": 213
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 169
+            },
+            "end": {
+              "line": 18,
+              "column": 45,
+              "offset": 213
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "std text example",
+        "outputName": "message",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 98
+        },
+        "end": {
+          "line": 15,
+          "column": 29,
+          "offset": 126
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stdJsonExampleResult",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 21,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "parseJsonResult",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "value",
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 305
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 38,
+                      "offset": 342
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 305
+                },
+                "end": {
+                  "line": 24,
+                  "column": 38,
+                  "offset": 342
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 305
+              },
+              "end": {
+                "line": 24,
+                "column": 38,
+                "offset": 342
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "std json example",
+        "outputName": "result",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 215
+        },
+        "end": {
+          "line": 20,
+          "column": 24,
+          "offset": 238
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stdHttpExampleResponse",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "httpGetResponse",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "url",
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 437
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 36,
+                      "offset": 472
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 437
+                },
+                "end": {
+                  "line": 30,
+                  "column": 36,
+                  "offset": 472
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 437
+              },
+              "end": {
+                "line": 30,
+                "column": 36,
+                "offset": 472
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "std http example",
+        "outputName": "response",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 344
+        },
+        "end": {
+          "line": 26,
+          "column": 24,
+          "offset": 367
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stdTimeExampleValue",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "currentTimeValue",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 534
+                },
+                "end": {
+                  "line": 35,
+                  "column": 34,
+                  "offset": 567
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 534
+              },
+              "end": {
+                "line": 35,
+                "column": 34,
+                "offset": 567
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "std time example",
+        "outputName": "value",
+        "effects": [
+          "time"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 474
+        },
+        "end": {
+          "line": 32,
+          "column": 24,
+          "offset": 497
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stdFsExampleContents",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 38,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "readFileContents",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "path",
+                  "span": {
+                    "start": {
+                      "line": 41,
+                      "column": 1,
+                      "offset": 658
+                    },
+                    "end": {
+                      "line": 41,
+                      "column": 38,
+                      "offset": 695
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 658
+                },
+                "end": {
+                  "line": 41,
+                  "column": 38,
+                  "offset": 695
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 658
+              },
+              "end": {
+                "line": 41,
+                "column": 38,
+                "offset": 695
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "std fs example",
+        "outputName": "contents",
+        "effects": [
+          "file"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 569
+        },
+        "end": {
+          "line": 37,
+          "column": 22,
+          "offset": 590
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stdEnvExampleValue",
+      "params": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 44,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Maybe",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "getEnvVarValue",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "name",
+                  "span": {
+                    "start": {
+                      "line": 47,
+                      "column": 1,
+                      "offset": 781
+                    },
+                    "end": {
+                      "line": 47,
+                      "column": 36,
+                      "offset": 816
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 47,
+                  "column": 1,
+                  "offset": 781
+                },
+                "end": {
+                  "line": 47,
+                  "column": 36,
+                  "offset": 816
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 47,
+                "column": 1,
+                "offset": 781
+              },
+              "end": {
+                "line": 47,
+                "column": 36,
+                "offset": 816
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "std env example",
+        "outputName": "value",
+        "effects": [
+          "env"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 43,
+          "column": 1,
+          "offset": 697
+        },
+        "end": {
+          "line": 43,
+          "column": 23,
+          "offset": 719
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 16,
+      "offset": 15
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdUsage",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.text",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.json",
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.http",
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.time",
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 9,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.fs",
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 11,
+            "column": 11,
+            "offset": 10
+          }
+        }
+      },
+      {
+        "kind": "use",
+        "moduleName": "std.env",
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 12,
+            "offset": 11
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "calculation",
+        "name": "std text example",
+        "inputs": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "message",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "message",
+            "value": {
+              "kind": "call",
+              "callee": "concatTextValue",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "Hello ",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 169
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 45,
+                      "offset": 213
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "name",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 169
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 45,
+                      "offset": 213
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 169
+                },
+                "end": {
+                  "line": 18,
+                  "column": 45,
+                  "offset": 213
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 169
+              },
+              "end": {
+                "line": 18,
+                "column": 45,
+                "offset": 213
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 98
+          },
+          "end": {
+            "line": 15,
+            "column": 29,
+            "offset": 126
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "std json example",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "parseJsonResult",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "value",
+                    "span": {
+                      "start": {
+                        "line": 24,
+                        "column": 1,
+                        "offset": 305
+                      },
+                      "end": {
+                        "line": 24,
+                        "column": 38,
+                        "offset": 342
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 305
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 38,
+                    "offset": 342
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 305
+                },
+                "end": {
+                  "line": 24,
+                  "column": 38,
+                  "offset": 342
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 305
+              },
+              "end": {
+                "line": 24,
+                "column": 38,
+                "offset": 342
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 215
+          },
+          "end": {
+            "line": 20,
+            "column": 24,
+            "offset": 238
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "std http example",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "httpGetResponse",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "url",
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 437
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 36,
+                        "offset": 472
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 30,
+                    "column": 1,
+                    "offset": 437
+                  },
+                  "end": {
+                    "line": 30,
+                    "column": 36,
+                    "offset": 472
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 437
+                },
+                "end": {
+                  "line": 30,
+                  "column": 36,
+                  "offset": 472
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 437
+              },
+              "end": {
+                "line": 30,
+                "column": 36,
+                "offset": 472
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 344
+          },
+          "end": {
+            "line": 26,
+            "column": 24,
+            "offset": 367
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "std time example",
+        "inputs": [],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "time"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "currentTimeValue",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 534
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 34,
+                    "offset": 567
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 534
+                },
+                "end": {
+                  "line": 35,
+                  "column": 34,
+                  "offset": 567
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 534
+              },
+              "end": {
+                "line": 35,
+                "column": 34,
+                "offset": 567
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 474
+          },
+          "end": {
+            "line": 32,
+            "column": 24,
+            "offset": 497
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "std fs example",
+        "inputs": [
+          {
+            "label": "path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 38,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "contents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "file"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "readFileContents",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "path",
+                    "span": {
+                      "start": {
+                        "line": 41,
+                        "column": 1,
+                        "offset": 658
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 38,
+                        "offset": 695
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 41,
+                    "column": 1,
+                    "offset": 658
+                  },
+                  "end": {
+                    "line": 41,
+                    "column": 38,
+                    "offset": 695
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 41,
+                  "column": 1,
+                  "offset": 658
+                },
+                "end": {
+                  "line": 41,
+                  "column": 38,
+                  "offset": 695
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 658
+              },
+              "end": {
+                "line": 41,
+                "column": 38,
+                "offset": 695
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 37,
+            "column": 1,
+            "offset": 569
+          },
+          "end": {
+            "line": 37,
+            "column": 22,
+            "offset": 590
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "std env example",
+        "inputs": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 44,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 44,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "env"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "getEnvVarValue",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "name",
+                    "span": {
+                      "start": {
+                        "line": 47,
+                        "column": 1,
+                        "offset": 781
+                      },
+                      "end": {
+                        "line": 47,
+                        "column": 36,
+                        "offset": 816
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 47,
+                    "column": 1,
+                    "offset": 781
+                  },
+                  "end": {
+                    "line": 47,
+                    "column": 36,
+                    "offset": 816
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 47,
+                  "column": 1,
+                  "offset": 781
+                },
+                "end": {
+                  "line": 47,
+                  "column": 36,
+                  "offset": 816
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 47,
+                "column": 1,
+                "offset": 781
+              },
+              "end": {
+                "line": 47,
+                "column": 36,
+                "offset": 816
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 43,
+            "column": 1,
+            "offset": 697
+          },
+          "end": {
+            "line": 43,
+            "column": 23,
+            "offset": 719
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 16,
+        "offset": 15
+      }
+    }
+  }
+}

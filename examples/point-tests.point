@@ -1,0 +1,10 @@
+module PointTests
+
+calculation test arithmetic
+  output passed: Bool
+  passed is 2 + 2 == 4
+
+action test async value
+  output passed: Bool
+  touches none
+  return true

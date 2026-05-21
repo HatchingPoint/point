@@ -1,0 +1,13 @@
+module Optional
+
+record User
+  name: Text
+  email: Maybe<Text>
+
+calculation missing email
+  output email: Maybe<Text>
+  email is none
+
+calculation known user
+  output user: Maybe<User>
+  user is { name: "Ada", email: none }

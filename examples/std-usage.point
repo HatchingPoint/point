@@ -1,0 +1,47 @@
+module StdUsage
+
+use std.text
+
+use std.json
+
+use std.http
+
+use std.time
+
+use std.fs
+
+use std.env
+
+calculation std text example
+  input name: Text
+  output message: Text
+  message is concatTextValue("Hello ", name)
+
+action std json example
+  input value: Text
+  output result: Text or Error
+  touches none
+  return await parseJsonResult(value)
+
+action std http example
+  input url: Text
+  output response: Text or Error
+  touches network
+  return await httpGetResponse(url)
+
+action std time example
+  output value: Text
+  touches time
+  return await currentTimeValue()
+
+action std fs example
+  input path: Text
+  output contents: Text or Error
+  touches file
+  return await readFileContents(path)
+
+action std env example
+  input name: Text
+  output value: Maybe<Text>
+  touches env
+  return await getEnvVarValue(name)

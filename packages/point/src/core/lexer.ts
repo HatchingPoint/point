@@ -15,6 +15,7 @@ export type PointCoreTokenType =
 	| "dot"
 	| "equals"
 	| "plusEquals"
+	| "minusEquals"
 	| "equalsEquals"
 	| "bangEquals"
 	| "less"
@@ -137,6 +138,10 @@ class CoreLexer {
 				continue;
 			}
 			if (char === "-") {
+				if (this.peek(1) === "=") {
+					this.push("minusEquals", `${this.advance()}${this.advance()}`);
+					continue;
+				}
 				this.push("minus", this.advance());
 				continue;
 			}

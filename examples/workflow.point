@@ -1,0 +1,13 @@
+module Workflows
+
+action create user
+  input email: Text
+  output user: Text or Error
+  touches network
+  return email
+
+workflow signup flow
+  input email: Text
+  output user: Text or Error
+  step created user is await create user(email)
+  return created user

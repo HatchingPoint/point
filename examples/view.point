@@ -1,0 +1,6 @@
+module Views
+
+view counter
+  input count: Int
+  when count > 0 render "Counter ready"
+  render "Counter empty"

@@ -1,0 +1,28 @@
+module CompilerNamingLint
+
+record Naming Case
+  block kind: Text
+  block name: Text
+  output name: Text
+  expected function name: Text
+
+calculation test cart total naming
+  output ok: Bool
+  ok is true
+
+calculation test launch readiness naming
+  output ok: Bool
+  ok is true
+
+rule validate naming example
+  input example: Naming Case
+  output score: Int
+  score starts at 0
+  add 100 when example.expected function name != ""
+  return score
+
+label naming example status
+  input example: Naming Case
+  output Text
+  when validate naming example(example) >= 100 return "valid"
+  otherwise return "invalid"

@@ -1,0 +1,14 @@
+module Literals
+
+record Cart Item
+  name: Text
+  unit price: Int
+  quantity: Int
+
+calculation sample numbers
+  output values: List<Int>
+  values is [1, 2, 3]
+
+calculation sample item
+  output item: Cart Item
+  item is { name: "Pencil", unit price: 2, quantity: 4 }

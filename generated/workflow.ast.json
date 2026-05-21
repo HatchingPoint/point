@@ -1,0 +1,548 @@
+{
+  "kind": "coreProgram",
+  "module": "Workflows",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "createUser",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "email",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 104
+              },
+              "end": {
+                "line": 7,
+                "column": 15,
+                "offset": 118
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "create user",
+        "outputName": "user",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 18
+        },
+        "end": {
+          "line": 3,
+          "column": 19,
+          "offset": 36
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "signupFlowWorkflow",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "value",
+          "name": "createdUser",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "createUser",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "email",
+                  "span": {
+                    "start": {
+                      "line": 12,
+                      "column": 1,
+                      "offset": 190
+                    },
+                    "end": {
+                      "line": 12,
+                      "column": 48,
+                      "offset": 237
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 12,
+                  "column": 1,
+                  "offset": 190
+                },
+                "end": {
+                  "line": 12,
+                  "column": 48,
+                  "offset": 237
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 190
+              },
+              "end": {
+                "line": 12,
+                "column": 48,
+                "offset": 237
+              }
+            }
+          },
+          "mutable": false,
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 190
+            },
+            "end": {
+              "line": 12,
+              "column": 48,
+              "offset": 237
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "createdUser",
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 238
+              },
+              "end": {
+                "line": 13,
+                "column": 22,
+                "offset": 259
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 238
+            },
+            "end": {
+              "line": 13,
+              "column": 22,
+              "offset": 259
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "workflow",
+        "name": "signup flow",
+        "outputName": "user",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 120
+        },
+        "end": {
+          "line": 9,
+          "column": 21,
+          "offset": 140
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 17,
+      "offset": 16
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Workflows",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "action",
+        "name": "create user",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "user",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "email",
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 104
+                },
+                "end": {
+                  "line": 7,
+                  "column": 15,
+                  "offset": 118
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 104
+              },
+              "end": {
+                "line": 7,
+                "column": 15,
+                "offset": 118
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 18
+          },
+          "end": {
+            "line": 3,
+            "column": 19,
+            "offset": 36
+          }
+        }
+      },
+      {
+        "kind": "workflow",
+        "name": "signup flow",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "user",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "created user",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "create user",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "email",
+                    "span": {
+                      "start": {
+                        "line": 12,
+                        "column": 1,
+                        "offset": 190
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 48,
+                        "offset": 237
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 12,
+                    "column": 1,
+                    "offset": 190
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 48,
+                    "offset": 237
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 12,
+                  "column": 1,
+                  "offset": 190
+                },
+                "end": {
+                  "line": 12,
+                  "column": 48,
+                  "offset": 237
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 190
+              },
+              "end": {
+                "line": 12,
+                "column": 48,
+                "offset": 237
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "created user",
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 238
+                },
+                "end": {
+                  "line": 13,
+                  "column": 22,
+                  "offset": 259
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 238
+              },
+              "end": {
+                "line": 13,
+                "column": 22,
+                "offset": 259
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 120
+          },
+          "end": {
+            "line": 9,
+            "column": 21,
+            "offset": 140
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 17,
+        "offset": 16
+      }
+    }
+  }
+}

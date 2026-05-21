@@ -7,6 +7,13 @@
       "\t${2:field name}: ${3:Text}"
     ]
   },
+  "Point use": {
+    "prefix": "use",
+    "description": "Import a semantic Point module",
+    "body": [
+      "use ${1:ModuleName} from \"${2:./module.point}\""
+    ]
+  },
   "Point calculation": {
     "prefix": "calculation",
     "description": "Create a semantic Point calculation",
@@ -27,6 +34,87 @@
       "\t${4:score} starts at 0",
       "\tadd ${5:10} when ${2:signals}.${6:condition}",
       "\treturn ${4:score}"
+    ]
+  },
+  "Point mutation": {
+    "prefix": "mutate",
+    "description": "Update a semantic Point accumulator",
+    "body": [
+      "add ${1:value} to ${2:total}",
+      "subtract ${3:discount} from ${2:total}",
+      "set ${2:total} to ${4:new value}"
+    ]
+  },
+  "Point loop": {
+    "prefix": "foreach",
+    "description": "Iterate over a semantic Point list",
+    "body": [
+      "for each ${1:item} in ${2:items}",
+      "\tadd ${1:item}.${3:value} to ${4:total}"
+    ]
+  },
+  "Point optional output": {
+    "prefix": "maybe",
+    "description": "Create a semantic Point optional output",
+    "body": [
+      "output ${1:value}: Maybe<${2:Text}>",
+      "${1:value} is none"
+    ]
+  },
+  "Point await": {
+    "prefix": "await",
+    "description": "Await a Point action call",
+    "body": [
+      "await ${1:action name}(${2:value})"
+    ]
+  },
+  "Point policy": {
+    "prefix": "policy",
+    "description": "Create a semantic Point policy",
+    "body": [
+      "policy ${1:policy name}",
+      "\tinput ${2:value}: ${3:Int}",
+      "\trequire ${2:value} ${4:>= 0}"
+    ]
+  },
+  "Point view": {
+    "prefix": "view",
+    "description": "Create a semantic Point view",
+    "body": [
+      "view ${1:view name}",
+      "\tinput ${2:title}: Text",
+      "\trender ${2:title}"
+    ]
+  },
+  "Point route": {
+    "prefix": "route",
+    "description": "Create a semantic Point route",
+    "body": [
+      "route ${1:route name}",
+      "\tmethod ${2:GET}",
+      "\tpath \"${3:/path}\"",
+      "\toutput response: Text",
+      "\treturn \"${4:ok}\""
+    ]
+  },
+  "Point workflow": {
+    "prefix": "workflow",
+    "description": "Create a semantic Point workflow",
+    "body": [
+      "workflow ${1:workflow name}",
+      "\tinput ${2:value}: Text",
+      "\toutput result: Text",
+      "\tstep ${3:first result} is await ${4:action name}(${2:value})",
+      "\treturn ${3:first result}"
+    ]
+  },
+  "Point command": {
+    "prefix": "command",
+    "description": "Create a semantic Point command",
+    "body": [
+      "command ${1:command name}",
+      "\toutput result: Text",
+      "\treturn \"${2:ok}\""
     ]
   },
   "Point label": {

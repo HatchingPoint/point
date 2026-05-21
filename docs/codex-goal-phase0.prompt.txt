@@ -1,0 +1,1 @@
+/goal Complete Phase 0 (Foundation Lock) in docs/full-language-plan.md without stopping until every Phase 0 checkbox is checked, the Phase 0 Exit Gate passes, and bun run ci passes. Read docs/codex-goal.md for the contract and validation loop. Append checkpoints to docs/codex-progress.md after each section (0.1 through 0.4). Do not start Phase 1.

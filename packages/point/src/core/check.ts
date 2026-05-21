@@ -1,6 +1,7 @@
 import type {
 	PointCoreDeclaration,
 	PointCoreExpression,
+	PointCoreExternalDeclaration,
 	PointCoreFunctionDeclaration,
 	PointCoreProgram,
 	PointCoreStatement,
@@ -27,7 +28,7 @@ type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual
 type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean };
 type Scope = Map<string, ScopeEntry>;
 
-const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List"]);
+const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or"]);
 
 export function checkPointCore(program: PointCoreProgram): PointCoreDiagnostic[] {
 	const checker = new CoreChecker(program);
@@ -39,7 +40,7 @@ class CoreChecker {
 	private readonly types = new Set(PRIMITIVE_TYPES);
 	private readonly typeDeclarations = new Map<string, PointCoreTypeDeclaration>();
 	private readonly globals: Scope = new Map();
-	private readonly functions = new Map<string, PointCoreFunctionDeclaration>();
+	private readonly functions = new Map<string, PointCoreFunctionDeclaration | PointCoreExternalDeclaration>();
 
 	constructor(private readonly program: PointCoreProgram) {}
 
@@ -65,6 +66,12 @@ class CoreChecker {
 				}
 				this.functions.set(declaration.name, declaration);
 			}
+			if (declaration.kind === "external") {
+				if (this.functions.has(declaration.name)) {
+					this.push("duplicate-function", `Duplicate function ${declaration.name}`, `external.${declaration.name}`, declaration.span);
+				}
+				this.functions.set(declaration.name, declaration);
+			}
 		}
 	}
 
@@ -77,6 +84,11 @@ class CoreChecker {
 
 	private checkDeclaration(declaration: PointCoreDeclaration) {
 		if (declaration.kind === "import") return;
+		if (declaration.kind === "external") {
+			for (const param of declaration.params) this.checkType(param.type, `external.${declaration.name}.${param.name}.type`);
+			this.checkType(declaration.returnType, `external.${declaration.name}.return`);
+			return;
+		}
 		if (declaration.kind === "type") {
 			for (const field of declaration.fields) this.checkType(field.type, `type.${declaration.name}.${field.name}`);
 			return;
@@ -134,7 +146,32 @@ class CoreChecker {
 			for (const child of statement.elseBody) this.checkStatement(child, fn, elseLocals);
 			return;
 		}
+		if (statement.kind === "for") {
+			this.checkForStatement(statement, fn, locals);
+			return;
+		}
 		this.typeOfExpression(statement.value, locals, `fn.${fn.name}.expression`);
+	}
+
+	private checkForStatement(
+		statement: Extract<PointCoreStatement, { kind: "for" }>,
+		fn: PointCoreFunctionDeclaration,
+		locals: Scope,
+	) {
+		const path = `fn.${fn.name}.for.${statement.itemName}`;
+		const iterableType = this.typeOfExpression(statement.iterable, locals, `${path}.iterable`);
+		if (!iterableType) return;
+		if (iterableType.name !== "List" || iterableType.args.length !== 1) {
+			this.push("iteration-type-mismatch", "for requires a List<T> iterable", path, statement.span, {
+				expected: "List<T>",
+				actual: formatType(iterableType),
+				repair: "Iterate over a List<T> value or change this expression to a list.",
+			});
+			return;
+		}
+		const loopLocals = new Map(locals);
+		loopLocals.set(statement.itemName, { type: iterableType.args[0]!, mutable: false });
+		for (const child of statement.body) this.checkStatement(child, fn, loopLocals);
 	}
 
 	private checkAssignment(
@@ -158,11 +195,11 @@ class CoreChecker {
 				repair: `Declare ${statement.name} with var if it needs to change.`,
 			});
 		}
-		if (statement.operator === "+=" && !isNumeric(String(target.type.name))) {
-			this.push("operator-type-mismatch", "+= requires a numeric target", path, statement.span, {
+		if ((statement.operator === "+=" || statement.operator === "-=") && !isNumeric(String(target.type.name))) {
+			this.push("operator-type-mismatch", `${statement.operator} requires a numeric target`, path, statement.span, {
 				expected: "Int or Float target",
 				actual: formatType(target.type),
-				repair: "Use += only with Int or Float values.",
+				repair: `Use ${statement.operator} only with Int or Float values.`,
 			});
 		}
 		this.checkExpressionAssignable(statement.value, target.type, `${path}.value`, locals);
@@ -174,6 +211,29 @@ class CoreChecker {
 		path: string,
 		scope: Scope,
 	) {
+		if (expected.name === "Maybe" && expected.args.length === 1) {
+			if (expression.kind === "literal" && expression.value === null) return;
+			if (expression.kind !== "record" && expression.kind !== "list") {
+				const actual = this.typeOfExpression(expression, scope, path);
+				if (actual && sameType(actual, expected)) return;
+			}
+			this.checkExpressionAssignable(expression, expected.args[0]!, path, scope);
+			return;
+		}
+		if (expected.name === "Or" && expected.args.length > 0) {
+			const diagnosticsBefore = this.diagnostics.length;
+			const actual = this.typeOfExpression(expression, scope, path);
+			if (!actual) return;
+			if (sameType(actual, expected)) return;
+			if (expected.args.some((candidate) => sameType(candidate, actual))) return;
+			this.push("type-mismatch", `Expected ${formatType(expected)}, got ${formatType(actual)}`, path, expression.span, {
+				expected: formatType(expected),
+				actual: formatType(actual),
+				repair: `Return or assign one of: ${expected.args.map(formatType).join(", ")}.`,
+			});
+			if (this.diagnostics.length > diagnosticsBefore + 1) return;
+			return;
+		}
 		if (expression.kind === "list") {
 			this.checkListAssignable(expression, expected, path, scope);
 			return;
@@ -255,8 +315,10 @@ class CoreChecker {
 		expression: PointCoreExpression,
 		scope: Scope,
 		path: string,
+		awaitedCall = false,
 	): PointCoreTypeExpression | null {
 		if (expression.kind === "literal") {
+			if (expression.value === null) return { kind: "typeRef", name: "Void", args: [], span: expression.span };
 			const valueType =
 				typeof expression.value === "string"
 					? "Text"
@@ -289,6 +351,24 @@ class CoreChecker {
 		if (expression.kind === "property") {
 			return this.typeOfPropertyExpression(expression, scope, path);
 		}
+		if (expression.kind === "await") {
+			return this.typeOfExpression(expression.value, scope, path, true);
+		}
+		if (expression.callee === "Error") {
+			if (expression.args.length !== 1) {
+				this.push("arity-mismatch", "Error expects 1 message argument", path, expression.span, {
+					expected: "1 arg",
+					actual: `${expression.args.length} args`,
+					repair: "Construct errors as Error(\"message\").",
+				});
+			}
+			const message = expression.args[0];
+			if (message) this.checkExpressionAssignable(message, typeRef("Text"), `${path}.message`, scope);
+			return typeRef("Error", [], expression.span);
+		}
+		if (expression.callee === "Ok") {
+			return expression.args[0] ? this.typeOfExpression(expression.args[0], scope, `${path}.value`) : typeRef("Void", [], expression.span);
+		}
 		const target = this.functions.get(expression.callee);
 		if (!target) {
 			this.push("unknown-function", `Unknown function ${expression.callee}`, path, expression.span, {
@@ -297,6 +377,14 @@ class CoreChecker {
 				repair: `Define fn ${expression.callee}(...) or call an existing function.`,
 			});
 			return null;
+		}
+		if ((target.semantic?.kind === "action" || target.semantic?.kind === "workflow") && !awaitedCall) {
+			this.push("missing-await", `Action ${expression.callee} must be awaited`, path, expression.span, {
+				expected: `await ${expression.callee}(...)`,
+				actual: `${expression.callee}(...)`,
+				repair: "Prefix this action call with await.",
+				relatedRefs: [this.refFor(`fn.${target.name}`)],
+			});
 		}
 		if (target.params.length !== expression.args.length) {
 			this.push("arity-mismatch", `Function ${expression.callee} expects ${target.params.length} args`, path, expression.span, {
@@ -340,6 +428,14 @@ class CoreChecker {
 	): PointCoreTypeExpression | null {
 		const targetType = this.typeOfExpression(expression.target, scope, `${path}.target`);
 		if (!targetType) return null;
+		if (targetType.name === "Maybe" && targetType.args.length === 1) {
+			this.push("nullable-field-access", `Cannot access field ${expression.name} on nullable ${formatType(targetType)}`, path, expression.span, {
+				expected: formatType(targetType.args[0]!),
+				actual: formatType(targetType),
+				repair: "Check that this Maybe value is present before accessing its fields.",
+			});
+			return null;
+		}
 		const declaration = this.typeDeclarations.get(String(targetType.name));
 		if (!declaration) {
 			this.push("not-a-record", `${formatType(targetType)} has no fields`, path, expression.span, {
@@ -421,7 +517,21 @@ class CoreChecker {
 				repair: "Use List<Text>, List<Int>, or another concrete item type.",
 			});
 		}
-		if (type.name !== "List" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {
+		if (type.name === "Maybe" && type.args.length !== 1) {
+			this.push("invalid-type-arity", "Maybe requires one type argument", path, type.span, {
+				expected: "Maybe<T>",
+				actual: formatType(type),
+				repair: "Use Maybe<Text>, Maybe<User>, or another concrete optional type.",
+			});
+		}
+		if (type.name === "Or" && type.args.length < 2) {
+			this.push("invalid-type-arity", "Or requires at least two type arguments", path, type.span, {
+				expected: "A or B",
+				actual: formatType(type),
+				repair: "Use syntax such as User or Error.",
+			});
+		}
+		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {
 			this.push("invalid-type-arity", `${type.name} does not accept type arguments`, path, type.span, {
 				expected: String(type.name),
 				actual: formatType(type),
@@ -471,6 +581,7 @@ function sameType(left: PointCoreTypeExpression, right: PointCoreTypeExpression)
 function formatType(type: PointCoreTypeExpression): string {
 	const args = type.args ?? [];
 	if (args.length === 0) return String(type.name);
+	if (type.name === "Or") return args.map(formatType).join(" or ");
 	return `${type.name}<${args.map(formatType).join(", ")}>`;
 }
 

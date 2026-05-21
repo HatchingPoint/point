@@ -11,30 +11,19 @@
           "type": {
             "kind": "typeRef",
             "name": "Text",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 3,
-                "column": 9,
-                "offset": 32
-              },
-              "end": {
-                "line": 3,
-                "column": 13,
-                "offset": 36
-              }
-            }
+            "args": []
           },
+          "semanticName": "name",
           "span": {
             "start": {
-              "line": 3,
-              "column": 3,
-              "offset": 26
+              "line": 4,
+              "column": 1,
+              "offset": 25
             },
             "end": {
-              "line": 3,
+              "line": 4,
               "column": 13,
-              "offset": 36
+              "offset": 37
             }
           }
         },
@@ -43,44 +32,37 @@
           "type": {
             "kind": "typeRef",
             "name": "Bool",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 4,
-                "column": 11,
-                "offset": 47
-              },
-              "end": {
-                "line": 4,
-                "column": 15,
-                "offset": 51
-              }
-            }
+            "args": []
           },
+          "semanticName": "active",
           "span": {
             "start": {
-              "line": 4,
-              "column": 3,
-              "offset": 39
+              "line": 5,
+              "column": 1,
+              "offset": 38
             },
             "end": {
-              "line": 4,
+              "line": 5,
               "column": 15,
-              "offset": 51
+              "offset": 52
             }
           }
         }
       ],
+      "semantic": {
+        "kind": "record",
+        "name": "User"
+      },
       "span": {
         "start": {
-          "line": 2,
+          "line": 3,
           "column": 1,
-          "offset": 12
+          "offset": 13
         },
         "end": {
-          "line": 5,
-          "column": 2,
-          "offset": 53
+          "line": 3,
+          "column": 12,
+          "offset": 24
         }
       }
     },
@@ -93,30 +75,19 @@
           "type": {
             "kind": "typeRef",
             "name": "Bool",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 8,
-                "column": 16,
-                "offset": 91
-              },
-              "end": {
-                "line": 8,
-                "column": 20,
-                "offset": 95
-              }
-            }
+            "args": []
           },
+          "semanticName": "has bundle id",
           "span": {
             "start": {
               "line": 8,
-              "column": 3,
-              "offset": 78
+              "column": 1,
+              "offset": 76
             },
             "end": {
               "line": 8,
-              "column": 20,
-              "offset": 95
+              "column": 22,
+              "offset": 97
             }
           }
         },
@@ -125,30 +96,19 @@
           "type": {
             "kind": "typeRef",
             "name": "Bool",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 9,
-                "column": 23,
-                "offset": 118
-              },
-              "end": {
-                "line": 9,
-                "column": 27,
-                "offset": 122
-              }
-            }
+            "args": []
           },
+          "semanticName": "submitted for review",
           "span": {
             "start": {
               "line": 9,
-              "column": 3,
+              "column": 1,
               "offset": 98
             },
             "end": {
               "line": 9,
-              "column": 27,
-              "offset": 122
+              "column": 29,
+              "offset": 126
             }
           }
         },
@@ -157,44 +117,37 @@
           "type": {
             "kind": "typeRef",
             "name": "Bool",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 10,
-                "column": 20,
-                "offset": 142
-              },
-              "end": {
-                "line": 10,
-                "column": 24,
-                "offset": 146
-              }
-            }
+            "args": []
           },
+          "semanticName": "has passing tests",
           "span": {
             "start": {
               "line": 10,
-              "column": 3,
-              "offset": 125
+              "column": 1,
+              "offset": 127
             },
             "end": {
               "line": 10,
-              "column": 24,
-              "offset": 146
+              "column": 26,
+              "offset": 152
             }
           }
         }
       ],
+      "semantic": {
+        "kind": "record",
+        "name": "Launch Signals"
+      },
       "span": {
         "start": {
           "line": 7,
           "column": 1,
-          "offset": 55
+          "offset": 54
         },
         "end": {
-          "line": 11,
-          "column": 2,
-          "offset": 148
+          "line": 7,
+          "column": 22,
+          "offset": 75
         }
       }
     },
@@ -207,30 +160,19 @@
           "type": {
             "kind": "typeRef",
             "name": "Int",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 13,
-                "column": 30,
-                "offset": 179
-              },
-              "end": {
-                "line": 13,
-                "column": 33,
-                "offset": 182
-              }
-            }
+            "args": []
           },
+          "semanticName": "monthly price",
           "span": {
             "start": {
               "line": 13,
-              "column": 16,
-              "offset": 165
+              "column": 1,
+              "offset": 0
             },
             "end": {
               "line": 13,
-              "column": 33,
-              "offset": 182
+              "column": 19,
+              "offset": 18
             }
           }
         }
@@ -238,19 +180,7 @@
       "returnType": {
         "kind": "typeRef",
         "name": "Int",
-        "args": [],
-        "span": {
-          "start": {
-            "line": 13,
-            "column": 36,
-            "offset": 185
-          },
-          "end": {
-            "line": 13,
-            "column": 39,
-            "offset": 188
-          }
-        }
+        "args": []
       },
       "body": [
         {
@@ -263,14 +193,14 @@
               "name": "monthlyPrice",
               "span": {
                 "start": {
-                  "line": 14,
-                  "column": 10,
-                  "offset": 200
+                  "line": 15,
+                  "column": 1,
+                  "offset": 233
                 },
                 "end": {
-                  "line": 14,
-                  "column": 22,
-                  "offset": 212
+                  "line": 15,
+                  "column": 37,
+                  "offset": 269
                 }
               }
             },
@@ -279,54 +209,60 @@
               "value": 12,
               "span": {
                 "start": {
-                  "line": 14,
-                  "column": 25,
-                  "offset": 215
+                  "line": 15,
+                  "column": 1,
+                  "offset": 233
                 },
                 "end": {
-                  "line": 14,
-                  "column": 27,
-                  "offset": 217
+                  "line": 15,
+                  "column": 37,
+                  "offset": 269
                 }
               }
             },
             "span": {
               "start": {
-                "line": 14,
-                "column": 10,
-                "offset": 200
+                "line": 15,
+                "column": 1,
+                "offset": 233
               },
               "end": {
-                "line": 14,
-                "column": 27,
-                "offset": 217
+                "line": 15,
+                "column": 37,
+                "offset": 269
               }
             }
           },
           "span": {
             "start": {
-              "line": 14,
-              "column": 3,
-              "offset": 193
+              "line": 15,
+              "column": 1,
+              "offset": 233
             },
             "end": {
-              "line": 14,
-              "column": 27,
-              "offset": 217
+              "line": 15,
+              "column": 37,
+              "offset": 269
             }
           }
         }
       ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "annual price",
+        "outputName": "annual price",
+        "effects": []
+      },
       "span": {
         "start": {
-          "line": 13,
+          "line": 12,
           "column": 1,
-          "offset": 150
+          "offset": 154
         },
         "end": {
-          "line": 15,
-          "column": 2,
-          "offset": 219
+          "line": 12,
+          "column": 25,
+          "offset": 178
         }
       }
     },
@@ -339,30 +275,19 @@
           "type": {
             "kind": "typeRef",
             "name": "LaunchSignals",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 17,
-                "column": 34,
-                "offset": 254
-              },
-              "end": {
-                "line": 17,
-                "column": 47,
-                "offset": 267
-              }
-            }
+            "args": []
           },
+          "semanticName": "signals",
           "span": {
             "start": {
-              "line": 17,
-              "column": 25,
-              "offset": 245
+              "line": 18,
+              "column": 1,
+              "offset": 0
             },
             "end": {
-              "line": 17,
-              "column": 47,
-              "offset": 267
+              "line": 18,
+              "column": 24,
+              "offset": 23
             }
           }
         }
@@ -370,68 +295,44 @@
       "returnType": {
         "kind": "typeRef",
         "name": "Int",
-        "args": [],
-        "span": {
-          "start": {
-            "line": 17,
-            "column": 50,
-            "offset": 270
-          },
-          "end": {
-            "line": 17,
-            "column": 53,
-            "offset": 273
-          }
-        }
+        "args": []
       },
       "body": [
         {
           "kind": "value",
-          "mutable": true,
           "name": "score",
           "type": {
             "kind": "typeRef",
             "name": "Int",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 18,
-                "column": 14,
-                "offset": 289
-              },
-              "end": {
-                "line": 18,
-                "column": 17,
-                "offset": 292
-              }
-            }
+            "args": []
           },
           "value": {
             "kind": "literal",
             "value": 0,
             "span": {
               "start": {
-                "line": 18,
-                "column": 20,
-                "offset": 295
+                "line": 20,
+                "column": 1,
+                "offset": 345
               },
               "end": {
-                "line": 18,
-                "column": 21,
-                "offset": 296
+                "line": 20,
+                "column": 20,
+                "offset": 364
               }
             }
           },
+          "mutable": true,
           "span": {
             "start": {
-              "line": 18,
-              "column": 3,
-              "offset": 278
+              "line": 20,
+              "column": 1,
+              "offset": 345
             },
             "end": {
-              "line": 18,
-              "column": 21,
-              "offset": 296
+              "line": 20,
+              "column": 20,
+              "offset": 364
             }
           }
         },
@@ -444,28 +345,28 @@
               "name": "signals",
               "span": {
                 "start": {
-                  "line": 19,
-                  "column": 6,
-                  "offset": 302
+                  "line": 21,
+                  "column": 1,
+                  "offset": 365
                 },
                 "end": {
-                  "line": 19,
-                  "column": 13,
-                  "offset": 309
+                  "line": 21,
+                  "column": 36,
+                  "offset": 400
                 }
               }
             },
             "name": "hasBundleId",
             "span": {
               "start": {
-                "line": 19,
-                "column": 6,
-                "offset": 302
+                "line": 21,
+                "column": 1,
+                "offset": 365
               },
               "end": {
-                "line": 19,
-                "column": 25,
-                "offset": 321
+                "line": 21,
+                "column": 36,
+                "offset": 400
               }
             }
           },
@@ -479,27 +380,27 @@
                 "value": 30,
                 "span": {
                   "start": {
-                    "line": 20,
-                    "column": 14,
-                    "offset": 337
+                    "line": 21,
+                    "column": 1,
+                    "offset": 365
                   },
                   "end": {
-                    "line": 20,
-                    "column": 16,
-                    "offset": 339
+                    "line": 21,
+                    "column": 36,
+                    "offset": 400
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 20,
-                  "column": 5,
-                  "offset": 328
+                  "line": 21,
+                  "column": 1,
+                  "offset": 365
                 },
                 "end": {
-                  "line": 20,
-                  "column": 16,
-                  "offset": 339
+                  "line": 21,
+                  "column": 36,
+                  "offset": 400
                 }
               }
             }
@@ -507,14 +408,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 19,
-              "column": 3,
-              "offset": 299
+              "line": 21,
+              "column": 1,
+              "offset": 365
             },
             "end": {
               "line": 21,
-              "column": 4,
-              "offset": 343
+              "column": 36,
+              "offset": 400
             }
           }
         },
@@ -528,13 +429,13 @@
               "span": {
                 "start": {
                   "line": 22,
-                  "column": 6,
-                  "offset": 349
+                  "column": 1,
+                  "offset": 401
                 },
                 "end": {
                   "line": 22,
-                  "column": 13,
-                  "offset": 356
+                  "column": 43,
+                  "offset": 443
                 }
               }
             },
@@ -542,13 +443,13 @@
             "span": {
               "start": {
                 "line": 22,
-                "column": 6,
-                "offset": 349
+                "column": 1,
+                "offset": 401
               },
               "end": {
                 "line": 22,
-                "column": 32,
-                "offset": 375
+                "column": 43,
+                "offset": 443
               }
             }
           },
@@ -562,27 +463,27 @@
                 "value": 40,
                 "span": {
                   "start": {
-                    "line": 23,
-                    "column": 14,
-                    "offset": 391
+                    "line": 22,
+                    "column": 1,
+                    "offset": 401
                   },
                   "end": {
-                    "line": 23,
-                    "column": 16,
-                    "offset": 393
+                    "line": 22,
+                    "column": 43,
+                    "offset": 443
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 23,
-                  "column": 5,
-                  "offset": 382
+                  "line": 22,
+                  "column": 1,
+                  "offset": 401
                 },
                 "end": {
-                  "line": 23,
-                  "column": 16,
-                  "offset": 393
+                  "line": 22,
+                  "column": 43,
+                  "offset": 443
                 }
               }
             }
@@ -591,13 +492,13 @@
           "span": {
             "start": {
               "line": 22,
-              "column": 3,
-              "offset": 346
+              "column": 1,
+              "offset": 401
             },
             "end": {
-              "line": 24,
-              "column": 4,
-              "offset": 397
+              "line": 22,
+              "column": 43,
+              "offset": 443
             }
           }
         },
@@ -610,28 +511,28 @@
               "name": "signals",
               "span": {
                 "start": {
-                  "line": 25,
-                  "column": 6,
-                  "offset": 403
+                  "line": 23,
+                  "column": 1,
+                  "offset": 444
                 },
                 "end": {
-                  "line": 25,
-                  "column": 13,
-                  "offset": 410
+                  "line": 23,
+                  "column": 40,
+                  "offset": 483
                 }
               }
             },
             "name": "hasPassingTests",
             "span": {
               "start": {
-                "line": 25,
-                "column": 6,
-                "offset": 403
+                "line": 23,
+                "column": 1,
+                "offset": 444
               },
               "end": {
-                "line": 25,
-                "column": 29,
-                "offset": 426
+                "line": 23,
+                "column": 40,
+                "offset": 483
               }
             }
           },
@@ -645,27 +546,27 @@
                 "value": 30,
                 "span": {
                   "start": {
-                    "line": 26,
-                    "column": 14,
-                    "offset": 442
+                    "line": 23,
+                    "column": 1,
+                    "offset": 444
                   },
                   "end": {
-                    "line": 26,
-                    "column": 16,
-                    "offset": 444
+                    "line": 23,
+                    "column": 40,
+                    "offset": 483
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 26,
-                  "column": 5,
-                  "offset": 433
+                  "line": 23,
+                  "column": 1,
+                  "offset": 444
                 },
                 "end": {
-                  "line": 26,
-                  "column": 16,
-                  "offset": 444
+                  "line": 23,
+                  "column": 40,
+                  "offset": 483
                 }
               }
             }
@@ -673,14 +574,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 25,
-              "column": 3,
-              "offset": 400
+              "line": 23,
+              "column": 1,
+              "offset": 444
             },
             "end": {
-              "line": 27,
-              "column": 4,
-              "offset": 448
+              "line": 23,
+              "column": 40,
+              "offset": 483
             }
           }
         },
@@ -691,41 +592,47 @@
             "name": "score",
             "span": {
               "start": {
-                "line": 28,
-                "column": 10,
-                "offset": 458
+                "line": 24,
+                "column": 1,
+                "offset": 484
               },
               "end": {
-                "line": 28,
+                "line": 24,
                 "column": 15,
-                "offset": 463
+                "offset": 498
               }
             }
           },
           "span": {
             "start": {
-              "line": 28,
-              "column": 3,
-              "offset": 451
+              "line": 24,
+              "column": 1,
+              "offset": 484
             },
             "end": {
-              "line": 28,
+              "line": 24,
               "column": 15,
-              "offset": 463
+              "offset": 498
             }
           }
         }
       ],
+      "semantic": {
+        "kind": "rule",
+        "name": "launch readiness",
+        "outputName": "score",
+        "effects": []
+      },
       "span": {
         "start": {
           "line": 17,
           "column": 1,
-          "offset": 221
+          "offset": 271
         },
         "end": {
-          "line": 29,
-          "column": 2,
-          "offset": 465
+          "line": 17,
+          "column": 22,
+          "offset": 292
         }
       }
     },
@@ -738,30 +645,19 @@
           "type": {
             "kind": "typeRef",
             "name": "User",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 31,
-                "column": 26,
-                "offset": 492
-              },
-              "end": {
-                "line": 31,
-                "column": 30,
-                "offset": 496
-              }
-            }
+            "args": []
           },
+          "semanticName": "user",
           "span": {
             "start": {
-              "line": 31,
-              "column": 20,
-              "offset": 486
+              "line": 27,
+              "column": 1,
+              "offset": 0
             },
             "end": {
-              "line": 31,
-              "column": 30,
-              "offset": 496
+              "line": 27,
+              "column": 11,
+              "offset": 10
             }
           }
         }
@@ -769,19 +665,7 @@
       "returnType": {
         "kind": "typeRef",
         "name": "Text",
-        "args": [],
-        "span": {
-          "start": {
-            "line": 31,
-            "column": 33,
-            "offset": 499
-          },
-          "end": {
-            "line": 31,
-            "column": 37,
-            "offset": 503
-          }
-        }
+        "args": []
       },
       "body": [
         {
@@ -793,28 +677,28 @@
               "name": "user",
               "span": {
                 "start": {
-                  "line": 32,
-                  "column": 6,
-                  "offset": 511
+                  "line": 29,
+                  "column": 1,
+                  "offset": 551
                 },
                 "end": {
-                  "line": 32,
-                  "column": 10,
-                  "offset": 515
+                  "line": 29,
+                  "column": 35,
+                  "offset": 585
                 }
               }
             },
             "name": "active",
             "span": {
               "start": {
-                "line": 32,
-                "column": 6,
-                "offset": 511
+                "line": 29,
+                "column": 1,
+                "offset": 551
               },
               "end": {
-                "line": 32,
-                "column": 17,
-                "offset": 522
+                "line": 29,
+                "column": 35,
+                "offset": 585
               }
             }
           },
@@ -826,27 +710,27 @@
                 "value": "active",
                 "span": {
                   "start": {
-                    "line": 33,
-                    "column": 12,
-                    "offset": 536
+                    "line": 29,
+                    "column": 1,
+                    "offset": 551
                   },
                   "end": {
-                    "line": 33,
-                    "column": 20,
-                    "offset": 544
+                    "line": 29,
+                    "column": 35,
+                    "offset": 585
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 33,
-                  "column": 5,
-                  "offset": 529
+                  "line": 29,
+                  "column": 1,
+                  "offset": 551
                 },
                 "end": {
-                  "line": 33,
-                  "column": 20,
-                  "offset": 544
+                  "line": 29,
+                  "column": 35,
+                  "offset": 585
                 }
               }
             }
@@ -854,14 +738,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 32,
-              "column": 3,
-              "offset": 508
+              "line": 29,
+              "column": 1,
+              "offset": 551
             },
             "end": {
-              "line": 34,
-              "column": 4,
-              "offset": 548
+              "line": 29,
+              "column": 35,
+              "offset": 585
             }
           }
         },
@@ -872,41 +756,47 @@
             "value": "inactive",
             "span": {
               "start": {
-                "line": 35,
-                "column": 10,
-                "offset": 558
+                "line": 30,
+                "column": 1,
+                "offset": 586
               },
               "end": {
-                "line": 35,
-                "column": 20,
-                "offset": 568
+                "line": 30,
+                "column": 30,
+                "offset": 615
               }
             }
           },
           "span": {
             "start": {
-              "line": 35,
-              "column": 3,
-              "offset": 551
+              "line": 30,
+              "column": 1,
+              "offset": 586
             },
             "end": {
-              "line": 35,
-              "column": 20,
-              "offset": 568
+              "line": 30,
+              "column": 30,
+              "offset": 615
             }
           }
         }
       ],
+      "semantic": {
+        "kind": "label",
+        "name": "user status",
+        "outputName": "result",
+        "effects": []
+      },
       "span": {
         "start": {
-          "line": 31,
+          "line": 26,
           "column": 1,
-          "offset": 467
+          "offset": 500
         },
         "end": {
-          "line": 36,
-          "column": 2,
-          "offset": 570
+          "line": 26,
+          "column": 18,
+          "offset": 517
         }
       }
     },
@@ -919,30 +809,19 @@
           "type": {
             "kind": "typeRef",
             "name": "Int",
-            "args": [],
-            "span": {
-              "start": {
-                "line": 38,
-                "column": 28,
-                "offset": 599
-              },
-              "end": {
-                "line": 38,
-                "column": 31,
-                "offset": 602
-              }
-            }
+            "args": []
           },
+          "semanticName": "score",
           "span": {
             "start": {
-              "line": 38,
-              "column": 21,
-              "offset": 592
+              "line": 33,
+              "column": 1,
+              "offset": 0
             },
             "end": {
-              "line": 38,
-              "column": 31,
-              "offset": 602
+              "line": 33,
+              "column": 11,
+              "offset": 10
             }
           }
         }
@@ -950,19 +829,7 @@
       "returnType": {
         "kind": "typeRef",
         "name": "Text",
-        "args": [],
-        "span": {
-          "start": {
-            "line": 38,
-            "column": 34,
-            "offset": 605
-          },
-          "end": {
-            "line": 38,
-            "column": 38,
-            "offset": 609
-          }
-        }
+        "args": []
       },
       "body": [
         {
@@ -975,14 +842,14 @@
               "name": "score",
               "span": {
                 "start": {
-                  "line": 39,
-                  "column": 6,
-                  "offset": 617
+                  "line": 35,
+                  "column": 1,
+                  "offset": 669
                 },
                 "end": {
-                  "line": 39,
-                  "column": 11,
-                  "offset": 622
+                  "line": 35,
+                  "column": 38,
+                  "offset": 706
                 }
               }
             },
@@ -991,27 +858,27 @@
               "value": 90,
               "span": {
                 "start": {
-                  "line": 39,
-                  "column": 15,
-                  "offset": 626
+                  "line": 35,
+                  "column": 1,
+                  "offset": 669
                 },
                 "end": {
-                  "line": 39,
-                  "column": 17,
-                  "offset": 628
+                  "line": 35,
+                  "column": 38,
+                  "offset": 706
                 }
               }
             },
             "span": {
               "start": {
-                "line": 39,
-                "column": 6,
-                "offset": 617
+                "line": 35,
+                "column": 1,
+                "offset": 669
               },
               "end": {
-                "line": 39,
-                "column": 17,
-                "offset": 628
+                "line": 35,
+                "column": 38,
+                "offset": 706
               }
             }
           },
@@ -1023,27 +890,27 @@
                 "value": "excellent",
                 "span": {
                   "start": {
-                    "line": 40,
-                    "column": 12,
-                    "offset": 642
+                    "line": 35,
+                    "column": 1,
+                    "offset": 669
                   },
                   "end": {
-                    "line": 40,
-                    "column": 23,
-                    "offset": 653
+                    "line": 35,
+                    "column": 38,
+                    "offset": 706
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 40,
-                  "column": 5,
-                  "offset": 635
+                  "line": 35,
+                  "column": 1,
+                  "offset": 669
                 },
                 "end": {
-                  "line": 40,
-                  "column": 23,
-                  "offset": 653
+                  "line": 35,
+                  "column": 38,
+                  "offset": 706
                 }
               }
             }
@@ -1051,14 +918,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 39,
-              "column": 3,
-              "offset": 614
+              "line": 35,
+              "column": 1,
+              "offset": 669
             },
             "end": {
-              "line": 41,
-              "column": 4,
-              "offset": 657
+              "line": 35,
+              "column": 38,
+              "offset": 706
             }
           }
         },
@@ -1069,41 +936,47 @@
             "value": "keep going",
             "span": {
               "start": {
-                "line": 42,
-                "column": 10,
-                "offset": 667
+                "line": 36,
+                "column": 1,
+                "offset": 707
               },
               "end": {
-                "line": 42,
-                "column": 22,
-                "offset": 679
+                "line": 36,
+                "column": 32,
+                "offset": 738
               }
             }
           },
           "span": {
             "start": {
-              "line": 42,
-              "column": 3,
-              "offset": 660
+              "line": 36,
+              "column": 1,
+              "offset": 707
             },
             "end": {
-              "line": 42,
-              "column": 22,
-              "offset": 679
+              "line": 36,
+              "column": 32,
+              "offset": 738
             }
           }
         }
       ],
+      "semantic": {
+        "kind": "label",
+        "name": "score status",
+        "outputName": "result",
+        "effects": []
+      },
       "span": {
         "start": {
-          "line": 38,
+          "line": 32,
           "column": 1,
-          "offset": 572
+          "offset": 617
         },
         "end": {
-          "line": 43,
-          "column": 2,
-          "offset": 681
+          "line": 32,
+          "column": 19,
+          "offset": 635
         }
       }
     }
@@ -1115,9 +988,879 @@
       "offset": 0
     },
     "end": {
-      "line": 45,
-      "column": 1,
-      "offset": 683
+      "line": 1,
+      "column": 12,
+      "offset": 11
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Math",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "User",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 25
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 37
+              }
+            }
+          },
+          {
+            "label": "active",
+            "type": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 38
+              },
+              "end": {
+                "line": 5,
+                "column": 15,
+                "offset": 52
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 13
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 24
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Launch Signals",
+        "fields": [
+          {
+            "label": "has bundle id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 76
+              },
+              "end": {
+                "line": 8,
+                "column": 22,
+                "offset": 97
+              }
+            }
+          },
+          {
+            "label": "submitted for review",
+            "type": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 98
+              },
+              "end": {
+                "line": 9,
+                "column": 29,
+                "offset": 126
+              }
+            }
+          },
+          {
+            "label": "has passing tests",
+            "type": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 127
+              },
+              "end": {
+                "line": 10,
+                "column": 26,
+                "offset": 152
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 54
+          },
+          "end": {
+            "line": 7,
+            "column": 22,
+            "offset": 75
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "annual price",
+        "inputs": [
+          {
+            "label": "monthly price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 13,
+                "column": 19,
+                "offset": 18
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "annual price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "annual price",
+            "value": {
+              "kind": "binary",
+              "operator": "*",
+              "left": {
+                "kind": "name",
+                "label": "monthly price",
+                "span": {
+                  "start": {
+                    "line": 15,
+                    "column": 1,
+                    "offset": 233
+                  },
+                  "end": {
+                    "line": 15,
+                    "column": 37,
+                    "offset": 269
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 12,
+                "span": {
+                  "start": {
+                    "line": 15,
+                    "column": 1,
+                    "offset": 233
+                  },
+                  "end": {
+                    "line": 15,
+                    "column": 37,
+                    "offset": 269
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 15,
+                  "column": 1,
+                  "offset": 233
+                },
+                "end": {
+                  "line": 15,
+                  "column": 37,
+                  "offset": 269
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 233
+              },
+              "end": {
+                "line": 15,
+                "column": 37,
+                "offset": 269
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 12,
+            "column": 1,
+            "offset": 154
+          },
+          "end": {
+            "line": 12,
+            "column": 25,
+            "offset": 178
+          }
+        }
+      },
+      {
+        "kind": "rule",
+        "name": "launch readiness",
+        "inputs": [
+          {
+            "label": "signals",
+            "type": {
+              "kind": "typeRef",
+              "name": "Launch Signals",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 18,
+                "column": 24,
+                "offset": 23
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "startsAt",
+            "name": "score",
+            "value": {
+              "kind": "literal",
+              "value": 0,
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 345
+                },
+                "end": {
+                  "line": 20,
+                  "column": 20,
+                  "offset": 364
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 345
+              },
+              "end": {
+                "line": 20,
+                "column": 20,
+                "offset": 364
+              }
+            }
+          },
+          {
+            "kind": "addWhen",
+            "amount": {
+              "kind": "literal",
+              "value": 30,
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 365
+                },
+                "end": {
+                  "line": 21,
+                  "column": 36,
+                  "offset": 400
+                }
+              }
+            },
+            "condition": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 365
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 36,
+                    "offset": 400
+                  }
+                }
+              },
+              "label": "has bundle id",
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 365
+                },
+                "end": {
+                  "line": 21,
+                  "column": 36,
+                  "offset": 400
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 365
+              },
+              "end": {
+                "line": 21,
+                "column": 36,
+                "offset": 400
+              }
+            }
+          },
+          {
+            "kind": "addWhen",
+            "amount": {
+              "kind": "literal",
+              "value": 40,
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 401
+                },
+                "end": {
+                  "line": 22,
+                  "column": 43,
+                  "offset": 443
+                }
+              }
+            },
+            "condition": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 401
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 43,
+                    "offset": 443
+                  }
+                }
+              },
+              "label": "submitted for review",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 401
+                },
+                "end": {
+                  "line": 22,
+                  "column": 43,
+                  "offset": 443
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 401
+              },
+              "end": {
+                "line": 22,
+                "column": 43,
+                "offset": 443
+              }
+            }
+          },
+          {
+            "kind": "addWhen",
+            "amount": {
+              "kind": "literal",
+              "value": 30,
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 444
+                },
+                "end": {
+                  "line": 23,
+                  "column": 40,
+                  "offset": 483
+                }
+              }
+            },
+            "condition": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "signals",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 444
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 40,
+                    "offset": 483
+                  }
+                }
+              },
+              "label": "has passing tests",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 444
+                },
+                "end": {
+                  "line": 23,
+                  "column": 40,
+                  "offset": 483
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 444
+              },
+              "end": {
+                "line": 23,
+                "column": 40,
+                "offset": 483
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "score",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 484
+                },
+                "end": {
+                  "line": 24,
+                  "column": 15,
+                  "offset": 498
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 484
+              },
+              "end": {
+                "line": 24,
+                "column": 15,
+                "offset": 498
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 17,
+            "column": 1,
+            "offset": 271
+          },
+          "end": {
+            "line": 17,
+            "column": 22,
+            "offset": 292
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "user status",
+        "inputs": [
+          {
+            "label": "user",
+            "type": {
+              "kind": "typeRef",
+              "name": "User",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "user",
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 551
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 35,
+                    "offset": 585
+                  }
+                }
+              },
+              "label": "active",
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 551
+                },
+                "end": {
+                  "line": 29,
+                  "column": 35,
+                  "offset": 585
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "active",
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 551
+                },
+                "end": {
+                  "line": 29,
+                  "column": 35,
+                  "offset": 585
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 551
+              },
+              "end": {
+                "line": 29,
+                "column": 35,
+                "offset": 585
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": "inactive",
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 586
+                },
+                "end": {
+                  "line": 30,
+                  "column": 30,
+                  "offset": 615
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 586
+              },
+              "end": {
+                "line": 30,
+                "column": 30,
+                "offset": 615
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 500
+          },
+          "end": {
+            "line": 26,
+            "column": 18,
+            "offset": 517
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "score status",
+        "inputs": [
+          {
+            "label": "score",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 33,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "name",
+                "label": "score",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 669
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 38,
+                    "offset": 706
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 90,
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 669
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 38,
+                    "offset": 706
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 669
+                },
+                "end": {
+                  "line": 35,
+                  "column": 38,
+                  "offset": 706
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "excellent",
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 669
+                },
+                "end": {
+                  "line": 35,
+                  "column": 38,
+                  "offset": 706
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 669
+              },
+              "end": {
+                "line": 35,
+                "column": 38,
+                "offset": 706
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": "keep going",
+              "span": {
+                "start": {
+                  "line": 36,
+                  "column": 1,
+                  "offset": 707
+                },
+                "end": {
+                  "line": 36,
+                  "column": 32,
+                  "offset": 738
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 36,
+                "column": 1,
+                "offset": 707
+              },
+              "end": {
+                "line": 36,
+                "column": 32,
+                "offset": 738
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 617
+          },
+          "end": {
+            "line": 32,
+            "column": 19,
+            "offset": 635
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 12,
+        "offset": 11
+      }
     }
   }
 }

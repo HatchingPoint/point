@@ -1,0 +1,9 @@
+module Policies
+
+policy adult user
+  input age: Int
+  require age >= 18
+
+policy blocked user
+  input blocked: Bool
+  deny blocked

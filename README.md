@@ -11,7 +11,7 @@ People write semantic product logic. The compiler lowers that source into an int
 - Formatter, checker, TypeScript emitter, AST emitter, and CLI
 - Stable `point://` refs, symbol indexing, explanations, and repair plans for coding agents
 - AI-first public syntax with `record`, `calculation`, `rule`, `label`, `add ... when`, and `otherwise`
-- Internal typed core that supports values, functions, assignment, conditionals, lists, records, and TypeScript emission
+- Internal typed core IR (functions, types, loops, assignment) — compiler data structures only; authors do not write core syntax
 
 ## Source Example
 
@@ -67,6 +67,18 @@ bun run check-json examples/math.point
 ```
 
 These commands are the core of Point's AI engineering model: agents should navigate stable refs and repair structured diagnostics, not guess from raw source.
+
+## Roadmap
+
+The master execution plan for building Point into a full general-purpose language lives in [docs/full-language-plan.md](docs/full-language-plan.md). Work phases in order; do not advance until every checkbox in the current phase is complete.
+
+- [Language spec](docs/language-spec.md)
+- [Agent quick reference](docs/agent-quick-reference.md)
+- [Phase 7 complete review](docs/phase7-complete-review.md) — architecture after AST modernization
+- [Phase 7 AST plan](docs/phase7-ast-plan.md) — complete
+- [Post–Phase 7 Codex goals](docs/codex-goal-post-phase7.md)
+
+To run the plan as a long-running Codex CLI goal, see [docs/codex-goal.md](docs/codex-goal.md). For work after Phase 7, see [docs/codex-goal-post-phase7.md](docs/codex-goal-post-phase7.md).
 
 ## Packages
 

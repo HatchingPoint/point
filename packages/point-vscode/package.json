@@ -6,7 +6,12 @@
   "private": false,
   "publisher": "hatchingpoint",
   "license": "MIT",
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:point"
+  ],
   "files": [
+    "extension.js",
     "icons/**",
     "language-configuration.json",
     "LICENSE",
@@ -61,6 +66,6 @@
     ]
   },
   "scripts": {
-    "package:vsix": "bunx @vscode/vsce package --allow-missing-repository --no-dependencies"
+    "package:vsix": "bun ../../scripts/package-vsix.ts"
   }
 }

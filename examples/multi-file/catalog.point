@@ -1,0 +1,11 @@
+module Catalog
+
+record Product
+  name: Text
+  price: Int
+  quantity: Int
+
+calculation product line total
+  input product: Product
+  output total: Int
+  total is product.price * product.quantity

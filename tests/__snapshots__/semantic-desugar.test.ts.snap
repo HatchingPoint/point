@@ -1,0 +1,356 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`semantic desugar math.point desugar snapshot 1`] = `
+"{
+  "kind": "coreProgram",
+  "module": "Math",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "User",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name"
+        },
+        {
+          "name": "active",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "semanticName": "active"
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "User"
+      }
+    },
+    {
+      "kind": "type",
+      "name": "LaunchSignals",
+      "fields": [
+        {
+          "name": "hasBundleId",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "semanticName": "has bundle id"
+        },
+        {
+          "name": "submittedForReview",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "semanticName": "submitted for review"
+        },
+        {
+          "name": "hasPassingTests",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "semanticName": "has passing tests"
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Launch Signals"
+      }
+    },
+    {
+      "kind": "function",
+      "name": "annualPrice",
+      "params": [
+        {
+          "name": "monthlyPrice",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "monthly price"
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "*",
+            "left": {
+              "kind": "identifier",
+              "name": "monthlyPrice"
+            },
+            "right": {
+              "kind": "literal",
+              "value": 12
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "annual price",
+        "outputName": "annual price",
+        "effects": []
+      }
+    },
+    {
+      "kind": "function",
+      "name": "launchReadinessScore",
+      "params": [
+        {
+          "name": "signals",
+          "type": {
+            "kind": "typeRef",
+            "name": "LaunchSignals",
+            "args": []
+          },
+          "semanticName": "signals"
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "value",
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": 0
+          },
+          "mutable": true
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "signals"
+            },
+            "name": "hasBundleId"
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "score",
+              "operator": "+=",
+              "value": {
+                "kind": "literal",
+                "value": 30
+              }
+            }
+          ],
+          "elseBody": []
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "signals"
+            },
+            "name": "submittedForReview"
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "score",
+              "operator": "+=",
+              "value": {
+                "kind": "literal",
+                "value": 40
+              }
+            }
+          ],
+          "elseBody": []
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "signals"
+            },
+            "name": "hasPassingTests"
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "score",
+              "operator": "+=",
+              "value": {
+                "kind": "literal",
+                "value": 30
+              }
+            }
+          ],
+          "elseBody": []
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "score"
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "rule",
+        "name": "launch readiness",
+        "outputName": "score",
+        "effects": []
+      }
+    },
+    {
+      "kind": "function",
+      "name": "userStatusLabel",
+      "params": [
+        {
+          "name": "user",
+          "type": {
+            "kind": "typeRef",
+            "name": "User",
+            "args": []
+          },
+          "semanticName": "user"
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "user"
+            },
+            "name": "active"
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "active"
+              }
+            }
+          ],
+          "elseBody": []
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "inactive"
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "user status",
+        "outputName": "result",
+        "effects": []
+      }
+    },
+    {
+      "kind": "function",
+      "name": "scoreStatusLabel",
+      "params": [
+        {
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "score"
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "identifier",
+              "name": "score"
+            },
+            "right": {
+              "kind": "literal",
+              "value": 90
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "excellent"
+              }
+            }
+          ],
+          "elseBody": []
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "keep going"
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "score status",
+        "outputName": "result",
+        "effects": []
+      }
+    }
+  ],
+  "semantic": {
+    "source": "semantic"
+  }
+}
+"
+`;

@@ -1,0 +1,830 @@
+{
+  "kind": "coreProgram",
+  "module": "StdFs",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "readFileRaw",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/fs",
+      "importName": "readFile",
+      "semantic": {
+        "kind": "external",
+        "name": "read file raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 36
+        },
+        "end": {
+          "line": 4,
+          "column": 90,
+          "offset": 125
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "writeFileRaw",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        },
+        {
+          "name": "contents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "contents",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Void",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/fs",
+      "importName": "writeFile",
+      "semantic": {
+        "kind": "external",
+        "name": "write file raw"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 126
+        },
+        "end": {
+          "line": 5,
+          "column": 108,
+          "offset": 233
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "readFileContents",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "readFileRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "path",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 319
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 29,
+                    "offset": 347
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 319
+              },
+              "end": {
+                "line": 11,
+                "column": 29,
+                "offset": 347
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "read file",
+        "outputName": "contents",
+        "effects": [
+          "file"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 235
+        },
+        "end": {
+          "line": 7,
+          "column": 17,
+          "offset": 251
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "writeFileResult",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        },
+        {
+          "name": "contents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "contents",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Void",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "writeFileRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "path",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 455
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 40,
+                    "offset": 494
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "contents",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 455
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 40,
+                    "offset": 494
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 455
+              },
+              "end": {
+                "line": 18,
+                "column": 40,
+                "offset": 494
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "write file",
+        "outputName": "result",
+        "effects": [
+          "file"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 349
+        },
+        "end": {
+          "line": 13,
+          "column": 18,
+          "offset": 366
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 13,
+      "offset": 12
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdFs",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std fs",
+        "functions": [
+          {
+            "label": "read file raw",
+            "params": [
+              {
+                "label": "path",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/fs",
+            "importAs": "readFile",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 36
+              },
+              "end": {
+                "line": 4,
+                "column": 90,
+                "offset": 125
+              }
+            }
+          },
+          {
+            "label": "write file raw",
+            "params": [
+              {
+                "label": "path",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              },
+              {
+                "label": "contents",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Void",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/fs",
+            "importAs": "writeFile",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 126
+              },
+              "end": {
+                "line": 5,
+                "column": 108,
+                "offset": 233
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 14
+          },
+          "end": {
+            "line": 3,
+            "column": 22,
+            "offset": 35
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "read file",
+        "inputs": [
+          {
+            "label": "path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "contents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "file"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "read file raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "path",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 319
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 29,
+                      "offset": 347
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 319
+                },
+                "end": {
+                  "line": 11,
+                  "column": 29,
+                  "offset": 347
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 319
+              },
+              "end": {
+                "line": 11,
+                "column": 29,
+                "offset": 347
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 235
+          },
+          "end": {
+            "line": 7,
+            "column": 17,
+            "offset": 251
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "write file",
+        "inputs": [
+          {
+            "label": "path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          },
+          {
+            "label": "contents",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Void",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "file"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "write file raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "path",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 455
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 40,
+                      "offset": 494
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "contents",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 455
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 40,
+                      "offset": 494
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 455
+                },
+                "end": {
+                  "line": 18,
+                  "column": 40,
+                  "offset": 494
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 455
+              },
+              "end": {
+                "line": 18,
+                "column": 40,
+                "offset": 494
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 349
+          },
+          "end": {
+            "line": 13,
+            "column": 18,
+            "offset": 366
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 13,
+        "offset": 12
+      }
+    }
+  }
+}

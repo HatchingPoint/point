@@ -13,11 +13,11 @@ This package is the source of truth for Point. It exposes:
 Core workflow:
 
 ```bash
-bun run point:fmt-check:all
-bun run point:check:all
-bun run point:build:all
+bun run fmt-check
+bun run check
+bun run build
 ```
 
-`point:build:all` emits TypeScript that can be imported by React, Vue, Bun, Node, and Vite projects.
+`bun run build` emits TypeScript into `generated/` for React, Vue, Bun, Node, and Vite projects.
 
 When Point is extracted, this package can move into a standalone repo with the same package name and public entrypoints.

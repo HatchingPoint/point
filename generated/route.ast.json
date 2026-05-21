@@ -1,0 +1,192 @@
+{
+  "kind": "coreProgram",
+  "module": "Routes",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "getUserRoute",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "id",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 104
+              },
+              "end": {
+                "line": 8,
+                "column": 12,
+                "offset": 115
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "get user",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 15
+        },
+        "end": {
+          "line": 3,
+          "column": 15,
+          "offset": 29
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 14,
+      "offset": 13
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Routes",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "route",
+        "name": "get user",
+        "method": "GET",
+        "path": "/users/:id",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "id",
+              "span": {
+                "start": {
+                  "line": 8,
+                  "column": 1,
+                  "offset": 104
+                },
+                "end": {
+                  "line": 8,
+                  "column": 12,
+                  "offset": 115
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 104
+              },
+              "end": {
+                "line": 8,
+                "column": 12,
+                "offset": 115
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 15
+          },
+          "end": {
+            "line": 3,
+            "column": 15,
+            "offset": 29
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 14,
+        "offset": 13
+      }
+    }
+  }
+}

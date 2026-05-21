@@ -1,0 +1,13 @@
+module AsyncActions
+
+action load user
+  input id: Text
+  output name: Text
+  touches network
+  return "Ada"
+
+action load user label
+  input id: Text
+  output label: Text
+  touches network
+  return await load user(id)

@@ -1,0 +1,416 @@
+{
+  "kind": "coreProgram",
+  "module": "AsyncActions",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "loadUserName",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Ada",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 93
+              },
+              "end": {
+                "line": 7,
+                "column": 15,
+                "offset": 107
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "load user",
+        "outputName": "name",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 21
+        },
+        "end": {
+          "line": 3,
+          "column": 17,
+          "offset": 37
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "loadUserLabel",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "loadUserName",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "id",
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 188
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 29,
+                      "offset": 216
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 188
+                },
+                "end": {
+                  "line": 13,
+                  "column": 29,
+                  "offset": 216
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 188
+              },
+              "end": {
+                "line": 13,
+                "column": 29,
+                "offset": 216
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "load user label",
+        "outputName": "label",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 109
+        },
+        "end": {
+          "line": 9,
+          "column": 23,
+          "offset": 131
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 20,
+      "offset": 19
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "AsyncActions",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "action",
+        "name": "load user",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Ada",
+              "span": {
+                "start": {
+                  "line": 7,
+                  "column": 1,
+                  "offset": 93
+                },
+                "end": {
+                  "line": 7,
+                  "column": 15,
+                  "offset": 107
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 93
+              },
+              "end": {
+                "line": 7,
+                "column": 15,
+                "offset": 107
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 21
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 37
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "load user label",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "load user",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "id",
+                    "span": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 188
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 29,
+                        "offset": 216
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 188
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 29,
+                    "offset": 216
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 188
+                },
+                "end": {
+                  "line": 13,
+                  "column": 29,
+                  "offset": 216
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 188
+              },
+              "end": {
+                "line": 13,
+                "column": 29,
+                "offset": 216
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 109
+          },
+          "end": {
+            "line": 9,
+            "column": 23,
+            "offset": 131
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 20,
+        "offset": 19
+      }
+    }
+  }
+}

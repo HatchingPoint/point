@@ -1,0 +1,18 @@
+module StdHttp
+
+external point std http
+  http get raw(url: Text): Text or Error from "@hatchingpoint/point/std/http" as httpGet
+  http post raw(url: Text, body: Text): Text or Error from "@hatchingpoint/point/std/http" as httpPost
+
+action http get
+  input url: Text
+  output response: Text or Error
+  touches network
+  return http get raw(url)
+
+action http post
+  input url: Text
+  input body: Text
+  output response: Text or Error
+  touches network
+  return http post raw(url, body)

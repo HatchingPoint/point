@@ -1,0 +1,999 @@
+{
+  "kind": "coreProgram",
+  "module": "Checkout",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "CartItem",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 34
+            },
+            "end": {
+              "line": 4,
+              "column": 13,
+              "offset": 46
+            }
+          }
+        },
+        {
+          "name": "unitPrice",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "unit price",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 47
+            },
+            "end": {
+              "line": 5,
+              "column": 18,
+              "offset": 64
+            }
+          }
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "quantity",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 65
+            },
+            "end": {
+              "line": 6,
+              "column": 16,
+              "offset": 80
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Cart Item"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 17
+        },
+        "end": {
+          "line": 3,
+          "column": 17,
+          "offset": 33
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "lineTotal",
+      "params": [
+        {
+          "name": "item",
+          "type": {
+            "kind": "typeRef",
+            "name": "CartItem",
+            "args": []
+          },
+          "semanticName": "item",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "*",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "item",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 149
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 43,
+                    "offset": 191
+                  }
+                }
+              },
+              "name": "unitPrice",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 149
+                },
+                "end": {
+                  "line": 11,
+                  "column": 43,
+                  "offset": 191
+                }
+              }
+            },
+            "right": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "item",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 149
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 43,
+                    "offset": 191
+                  }
+                }
+              },
+              "name": "quantity",
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 149
+                },
+                "end": {
+                  "line": 11,
+                  "column": 43,
+                  "offset": 191
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 149
+              },
+              "end": {
+                "line": 11,
+                "column": 43,
+                "offset": 191
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 149
+            },
+            "end": {
+              "line": 11,
+              "column": 43,
+              "offset": 191
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "line total",
+        "outputName": "total",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 82
+        },
+        "end": {
+          "line": 8,
+          "column": 23,
+          "offset": 104
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "cartTotal",
+      "params": [
+        {
+          "name": "items",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "CartItem",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "items",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "value",
+          "name": "total",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": 0,
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 260
+              },
+              "end": {
+                "line": 16,
+                "column": 20,
+                "offset": 279
+              }
+            }
+          },
+          "mutable": true,
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 260
+            },
+            "end": {
+              "line": 16,
+              "column": 20,
+              "offset": 279
+            }
+          }
+        },
+        {
+          "kind": "for",
+          "itemName": "item",
+          "iterable": {
+            "kind": "identifier",
+            "name": "items",
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 280
+              },
+              "end": {
+                "line": 17,
+                "column": 25,
+                "offset": 304
+              }
+            }
+          },
+          "body": [
+            {
+              "kind": "assignment",
+              "name": "total",
+              "operator": "+=",
+              "value": {
+                "kind": "binary",
+                "operator": "*",
+                "left": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "item",
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 305
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 47,
+                        "offset": 351
+                      }
+                    }
+                  },
+                  "name": "unitPrice",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 305
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 47,
+                      "offset": 351
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "item",
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 305
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 47,
+                        "offset": 351
+                      }
+                    }
+                  },
+                  "name": "quantity",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 305
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 47,
+                      "offset": 351
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 305
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 47,
+                    "offset": 351
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 305
+                },
+                "end": {
+                  "line": 18,
+                  "column": 47,
+                  "offset": 351
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 280
+            },
+            "end": {
+              "line": 17,
+              "column": 25,
+              "offset": 304
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "total",
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 352
+              },
+              "end": {
+                "line": 19,
+                "column": 15,
+                "offset": 366
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 352
+            },
+            "end": {
+              "line": 19,
+              "column": 15,
+              "offset": 366
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "rule",
+        "name": "cart total",
+        "outputName": "total",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 193
+        },
+        "end": {
+          "line": 13,
+          "column": 16,
+          "offset": 208
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 16,
+      "offset": 15
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Checkout",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Cart Item",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 34
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 46
+              }
+            }
+          },
+          {
+            "label": "unit price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 47
+              },
+              "end": {
+                "line": 5,
+                "column": 18,
+                "offset": 64
+              }
+            }
+          },
+          {
+            "label": "quantity",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 65
+              },
+              "end": {
+                "line": 6,
+                "column": 16,
+                "offset": 80
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 17
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 33
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "line total",
+        "inputs": [
+          {
+            "label": "item",
+            "type": {
+              "kind": "typeRef",
+              "name": "Cart Item",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 16,
+                "offset": 15
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "total",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "total",
+            "value": {
+              "kind": "binary",
+              "operator": "*",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "item",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 149
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 43,
+                      "offset": 191
+                    }
+                  }
+                },
+                "label": "unit price",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 149
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 43,
+                    "offset": 191
+                  }
+                }
+              },
+              "right": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "item",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 149
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 43,
+                      "offset": 191
+                    }
+                  }
+                },
+                "label": "quantity",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 149
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 43,
+                    "offset": 191
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 149
+                },
+                "end": {
+                  "line": 11,
+                  "column": 43,
+                  "offset": 191
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 149
+              },
+              "end": {
+                "line": 11,
+                "column": 43,
+                "offset": 191
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 82
+          },
+          "end": {
+            "line": 8,
+            "column": 23,
+            "offset": 104
+          }
+        }
+      },
+      {
+        "kind": "rule",
+        "name": "cart total",
+        "inputs": [
+          {
+            "label": "items",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Cart Item",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "total",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "startsAt",
+            "name": "total",
+            "value": {
+              "kind": "literal",
+              "value": 0,
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 260
+                },
+                "end": {
+                  "line": 16,
+                  "column": 20,
+                  "offset": 279
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 260
+              },
+              "end": {
+                "line": 16,
+                "column": 20,
+                "offset": 279
+              }
+            }
+          },
+          {
+            "kind": "forEach",
+            "item": "item",
+            "iterable": {
+              "kind": "name",
+              "label": "items",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 280
+                },
+                "end": {
+                  "line": 17,
+                  "column": 25,
+                  "offset": 304
+                }
+              }
+            },
+            "body": [
+              {
+                "kind": "addTo",
+                "amount": {
+                  "kind": "binary",
+                  "operator": "*",
+                  "left": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "item",
+                      "span": {
+                        "start": {
+                          "line": 18,
+                          "column": 1,
+                          "offset": 305
+                        },
+                        "end": {
+                          "line": 18,
+                          "column": 47,
+                          "offset": 351
+                        }
+                      }
+                    },
+                    "label": "unit price",
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 305
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 47,
+                        "offset": 351
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "item",
+                      "span": {
+                        "start": {
+                          "line": 18,
+                          "column": 1,
+                          "offset": 305
+                        },
+                        "end": {
+                          "line": 18,
+                          "column": 47,
+                          "offset": 351
+                        }
+                      }
+                    },
+                    "label": "quantity",
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 305
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 47,
+                        "offset": 351
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 305
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 47,
+                      "offset": 351
+                    }
+                  }
+                },
+                "target": "total",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 305
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 47,
+                    "offset": 351
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 280
+              },
+              "end": {
+                "line": 17,
+                "column": 25,
+                "offset": 304
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "total",
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 352
+                },
+                "end": {
+                  "line": 19,
+                  "column": 15,
+                  "offset": 366
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 352
+              },
+              "end": {
+                "line": 19,
+                "column": 15,
+                "offset": 366
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 193
+          },
+          "end": {
+            "line": 13,
+            "column": 16,
+            "offset": 208
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 16,
+        "offset": 15
+      }
+    }
+  }
+}

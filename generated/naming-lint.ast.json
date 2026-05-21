@@ -1,0 +1,1300 @@
+{
+  "kind": "coreProgram",
+  "module": "CompilerNamingLint",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "NamingCase",
+      "fields": [
+        {
+          "name": "blockKind",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "block kind",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 46
+            },
+            "end": {
+              "line": 4,
+              "column": 19,
+              "offset": 64
+            }
+          }
+        },
+        {
+          "name": "blockName",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "block name",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 65
+            },
+            "end": {
+              "line": 5,
+              "column": 19,
+              "offset": 83
+            }
+          }
+        },
+        {
+          "name": "outputName",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "output name",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 84
+            },
+            "end": {
+              "line": 6,
+              "column": 20,
+              "offset": 103
+            }
+          }
+        },
+        {
+          "name": "expectedFunctionName",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "expected function name",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 104
+            },
+            "end": {
+              "line": 7,
+              "column": 31,
+              "offset": 134
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Naming Case"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 27
+        },
+        "end": {
+          "line": 3,
+          "column": 19,
+          "offset": 45
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testCartTotalNamingOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": true,
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 189
+              },
+              "end": {
+                "line": 11,
+                "column": 13,
+                "offset": 201
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 189
+            },
+            "end": {
+              "line": 11,
+              "column": 13,
+              "offset": 201
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test cart total naming",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 136
+        },
+        "end": {
+          "line": 9,
+          "column": 35,
+          "offset": 170
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testLaunchReadinessNamingOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": true,
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 262
+              },
+              "end": {
+                "line": 15,
+                "column": 13,
+                "offset": 274
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 262
+            },
+            "end": {
+              "line": 15,
+              "column": 13,
+              "offset": 274
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test launch readiness naming",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 203
+        },
+        "end": {
+          "line": 13,
+          "column": 41,
+          "offset": 243
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "validateNamingExampleScore",
+      "params": [
+        {
+          "name": "example",
+          "type": {
+            "kind": "typeRef",
+            "name": "NamingCase",
+            "args": []
+          },
+          "semanticName": "example",
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 18,
+              "column": 21,
+              "offset": 20
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "value",
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": 0,
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 354
+              },
+              "end": {
+                "line": 20,
+                "column": 20,
+                "offset": 373
+              }
+            }
+          },
+          "mutable": true,
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 354
+            },
+            "end": {
+              "line": 20,
+              "column": 20,
+              "offset": 373
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "!=",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "example",
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 374
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 52,
+                    "offset": 425
+                  }
+                }
+              },
+              "name": "expectedFunctionName",
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 374
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52,
+                  "offset": 425
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "",
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 374
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52,
+                  "offset": 425
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 374
+              },
+              "end": {
+                "line": 21,
+                "column": 52,
+                "offset": 425
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "score",
+              "operator": "+=",
+              "value": {
+                "kind": "literal",
+                "value": 100,
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 374
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 52,
+                    "offset": 425
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 374
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52,
+                  "offset": 425
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 374
+            },
+            "end": {
+              "line": 21,
+              "column": 52,
+              "offset": 425
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "score",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 426
+              },
+              "end": {
+                "line": 22,
+                "column": 15,
+                "offset": 440
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 426
+            },
+            "end": {
+              "line": 22,
+              "column": 15,
+              "offset": 440
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "rule",
+        "name": "validate naming example",
+        "outputName": "score",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 276
+        },
+        "end": {
+          "line": 17,
+          "column": 29,
+          "offset": 304
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "namingExampleStatusLabel",
+      "params": [
+        {
+          "name": "example",
+          "type": {
+            "kind": "typeRef",
+            "name": "NamingCase",
+            "args": []
+          },
+          "semanticName": "example",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 21,
+              "offset": 20
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "call",
+              "callee": "validateNamingExampleScore",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "example",
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 513
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 62,
+                      "offset": 574
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 513
+                },
+                "end": {
+                  "line": 27,
+                  "column": 62,
+                  "offset": 574
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 100,
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 513
+                },
+                "end": {
+                  "line": 27,
+                  "column": 62,
+                  "offset": 574
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 513
+              },
+              "end": {
+                "line": 27,
+                "column": 62,
+                "offset": 574
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "valid",
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 513
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 62,
+                    "offset": 574
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 513
+                },
+                "end": {
+                  "line": 27,
+                  "column": 62,
+                  "offset": 574
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 513
+            },
+            "end": {
+              "line": 27,
+              "column": 62,
+              "offset": 574
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "invalid",
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 575
+              },
+              "end": {
+                "line": 28,
+                "column": 29,
+                "offset": 603
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 575
+            },
+            "end": {
+              "line": 28,
+              "column": 29,
+              "offset": 603
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "naming example status",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 442
+        },
+        "end": {
+          "line": 24,
+          "column": 28,
+          "offset": 469
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 26,
+      "offset": 25
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "CompilerNamingLint",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Naming Case",
+        "fields": [
+          {
+            "label": "block kind",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 46
+              },
+              "end": {
+                "line": 4,
+                "column": 19,
+                "offset": 64
+              }
+            }
+          },
+          {
+            "label": "block name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 65
+              },
+              "end": {
+                "line": 5,
+                "column": 19,
+                "offset": 83
+              }
+            }
+          },
+          {
+            "label": "output name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 84
+              },
+              "end": {
+                "line": 6,
+                "column": 20,
+                "offset": 103
+              }
+            }
+          },
+          {
+            "label": "expected function name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 104
+              },
+              "end": {
+                "line": 7,
+                "column": 31,
+                "offset": 134
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 27
+          },
+          "end": {
+            "line": 3,
+            "column": 19,
+            "offset": 45
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test cart total naming",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "literal",
+              "value": true,
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 189
+                },
+                "end": {
+                  "line": 11,
+                  "column": 13,
+                  "offset": 201
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 189
+              },
+              "end": {
+                "line": 11,
+                "column": 13,
+                "offset": 201
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 136
+          },
+          "end": {
+            "line": 9,
+            "column": 35,
+            "offset": 170
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test launch readiness naming",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "literal",
+              "value": true,
+              "span": {
+                "start": {
+                  "line": 15,
+                  "column": 1,
+                  "offset": 262
+                },
+                "end": {
+                  "line": 15,
+                  "column": 13,
+                  "offset": 274
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 262
+              },
+              "end": {
+                "line": 15,
+                "column": 13,
+                "offset": 274
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 203
+          },
+          "end": {
+            "line": 13,
+            "column": 41,
+            "offset": 243
+          }
+        }
+      },
+      {
+        "kind": "rule",
+        "name": "validate naming example",
+        "inputs": [
+          {
+            "label": "example",
+            "type": {
+              "kind": "typeRef",
+              "name": "Naming Case",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 18,
+                "column": 21,
+                "offset": 20
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "startsAt",
+            "name": "score",
+            "value": {
+              "kind": "literal",
+              "value": 0,
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 354
+                },
+                "end": {
+                  "line": 20,
+                  "column": 20,
+                  "offset": 373
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 354
+              },
+              "end": {
+                "line": 20,
+                "column": 20,
+                "offset": 373
+              }
+            }
+          },
+          {
+            "kind": "addWhen",
+            "amount": {
+              "kind": "literal",
+              "value": 100,
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 374
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52,
+                  "offset": 425
+                }
+              }
+            },
+            "condition": {
+              "kind": "binary",
+              "operator": "!=",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "example",
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 374
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 52,
+                      "offset": 425
+                    }
+                  }
+                },
+                "label": "expected function name",
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 374
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 52,
+                    "offset": 425
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 374
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 52,
+                    "offset": 425
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 374
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52,
+                  "offset": 425
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 374
+              },
+              "end": {
+                "line": 21,
+                "column": 52,
+                "offset": 425
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "score",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 426
+                },
+                "end": {
+                  "line": 22,
+                  "column": 15,
+                  "offset": 440
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 426
+              },
+              "end": {
+                "line": 22,
+                "column": 15,
+                "offset": 440
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 17,
+            "column": 1,
+            "offset": 276
+          },
+          "end": {
+            "line": 17,
+            "column": 29,
+            "offset": 304
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "naming example status",
+        "inputs": [
+          {
+            "label": "example",
+            "type": {
+              "kind": "typeRef",
+              "name": "Naming Case",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 21,
+                "offset": 20
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "call",
+                "callee": "validate naming example",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "example",
+                    "span": {
+                      "start": {
+                        "line": 27,
+                        "column": 1,
+                        "offset": 513
+                      },
+                      "end": {
+                        "line": 27,
+                        "column": 62,
+                        "offset": 574
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 513
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 62,
+                    "offset": 574
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 100,
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 513
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 62,
+                    "offset": 574
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 513
+                },
+                "end": {
+                  "line": 27,
+                  "column": 62,
+                  "offset": 574
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "valid",
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 513
+                },
+                "end": {
+                  "line": 27,
+                  "column": 62,
+                  "offset": 574
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 513
+              },
+              "end": {
+                "line": 27,
+                "column": 62,
+                "offset": 574
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": "invalid",
+              "span": {
+                "start": {
+                  "line": 28,
+                  "column": 1,
+                  "offset": 575
+                },
+                "end": {
+                  "line": 28,
+                  "column": 29,
+                  "offset": 603
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 575
+              },
+              "end": {
+                "line": 28,
+                "column": 29,
+                "offset": 603
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 24,
+            "column": 1,
+            "offset": 442
+          },
+          "end": {
+            "line": 24,
+            "column": 28,
+            "offset": 469
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 26,
+        "offset": 25
+      }
+    }
+  }
+}

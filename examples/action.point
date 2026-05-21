@@ -1,0 +1,10 @@
+module Actions
+
+external node fs
+  read file(path: Text): Text from "node:fs" as readFileSync
+
+action load config
+  input path: Text
+  output contents: Text
+  touches file
+  return read file(path)

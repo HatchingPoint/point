@@ -1,0 +1,400 @@
+{
+  "kind": "coreProgram",
+  "module": "PointTests",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "testArithmeticPassed",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": 2,
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 69
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 23,
+                    "offset": 91
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 2,
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 69
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 23,
+                    "offset": 91
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 69
+                },
+                "end": {
+                  "line": 5,
+                  "column": 23,
+                  "offset": 91
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 4,
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 69
+                },
+                "end": {
+                  "line": 5,
+                  "column": 23,
+                  "offset": 91
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 69
+              },
+              "end": {
+                "line": 5,
+                "column": 23,
+                "offset": 91
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 69
+            },
+            "end": {
+              "line": 5,
+              "column": 23,
+              "offset": 91
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test arithmetic",
+        "outputName": "passed",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 19
+        },
+        "end": {
+          "line": 3,
+          "column": 28,
+          "offset": 46
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testAsyncValuePassed",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": true,
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 154
+              },
+              "end": {
+                "line": 10,
+                "column": 14,
+                "offset": 167
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "test async value",
+        "outputName": "passed",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 93
+        },
+        "end": {
+          "line": 7,
+          "column": 24,
+          "offset": 116
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 18,
+      "offset": 17
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "PointTests",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "calculation",
+        "name": "test arithmetic",
+        "inputs": [],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "passed",
+            "value": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": 2,
+                  "span": {
+                    "start": {
+                      "line": 5,
+                      "column": 1,
+                      "offset": 69
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 23,
+                      "offset": 91
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": 2,
+                  "span": {
+                    "start": {
+                      "line": 5,
+                      "column": 1,
+                      "offset": 69
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 23,
+                      "offset": 91
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 69
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 23,
+                    "offset": 91
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 4,
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 69
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 23,
+                    "offset": 91
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 69
+                },
+                "end": {
+                  "line": 5,
+                  "column": 23,
+                  "offset": 91
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 69
+              },
+              "end": {
+                "line": 5,
+                "column": 23,
+                "offset": 91
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          },
+          "end": {
+            "line": 3,
+            "column": 28,
+            "offset": 46
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "test async value",
+        "inputs": [],
+        "output": {
+          "name": "passed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": true,
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 154
+                },
+                "end": {
+                  "line": 10,
+                  "column": 14,
+                  "offset": 167
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 154
+              },
+              "end": {
+                "line": 10,
+                "column": 14,
+                "offset": 167
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 93
+          },
+          "end": {
+            "line": 7,
+            "column": 24,
+            "offset": 116
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 18,
+        "offset": 17
+      }
+    }
+  }
+}

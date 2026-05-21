@@ -1,7 +1,12 @@
 export * from "./ast.ts";
 export * from "./check.ts";
+export { findRunEntryName } from "./cli.ts";
 export * from "./context.ts";
 export * from "./emit-typescript.ts";
+export * from "./emit-javascript.ts";
+export * from "./incremental.ts";
+export * from "./serialize.ts";
+export * from "../semantic/index.ts";
 export * from "./format.ts";
 export * from "./lexer.ts";
 export * from "./parser.ts";

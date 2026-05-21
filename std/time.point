@@ -1,0 +1,17 @@
+module StdTime
+
+external point std time
+  time now(): Text from "@hatchingpoint/point/std/time" as now
+  sleep milliseconds(ms: Int): Void from "@hatchingpoint/point/std/time" as sleep
+  format time(value: Text): Text from "@hatchingpoint/point/std/time" as formatTime
+
+action current time
+  output value: Text
+  touches time
+  return time now()
+
+action wait milliseconds
+  input ms: Int
+  output Void
+  touches time
+  return sleep milliseconds(ms)

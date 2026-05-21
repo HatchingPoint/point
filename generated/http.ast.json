@@ -1,0 +1,830 @@
+{
+  "kind": "coreProgram",
+  "module": "StdHttp",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "httpGetRaw",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/http",
+      "importName": "httpGet",
+      "semantic": {
+        "kind": "external",
+        "name": "http get raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 40
+        },
+        "end": {
+          "line": 4,
+          "column": 89,
+          "offset": 128
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "httpPostRaw",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/http",
+      "importName": "httpPost",
+      "semantic": {
+        "kind": "external",
+        "name": "http post raw"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 129
+        },
+        "end": {
+          "line": 5,
+          "column": 103,
+          "offset": 231
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "httpGetResponse",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "httpGetRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "url",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 318
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 27,
+                    "offset": 344
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 318
+              },
+              "end": {
+                "line": 11,
+                "column": 27,
+                "offset": 344
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "http get",
+        "outputName": "response",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 233
+        },
+        "end": {
+          "line": 7,
+          "column": 16,
+          "offset": 248
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "httpPostResponse",
+      "params": [
+        {
+          "name": "url",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "url",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "httpPostRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "url",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 451
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 34,
+                    "offset": 484
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "body",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 451
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 34,
+                    "offset": 484
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 451
+              },
+              "end": {
+                "line": 18,
+                "column": 34,
+                "offset": 484
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "http post",
+        "outputName": "response",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 346
+        },
+        "end": {
+          "line": 13,
+          "column": 17,
+          "offset": 362
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdHttp",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std http",
+        "functions": [
+          {
+            "label": "http get raw",
+            "params": [
+              {
+                "label": "url",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 10,
+                    "offset": 9
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/http",
+            "importAs": "httpGet",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 4,
+                "column": 89,
+                "offset": 128
+              }
+            }
+          },
+          {
+            "label": "http post raw",
+            "params": [
+              {
+                "label": "url",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 10,
+                    "offset": 9
+                  }
+                }
+              },
+              {
+                "label": "body",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/http",
+            "importAs": "httpPost",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 129
+              },
+              "end": {
+                "line": 5,
+                "column": 103,
+                "offset": 231
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 39
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "http get",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "http get raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "url",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 318
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 27,
+                      "offset": 344
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 318
+                },
+                "end": {
+                  "line": 11,
+                  "column": 27,
+                  "offset": 344
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 318
+              },
+              "end": {
+                "line": 11,
+                "column": 27,
+                "offset": 344
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 233
+          },
+          "end": {
+            "line": 7,
+            "column": 16,
+            "offset": 248
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "http post",
+        "inputs": [
+          {
+            "label": "url",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          },
+          {
+            "label": "body",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "http post raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "url",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 451
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 34,
+                      "offset": 484
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "body",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 451
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 34,
+                      "offset": 484
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 451
+                },
+                "end": {
+                  "line": 18,
+                  "column": 34,
+                  "offset": 484
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 451
+              },
+              "end": {
+                "line": 18,
+                "column": 34,
+                "offset": 484
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 346
+          },
+          "end": {
+            "line": 13,
+            "column": 17,
+            "offset": 362
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

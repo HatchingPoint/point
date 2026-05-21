@@ -11,7 +11,25 @@ import type {
 	PointCoreDiagnostic,
 } from "./check.ts";
 
-export type PointCoreSymbolKind = "module" | "import" | "value" | "function" | "param" | "type" | "field";
+export type PointCoreSymbolKind =
+	| "module"
+	| "import"
+	| "value"
+	| "function"
+	| "param"
+	| "type"
+	| "field"
+	| "record"
+	| "calculation"
+	| "rule"
+	| "label"
+	| "external"
+	| "action"
+	| "policy"
+	| "view"
+	| "route"
+	| "workflow"
+	| "command";
 
 export interface PointCoreSymbol {
 	ref: string;
@@ -22,6 +40,7 @@ export interface PointCoreSymbol {
 	type?: string;
 	mutable?: boolean;
 	from?: string;
+	effects?: string[];
 	span: PointSourceSpan | null;
 }
 
@@ -68,7 +87,10 @@ export function createPointCoreIndex(program: PointCoreProgram): PointCoreIndex 
 			span: program.span ?? null,
 		},
 	];
-	for (const declaration of program.declarations) refs.push(...symbolsForDeclaration(moduleName, declaration));
+	for (const declaration of program.declarations) {
+		refs.push(...symbolsForDeclaration(moduleName, declaration));
+		refs.push(...semanticSymbolsForDeclaration(moduleName, declaration));
+	}
 	return { schemaVersion: "point.core.index.v1", module: moduleName, refs };
 }
 
@@ -111,6 +133,14 @@ export function createPointCoreRepairPlan(diagnostics: PointCoreDiagnostic[]): P
 	};
 }
 
+export function mapDiagnosticsToSemanticRefs(program: PointCoreProgram, diagnostics: PointCoreDiagnostic[]): PointCoreDiagnostic[] {
+	return diagnostics.map((diagnostic) => ({
+		...diagnostic,
+		ref: semanticRefForDiagnosticPath(program, diagnostic.path) ?? diagnostic.ref,
+		relatedRefs: diagnostic.relatedRefs?.map((ref) => semanticRefForCoreRef(program, ref) ?? ref),
+	}));
+}
+
 function symbolsForDeclaration(moduleName: string, declaration: PointCoreDeclaration): PointCoreSymbol[] {
 	if (declaration.kind === "import") {
 		return declaration.names.map((name) => ({
@@ -122,6 +152,20 @@ function symbolsForDeclaration(moduleName: string, declaration: PointCoreDeclara
 			from: declaration.from,
 			span: declaration.span ?? null,
 		}));
+	}
+	if (declaration.kind === "external") {
+		return [
+			{
+				ref: refFor(moduleName, `external.${declaration.name}`),
+				path: `external.${declaration.name}`,
+				kind: "external",
+				name: declaration.name,
+				module: moduleName,
+				type: formatType(declaration.returnType),
+				from: declaration.from,
+				span: declaration.span ?? null,
+			},
+		];
 	}
 	if (declaration.kind === "value") return [valueSymbol(moduleName, declaration, `value.${declaration.name}`)];
 	if (declaration.kind === "type") return typeSymbols(moduleName, declaration);
@@ -172,6 +216,7 @@ function functionSymbols(moduleName: string, declaration: PointCoreFunctionDecla
 			name: declaration.name,
 			module: moduleName,
 			type: formatType(declaration.returnType),
+			effects: declaration.semantic?.effects,
 			span: declaration.span ?? null,
 		},
 		...declaration.params.map((param) => ({
@@ -186,8 +231,85 @@ function functionSymbols(moduleName: string, declaration: PointCoreFunctionDecla
 	];
 }
 
+function semanticSymbolsForDeclaration(moduleName: string, declaration: PointCoreDeclaration): PointCoreSymbol[] {
+	if (declaration.kind === "type" && declaration.semantic?.kind === "record") {
+		const recordPath = `record.${declaration.semantic.name}`;
+		return [
+			{
+				ref: semanticRefFor(moduleName, recordPath),
+				path: recordPath,
+				kind: "record",
+				name: declaration.semantic.name,
+				module: moduleName,
+				span: declaration.span ?? null,
+			},
+			...declaration.fields.map((field) => {
+				const fieldName = field.semanticName ?? field.name;
+				const path = `${recordPath}.field.${fieldName}`;
+				return {
+					ref: semanticRefFor(moduleName, path),
+					path,
+					kind: "field" as const,
+					name: fieldName,
+					module: moduleName,
+					type: formatType(field.type),
+					span: field.span ?? null,
+				};
+			}),
+		];
+	}
+	if (declaration.kind === "function" && declaration.semantic) {
+		const semanticPath = `${declaration.semantic.kind}.${declaration.semantic.name}`;
+		return [
+			{
+				ref: semanticRefFor(moduleName, semanticPath),
+				path: semanticPath,
+				kind: declaration.semantic.kind,
+				name: declaration.semantic.name,
+				module: moduleName,
+				type: formatType(declaration.returnType),
+				effects: declaration.semantic.effects,
+				span: declaration.span ?? null,
+			},
+			...declaration.params.map((param) => {
+				const paramName = param.semanticName ?? param.name;
+				const path = `${semanticPath}.input.${paramName}`;
+				return {
+					ref: semanticRefFor(moduleName, path),
+					path,
+					kind: "param" as const,
+					name: paramName,
+					module: moduleName,
+					type: formatType(param.type),
+					span: param.span ?? null,
+				};
+			}),
+		];
+	}
+	if (declaration.kind === "external" && declaration.semantic) {
+		const semanticPath = `external.${declaration.semantic.name}`;
+		return [
+			{
+				ref: semanticRefFor(moduleName, semanticPath),
+				path: semanticPath,
+				kind: "external",
+				name: declaration.semantic.name,
+				module: moduleName,
+				type: formatType(declaration.returnType),
+				from: declaration.from,
+				span: declaration.span ?? null,
+			},
+		];
+	}
+	return [];
+}
+
 function refFor(moduleName: string, path: string): string {
 	return `point://core/${moduleName}/${path}`;
+}
+
+function semanticRefFor(moduleName: string, path: string): string {
+	return `point://semantic/${moduleName}/${path}`;
 }
 
 function relatedRefsFor(symbol: PointCoreSymbol, index: PointCoreIndex): string[] {
@@ -195,8 +317,21 @@ function relatedRefsFor(symbol: PointCoreSymbol, index: PointCoreIndex): string[
 		const ownerPath = symbol.path.split(".").slice(0, 2).join(".");
 		return index.refs.filter((candidate) => candidate.path.startsWith(`${ownerPath}.`) && candidate.ref !== symbol.ref).map((candidate) => candidate.ref);
 	}
-	if (symbol.kind === "function") {
-		return index.refs.filter((candidate) => candidate.path.startsWith(`${symbol.path}.param.`)).map((candidate) => candidate.ref);
+	if (
+		symbol.kind === "function" ||
+		symbol.kind === "calculation" ||
+		symbol.kind === "rule" ||
+		symbol.kind === "label" ||
+		symbol.kind === "action" ||
+		symbol.kind === "policy" ||
+		symbol.kind === "view" ||
+		symbol.kind === "route" ||
+		symbol.kind === "workflow" ||
+		symbol.kind === "command"
+	) {
+		return index.refs
+			.filter((candidate) => candidate.path.startsWith(`${symbol.path}.param.`) || candidate.path.startsWith(`${symbol.path}.input.`))
+			.map((candidate) => candidate.ref);
 	}
 	return [];
 }
@@ -206,9 +341,51 @@ function summaryFor(symbol: PointCoreSymbol): string {
 	if (symbol.kind === "import") return `Import ${symbol.name} from ${symbol.from}.`;
 	if (symbol.kind === "value") return `${symbol.mutable ? "Mutable" : "Immutable"} value ${symbol.name}: ${symbol.type}.`;
 	if (symbol.kind === "function") return `Function ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "external") return `External function ${symbol.name} from ${symbol.from} returns ${symbol.type}.`;
 	if (symbol.kind === "param") return `Parameter ${symbol.name}: ${symbol.type}.`;
 	if (symbol.kind === "type") return `Named type ${symbol.name}.`;
+	if (symbol.kind === "record") return `Semantic record ${symbol.name}.`;
+	if (symbol.kind === "calculation") return `Semantic calculation ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "rule") return `Semantic rule ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "label") return `Semantic label ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "action") return `Semantic action ${symbol.name} returns ${symbol.type}; effects: ${(symbol.effects ?? []).join(", ") || "none"}.`;
+	if (symbol.kind === "policy") return `Semantic policy ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "view") return `Semantic view ${symbol.name} returns React JSX.`;
+	if (symbol.kind === "route") return `Semantic route ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "workflow") return `Semantic workflow ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "command") return `Semantic command ${symbol.name} returns ${symbol.type}.`;
 	return `Field ${symbol.name}: ${symbol.type}.`;
+}
+
+function semanticRefForCoreRef(program: PointCoreProgram, ref: string): string | null {
+	const prefix = `point://core/${program.module ?? "anonymous"}/`;
+	if (!ref.startsWith(prefix)) return null;
+	return semanticRefForDiagnosticPath(program, ref.slice(prefix.length));
+}
+
+function semanticRefForDiagnosticPath(program: PointCoreProgram, path: string): string | null {
+	const moduleName = program.module ?? "anonymous";
+	for (const declaration of program.declarations) {
+		if (declaration.kind === "type" && declaration.semantic?.kind === "record") {
+			const recordPath = `type.${declaration.name}`;
+			if (path === recordPath || path.startsWith(`${recordPath}.`)) {
+				const parts = path.split(".");
+				const field = parts.length >= 3 ? declaration.fields.find((candidate) => candidate.name === parts[2]) : undefined;
+				const semanticPath = field
+					? `record.${declaration.semantic.name}.field.${field.semanticName ?? field.name}`
+					: `record.${declaration.semantic.name}`;
+				return semanticRefFor(moduleName, semanticPath);
+			}
+		}
+		if ((declaration.kind === "function" || declaration.kind === "external") && declaration.semantic) {
+			const fnPath = `fn.${declaration.name}`;
+			if (path === fnPath || path.startsWith(`${fnPath}.`)) {
+				const semanticPath = `${declaration.semantic.kind}.${declaration.semantic.name}`;
+				return semanticRefFor(moduleName, semanticPath);
+			}
+		}
+	}
+	return null;
 }
 
 function formatType(type: PointCoreTypeExpression): string {

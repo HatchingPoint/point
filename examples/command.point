@@ -1,0 +1,5 @@
+module Commands
+
+command hello cli
+  output result: Text
+  return "Hello CLI"

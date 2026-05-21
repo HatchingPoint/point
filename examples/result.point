@@ -1,0 +1,8 @@
+module Results
+
+record User
+  name: Text
+
+calculation find user
+  output user: User or Error
+  return Error "User not found"

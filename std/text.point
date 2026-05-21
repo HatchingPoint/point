@@ -1,0 +1,13 @@
+module StdText
+
+external point std text
+  text length(value: Text): Int from "@hatchingpoint/point/std/text" as textLength
+  text contains(value: Text, search: Text): Bool from "@hatchingpoint/point/std/text" as textContains
+  text split(value: Text, separator: Text): List<Text> from "@hatchingpoint/point/std/text" as textSplit
+  text trim(value: Text): Text from "@hatchingpoint/point/std/text" as textTrim
+
+calculation concat text
+  input left: Text
+  input right: Text
+  output value: Text
+  value is left + right

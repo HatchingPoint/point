@@ -1,0 +1,7 @@
+{
+  "name": "point",
+  "version": "0.0.5",
+  "dependencies": {
+    "std": "workspace:std"
+  }
+}

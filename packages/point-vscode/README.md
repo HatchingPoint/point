@@ -9,6 +9,8 @@ Cursor and VS Code language support for Point.
 - Language configuration for comments, brackets, auto-closing pairs, and folding.
 - Editor snippets for `record`, `calculation`, `rule`, and `label`.
 - Point file icon theme using the Point logo mark.
+- Diagnostics on save through `point check-json`.
+- Semantic go-to-definition and document symbols through `point index`.
 
 ## Local Use In Cursor (folder install)
 
@@ -19,25 +21,12 @@ Until this is published, install it as a local extension:
 3. Choose `packages/point-vscode`.
 4. Reload Cursor.
 
-## Automatic Team Setup
-
-At the repo root, `bun install` now runs editor setup automatically:
-
-- packages this extension to a VSIX
-- installs it into detected Cursor/VS Code-family editors (`cursor`, `code`, `code-insiders`, `codium`)
-
-If your environment should skip this (CI, containers, or custom setup):
-
-```bash
-POINT_EDITOR_SETUP=0 bun install
-```
-
 ## Package A VSIX
 
 From the repo root:
 
 ```bash
-bun run point:vscode:package
+bun run vscode:package
 ```
 
 This writes a `.vsix` file into `packages/point-vscode`.

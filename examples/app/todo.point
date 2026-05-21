@@ -1,0 +1,31 @@
+module TodoApp
+
+use std.time
+
+record Todo
+  title: Text
+  done: Bool
+
+view todo item
+  input title: Text
+  render title
+
+action load todos
+  output result: Text
+  touches none
+  return "No todos yet"
+
+workflow open dashboard
+  output result: Text
+  step loaded todos is await load todos()
+  return loaded todos
+
+route get todos
+  method GET
+  path "/todos"
+  output response: Text
+  return "[]"
+
+command todo demo
+  output result: Text
+  return "Todo demo ready"

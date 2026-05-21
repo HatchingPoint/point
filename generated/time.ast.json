@@ -1,0 +1,602 @@
+{
+  "kind": "coreProgram",
+  "module": "StdTime",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "timeNow",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "now",
+      "semantic": {
+        "kind": "external",
+        "name": "time now"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 40
+        },
+        "end": {
+          "line": 4,
+          "column": 63,
+          "offset": 102
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "sleepMilliseconds",
+      "params": [
+        {
+          "name": "ms",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "ms",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 8,
+              "offset": 7
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Void",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "sleep",
+      "semantic": {
+        "kind": "external",
+        "name": "sleep milliseconds"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 103
+        },
+        "end": {
+          "line": 5,
+          "column": 82,
+          "offset": 184
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "formatTime",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "formatTime",
+      "semantic": {
+        "kind": "external",
+        "name": "format time"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 185
+        },
+        "end": {
+          "line": 6,
+          "column": 84,
+          "offset": 268
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "currentTimeValue",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "timeNow",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 326
+              },
+              "end": {
+                "line": 11,
+                "column": 20,
+                "offset": 345
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "current time",
+        "outputName": "value",
+        "effects": [
+          "time"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 270
+        },
+        "end": {
+          "line": 8,
+          "column": 20,
+          "offset": 289
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "waitMillisecondsResult",
+      "params": [
+        {
+          "name": "ms",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "ms",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 8,
+              "offset": 7
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Void",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sleepMilliseconds",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "ms",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 417
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 32,
+                    "offset": 448
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 417
+              },
+              "end": {
+                "line": 17,
+                "column": 32,
+                "offset": 448
+              }
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "wait milliseconds",
+        "outputName": "result",
+        "effects": [
+          "time"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 347
+        },
+        "end": {
+          "line": 13,
+          "column": 25,
+          "offset": 371
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdTime",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std time",
+        "functions": [
+          {
+            "label": "time now",
+            "params": [],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "now",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 4,
+                "column": 63,
+                "offset": 102
+              }
+            }
+          },
+          {
+            "label": "sleep milliseconds",
+            "params": [
+              {
+                "label": "ms",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 7
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Void",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "sleep",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 103
+              },
+              "end": {
+                "line": 5,
+                "column": 82,
+                "offset": 184
+              }
+            }
+          },
+          {
+            "label": "format time",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "formatTime",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 185
+              },
+              "end": {
+                "line": 6,
+                "column": 84,
+                "offset": 268
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 39
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "current time",
+        "inputs": [],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "time"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "time now",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 326
+                },
+                "end": {
+                  "line": 11,
+                  "column": 20,
+                  "offset": 345
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 326
+              },
+              "end": {
+                "line": 11,
+                "column": 20,
+                "offset": 345
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 270
+          },
+          "end": {
+            "line": 8,
+            "column": 20,
+            "offset": 289
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "wait milliseconds",
+        "inputs": [
+          {
+            "label": "ms",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 8,
+                "offset": 7
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Void",
+            "args": []
+          }
+        },
+        "touches": [
+          "time"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sleep milliseconds",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "ms",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 417
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 32,
+                      "offset": 448
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 417
+                },
+                "end": {
+                  "line": 17,
+                  "column": 32,
+                  "offset": 448
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 417
+              },
+              "end": {
+                "line": 17,
+                "column": 32,
+                "offset": 448
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 347
+          },
+          "end": {
+            "line": 13,
+            "column": 25,
+            "offset": 371
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

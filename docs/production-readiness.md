@@ -20,21 +20,21 @@ Point semantic source supports:
 ## Daily Workflow
 
 ```bash
-bun run point:fmt-check:all
-bun run point:check:all
-bun run point:build:all
+bun run fmt-check
+bun run check
+bun run build
 ```
 
-`point:build:all` emits TypeScript into `src/point-core/generated`. Use `point:build:ast:all` when debugging compiler output.
+`bun run build` emits TypeScript into `generated/`. Use `bun run build:ast` when debugging compiler output.
 
-Use `bun run point:check-json` when an agent needs machine-readable diagnostics with stable refs, expected/actual metadata, repair hints, and related symbols.
+Use `bun run check-json` when an agent needs machine-readable diagnostics with stable refs, expected/actual metadata, repair hints, and related symbols.
 
 Use these commands for self-context:
 
 ```bash
-bun run point:index
-bun run point:explain examples/math.point point://core/Math/fn.scoreStatusLabel
-bun run point:repair-plan
+bun run index examples/math.point
+bun run explain examples/math.point point://semantic/Math/label.score status
+bun run repair-plan examples/math.point
 ```
 
 ## Editor Workflow
@@ -42,8 +42,7 @@ bun run point:repair-plan
 The Cursor/VS Code extension lives in `packages/point-vscode`.
 
 ```bash
-bun run point:vscode:package
-bun run point:vscode:setup
+bun run vscode:package
 ```
 
 The extension provides `.point` language registration, syntax highlighting, snippets, and a Point file icon theme.

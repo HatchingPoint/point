@@ -1,0 +1,796 @@
+{
+  "kind": "coreProgram",
+  "module": "StdText",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "textLength",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textLength",
+      "semantic": {
+        "kind": "external",
+        "name": "text length"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 40
+        },
+        "end": {
+          "line": 4,
+          "column": 83,
+          "offset": 122
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "textContains",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "search",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "search",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textContains",
+      "semantic": {
+        "kind": "external",
+        "name": "text contains"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 123
+        },
+        "end": {
+          "line": 5,
+          "column": 102,
+          "offset": 224
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "textSplit",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "separator",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "separator",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textSplit",
+      "semantic": {
+        "kind": "external",
+        "name": "text split"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 225
+        },
+        "end": {
+          "line": 6,
+          "column": 105,
+          "offset": 329
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "textTrim",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textTrim",
+      "semantic": {
+        "kind": "external",
+        "name": "text trim"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 330
+        },
+        "end": {
+          "line": 7,
+          "column": 80,
+          "offset": 409
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "concatTextValue",
+      "params": [
+        {
+          "name": "left",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "left",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        },
+        {
+          "name": "right",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "right",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "identifier",
+              "name": "left",
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 495
+                },
+                "end": {
+                  "line": 13,
+                  "column": 24,
+                  "offset": 518
+                }
+              }
+            },
+            "right": {
+              "kind": "identifier",
+              "name": "right",
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 495
+                },
+                "end": {
+                  "line": 13,
+                  "column": 24,
+                  "offset": 518
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 495
+              },
+              "end": {
+                "line": 13,
+                "column": 24,
+                "offset": 518
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 495
+            },
+            "end": {
+              "line": 13,
+              "column": 24,
+              "offset": 518
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "concat text",
+        "outputName": "value",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 411
+        },
+        "end": {
+          "line": 9,
+          "column": 24,
+          "offset": 434
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StdText",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std text",
+        "functions": [
+          {
+            "label": "text length",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textLength",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 4,
+                "column": 83,
+                "offset": 122
+              }
+            }
+          },
+          {
+            "label": "text contains",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "search",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textContains",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 123
+              },
+              "end": {
+                "line": 5,
+                "column": 102,
+                "offset": 224
+              }
+            }
+          },
+          {
+            "label": "text split",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "separator",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textSplit",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 225
+              },
+              "end": {
+                "line": 6,
+                "column": 105,
+                "offset": 329
+              }
+            }
+          },
+          {
+            "label": "text trim",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textTrim",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 330
+              },
+              "end": {
+                "line": 7,
+                "column": 80,
+                "offset": 409
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 39
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "concat text",
+        "inputs": [
+          {
+            "label": "left",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          },
+          {
+            "label": "right",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 11,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "value",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "name",
+                "label": "left",
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 495
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 24,
+                    "offset": 518
+                  }
+                }
+              },
+              "right": {
+                "kind": "name",
+                "label": "right",
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 495
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 24,
+                    "offset": 518
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 495
+                },
+                "end": {
+                  "line": 13,
+                  "column": 24,
+                  "offset": 518
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 495
+              },
+              "end": {
+                "line": 13,
+                "column": 24,
+                "offset": 518
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 411
+          },
+          "end": {
+            "line": 9,
+            "column": 24,
+            "offset": 434
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

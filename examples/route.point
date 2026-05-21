@@ -1,0 +1,8 @@
+module Routes
+
+route get user
+  method GET
+  path "/users/:id"
+  input id: Text
+  output response: Text
+  return id
