@@ -13,7 +13,7 @@ git tag v0.0.7
 git push && git push origin v0.0.7
 ```
 
-Pushing a `v*.*.*` tag triggers **GitHub Actions** to run CI and publish `@hatchingpoint/point` to npm.
+Pushing a `v*.*.*` tag triggers **GitHub Actions** to run CI and publish `@hatchingpoint/point` and `@hatchingpoint/point-logic` to npm.
 
 If `VSCE_PAT` is set in GitHub secrets, the extension is also published to Marketplace automatically. **If not** (or if Azure DevOps org setup is blocked), upload the VSIX manually — see below.
 
@@ -25,7 +25,7 @@ Requires GitHub Actions secret: `NPM_TOKEN` (required). `VSCE_PAT` (optional).
 
 | Secret / env | Used for |
 |--------------|----------|
-| `NPM_TOKEN` | npm publish (local `.env.local` or GitHub Actions secret) |
+| `NPM_TOKEN` | npm publish for `@hatchingpoint/point` and `@hatchingpoint/point-logic` (local `.env.local` or GitHub Actions secret) |
 | `VSCE_PAT` | Marketplace CLI publish (optional — local `.env.local` or GitHub secret) |
 
 Local publish loads `.env.local` if present (gitignored).
@@ -34,7 +34,7 @@ Local publish loads `.env.local` if present (gitignored).
 
 ## One-time setup
 
-### npm (`@hatchingpoint/point`)
+### npm (`@hatchingpoint/point`, `@hatchingpoint/point-logic`)
 
 1. npm account with publish access to `@hatchingpoint` scope.
 2. Generate an **Automation** or **Publish** token at [npmjs.com](https://www.npmjs.com/settings/~youruser/tokens).
@@ -97,7 +97,8 @@ Things to try if you want the PAT later:
 | `bun run version:patch` | Bump patch in all package.json files + CHANGELOG |
 | `bun run version:minor` | Bump minor |
 | `bun run version:major` | Bump major |
-| `bun run publish:npm` | CI + npm publish only |
+| `bun run publish:npm` | CI + npm publish `@hatchingpoint/point` and `@hatchingpoint/point-logic` |
+| `bun run publish:logic` | CI + npm publish `@hatchingpoint/point-logic` only |
 | `bun run publish:marketplace` | CI + VSIX + Marketplace publish |
 | `bun run publish:release` | CI + npm + Marketplace (needs both tokens) |
 | `bun run vscode:package` | Build `.vsix` for manual Marketplace upload |
@@ -118,7 +119,9 @@ Point uses semver across:
 - `packages/point/package.json` (`@hatchingpoint/point`)
 - `packages/point-vscode/package.json` (Marketplace extension)
 
-Keep all three in sync. Git tag must match: tag `v0.0.7` ↔ package version `0.0.7`.
+Keep the first three in sync. Git tag must match: tag `v0.0.7` ↔ package version `0.0.7`.
+
+`packages/point-logic/package.json` (`@hatchingpoint/point-logic`) uses **independent semver** — bump its version when the library changes, then publish via tag push (with `@hatchingpoint/point`) or `bun run publish:logic`.
 
 - **Patch** — fixes, docs, extension tweaks
 - **Minor** — backward-compatible language features
@@ -132,6 +135,7 @@ Update `CHANGELOG.md` on every release (bump script prepends a section).
 
 ```bash
 npm install -g @hatchingpoint/point   # requires Bun on PATH
+npm install @hatchingpoint/point-logic   # store readiness logic (JS emit from Point)
 ```
 
 Install **Point Language** from [Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (VS Code / Cursor).
@@ -144,5 +148,6 @@ Install **Point Language** from [Marketplace](https://marketplace.visualstudio.c
 bun run ci
 bun run vscode:package
 cd packages/point && npm publish --dry-run
+cd packages/point-logic && npm pack --dry-run
 cd packages/point-vscode && bunx @vscode/vsce publish --dry-run
 ```

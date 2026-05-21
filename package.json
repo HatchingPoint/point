@@ -37,6 +37,7 @@
     "benchmark:phase7": "bun scripts/phase7-benchmark.ts",
     "publish:release": "bun scripts/publish.ts",
     "publish:npm": "bun scripts/publish-npm.ts",
+    "publish:logic": "bun scripts/publish-logic.ts",
     "publish:marketplace": "bun scripts/publish-marketplace.ts",
     "version:patch": "bun scripts/bump-version.ts patch",
     "version:minor": "bun scripts/bump-version.ts minor",

@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point-logic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "App store listing readiness logic authored in Point and published as emitted JavaScript.",
   "type": "module",
   "license": "MIT",

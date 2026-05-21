@@ -46,14 +46,32 @@ export async function withNpmAuth<T>(token: string, run: (configPath: string) =>
 	}
 }
 
-export async function publishNpmPackage(token: string, options: { verifyAuth?: boolean } = {}): Promise<void> {
-	const pkgDir = join(repoRoot(), "packages/point");
+export async function publishNpmPackage(
+	token: string,
+	options: { verifyAuth?: boolean; packageDir?: string } = {},
+): Promise<void> {
+	const pkgDir = options.packageDir ?? join(repoRoot(), "packages/point");
+	const pkg = JSON.parse(readFileSync(join(pkgDir, "package.json"), "utf8")) as { name: string; version: string };
 	await withNpmAuth(token, async (configPath) => {
 		if (options.verifyAuth) {
 			const whoami = await Bun.$`npm whoami --userconfig ${configPath}`.cwd(pkgDir).text();
 			console.log(`npm user: ${whoami.trim()}`);
 		}
-		await Bun.$`npm publish --access public --userconfig ${configPath}`.cwd(pkgDir);
+		console.log(`Publishing ${pkg.name}@${pkg.version}...`);
+		try {
+			await Bun.$`npm publish --access public --userconfig ${configPath}`.cwd(pkgDir);
+		} catch (error) {
+			const stdout =
+				error instanceof Error && "stdout" in error ? String((error as { stdout?: unknown }).stdout ?? "") : "";
+			const stderr =
+				error instanceof Error && "stderr" in error ? String((error as { stderr?: unknown }).stderr ?? "") : "";
+			const combined = `${stdout}\n${stderr}\n${error instanceof Error ? error.message : ""}`;
+			if (/cannot publish over the previously published versions?/i.test(combined)) {
+				console.log(`${pkg.name}@${pkg.version} already published — skipping.`);
+				return;
+			}
+			throw error;
+		}
 	});
 }
 

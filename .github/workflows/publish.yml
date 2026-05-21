@@ -30,7 +30,8 @@ jobs:
             echo "Tag v$TAG does not match packages/point/package.json version $VERSION"
             exit 1
           fi
-          echo "Publishing @hatchingpoint/point@$VERSION and hatchingpoint.point@$VERSION"
+          LOGIC_VERSION=$(bun -e "console.log(JSON.parse(await Bun.file('packages/point-logic/package.json').text()).version)")
+          echo "Publishing @hatchingpoint/point@$VERSION, @hatchingpoint/point-logic@$LOGIC_VERSION, and hatchingpoint.point@$VERSION"
 
       - name: Run CI
         run: bun run ci

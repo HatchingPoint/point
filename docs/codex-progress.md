@@ -486,3 +486,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point build-py examples/action.point generated/action.py`; Python smoke test returns file contents; `bun run ci` passes (124 tests).
 - Next: Phase 10 remaining tracks (P10-2, P10-5, P10-7).
 - Blocked: none
+
+## Checkpoint 11.P10-5 - point-logic CI publish
+- Completed: Extended `scripts/publish-lib.ts` with configurable package dir and idempotent skip for already-published versions. Added `scripts/publish-logic.ts` and root `publish:logic` script. Updated `scripts/publish-npm.ts` and `scripts/publish.ts` to publish `@hatchingpoint/point-logic` alongside `@hatchingpoint/point`. GitHub Actions publish workflow logs point-logic version on tag push. Bumped `packages/point-logic` to 0.0.2. Documented independent semver and publish commands in `docs/publishing.md`. Extended publish pipeline tests in `tests/point-core.test.ts`.
+- Verified: `bun run ci` passes (124 tests); existing `tests/point-logic-package.test.ts` proves `npm pack` includes `dist/` and excludes `src/`.
+- Next: P10-2 richer view props; P11-1 point add; P11-2 std json/http shims.
+- Blocked: none
