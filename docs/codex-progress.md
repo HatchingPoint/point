@@ -382,3 +382,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (78 tests).
 - Next: Phase 8.1 editor experience or 8.2 dogfood module.
 - Blocked: none
+
+## Checkpoint 8.0 - point lsp language server
+- Completed: Added `point lsp` stdio LSP server (`packages/point/src/lsp/`) with diagnostics, document symbols, go-to-definition, hover, and format; wired CLI command; tests in `tests/point-lsp.test.ts`; editor setup docs in `docs/editor-setup.md`.
+- Verified: `bun run ci` passes (84 tests).
+- Next: manual Neovim/Zed verification; optional VS Code extension migration to LSP client.
+- Blocked: none

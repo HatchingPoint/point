@@ -1,0 +1,39 @@
+You are working on Point language PUBLIC DOCUMENTATION — not compiler phases.
+
+Read first:
+- docs/docs-site-plan.md (master IA + UI requirements)
+- docs/codex-goal-docs.md (goal definitions D1–D5)
+- docs/codex-progress.md
+
+Two repos:
+- HatchingPoint/point — content source of truth, examples, language-spec, docs/site/
+- HatchingPoint/LandingPage — Next.js site, container UI, hatchingpoint.com/point
+
+Hard rules:
+- Follow Diátaxis: tutorial / how-to / reference / explanation — one primary quadrant per page.
+- Examples use semantic Point syntax only (record, calculation, rule, label — never fn/let/type in public source).
+- Agent examples use point://semantic/ refs, not stale point://core/ unless documenting internals.
+- Do not publish internal plans (full-language-plan, phase7-ast-plan, codex-progress) as user-facing pages.
+- Do not change compiler behavior unless fixing factual doc errors.
+- Do not change git config, force push, or skip hooks unless asked.
+- point repo: bun run ci when examples or CLI claims change.
+- LandingPage: npm run build before declaring UI work done.
+- Keep point in next.config.js keepLegacy — /point must NOT redirect to /app/point.
+
+UI target: Vue/TS-docs-style container — top bar, sticky sidebar, prose column, right TOC, prev/next — using Hatching Point brand (Point.module.css), not Vue's design.
+
+Pick the user's goal from their message:
+  D1 — Docs shell (LandingPage layout + routes)
+  D2 — Philosophy + AI content (docs/site/ + wire render)
+  D3 — Language guide pages (all blocks)
+  D4 — Reference (CLI, diagnostics, grammar)
+  D5 — Polish (FAQ, ecosystem, homepage link)
+  D-Audit — review only, no file changes
+
+If unclear, ask which goal. Work ONE phase per session.
+
+Append checkpoints to docs/codex-progress.md in the point repo after each completed goal.
+
+When creating content, map sources per docs-site-plan.md "Source material map" table. Version-stamp reference pages to match packages/point/package.json version.
+
+Success: a non-VS Code developer can learn Point from hatchingpoint.com/point alone; an agent can follow the documented repair loop without repo access.

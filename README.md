@@ -49,8 +49,19 @@ label deploy status
    ```bash
    npm install -g @hatchingpoint/point
    ```
-3. Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) in VS Code or Cursor.
-4. Open a `.point` file — diagnostics and symbols use the `point` CLI on PATH.
+3. Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) in VS Code or Cursor **(optional)** — or use any editor with the CLI (see below).
+4. Open a `.point` file — diagnostics and symbols use the `point` CLI on PATH (VS Code extension) or `point check` from the terminal (any editor).
+
+### Any editor (no VS Code)
+
+```bash
+point check myfile.point
+point fmt myfile.point
+point build-ts myfile.point generated/myfile.ts
+point run myfile.point
+```
+
+Use `point check-json`, `point index`, and `point explain` in CI or agent scripts. For editor integration in Neovim, Zed, or other LSP clients, run `point lsp` — see [docs/editor-setup.md](docs/editor-setup.md).
 
 ## Quick Start (repo development)
 
@@ -89,6 +100,8 @@ Master history: [docs/full-language-plan.md](docs/full-language-plan.md)
 - [Phase 7 complete review](docs/phase7-complete-review.md)
 - [Phase 8 plan](docs/phase8-plan.md) — **active**
 - [Publishing](docs/publishing.md)
+- [Documentation site plan](docs/docs-site-plan.md) — public docs on hatchingpoint.com/point
+- [Codex goal: docs site](docs/codex-goal-docs.md)
 
 ## Packages
 

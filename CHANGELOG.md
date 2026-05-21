@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.10
+
+### Added
+
+- `point lsp` — stdio Language Server (diagnostics, symbols, go-to-definition, hover, format) for any LSP editor.
+- Editor setup guide and documentation site planning for hatchingpoint.com/point.
+
 ## 0.0.9
 
 ### Added

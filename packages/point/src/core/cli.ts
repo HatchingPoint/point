@@ -9,6 +9,7 @@ import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
+import { runPointLspServer } from "../lsp/server.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -25,6 +26,11 @@ export async function main() {
 
 	if (command === "repl") {
 		await runRepl(Bun.argv.slice(3).join(" "));
+		return;
+	}
+
+	if (command === "lsp") {
+		await runPointLspServer();
 		return;
 	}
 

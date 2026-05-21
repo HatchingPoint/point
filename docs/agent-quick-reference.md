@@ -72,6 +72,7 @@ bun run build
 bun packages/point/src/cli.ts build-js examples/math.point generated/math.js
 bun packages/point/src/cli.ts run examples/hello.point
 bun packages/point/src/cli.ts test examples/point-tests.point
+point lsp   # Language Server for Neovim, Zed, etc. (stdio)
 POINT_INCREMENTAL=1 bun run check
 ```
 
@@ -84,6 +85,7 @@ POINT_INCREMENTAL=1 bun run check
 
 ## Files agents should read first
 
+- `docs/editor-setup.md` — Neovim, Zed, terminal-only workflows
 - `docs/language-spec.md` — grammar and CLI
 - `docs/semantic-language-design.md` — design intent
 - `docs/ai-reference-system.md` — refs and repair metadata
