@@ -55,7 +55,7 @@ describe("point-logic npm package", () => {
 		expect(listingStatusLabel(0)).toBe("Needs work");
 	});
 
-	test("npm pack includes dist and excludes src TypeScript", async () => {
+	test("npm pack includes dist, point.json, and .point source", async () => {
 		await Bun.$`bun run build`.cwd(packageDir).quiet();
 		const packDir = join(tmpdir(), `point-logic-pack-${Date.now()}`);
 		const pack = await Bun.$`npm pack --json`.cwd(packageDir).quiet();
@@ -66,10 +66,17 @@ describe("point-logic npm package", () => {
 		await Bun.$`tar -xf ${tarball} -C ${packDir}`.quiet();
 		const packedRoot = join(packDir, "package");
 		expect(readFileSync(join(packedRoot, "dist/store-readiness.js"), "utf8")).toContain("listingScore");
+		expect(readFileSync(join(packedRoot, "point.json"), "utf8")).toContain('"name": "point-logic"');
+		expect(readFileSync(join(packedRoot, "src/store-readiness.point"), "utf8")).toContain("listing score");
 		const packedNames = listSourceFiles(packedRoot).map((p) => p.replaceAll("\\", "/"));
 		expect(packedNames.some((p) => p.endsWith("/dist/store-readiness.js"))).toBe(true);
-		expect(packedNames.some((p) => p.includes("/src/"))).toBe(false);
-		expect(packedNames.some((p) => p.endsWith(".ts") && p.includes("/src/"))).toBe(false);
+		expect(packedNames.some((p) => p.endsWith("/point.json"))).toBe(true);
+		expect(packedNames.some((p) => p.endsWith("/src/store-readiness.point"))).toBe(true);
+		for (const file of packedNames.filter((p) => p.includes("/src/"))) {
+			expect(file.endsWith(".point")).toBe(true);
+			expect(file.endsWith(".ts")).toBe(false);
+			expect(file.endsWith(".tsx")).toBe(false);
+		}
 		rmSync(tarball, { force: true });
 		rmSync(packDir, { recursive: true, force: true });
 	});

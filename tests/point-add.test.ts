@@ -72,7 +72,7 @@ describe("point add and lockfile resolution", () => {
 		await Bun.$`npm install ${logicFileSpec} --prefix ${projectDir} --no-save --no-package-lock`.quiet();
 		const resolved = await resolveDependencySpec("npm:@hatchingpoint/point-logic", projectDir);
 		expect(resolved.path).toMatch(/node_modules\/@hatchingpoint\/point-logic$/);
-		expect(resolved.version).toBe("0.0.2");
+		expect(resolved.version).toBe("0.0.3");
 		expect(resolveNpmPackagePath(projectDir, "@hatchingpoint/point-logic")).toBeTruthy();
 	});
 

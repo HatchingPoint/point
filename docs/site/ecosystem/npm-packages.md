@@ -78,8 +78,8 @@ Emitted record fields use camelCase (`hasScreenshots`, `hasPrivacyPolicy`, …) 
 
 | Path | Role |
 |------|------|
-| `src/store-readiness.point` | Authoritative semantic module |
-| `point.json` | Point project manifest |
+| `src/store-readiness.point` | Authoritative semantic module (published in npm `files`) |
+| `point.json` | Point project manifest (published in npm `files`) |
 | `dist/store-readiness.js` | Generated JS (published in npm `files`) |
 | `package.json` | `"exports"` map to `dist/` |
 
@@ -123,7 +123,7 @@ Follow the `@hatchingpoint/point-logic` pattern:
    - `"check": "point check src/your-module.point"`
    - `"build": "point build src/your-module.point dist/your-module.js"`
    - `"prepublishOnly": "bun run build"`
-4. Set `"files": ["dist", "README.md", "LICENSE"]` — do not publish `.point` source unless you want to (logic package keeps source in git only).
+4. Set `"files": ["dist", "point.json", "src/*.point", "README.md", "LICENSE"]` so `point add … npm:…` can resolve modules from the published tarball.
 5. Map `"exports"` to emitted JavaScript entrypoints.
 6. Run `npm publish --access public` after CI passes.
 
@@ -154,12 +154,12 @@ Use `point add` to wire Point packages into `point.json` and `point.lock`:
 point add std workspace:std
 point add logic file:packages/point-logic
 point add logic npm:@hatchingpoint/point-logic
-point add logic npm:@hatchingpoint/point-logic@0.0.2
+point add logic npm:@hatchingpoint/point-logic@0.0.3
 ```
 
 For `npm:` specs, the CLI installs (or reuses) the package under `node_modules/`, locates `point.json` or `src/*.point`, and pins the path so `use logic.store-readiness` resolves at check/build time. See [point add](/point/ecosystem/point-add) for full spec reference and lockfile shape.
 
-**Note:** Published `@hatchingpoint/point-logic` npm tarballs ship emitted JavaScript in `dist/` only. To consume Point source via `point add … npm:…`, install a package that includes `.point` files (for example a git dependency or local `file:` install during development). For runtime-only consumption, import the emitted JS from npm directly.
+**Note:** Published `@hatchingpoint/point-logic@0.0.3+` tarballs include `point.json`, `src/*.point`, and emitted JavaScript in `dist/`. Use `point add logic npm:@hatchingpoint/point-logic` for check/build against Point source, or import `@hatchingpoint/point-logic` directly for runtime-only JS consumption.
 
 ## Common mistakes
 
