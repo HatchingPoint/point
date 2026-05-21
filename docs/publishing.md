@@ -58,6 +58,25 @@ Local publish loads `.env.local` if present (gitignored).
 2. Azure DevOps Personal Access Token with **Marketplace → Manage** scope.
 3. Local `.env.local` or GitHub secret `VSCE_PAT`.
 
+#### If automated publish fails with `TF400813` / `not authorized`
+
+The PAT is reaching Azure DevOps but is **not allowed to publish** for publisher `hatchingpoint`. Fix:
+
+1. Sign in to [Marketplace publisher management](https://marketplace.visualstudio.com/manage/publishers/hatchingpoint) as **jamlets@protonmail.com** (same account that created the publisher).
+2. **Members** tab → confirm your account is **Owner**.
+3. Create a **new** PAT at [dev.azure.com/hatchingpoint/_usersSettings/tokens](https://dev.azure.com/hatchingpoint/_usersSettings/tokens) while signed in as that same account.
+4. Scopes: **Custom defined** → **Marketplace** → check **Manage** (full publish access).
+5. Organization access: **All accessible organizations** (or at least **hatchingpoint**).
+6. Copy the token once — no quotes, no trailing spaces.
+7. GitHub → delete and recreate secret `VSCE_PAT` with the new value.
+8. Test locally before re-running CI:
+   ```bash
+   bun run vscode:package
+   SKIP_CI=1 bun run publish:marketplace
+   ```
+
+Until PAT works, upload `point-0.0.9.vsix` manually on the publisher page (npm 0.0.9 is already live).
+
 #### If Azure DevOps “Continue” is broken
 
 You do **not** need Azure DevOps to upload VSIX files manually. Only automated `vsce publish` needs a PAT.

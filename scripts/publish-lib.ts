@@ -68,6 +68,9 @@ export async function publishMarketplaceExtension(pat: string): Promise<void> {
 		throw new Error(`VSIX not found: ${vsixPath}`);
 	}
 	console.log(`Publishing ${vsixPath} to marketplace...`);
-	// Publish the pre-built VSIX — vsce publish without --packagePath repackages the monorepo and fails.
-	await Bun.$`bunx --yes @vscode/vsce publish --packagePath ${vsixPath} --pat ${pat}`.cwd(extDir);
+	// Use VSCE_PAT env var — avoids shell mangling special characters in --pat.
+	await Bun.$`bunx --yes @vscode/vsce publish --packagePath ${vsixPath}`.cwd(extDir).env({
+		...process.env,
+		VSCE_PAT: pat,
+	});
 }

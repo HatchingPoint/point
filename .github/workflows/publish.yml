@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -20,6 +21,7 @@ jobs:
         run: bun install
 
       - name: Verify tag matches package version
+        if: github.event_name == 'push'
         shell: bash
         run: |
           VERSION=$(bun -e "console.log(JSON.parse(await Bun.file('packages/point/package.json').text()).version)")
@@ -34,6 +36,7 @@ jobs:
         run: bun run ci
 
       - name: Publish to npm
+        if: github.event_name == 'push'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: SKIP_CI=1 bun scripts/publish-npm.ts
