@@ -12,9 +12,9 @@
 - [x] **`npm:` dependency resolution** in `point add` (install + lock path under `node_modules/`)
 - [x] **Std runtime shims** — json, http, fs, env, time, text
 - [x] **Standalone runtime spike** — research doc + in-memory `point run --bundle`
-- [ ] **External starter template** repo (100% `.point` app) — Wave 2
-- [ ] **Open VSX** publish — Wave 2
-- [ ] **Live readiness demo** on hatchingpoint.com/point/examples — Wave 2
+- [x] **External starter template** repo (100% `.point` app) — Wave 2
+- [x] **Open VSX** publish — Wave 2
+- [x] **Live readiness demo** on hatchingpoint.com/point/examples — Wave 2
 - [ ] **point-logic ships `.point` source on npm** — Wave 2 (P12-8)
 - [x] `bun run ci` passes (148 tests)
 

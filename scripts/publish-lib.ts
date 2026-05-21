@@ -105,3 +105,34 @@ export async function publishMarketplaceExtension(pat: string): Promise<void> {
 		throw error;
 	}
 }
+
+export async function publishOpenVsxExtension(pat: string): Promise<void> {
+	const root = repoRoot();
+	const extDir = join(root, "packages/point-vscode");
+	console.log("Packaging VS Code extension for Open VSX...");
+	await Bun.$`bun run vscode:package`.cwd(root);
+	const pkg = JSON.parse(readFileSync(join(extDir, "package.json"), "utf8")) as { name: string; version: string };
+	const vsixPath = join(extDir, `${pkg.name}-${pkg.version}.vsix`);
+	if (!existsSync(vsixPath)) {
+		throw new Error(`VSIX not found: ${vsixPath}`);
+	}
+	console.log(`Publishing ${vsixPath} to Open VSX...`);
+	try {
+		await Bun.$`bunx --yes ovsx publish ${vsixPath} --skip-duplicate`.cwd(extDir).env({
+			...process.env,
+			OPENVSX_PAT: pat,
+			OVSX_PAT: pat,
+		});
+	} catch (error) {
+		const stdout =
+			error instanceof Error && "stdout" in error ? String((error as { stdout?: unknown }).stdout ?? "") : "";
+		const stderr =
+			error instanceof Error && "stderr" in error ? String((error as { stderr?: unknown }).stderr ?? "") : "";
+		const combined = `${stdout}\n${stderr}\n${error instanceof Error ? error.message : ""}`;
+		if (/already published/i.test(combined)) {
+			console.log(`Open VSX version ${pkg.version} already published — skipping.`);
+			return;
+		}
+		throw error;
+	}
+}

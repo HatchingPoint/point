@@ -53,3 +53,15 @@ jobs:
             exit 0
           fi
           SKIP_CI=1 bun scripts/publish-marketplace.ts
+
+      - name: Publish to Open VSX
+        env:
+          OPENVSX_PAT: ${{ secrets.OPENVSX_PAT }}
+        run: |
+          if [ -z "$OPENVSX_PAT" ]; then
+            echo "OPENVSX_PAT secret not set — skipping automated Open VSX publish."
+            echo "Publish manually: bun run vscode:package && SKIP_CI=1 bun run publish:openvsx"
+            echo "Or install from https://open-vsx.org/extension/hatchingpoint/point after upload"
+            exit 0
+          fi
+          SKIP_CI=1 bun scripts/publish-openvsx.ts

@@ -15,9 +15,11 @@ git push && git push origin v0.0.7
 
 Pushing a `v*.*.*` tag triggers **GitHub Actions** to run CI and publish `@hatchingpoint/point` and `@hatchingpoint/point-logic` to npm.
 
-If `VSCE_PAT` is set in GitHub secrets, the extension is also published to Marketplace automatically. **If not** (or if Azure DevOps org setup is blocked), upload the VSIX manually — see below.
+If `VSCE_PAT` is set in GitHub secrets, the extension is also published to VS Code Marketplace automatically. **If not** (or if Azure DevOps org setup is blocked), upload the VSIX manually — see below.
 
-Requires GitHub Actions secret: `NPM_TOKEN` (required). `VSCE_PAT` (optional).
+If `OPENVSX_PAT` is set, the same VSIX is published to [Open VSX](https://open-vsx.org/) for VSCodium and other non-Microsoft registries. **If not**, skip or publish manually — see below.
+
+Requires GitHub Actions secret: `NPM_TOKEN` (required). `VSCE_PAT` and `OPENVSX_PAT` (optional).
 
 ---
 
@@ -26,7 +28,8 @@ Requires GitHub Actions secret: `NPM_TOKEN` (required). `VSCE_PAT` (optional).
 | Secret / env | Used for |
 |--------------|----------|
 | `NPM_TOKEN` | npm publish for `@hatchingpoint/point` and `@hatchingpoint/point-logic` (local `.env.local` or GitHub Actions secret) |
-| `VSCE_PAT` | Marketplace CLI publish (optional — local `.env.local` or GitHub secret) |
+| `VSCE_PAT` | VS Code Marketplace CLI publish (optional — local `.env.local` or GitHub secret) |
+| `OPENVSX_PAT` | Open VSX CLI publish (optional — local `.env.local` or GitHub secret) |
 
 Local publish loads `.env.local` if present (gitignored).
 
@@ -88,6 +91,24 @@ Things to try if you want the PAT later:
 - Mobile browser or another device
 - Skip for now — manual VSIX upload per release is fine
 
+### Open VSX (`hatchingpoint.point` on open-vsx.org)
+
+Open VSX uses the same `.vsix` as Marketplace. VSCodium and other editors install from [open-vsx.org/extension/hatchingpoint/point](https://open-vsx.org/extension/hatchingpoint/point).
+
+**Automated CLI publish (optional)** needs `OPENVSX_PAT`:
+
+1. Sign in at [open-vsx.org](https://open-vsx.org/) with the same account that owns namespace **hatchingpoint** (create namespace once with `bunx ovsx create-namespace hatchingpoint` if needed).
+2. Generate a token at [open-vsx.org/user-settings/tokens](https://open-vsx.org/user-settings/tokens).
+3. Local `.env.local` or GitHub secret `OPENVSX_PAT`.
+4. Test locally before tag push:
+   ```bash
+   bun run vscode:package
+   bunx ovsx verify-pat hatchingpoint   # uses OPENVSX_PAT / OVSX_PAT from env
+   SKIP_CI=1 bun run publish:openvsx
+   ```
+
+**Manual upload:** package with `bun run vscode:package`, then use the Open VSX web UI or `ovsx publish packages/point-vscode/point-*.vsix` with your token.
+
 ---
 
 ## Local commands
@@ -99,9 +120,10 @@ Things to try if you want the PAT later:
 | `bun run version:major` | Bump major |
 | `bun run publish:npm` | CI + npm publish `@hatchingpoint/point` and `@hatchingpoint/point-logic` |
 | `bun run publish:logic` | CI + npm publish `@hatchingpoint/point-logic` only |
-| `bun run publish:marketplace` | CI + VSIX + Marketplace publish |
+| `bun run publish:marketplace` | CI + VSIX + VS Code Marketplace publish |
+| `bun run publish:openvsx` | CI + VSIX + Open VSX publish |
 | `bun run publish:release` | CI + npm + Marketplace (needs both tokens) |
-| `bun run vscode:package` | Build `.vsix` for manual Marketplace upload |
+| `bun run vscode:package` | Build `.vsix` for manual Marketplace / Open VSX upload |
 
 Optional flag for publish scripts when CI already ran:
 
@@ -138,7 +160,7 @@ npm install -g @hatchingpoint/point   # requires Bun on PATH
 npm install @hatchingpoint/point-logic   # store readiness logic (JS emit from Point)
 ```
 
-Install **Point Language** from [Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (VS Code / Cursor).
+Install **Point Language** from [Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (VS Code / Cursor) or [Open VSX](https://open-vsx.org/extension/hatchingpoint/point) (VSCodium and compatible editors).
 
 ---
 
@@ -150,4 +172,6 @@ bun run vscode:package
 cd packages/point && npm publish --dry-run
 cd packages/point-logic && npm pack --dry-run
 cd packages/point-vscode && bunx @vscode/vsce publish --dry-run
+# Open VSX: verify token (no upload)
+cd packages/point-vscode && bunx ovsx verify-pat hatchingpoint
 ```

@@ -39,6 +39,7 @@
     "publish:npm": "bun scripts/publish-npm.ts",
     "publish:logic": "bun scripts/publish-logic.ts",
     "publish:marketplace": "bun scripts/publish-marketplace.ts",
+    "publish:openvsx": "bun scripts/publish-openvsx.ts",
     "version:patch": "bun scripts/bump-version.ts patch",
     "version:minor": "bun scripts/bump-version.ts minor",
     "version:major": "bun scripts/bump-version.ts major",
