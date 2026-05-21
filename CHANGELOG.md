@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.15
+
+### Added
+
+- **Starter template** — `examples/starter-template/` self-contained Point app.
+- **Open VSX publish** — `publish:openvsx` + optional CI step with `OPENVSX_PAT`.
+- **Live readiness demo** — interactive checklist on hatchingpoint.com/point/examples.
+- **`@hatchingpoint/point-logic@0.0.3`** — npm tarball includes `.point` source for `point add npm:…`.
+
 ## 0.0.14
 
 ### Added

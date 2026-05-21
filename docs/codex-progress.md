@@ -565,3 +565,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check/build/run examples/starter-template/src/app.point`; `bun run ci` passes.
 - Next: P12-6 Open VSX publish; P12-7 live readiness demo; P12-8 point-logic npm tarball.
 - Blocked: none
+
+## Checkpoint 12.Close - Phase 12 complete (v0.0.15)
+- Completed: All Wave 1 and Wave 2 exit gates. Release v0.0.15 ships starter template, Open VSX pipeline, live readiness demo, point-logic@0.0.3 with Point source.
+- Verified: `bun run ci` passes (150 tests).
+- Next: Phase 13 — registry service, Python route emit.
+- Blocked: none
