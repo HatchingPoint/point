@@ -27,6 +27,7 @@ export type PointCoreSymbolKind =
 	| "action"
 	| "policy"
 	| "view"
+	| "page"
 	| "route"
 	| "workflow"
 	| "command";
@@ -325,6 +326,7 @@ function relatedRefsFor(symbol: PointCoreSymbol, index: PointCoreIndex): string[
 		symbol.kind === "action" ||
 		symbol.kind === "policy" ||
 		symbol.kind === "view" ||
+		symbol.kind === "page" ||
 		symbol.kind === "route" ||
 		symbol.kind === "workflow" ||
 		symbol.kind === "command"
@@ -351,6 +353,7 @@ function summaryFor(symbol: PointCoreSymbol): string {
 	if (symbol.kind === "action") return `Semantic action ${symbol.name} returns ${symbol.type}; effects: ${(symbol.effects ?? []).join(", ") || "none"}.`;
 	if (symbol.kind === "policy") return `Semantic policy ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "view") return `Semantic view ${symbol.name} returns React JSX.`;
+	if (symbol.kind === "page") return `Semantic page ${symbol.name} returns a Next.js page shell as React JSX.`;
 	if (symbol.kind === "route") return `Semantic route ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "workflow") return `Semantic workflow ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "command") return `Semantic command ${symbol.name} returns ${symbol.type}.`;

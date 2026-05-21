@@ -85,11 +85,18 @@ export interface PointSemanticProgramMetadata {
 	source: "semantic";
 }
 
+export interface PointSemanticPageLayout {
+	title: PointCoreExpression;
+	description?: PointCoreExpression;
+	main: PointCoreExpression;
+}
+
 export interface PointSemanticDeclarationMetadata {
-	kind: "record" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "view" | "route" | "workflow" | "command";
+	kind: "record" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command";
 	name: string;
 	outputName?: string;
 	effects?: string[];
+	pageLayout?: PointSemanticPageLayout;
 }
 
 export interface PointCoreTypeExpression {

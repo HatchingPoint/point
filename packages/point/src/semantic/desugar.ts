@@ -35,6 +35,7 @@ import type {
 	PointSemanticTypeExpression,
 	PointSemanticUseDeclaration,
 	PointSemanticViewDeclaration,
+	PointSemanticPageDeclaration,
 	PointSemanticWorkflowDeclaration,
 	PointSemanticWorkflowStatement,
 	PointSemanticActionDeclaration,
@@ -104,6 +105,7 @@ function buildCallableMap(
 			declaration.kind === "action" ||
 			declaration.kind === "policy" ||
 			declaration.kind === "view" ||
+			declaration.kind === "page" ||
 			declaration.kind === "route" ||
 			declaration.kind === "workflow" ||
 			declaration.kind === "command"
@@ -119,6 +121,7 @@ function defaultOutputName(declaration: PointSemanticDeclaration): string {
 	if (declaration.kind === "label") return "label";
 	if (declaration.kind === "policy") return "policy";
 	if (declaration.kind === "view") return "view";
+	if (declaration.kind === "page") return "page";
 	if (declaration.kind === "route") return "route";
 	if ("output" in declaration) return toIdentifier(declaration.output.name);
 	return "result";
@@ -152,6 +155,8 @@ function desugarDeclaration(
 			return [desugarPolicy(declaration, records, callables)];
 		case "view":
 			return [desugarView(declaration, records, callables)];
+		case "page":
+			return [desugarPage(declaration, records, callables)];
 		case "route":
 			return [desugarRoute(declaration, records, callables)];
 		case "workflow":
@@ -303,6 +308,32 @@ function desugarView(
 		returnType: outputType,
 		body: desugarViewBody(declaration.body, ctx),
 		semantic: semanticDeclarationMetadata(declaration),
+		span: declaration.span,
+	};
+}
+
+function desugarPage(
+	declaration: PointSemanticPageDeclaration,
+	records: Map<string, Map<string, string>>,
+	callables: Map<string, string>,
+): PointCoreFunctionDeclaration {
+	const outputType: PointCoreTypeExpression = { kind: "typeRef", name: "Text", args: [] };
+	const pageType: PointCoreTypeExpression = { kind: "typeRef", name: "Page", args: [] };
+	const { params, bindings } = collectBindings(declaration.inputs, { name: "page", type: pageType });
+	const ctx: DesugarContext = { records, callables, bindings, outputName: "page", outputType };
+	const metadata = semanticDeclarationMetadata(declaration);
+	metadata.pageLayout = {
+		title: desugarExpression(declaration.title, ctx),
+		description: declaration.description ? desugarExpression(declaration.description, ctx) : undefined,
+		main: desugarExpression(declaration.main, ctx),
+	};
+	return {
+		kind: "function",
+		name: semanticFunctionName(declaration.name, "page", "page"),
+		params,
+		returnType: outputType,
+		body: [{ kind: "return", value: metadata.pageLayout.main, span: declaration.span }],
+		semantic: metadata,
 		span: declaration.span,
 	};
 }

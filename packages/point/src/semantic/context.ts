@@ -27,6 +27,7 @@ export type PointSemanticSymbolKind =
 	| "action"
 	| "policy"
 	| "view"
+	| "page"
 	| "route"
 	| "workflow"
 	| "command"
@@ -215,6 +216,15 @@ function callableDeclaration(declaration: PointSemanticDeclaration):
 	if (declaration.kind === "view" || declaration.kind === "route" || declaration.kind === "workflow" || declaration.kind === "command") {
 		return { kind: declaration.kind, name: declaration.name, inputs: declaration.inputs, output: declaration.output, declaration };
 	}
+	if (declaration.kind === "page") {
+		return {
+			kind: "page",
+			name: declaration.name,
+			inputs: declaration.inputs,
+			output: { name: "page", type: { kind: "typeRef", name: "Page", args: [] } },
+			declaration,
+		};
+	}
 	return null;
 }
 
@@ -313,7 +323,7 @@ function relatedRefsFor(symbol: PointSemanticSymbol, index: PointSemanticIndex):
 		const ownerPath = symbol.path.split(".").slice(0, 2).join(".");
 		return index.refs.filter((candidate) => candidate.path.startsWith(`${ownerPath}.`) && candidate.ref !== symbol.ref).map((candidate) => candidate.ref);
 	}
-	if (symbol.kind === "record" || symbol.kind === "calculation" || symbol.kind === "rule" || symbol.kind === "label" || symbol.kind === "action" || symbol.kind === "policy" || symbol.kind === "view" || symbol.kind === "route" || symbol.kind === "workflow" || symbol.kind === "command" || symbol.kind === "external") {
+	if (symbol.kind === "record" || symbol.kind === "calculation" || symbol.kind === "rule" || symbol.kind === "label" || symbol.kind === "action" || symbol.kind === "policy" || symbol.kind === "view" || symbol.kind === "page" || symbol.kind === "route" || symbol.kind === "workflow" || symbol.kind === "command" || symbol.kind === "external") {
 		return index.refs.filter((candidate) => candidate.path.startsWith(`${symbol.path}.`)).map((candidate) => candidate.ref);
 	}
 	return [];
@@ -332,6 +342,7 @@ function summaryFor(symbol: PointSemanticSymbol): string {
 	if (symbol.kind === "action") return `Semantic action ${symbol.name} returns ${symbol.type}; effects: ${(symbol.effects ?? []).join(", ") || "none"}.`;
 	if (symbol.kind === "policy") return `Semantic policy ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "view") return `Semantic view ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "page") return `Semantic page ${symbol.name} returns a Next.js page shell (${symbol.type}).`;
 	if (symbol.kind === "route") return `Semantic route ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "workflow") return `Semantic workflow ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "command") return `Semantic command ${symbol.name} returns ${symbol.type}.`;

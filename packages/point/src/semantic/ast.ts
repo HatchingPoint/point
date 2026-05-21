@@ -24,6 +24,7 @@ export type PointSemanticDeclaration =
 	| PointSemanticActionDeclaration
 	| PointSemanticPolicyDeclaration
 	| PointSemanticViewDeclaration
+	| PointSemanticPageDeclaration
 	| PointSemanticRouteDeclaration
 	| PointSemanticWorkflowDeclaration
 	| PointSemanticCommandDeclaration;
@@ -120,6 +121,16 @@ export interface PointSemanticViewDeclaration {
 	inputs: PointSemanticBinding[];
 	output: PointSemanticOutputBinding;
 	body: PointSemanticViewStatement[];
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticPageDeclaration {
+	kind: "page";
+	name: string;
+	inputs: PointSemanticBinding[];
+	title: PointSemanticExpression;
+	description?: PointSemanticExpression;
+	main: PointSemanticExpression;
 	span?: PointSourceSpan;
 }
 

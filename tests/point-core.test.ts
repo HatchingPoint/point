@@ -260,6 +260,19 @@ view counter
 		expect(emitted).toContain("export function readinessSummary(signals: ListingSignals): string");
 	});
 
+	test("emits readiness page with Next.js page shell", async () => {
+		const source = await Bun.file("examples/adopters/hatchingpoint/readiness-page.point").text();
+		const program = parsePointSource(source);
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain("export function readinessPage(signals: ListingSignals): JSX.Element");
+		expect(emitted).toContain('<main className="point-page">');
+		expect(emitted).toContain("<h1>App Store Listing Readiness</h1>");
+		expect(emitted).toContain('className="point-page-description"');
+		expect(emitted).toContain("{readinessWidgetView(signals)}");
+		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/ReadinessPage/page.readiness page");
+	});
+
 	test("lowers route blocks to Hono-targeted handlers", () => {
 		const program = parsePointSource(`module Routes
 

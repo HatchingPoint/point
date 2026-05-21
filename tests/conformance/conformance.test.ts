@@ -38,6 +38,7 @@ describe("Point conformance fixtures", () => {
 			expect(fixtures).toContain("examples/app/todo.point");
 			expect(fixtures).toContain("examples/adopters/hatchingpoint/store-readiness.point");
 			expect(fixtures).toContain("examples/adopters/hatchingpoint/readiness-widget.point");
+			expect(fixtures).toContain("examples/adopters/hatchingpoint/readiness-page.point");
 			expect(fixtures).toContain("examples/adopters/starter-labs/subscription-tier.point");
 			expect(fixtures).toContain("compiler/passes/naming-lint.point");
 		},

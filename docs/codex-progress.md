@@ -474,3 +474,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (122 tests); `point check-docs` — 26 snippets, 16 file refs.
 - Next: LandingPage sync for new stdlib/ecosystem routes; Phase 10 remaining tracks.
 - Blocked: none
+
+## Checkpoint 10.P10-1 - page/layout spike
+- Completed: Added semantic `page` block with `title`, optional `description`, and `main render` slots; TypeScript emit produces Next.js-embeddable page shell (`<main>`, `<header>`, `<section>`). Added `examples/adopters/hatchingpoint/readiness-page.point` (readiness logic + page wrapping widget view). Tests in `tests/point-core.test.ts` and conformance fixture discovery. Documented in `docs/site/language/applications.md`.
+- Verified: `point build-ts examples/adopters/hatchingpoint/readiness-page.point` → `readinessPage` returning `JSX.Element` with page shell; `bun run ci` passes (124 tests).
+- Next: P10-2 richer view props/state; LandingPage embed readiness page.
+- Blocked: none

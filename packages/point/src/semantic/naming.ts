@@ -11,7 +11,7 @@ export function toIdentifier(label: string): string {
 export function semanticFunctionName(
 	label: string,
 	outputName: string,
-	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "route" | "workflow" | "command",
+	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command",
 ): string {
 	const base = toIdentifier(label);
 	const suffix =
@@ -21,7 +21,9 @@ export function semanticFunctionName(
 				? "Policy"
 				: kind === "view"
 					? "View"
-					: kind === "route"
+					: kind === "page"
+						? "Page"
+						: kind === "route"
 						? "Route"
 						: kind === "workflow"
 							? "Workflow"

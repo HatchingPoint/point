@@ -52,9 +52,13 @@ function emitDeclaration(declaration: PointCoreDeclaration): string[] {
 
 function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
 	const asyncPrefix = declaration.semantic?.kind === "action" || declaration.semantic?.kind === "workflow" || declaration.semantic?.kind === "command" ? "async " : "";
+	const bodyLines =
+		declaration.semantic?.kind === "page" && declaration.semantic.pageLayout
+			? [`return ${emitExpression(declaration.semantic.pageLayout.main)};`]
+			: declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind));
 	return [
 		`export ${asyncPrefix}function ${declaration.name}(${declaration.params.map(emitParam).join(", ")}) {`,
-		...indentLines(declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind))),
+		...indentLines(bodyLines),
 		"}",
 	];
 }

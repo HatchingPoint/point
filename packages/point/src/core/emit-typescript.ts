@@ -9,6 +9,7 @@ import type {
 	PointCoreTypeDeclaration,
 	PointCoreTypeExpression,
 	PointCoreValueDeclaration,
+	PointSemanticPageLayout,
 } from "./ast.ts";
 
 const BINARY_OPERATORS: Record<string, string> = {
@@ -54,16 +55,46 @@ function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
 	const returnType =
 		declaration.semantic?.kind === "action" || declaration.semantic?.kind === "workflow" || declaration.semantic?.kind === "command"
 			? `Promise<${emitTypeExpression(declaration.returnType)}>`
-			: declaration.semantic?.kind === "view"
+			: declaration.semantic?.kind === "view" || declaration.semantic?.kind === "page"
 				? "JSX.Element"
 				: declaration.semantic?.kind === "route"
 					? "Response | string"
 				: emitTypeExpression(declaration.returnType);
+	const bodyLines =
+		declaration.semantic?.kind === "page" && declaration.semantic.pageLayout
+			? emitPageBody(declaration.semantic.pageLayout)
+			: declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind));
 	return [
 		`export ${asyncPrefix}function ${declaration.name}(${declaration.params.map(emitParam).join(", ")}): ${returnType} {`,
-		...indentLines(declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind))),
+		...indentLines(bodyLines),
 		"}",
 	];
+}
+
+function emitPageBody(layout: PointSemanticPageLayout): string[] {
+	const title = emitJsxChild(layout.title);
+	const description = layout.description ? `\n      <p className="point-page-description">${emitJsxChild(layout.description)}</p>` : "";
+	const main = emitJsxChild(layout.main, true);
+	return [
+		`return (`,
+		`  <main className="point-page">`,
+		`    <header className="point-page-header">`,
+		`      <h1>${title}</h1>${description}`,
+		`    </header>`,
+		`    <section className="point-page-main">${main}</section>`,
+		`  </main>`,
+		`);`,
+	];
+}
+
+function emitJsxChild(expression: PointCoreExpression, allowComponent = false): string {
+	if (expression.kind === "literal" && typeof expression.value === "string") {
+		return escapeJsxText(expression.value);
+	}
+	if (allowComponent) {
+		return `{${emitExpression(expression)}}`;
+	}
+	return `{${emitExpression(expression)}}`;
 }
 
 function emitStatement(statement: PointCoreStatement, semanticKind?: string): string[] {

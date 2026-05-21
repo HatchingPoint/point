@@ -25,6 +25,7 @@ import type {
 	PointSemanticUseDeclaration,
 	PointSemanticViewDeclaration,
 	PointSemanticViewStatement,
+	PointSemanticPageDeclaration,
 	PointSemanticWorkflowDeclaration,
 	PointSemanticWorkflowStatement,
 	PointSemanticBinding,
@@ -125,6 +126,12 @@ export function parseSemanticSource(source: string): PointSemanticProgram {
 		}
 		if (trimmed.startsWith("view ")) {
 			const parsed = parseView(lines, index, source, records, callables);
+			declarations.push(parsed.declaration);
+			index = parsed.next;
+			continue;
+		}
+		if (trimmed.startsWith("page ")) {
+			const parsed = parsePage(lines, index, source, records, callables);
 			declarations.push(parsed.declaration);
 			index = parsed.next;
 			continue;
@@ -595,6 +602,57 @@ function parseView(
 	};
 }
 
+function parsePage(
+	lines: string[],
+	start: number,
+	source: string,
+	records: Map<string, Map<string, string>>,
+	callables: string[],
+): { declaration: PointSemanticPageDeclaration; next: number } {
+	const name = (lines[start] ?? "").trim().slice("page ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const inputs: PointSemanticBinding[] = [];
+	const paramTypes = new Map<string, string>();
+	const bindings: string[] = [];
+	let title: PointSemanticPageDeclaration["title"] | undefined;
+	let description: PointSemanticPageDeclaration["description"];
+	let main: PointSemanticPageDeclaration["main"] | undefined;
+
+	for (let lineIndex = 0; lineIndex < body.lines.length; lineIndex += 1) {
+		const line = body.lines[lineIndex] ?? "";
+		const lineNumber = body.lineNumbers[lineIndex] ?? start + 2;
+		if (line.startsWith("input ")) {
+			const binding = parseInputBinding(line.slice("input ".length), source, lineNumber);
+			inputs.push(binding);
+			paramTypes.set(binding.label, typeLabel(binding.type));
+			bindings.push(binding.label);
+			continue;
+		}
+		const context = buildExpressionContext({ bindings, paramTypes, recordFields: records, callables });
+		if (line.startsWith("title ")) {
+			title = parseLineExpression(line.slice("title ".length), context, source, lineNumber);
+			continue;
+		}
+		if (line.startsWith("description ")) {
+			description = parseLineExpression(line.slice("description ".length), context, source, lineNumber);
+			continue;
+		}
+		if (line.startsWith("main render ")) {
+			main = parseLineExpression(line.slice("main render ".length), context, source, lineNumber);
+			continue;
+		}
+		throw new Error(`Unknown page statement: ${line}`);
+	}
+
+	if (!title) throw new Error(`Page ${name} requires a title`);
+	if (!main) throw new Error(`Page ${name} requires main render`);
+
+	return {
+		declaration: { kind: "page", name, inputs, title, description, main, span: lineSpan(source, start + 1) },
+		next: body.next,
+	};
+}
+
 function parseRoute(
 	lines: string[],
 	start: number,
@@ -893,7 +951,7 @@ function collectSemanticBody(lines: string[], start: number): SemanticBody {
 }
 
 function isSemanticTopLevel(line: string): boolean {
-	return /^(module|use|record|calculation|rule|label|external|action|policy|view|route|workflow|command)\s+/.test(line);
+	return /^(module|use|record|calculation|rule|label|external|action|policy|view|page|route|workflow|command)\s+/.test(line);
 }
 
 function isLoopBoundary(line: string): boolean {

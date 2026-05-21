@@ -70,6 +70,54 @@ export function ReadinessWidget() {
 
 Doc pages can mount this component in MDX (`<ReadinessWidget />`) after syncing generated output in CI.
 
+## page
+
+Full-page shells for Next.js app routes (Phase 10 spike). A `page` block wraps a title, optional description, and a `main render` slot in semantic HTML (`<main>`, `<header>`, `<section>`).
+
+See `examples/adopters/hatchingpoint/readiness-page.point` — listing readiness logic plus a `readiness page` page that embeds the widget view in the main slot.
+
+Build TypeScript:
+
+```bash
+point build-ts examples/adopters/hatchingpoint/readiness-page.point generated/readiness-page.ts
+```
+
+### Embed in Next.js
+
+1. Emit with `point build-ts`.
+2. Import `readinessPage` from the generated file into an app route or client wrapper.
+3. Pass `ListingSignals` from parent state (same shape as the widget example).
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  readinessPage,
+  type ListingSignals,
+} from "../generated/readiness-page";
+
+const emptySignals: ListingSignals = {
+  hasScreenshots: false,
+  hasDescription: false,
+  hasPrivacyPolicy: false,
+  hasSupportUrl: false,
+  hasAgeRating: false,
+};
+
+export default function ReadinessRoute() {
+  const [signals, setSignals] = useState(emptySignals);
+  return (
+    <div>
+      {/* Optional controls above the Point-authored page shell */}
+      {readinessPage(signals)}
+    </div>
+  );
+}
+```
+
+Use `view` for embeddable fragments; use `page` when you want a document shell with title and main content regions.
+
 ## route
 
 HTTP handlers (Hono-first target):
@@ -91,6 +139,7 @@ CLI entrypoints for `point run`:
 ## Lowering
 
 - Views emit JSX-oriented functions
+- Pages emit JSX page shells with title and main slots
 - Routes emit handler functions with method/path metadata
 - Workflows emit async functions with step bindings
 - Commands emit async or sync CLI entry functions
@@ -102,7 +151,7 @@ CLI entrypoints for `point run`:
 
 ## Agent diagnostic notes
 
-- Application blocks appear in `point index` with semantic kinds `view`, `route`, `workflow`, `command`
+- Application blocks appear in `point index` with semantic kinds `view`, `page`, `route`, `workflow`, `command`
 - Demo app: `examples/app/todo.point` for end-to-end patterns
 
 ## See also

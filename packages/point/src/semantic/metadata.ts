@@ -30,6 +30,9 @@ export function semanticDeclarationMetadata(declaration: PointSemanticDeclaratio
 			effects: [],
 		};
 	}
+	if (declaration.kind === "page") {
+		return { kind: "page", name: declaration.name, outputName: "page", effects: [] };
+	}
 	if (declaration.kind === "route") {
 		return { kind: "route", name: declaration.name, outputName: declaration.output.name, effects: [] };
 	}

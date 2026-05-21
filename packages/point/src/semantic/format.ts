@@ -83,6 +83,14 @@ function formatDeclaration(declaration: PointSemanticDeclaration): string[] {
 				...formatViewOutput(declaration.output),
 				...declaration.body.map((statement) => `  ${formatViewStatement(statement)}`),
 			];
+		case "page":
+			return [
+				`page ${declaration.name}`,
+				...formatInputs(declaration.inputs),
+				`  title ${formatExpression(declaration.title)}`,
+				...(declaration.description ? [`  description ${formatExpression(declaration.description)}`] : []),
+				`  main render ${formatExpression(declaration.main)}`,
+			];
 		case "route":
 			return [
 				`route ${declaration.name}`,

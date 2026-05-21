@@ -1,0 +1,43 @@
+module ReadinessPage
+
+record Listing Signals
+  has screenshots: Bool
+  has description: Bool
+  has privacy policy: Bool
+  has support url: Bool
+  has age rating: Bool
+
+rule listing score
+  input signals: Listing Signals
+  output score: Int
+  score starts at 0
+  add 20 when signals.has screenshots
+  add 20 when signals.has description
+  add 20 when signals.has privacy policy
+  add 20 when signals.has support url
+  add 20 when signals.has age rating
+  return score
+
+label listing status
+  input score: Int
+  output Text
+  when score >= 90 return "Ready to submit"
+  when score >= 60 return "Almost ready"
+  otherwise return "Needs work"
+
+calculation readiness summary
+  input signals: Listing Signals
+  output summary: Text
+  summary is listing status(listing score(signals))
+
+view readiness widget
+  input signals: Listing Signals
+  when listing score(signals) >= 90 render readiness summary(signals)
+  when listing score(signals) >= 60 render readiness summary(signals)
+  render readiness summary(signals)
+
+page readiness page
+  input signals: Listing Signals
+  title "App Store Listing Readiness"
+  description "Check your listing before submission"
+  main render readiness widget(signals)

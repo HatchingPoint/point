@@ -28,7 +28,7 @@ type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual
 type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean };
 type Scope = Map<string, ScopeEntry>;
 
-const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or"]);
+const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or", "Page"]);
 
 export function checkPointCore(program: PointCoreProgram): PointCoreDiagnostic[] {
 	const checker = new CoreChecker(program);
@@ -125,6 +125,7 @@ class CoreChecker {
 				}
 				return;
 			}
+			if (fn.semantic?.kind === "page") return;
 			this.checkExpressionAssignable(statement.value, fn.returnType, `fn.${fn.name}.return`, locals);
 			return;
 		}

@@ -1,5 +1,7 @@
 import type { PointCoreProgram } from "../ast.ts";
 import { assertSemanticPointSource, isSemanticPointSyntax } from "../semantic-source.ts";
+import { desugarSemanticProgram } from "../../semantic/desugar.ts";
+import { parseSemanticSource } from "../../semantic/parse.ts";
 import { parsePointCore } from "./core-text-parser.ts";
 
 /** Legacy string-lowering path retained for migration parity tests only. */
@@ -11,8 +13,25 @@ export function parsePointSourceLegacy(source: string): PointCoreProgram {
 function parsePointSourceViaLowering(source: string): PointCoreProgram {
 	const lowered = lowerSemanticPointSyntax(source);
 	const program = parsePointCore(lowered);
-	if (isSemanticPointSyntax(source)) attachSemanticMetadata(program, source);
+	if (isSemanticPointSyntax(source)) {
+		attachSemanticMetadata(program, source);
+		enrichPageLayouts(program, source);
+	}
 	return program;
+}
+
+function enrichPageLayouts(program: PointCoreProgram, source: string): void {
+	const desugared = desugarSemanticProgram(parseSemanticSource(source));
+	const pageFunctions = desugared.declarations.filter(
+		(declaration): declaration is Extract<(typeof desugared.declarations)[number], { kind: "function" }> =>
+			declaration.kind === "function" && declaration.semantic?.kind === "page",
+	);
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "function" || declaration.semantic?.kind !== "page") continue;
+		const match = pageFunctions.find((candidate) => candidate.name === declaration.name);
+		if (!match?.semantic?.pageLayout) continue;
+		declaration.semantic.pageLayout = match.semantic.pageLayout;
+	}
 }
 
 function lowerSemanticPointSyntax(source: string): string {
@@ -87,6 +106,12 @@ function lowerSemanticPointSyntax(source: string): string {
 			index = lowered.next;
 			continue;
 		}
+		if (trimmed.startsWith("page ")) {
+			const lowered = lowerPage(lines, index, records, externalBindings);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
 		if (trimmed.startsWith("route ")) {
 			const lowered = lowerRoute(lines, index, records, externalBindings);
 			output.push(...lowered.lines);
@@ -120,7 +145,7 @@ function assertSemanticPointSource(source: string) {
 	for (const [index, line] of lines.entries()) {
 		const trimmed = line.trim();
 		if (!trimmed || trimmed.startsWith("//")) continue;
-		if (/^(record|calculation|rule|label|external|action|policy|view|route|workflow|command)\s+/.test(trimmed)) hasSemanticDeclaration = true;
+		if (/^(record|calculation|rule|label|external|action|policy|view|page|route|workflow|command)\s+/.test(trimmed)) hasSemanticDeclaration = true;
 		if (oldStyleTopLevel.test(trimmed)) {
 			throw new Error(
 				`Point source uses internal core syntax at ${index + 1}:1. Use record, calculation, rule, or label instead.`,
@@ -534,6 +559,44 @@ function lowerView(
 	};
 }
 
+function lowerPage(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+	externalBindings: Map<string, string> = new Map(),
+): { lines: string[]; next: number } {
+	const label = (lines[start] ?? "").trim().slice("page ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const params: string[] = [];
+	const paramTypes = new Map<string, string>();
+	const bindings = new Map<string, string>(externalBindings);
+	let mainExpression: string | undefined;
+
+	for (const line of body.lines) {
+		if (line.startsWith("input ")) {
+			const param = parseTypedBinding(line.slice("input ".length));
+			const paramName = toIdentifier(param.name);
+			params.push(`${paramName}: ${param.type}`);
+			paramTypes.set(paramName, param.type);
+			bindings.set(param.name, paramName);
+			continue;
+		}
+		if (line.startsWith("title ") || line.startsWith("description ")) continue;
+		if (line.startsWith("main render ")) {
+			mainExpression = lowerExpression(line.slice("main render ".length), paramTypes, records, bindings);
+			continue;
+		}
+		throw new Error(`Unknown page statement: ${line}`);
+	}
+
+	if (!mainExpression) throw new Error(`Page ${label} requires main render`);
+
+	return {
+		lines: [`fn ${semanticFunctionName(label, "page", "page")}(${params.join(", ")}): Text {`, `  return ${mainExpression}`, "}", ""],
+		next: body.next,
+	};
+}
+
 function lowerRoute(
 	lines: string[],
 	start: number,
@@ -745,6 +808,7 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 			trimmed.startsWith("action ") ||
 			trimmed.startsWith("policy ") ||
 			trimmed.startsWith("view ") ||
+			trimmed.startsWith("page ") ||
 			trimmed.startsWith("route ") ||
 			trimmed.startsWith("workflow ") ||
 			trimmed.startsWith("command ")
@@ -761,7 +825,9 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 								? "policy"
 								: trimmed.startsWith("view ")
 									? "view"
-									: trimmed.startsWith("route ")
+									: trimmed.startsWith("page ")
+										? "page"
+										: trimmed.startsWith("route ")
 										? "route"
 										: trimmed.startsWith("workflow ")
 											? "workflow"
@@ -771,7 +837,7 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 			const body = collectSemanticBody(lines, index + 1);
 			const params = new Map<string, string>();
 			let outputName =
-				kind === "label" ? "label" : kind === "policy" ? "policy" : kind === "view" ? "view" : kind === "route" ? "route" : "result";
+				kind === "label" ? "label" : kind === "policy" ? "policy" : kind === "view" ? "view" : kind === "page" ? "page" : kind === "route" ? "route" : "result";
 			const effects: string[] = [];
 			for (const line of body.lines) {
 				if (line.startsWith("input ")) {
@@ -840,6 +906,7 @@ function collectCallableBindings(source: string): Map<string, string> {
 			declaration.kind === "action" ||
 			declaration.kind === "policy" ||
 			declaration.kind === "view" ||
+			declaration.kind === "page" ||
 			declaration.kind === "route" ||
 			declaration.kind === "workflow" ||
 			declaration.kind === "command"
@@ -870,7 +937,7 @@ function collectSemanticBody(lines: string[], start: number): { lines: string[];
 }
 
 function isSemanticTopLevel(line: string): boolean {
-	return /^(module|use|record|calculation|rule|label|external|action|policy|view|route|workflow|command|type|fn|let|var|import)\s+/.test(line);
+	return /^(module|use|record|calculation|rule|label|external|action|policy|view|page|route|workflow|command|type|fn|let|var|import)\s+/.test(line);
 }
 
 function isSemanticLoopBoundary(line: string): boolean {
@@ -973,7 +1040,7 @@ function toIdentifier(label: string): string {
 function semanticFunctionName(
 	label: string,
 	outputName: string,
-	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "route" | "workflow" | "command",
+	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "page" | "route" | "workflow" | "command",
 ): string {
 	const base = toIdentifier(label);
 	const suffix =
@@ -983,7 +1050,9 @@ function semanticFunctionName(
 				? "Policy"
 				: kind === "view"
 					? "View"
-					: kind === "route"
+					: kind === "page"
+						? "Page"
+						: kind === "route"
 						? "Route"
 						: kind === "workflow"
 							? "Workflow"

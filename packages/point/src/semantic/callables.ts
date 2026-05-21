@@ -4,6 +4,7 @@ const CALLABLE_KEYWORDS = [
 	"label",
 	"action",
 	"view",
+	"page",
 	"route",
 	"workflow",
 	"command",
@@ -47,5 +48,5 @@ function collectBody(lines: string[], start: number): { lines: string[]; next: n
 }
 
 function isTopLevel(line: string): boolean {
-	return /^(module|use|record|calculation|rule|label|external|action|policy|view|route|workflow|command)\s+/.test(line);
+	return /^(module|use|record|calculation|rule|label|external|action|policy|view|page|route|workflow|command)\s+/.test(line);
 }
