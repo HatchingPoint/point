@@ -1,6 +1,11 @@
 # Point Vision — Authoring vs Runtime
 
-**For users and agents.** Canonical public copy: [docs/site/concepts/authoring-vs-runtime.md](./site/concepts/authoring-vs-runtime.md) (synced to hatchingpoint.com/point).
+**For users and agents.** Canonical public copy (synced to hatchingpoint.com/point):
+
+- [Why Point exists](./site/concepts/why-point-exists.md)
+- [Proof of concept](./site/concepts/proof-of-concept.md)
+- [Point vs other languages for AI engineering](./site/ai/vs-other-languages.md)
+- [Authoring vs runtime](./site/concepts/authoring-vs-runtime.md)
 
 ## One sentence
 

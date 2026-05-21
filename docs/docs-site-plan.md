@@ -36,6 +36,8 @@ Every page must declare which quadrant it serves. Avoid mixing tutorial tone int
 /point/guide/quick-start        → First .point file in 10 minutes
 /point/guide/installation       → npm, Bun, extension, LSP, any editor
 /point/concepts/philosophy      → Semantic vs imperative; AI-first thesis
+/point/concepts/why-point-exists → Why create Point; when to adopt
+/point/concepts/proof-of-concept → Side-by-side PoC, in-the-box tooling, benchmarks
 /point/concepts/how-point-is-novel
 /point/concepts/semantic-vs-core
 /point/concepts/pipeline        → parse → AST → desugar → check → emit
@@ -50,6 +52,7 @@ Every page must declare which quadrant it serves. Avoid mixing tutorial tone int
 /point/language/effects         → action, external, policy, async
 /point/language/applications    → view, route, workflow, command
 /point/ai/overview              → Why agents need structured tooling
+/point/ai/vs-other-languages  → Point vs TS/Python/DSLs for AI engineering
 /point/ai/stable-refs
 /point/ai/check-json
 /point/ai/repair-loops
@@ -124,6 +127,12 @@ Every guide page should include where relevant:
 - Why **stable refs** beat line numbers for AI repair loops
 - How Point **interops** today (TS emit) vs long-term (more targets)
 - Honest limits (not a standalone VM yet; expression-level source maps partial)
+
+**Vision / PoC pages (public):**
+
+- `concepts/why-point-exists.md` — origin story, when to adopt, bleeding-edge thesis
+- `concepts/proof-of-concept.md` — side-by-side examples, agent loop, adopters, benchmarks
+- `ai/vs-other-languages.md` — comparison table vs TS/Python/Rust/DSLs/prompt-only
 
 ### AI engineering pages must answer
 

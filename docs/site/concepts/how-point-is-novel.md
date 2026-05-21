@@ -56,6 +56,9 @@ This gives review tools and agents a clearer map of when code reaches the filesy
 
 ## See also
 
+- [Why Point exists](/point/concepts/why-point-exists)
+- [Proof of concept](/point/concepts/proof-of-concept)
+- [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
 - [AI overview](/point/ai/overview)
 - [Stable refs](/point/ai/stable-refs)
 - [Repair loops](/point/ai/repair-loops)

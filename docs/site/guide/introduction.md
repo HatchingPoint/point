@@ -8,6 +8,8 @@ quadrant: Tutorial
 
 Point is an AI-first general-purpose language for software teams that want product logic to be explicit, checked, and repairable by coding agents.
 
+If you need the **why** and proof before syntax details, start with [Why Point exists](/point/concepts/why-point-exists), [Proof of concept](/point/concepts/proof-of-concept), and [Point vs other languages for AI engineering](/point/ai/vs-other-languages).
+
 ## What Point is
 
 Point source is written as semantic blocks: `record`, `calculation`, `rule`, `label`, `action`, `policy`, `workflow`, `view`, `route`, and `command`. Those blocks describe the shape and intent of software directly.
@@ -52,6 +54,9 @@ See [Authoring vs runtime](/point/concepts/authoring-vs-runtime) for the full mo
 
 ## See also
 
+- [Why Point exists](/point/concepts/why-point-exists)
+- [Proof of concept](/point/concepts/proof-of-concept)
+- [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
 - [Quick start](/point/guide/quick-start)
 - [Installation](/point/guide/installation)
 - [Philosophy](/point/concepts/philosophy)

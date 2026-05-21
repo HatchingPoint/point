@@ -42,7 +42,10 @@ That tradeoff is deliberate for now. Point can be useful immediately inside exis
 
 ## See also
 
+- [Why Point exists](/point/concepts/why-point-exists)
+- [Proof of concept](/point/concepts/proof-of-concept)
 - [How Point is novel](/point/concepts/how-point-is-novel)
+- [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
 - [Semantic vs core](/point/concepts/semantic-vs-core)
 - [Pipeline](/point/concepts/pipeline)
 - [Stable refs](/point/ai/stable-refs)

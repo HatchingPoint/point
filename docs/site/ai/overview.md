@@ -8,6 +8,8 @@ quadrant: Explanation
 
 Point is designed for a workflow where coding agents write, check, explain, and repair software continuously.
 
+For the full comparison to TypeScript, Python, and prompt-only workflows, see [Point vs other languages for AI engineering](/point/ai/vs-other-languages). For worked examples and benchmarks, see [Proof of concept](/point/concepts/proof-of-concept).
+
 ## The problem with raw text
 
 Agents can read source files, but raw text is a weak interface for repair. Line numbers drift after formatting. Generated names hide intent. Large files force the agent to infer which symbol matters.
@@ -37,6 +39,9 @@ For public `.point` source, prefer `point://semantic/...` refs. Core refs may ap
 
 ## See also
 
+- [Why Point exists](/point/concepts/why-point-exists)
+- [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
+- [Proof of concept](/point/concepts/proof-of-concept)
 - [Stable refs](/point/ai/stable-refs)
 - [Repair loops](/point/ai/repair-loops)
 - [Agent workflow](/point/ai/agent-workflow)
