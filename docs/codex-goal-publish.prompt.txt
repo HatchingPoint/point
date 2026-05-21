@@ -1,0 +1,15 @@
+Install Point Language support locally and prepare for marketplace publish.
+
+Read first:
+- docs/publishing.md
+- packages/point-vscode/README.md
+
+Tasks:
+1. Ensure extension.js auto-detects CLI: monorepo sibling path, then `point` on PATH; settings point.cliPath and point.runtime documented.
+2. Ensure scripts/publish.ts loads .env.local, validates tokens, runs ci, npm publish from packages/point, vsce publish from packages/point-vscode.
+3. Do NOT print or commit secrets from .env.local.
+4. Run bun run ci after changes.
+
+If user asks to publish and credentials are valid, run bun run publish:release. If VSCE_PAT is placeholder, stop and tell user to complete Azure DevOps publisher setup.
+
+Append checkpoint to docs/codex-progress.md for implementation work.

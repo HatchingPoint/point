@@ -1,51 +1,45 @@
-# Point Language Extension
+# Point Language
 
-Cursor and VS Code language support for Point.
+Cursor and VS Code support for [Point](https://github.com/HatchingPoint/point) — an AI-first language for building software with coding agents.
+
+## Install
+
+1. Install [Bun](https://bun.sh).
+2. Install the Point compiler:
+   ```bash
+   npm install -g @hatchingpoint/point
+   ```
+3. Install **Point Language** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (works in Cursor too).
+4. Open a `.point` file.
+
+The extension finds `point` on PATH automatically. For monorepo development, set **Point: Cli Path** to your local `cli.ts`.
 
 ## Features
 
-- `.point` language registration.
-- TextMate syntax highlighting for semantic Point source, types, strings, numbers, operators, and field access.
-- Language configuration for comments, brackets, auto-closing pairs, and folding.
-- Editor snippets for `record`, `calculation`, `rule`, and `label`.
-- Point file icon theme using the Point logo mark.
-- Diagnostics on save through `point check-json`.
-- Semantic go-to-definition and document symbols through `point index`.
+- `.point` language registration
+- Syntax highlighting for semantic Point source
+- Snippets for `record`, `calculation`, `rule`, `label`, and more
+- Point file icon theme
+- Diagnostics on save via `point check-json`
+- Go-to-definition and document outline via `point index`
 
-## Local Use In Cursor (folder install)
+## Settings
 
-Until this is published, install it as a local extension:
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `point.cliPath` | empty | Path to `cli.ts` or `point` executable |
+| `point.runtime` | `auto` | `auto`, `bun`, or `point` when using `cliPath` |
 
-1. Open the command palette.
-2. Run `Developer: Install Extension from Location...`.
-3. Choose `packages/point-vscode`.
-4. Reload Cursor.
+## Requirements
 
-## Package A VSIX
+- **Bun** on PATH (Point CLI runs on Bun)
+- **Point CLI** — `@hatchingpoint/point` globally, or a local `cli.ts` via `point.cliPath`
 
-From the repo root:
+## File icons
 
-```bash
-bun run vscode:package
-```
+Choose **Point File Icons** as the active file icon theme to show the Point logo on `.point` files.
 
-This writes a `.vsix` file into `packages/point-vscode`.
+## Links
 
-## Install From VSIX In Cursor
-
-1. Open the command palette.
-2. Run `Extensions: Install from VSIX...`.
-3. Pick the `.vsix` file from `packages/point-vscode`.
-4. Reload Cursor.
-
-For file icons, choose `Point File Icons` as the active file icon theme. VS Code and Cursor only allow one active file icon theme at a time, so the publish-ready version should either become a full icon theme or document how to map `.point` inside a popular theme such as Material Icon Theme.
-
-## Future Publish Path
-
-This package is shaped to become a public extension package later:
-
-- marketplace id: `hatchingpoint.point`
-- extension package name: `point`
-- extension display name: `Point Language`
-
-When publishing, remove `private: true`, add a license, package with `vsce`, and publish to Open VSX / VS Code Marketplace.
+- [Point on GitHub](https://github.com/HatchingPoint/point)
+- [Hatching Point](https://www.hatchingpoint.com/)

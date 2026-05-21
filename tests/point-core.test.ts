@@ -188,6 +188,8 @@ calculation echo
 		expect(extension).toContain("check-json");
 		expect(extension).toContain("registerDefinitionProvider");
 		expect(extension).toContain("registerDocumentSymbolProvider");
+		expect(extension).toContain("point.cliPath");
+		expect(manifest.contributes.configuration.properties["point.cliPath"]).toBeDefined();
 	});
 
 	test("documents and wires runtime source mapping boundaries", async () => {

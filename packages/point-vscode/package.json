@@ -2,10 +2,16 @@
   "name": "point",
   "displayName": "Point Language",
   "description": "Cursor and VS Code language support for Point.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "publisher": "hatchingpoint",
+  "icon": "icons/icon.png",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HatchingPoint/point.git",
+    "directory": "packages/point-vscode"
+  },
   "main": "./extension.js",
   "activationEvents": [
     "onLanguage:point"
@@ -63,9 +69,25 @@
         "label": "Point File Icons",
         "path": "./icons/point-icon-theme.json"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Point",
+      "properties": {
+        "point.cliPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Path to the Point CLI (`cli.ts` or `point` executable). Leave empty to auto-detect (monorepo sibling package, then `point` on PATH)."
+        },
+        "point.runtime": {
+          "type": "string",
+          "enum": ["auto", "bun", "point"],
+          "default": "auto",
+          "description": "How to run the CLI when point.cliPath is set. auto: use bun for .ts files, otherwise run the path directly."
+        }
+      }
+    }
   },
   "scripts": {
-    "package:vsix": "bun ../../scripts/package-vsix.ts"
+    "package:vsix": "bunx @vscode/vsce package --no-dependencies"
   }
 }

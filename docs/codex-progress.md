@@ -363,3 +363,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` passes (conformance + semantic + core IR suites).
 - Publish (Phase 6.2) remains deferred pending `NPM_TOKEN` / `VSCE_PAT`.
 - Blocked: npm/marketplace publish only.
+
+## Checkpoint Post-7 — Extension baseline + publish pipeline ready
+- Completed: VS Code extension shells out to Point CLI for diagnostics (`check-json`), symbols (`index`), and go-to-definition; auto-detects monorepo `cli.ts` or `point` on PATH; settings `point.cliPath` and `point.runtime`; diagnostics on save and open. `scripts/publish.ts` loads `.env.local`, validates `NPM_TOKEN`/`VSCE_PAT` (rejects placeholder), runs CI → npm publish → VSIX → `vsce publish`. Updated `docs/publishing.md`, extension README, and `docs/codex-goal-publish.prompt.txt`.
+- Verified: `bun run ci` passes (78 tests); VSIX packages as `point-0.0.5.vsix`.
+- Next: create Azure DevOps publisher `hatchingpoint`, set real `VSCE_PAT`, then `bun run publish:release`.
+- Blocked: marketplace publish pending real `VSCE_PAT` (user has placeholder).
