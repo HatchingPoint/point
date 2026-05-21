@@ -7,6 +7,7 @@ export * from "./emit-typescript.ts";
 export * from "./emit-javascript.ts";
 export * from "./emit-python.ts";
 export * from "./incremental.ts";
+export * from "./packages.ts";
 export * from "./serialize.ts";
 export * from "../semantic/index.ts";
 export * from "./format.ts";

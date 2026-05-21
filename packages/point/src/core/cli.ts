@@ -11,6 +11,7 @@ import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
 import { runCheckDocs } from "./check-docs.ts";
+import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock } from "./packages.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
@@ -40,6 +41,18 @@ export async function main() {
 
 	if (command === "check-docs") {
 		await runCheckDocs();
+		return;
+	}
+
+	if (command === "add") {
+		const dependencyName = input;
+		const spec = output;
+		if (!dependencyName || !spec) {
+			throw new Error("Usage: point add <name> <spec>  (spec: workspace:<path> | file:<path> | npm:<package>)");
+		}
+		const { manifest, lock } = await addPointDependency(dependencyName, spec);
+		console.log(`Point add updated ${POINT_MANIFEST} and ${POINT_LOCK}: ${dependencyName} -> ${spec}`);
+		console.log(JSON.stringify({ name: manifest.name, dependencies: manifest.dependencies, lockPackages: Object.keys(lock.packages) }, null, 2));
 		return;
 	}
 
@@ -198,8 +211,9 @@ export async function main() {
 async function runProjectCommand(command: string) {
 	const inputs = await discoverInputs();
 	if (inputs.length === 0) throw new Error(`No Point core files matched ${DEFAULT_PATTERNS.join(", ")}`);
-	const results = await Promise.all(inputs.map((input) => loadCoreFile(input)));
-	const graph = createModuleGraph(results);
+	const lock = await readPointLock();
+	const results = await Promise.all(inputs.map((input) => loadCoreFile(input, lock)));
+	const graph = createModuleGraph(results, lock);
 	const orderedResults = orderByDependencies(results, graph);
 
 	if (command === "fmt-all") {
@@ -429,9 +443,9 @@ export function findRunEntryName(program: PointCoreProgram): string | null {
 	return preferred?.name ?? null;
 }
 
-async function loadCoreFile(input: string) {
+async function loadCoreFile(input: string, lock: Awaited<ReturnType<typeof readPointLock>>) {
 	const source = await Bun.file(resolve(process.cwd(), input)).text();
-	return { input, source, program: parsePointSource(source), uses: parseUseDeclarations(source, input) };
+	return { input, source, program: parsePointSource(source), uses: parseUseDeclarations(source, input, lock) };
 }
 
 type CoreFile = Awaited<ReturnType<typeof loadCoreFile>>;
@@ -443,15 +457,15 @@ interface UseDeclaration {
 	input: string;
 }
 
-function parseUseDeclarations(source: string, input: string): UseDeclaration[] {
+function parseUseDeclarations(source: string, input: string, lock: Awaited<ReturnType<typeof readPointLock>>): UseDeclaration[] {
 	return source
 		.split(/\r?\n/)
 		.map((line) => line.trim().match(/^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/))
 		.filter((match): match is RegExpMatchArray => Boolean(match))
-		.map((match) => ({ moduleName: match[1]!, from: match[2] ?? stdPathFor(match[1]!), input }));
+		.map((match) => ({ moduleName: match[1]!, from: match[2] ?? modulePathFromLock(lock, match[1]!), input }));
 }
 
-function createModuleGraph(results: CoreFile[]): ModuleGraph {
+function createModuleGraph(results: CoreFile[], lock: Awaited<ReturnType<typeof readPointLock>>): ModuleGraph {
 	const byInput = new Map(results.map((result) => [normalizeInput(result.input), result]));
 	const graph: ModuleGraph = new Map();
 	for (const result of results) {
@@ -513,11 +527,6 @@ function resolveDependencyInput(input: string, from: string): string {
 	if (from.startsWith("std/")) return from;
 	const base = dirname(resolve(process.cwd(), input));
 	return resolve(base, from).replace(resolve(process.cwd()), "").replace(/^[/\\]/, "");
-}
-
-function stdPathFor(moduleName: string): string {
-	if (!moduleName.startsWith("std.")) throw new Error(`Use declarations without from must target std modules: ${moduleName}`);
-	return `${moduleName.replace(/^std\./, "std/").replaceAll(".", "/")}.point`;
 }
 
 function normalizeInput(input: string): string {

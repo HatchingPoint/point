@@ -38,6 +38,16 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `repl` | Evaluate expressions from stdin or inline | 0 |
 | `lsp` | Start stdio language server | runs until stopped |
 
+## Package management
+
+| Command | Purpose | Exit |
+|---------|---------|------|
+| `add` | Add dependency: `point add <name> <spec>` | 1 on invalid spec or missing `point.json` |
+
+Supported specs: `workspace:<path>`, `file:<path>`. `npm:<package>` is reserved and fails with an explicit message until registry support ships.
+
+Updates `point.json` and regenerates `point.lock`. Project-wide check/build resolve `use <package>.<module>` through the lockfile (see [package management](/point/ecosystem/package-management) in the repo docs).
+
 ## Project commands (`-all`)
 
 Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`.

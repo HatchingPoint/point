@@ -511,3 +511,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point build-ts examples/adopters/hatchingpoint/readiness-widget.point` → `readinessWidgetView(signals, onSignalsChange)` with checkbox JSX; `bun run ci` passes (130 tests).
 - Next: P11-1 point add; P11-2 std json/http shims.
 - Blocked: none
+
+## Checkpoint 11.P11-1 - point add and lockfile resolution
+- Completed: Implemented `point add <name> <spec>` CLI updating `point.json` and `point.lock`. Added `packages/point/src/core/packages.ts` for spec parsing, workspace/file resolution, and lock regeneration; `npm:` returns a clear unsupported error. Wired `point.lock` into project-wide check/build module graph via `modulePathFromLock`. Tests in `tests/point-add.test.ts`. Documented in `docs/package-management.md` and `docs/site/reference/cli.md`.
+- Verified: `point add std workspace:std` updates manifest and lock; `bun run ci` passes (133 tests).
+- Next: P11-2 std json/http shims (if not already landed); Phase 11 exit gate.
+- Blocked: none
