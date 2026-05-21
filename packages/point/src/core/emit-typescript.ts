@@ -68,8 +68,11 @@ function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
 
 function emitStatement(statement: PointCoreStatement, semanticKind?: string): string[] {
 	if (statement.kind === "return") {
-		if (semanticKind === "view" && statement.value?.kind === "literal" && typeof statement.value.value === "string") {
-			return [`return <>${escapeJsxText(statement.value.value)}</>;`];
+		if (semanticKind === "view" && statement.value) {
+			if (statement.value.kind === "literal" && typeof statement.value.value === "string") {
+				return [`return <>${escapeJsxText(statement.value.value)}</>;`];
+			}
+			return [`return <>{${emitExpression(statement.value)}}</>;`];
 		}
 		return [statement.value ? `return ${emitExpression(statement.value)};` : "return;"];
 	}

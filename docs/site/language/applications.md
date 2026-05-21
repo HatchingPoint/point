@@ -14,6 +14,62 @@ React-oriented UI (first target):
 
 See `examples/view.point`.
 
+Callable expressions in `render` and `when ... render` clauses emit as JSX text children (`<>{expression}</>`). Use `point build-ts` for React/Next.js targets; default `point build` emits plain strings for views.
+
+### Readiness widget (dogfood)
+
+`examples/adopters/hatchingpoint/readiness-widget.point` combines listing score rules with a `readiness widget` view. Build TypeScript:
+
+```bash
+point build-ts examples/adopters/hatchingpoint/readiness-widget.point generated/readiness-widget.ts
+```
+
+### Embed in Next.js
+
+1. Emit with `point build-ts` (or `bun run build:ts` in the monorepo).
+2. Copy or import `generated/readiness-widget.ts` into your Next.js app (e.g. `components/ReadinessWidget.tsx` after renaming if desired).
+3. Ensure the app has React types (`JSX.Element`); add `"jsx": "react-jsx"` in `tsconfig.json` if needed.
+4. Import and render as a controlled component — parent state owns `ListingSignals`:
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  readinessWidgetView,
+  type ListingSignals,
+} from "../generated/readiness-widget";
+
+const emptySignals: ListingSignals = {
+  hasScreenshots: false,
+  hasDescription: false,
+  hasPrivacyPolicy: false,
+  hasSupportUrl: false,
+  hasAgeRating: false,
+};
+
+export function ReadinessWidget() {
+  const [signals, setSignals] = useState(emptySignals);
+  return (
+    <section>
+      <label>
+        <input
+          type="checkbox"
+          checked={signals.hasScreenshots}
+          onChange={(e) =>
+            setSignals((s) => ({ ...s, hasScreenshots: e.target.checked }))
+          }
+        />
+        Screenshots
+      </label>
+      {readinessWidgetView(signals)}
+    </section>
+  );
+}
+```
+
+Doc pages can mount this component in MDX (`<ReadinessWidget />`) after syncing generated output in CI.
+
 ## route
 
 HTTP handlers (Hono-first target):

@@ -2,7 +2,7 @@
 
 App Store listing readiness scoring used internally for Hatching Point app templates and client apps.
 
-## Module
+## Modules
 
 `store-readiness.point` — pure Point logic:
 
@@ -11,6 +11,8 @@ App Store listing readiness scoring used internally for Hatching Point app templ
 - **listing status** label — human-readable status
 - **get listing status** route — HTTP stub for Hono integration
 
+`readiness-widget.point` — same listing logic plus a **readiness widget** view that emits a React component (`readinessWidgetView`). Use for interactive docs and Next.js embeds; see [Applications — view](/point/language/applications) for the embed recipe.
+
 ## Commands
 
 From the repo root (monorepo dev):
@@ -18,6 +20,7 @@ From the repo root (monorepo dev):
 ```bash
 bun packages/point/src/cli.ts check examples/adopters/hatchingpoint/store-readiness.point
 bun packages/point/src/cli.ts build-ts examples/adopters/hatchingpoint/store-readiness.point generated/store-readiness.ts
+bun packages/point/src/cli.ts build-ts examples/adopters/hatchingpoint/readiness-widget.point generated/readiness-widget.ts
 ```
 
 With global install:

@@ -250,6 +250,16 @@ view counter
 		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/Views/view.counter");
 	});
 
+	test("emits readiness widget view with JSX expression renders", async () => {
+		const source = await Bun.file("examples/adopters/hatchingpoint/readiness-widget.point").text();
+		const program = parsePointSource(source);
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain("export function readinessWidgetView(signals: ListingSignals): JSX.Element");
+		expect(emitted).toContain("return <>{readinessSummary(signals)}</>;");
+		expect(emitted).toContain("export function readinessSummary(signals: ListingSignals): string");
+	});
+
 	test("lowers route blocks to Hono-targeted handlers", () => {
 		const program = parsePointSource(`module Routes
 
