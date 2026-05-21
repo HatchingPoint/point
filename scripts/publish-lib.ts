@@ -69,8 +69,21 @@ export async function publishMarketplaceExtension(pat: string): Promise<void> {
 	}
 	console.log(`Publishing ${vsixPath} to marketplace...`);
 	// Use VSCE_PAT env var — avoids shell mangling special characters in --pat.
-	await Bun.$`bunx --yes @vscode/vsce publish --packagePath ${vsixPath}`.cwd(extDir).env({
-		...process.env,
-		VSCE_PAT: pat,
-	});
+	try {
+		await Bun.$`bunx --yes @vscode/vsce publish --packagePath ${vsixPath}`.cwd(extDir).env({
+			...process.env,
+			VSCE_PAT: pat,
+		});
+	} catch (error) {
+		const stdout =
+			error instanceof Error && "stdout" in error ? String((error as { stdout?: unknown }).stdout ?? "") : "";
+		const stderr =
+			error instanceof Error && "stderr" in error ? String((error as { stderr?: unknown }).stderr ?? "") : "";
+		const combined = `${stdout}\n${stderr}\n${error instanceof Error ? error.message : ""}`;
+		if (/already exists/i.test(combined)) {
+			console.log(`Marketplace version ${pkg.version} already published — skipping.`);
+			return;
+		}
+		throw error;
+	}
 }
