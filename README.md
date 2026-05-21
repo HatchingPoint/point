@@ -94,7 +94,7 @@ These commands are the core of Point's AI engineering model: agents should navig
 
 ## Roadmap
 
-Phases 0–9, 10, and 11 are complete (v0.0.13). **Active:** [phase12-plan.md](docs/phase12-plan.md) (ecosystem, registry, templates).
+Phases 0–11 and Phase 12 Wave 1 are complete (v0.0.14). **Active:** [phase12-plan.md](docs/phase12-plan.md) Wave 2.
 
 - [Vision — authoring vs runtime](docs/vision.md)
 - [Phase 10 plan](docs/phase10-plan.md) · [Phase 11 plan](docs/phase11-plan.md)

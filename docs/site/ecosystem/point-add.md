@@ -65,7 +65,7 @@ Invalid names, missing `point.json`, unknown spec prefixes, or paths that do not
 |------|--------|---------|
 | `workspace:<path>` | Supported | Local Point package directory — typical in monorepos |
 | `file:<path>` | Supported | Local path on disk, relative to project root |
-| `npm:<package>` | **Pending (Phase 12)** | npm registry package — parsed but not resolved yet |
+| `npm:<package>` | Supported | npm registry package — installs to `node_modules/` and pins path in lock |
 
 ### `workspace:` — monorepo packages
 
@@ -97,17 +97,18 @@ point add logic file:packages/point-logic
 
 The locator is any existing directory relative to the project root. Resolution pins `version: "file"` and the normalized path in `point.lock`. If the directory has its own `point.json`, nested package metadata is recorded under the nested package name.
 
-### `npm:` — registry packages (pending)
+### `npm:` — registry packages
 
-The CLI accepts `npm:` specs syntactically so manifests stay forward-compatible:
+Install published Point packages from npm. The CLI runs `npm install --no-save`, locates `point.json` or `src/*.point` in the package, and pins the path under `node_modules/` in `point.lock`:
 
 ```bash
-# Planned — not supported in the CLI yet
 point add logic npm:@hatchingpoint/point-logic
-point add logic npm:@hatchingpoint/point-logic@0.0.1
+point add logic npm:@hatchingpoint/point-logic@0.0.2
 ```
 
-**Today:** `point add … npm:…` fails with an explicit error — registry resolution (install under `node_modules/`, locate `point.json` or `src/*.point`, pin path in `point.lock`) ships in Phase 12 goal P12-1. Until that lands, use `file:` for local copies of published packages or declare npm libraries through `external` blocks and your app's `package.json` (see [npm packages](/point/ecosystem/npm-packages)).
+Then `use logic.store-readiness` resolves through the lockfile.
+
+**Note:** Packages that ship only emitted JavaScript in `dist/` (no `.point` source in the tarball) cannot be typechecked via `point add`. Prefer packages that include Point source, or import emitted JS directly for runtime-only use.
 
 ## Resolution at check and build
 
@@ -133,7 +134,7 @@ point add std workspace:std
 point add logic file:packages/point-logic
 ```
 
-**Future registry dependency (when P12-1 merges):**
+**Registry dependency:**
 
 ```bash
 point add logic npm:@hatchingpoint/point-logic
@@ -141,7 +142,7 @@ point add logic npm:@hatchingpoint/point-logic
 
 ## Common mistakes
 
-- Using `npm:` before registry support ships — use `file:` or `workspace:` for local Point packages today.
+- Using `npm:` on packages that ship only `dist/` JS — they won't resolve for `point check`; use packages with `.point` source or `file:` for local copies.
 - Adding a dependency name that does not match how you `use` it — the lockfile alias must match the prefix in `use std.text`, `use logic.store`, etc.
 - Expecting `point add` to install JavaScript npm deps for `external` blocks — those still belong in `package.json`; `point add` is for Point package modules only.
 - Editing `point.lock` paths by hand after moving directories — re-run `point add` or regenerate the lock from the manifest.

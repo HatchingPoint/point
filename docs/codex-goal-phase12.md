@@ -1,11 +1,40 @@
-# Codex Goals — Phase 12 Wave 1
+# Codex Goals — Phase 12
 
 **Master plan:** [phase12-plan.md](./phase12-plan.md)  
 **Progress log:** [codex-progress.md](./codex-progress.md)
 
-Launch **four parallel sessions** for maximum speed.
+---
+
+## Wave 2 (launch now)
+
+### P12-5 — External starter template
+
+```text
+/goal Create examples/starter-template/ or document github.com/HatchingPoint/point-starter as a self-contained Point app: point.json, src/*.point (logic + optional route), README with install/check/build/run, no hand-written TS. Tests prove check and build. bun run ci. Commit: "Phase 12 P12-5: external starter template."
+```
+
+### P12-6 — Open VSX publish
+
+```text
+/goal Add Open VSX publish to CI or scripts/publish-openvsx.ts using OPENVSX_PAT secret pattern. Document in docs/publishing.md. Dry-run or publish hatchingpoint.point VSIX. bun run ci. Commit: "Phase 12 P12-6: Open VSX publish pipeline."
+```
+
+### P12-7 — Live readiness demo (LandingPage)
+
+```text
+/goal In c:\Users\mcarr\Documents\clones\LandingPage: embed readiness widget/page demo on /point/examples — client component importing generated readiness TS or static demo. No npm run build required locally; ensure sync if docs change. Commit LandingPage + point repo doc link. Checkpoint in codex-progress.md.
+```
+
+### P12-8 — point-logic ships Point source on npm
+
+```text
+/goal Update packages/point-logic/package.json files to include point.json and src/*.point in npm tarball (keep dist/ for runtime). Bump to 0.0.3. Update tests/point-logic-package.test.ts. Document that npm: point add works with published package. bun run ci. Commit: "Phase 12 P12-8: point-logic npm includes Point source."
+```
 
 ---
+
+## Wave 1 (complete)
+
 
 ## Sanity check
 
