@@ -42,7 +42,17 @@ label deploy status
   otherwise return "Not ready"
 ```
 
-## Quick Start
+## Install (users)
+
+1. Install [Bun](https://bun.sh).
+2. Install the compiler:
+   ```bash
+   npm install -g @hatchingpoint/point
+   ```
+3. Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) in VS Code or Cursor.
+4. Open a `.point` file — diagnostics and symbols use the `point` CLI on PATH.
+
+## Quick Start (repo development)
 
 ```bash
 bun install

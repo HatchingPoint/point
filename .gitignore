@@ -1,5 +1,6 @@
 node_modules
 .env.local
+.npmrc.publish
 .point-cache
 *.vsix
 .DS_Store

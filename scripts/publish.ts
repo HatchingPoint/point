@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 loadEnvLocal();
@@ -21,7 +21,13 @@ console.log("Running CI before publish...");
 await Bun.$`bun run ci`;
 
 console.log("Publishing @hatchingpoint/point to npm...");
-await Bun.$`npm publish --access public`.cwd(join(import.meta.dir, "../packages/point")).env(process.env);
+const npmrcPath = join(import.meta.dir, "../.npmrc.publish");
+writeFileSync(npmrcPath, `//registry.npmjs.org/:_authToken=${process.env.NPM_TOKEN}\n`);
+try {
+	await Bun.$`npm publish --access public --userconfig ${npmrcPath}`.cwd(join(import.meta.dir, "../packages/point"));
+} finally {
+	if (existsSync(npmrcPath)) unlinkSync(npmrcPath);
+}
 
 console.log("Packaging VS Code extension...");
 await Bun.$`bun run vscode:package`;

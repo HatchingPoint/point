@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.6
+
+### Added
+
+- VS Code Marketplace extension published (`hatchingpoint.point`) with Point logo and install docs.
+- `publish:npm` script for npm-only releases.
+
 ## 0.0.5
 
 ### Added

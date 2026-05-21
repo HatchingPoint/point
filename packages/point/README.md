@@ -2,6 +2,17 @@
 
 Point is an AI-first general-purpose language core for coding-agent-native software engineering.
 
+## Install
+
+Requires [Bun](https://bun.sh) on PATH.
+
+```bash
+npm install -g @hatchingpoint/point
+point check examples/math.point
+```
+
+Pair with the [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) extension in VS Code or Cursor.
+
 Point's public source language is semantic product logic. The compiler lowers that source into an internal typed core and emits TypeScript for existing JavaScript infrastructure.
 
 This package is the source of truth for Point. It exposes:

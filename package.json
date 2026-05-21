@@ -31,6 +31,7 @@
     "benchmark:emit": "bun scripts/benchmark-emit.ts",
     "benchmark:phase7": "bun scripts/phase7-benchmark.ts",
     "publish:release": "bun scripts/publish.ts",
+    "publish:npm": "bun scripts/publish-npm.ts",
     "ci": "bun run fmt-check && bun run check && bun run build && bun run build:ast && bun run point:test && bun test && bun run vscode:package"
   },
   "devDependencies": {
