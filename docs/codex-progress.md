@@ -480,3 +480,9 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point build-ts examples/adopters/hatchingpoint/readiness-page.point` → `readinessPage` returning `JSX.Element` with page shell; `bun run ci` passes (124 tests).
 - Next: P10-2 richer view props/state; LandingPage embed readiness page.
 - Blocked: none
+
+## Checkpoint 10.P10-3 - Python action emit
+- Completed: Extended `emit-python.ts` for `action` blocks (`async def`, `await`); `node:fs` readFileSync maps to `pathlib.Path.read_text()` shim. Target `examples/action.point` → `generated/action.py`. Smoke test reads fixture via `asyncio.run(loadConfigContents(...))`. Documented limits in `docs/python-emit-research.md`. Tests in `tests/python-emit.test.ts`.
+- Verified: `point build-py examples/action.point generated/action.py`; Python smoke test returns file contents; `bun run ci` passes (124 tests).
+- Next: Phase 10 remaining tracks (P10-2, P10-5, P10-7).
+- Blocked: none
