@@ -406,3 +406,28 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Completed: Added docs/phase9-replacement-plan.md, docs/codex-goal-replacement.md, docs/codex-goal-replacement.prompt.txt, docs/vision.md. Parallel goals R1-R8 for JS-default run, Python emit, docs content, check-docs, npm-from-point, view spike, dogfood service.
 - Next: Launch Codex agents R1+R2+R3+R4 in parallel.
 - Blocked: none
+
+## Checkpoint 9.R4 - point check-docs command
+- Completed: Added `point check-docs` CLI command (`packages/point/src/core/check-docs.ts`) that scans `docs/site/**/*.md` for fenced ` ```point ` blocks and resolvable `.point` file references, runs parse+check on each snippet/file, reports structured failures (including parse errors). Wired `check-docs` script into `package.json` and `bun run ci`. Added `tests/check-docs.test.ts` (8 tests). Fixed incomplete doc snippets in `docs/site/language/rules.md`, `docs/site/language/labels.md`, and `docs/site/concepts/how-point-is-novel.md` so check-docs passes on current site content.
+- Verified: `bun run ci` passes (106 tests); `point check-docs` reports 21 snippet(s), 13 file reference(s) clean.
+- Next: R3 remaining docs pages; R5 npm-from-point after R1.
+- Blocked: none
+
+## Checkpoint R3 - Docs site content (D2-D4 + replaces TS/Python)
+- Completed: Filled `docs/site/` with philosophy/AI pages (extended), language guide (all blocks + overview), reference (cli, grammar, diagnostics), toolchain/lsp.md, and new `concepts/replaces-typescript-and-python.md`. Linked from introduction.md. All fenced `point` snippets and file refs pass `point check-docs`.
+- Verified: `bun run ci` passes (105 tests); `point check-docs` — 21 snippets, 13 file refs.
+- LandingPage: `npm run sync:point-docs` updates `src/content/pointDocs.generated.json` from `../point-1/docs/site` (not committed here).
+- Next: Run `npm run build` in LandingPage after sync commit; D5 polish (FAQ, gallery).
+- Blocked: none
+
+## Checkpoint 9.R2 - Python emit for pure logic
+- Completed: Added `packages/point/src/core/emit-python.ts`, `point build-py` CLI command, `generated/math.py` from `examples/math.point`, parity tests in `tests/python-emit.test.ts`, updated `docs/python-emit-research.md`.
+- Verified: `point build-py examples/math.point generated/math.py` succeeds; Python emit tests pass (103/105 total — 2 failures are `check-docs` from parallel R4 docs/site snippets, unrelated to R2).
+- Next: Python emit for actions/async; optional `build-py-all` for pure-logic fixtures; R4 must fix docs/site fenced snippets for full `bun run ci`.
+- Blocked: full `bun run ci` until R4 docs/site snippets parse (check-docs).
+
+## Checkpoint 9.R1 - JS-default run and build
+- Completed: `point build` and `point build-all` now emit JavaScript by default; `point build-ts` / `build-ts-all` remain opt-in; `point build-ast` / `build-ast-all` preserve AST JSON for debugging; `point run` and `point test` use temp `.js` via `emitPointCoreJavaScript`. Updated root/package README, quick-start, production-readiness, package.json scripts (`build`, `build:ts`, `build:ast`), tests, and fixed docs/site snippets so `check-docs` passes in CI.
+- Verified: `point run examples/hello.point` prints "Hello from Point" without writing `.ts` to the project; `bun run ci` passes (105 tests).
+- Next: R5 npm package from `.point` only.
+- Blocked: none

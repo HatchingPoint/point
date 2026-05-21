@@ -2,13 +2,13 @@
 
 Point is an AI-first general-purpose language for building software with coding agents.
 
-People write semantic product logic. The compiler lowers that source into an internal typed core, then emits TypeScript so existing React, Vue, Bun, Node, and Vite projects can use it without changing their runtime stack.
+People write semantic product logic. The compiler lowers that source into an internal typed core, then emits JavaScript by default so Bun and Node can run it without authors touching generated TypeScript. Use `point build-ts` when you need typed targets for React, Vue, or `tsc` pipelines.
 
 ## What Exists Today
 
 - Point core language package: `@hatchingpoint/point`
 - Cursor/VS Code extension package: `point`
-- Formatter, checker, TypeScript emitter, AST emitter, and CLI
+- Formatter, checker, JavaScript and TypeScript emitters, AST emitter, and CLI
 - Stable `point://` refs, symbol indexing, explanations, and repair plans for coding agents
 - AI-first public syntax with `record`, `calculation`, `rule`, `label`, `add ... when`, and `otherwise`
 - Internal typed core IR (functions, types, loops, assignment) — compiler data structures only; authors do not write core syntax
@@ -57,9 +57,11 @@ label deploy status
 ```bash
 point check myfile.point
 point fmt myfile.point
-point build-ts myfile.point generated/myfile.ts
+point build myfile.point generated/myfile.js
 point run myfile.point
 ```
+
+Use `point build-ts` when you need TypeScript for typed imports in an existing TS project.
 
 Use `point check-json`, `point index`, and `point explain` in CI or agent scripts. For editor integration in Neovim, Zed, or other LSP clients, run `point lsp` — see [docs/editor-setup.md](docs/editor-setup.md).
 
@@ -72,9 +74,10 @@ bun run check
 bun run build
 ```
 
-Build output is written to `generated`.
+Build output is written to `generated/` as JavaScript by default.
 
 ```bash
+bun packages/point/src/cli.ts build examples/math.point generated/math.js
 bun packages/point/src/cli.ts build-ts examples/math.point generated/math.ts
 ```
 

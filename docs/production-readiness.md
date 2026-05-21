@@ -32,7 +32,7 @@ bun run check
 bun run build
 ```
 
-`bun run build` emits TypeScript into `generated/`. Use `bun run build:ast` when debugging compiler output.
+`bun run build` emits JavaScript into `generated/` by default. Use `bun run build:ts` for TypeScript and `bun run build:ast` when debugging compiler output.
 
 Use `bun run check-json` when an agent needs machine-readable diagnostics with stable refs, expected/actual metadata, repair hints, and related symbols.
 

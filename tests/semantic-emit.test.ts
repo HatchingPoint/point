@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { checkPointCore } from "../packages/point/src/core/check.ts";
 import { emitPointCoreJavaScript } from "../packages/point/src/core/emit-javascript.ts";
+import { emitPointCorePython } from "../packages/point/src/core/emit-python.ts";
 import { emitPointCoreTypeScript } from "../packages/point/src/core/emit-typescript.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { parsePointSourceLegacy } from "../packages/point/src/core/test-only/index.ts";
@@ -36,6 +37,7 @@ calculation double
 		expect(emitPointCoreTypeScript(program)).toContain("export function double");
 		expect(emitPointCoreJavaScript(program)).toContain("export function double");
 		expect(emitPointCoreJavaScript(program)).not.toContain(": number");
+		expect(emitPointCorePython(program)).toContain("def doubleDoubled(value: int) -> int:");
 	});
 
 	test("TypeScript and JavaScript emit match legacy pipeline for all fixtures", async () => {

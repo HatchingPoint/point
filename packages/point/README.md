@@ -13,7 +13,7 @@ point check examples/math.point
 
 Pair with the [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) extension in VS Code or Cursor.
 
-Point's public source language is semantic product logic. The compiler lowers that source into an internal typed core and emits TypeScript for existing JavaScript infrastructure.
+Point's public source language is semantic product logic. The compiler lowers that source into an internal typed core and emits JavaScript by default for Bun and Node. Use `point build-ts` when you need TypeScript for existing typed JavaScript infrastructure.
 
 This package is the source of truth for Point. It exposes:
 
@@ -29,6 +29,6 @@ bun run check
 bun run build
 ```
 
-`bun run build` emits TypeScript into `generated/` for React, Vue, Bun, Node, and Vite projects.
+`bun run build` emits JavaScript into `generated/` by default. Use `bun run build:ts` for TypeScript and `bun run build:ast` when debugging compiler output.
 
 When Point is extracted, this package can move into a standalone repo with the same package name and public entrypoints.

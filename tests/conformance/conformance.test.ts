@@ -16,12 +16,14 @@ async function discoverFixtures(): Promise<string[]> {
 
 describe("Point conformance fixtures", () => {
 	test(
-		"project check-all and build-ts-all succeed",
+		"project check-all and build-all succeed with JavaScript emit",
 		async () => {
 			const check = await Bun.$`bun packages/point/src/cli.ts check-all`.quiet();
 			expect(check.exitCode).toBe(0);
-			const build = await Bun.$`bun packages/point/src/cli.ts build-ts-all`.quiet();
+			const build = await Bun.$`bun packages/point/src/cli.ts build-all`.quiet();
 			expect(build.exitCode).toBe(0);
+			const buildTs = await Bun.$`bun packages/point/src/cli.ts build-ts-all`.quiet();
+			expect(buildTs.exitCode).toBe(0);
 		},
 		120_000,
 	);
@@ -40,11 +42,11 @@ describe("Point conformance fixtures", () => {
 		},
 	);
 
-	test("representative fixtures emit JavaScript", async () => {
+	test("representative fixtures emit JavaScript via default build", async () => {
 		for (const fixture of ["examples/math.point", "examples/cart-total.point", "compiler/passes/naming-lint.point"]) {
 			const base = fixture.split("/").pop()?.replace(/\.point$/, "") ?? "program";
 			const jsOut = `generated/${base}.js`;
-			const build = await Bun.$`bun packages/point/src/cli.ts build-js ${fixture} ${jsOut}`.quiet();
+			const build = await Bun.$`bun packages/point/src/cli.ts build ${fixture} ${jsOut}`.quiet();
 			expect(build.exitCode).toBe(0);
 			const generated = await Bun.file(jsOut).text();
 			expect(generated).not.toContain(": number");

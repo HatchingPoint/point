@@ -129,22 +129,51 @@ calculation known user
 		expect(emitted).toContain("export function knownUser(): User | null");
 	});
 
-	test("checks and builds linked multi-file examples", async () => {
+	test("checks and builds linked multi-file examples as JavaScript by default", async () => {
 		await Bun.$`bun packages/point/src/cli.ts check-all`.quiet();
-		await Bun.$`bun packages/point/src/cli.ts build-ts-all`.quiet();
-		const generated = await Bun.file("generated/order.ts").text();
+		await Bun.$`bun packages/point/src/cli.ts build-all`.quiet();
+		const generated = await Bun.file("generated/order.js").text();
 		expect(generated).toContain('import { Product, productLineTotal } from "./catalog";');
-		expect(generated).toContain("export function orderTotal(products: Array<Product>): number");
+		expect(generated).toContain("export function orderTotal(products) {");
 		expect(generated).toContain("for (const product of products) {");
+		expect(generated).not.toContain(": number");
 	});
 
-	test("checks and builds std modules and std import usage", async () => {
+	test("checks and builds std modules and std import usage as JavaScript by default", async () => {
 		await Bun.$`bun packages/point/src/cli.ts check-all`.quiet();
-		await Bun.$`bun packages/point/src/cli.ts build-ts-all`.quiet();
-		const generated = await Bun.file("generated/std-usage.ts").text();
+		await Bun.$`bun packages/point/src/cli.ts build-all`.quiet();
+		const generated = await Bun.file("generated/std-usage.js").text();
 		expect(generated).toContain('from "./http"');
 		expect(generated).toContain("return await httpGetResponse(url);");
 		expect(generated).toContain("return await readFileContents(path);");
+	});
+
+	test("build-ts remains opt-in for typed TypeScript emit", async () => {
+		await Bun.$`bun packages/point/src/cli.ts build-ts examples/math.point generated/math.ts`.quiet();
+		const generated = await Bun.file("generated/math.ts").text();
+		expect(generated).toContain(": number");
+		expect(generated).toContain("export function");
+	});
+
+	test("point run uses JavaScript emit without writing .ts into the project", async () => {
+		const beforeTs = await Bun.$`git ls-files --others --exclude-standard generated/*.ts`.quiet().nothrow();
+		const run = await Bun.$`bun packages/point/src/cli.ts run examples/hello.point`.quiet();
+		expect(run.stdout.toString().trim()).toBe("Hello from Point");
+		const afterTs = await Bun.$`git ls-files --others --exclude-standard generated/*.ts`.quiet().nothrow();
+		expect(afterTs.stdout.toString()).toBe(beforeTs.stdout.toString());
+		const cli = await Bun.file("packages/point/src/core/cli.ts").text();
+		expect(cli).toContain("point-run-");
+		expect(cli).toContain(".js");
+		expect(cli).toContain("emitPointCoreJavaScript(program)");
+	});
+
+	test("point build defaults to JavaScript output", async () => {
+		const output = "generated/hello-build-default.js";
+		await Bun.$`bun packages/point/src/cli.ts build examples/hello.point ${output}`.quiet();
+		const generated = await Bun.file(output).text();
+		expect(generated).toContain("export async function mainMessage()");
+		expect(generated).not.toContain(": string");
+		expect(generated).not.toContain("interface ");
 	});
 
 	test("selects Point run entrypoints and reports missing entrypoints", () => {
@@ -280,10 +309,10 @@ command hello cli
 
 	test("demo app checks, builds, and runs without hand-written TypeScript", async () => {
 		await Bun.$`bun packages/point/src/cli.ts check examples/app/todo.point`.quiet();
-		await Bun.$`bun packages/point/src/cli.ts build-ts examples/app/todo.point generated/todo.ts`.quiet();
+		await Bun.$`bun packages/point/src/cli.ts build examples/app/todo.point generated/todo.js`.quiet();
 		const run = await Bun.$`bun packages/point/src/cli.ts run examples/app/todo.point`.quiet();
 		expect(run.stdout.toString().trim()).toBe("Todo demo ready");
-		const generated = await Bun.file("generated/todo.ts").text();
+		const generated = await Bun.file("generated/todo.js").text();
 		expect(generated).toContain("todoItemView");
 		expect(generated).toContain("getTodosRoute");
 		expect(generated).toContain("openDashboardWorkflow");

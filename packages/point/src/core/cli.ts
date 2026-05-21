@@ -6,14 +6,18 @@ import { createPointCoreIndex, createPointCoreRepairPlan, explainPointCoreRef } 
 import { createSemanticIndex, explainSemanticRef, mapPublicDiagnostics } from "../semantic/context.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
+import { emitPointCorePython } from "./emit-python.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
+import { runCheckDocs } from "./check-docs.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
+const DEFAULT_JS_OUTPUT = "generated/math.js";
 const DEFAULT_TS_OUTPUT = "generated/math.ts";
+const DEFAULT_PY_OUTPUT = "generated/math.py";
 const DEFAULT_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/*.point"];
 const GENERATED_DIR = "generated";
 
@@ -31,6 +35,11 @@ export async function main() {
 
 	if (command === "lsp") {
 		await runPointLspServer();
+		return;
+	}
+
+	if (command === "check-docs") {
+		await runCheckDocs();
 		return;
 	}
 
@@ -101,15 +110,27 @@ export async function main() {
 		return;
 	}
 
-	if (command === "build") {
+	if (command === "build" || command === "build-js") {
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		const outputPath = resolve(process.cwd(), output);
+		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_JS_OUTPUT : output);
+		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
+		await Bun.write(outputPath, emitPointCoreJavaScript(program));
+		console.log(`Point core JavaScript build wrote ${outputPath.replaceAll("\\", "/")}`);
+		return;
+	}
+
+	if (command === "build-ast") {
+		if (diagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+			process.exit(1);
+		}
+		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 		await Bun.write(outputPath, `${JSON.stringify(program, null, 2)}\n`);
-		console.log(`Point core build wrote ${output}`);
+		console.log(`Point core AST build wrote ${outputPath.replaceAll("\\", "/")}`);
 		return;
 	}
 
@@ -125,15 +146,15 @@ export async function main() {
 		return;
 	}
 
-	if (command === "build-js") {
+	if (command === "build-py") {
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_TS_OUTPUT.replace(/\.ts$/, ".js") : output);
+		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_PY_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-		await Bun.write(outputPath, emitPointCoreJavaScript(program));
-		console.log(`Point core JavaScript build wrote ${outputPath.replaceAll("\\", "/")}`);
+		await Bun.write(outputPath, emitPointCorePython(program));
+		console.log(`Point core Python build wrote ${outputPath.replaceAll("\\", "/")}`);
 		return;
 	}
 
@@ -142,8 +163,8 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		const runOutput = resolve(tmpdir(), `point-run-${Date.now()}.ts`);
-		await Bun.write(runOutput, emitPointCoreTypeScript(program));
+		const runOutput = resolve(tmpdir(), `point-run-${Date.now()}.js`);
+		await Bun.write(runOutput, emitPointCoreJavaScript(program));
 		let entryName: string | null = null;
 		try {
 			const mod = await import(pathToFileUrl(runOutput));
@@ -223,7 +244,7 @@ async function runProjectCommand(command: string) {
 		return;
 	}
 
-	if (command === "build-all") {
+	if (command === "build-all" || command === "build-js-all") {
 		const diagnostics = orderedResults.flatMap((result) =>
 			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({ ...diagnostic, file: result.input })),
 		);
@@ -232,12 +253,30 @@ async function runProjectCommand(command: string) {
 			process.exit(1);
 		}
 		for (const result of orderedResults) {
-			const output = outputFor(result.input);
+			const output = jsOutputFor(result.input);
+			const outputPath = resolve(process.cwd(), output);
+			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
+			await Bun.write(outputPath, emitPointCoreJavaScript(programWithTypeScriptImports(result, graph)));
+		}
+		console.log(`Point core JavaScript build wrote ${results.length} files`);
+		return;
+	}
+
+	if (command === "build-ast-all") {
+		const diagnostics = orderedResults.flatMap((result) =>
+			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({ ...diagnostic, file: result.input })),
+		);
+		if (diagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+			process.exit(1);
+		}
+		for (const result of orderedResults) {
+			const output = astOutputFor(result.input);
 			const outputPath = resolve(process.cwd(), output);
 			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 			await Bun.write(outputPath, `${JSON.stringify(result.program, null, 2)}\n`);
 		}
-		console.log(`Point core build wrote ${results.length} files`);
+		console.log(`Point core AST build wrote ${results.length} files`);
 		return;
 	}
 
@@ -256,24 +295,6 @@ async function runProjectCommand(command: string) {
 			await Bun.write(outputPath, emitPointCoreTypeScript(programWithTypeScriptImports(result, graph)));
 		}
 		console.log(`Point core TypeScript build wrote ${results.length} files`);
-		return;
-	}
-
-	if (command === "build-js-all") {
-		const diagnostics = orderedResults.flatMap((result) =>
-			checkPointCore(programWithDependencyDeclarations(result, graph)).map((diagnostic) => ({ ...diagnostic, file: result.input })),
-		);
-		if (diagnostics.length > 0) {
-			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
-			process.exit(1);
-		}
-		for (const result of orderedResults) {
-			const output = jsOutputFor(result.input);
-			const outputPath = resolve(process.cwd(), output);
-			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-			await Bun.write(outputPath, emitPointCoreJavaScript(programWithTypeScriptImports(result, graph)));
-		}
-		console.log(`Point core JavaScript build wrote ${results.length} files`);
 		return;
 	}
 
@@ -358,8 +379,8 @@ async function runPointTests(program: PointCoreProgram, input: string): Promise<
 			(declaration.semantic?.name.startsWith("test") || declaration.name.startsWith("test")),
 	);
 	if (tests.length === 0) return { file: input, ok: true, tests: [] };
-	const testOutput = resolve(tmpdir(), `point-test-${Date.now()}-${Math.random().toString(16).slice(2)}.ts`);
-	await Bun.write(testOutput, emitPointCoreTypeScript(program));
+	const testOutput = resolve(tmpdir(), `point-test-${Date.now()}-${Math.random().toString(16).slice(2)}.js`);
+	await Bun.write(testOutput, emitPointCoreJavaScript(program));
 	const mod = await import(pathToFileUrl(testOutput));
 	const results = [];
 	for (const test of tests) {
@@ -496,6 +517,15 @@ function tsOutputFor(input: string): string {
 function jsOutputFor(input: string): string {
 	const name = outputBaseName(input);
 	return `${GENERATED_DIR}/${name}.js`;
+}
+
+function astOutputFor(input: string): string {
+	return outputFor(input);
+}
+
+function pyOutputFor(input: string): string {
+	const name = outputBaseName(input);
+	return `${GENERATED_DIR}/${name}.py`;
 }
 
 function outputBaseName(input: string): string {

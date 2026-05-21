@@ -1,34 +1,65 @@
 # Python Emit Research
 
-## Decision
+## Status (Phase 9 / Goal R2)
 
-Point will **not** ship a Python emit backend in Phase 6. TypeScript/JavaScript remains the primary target because Point's near-term product goal is living inside existing JS ecosystems (Bun, Node, React, Vue, Vite).
+Point now ships a **minimal Python emit backend** for pure logic modules. The first fixture is `examples/math.point` → `generated/math.py`.
 
-## Why Not Now
+```bash
+point build-py examples/math.point generated/math.py
+python -c "import importlib.util; spec=importlib.util.spec_from_file_location('m','generated/math.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(m.annualPrice(10))"
+```
 
-| Factor | Impact |
-|--------|--------|
-| Semantic surface still evolving | Two emitters doubles maintenance while Phases 0–6 land |
-| Runtime model | Point actions/async map naturally to JS promises |
-| Ecosystem bridge | npm + Node externals already solve interop |
-| Self-hosting priority | Compiler modernization (Phase 7) matters more than Python parity |
+Runtime parity with JavaScript emit is covered in `tests/python-emit.test.ts`.
 
-## What Python Emit Would Require
+## Type mapping
 
-1. Shared core IR (Phase 7 AST) stable across backends
-2. Python type mapping: `Text`→`str`, `Int`→`int`, `Bool`→`bool`, `List[T]`→`list[T]`, `Maybe[T]`→`T | None`
-3. Async emission to `async def` / `await`
-4. Effect/import story for Python packages instead of npm externals
-5. Conformance suite running identical semantics on TS and Python output
-6. Standard library rewritten or bridged for Python runtime
+| Point | Python |
+|-------|--------|
+| Text | `str` |
+| Int | `int` |
+| Float | `float` |
+| Bool | `bool` |
+| List[T] | `list[T]` |
+| Maybe[T] | `T \| None` |
+| Or A B | `A \| B` |
+| records | `TypedDict` |
 
-## Recommended Path
+Record field access emits bracket notation (`signals["hasBundleId"]`) so callers can pass plain dicts.
 
-1. Finish Phase 7 AST pipeline
-2. Add direct JavaScript emit (done in Phase 6.3)
-3. Re-evaluate Python emit when an external adopter requires it
-4. If pursued, start with **pure logic modules only** (records, calculations, rules, labels) before actions/views/routes
+## Supported today
 
-## Prototype Scope (Future)
+- Records, calculations, rules, labels
+- Conditionals, assignments, arithmetic and boolean operators
+- Module-level typed functions and local typed bindings
 
-A viable prototype would emit one fixture such as `examples/math.point` to a single `math.py` with typed functions and no UI/effects. That is enough to validate semantics, not enough for production.
+## Limits (honest)
+
+| Area | Status |
+|------|--------|
+| Views / JSX | Not emitted (comment placeholder only) |
+| Routes / HTTP | Not emitted |
+| Actions / workflows / commands | Skipped with comment (async Python later) |
+| npm-style externals | Minimal `from module import name` only |
+| stdlib bridge | No Python std mirror yet |
+| Project-wide `build-py-all` | Not wired — many fixtures include views/actions |
+| Dataclass runtime | TypedDict typing only; values are dicts at runtime |
+
+## Smoke test without pytest
+
+```bash
+point build-py examples/math.point generated/math.py
+python -c "import importlib.util, json; spec=importlib.util.spec_from_file_location('math','generated/math.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(json.dumps({'annual': m.annualPrice(10), 'score': m.launchReadinessScore({'hasBundleId': True, 'submittedForReview': True, 'hasPassingTests': False})}))"
+```
+
+Expected: `{"annual": 120, "score": 70}`
+
+## Roadmap
+
+1. Python emit for actions + async (`async def` / `await`)
+2. Effect/import story for Python packages
+3. Conformance suite shared across JS and Python for all pure-logic fixtures
+4. Optional `build-py-all` once view/action fixtures can be skipped safely
+
+## Original decision (Phase 6)
+
+Phase 6 deferred Python emit because the semantic surface was still evolving and JS interop was the near-term product goal. Phase 7 AST stability and Phase 9 replacement goals made a **pure-logic prototype** worthwhile without committing to full Python parity.

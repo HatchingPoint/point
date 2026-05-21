@@ -20,12 +20,14 @@
     "fmt": "bun packages/point/src/cli.ts fmt-all",
     "fmt-check": "bun packages/point/src/cli.ts fmt-check-all",
     "check": "bun packages/point/src/cli.ts check-all",
+    "check-docs": "bun packages/point/src/cli.ts check-docs",
     "check-json": "bun packages/point/src/cli.ts check-json",
     "index": "bun packages/point/src/cli.ts index",
     "explain": "bun packages/point/src/cli.ts explain",
     "repair-plan": "bun packages/point/src/cli.ts repair-plan",
-    "build": "bun packages/point/src/cli.ts build-ts-all",
-    "build:ast": "bun packages/point/src/cli.ts build-all",
+    "build": "bun packages/point/src/cli.ts build-all",
+    "build:ts": "bun packages/point/src/cli.ts build-ts-all",
+    "build:ast": "bun packages/point/src/cli.ts build-ast-all",
     "vscode:package": "bun run vscode:build && bun run --cwd packages/point-vscode package:vsix",
     "vscode:build": "bun scripts/build-vscode-extension.ts",
     "point:test": "bun packages/point/src/cli.ts test-all",
@@ -37,7 +39,7 @@
     "version:patch": "bun scripts/bump-version.ts patch",
     "version:minor": "bun scripts/bump-version.ts minor",
     "version:major": "bun scripts/bump-version.ts major",
-    "ci": "bun run fmt-check && bun run check && bun run build && bun run build:ast && bun run point:test && bun test && bun run vscode:build && bun run vscode:package"
+    "ci": "bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run point:test && bun test && bun run vscode:build && bun run vscode:package"
   },
   "devDependencies": {
     "@types/bun": "^1.3.13",
