@@ -169,6 +169,25 @@ You do not need a separate “agent tools” repo to get structured diagnostics 
 
 Point does not replace the LLM. It replaces **guesswork about where and how to patch** after the model proposes a change.
 
+## PoC 8 — Agent context and token savings (live demo)
+
+On the public docs site, the **Agent context demo** on [Proof of concept](/point/concepts/proof-of-concept#agent-context-demo) walks through a real repair scenario using output from `@hatchingpoint/point@0.1.0`:
+
+| Workflow | Context loaded per repair turn | Stable patch target |
+|----------|-------------------------------|---------------------|
+| TypeScript + chat | Paste emit file twice + parse `tsc` text | Line number / function name (drifts on format) |
+| Point agent loop | `check-json` + `explain` one ref | `point://semantic/Math/rule.launch readiness` |
+
+Measured on `examples/math.point`:
+
+- Full `point index` output: ~8 KB (~2,000 tokens) — use once to explore, then narrow
+- `point explain` one label: ~720 chars (~180 tokens)
+- `point check-json` on unknown field: ~650 chars (~163 tokens) with `repair` + `expected` fields
+
+Token estimates use a ~4 characters/token heuristic; your model billing varies. The structural win is **compiler-sized context**, not zero tokens.
+
+**Try the interactive demo:** [Proof of concept → Agent context demo](/point/concepts/proof-of-concept#agent-context-demo)
+
 ## Try it in ten minutes
 
 1. Install: [Installation](/point/guide/installation)
