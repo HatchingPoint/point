@@ -85,6 +85,7 @@ describe("point dev helpers", () => {
 	});
 
 	test("buildDevEntry checks and emits JavaScript", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-dev-build-"));
 		try {
 			await writeFile(join(projectDir, "app.point"), routeAppSource);
@@ -99,6 +100,7 @@ describe("point dev helpers", () => {
 	});
 
 	test("detectDevMode selects app when navigation, routes, and web/ exist", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-dev-app-mode-"));
 		try {
 			await writeFile(join(projectDir, "app.point"), appDevSource);
@@ -115,6 +117,7 @@ describe("point dev helpers", () => {
 	});
 
 	test("buildDevEntry emits TypeScript in app mode", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-dev-app-build-"));
 		try {
 			await writeFile(join(projectDir, "app.point"), appDevSource);

@@ -32,6 +32,7 @@ command serve demo
 
 describe("point build-app", () => {
 	test("buildPointApp emits JS, TS, and dist when web/ exists", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-build-app-"));
 		try {
 			await writeFile(join(projectDir, "app.point"), appSource);
@@ -54,6 +55,7 @@ describe("point build-app", () => {
 
 describe("point serve runtime", () => {
 	test("startAppServer serves API and static", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-serve-runtime-"));
 		const port = 19200 + Math.floor(Math.random() * 1000);
 		try {

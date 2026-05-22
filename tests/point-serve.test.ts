@@ -46,6 +46,7 @@ describe("point serve helpers", () => {
 	});
 
 	test("buildServeEntry emits JavaScript when check passes", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-serve-build-"));
 		try {
 			await writeFile(join(projectDir, "app.point"), routeAppSource);
