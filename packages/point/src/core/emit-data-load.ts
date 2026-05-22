@@ -133,6 +133,20 @@ export function emitPointIsEmptyDataHelper(): string[] {
 }
 
 export function emitViewContentFromBody(body: PointCoreStatement[]): string {
+	const directRenders = body.filter((statement) => statement.kind === "return" && statement.value);
+	const hasConditionalRenders = body.some(
+		(statement) =>
+			statement.kind === "if" &&
+			statement.thenBody.some((thenStatement) => thenStatement.kind === "return" && thenStatement.value),
+	);
+	if (!hasConditionalRenders && directRenders.length > 1) {
+		return directRenders
+			.map((statement) => emitViewRenderFragment(statement.value!, statement.className, statement.style))
+			.join("");
+	}
+	if (!hasConditionalRenders && directRenders.length === 1) {
+		return emitViewRenderFragment(directRenders[0]!.value!, directRenders[0]!.className, directRenders[0]!.style);
+	}
 	let expression = "null";
 	for (let index = body.length - 1; index >= 0; index -= 1) {
 		const statement = body[index];

@@ -253,7 +253,15 @@ function emitFunction(
 					})
 				: declaration.semantic?.kind === "view" && (viewDataLoad || viewStreamSubscribe)
 					? emitViewDataLoadBody(declaration.body)
-					: declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind));
+					: declaration.semantic?.kind === "view" &&
+						  declaration.body.filter((statement) => statement.kind === "return").length > 1 &&
+						  !declaration.body.some(
+								(statement) =>
+									statement.kind === "if" &&
+									statement.thenBody.some((thenStatement) => thenStatement.kind === "return" && thenStatement.value),
+						  )
+						? [`return (`, `  <>`, `    ${emitViewContentFromBody(declaration.body)}`, `  </>`, `);`]
+						: declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind));
 	if (dataLoad) {
 		bodyLines = wrapBodyWithDataLoad(bodyLines, dataLoad, declaration.params.map((param) => param.name));
 	}
@@ -335,12 +343,16 @@ interface ViewExtrasSpec {
 
 function emitViewWithExtrasBody(body: PointCoreStatement[], extras: ViewExtrasSpec): string[] {
 	const linkLines = extras.navigation?.links.map((link) => `{pointNavigationLink(${JSON.stringify(link.label)}, ${JSON.stringify(link.path)})}`) ?? [];
+	const navLine =
+		linkLines.length > 0
+			? [`<nav className="point-nav" aria-label="Primary">${linkLines.join("")}</nav>`]
+			: [];
 	const formLines = extras.controls ? [emitFormControls(extras.controls)] : [];
 	const eachLines = extras.each?.map((spec) => emitEachList(spec)) ?? [];
 	const tabsLine = extras.tabs ? [emitViewTabs(extras.tabs)] : [];
 	const modalLine = extras.modal ? [emitModal(extras.modal)] : [];
 	const contentJsx = emitViewContentExpression(body);
-	const children = [...linkLines, ...formLines, ...eachLines, ...tabsLine, ...modalLine, contentJsx];
+	const children = [...navLine, ...formLines, ...eachLines, ...tabsLine, ...modalLine, contentJsx];
 	if (children.length === 1) {
 		return [`return (`, `  <>`, `    ${children[0]}`, `  </>`, `);`];
 	}
@@ -435,21 +447,7 @@ function emitPointViewTabsHelper(): string[] {
 }
 
 function emitViewContentExpression(body: PointCoreStatement[]): string {
-	let expression = "null";
-	for (let index = body.length - 1; index >= 0; index -= 1) {
-		const statement = body[index];
-		if (!statement) continue;
-		if (statement.kind === "return" && statement.value) {
-			expression = emitViewRenderFragment(statement.value, statement.className, statement.style);
-			continue;
-		}
-		if (statement.kind === "if" && statement.thenBody.length === 1 && statement.thenBody[0]?.kind === "return" && statement.thenBody[0].value) {
-			const thenReturn = statement.thenBody[0];
-			const thenValue = emitViewRenderFragment(thenReturn.value, thenReturn.className, thenReturn.style);
-			expression = `${emitCondition(statement.condition)} ? ${thenValue} : ${expression}`;
-		}
-	}
-	return `{${expression}}`;
+	return `{${emitViewContentFromBody(body)}}`;
 }
 
 function emitPageBody(layout: PointSemanticPageLayout): string[] {

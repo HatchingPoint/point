@@ -359,7 +359,7 @@ page demo page
 		expect(emitted).toContain("onChange={(event) => onSignalsChange({ ...signals, hasScreenshots: event.target.checked })}");
 		expect(emitted).toContain('className="point-form"');
 		expect(emitted).toContain("Screenshots");
-		expect(emitted).toContain("{listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}");
+		expect(emitted).toContain("(listingScore(signals) >= 90) ? <>{readinessSummary(signals)}</> : (listingScore(signals) >= 60) ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>");
 		expect(emitted).toContain("export function readinessSummary(signals: ListingSignals): string");
 	});
 
