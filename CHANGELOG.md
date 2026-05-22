@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.16
+
+### Added
+
+- Fix invalid JSX when views emit multiple render lines.
+
 ## 0.1.15
 
 ### Added
