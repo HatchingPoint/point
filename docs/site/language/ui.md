@@ -54,6 +54,7 @@ view items list
 ```
 
 - `load data from action <name>` or `on mount call <name>` binds the action result to `data` for render expressions.
+- `load data from fetch GET "/api/items" field items type List<Item>` fetches JSON over HTTP in the client (Path B full-stack apps).
 - `when loading render`, `when error render`, and `when empty render` are semantic state modifiers (optional).
 - Calling the load action directly in `render` without `await` is a `missing-await` diagnostic — use the `data` binding instead.
 

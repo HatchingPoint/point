@@ -22,6 +22,10 @@ export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiag
 			(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadData" | "onMountCall" }> =>
 				statement.kind === "loadData" || statement.kind === "onMountCall",
 		);
+		const fetchStatement = declaration.body.find(
+			(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadFetch" }> =>
+				statement.kind === "loadFetch",
+		);
 		const subscribeStatement = declaration.body.find(
 			(statement): statement is Extract<PointSemanticViewStatement, { kind: "streamSubscribePath" | "streamSubscribeRoute" }> =>
 				statement.kind === "streamSubscribePath" || statement.kind === "streamSubscribeRoute",
@@ -29,6 +33,9 @@ export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiag
 		if (loadStatement) {
 			const outputType = actionOutputTypes.get(loadStatement.action);
 			if (outputType) paramTypes.set("data", outputType);
+		}
+		if (fetchStatement) {
+			paramTypes.set("data", fetchStatement.itemType);
 		}
 		if (subscribeStatement) {
 			const routeName = subscribeStatement.kind === "streamSubscribeRoute" ? subscribeStatement.routeName : undefined;

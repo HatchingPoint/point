@@ -443,8 +443,45 @@ function buildDataLoad(
 	const actionFunction = callables.get(actionName);
 	if (!outputType || !actionFunction) return undefined;
 	return {
+		source: "action",
 		actionName,
 		actionFunction,
+		bindingName: "data",
+		loading: loading && ctx ? desugarExpression(loading, ctx) : undefined,
+		loadingClassName,
+		error: error && ctx ? desugarExpression(error, ctx) : undefined,
+		errorClassName,
+		empty: empty && ctx ? desugarExpression(empty, ctx) : undefined,
+		emptyClassName,
+	};
+}
+
+function listItemTypeToTs(itemType: string): string {
+	const match = itemType.trim().match(/^List<(.+)>$/i);
+	if (!match) return "unknown[]";
+	return `Array<${toPascalCase(toIdentifier(match[1]!.trim()))}>`;
+}
+
+function fetchJsonFieldKey(field: string): string {
+	return toIdentifier(field);
+}
+
+function buildFetchDataLoad(
+	fetch: Extract<PointSemanticViewStatement, { kind: "loadFetch" }>,
+	loading?: PointSemanticExpression,
+	loadingClassName?: string,
+	error?: PointSemanticExpression,
+	errorClassName?: string,
+	empty?: PointSemanticExpression,
+	emptyClassName?: string,
+	ctx?: DesugarContext,
+): PointSemanticDataLoad {
+	return {
+		source: "fetch",
+		fetchMethod: fetch.method,
+		fetchUrl: fetch.url,
+		fetchJsonField: fetchJsonFieldKey(fetch.field),
+		fetchTsType: listItemTypeToTs(fetch.itemType),
 		bindingName: "data",
 		loading: loading && ctx ? desugarExpression(loading, ctx) : undefined,
 		loadingClassName,
@@ -461,14 +498,29 @@ function buildViewDataLoad(
 	actionOutputs: Map<string, PointSemanticTypeExpression>,
 	ctx: DesugarContext,
 ): PointSemanticDataLoad | undefined {
+	const fetchStatement = declaration.body.find(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadFetch" }> => statement.kind === "loadFetch",
+	);
+	const loading = declaration.body.find((statement) => statement.kind === "whenLoadingRender");
+	const error = declaration.body.find((statement) => statement.kind === "whenErrorRender");
+	const empty = declaration.body.find((statement) => statement.kind === "whenEmptyRender");
+	if (fetchStatement) {
+		return buildFetchDataLoad(
+			fetchStatement,
+			loading?.value,
+			loading?.className,
+			error?.value,
+			error?.className,
+			empty?.value,
+			empty?.className,
+			ctx,
+		);
+	}
 	const loadStatement = declaration.body.find(
 		(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadData" | "onMountCall" }> =>
 			statement.kind === "loadData" || statement.kind === "onMountCall",
 	);
 	if (!loadStatement) return undefined;
-	const loading = declaration.body.find((statement) => statement.kind === "whenLoadingRender");
-	const error = declaration.body.find((statement) => statement.kind === "whenErrorRender");
-	const empty = declaration.body.find((statement) => statement.kind === "whenEmptyRender");
 	return buildDataLoad(
 		loadStatement.action,
 		callables,

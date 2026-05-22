@@ -49,6 +49,35 @@ function emitStateReturn(expression: PointCoreExpression | undefined, className?
 
 export function emitDataLoadHookLines(spec: PointSemanticDataLoad, paramNames: string[]): string[] {
 	const deps = paramNames.length > 0 ? `[${paramNames.join(", ")}]` : "[]";
+	if (spec.source === "fetch") {
+		const tsType = spec.fetchTsType ?? "unknown[]";
+		const url = JSON.stringify(spec.fetchUrl ?? "/");
+		const jsonField = JSON.stringify(spec.fetchJsonField ?? "data");
+		return [
+			`const [${spec.bindingName}, set${capitalize(spec.bindingName)}] = React.useState<${tsType} | undefined>(undefined);`,
+			"const [loading, setLoading] = React.useState(true);",
+			"const [error, setError] = React.useState<unknown>(null);",
+			"React.useEffect(() => {",
+			"  let cancelled = false;",
+			"  (async () => {",
+			"    setLoading(true);",
+			"    setError(null);",
+			"    try {",
+			`      const response = await fetch(${url});`,
+			"      if (!response.ok) throw new Error(`HTTP ${response.status}`);",
+			"      const body = await response.json();",
+			`      const result = body[${jsonField}];`,
+			`      if (!cancelled) set${capitalize(spec.bindingName)}(result);`,
+			"    } catch (err) {",
+			"      if (!cancelled) setError(err);",
+			"    } finally {",
+			"      if (!cancelled) setLoading(false);",
+			"    }",
+			"  })();",
+			"  return () => { cancelled = true; };",
+			`}, ${deps});`,
+		];
+	}
 	return [
 		`const [${spec.bindingName}, set${capitalize(spec.bindingName)}] = React.useState<Awaited<ReturnType<typeof ${spec.actionFunction}>> | undefined>(undefined);`,
 		"const [loading, setLoading] = React.useState(true);",

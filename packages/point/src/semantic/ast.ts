@@ -354,6 +354,7 @@ export type PointSemanticViewStatement =
 	| { kind: "render"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
 	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
 	| { kind: "loadData"; action: string; span?: PointSourceSpan }
+	| { kind: "loadFetch"; method: "GET"; url: string; field: string; itemType: string; span?: PointSourceSpan }
 	| { kind: "onMountCall"; action: string; span?: PointSourceSpan }
 	| { kind: "streamSubscribePath"; path: string; span?: PointSourceSpan }
 	| { kind: "streamSubscribeRoute"; routeName: string; span?: PointSourceSpan }

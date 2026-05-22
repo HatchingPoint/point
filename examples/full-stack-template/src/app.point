@@ -34,13 +34,8 @@ calculation sample members
   output members: List<Member>
   return [{ id: "u-1", name: "Alex Chen", role: "Owner" }, { id: "u-2", name: "Jordan Lee", role: "Admin" }, { id: "u-3", name: "Sam Rivera", role: "Member" }]
 
-action fetch members
-  output members: List<Member>
-  touches none
-  return sample members()
-
 view members list
-  load data from action fetch members
+  load data from fetch GET "/api/members" field members type List<Member>
   when loading render "Loading members..."
   when error render "Could not load members"
   when empty render "No members yet"

@@ -161,8 +161,13 @@ export interface PointSemanticViewNavigation {
 }
 
 export interface PointSemanticDataLoad {
-	actionName: string;
-	actionFunction: string;
+	source: "action" | "fetch";
+	actionName?: string;
+	actionFunction?: string;
+	fetchMethod?: "GET";
+	fetchUrl?: string;
+	fetchJsonField?: string;
+	fetchTsType?: string;
 	bindingName: string;
 	loading?: PointCoreExpression;
 	loadingClassName?: string;

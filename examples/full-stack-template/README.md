@@ -45,6 +45,8 @@ Open **http://localhost:5173** for the React UI. The Bun API listens on **http:/
 2. Point actions can call your API or stay in-process for v1
 3. Deploy: `bun run build` then `bun run serve` on any Bun host (Render, Railway, Fly, a VPS). No Docker required.
 
+Optional: use `render.yaml` in the project root for one-click Render setup.
+
 ## Deploy (Render and similar)
 
 On a **Web Service** with Bun:

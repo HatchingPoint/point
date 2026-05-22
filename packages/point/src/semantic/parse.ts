@@ -898,6 +898,23 @@ function parseView(
 			continue;
 		}
 		const context = expressionContext({ bindings, paramTypes, records, variants, callables });
+		const loadFetchMatch = line.match(/^load data from fetch GET "(.+)" field ([a-z][a-z0-9 ]*) type (.+)$/i);
+		if (loadFetchMatch) {
+			statements.push({
+				kind: "loadFetch",
+				method: "GET",
+				url: loadFetchMatch[1]?.trim() ?? "",
+				field: loadFetchMatch[2]?.trim() ?? "",
+				itemType: loadFetchMatch[3]?.trim() ?? "",
+				span: lineSpan(source, lineNumber),
+			});
+			if (!hasDataBinding) {
+				hasDataBinding = true;
+				paramTypes.set("data", loadFetchMatch[3]?.trim() ?? "Text");
+				bindings.push("data");
+			}
+			continue;
+		}
 		const loadDataMatch = line.match(/^load data from action (.+)$/);
 		if (loadDataMatch) {
 			statements.push({

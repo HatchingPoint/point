@@ -1026,3 +1026,10 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun test tests/point-dev.test.ts tests/point-serve.test.ts tests/point-build-app.test.ts`; `point check examples/full-stack-template/src/app.point`.
 - Next: v0.1.7 release; optional HTTP data-load for members list; LandingPage docs sync.
 - Blocked: none
+
+## Checkpoint Phase 25 Lane A — HTTP data-load and Render deploy
+
+- Completed: `load data from fetch GET ... field ... type List<T>` in views; template members list calls `/api/members`; `render.yaml` for Render; `tests/full-stack-template.test.ts`.
+- Verified: `point check examples/full-stack-template/src/app.point`; full-stack template tests pass.
+- Next: Phase 23 Wave 2 Instant; P22-8 catalog package; changelog site version sync.
+- Blocked: none

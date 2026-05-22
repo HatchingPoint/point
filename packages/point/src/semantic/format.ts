@@ -301,6 +301,9 @@ function formatPolicyStatement(statement: PointSemanticPolicyStatement): string 
 
 function formatViewStatement(statement: PointSemanticViewStatement): string {
 	if (statement.kind === "loadData") return `load data from action ${statement.action}`;
+	if (statement.kind === "loadFetch") {
+		return `load data from fetch ${statement.method} "${statement.url}" field ${statement.field} type ${statement.itemType}`;
+	}
 	if (statement.kind === "onMountCall") return `on mount call ${statement.action}`;
 	if (statement.kind === "streamSubscribePath") return `subscribe to ${JSON.stringify(statement.path)}`;
 	if (statement.kind === "streamSubscribeRoute") return `subscribe to stream ${statement.routeName}`;
