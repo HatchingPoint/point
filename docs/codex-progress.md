@@ -998,3 +998,10 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P21-1 conformance expansion or P21-3 spec docs.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 22 Wave 1 — Language breadth & dedomainization
+
+- Completed: P22-1 neutral onboarding (README, quick-start, proof-of-concept, rules.md → cart/checkout). P22-2 split language docs (ui, workflows, agents, realtime + applications index). P22-4 cross-domain examples index. P22-5 `docs/language-primitive-audit.md`. Added `docs/phase22-plan.md` and `docs/codex-goal-phase22.md`.
+- Verified: `point check-docs` — 57 snippets, 48 file refs; LandingPage `sync:point-docs` — 59 pages.
+- Next: Wave 2 — P22-3 view syntax reference, P22-6 spec sync, P22-7 conformance fixtures.
+- Blocked: none
