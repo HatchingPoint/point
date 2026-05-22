@@ -29,14 +29,21 @@ export function launchReadinessScore(signals: LaunchSignals): number {
 }
 ```
 
-**Point source** — logic is a named rule:
+**Point source** — logic is a named rule (a typo on one field line triggers `unknown-field` in `check-json`):
 
 ```point
+module Math
+
+record Launch Signals
+  has bundle id: Bool
+  submitted for review: Bool
+  has passing tests: Bool
+
 rule launch readiness
   input signals: Launch Signals
   output score: Int
   score starts at 0
-  add 30 when signals.unknown field
+  add 30 when signals.has bundle id
   add 40 when signals.submitted for review
   add 30 when signals.has passing tests
   return score
@@ -73,18 +80,32 @@ point check-json math.point
   "diagnostics": [{
     "code": "unknown-field",
     "ref": "point://semantic/Math/rule.launch readiness",
-    "expected": ["hasBundleId", "submittedForReview", "hasPassingTests"],
+    "expected": ["has bundle id", "submitted for review", "has passing tests"],
     "actual": "unknownField",
-    "repair": "Use one of: hasBundleId, submittedForReview, hasPassingTests.",
+    "repair": "Use one of: has bundle id, submitted for review, has passing tests.",
     "span": { "start": { "line": 12 } }
   }]
 }
 ```
 
-2. **Patch one line at the ref** — pick from `expected`:
+2. **Patch one line at the ref** — pick from `expected` (Point field syntax, not camelCase):
 
 ```point
+module Math
+
+record Launch Signals
+  has bundle id: Bool
+  submitted for review: Bool
+  has passing tests: Bool
+
+rule launch readiness
+  input signals: Launch Signals
+  output score: Int
+  score starts at 0
   add 30 when signals.has bundle id
+  add 40 when signals.submitted for review
+  add 30 when signals.has passing tests
+  return score
 ```
 
 3. **Verify with the same gate CI uses**:

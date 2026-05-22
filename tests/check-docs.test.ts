@@ -124,6 +124,18 @@ rule broken
 		}
 	});
 
+	test("ignores intentionally broken agent-repair fixtures referenced from docs", async () => {
+		const references = extractPointFileReferences(
+			"Run `point check-json tests/fixtures/agent-repair/unknown-field-broken.point`.",
+			"docs/site/ai/agent-repair-tests.md",
+			process.cwd(),
+		);
+		expect(references).toEqual(["tests/fixtures/agent-repair/unknown-field-broken.point"]);
+
+		const result = await checkDocs({ cwd: process.cwd() });
+		expect(result.items.some((item) => item.label === "tests/fixtures/agent-repair/unknown-field-broken.point")).toBe(false);
+	});
+
 	test("passes on current docs/site content", async () => {
 		const files = await discoverDocsSiteMarkdown("docs/site", process.cwd());
 		expect(files.length).toBeGreaterThan(0);

@@ -9,6 +9,11 @@ import { readPointLock } from "./packages.ts";
 const DEFAULT_DOCS_DIR = "docs/site";
 const POINT_FENCE = /```point\r?\n([\s\S]*?)```/g;
 const POINT_FILE_REF = /\b(?:[\w.-]+\/)*[\w.-]+\.point\b/g;
+const DOCS_CHECK_SKIP_FILE_PATTERNS = [/^tests\/fixtures\/agent-repair\/.*-broken\.point$/];
+
+function shouldSkipDocsFileCheck(filePath: string): boolean {
+	return DOCS_CHECK_SKIP_FILE_PATTERNS.some((pattern) => pattern.test(filePath.replaceAll("\\", "/")));
+}
 
 export interface DocsCheckItemResult {
 	kind: "snippet" | "file";
@@ -152,7 +157,7 @@ export async function checkDocs(options: { docsDir?: string; cwd?: string } = {}
 		}
 
 		for (const filePath of extractPointFileReferences(markdown, markdownPath, cwd)) {
-			if (checkedFiles.has(filePath)) continue;
+			if (checkedFiles.has(filePath) || shouldSkipDocsFileCheck(filePath)) continue;
 			checkedFiles.add(filePath);
 			const source = await Bun.file(resolve(cwd, filePath)).text();
 			items.push(await checkPointFile(source, filePath, filePath, markdownPath));

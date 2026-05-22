@@ -31,7 +31,7 @@ The TypeScript column on the comparison demo uses a **12,000-character paste heu
 
 ## Model benchmark (live run)
 
-See the **Model benchmark** section below for the interactive table, per-fixture breakdown, and model responses. Latest headline result: GPT-4o passed TS paste (2/2) but failed one Point repair (1/2) by emitting camelCase instead of Point field syntax; Claude Opus passed both workflows (2/2).
+See the **Model benchmark** section below for the interactive table, per-fixture breakdown, and model responses. Latest headline result (v0.1.1): GPT-4o and Claude Opus 4.6 both passed Point and TS workflows (4/4 each) after `expected` fields use Point source syntax.
 
 Reproduce: `bun run benchmark:agent-repair-models -- --models=gpt-4o,claude-opus-4-6` (requires API keys).
 
