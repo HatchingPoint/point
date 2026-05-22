@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.11**
+Current release: **0.1.12**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.12** | Fix CI test suite: Instant/`use std.*` parsing, `point run` prefers non-serve commands, ephemeral ports for test HTTP servers. |
 | **0.1.11** | Fix check-docs CI for modules.md snippets; restore `@hatchingpoint/point` devDependency in published full-stack template. |
 | **0.1.10** | `point init` for existing repos; project-local CLI/LSP after `bun install`; full-stack template ships `.vscode/` + `.point/` editor configs. |
 | **0.1.9** | Fix fmt-check/publish CI: formatter resolves `use std.*` callables; map/lookup format; `label is` parse in calculations. |
