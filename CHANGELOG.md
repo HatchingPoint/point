@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6
+
+### Added
+
+- Phase 22 dedomainized docs and language guide split; Phase 23 adds `Map<Text, T>` with `lookup` and `std/money` pattern.
+
 ## 0.1.5
 
 ### Added

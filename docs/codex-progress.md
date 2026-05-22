@@ -1012,3 +1012,10 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check-docs` — 62 snippets, 48 file refs; `bun test tests/conformance/conformance.test.ts` — 27 pass.
 - Next: Optional P22-8 full catalog package; Phase 23 primitives from audit.
 - Blocked: none
+
+## Checkpoint Phase 23 Wave 1 — Map and Money primitives
+
+- Completed: P23-1 `Map<Text, T>` with `map { "key": value }` literals and `lookup map key`; checker + JS/TS/Python emit; `examples/catalog/price-lookup.point`; conformance fixture. P23-2 `std/money.point` + types guide money section. Added `docs/phase23-plan.md`, `docs/codex-goal-phase23.md`.
+- Verified: `bun test tests/map-types.test.ts` — 4 pass; conformance — 28 pass; `point check-docs` — 64 snippets, 50 file refs.
+- Next: P23-3 Instant spike; Phase 13 Python route closure; v0.1.6 release.
+- Blocked: none
