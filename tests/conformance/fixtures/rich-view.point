@@ -1,0 +1,22 @@
+module ConformanceRichView
+
+record WorkspaceSettings
+  workspace name: Text
+  notifications enabled: Bool
+  theme: Text
+
+view settings form
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  on change call on settings change
+  form
+  bind field "Workspace name" to settings.workspace name
+  bind checkbox "Email notifications" to settings.notifications enabled
+  tabs
+  tab "General" render "Theme: " + settings.theme
+  tab "Advanced" render "Notification settings apply workspace-wide"
+  modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active"
+
+command rich view demo
+  output result: Text
+  return "Rich view ready"

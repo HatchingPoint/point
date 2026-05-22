@@ -1,0 +1,25 @@
+module ConformanceCart
+
+record Cart Item
+  name: Text
+  unit price: Int
+  quantity: Int
+
+calculation line total
+  input item: Cart Item
+  output total: Int
+  total is item.unit price * item.quantity
+
+rule cart total
+  input items: List<Cart Item>
+  output total: Int
+  total starts at 0
+  for each item in items
+  add item.unit price * item.quantity to total
+  return total
+
+label order size
+  input total: Int
+  output Text
+  when total >= 10000 return "Large order"
+  otherwise return "Standard"

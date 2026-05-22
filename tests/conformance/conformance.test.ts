@@ -64,6 +64,25 @@ const PHASE_14_20_BLOCKS = {
 	},
 } as const;
 
+const P22_CROSS_DOMAIN_BLOCKS = {
+	"cart rule": {
+		example: "examples/cart-total.point",
+		fixture: "tests/conformance/fixtures/cart-total.point",
+	},
+	route: {
+		example: "examples/route.point",
+		fixture: "tests/conformance/fixtures/route.point",
+	},
+	workflow: {
+		example: "examples/workflow.point",
+		fixture: "tests/conformance/fixtures/workflow.point",
+	},
+	"rich view": {
+		example: "examples/app/dashboard/dashboard.point",
+		fixture: "tests/conformance/fixtures/rich-view.point",
+	},
+} as const;
+
 const MINIMAL_FIXTURE_EMIT_EXPECTATIONS: Record<
 	string,
 	{ js?: string[]; ts?: string[]; py?: string[] }
@@ -101,6 +120,22 @@ const MINIMAL_FIXTURE_EMIT_EXPECTATIONS: Record<
 	"tests/conformance/fixtures/guard.point": {
 		js: ["outputPathsGuard"],
 		ts: ["outputPathsGuard"],
+	},
+	"tests/conformance/fixtures/cart-total.point": {
+		js: ["cartTotal", "lineTotal"],
+		ts: ["cartTotal", "lineTotal"],
+		py: ["cartTotal", "lineTotal"],
+	},
+	"tests/conformance/fixtures/route.point": {
+		js: ["getUser"],
+		ts: ["getUser"],
+	},
+	"tests/conformance/fixtures/workflow.point": {
+		js: ["signupFlow"],
+		ts: ["signupFlow"],
+	},
+	"tests/conformance/fixtures/rich-view.point": {
+		ts: ["settingsFormView", "point-form-field"],
 	},
 };
 
@@ -159,6 +194,15 @@ describe("Point conformance fixtures", () => {
 	test("discovered fixtures include Phase 14-20 semantic blocks", async () => {
 		const fixtures = await discoverFixtures();
 		for (const [block, coverage] of Object.entries(PHASE_14_20_BLOCKS)) {
+			expect(fixtures).toContain(coverage.example);
+			expect(fixtures).toContain(coverage.fixture);
+			void block;
+		}
+	});
+
+	test("discovered fixtures include Phase 22 cross-domain blocks", async () => {
+		const fixtures = await discoverFixtures();
+		for (const [block, coverage] of Object.entries(P22_CROSS_DOMAIN_BLOCKS)) {
 			expect(fixtures).toContain(coverage.example);
 			expect(fixtures).toContain(coverage.fixture);
 			void block;

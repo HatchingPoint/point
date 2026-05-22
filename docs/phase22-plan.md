@@ -1,6 +1,6 @@
 # Phase 22 — Language breadth & dedomainization
 
-**Status:** Wave 1 in progress.  
+**Status:** Wave 2 complete (P22-8 optional remains).  
 **Prerequisite:** Phase 21 complete (platform shipped); Phase 13/19 open items may run in parallel.  
 **Platform context:** [platform-vision-plan.md](./platform-vision-plan.md) — Surgent and App Store readiness are **benchmarks only**, not language targets.
 
@@ -28,12 +28,13 @@
 
 - [x] **Neutral onboarding** — README, quick-start, proof-of-concept, and `rules.md` lead with non-readiness examples (cart, subscription tier, order status, or HTTP route)
 - [x] **Language docs split** — `applications.md` decomposed into dedicated pages (UI, workflows, agents, realtime) linked from overview
-- [ ] **View syntax documented** — `form`, `tabs`, `modal`, `each`, `load data from action`, `Handler T` have reference sections matching parser capability (Wave 2 P22-3)
+- [x] **View syntax documented** — `form`, `tabs`, `modal`, `each`, `load data from action`, `Handler T` have reference sections matching parser capability (Wave 2 P22-3)
 - [x] **Cross-domain example rotation** — `docs/site/examples.md` “Start here” lists ≥3 domains without readiness as the only hero
-- [ ] **Spec sync** — remove stale `serverQuery`/`serverMutation` from `language-spec.md`; refresh `semantic-language-design.md` through Phase 21 blocks (Wave 2 P22-6)
+- [x] **Spec sync** — remove stale `serverQuery`/`serverMutation` from `language-spec.md`; refresh `semantic-language-design.md` through Phase 21 blocks (Wave 2 P22-6)
 - [x] **Primitive audit shipped** — documented decision on `Map`, money/decimal, and error types (implement or explicit non-goal with workaround)
-- [ ] **Optional:** second published logic package or rename positioning so npm isn’t “readiness-only”
-- [ ] `point check-docs` and targeted CI pass
+- [x] **Cross-domain conformance fixtures** — cart, route, workflow, rich-view under `tests/conformance/fixtures/`
+- [ ] **Optional:** second published logic package or rename positioning so npm isn’t “readiness-only” (P22-8)
+- [x] `point check-docs` and targeted CI pass
 
 ---
 

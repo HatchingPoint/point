@@ -148,9 +148,43 @@ Point tests use a naming convention: any zero-input calculation or action whose 
 
 Views declare UI in semantic blocks and target React first. A minimal view accepts inputs as props and uses `render` or `when ... render ...` clauses; the TypeScript target emits a React-style function returning `JSX.Element`.
 
-## Routes
+Rich view syntax includes:
 
-Routes declare HTTP handlers with explicit `method`, `path`, typed inputs, and typed outputs. Reusable `middleware` blocks run in route-level `before` order; routes may also take typed `query`, `body`, and `headers` record inputs. JSON handlers use `return json { ... }` with optional `status` and `headers` clauses. The Bun target emits a composable fetch handler stack that parses request parts, runs middleware, and wraps JSON responses.
+- `class "..."` on `render` for Tailwind styling
+- `load data from action <name>` with `when loading/error/empty render`
+- `each item in data render ...` and `link "Label" to "/path"`
+- `form` with `bind field` / `bind checkbox`
+- `tabs` / `tab "Name" render ...`
+- `modal "Title" when condition render ...`
+- `Handler T` callback inputs with `on change call`
+- `subscribe to <stream route>` for WebSocket clients
+
+See `examples/app/dashboard/dashboard.point` and `docs/site/language/ui.md`.
+
+## Pages, layouts, and navigation
+
+**Layout** blocks define named slots (`sidebar`, `main`, optional `header`/`footer`). **Page** blocks bind to a layout with `title`, optional `description`, and `main render`. **Navigation** registers paths to pages and emits a client router bootstrap. Path params (`:id`) map to page inputs. See `examples/app/dashboard/dashboard.point`.
+
+## Routes and middleware
+
+Routes declare HTTP handlers with `method`, `path`, typed inputs, and outputs. **Middleware** blocks run in route-level `before` order. Routes may take typed `query`, `body`, and `headers` record inputs. JSON handlers use `return json { ... }` with optional `status` and `headers`. See `examples/route.point` and `examples/api/middleware-demo.point`.
+
+## Stream routes
+
+**Stream route** blocks declare WebSocket servers with typed `message` records and `on connect`, `on message`, and `on disconnect` handlers. Views subscribe with `subscribe to`. See `examples/api/stream-echo.point`.
+
+## Schedules
+
+**Schedule** blocks call actions on an interval (`every N minutes`). See `examples/tools/health-check-schedule.point`. Prefer host cron for production.
+
+## Pipelines, sessions, prompts, and guards
+
+- **Pipeline** — multi-step flows with `step name is await action(...)` and retry/timeout/policy modifiers
+- **Session** — conversational state with streaming actions
+- **Prompt** — versioned templates with record placeholders (`version N`, `input Record`, `template "..."`)
+- **Guard output paths** — allow/deny file path scopes for pipeline file IO
+
+See `examples/pipelines/`, `examples/agents/support-chat.point`, and `examples/prompts/support-greeting.point`.
 
 ## Workflows
 

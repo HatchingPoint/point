@@ -1,6 +1,6 @@
 # Point Language Specification
 
-Normative summary of Point **semantic** source as implemented in `@hatchingpoint/point` v0.0.5. Internal core syntax (`fn`, `let`, `type`) is a compiler implementation detail and must not appear in public `.point` files.
+Normative summary of Point **semantic** source as implemented in `@hatchingpoint/point` v0.1.5. Internal core syntax (`fn`, `let`, `type`) is a compiler implementation detail and must not appear in public `.point` files.
 
 See also: [semantic-language-design.md](./semantic-language-design.md), [agent-quick-reference.md](./agent-quick-reference.md)
 
@@ -14,8 +14,7 @@ moduleDecl   ::= "module" name
 topLevel     ::= record | variant | calculation | rule | label | external | action
                | policy | guard | workflow | pipeline | session | prompt
                | view | page | layout | navigation
-               | route | middleware | streamRoute | schedule
-               | serverQuery | serverMutation | command | useDecl
+               | route | middleware | streamRoute | schedule | command | useDecl
 useDecl      ::= "use" modulePath ("from" string)?
 modulePath   ::= identifier ("." identifier)*
 name         ::= /* words, may contain spaces */

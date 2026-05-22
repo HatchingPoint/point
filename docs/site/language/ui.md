@@ -59,9 +59,106 @@ view items list
 
 See `examples/app/dashboard/dashboard.point` for a list view that loads from `action fetch items`.
 
-### Controlled inputs and callbacks
+### Rich components and lists
 
-Views can declare callback props with `Handler T` and bind controlled checkboxes to record fields:
+See `examples/app/dashboard/dashboard.point` and `examples/full-stack-template/src/app.point` for full apps. Syntax reference:
+
+#### Links
+
+```point
+view dashboard nav
+  link "Settings" to "/settings"
+  link "Items" to "/items"
+  render "Dashboard"
+```
+
+#### Lists (`each`)
+
+Requires a `List` input or the `data` binding from `load data from action`:
+
+```point
+module DashboardApp
+
+record Item
+  id: Text
+  title: Text
+
+action fetch items
+  output items: List<Item>
+  touches none
+  return [{ id: "alpha", title: "Alpha" }]
+
+view items list
+  load data from action fetch items
+  when loading render "Loading items..."
+  each item in data render link item.title to "/items/" + item.id
+```
+
+Optional Tailwind on list rows: `each item in data render class "text-sm" link item.title to "/path"`.
+
+#### Forms
+
+A `form` block groups controlled fields. Use `bind field` for text inputs and `bind checkbox` for booleans:
+
+```point
+module DashboardApp
+
+record WorkspaceSettings
+  workspace name: Text
+  notifications enabled: Bool
+
+view settings form
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  on change call on settings change
+  form
+  bind field "Workspace name" to settings.workspace name
+  bind checkbox "Email notifications" to settings.notifications enabled
+  render "Settings"
+```
+
+#### Tabs
+
+At least two `tab` lines inside a `tabs` block:
+
+```point
+module DashboardApp
+
+record WorkspaceSettings
+  workspace name: Text
+  theme: Text
+
+view settings tabs
+  input settings: WorkspaceSettings
+  tabs
+  tab "General" render "Theme: " + settings.theme
+  tab "Advanced" render "Workspace-wide notification settings"
+```
+
+Optional classes: `tab "General" render class "font-bold" "General settings"`.
+
+#### Modals
+
+```point
+module DashboardApp
+
+record WorkspaceSettings
+  notifications enabled: Bool
+
+view settings modal hint
+  input settings: WorkspaceSettings
+  modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active"
+```
+
+Forms:
+
+- `modal "Title" render expression`
+- `modal "Title" when condition render expression`
+- `modal "Title" render class "..." expression` (optional Tailwind on the dialog shell)
+
+#### Controlled inputs and `Handler T`
+
+Views can declare callback props with `Handler T` or `Handler<T>` and bind controlled checkboxes to record fields:
 
 ```point
 record Item Flags
@@ -69,19 +166,15 @@ record Item Flags
 
 view item editor
   input flags: Item Flags
-  input on flags change: Handler Item Flags
+  input on flags change: Handler<Item Flags>
   on change call on flags change
   bind checkbox "Featured" to flags.featured
   render "Edit item"
 ```
 
-- `Handler Item Flags` — callback input for parent-controlled state
+- `Handler Item Flags` / `Handler<Item Flags>` — callback input for parent-controlled state
 - `bind checkbox "Label" to record.field` — controlled checkbox bound to a record field
-- `on change call on flags change` wires checkbox updates to the named callback input (optional when there is exactly one `Handler` input).
-
-### Rich components and lists
-
-Multi-page apps use `form`, `tabs`, `modal`, and `each item in data render` for settings pages, member lists, and detail views. See `examples/app/dashboard/dashboard.point` and `examples/full-stack-template/src/app.point`.
+- `on change call on flags change` wires checkbox updates to the named callback input (optional when there is exactly one `Handler` input)
 
 ### Embed in a host app
 

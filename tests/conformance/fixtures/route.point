@@ -1,0 +1,12 @@
+module ConformanceRoute
+
+route get user
+  method GET
+  path "/users/:id"
+  input id: Text
+  output response: Text
+  return id
+
+command route demo
+  output result: Text
+  return "Route ready"

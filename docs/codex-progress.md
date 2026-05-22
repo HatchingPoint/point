@@ -1005,3 +1005,10 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check-docs` — 57 snippets, 48 file refs; LandingPage `sync:point-docs` — 59 pages.
 - Next: Wave 2 — P22-3 view syntax reference, P22-6 spec sync, P22-7 conformance fixtures.
 - Blocked: none
+
+## Checkpoint Phase 22 Wave 2 — View reference, spec sync, conformance
+
+- Completed: P22-3 expanded `docs/site/language/ui.md` (form, tabs, modal, each, link, Handler). P22-6 removed stale `serverQuery`/`serverMutation` from `language-spec.md`; extended `semantic-language-design.md`. P22-7 added cross-domain conformance fixtures (cart-total, route, workflow, rich-view). P22-8 lite: point-logic README positioned as example adopter package.
+- Verified: `point check-docs` — 62 snippets, 48 file refs; `bun test tests/conformance/conformance.test.ts` — 27 pass.
+- Next: Optional P22-8 full catalog package; Phase 23 primitives from audit.
+- Blocked: none

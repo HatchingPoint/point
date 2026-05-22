@@ -1,6 +1,8 @@
 # @hatchingpoint/point-logic
 
-Store listing readiness scoring logic for app publishers. **Source of truth is Point** (`src/*.point` only) — there is no hand-written TypeScript in `src/`. The published API is emitted JavaScript in `dist/`.
+**Example adopter package** — store listing readiness scoring for app publishers (Hatching Point dogfood). The pattern applies to any Point-only library: `.point` in `src/`, emitted JS in `dist/`, no hand-written TypeScript.
+
+For general-purpose logic examples in the monorepo, see `examples/cart-total.point`, `examples/adopters/starter-labs/subscription-tier.point`, and `examples/variants/order-status.point`.
 
 ## Install
 
