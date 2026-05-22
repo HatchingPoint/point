@@ -2471,6 +2471,7 @@ function collectSemanticBody(lines: string[], start: number): SemanticBody {
 }
 
 function isSemanticTopLevel(line: string): boolean {
+	if (/^label\s+is\s+/.test(line)) return false;
 	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule|prompt)\s+/.test(line);
 }
 

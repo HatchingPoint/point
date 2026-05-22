@@ -1,6 +1,6 @@
 import { formatSemanticProgram } from "../semantic/format.ts";
-import { parseSemanticSource } from "../semantic/parse.ts";
+import { parseSemanticSourceWithUses } from "./parser.ts";
 
-export function formatPointSource(source: string): string {
-	return formatSemanticProgram(parseSemanticSource(source));
+export function formatPointSource(source: string, cwd = process.cwd()): string {
+	return formatSemanticProgram(parseSemanticSourceWithUses(source, cwd));
 }

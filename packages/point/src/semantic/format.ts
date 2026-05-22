@@ -433,6 +433,12 @@ function formatExpression(expression: PointSemanticExpression): string {
 	if (expression.kind === "record") {
 		return `{ ${expression.fields.map((field) => `${field.label}: ${formatExpression(field.value)}`).join(", ")} }`;
 	}
+	if (expression.kind === "map") {
+		return `map { ${expression.entries.map((entry) => `${JSON.stringify(entry.label)}: ${formatExpression(entry.value)}`).join(", ")} }`;
+	}
+	if (expression.kind === "lookup") {
+		return `lookup ${formatExpression(expression.map)} ${formatExpression(expression.key)}`;
+	}
 	if (expression.kind === "variant") {
 		const payload =
 			expression.fields.length > 0

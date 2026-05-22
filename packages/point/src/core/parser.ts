@@ -42,6 +42,11 @@ function collectDependencyDeclarations(
 	return collected;
 }
 
+export function parseSemanticSourceWithUses(source: string, cwd = process.cwd()) {
+	const resolveUseSource = createUseSourceResolver(cwd);
+	return parseSemanticSource(source, { resolveUseSource });
+}
+
 export function parsePointSource(source: string, cwd = process.cwd()): PointCoreProgram {
 	assertSemanticPointSource(source);
 	const resolveUseSource = createUseSourceResolver(cwd);
