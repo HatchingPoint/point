@@ -74,7 +74,7 @@ type SuccessRate = {
 };
 
 export function evalModeForCase(testCase: AgentAppBenchmarkCase): AppModelEvalMode {
-	return testCase.category === "feature-add" ? "multi-edit" : "single-line";
+	return testCase.category === "app-repair" ? "single-line" : "multi-edit";
 }
 
 export function numberSourceLines(source: string): string {
@@ -88,6 +88,14 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 	if (testCase.id === "dashboard-add-search") {
 		return `error TS2307: Cannot find module '../lib/searchItems' or its corresponding type declarations.
   at components/SearchPanel.tsx:1:29`;
+	}
+	if (testCase.id === "notes-add-detail") {
+		return `error TS2307: Cannot find module '../lib/getNote' or its corresponding type declarations.
+  at components/NoteDetail.tsx:1:25`;
+	}
+	if (testCase.id === "dashboard-rename-products") {
+		return `error TS2307: Cannot find module '../lib/items' or its corresponding type declarations.
+  at components/ProductsList.tsx:1:28`;
 	}
 	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
   at components/SearchPanel.tsx:1:10`;
@@ -268,25 +276,54 @@ export function summarizeAppRuns(runs: AppModelEvalRun[]): AppModelEvalReport["s
 
 /** Golden-derived edits for CI verification without calling models. */
 export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdit[] {
-	if (testCase.id === "dashboard-search-wiring") {
-		return [{ kind: "replaceLine", line: 58, text: "  load data from action search items" }];
+	switch (testCase.id) {
+		case "dashboard-search-wiring":
+			return [{ kind: "replaceLine", line: 58, text: "  load data from action search items" }];
+		case "notes-add-detail":
+			return [
+				{
+					kind: "insertAfterLine",
+					line: 25,
+					lines: [
+						"",
+						"action get note",
+						"  input id: Text",
+						"  output note: Note",
+						"  touches none",
+						"  return { id: id, title: \"Note \" + id, body: \"Detail for \" + id }",
+					],
+				},
+				{ kind: "replaceLine", line: 44, text: "" },
+				{ kind: "replaceLine", line: 43, text: "" },
+				{ kind: "replaceLine", line: 42, text: "" },
+				{ kind: "replaceLine", line: 41, text: '  render "Note detail for " + id' },
+			];
+		case "dashboard-rename-products":
+			return [
+				{ kind: "replaceLine", line: 38, text: "view products list" },
+				{ kind: "replaceLine", line: 39, text: "  load data from action list products" },
+				{ kind: "replaceLine", line: 42, text: '  when empty render "No products yet"' },
+				{ kind: "insertAfterLine", line: 42, lines: ['  each product in data render link product.title to "/products/" + product.id'] },
+				{ kind: "replaceLine", line: 65, text: "  main render products list()" },
+			];
+		default:
+			return [
+				{
+					kind: "insertAfterLine",
+					line: 37,
+					lines: [
+						"",
+						"action search items",
+						"  input query: Text",
+						"  output items: List<Item>",
+						"  touches none",
+						"  return sample items()",
+					],
+				},
+				{ kind: "replaceLine", line: 55, text: '  when empty render "No matches"' },
+				{ kind: "insertAfterLine", line: 55, lines: ["  each item in data render item.title"] },
+			];
 	}
-	return [
-		{
-			kind: "insertAfterLine",
-			line: 37,
-			lines: [
-				"",
-				"action search items",
-				"  input query: Text",
-				"  output items: List<Item>",
-				"  touches none",
-				"  return sample items()",
-			],
-		},
-		{ kind: "replaceLine", line: 55, text: '  when empty render "No matches"' },
-		{ kind: "insertAfterLine", line: 55, lines: ["  each item in data render item.title"] },
-	];
 }
 
 export async function runAppModelEval(options: {

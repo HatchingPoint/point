@@ -6,7 +6,7 @@ import {
 	runAgentAppBenchmark,
 	summarizeAppTokenReduction,
 } from "./agent-app-benchmark.ts";
-import { measureAllNextDashboardCases } from "./next-dashboard-context.ts";
+import { measureAllPairedScaffoldCases } from "./paired-scaffold-context.ts";
 import { DEFAULT_MODELS, runAppModelEval, type AppModelEvalReport } from "./agent-app-model-eval.ts";
 
 const repoRoot = join(import.meta.dir, "..");
@@ -55,9 +55,18 @@ async function main() {
 		title: "CI: paired Next.js dashboard scaffold",
 		verified: "ci",
 		passed: scaffoldTest.passed,
-		detail: `${measureAllNextDashboardCases().length} measured TS context bundles in benchmarks/next-dashboard/`,
+		detail: `${measureAllPairedScaffoldCases("next-dashboard").length} measured TS context bundles in benchmarks/next-dashboard/`,
 	});
 	console.log(scaffoldTest.passed ? "✓" : "✗", sections.at(-1)!.title);
+
+	const notesScaffoldTest = await runTestFile("tests/next-notes-scaffold.test.ts");
+	sections.push({
+		title: "CI: paired Next.js notes scaffold",
+		verified: "ci",
+		passed: notesScaffoldTest.passed,
+		detail: `${measureAllPairedScaffoldCases("next-notes").length} measured TS context bundle(s) in benchmarks/next-notes/`,
+	});
+	console.log(notesScaffoldTest.passed ? "✓" : "✗", sections.at(-1)!.title);
 
 	const modelEvalTest = await runTestFile("tests/agent-app-model-eval.test.ts");
 	sections.push({
@@ -124,7 +133,8 @@ async function main() {
 		sections,
 		fixtureCounts: {
 			cases: AGENT_APP_BENCHMARK_CASES.length,
-			nextDashboardVariants: measureAllNextDashboardCases().length,
+			nextDashboardVariants: measureAllPairedScaffoldCases("next-dashboard").length,
+			nextNotesVariants: measureAllPairedScaffoldCases("next-notes").length,
 		},
 		tokenReductionPercent: tokenSummary,
 		modelEval: modelReport
@@ -136,7 +146,7 @@ async function main() {
 			: null,
 		reproduce: [
 			"bun run proof:agent-app",
-			"bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/agent-app-model-eval.test.ts",
+			"bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts",
 			"bun run benchmark:agent-app-models",
 		],
 	};

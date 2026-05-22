@@ -1,0 +1,29 @@
+{
+  "title": "Next.js notes app (paired benchmark scaffold)",
+  "description": "Mirrors tests/fixtures/agent-app notes cases for measured TypeScript agent context.",
+  "variants": {
+    "base": "base",
+    "golden": "golden",
+    "notes-add-detail-broken": "broken-detail-add"
+  },
+  "caseMapping": {
+    "notes-add-detail": {
+      "baseVariant": "base",
+      "brokenVariant": "notes-add-detail-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/notes/layout.tsx",
+        "app/notes/page.tsx",
+        "app/notes/new/page.tsx",
+        "app/notes/[id]/page.tsx",
+        "components/NotesNav.tsx",
+        "components/NotesList.tsx",
+        "components/NoteCreateForm.tsx",
+        "components/NoteDetail.tsx",
+        "lib/types.ts",
+        "lib/notes.ts",
+        "lib/getNote.ts"
+      ]
+    }
+  }
+}

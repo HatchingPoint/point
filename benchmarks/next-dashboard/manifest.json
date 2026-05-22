@@ -5,7 +5,9 @@
     "base": "base",
     "golden": "golden",
     "dashboard-add-search-broken": "broken-feature-add",
-    "dashboard-search-wiring-broken": "broken-wiring"
+    "dashboard-search-wiring-broken": "broken-wiring",
+    "dashboard-rename-broken": "broken-rename",
+    "golden-products": "golden-products"
   },
   "caseMapping": {
     "dashboard-add-search": {
@@ -40,6 +42,20 @@
         "lib/searchItems.ts",
         "lib/items.ts",
         "lib/types.ts"
+      ]
+    },
+    "dashboard-rename-products": {
+      "baseVariant": "base",
+      "brokenVariant": "dashboard-rename-broken",
+      "goldenVariant": "golden-products",
+      "agentContextFiles": [
+        "app/admin/layout.tsx",
+        "app/admin/settings/page.tsx",
+        "app/admin/products/page.tsx",
+        "components/AdminNav.tsx",
+        "components/ProductsList.tsx",
+        "lib/types.ts",
+        "lib/products.ts"
       ]
     }
   }

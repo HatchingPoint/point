@@ -18,7 +18,7 @@ import { estimateTokens } from "../scripts/agent-repair-sufficiency.ts";
 describe("agent app model eval", () => {
 	for (const testCase of AGENT_APP_BENCHMARK_CASES) {
 		test(`${testCase.id}: eval mode matches category`, () => {
-			expect(evalModeForCase(testCase)).toBe(testCase.category === "feature-add" ? "multi-edit" : "single-line");
+			expect(evalModeForCase(testCase)).toBe(testCase.category === "app-repair" ? "single-line" : "multi-edit");
 		});
 
 		test(`${testCase.id}: golden-derived edits pass point check`, () => {

@@ -8,7 +8,8 @@ import {
 	runCheckJson,
 	serializeCheckJson,
 } from "./agent-repair-sufficiency.ts";
-import { measureNextDashboardCase } from "./next-dashboard-context.ts";
+import { measurePairedScaffoldCase } from "./paired-scaffold-context.ts";
+import { pairedScaffoldRef } from "./paired-scaffold-types.ts";
 
 export type AgentAppTaskCategory = "feature-add" | "refactor" | "app-repair";
 
@@ -39,6 +40,8 @@ export type AgentAppBenchmarkCase = {
 	sourceExample: string;
 	/** Paired Next.js scaffold under benchmarks/next-dashboard/ */
 	nextDashboardCaseId?: string;
+	/** Paired Next.js scaffold under benchmarks/next-notes/ */
+	nextNotesCaseId?: string;
 	typescriptContext: AgentAppTypescriptContext;
 };
 
@@ -104,6 +107,48 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "notes-add-detail",
+		title: "Notes — add detail page",
+		category: "feature-add",
+		agentTask:
+			"Add a /notes/:id detail page to the notes app: get-note action, detail view, list links, and route wired into navigation.",
+		baseFile: "notes-add-detail/base.point",
+		brokenFile: "notes-add-detail/broken.point",
+		goldenFile: "notes-add-detail/golden.point",
+		expectedCode: "unknown-load-action",
+		requiredDeclarations: ["action get note", "view note detail", "page note detail page"],
+		requiredNavPaths: ["/notes/:id"],
+		sourceExample: "examples/app/notes/notes.point",
+		nextNotesCaseId: "notes-add-detail",
+		typescriptContext: {
+			taskDescription:
+				"Add a note detail route to a Next.js notes app with list, create form, and sidebar nav — new dynamic route, loader, and list links.",
+			totalChars: 18000,
+			excerpt: "",
+		},
+	},
+	{
+		id: "dashboard-rename-products",
+		title: "Dashboard — rename items to products",
+		category: "refactor",
+		agentTask:
+			"Rename the dashboard items surface to products across actions, views, pages, and navigation — the agent updated nav and action names but left stale view wiring.",
+		baseFile: "dashboard-rename-products/base.point",
+		brokenFile: "dashboard-rename-products/broken.point",
+		goldenFile: "dashboard-rename-products/golden.point",
+		expectedCode: "unknown-load-action",
+		requiredDeclarations: ["action list products", "view products list", "page products list page"],
+		requiredNavPaths: ["/products"],
+		sourceExample: "examples/app/dashboard/dashboard.point",
+		nextDashboardCaseId: "dashboard-rename-products",
+		typescriptContext: {
+			taskDescription:
+				"Finish renaming an admin Items area to Products in a Next.js app — update list component imports, loader names, and page wiring.",
+			totalChars: 20000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {
@@ -132,8 +177,9 @@ export function resolveTypescriptContext(testCase: AgentAppBenchmarkCase): {
 	filesMissing: string[];
 } {
 	const heuristicTokens = estimateTokens("x".repeat(testCase.typescriptContext.totalChars));
-	if (testCase.nextDashboardCaseId) {
-		const measured = measureNextDashboardCase(testCase.nextDashboardCaseId);
+	const scaffoldRef = pairedScaffoldRef(testCase);
+	if (scaffoldRef) {
+		const measured = measurePairedScaffoldCase(scaffoldRef.scaffold, scaffoldRef.caseId);
 		return {
 			tokens: measured.brokenContextTokens,
 			chars: measured.brokenContextChars,

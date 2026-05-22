@@ -1,0 +1,83 @@
+module DashboardApp
+
+record WorkspaceSettings
+  workspace name: Text
+  notifications enabled: Bool
+  theme: Text
+
+record Product
+  id: Text
+  title: Text
+
+view dashboard nav
+  link "Settings" to "/settings"
+  link "Products" to "/products"
+  render "Dashboard"
+
+view settings form
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  on change call on settings change
+  form
+  bind field "Workspace name" to settings.workspace name
+  bind checkbox "Email notifications" to settings.notifications enabled
+  tabs
+  tab "General" render "Theme: " + settings.theme
+  tab "Advanced" render "Notification settings apply workspace-wide"
+  modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active for this workspace"
+
+calculation sample products
+  output products: List<Product>
+  return [{ id: "alpha", title: "Alpha" }, { id: "beta", title: "Beta" }, { id: "gamma", title: "Gamma" }]
+
+action list products
+  output products: List<Product>
+  touches none
+  return sample products()
+
+view products list
+  load data from action list products
+  when loading render "Loading products..."
+  when error render "Could not load products"
+  when empty render "No products yet"
+  each product in data render link product.title to "/products/" + product.id
+
+view product detail
+  input id: Text
+  modal "Product actions" when id != "" render "Manage actions for " + id
+  render "Product detail for " + id
+
+layout app shell
+  slot sidebar render dashboard nav()
+  slot main render "Select a page from the sidebar"
+
+page settings page
+  layout app shell
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  title "Settings"
+  description "Manage workspace preferences"
+  main render settings form(settings, on settings change)
+
+page products list page
+  layout app shell
+  title "Products"
+  description "Browse tracked products"
+  main render products list()
+
+page product detail page
+  layout app shell
+  input id: Text
+  title "Product Detail"
+  description "Inspect a single product"
+  main render product detail(id)
+
+navigation dashboard app
+  path "/settings" page settings page
+  path "/products" page products list page
+  path "/products/:id" page product detail page
+  bootstrap router
+
+command dashboard demo
+  output result: Text
+  return "Dashboard navigation ready"

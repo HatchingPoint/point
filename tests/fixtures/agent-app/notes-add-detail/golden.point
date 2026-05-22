@@ -1,0 +1,91 @@
+module NotesApp
+
+record Note
+  id: Text
+  title: Text
+  body: Text
+
+record Create Note Input
+  title: Text
+  body: Text
+
+calculation sample notes
+  output notes: List<Note>
+  return [{ id: "n1", title: "Hello", body: "World" }, { id: "n2", title: "Draft", body: "Work in progress" }]
+
+action list notes
+  output notes: List<Note>
+  touches none
+  return sample notes()
+
+action create note
+  input input: Create Note Input
+  output note: Note
+  touches none
+  return { id: "new", title: input.title, body: input.body }
+
+action get note
+  input id: Text
+  output note: Note
+  touches none
+  return { id: id, title: "Note " + id, body: "Detail for " + id }
+
+view notes nav
+  link "Notes" to "/notes"
+  link "New note" to "/notes/new"
+  render "Notes app"
+
+view notes list
+  load data from action list notes
+  when loading render "Loading notes..."
+  when error render "Could not load notes"
+  when empty render "No notes yet"
+  each note in data render link note.title to "/notes/" + note.id
+
+view note detail
+  input id: Text
+  render "Note detail for " + id
+
+view note create form
+  input draft: Create Note Input
+  input on draft change: Handler<Create Note Input>
+  on change call on draft change
+  form
+  bind field "Title" to draft.title
+  bind field "Body" to draft.body
+  render "Create a note"
+
+layout notes shell
+  slot sidebar render notes nav()
+  slot main render "Select a notes page"
+
+page notes list page
+  layout notes shell
+  title "Notes"
+  description "Browse saved notes"
+  main render notes list()
+
+page note create page
+  layout notes shell
+  input draft: Create Note Input
+  input on draft change: Handler<Create Note Input>
+  title "New note"
+  description "Create a note"
+  main render note create form(draft, on draft change)
+
+page note detail page
+  layout notes shell
+  input id: Text
+  title "Note detail"
+  description "Read a saved note"
+  main render note detail(id)
+
+navigation notes app
+  path "/notes" page notes list page
+  path "/notes/new" page note create page
+  path "/notes/:id" page note detail page
+  bootstrap router
+
+command notes demo
+  output result: Text
+  return "Notes app ready"

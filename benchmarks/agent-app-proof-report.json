@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-app-proof.v1",
-  "generatedAt": "2026-05-22T10:54:30.042Z",
+  "generatedAt": "2026-05-22T10:57:45.525Z",
   "overallOk": true,
   "ciPassed": true,
   "sections": [
@@ -8,13 +8,19 @@
       "title": "CI: full-app benchmark fixtures (check-json gate, no LLM)",
       "verified": "ci",
       "passed": true,
-      "detail": "2 cases · base/broken/golden apps from examples/app/dashboard"
+      "detail": "4 cases · base/broken/golden apps from examples/app/dashboard"
     },
     {
       "title": "CI: paired Next.js dashboard scaffold",
       "verified": "ci",
       "passed": true,
-      "detail": "2 measured TS context bundles in benchmarks/next-dashboard/"
+      "detail": "3 measured TS context bundles in benchmarks/next-dashboard/"
+    },
+    {
+      "title": "CI: paired Next.js notes scaffold",
+      "verified": "ci",
+      "passed": true,
+      "detail": "1 measured TS context bundle(s) in benchmarks/next-notes/"
     },
     {
       "title": "CI: app model eval prompts and golden edit verification",
@@ -26,28 +32,29 @@
       "title": "Measured: check-json context vs paired Next scaffold",
       "verified": "ci",
       "passed": true,
-      "detail": "dashboard-add-search: 203 tok vs 1093 tok (81% saved); dashboard-search-wiring: 208 tok vs 501 tok (58% saved)"
+      "detail": "dashboard-add-search: 203 tok vs 1093 tok (81% saved); dashboard-search-wiring: 208 tok vs 501 tok (58% saved); notes-add-detail: 202 tok vs 820 tok (75% saved); dashboard-rename-products: 201 tok vs 479 tok (58% saved)"
     },
     {
       "title": "Compared: Point check-json vs measured Next.js scaffold",
       "verified": "estimated",
       "passed": true,
-      "detail": "58–81% less context (avg 70%). TS sizes are measured file bundles, not Cursor traces."
+      "detail": "58–81% less context (avg 68%). TS sizes are measured file bundles, not Cursor traces."
     }
   ],
   "fixtureCounts": {
-    "cases": 2,
-    "nextDashboardVariants": 2
+    "cases": 4,
+    "nextDashboardVariants": 3,
+    "nextNotesVariants": 1
   },
   "tokenReductionPercent": {
     "minReductionPercent": 58,
     "maxReductionPercent": 81,
-    "avgReductionPercent": 70
+    "avgReductionPercent": 68
   },
   "modelEval": null,
   "reproduce": [
     "bun run proof:agent-app",
-    "bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/agent-app-model-eval.test.ts",
+    "bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts",
     "bun run benchmark:agent-app-models"
   ]
 }
