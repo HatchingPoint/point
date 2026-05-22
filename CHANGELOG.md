@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.13
+
+### Added
+
+- Fix CI tests that mkdir gitignored `tests/tmp` before creating temp project dirs.
+
+## 0.1.12
+
+### Added
+
+- Fix CI test suite: Instant/`use std.*` parsing, `point run` prefers non-serve commands, ephemeral ports for test HTTP servers.
+
 ## 0.1.11
 
 ### Added
