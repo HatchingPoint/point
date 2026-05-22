@@ -16,30 +16,31 @@ People write semantic product logic. The compiler lowers that source into an int
 ## Source Example
 
 ```point
-module Readiness
+module Checkout
 
-record Deploy Signals
-  has bundle id: Bool
-  submitted for review: Bool
+record Cart Item
+  name: Text
+  unit price: Int
+  quantity: Int
 
-calculation annual price
-  input monthly price: Int
-  output annual price: Int
-  annual price is monthly price * 12
+calculation line total
+  input item: Cart Item
+  output total: Int
+  total is item.unit price * item.quantity
 
-rule deploy readiness
-  input signals: Deploy Signals
-  output score: Int
-  score starts at 0
-  add 50 when signals.has bundle id
-  add 50 when signals.submitted for review
-  return score
+rule cart total
+  input items: List<Cart Item>
+  output total: Int
+  total starts at 0
+  for each item in items
+  add item.unit price * item.quantity to total
+  return total
 
-label deploy status
-  input score: Int
+label order size
+  input total: Int
   output Text
-  when score >= 90 return "Ready"
-  otherwise return "Not ready"
+  when total >= 10000 return "Large order"
+  otherwise return "Standard"
 ```
 
 ## Install (users)

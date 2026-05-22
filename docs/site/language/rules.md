@@ -6,22 +6,22 @@ quadrant: Reference
 
 ## Summary
 
-A `rule` expresses logic that accumulates into an output: scores, totals, and conditional adds.
+A `rule` expresses logic that accumulates into an output: totals, scores, and conditional adds. The same pattern models cart totals, fraud risk, SLA points, or eligibility — not only marketing checklists.
 
 ## Syntax
 
 ```point
-record Launch Signals
-  has bundle id: Bool
-  submitted for review: Bool
+record Cart Item
+  unit price: Int
+  quantity: Int
 
-rule launch readiness
-  input signals: Launch Signals
-  output score: Int
-  score starts at 0
-  add 30 when signals.has bundle id
-  add 40 when signals.submitted for review
-  return score
+rule cart total
+  input items: List<Cart Item>
+  output total: Int
+  total starts at 0
+  for each item in items
+  add item.unit price * item.quantity to total
+  return total
 ```
 
 ## Semantics
@@ -37,23 +37,31 @@ Rules use mutable accumulators (`starts at`, `add when`, loops). The checker val
 
 ## Example
 
-From `examples/math.point`:
+From `examples/cart-total.point`:
 
 ```point
-record Launch Signals
-  has bundle id: Bool
-  submitted for review: Bool
-  has passing tests: Bool
+module Checkout
 
-rule launch readiness
-  input signals: Launch Signals
-  output score: Int
-  score starts at 0
-  add 30 when signals.has bundle id
-  add 40 when signals.submitted for review
-  add 30 when signals.has passing tests
-  return score
+record Cart Item
+  name: Text
+  unit price: Int
+  quantity: Int
+
+calculation line total
+  input item: Cart Item
+  output total: Int
+  total is item.unit price * item.quantity
+
+rule cart total
+  input items: List<Cart Item>
+  output total: Int
+  total starts at 0
+  for each item in items
+  add item.unit price * item.quantity to total
+  return total
 ```
+
+For conditional scoring without loops, see `examples/adopters/starter-labs/subscription-tier.point`.
 
 ## Common mistakes
 

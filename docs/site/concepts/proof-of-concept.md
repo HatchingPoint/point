@@ -8,34 +8,37 @@ quadrant: Explanation
 
 This page is the **proof of concept** for Point’s vision: the same product logic you would write in TypeScript or Python, expressed in semantic blocks, checked by a compiler that speaks **agent language** (refs, repair hints, effect boundaries), and emitted to run on your existing stack.
 
-## PoC 1 — Readiness scoring (intent vs implementation)
+## PoC 1 — Cart total (intent vs implementation)
 
-**Goal:** Score launch readiness from three booleans and classify the score for display.
+**Goal:** Sum line items in a cart and classify order size for display.
 
 ### Point (authoring — what agents edit)
 
-From `examples/math.point`:
+From `examples/cart-total.point`:
 
 ```point
-record Launch Signals
-  has bundle id: Bool
-  submitted for review: Bool
-  has passing tests: Bool
+record Cart Item
+  name: Text
+  unit price: Int
+  quantity: Int
 
-rule launch readiness
-  input signals: Launch Signals
-  output score: Int
-  score starts at 0
-  add 30 when signals.has bundle id
-  add 40 when signals.submitted for review
-  add 30 when signals.has passing tests
-  return score
+rule cart total
+  input items: List<Cart Item>
+  output total: Int
+  total starts at 0
+  for each item in items
+  add item.unit price * item.quantity to total
+  return total
+```
 
-label score status
-  input score: Int
+Add a label in your module for classification:
+
+```point
+label order size
+  input total: Int
   output Text
-  when score >= 90 return "excellent"
-  otherwise return "keep going"
+  when total >= 10000 return "Large order"
+  otherwise return "Standard"
 ```
 
 ### TypeScript (runtime target — build output)
@@ -43,12 +46,12 @@ label score status
 The compiler emits boring, typed functions (excerpt from generated output):
 
 ```typescript
-export function launchReadinessScore(signals: LaunchSignals): number {
-  let score: number = 0;
-  if (signals.hasBundleId) score += 30;
-  if (signals.submittedForReview) score += 40;
-  if (signals.hasPassingTests) score += 30;
-  return score;
+export function cartTotal(items: CartItem[]): number {
+  let total: number = 0;
+  for (const item of items) {
+    total += item.unitPrice * item.quantity;
+  }
+  return total;
 }
 ```
 
@@ -56,12 +59,12 @@ export function launchReadinessScore(signals: LaunchSignals): number {
 
 | Question | TypeScript-only | Point |
 |----------|-----------------|-------|
-| What is being changed? | A function body — could be any logic | `rule launch readiness` or `label score status` |
-| Stable patch target? | Line in `math.ts` (moves on format) | `point://semantic/Math/rule.launch readiness` |
+| What is being changed? | A function body — could be any logic | `rule cart total` or `label order size` |
+| Stable patch target? | Line in `checkout.ts` (moves on format) | `point://semantic/Checkout/rule.cart total` |
 | Wrong field on input? | TS error on property access | `check-json` with `expected` field list + `repair` text |
 | Who owns the source? | Hand-edited `.ts` | `.point` only; regenerate targets |
 
-Agents patch **rules and labels**, not scattered `if` chains. Humans read the same blocks without parsing control flow.
+Agents patch **rules and labels**, not scattered loops and `if` chains. Humans read the same blocks without parsing control flow.
 
 ## PoC 2 — Agent repair loop (in the box)
 
@@ -176,9 +179,9 @@ On the public docs site, the **Agent context demo** on [Proof of concept](/point
 | Workflow | Context loaded per repair turn | Stable patch target |
 |----------|-------------------------------|---------------------|
 | TypeScript + chat | Paste emit file twice + parse `tsc` text | Line number / function name (drifts on format) |
-| Point agent loop | `check-json` + `explain` one ref | `point://semantic/Math/rule.launch readiness` |
+| Point agent loop | `check-json` + `explain` one ref | `point://semantic/Checkout/rule.cart total` |
 
-Measured on `examples/math.point`:
+Measured on `examples/cart-total.point`:
 
 - Full `point index` output: ~8 KB (~2,000 tokens) — use once to explore, then narrow
 - `point explain` one label: ~720 chars (~180 tokens)
@@ -191,7 +194,7 @@ Token estimates use a ~4 characters/token heuristic; your model billing varies. 
 ## Try it in ten minutes
 
 1. Install: [Installation](/point/guide/installation)
-2. Copy `examples/math.point` and run `point check-json` on it
+2. Copy `examples/cart-total.point` and run `point check-json` on it
 3. Introduce a typo (wrong field name), run `check-json` again, read `repair`
 4. Run `point explain` with the `ref` from the diagnostic
 5. Fix `.point`, re-check, then `point build` and `point run`

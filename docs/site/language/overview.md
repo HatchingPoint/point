@@ -20,10 +20,11 @@ Point source is organized as semantic blocks. Each block has a dedicated page in
 | Loops and mutation | `for each`, `add to`, `set to` | [Control flow](/point/language/control-flow) |
 | `module`, `use` | Multi-file programs | [Modules](/point/language/modules) |
 | `external`, `action`, `policy` | Effects and boundaries | [Effects](/point/language/effects) |
-| `view`, `page`, `layout`, `navigation` | UI and app shells | [Applications](/point/language/applications) |
-| `route`, `middleware`, `stream route` | HTTP and WebSockets | [Routes](/point/language/routes), [Applications](/point/language/applications) |
-| `workflow`, `schedule`, `command` | Orchestration and CLI | [Applications](/point/language/applications) |
-| `pipeline`, `session`, `prompt`, `guard` | Agent orchestration | [Applications](/point/language/applications) |
+| `view`, `page`, `layout`, `navigation` | UI and app shells | [UI](/point/language/ui) |
+| `route`, `middleware` | HTTP handlers | [Routes](/point/language/routes) |
+| `stream route` | WebSockets and live views | [Realtime](/point/language/realtime) |
+| `workflow`, `schedule`, `command` | Orchestration and CLI | [Workflows](/point/language/workflows) |
+| `pipeline`, `session`, `prompt`, `guard` | Agent orchestration | [Agents](/point/language/agents) |
 
 ## First commands
 

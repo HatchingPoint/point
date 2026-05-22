@@ -20,49 +20,50 @@ Point runs on Bun — install Bun if `point` cannot start.
 
 ## Create a file
 
-Create `readiness.point`:
+Create `checkout.point`:
 
 ```point
-module Readiness
+module Checkout
 
-record Deploy Signals
-  has bundle id: Bool
-  submitted for review: Bool
+record Cart Item
+  name: Text
+  unit price: Int
+  quantity: Int
 
-calculation annual price
-  input monthly price: Int
-  output annual price: Int
-  annual price is monthly price * 12
+calculation line total
+  input item: Cart Item
+  output total: Int
+  total is item.unit price * item.quantity
 
-rule deploy readiness
-  input signals: Deploy Signals
-  output score: Int
-  score starts at 0
-  add 50 when signals.has bundle id
-  add 50 when signals.submitted for review
-  return score
+rule cart total
+  input items: List<Cart Item>
+  output total: Int
+  total starts at 0
+  for each item in items
+  add item.unit price * item.quantity to total
+  return total
 
-label deploy status
-  input score: Int
+label order size
+  input total: Int
   output Text
-  when score >= 90 return "Ready"
-  otherwise return "Not ready"
+  when total >= 10000 return "Large order"
+  otherwise return "Standard"
 ```
 
 ## Check and run
 
 ```bash
-point check readiness.point
-point fmt readiness.point
-point run readiness.point
+point check checkout.point
+point fmt checkout.point
+point run examples/hello.point
 ```
 
-For modules with a command entrypoint, `point run` checks source and executes without you managing build output manually.
+`point run` needs a zero-argument `command` — use `examples/hello.point` for your first run. Logic-only files like `checkout.point` are validated with `point check` and built when a host app imports them.
 
-When a host project imports compiled files, add a build step:
+When a host project imports compiled files:
 
 ```bash
-point build readiness.point generated/readiness.js
+point build checkout.point generated/checkout.js
 ```
 
 See [Build and emit](/point/toolchain/build-emit) for typed or alternate build targets.
@@ -70,13 +71,13 @@ See [Build and emit](/point/toolchain/build-emit) for typed or alternate build t
 ## Agent commands
 
 ```bash
-point index examples/math.point
-point explain examples/math.point point://semantic/Math/label.score status
-point check-json examples/math.point
-point repair-plan examples/math.point
+point index examples/cart-total.point
+point explain examples/cart-total.point point://semantic/Checkout/rule.cart total
+point check-json examples/cart-total.point
+point repair-plan examples/cart-total.point
 ```
 
-Prefer semantic refs such as `point://semantic/Math/label.score status` over line numbers or generated names.
+Prefer semantic refs such as `point://semantic/Checkout/rule.cart total` over line numbers or generated names.
 
 ## Scaffold an app
 
