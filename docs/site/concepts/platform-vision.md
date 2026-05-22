@@ -6,13 +6,13 @@ quadrant: Explanation
 
 ## Summary
 
-Point is a **general-purpose, AI-first language** for entire applications: logic, UI, HTTP, realtime, data, agents, and automation — authored in semantic `.point`, emitted to JavaScript (default) or Python (opt-in), with native toolchain interop (Bun, React, SQL drivers, npm) at the edges.
+Point is a **general-purpose, AI-first language** for entire applications: logic, UI, HTTP, realtime, data, agents, and automation — all authored in `.point` and checked by the Point toolchain.
 
-Authors do **not** hand-maintain TypeScript, React, Next.js glue, or Python factory scripts for product code. Generated targets are build artifacts.
+See [How Point runs](/point/concepts/how-point-runs) for check, run, and optional build output.
 
 ## One sentence
 
-Point lets teams and coding agents author product logic, application UI, HTTP services, agent pipelines, and automation in one checked semantic layer — then emit boring JavaScript or Python that runs on existing runtimes.
+Point lets teams and coding agents author product logic, application UI, HTTP services, agent pipelines, and automation in one checked semantic layer.
 
 ## What Point owns
 

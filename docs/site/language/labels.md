@@ -22,9 +22,9 @@ label score status
 
 Branches are evaluated in order. The first matching `when` wins. `otherwise` is the fallback. Output type is usually `Text` but may be any declared output type.
 
-## Lowering
+## Compiler note
 
-Labels lower to functions with `if` / `return` chains in core IR and TypeScript emit.
+Labels are ordered decision tables: first matching `when` wins; `otherwise` is required when branches do not cover all inputs.
 
 ## Example
 

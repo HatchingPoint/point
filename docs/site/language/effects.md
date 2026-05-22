@@ -47,12 +47,11 @@ Forms: `allow expr`, `deny expr`, `require expr`.
 
 **`guard output paths`** scopes file writes in pipelines — see `examples/pipelines/guarded-output.point`.
 
-## Lowering
+## Compiler note
 
-- `external` → import declarations and call wrappers
-- `action` → `async function` returning `Promise<T>`
-- `policy` → boolean functions
-- `guard` → path allow-list checks in pipeline emit
+- `external` — import boundary with typed signature
+- `action` — async IO with `touches` metadata
+- `policy` / `guard` — pure boolean checks (pipeline guards scope file paths)
 
 ## Examples
 
@@ -70,7 +69,7 @@ Forms: `allow expr`, `deny expr`, `require expr`.
 ## Agent diagnostic notes
 
 - Action refs in `point index` include `effects` metadata for review
-- Prefer patching `.point` over generated TypeScript when fixing effect boundaries
+- Prefer patching `.point` when fixing effect boundaries
 
 ## See also
 

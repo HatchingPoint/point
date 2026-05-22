@@ -31,9 +31,9 @@ rule launch readiness
 - `for each item in list` iterates; `add X to Y` mutates accumulators
 - `return` finishes the rule
 
-## Lowering
+## Compiler note
 
-Rules lower to functions with mutable locals and `if` branches for `add when`. Loops become `for ... of` in TypeScript emit.
+Rules use mutable accumulators (`starts at`, `add when`, loops). The checker validates input types and field access on each condition.
 
 ## Example
 
@@ -62,7 +62,7 @@ rule launch readiness
 
 ## Agent diagnostic notes
 
-- Output names in rules avoid duplicate suffixes in emit (`cart total` + output `total` → `cartTotal`, not `cartTotalTotal`)
+- Output names in rules avoid duplicate suffixes on the lowered symbol (`cart total` + output `total` stays readable, not `cartTotalTotal`)
 - Ref: `point://semantic/<Module>/rule.<name>`
 
 ## See also

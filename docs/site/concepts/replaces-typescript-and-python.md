@@ -6,9 +6,9 @@ quadrant: Explanation
 
 ## Summary
 
-Point replaces hand-written TypeScript and Python for **new application logic**. Authors maintain `.point` files; emitted JavaScript, TypeScript, or Python is build output.
+**Evaluation page** — when comparing Point to other stacks. For daily docs, start with [Introduction](/point/guide/introduction) and [How Point runs](/point/concepts/how-point-runs).
 
-For the authoring-vs-runtime model and daily workflow, see [Authoring vs runtime](/point/concepts/authoring-vs-runtime).
+Point is the language for **new application logic** you want checked in one place. Authors maintain `.point` files; optional build commands produce host modules when needed.
 
 ## What Point replaces now (v0.1.0)
 

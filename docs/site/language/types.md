@@ -17,7 +17,7 @@ Point uses a small typed surface: primitives, generics, unions, and user record 
 | `Bool` | Booleans |
 | `Void` | No value |
 | `List<T>` | Homogeneous lists |
-| `Maybe<T>` | Optional (`none` lowers to `null` in TS) |
+| `Maybe<T>` | Optional (`none` literal) |
 | `A or B` | Union / result (`Text or Error`) |
 | Record name | User-defined struct (`Cart Item`) |
 | `variant` | Tagged union; dispatch with `on Case` in labels |
@@ -47,12 +47,9 @@ Operators: `+`, `-`, `*`, `/`, comparisons, `and`, `or`, property access with `.
 
 The checker enforces types on inputs, outputs, returns, and operators. `Error "message"` builds error values for result types.
 
-## Lowering
+## Compiler note
 
-- `Maybe<T>` → `T | null` in TypeScript
-- `A or B` → union types
-- `List<T>` → `Array<T>`
-- Record names → interfaces
+Generic and union types are checked structurally. Variant labels use `on Case` dispatch; the checker ensures payload fields match each case.
 
 ## Example
 

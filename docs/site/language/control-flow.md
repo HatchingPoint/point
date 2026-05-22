@@ -67,11 +67,9 @@ label score status
 
 `for each` requires a `List<T>` iterable. Rule outputs initialized with `starts at` are mutable; calculation outputs using `is` are typically single assignment unless mutation forms are used.
 
-## Lowering
+## Compiler note
 
-- `for each x in xs` → `for (const x of xs)` with body statements
-- `add X to Y` → `+=` on the lowered local
-- `add N when C` → `if (C) { output += N }`
+`for each` requires a `List<T>`. Rule accumulators initialized with `starts at` may use `add to`, `subtract from`, and `set to` inside the body.
 
 ## Example
 

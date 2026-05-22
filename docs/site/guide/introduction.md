@@ -1,20 +1,22 @@
 ---
 title: Introduction
-description: Understand what Point is, where it fits, and why semantic source helps teams and agents.
+description: Understand what Point is, who it is for, and the first commands to run.
 quadrant: Tutorial
 ---
 
 ## Summary
 
-Point is an AI-first general-purpose language for software teams that want product logic to be explicit, checked, and repairable by coding agents.
+Point is a general-purpose language for product logic — expressed as semantic blocks that humans and coding agents can read, check, and repair.
 
-If you need the **why** and proof before syntax details, start with [Why Point exists](/point/concepts/why-point-exists), [Proof of concept](/point/concepts/proof-of-concept), and [Point vs other languages for AI engineering](/point/ai/vs-other-languages).
+Start with [Quick start](/point/guide/quick-start), [Language overview](/point/language/overview), or [Proof of concept](/point/concepts/proof-of-concept) for worked examples.
 
 ## What Point is
 
-Point source is written as semantic blocks: `record`, `calculation`, `rule`, `label`, `action`, `policy`, `workflow`, `view`, `page`, `layout`, `navigation`, `route`, `stream route`, `pipeline`, `session`, `prompt`, `guard`, `schedule`, and `command`. Those blocks describe the shape and intent of software directly.
+Point programs are built from named blocks:
 
-The compiler parses that semantic source into a semantic AST, lowers it in memory to a typed core IR, checks it, and emits JavaScript by default (TypeScript and Python are opt-in). Authors do not write the core IR.
+`record`, `calculation`, `rule`, `label`, `action`, `policy`, `workflow`, `view`, `page`, `layout`, `navigation`, `route`, `stream route`, `pipeline`, `session`, `prompt`, `guard`, `schedule`, and `command`.
+
+Each block states intent directly — a rule accumulates score from conditions; a label classifies a value — instead of hiding that meaning inside generic functions.
 
 ```point
 module Readiness
@@ -34,33 +36,35 @@ rule launch readiness
   return score
 ```
 
+Run `point check` on any `.point` file to validate types and effects before you integrate with a host app.
+
 ## Who Point is for
 
-Point is for projects where business rules, application boundaries, and AI-assisted changes need clearer structure than a pile of general-purpose functions. It is especially useful when a coding agent should be able to inspect a file, explain a symbol, patch a diagnostic, and re-check without guessing from line numbers.
+Point fits teams that want:
 
-Point is not limited to one app category. **v0.1.0** covers data models, pure calculations, rules, labels, variant types, modules, standard library imports, actions, policies, workflows, multi-page UI (layout, navigation, forms, tabs, modals), HTTP routes with middleware, WebSockets, database actions, agent pipelines and sessions, CLI commands, integration tests, formatting, LSP, and JavaScript/TypeScript/Python emit.
+- **Explicit product logic** — scoring, eligibility, workflows, and UI rules in one checked source
+- **Agent-friendly repair** — `check-json`, stable refs, and repair hints instead of line-number guesses
+- **A full application surface** — routes, pages, pipelines, and commands in the same language (v0.1.0)
 
-## How it fits today
+You do not need to migrate an entire monorepo on day one. Start with one module, check it, and grow from there.
 
-Point does not require a new runtime stack. Today it emits TypeScript and JavaScript for existing Bun, Node, React, Vite, Hono, and similar projects. Database access uses your driver via `external` blocks or `std.sql` — Point does not ship an ORM.
+## How it fits
 
-That means Point can be introduced gradually. A team can keep the surrounding application in TypeScript while moving high-leverage product logic into `.point` files that are easier to check, explain, and repair.
+Install the CLI, write `.point`, and use the toolchain:
 
-## Authoring vs runtime
+```bash
+npm install -g @hatchingpoint/point
+point check examples/math.point
+point run examples/hello.point
+```
 
-You write `.point` source. The compiler checks it and emits JavaScript by default (TypeScript and Python are opt-in targets). Generated output is build artifacts — not source you hand-edit for product logic.
-
-See [Authoring vs runtime](/point/concepts/authoring-vs-runtime) for the full model: what you write, what the machine runs, and why emit stays invisible on the daily path. See [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python) for an honest scope table. See [Platform vision](/point/concepts/platform-vision) for the full application roadmap.
+When a surrounding app needs compiled modules, run `point build`. Optional build targets are covered in [Build and emit](/point/toolchain/build-emit). See [How Point runs](/point/concepts/how-point-runs) for the full picture.
 
 ## See also
 
-- [Why Point exists](/point/concepts/why-point-exists)
+- [Quick start](/point/guide/quick-start)
+- [How Point runs](/point/concepts/how-point-runs)
+- [Language overview](/point/language/overview)
 - [Proof of concept](/point/concepts/proof-of-concept)
 - [Platform vision](/point/concepts/platform-vision)
-- [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
-- [Quick start](/point/guide/quick-start)
-- [Installation](/point/guide/installation)
-- [Philosophy](/point/concepts/philosophy)
-- [Authoring vs runtime](/point/concepts/authoring-vs-runtime)
-- [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python)
 - [AI overview](/point/ai/overview)

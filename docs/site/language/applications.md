@@ -6,7 +6,7 @@ quadrant: Reference
 
 ## Summary
 
-Application blocks connect product logic to frameworks. They still lower through core IR to TypeScript or JavaScript emit targets.
+Application blocks connect product logic to HTTP, UI, orchestration, and CLI entrypoints — still checked as Point source first.
 
 ## view
 
@@ -14,11 +14,11 @@ React-oriented UI (first target):
 
 See `examples/view.point`.
 
-Callable expressions in `render` and `when ... render` clauses emit as JSX text children (`<>{expression}</>`). Use `point build-ts` for React/Next.js targets; default `point build` emits plain strings for views.
+Callable expressions in `render` and `when ... render` clauses produce dynamic content in views. Use `point build` (or typed build — see [Build and emit](/point/toolchain/build-emit)) when a host framework consumes the output.
 
 ### Tailwind styling bridge
 
-View nodes accept an optional `class "..."` modifier after `render`. The compiler emits a `className` attribute on a wrapper `<div>` — authors never write JSX or CSS modules in Point source.
+View nodes accept an optional `class "..."` modifier after `render`. The compiler adds a wrapper with that class — authors stay in Point syntax.
 
 ```point
 view counter
@@ -43,7 +43,7 @@ See `examples/view.point` for a minimal styled view.
 
 ### Data loading on mount
 
-Views and pages can load data from an action on mount. The compiler emits a lightweight `useState` + `useEffect` hook — authors never write React hooks in Point source.
+Views and pages can load data from an action on mount. The compiler generates the hook wiring — authors declare the action and binding only.
 
 ```point
 action fetch items
@@ -83,22 +83,24 @@ view readiness widget
   render "Ready"
 ```
 
-- `Handler Listing Signals` emits a React callback prop `(value: ListingSignals) => void`.
-- `bind checkbox "Label" to record.field` emits a controlled `<input type="checkbox">` that spreads the record and calls the callback on change.
+- `Handler Listing Signals` — callback input for parent-controlled state
+- `bind checkbox "Label" to record.field` — controlled checkbox bound to a record field
 - `on change call on signals change` wires checkbox updates to the named callback input (optional when there is exactly one `Handler` input).
 
 ### Readiness widget (dogfood)
 
-`examples/adopters/hatchingpoint/readiness-widget.point` combines listing score rules with interactive checkboxes and a `readiness widget` view. Build TypeScript:
+`examples/adopters/hatchingpoint/readiness-widget.point` combines listing score rules with interactive checkboxes and a `readiness widget` view. Build when embedding in a host app:
 
 ```bash
-point build-ts examples/adopters/hatchingpoint/readiness-widget.point generated/readiness-widget.ts
+point build examples/adopters/hatchingpoint/readiness-widget.point generated/readiness-widget.js
 ```
+
+For typed host imports, see [Build and emit](/point/toolchain/build-emit).
 
 ### Embed in Next.js
 
-1. Emit with `point build-ts` (or `bun run build:ts` in the monorepo).
-2. Copy or import `generated/readiness-widget.ts` into your Next.js app (e.g. `components/ReadinessWidget.tsx` after renaming if desired).
+1. Run `point build` (or typed build — see [Build and emit](/point/toolchain/build-emit)).
+2. Import the generated module into your host app.
 3. Ensure the app has React types (`JSX.Element`); add `"jsx": "react-jsx"` in `tsconfig.json` if needed.
 4. Import and render as a controlled component — parent state owns `ListingSignals` and passes `onSignalsChange`:
 
@@ -168,16 +170,16 @@ Full-page shells for Next.js app routes (Phase 10 spike). A `page` block wraps a
 
 See `examples/adopters/hatchingpoint/readiness-page.point` — listing readiness logic plus a `readiness page` page that embeds the widget view in the main slot.
 
-Build TypeScript:
+Build for host embedding:
 
 ```bash
-point build-ts examples/adopters/hatchingpoint/readiness-page.point generated/readiness-page.ts
+point build examples/adopters/hatchingpoint/readiness-page.point generated/readiness-page.js
 ```
 
-### Embed in Next.js
+### Embed in a host app
 
-1. Emit with `point build-ts`.
-2. Import `readinessPage` from the generated file into an app route or client wrapper.
+1. Run `point build` (see [Build and emit](/point/toolchain/build-emit) for typed output).
+2. Import the page entry from the generated module into your app route.
 3. Pass `ListingSignals` and `onSignalsChange` from parent state (same shape as the widget example).
 
 ```tsx
@@ -275,15 +277,9 @@ CLI entrypoints for `point run`:
 
 `point run` prefers zero-argument `command` blocks, then `main`, then other zero-arg entrypoints. See `examples/command.point` and `examples/app/todo.point`.
 
-## Lowering
+## Compiler note
 
-- Views emit JSX-oriented functions; `Handler T` inputs become callback props; `bind checkbox` emits controlled React inputs
-- Pages emit JSX page shells with title and main slots
-- Layouts emit slot-based shells; navigation emits route tables for client routers
-- Routes emit handler functions with method/path metadata; stream routes emit WebSocket handlers
-- Workflows emit async functions with step bindings
-- Pipelines emit step runners with optional guard checks
-- Commands emit async or sync CLI entry functions
+Application blocks share the same check and ref model as logic blocks. Views, routes, pipelines, and commands appear in `point index` with distinct semantic kinds for agent navigation.
 
 ## Common mistakes
 
@@ -302,4 +298,4 @@ CLI entrypoints for `point run`:
 - [Database interop](/point/ecosystem/database-interop)
 - [CLI reference](/point/reference/cli)
 - [Platform vision](/point/concepts/platform-vision)
-- [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python)
+- [How Point runs](/point/concepts/how-point-runs)

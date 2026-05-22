@@ -23,9 +23,9 @@ Body forms include `input`, `output`, `{name} is {expr}`, `for each`, `add to` /
 
 Inputs are required at call sites. The output name defines the result binding inside the body. Calculations may call other pure calculations and use operators, literals, lists, and records.
 
-## Lowering
+## Compiler note
 
-Calculations lower to typed functions in core IR, then to TypeScript or JavaScript functions. Names with spaces become camelCase (`annual price` → `annualPrice`).
+Calculations are pure: the checker rejects effects and `await` inside the body. Callable names with spaces are normalized internally; semantic refs keep author spelling.
 
 ## Example
 

@@ -6,7 +6,7 @@ quadrant: Reference
 
 ## Summary
 
-A `record` declares a named product type with typed fields. Field labels may contain spaces; the compiler lowers them to camelCase in generated TypeScript.
+A `record` declares a named product type with typed fields. Field labels may contain spaces; semantic refs preserve the author spelling (`field.unit price`).
 
 ## Syntax
 
@@ -21,9 +21,9 @@ record Cart Item
 
 Records are structural types. Other blocks reference them by name (`Cart Item`, `Launch Signals`). Property access in expressions uses the same spelling as in source (`item.unit price`).
 
-## Lowering
+## Compiler note
 
-Each record becomes a TypeScript `interface` (or equivalent in JS emit) with camelCase field identifiers. `unit price` becomes `unitPrice` in emit while semantic refs keep `field.unit price`.
+Field names with spaces are normalized internally for host interop. Diagnostics and `point index` always use the semantic spelling from source.
 
 ## Example
 

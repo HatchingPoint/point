@@ -1,33 +1,17 @@
 ---
 title: Pipeline
-description: How a .point file becomes checked output and runnable target code.
+description: Legacy page — see How Point runs for the compile and check path.
 quadrant: Explanation
 ---
 
 ## Summary
 
-Point compiles semantic source through a typed pipeline: parse, semantic AST, core IR, check, and emit.
+See [How Point runs](/point/concepts/how-point-runs) for how `.point` source is parsed, checked, and optionally built.
 
-## Compile path
-
-```text
-.point source -> semantic AST -> core IR -> check -> emit -> JavaScript | TypeScript | Python
-```
-
-The semantic AST preserves public declarations and spans. The core IR is produced in memory and gives the checker and emitters a normalized representation.
-
-## Checks
-
-The checker validates names, types, field access, optional values, result values, loops, awaits, effects, and callable signatures. Diagnostics surface through terminal output, LSP, and `check-json`.
-
-## Emit
-
-`point build` emits JavaScript by default for daily use. `point build-ts` emits TypeScript for typed JavaScript stacks. `point build-py` emits Python for automation targets (logic, actions, routes, workflows, commands).
-
-Generated files should not be hand-edited to fix product behavior. Repair `.point` source and rebuild.
+The checker validates names, types, effects, and application boundaries. Results surface through the terminal, LSP, and `check-json`.
 
 ## See also
 
-- [CLI reference](/point/reference/cli)
-- [Build and emit](/point/toolchain/build-emit)
+- [How Point runs](/point/concepts/how-point-runs)
+- [Language overview](/point/language/overview)
 - [Diagnostics](/point/reference/diagnostics)

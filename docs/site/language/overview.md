@@ -1,6 +1,6 @@
 ---
 title: Language overview
-description: Semantic blocks at a glance and how they lower to typed core for emit.
+description: Semantic blocks at a glance — the Point language reference starting point.
 quadrant: Reference
 ---
 
@@ -25,13 +25,13 @@ Point source is organized as semantic blocks. Each block has a dedicated page in
 | `workflow`, `schedule`, `command` | Orchestration and CLI | [Applications](/point/language/applications) |
 | `pipeline`, `session`, `prompt`, `guard` | Agent orchestration | [Applications](/point/language/applications) |
 
-## Pipeline (plain English)
+## First commands
 
-```text
-.point source → semantic AST → core IR (in memory) → check → emit → JS | TS | PY
+```bash
+point check examples/math.point
+point index examples/math.point
+point fmt examples/math.point
 ```
-
-Authors never write the core IR. It exists so the checker and emitters have a precise model, similar to an internal AST in other compilers.
 
 ## Agent note
 
@@ -39,7 +39,7 @@ Run `point index <file>` to list every declaration with a `point://semantic/` re
 
 ## See also
 
-- [Grammar summary](/point/reference/grammar)
-- [Introduction](/point/guide/introduction)
-- [Platform vision](/point/concepts/platform-vision)
-- [Replaces TypeScript and Python](/point/concepts/replaces-typescript-and-python)
+- [Quick start](/point/guide/quick-start)
+- [How Point runs](/point/concepts/how-point-runs)
+- [Grammar](/point/reference/grammar)
+- [Examples](/point/examples)
