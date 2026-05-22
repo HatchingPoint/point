@@ -37,7 +37,7 @@ point add logic npm:@hatchingpoint/point-logic@0.0.2
 
 The command updates `point.json` `dependencies` and regenerates `point.lock` with resolved `path` entries.
 
-For `npm:` specs, the CLI runs `npm install` (or reuses an existing `node_modules/` install), locates `point.json` or `src/*.point` inside the package, and pins the resolved directory under `node_modules/` in `point.lock`. The npm package must include Point source (not just emitted JavaScript) for check/build to resolve `use` imports.
+For `npm:` specs, the CLI runs **`bun add --no-save`** (falls back to `npm install --no-save` if needed), locates `point.json` or `src/*.point` inside the package, and pins the resolved directory under `node_modules/` in `point.lock`.
 
 ## Resolution at check/build
 

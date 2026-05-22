@@ -1,19 +1,19 @@
 ---
 title: npm packages
-description: Official Point packages on npm, how to consume them, and how to publish libraries authored in Point.
+description: Official Point packages on the npm registry — Bun-first install, publish libraries authored in Point.
 quadrant: Reference
 ---
 
 ## Summary
 
-Point ships on npm under the `@hatchingpoint` scope. The compiler CLI, standard-library runtime shims, and published application logic packages all follow the same rule: **`.point` source is authoritative**; JavaScript in `dist/` or std shims is emitted or maintained as runtime glue, not hand-written product logic.
+Point ships on the public npm registry under the `@hatchingpoint` scope. **Install with Bun when you can** (`bun install` / `bun add`); npm, pnpm, and yarn use the same packages.
 
 ## Official packages
 
 | Package | Role | Install |
 |---------|------|---------|
-| `@hatchingpoint/point` | Compiler, CLI, LSP, core APIs, std runtime shims (`@hatchingpoint/point/std/*`) | `npm install -g @hatchingpoint/point` |
-| `@hatchingpoint/point-logic` | Pure product logic published from `.point` only (store listing readiness scoring) | `npm install @hatchingpoint/point-logic` |
+| `@hatchingpoint/point` | Compiler, CLI, LSP, core APIs, std runtime shims (`@hatchingpoint/point/std/*`) | `bun install -g @hatchingpoint/point` |
+| `@hatchingpoint/point-logic` | Pure product logic published from `.point` only (store listing readiness scoring) | `bun add @hatchingpoint/point-logic` |
 
 Both packages are MIT licensed and published from the [Point repository](https://github.com/HatchingPoint/point).
 
@@ -22,10 +22,12 @@ Both packages are MIT licensed and published from the [Point repository](https:/
 Install globally for the CLI and language server:
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point --help
 point lsp
 ```
+
+Same registry with npm: `npm install -g @hatchingpoint/point`.
 
 In application projects, add `@hatchingpoint/point` as a dependency when emitted JavaScript imports std runtime shims — for example `@hatchingpoint/point/std/http` after `use std.http`.
 
@@ -54,7 +56,7 @@ Source lives in `packages/point-logic/src/store-readiness.point`. The published 
 ### Install and use
 
 ```bash
-npm install @hatchingpoint/point-logic
+bun add @hatchingpoint/point-logic
 ```
 
 ```javascript

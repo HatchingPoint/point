@@ -5,10 +5,10 @@ Store listing readiness scoring logic for app publishers. **Source of truth is P
 ## Install
 
 ```bash
-npm install @hatchingpoint/point-logic
-# or
 bun add @hatchingpoint/point-logic
 ```
+
+Also works: `npm install @hatchingpoint/point-logic` (same registry).
 
 Requires a runtime that supports ES modules (Node 18+, Bun, or bundlers that resolve `import`).
 

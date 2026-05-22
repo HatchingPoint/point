@@ -9,7 +9,7 @@ This folder models a **first external adopter**: a small team using Point with o
 ## Setup (external developer)
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point check subscription-tier.point
 point fmt subscription-tier.point
 point build-ts subscription-tier.point generated/subscription-tier.ts

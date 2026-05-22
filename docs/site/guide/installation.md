@@ -6,18 +6,22 @@ quadrant: Tutorial
 
 ## Summary
 
-Install the Point CLI once, then use it from the terminal, an LSP-capable editor, VS Code, or Cursor.
+Install the Point CLI once, then use it from the terminal, an LSP-capable editor, VS Code, or Cursor. Point is **Bun-first** — use Bun to install; npm, pnpm, and yarn work from the same registry.
 
-## npm
-
-Install the compiler and CLI globally (current release **0.1.0**):
+## Install the CLI
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point --help
 ```
 
-Point currently runs on Bun. If the CLI cannot start, install Bun and make sure it is on `PATH`.
+Alternative (same registry):
+
+```bash
+npm install -g @hatchingpoint/point
+```
+
+Point runs on Bun. If the CLI cannot start, install [Bun](https://bun.sh) and make sure it is on `PATH`.
 
 ## Terminal-only workflow
 
@@ -26,7 +30,7 @@ You can use Point without an editor extension:
 ```bash
 point check myfile.point
 point fmt myfile.point
-point build-ts myfile.point generated/myfile.ts
+point build myfile.point generated/myfile.js
 point run myfile.point
 ```
 
@@ -40,7 +44,7 @@ point repair-plan myfile.point
 
 ## LSP for any editor
 
-The npm package includes a stdio language server:
+The package includes a stdio language server:
 
 ```bash
 point lsp

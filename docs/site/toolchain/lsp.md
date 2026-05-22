@@ -11,7 +11,7 @@ quadrant: Reference
 ## Install
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point lsp
 ```
 

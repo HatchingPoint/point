@@ -6,7 +6,7 @@ The forward-facing language is semantic product logic. Conventional programming-
 
 ## Shipped
 
-- **npm:** `@hatchingpoint/point@0.0.9` — `npm install -g @hatchingpoint/point`
+- **Registry:** `@hatchingpoint/point@0.0.15` — `bun install -g @hatchingpoint/point`
 - **VS Code Marketplace:** [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) — diagnostics, symbols, syntax highlighting
 - **Docs:** [hatchingpoint.com/point](https://www.hatchingpoint.com/point)
 - **CI / publish:** `bun run ci` (78 tests); tag push `v*.*.*` publishes npm + Marketplace

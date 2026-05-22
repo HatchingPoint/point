@@ -107,7 +107,7 @@ Point is ready for **pilot projects** transpiling to TypeScript on Bun, with glo
 When a team outside core Point ships on the full-stack template:
 
 1. **Scaffold:** `point create <name>` (or legacy `point app new`; or clone `examples/full-stack-template/`)
-2. **Install:** `npm install -g @hatchingpoint/point` (or use monorepo `bun packages/point/src/cli.ts`)
+2. **Install:** `bun install -g @hatchingpoint/point` (or use monorepo `bun packages/point/src/cli.ts`)
 3. **Verify:** `point check src/app.point` → `point build-ts src/app.point generated/app.ts` → `point run src/app.point`
 4. **Customize:** Replace `calculation sample members` / `action fetch members` with your API; add `route` blocks if you need `point dev` on HTTP
 5. **Optional backend:** `std.sql`, `external` + driver, or `std.http` via `external` — not required for first UI pilot

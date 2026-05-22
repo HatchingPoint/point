@@ -74,7 +74,7 @@ describe("point add and lockfile resolution", () => {
 		expect(resolved.path).toMatch(/node_modules\/@hatchingpoint\/point-logic$/);
 		expect(resolved.version).toBe("0.0.3");
 		expect(resolveNpmPackagePath(projectDir, "@hatchingpoint/point-logic")).toBeTruthy();
-	});
+	}, 30_000);
 
 	test("addPointDependency updates manifest and lock", async () => {
 		const spec = stdSpecFor(projectDir);
@@ -108,7 +108,7 @@ describe("point add and lockfile resolution", () => {
 		expect(modulePathFromLock(lock, "logic.store-readiness", projectDir)).toBe(
 			"node_modules/@hatchingpoint/point-logic/src/store-readiness.point",
 		);
-	});
+	}, 30_000);
 
 	test("point add CLI writes files and resolves npm", async () => {
 		const spec = stdSpecFor(projectDir);
@@ -127,7 +127,7 @@ describe("point add and lockfile resolution", () => {
 		expect(lock?.packages.logic.path).toMatch(/node_modules\/@hatchingpoint\/point-logic$/);
 		const updated = await readPointManifest(projectDir);
 		expect(updated.dependencies?.logic).toBe("npm:@hatchingpoint/point-logic");
-	});
+	}, 30_000);
 
 	test("file: dependency pins package path in lock", async () => {
 		const spec = `file:${relative(projectDir, join(repoRoot, "packages/point-logic"))}`;

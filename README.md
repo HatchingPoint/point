@@ -47,8 +47,9 @@ label deploy status
 1. Install [Bun](https://bun.sh).
 2. Install the compiler:
    ```bash
-   npm install -g @hatchingpoint/point
+   bun install -g @hatchingpoint/point
    ```
+   (Or `npm install -g @hatchingpoint/point` — same registry.)
 3. Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) in VS Code or Cursor **(optional)** — or use any editor with the CLI (see below).
 4. Open a `.point` file — diagnostics and symbols use the `point` CLI on PATH (VS Code extension) or `point check` from the terminal (any editor).
 

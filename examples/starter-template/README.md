@@ -17,7 +17,7 @@ point-starter/
 Install Bun, then the Point CLI:
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 ```
 
 From the [Point repo](https://github.com/HatchingPoint/point), you can also run the workspace CLI:

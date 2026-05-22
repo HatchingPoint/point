@@ -7,7 +7,7 @@ Cursor and VS Code support for [Point](https://github.com/HatchingPoint/point) â
 1. Install [Bun](https://bun.sh).
 2. Install the Point compiler:
    ```bash
-   npm install -g @hatchingpoint/point
+   bun install -g @hatchingpoint/point
    ```
 3. Install **Point Language** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (works in Cursor too).
 4. Open a `.point` file.

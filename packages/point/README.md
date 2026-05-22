@@ -7,12 +7,14 @@ Point is an AI-first general-purpose language core for coding-agent-native softw
 Requires [Bun](https://bun.sh) on PATH.
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point create my-app
 cd my-app
 point check src/app.point
 point run src/app.point
 ```
+
+Also works: `npm install -g @hatchingpoint/point`.
 
 List templates with `point create --list-templates`. Legacy alias: `point app new`.
 

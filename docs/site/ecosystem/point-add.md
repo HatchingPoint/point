@@ -99,7 +99,7 @@ The locator is any existing directory relative to the project root. Resolution p
 
 ### `npm:` — registry packages
 
-Install published Point packages from any npm-compatible registry (public npm, GitHub Packages, or a private mirror). The CLI runs `npm install --no-save` using your project’s npm configuration (`.npmrc`, environment), locates `point.json` or `src/*.point` in the package, and pins the path under `node_modules/` in `point.lock`:
+Install published Point packages from any npm-compatible registry (public npm, GitHub Packages, or a private mirror). The CLI runs **`bun add --no-save`** (falls back to `npm install --no-save`), locates `point.json` or `src/*.point` in the package, and pins the path under `node_modules/` in `point.lock`:
 
 ```bash
 point add logic npm:@hatchingpoint/point-logic
@@ -135,7 +135,7 @@ point add logic npm:@your-org/point-logic
 point check-all
 ```
 
-`npm install` honors `.npmrc`, so `point.lock` pins the same `node_modules/@your-org/point-logic` path whether the tarball came from npmjs or GitHub.
+Registry clients honor `.npmrc`, so `point.lock` pins the same `node_modules/@your-org/point-logic` path whether the tarball came from npmjs or GitHub.
 
 **GitHub Packages (publisher)** — see [npm packages — Publish workflow](/point/ecosystem/npm-packages#publish-workflow) for `package.json` `publishConfig` and CI token setup.
 

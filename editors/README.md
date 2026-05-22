@@ -1,6 +1,6 @@
 # Editor configs (verified in repo)
 
-Copy-paste configs for non–VS Code editors. Requires `point` on PATH (`npm install -g @hatchingpoint/point`).
+Copy-paste configs for non–VS Code editors. Requires `point` on PATH (`bun install -g @hatchingpoint/point`).
 
 ## Neovim 0.11+
 
@@ -40,7 +40,7 @@ Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hat
 
 | Issue | Fix |
 |-------|-----|
-| `point: command not found` | `npm install -g @hatchingpoint/point` and ensure npm global bin is on PATH |
+| `point: command not found` | `bun install -g @hatchingpoint/point` and ensure Bun is on PATH |
 | No diagnostics | Run `point check-json file.point` in terminal first |
 | Bun missing | Install [Bun](https://bun.sh) — Point CLI runs on Bun |
 

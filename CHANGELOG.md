@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+### Added
+
+- Bun-first install docs and npm messaging; `point add` prefers `bun add` with npm fallback.
+
 ## 0.1.4
 
 ### Added

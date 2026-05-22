@@ -53,7 +53,7 @@ You do not need to migrate an entire monorepo on day one. Start with one module,
 Install the CLI, write `.point`, and use the toolchain:
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point check examples/math.point
 point run examples/hello.point
 ```

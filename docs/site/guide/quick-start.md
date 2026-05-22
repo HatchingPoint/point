@@ -11,8 +11,10 @@ Install the CLI, write a small `.point` file, check it, format it, and run it.
 ## Install the compiler
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 ```
+
+Also works: `npm install -g @hatchingpoint/point` (same registry).
 
 Point runs on Bun — install Bun if `point` cannot start.
 
@@ -81,12 +83,12 @@ Prefer semantic refs such as `point://semantic/Math/label.score status` over lin
 Create a full-stack admin app (layout, navigation, pages, actions) — like `create-next-app` for Point:
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point create my-app
 cd my-app
 point check src/app.point
 point run src/app.point
-npm run build
+bun run build
 ```
 
 Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.

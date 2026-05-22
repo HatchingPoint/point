@@ -130,10 +130,17 @@ export async function ensureNpmPackage(cwd: string, packageName: string, version
 		if (!version || installedVersion === version) return installed;
 	}
 	const installSpec = version ? `${packageName}@${version}` : packageName;
-	const result = await Bun.$`npm install ${installSpec} --prefix ${cwd} --no-save --no-package-lock`.quiet().nothrow();
-	if (result.exitCode !== 0) {
-		const detail = result.stderr.toString().trim() || result.stdout.toString().trim();
-		throw new Error(`npm install failed for ${installSpec}: ${detail || "unknown error"}`);
+	const bunResult = await Bun.$`bun add ${installSpec} --cwd ${cwd} --no-save`.quiet().nothrow();
+	if (bunResult.exitCode !== 0) {
+		const npmResult = await Bun.$`npm install ${installSpec} --prefix ${cwd} --no-save --no-package-lock`.quiet().nothrow();
+		if (npmResult.exitCode !== 0) {
+			const detail =
+				npmResult.stderr.toString().trim() ||
+				npmResult.stdout.toString().trim() ||
+				bunResult.stderr.toString().trim() ||
+				bunResult.stdout.toString().trim();
+			throw new Error(`Registry install failed for ${installSpec}: ${detail || "unknown error"}`);
+		}
 	}
 	const resolved = resolveNpmPackagePath(cwd, packageName);
 	if (!resolved) {

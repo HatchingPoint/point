@@ -26,7 +26,7 @@ Install Point Language from the VS Code Marketplace. Cursor can use the same ext
 The extension expects the `point` CLI on `PATH`. Install it with npm:
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 ```
 
 ## See also

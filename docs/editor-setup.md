@@ -3,7 +3,7 @@
 Point ships a Language Server in the same npm package as the CLI. Install once:
 
 ```bash
-npm install -g @hatchingpoint/point
+bun install -g @hatchingpoint/point
 point lsp   # stdio server — editors start this automatically
 ```
 
@@ -72,5 +72,5 @@ The TextMate grammar lives at `packages/point-vscode/syntaxes/point.tmLanguage.j
 ## Troubleshooting
 
 - **No diagnostics:** confirm `point check-json file.point` works in the project root.
-- **Server not found:** reinstall `npm install -g @hatchingpoint/point` and ensure Bun is on PATH (Point CLI runs on Bun).
+- **Server not found:** reinstall `bun install -g @hatchingpoint/point` and ensure Bun is on PATH (Point CLI runs on Bun).
 - **Wrong cwd:** open the folder containing your `.point` files as the workspace root.

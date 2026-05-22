@@ -156,8 +156,8 @@ Update `CHANGELOG.md` on every release (bump script prepends a section).
 ## User install path (after publish)
 
 ```bash
-npm install -g @hatchingpoint/point   # requires Bun on PATH
-npm install @hatchingpoint/point-logic   # store readiness logic (JS emit from Point)
+bun install -g @hatchingpoint/point   # requires Bun on PATH
+bun add @hatchingpoint/point-logic   # store readiness logic (JS emit from Point)
 ```
 
 Install **Point Language** from [Marketplace](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) (VS Code / Cursor) or [Open VSX](https://open-vsx.org/extension/hatchingpoint/point) (VSCodium and compatible editors).
