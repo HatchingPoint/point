@@ -25,7 +25,7 @@ export type ModelSpec = {
 export const DEFAULT_MODELS: ModelSpec[] = [
 	{ provider: "openai", id: "gpt-4o-mini", label: "GPT-4o mini", envKey: "OPENAI_API_KEY" },
 	{ provider: "openai", id: "gpt-4o", label: "GPT-4o", envKey: "OPENAI_API_KEY" },
-	{ provider: "anthropic", id: "claude-sonnet-4-20250514", label: "Claude Sonnet 4", envKey: "ANTHROPIC_API_KEY" },
+	{ provider: "anthropic", id: "claude-opus-4-6", label: "Claude Opus 4.6", envKey: "ANTHROPIC_API_KEY" },
 	{ provider: "anthropic", id: "claude-3-5-haiku-latest", label: "Claude Haiku 3.5", envKey: "ANTHROPIC_API_KEY" },
 	{ provider: "google", id: "gemini-2.0-flash", label: "Gemini 2.0 Flash", envKey: "GEMINI_API_KEY" },
 ];

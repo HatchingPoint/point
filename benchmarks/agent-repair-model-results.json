@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "point.agent-repair-model-eval.v1",
+  "generatedAt": "2026-05-22T02:10:54.654Z",
+  "methodology": "Each model receives either check-json only (Point) or TS paste + tsc error + full .point file (TypeScript). Success = applied fixedLine passes point check and matches the CI golden fixture line.",
+  "models": [
+    "gpt-4o",
+    "claude-opus-4-6"
+  ],
+  "cases": [
+    "unknown-field-rule",
+    "label-unknown-field"
+  ],
+  "runs": [
+    {
+      "modelId": "gpt-4o",
+      "modelLabel": "GPT-4o",
+      "provider": "openai",
+      "caseId": "unknown-field-rule",
+      "condition": "point",
+      "success": false,
+      "checkPassed": false,
+      "contextChars": 1234,
+      "contextTokens": 260,
+      "promptTokens": 419,
+      "completionTokens": 30,
+      "latencyMs": 896,
+      "fixedLine": "  add 30 when signals.hasBundleId",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  add 30 when signals.hasBundleId\",\"reason\":\"Replaced unknown field with a valid field from the expected list.\"}",
+      "error": "point check failed after applying model line"
+    },
+    {
+      "modelId": "gpt-4o",
+      "modelLabel": "GPT-4o",
+      "provider": "openai",
+      "caseId": "unknown-field-rule",
+      "condition": "typescript",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 12000,
+      "contextTokens": 3000,
+      "promptTokens": 528,
+      "completionTokens": 33,
+      "latencyMs": 589,
+      "fixedLine": "  add 30 when signals.has bundle id",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  add 30 when signals.has bundle id\",\"reason\":\"Replaced 'unknown field' with a valid field from the Launch Signals record.\"}",
+      "error": null
+    },
+    {
+      "modelId": "gpt-4o",
+      "modelLabel": "GPT-4o",
+      "provider": "openai",
+      "caseId": "label-unknown-field",
+      "condition": "point",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 1007,
+      "contextTokens": 203,
+      "promptTokens": 369,
+      "completionTokens": 29,
+      "latencyMs": 583,
+      "fixedLine": "  when user.active return user.name",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  when user.active return user.name\",\"reason\":\"Replaced 'enabled' with 'active' as per expected fields.\"}",
+      "error": null
+    },
+    {
+      "modelId": "gpt-4o",
+      "modelLabel": "GPT-4o",
+      "provider": "openai",
+      "caseId": "label-unknown-field",
+      "condition": "typescript",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 4200,
+      "contextTokens": 1050,
+      "promptTokens": 302,
+      "completionTokens": 31,
+      "latencyMs": 1530,
+      "fixedLine": "  when user.active return user.name",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  when user.active return user.name\",\"reason\":\"Replaced 'enabled' with 'active' to match the User record definition.\"}",
+      "error": null
+    },
+    {
+      "modelId": "claude-opus-4-6",
+      "modelLabel": "Claude Opus 4.6",
+      "provider": "anthropic",
+      "caseId": "unknown-field-rule",
+      "condition": "point",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 1234,
+      "contextTokens": 260,
+      "promptTokens": 512,
+      "completionTokens": 49,
+      "latencyMs": 2412,
+      "fixedLine": "  add 30 when signals.has bundle id",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  add 30 when signals.has bundle id\",\"reason\":\"Replaced unknown field 'unknownField' with valid field 'hasBundleId' from the expected list.\"}",
+      "error": null
+    },
+    {
+      "modelId": "claude-opus-4-6",
+      "modelLabel": "Claude Opus 4.6",
+      "provider": "anthropic",
+      "caseId": "unknown-field-rule",
+      "condition": "typescript",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 12000,
+      "contextTokens": 3000,
+      "promptTokens": 621,
+      "completionTokens": 51,
+      "latencyMs": 2476,
+      "fixedLine": "  add 30 when signals.has bundle id",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  add 30 when signals.has bundle id\",\"reason\":\"'unknown field' does not exist on Launch Signals; replacing with the expected field 'has bundle id' from the record definition.\"}",
+      "error": null
+    },
+    {
+      "modelId": "claude-opus-4-6",
+      "modelLabel": "Claude Opus 4.6",
+      "provider": "anthropic",
+      "caseId": "label-unknown-field",
+      "condition": "point",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 1007,
+      "contextTokens": 203,
+      "promptTokens": 443,
+      "completionTokens": 41,
+      "latencyMs": 1574,
+      "fixedLine": "  when user.active return user.name",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  when user.active return user.name\",\"reason\":\"Replace unknown field 'enabled' with the valid field 'active' from the User record.\"}",
+      "error": null
+    },
+    {
+      "modelId": "claude-opus-4-6",
+      "modelLabel": "Claude Opus 4.6",
+      "provider": "anthropic",
+      "caseId": "label-unknown-field",
+      "condition": "typescript",
+      "success": true,
+      "checkPassed": true,
+      "contextChars": 4200,
+      "contextTokens": 1050,
+      "promptTokens": 345,
+      "completionTokens": 46,
+      "latencyMs": 2293,
+      "fixedLine": "  when user.active return user.name",
+      "modelResponseExcerpt": "{\"fixedLine\":\"  when user.active return user.name\",\"reason\":\"The User record defines the field as 'active', not 'enabled', so the reference must match the record definition.\"}",
+      "error": null
+    }
+  ],
+  "summary": {
+    "overall": {
+      "point": {
+        "passed": 3,
+        "total": 4,
+        "rate": 75
+      },
+      "typescript": {
+        "passed": 4,
+        "total": 4,
+        "rate": 100
+      }
+    },
+    "byModel": {
+      "gpt-4o": {
+        "point": {
+          "passed": 1,
+          "total": 2,
+          "rate": 50
+        },
+        "typescript": {
+          "passed": 2,
+          "total": 2,
+          "rate": 100
+        }
+      },
+      "claude-opus-4-6": {
+        "point": {
+          "passed": 2,
+          "total": 2,
+          "rate": 100
+        },
+        "typescript": {
+          "passed": 2,
+          "total": 2,
+          "rate": 100
+        }
+      }
+    }
+  }
+}

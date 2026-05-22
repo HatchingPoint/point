@@ -29,7 +29,20 @@ No LLM is involved in sufficiency tests. They prove the **compiler output alone*
 
 The TypeScript column on the comparison demo uses a **12,000-character paste heuristic** (~3,000 tokens) for a typical component + lib + tests paste. That number is illustrative — we have not published a logged Cursor/Codex trace for it.
 
-## Model benchmark (optional, not run by default)
+## Model benchmark (live run)
+
+Run on 2026-05-22 against the same CI fixtures with real API calls (temperature 0):
+
+| Model | Point workflow | TS paste workflow |
+|-------|----------------|-------------------|
+| GPT-4o (OpenAI / Codex-class) | 1/2 | 2/2 |
+| Claude Opus 4.6 | 2/2 | 2/2 |
+
+**Notable result:** GPT-4o failed the Point workflow on `unknown-field-rule` by emitting camelCase (`hasBundleId`) instead of Point field syntax (`has bundle id`). Claude Opus applied the correct Point line from the `expected` list.
+
+Reproduce: `bun run benchmark:agent-repair-models -- --models=gpt-4o,claude-opus-4-6` (requires API keys).
+
+## Model benchmark (optional setup)
 
 `bun run benchmark:agent-repair-models` calls GPT, Claude, and Gemini on the same fixtures under TS vs Point workflows. Requires provider API keys. Results sync to the site when committed to `benchmarks/agent-repair-model-results.json`.
 
