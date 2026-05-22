@@ -359,9 +359,9 @@ class CoreChecker {
 		}
 		for (const extra of provided.values()) {
 			this.push("unknown-field", `Unknown field ${extra.name}`, `${path}.${extra.name}`, extra.span, {
-				expected: variantCase.fields.map((field) => field.name),
+				expected: this.fieldLabels(variantCase.fields),
 				actual: extra.name,
-				repair: `Use one of: ${variantCase.fields.map((field) => field.name).join(", ")}.`,
+				repair: `Use one of: ${this.fieldLabels(variantCase.fields).join(", ")}.`,
 			});
 		}
 	}
@@ -398,9 +398,9 @@ class CoreChecker {
 		}
 		for (const extra of provided.values()) {
 			this.push("unknown-field", `Unknown field ${extra.name}`, `${path}.${extra.name}`, extra.span, {
-				expected: declaration.fields.map((field) => field.name),
+				expected: this.fieldLabels(declaration.fields),
 				actual: extra.name,
-				repair: `Use one of: ${declaration.fields.map((field) => field.name).join(", ")}.`,
+				repair: `Use one of: ${this.fieldLabels(declaration.fields).join(", ")}.`,
 				relatedRefs: this.fieldRefsFor(declaration),
 			});
 		}
@@ -590,9 +590,9 @@ class CoreChecker {
 			const field = variantCase?.fields.find((candidate) => candidate.name === expression.name);
 			if (!field) {
 				this.push("unknown-field", `Unknown field ${expression.name} on ${targetType.name}.${scopeEntry.variantCase}`, path, expression.span, {
-					expected: variantCase?.fields.map((candidate) => candidate.name) ?? [],
+					expected: this.fieldLabels(variantCase?.fields ?? []),
 					actual: expression.name,
-					repair: `Use one of: ${variantCase?.fields.map((candidate) => candidate.name).join(", ") ?? ""}.`,
+					repair: `Use one of: ${this.fieldLabels(variantCase?.fields ?? []).join(", ")}.`,
 				});
 				return null;
 			}
@@ -601,9 +601,9 @@ class CoreChecker {
 		const field = declaration.fields.find((candidate) => candidate.name === expression.name);
 		if (!field) {
 			this.push("unknown-field", `Unknown field ${expression.name} on ${targetType.name}`, path, expression.span, {
-				expected: declaration.fields.map((candidate) => candidate.name),
+				expected: this.fieldLabels(declaration.fields),
 				actual: expression.name,
-				repair: `Use one of: ${declaration.fields.map((candidate) => candidate.name).join(", ")}.`,
+				repair: `Use one of: ${this.fieldLabels(declaration.fields).join(", ")}.`,
 				relatedRefs: this.fieldRefsFor(declaration),
 			});
 			return null;
@@ -718,6 +718,14 @@ class CoreChecker {
 			span: span ?? null,
 			...metadata,
 		});
+	}
+
+	private fieldLabel(field: { name: string; semanticName?: string }): string {
+		return field.semanticName ?? field.name;
+	}
+
+	private fieldLabels(fields: Array<{ name: string; semanticName?: string }>): string[] {
+		return fields.map((field) => this.fieldLabel(field));
 	}
 
 	private refFor(path: string): string {

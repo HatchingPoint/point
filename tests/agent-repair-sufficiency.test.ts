@@ -47,6 +47,15 @@ describe("agent repair sufficiency", () => {
 		}
 	});
 
+	test("check-json expected lists Point source field syntax for agents", () => {
+		const payload = runCheckJson(loadFixture("unknown-field-broken.point"));
+		const diagnostic = payload.diagnostics[0]!;
+		const expected = Array.isArray(diagnostic.expected) ? diagnostic.expected : [diagnostic.expected!];
+		expect(expected).toContain("has bundle id");
+		expect(expected).toContain("submitted for review");
+		expect(diagnostic.repair).toContain("has bundle id");
+	});
+
 	test("benchmark harness reports all cases passing", () => {
 		const results = AGENT_REPAIR_CASES.map((testCase) => evaluateRepairSufficiency(testCase));
 		expect(results.every((result) => result.passed)).toBe(true);

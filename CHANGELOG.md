@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.1
+
+### Fixed
+
+- **Agent repair diagnostics** — `check-json` `expected` and `repair` hints for unknown-field errors now list Point source field syntax (e.g. `has bundle id`) instead of internal camelCase names, so coding agents apply valid `.point` lines on the first try.
+
+### Added
+
+- **Agent repair tests** — CI sufficiency fixtures, model benchmark harness, and docs hub for measured vs estimated agent context claims.
+
 ## 0.1.0
 
 ### Added

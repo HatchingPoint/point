@@ -160,6 +160,7 @@ Return ONLY valid JSON with this shape:
 Rules:
 - fixedLine must be the full line text only (preserve indentation)
 - use a field from the diagnostic expected list when fixing unknown-field errors
+- Point field access uses spaces, not camelCase (example: signals.has bundle id)
 - do not wrap JSON in markdown fences
 - do not return the whole file
 

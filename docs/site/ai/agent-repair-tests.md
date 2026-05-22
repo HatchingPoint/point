@@ -31,14 +31,7 @@ The TypeScript column on the comparison demo uses a **12,000-character paste heu
 
 ## Model benchmark (live run)
 
-Run on 2026-05-22 against the same CI fixtures with real API calls (temperature 0):
-
-| Model | Point workflow | TS paste workflow |
-|-------|----------------|-------------------|
-| GPT-4o (OpenAI / Codex-class) | 1/2 | 2/2 |
-| Claude Opus 4.6 | 2/2 | 2/2 |
-
-**Notable result:** GPT-4o failed the Point workflow on `unknown-field-rule` by emitting camelCase (`hasBundleId`) instead of Point field syntax (`has bundle id`). Claude Opus applied the correct Point line from the `expected` list.
+See the **Model benchmark** section below for the interactive table, per-fixture breakdown, and model responses. Latest headline result: GPT-4o passed TS paste (2/2) but failed one Point repair (1/2) by emitting camelCase instead of Point field syntax; Claude Opus passed both workflows (2/2).
 
 Reproduce: `bun run benchmark:agent-repair-models -- --models=gpt-4o,claude-opus-4-6` (requires API keys).
 
