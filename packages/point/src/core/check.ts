@@ -23,6 +23,7 @@ import { checkSemanticPipelines } from "../semantic/check-pipelines.ts";
 import { checkSemanticSessions } from "../semantic/check-sessions.ts";
 import { checkSemanticGuards } from "../semantic/check-guards.ts";
 import { checkSemanticThemes } from "../semantic/check-themes.ts";
+import { resolveFieldAlias, suggestFieldLabel } from "../semantic/field-alias.ts";
 export interface PointCoreDiagnostic {
 	code: string;
 	message: string;
@@ -693,22 +694,53 @@ class CoreChecker {
 			}
 			const variantCase = declaration.variantCases.find((candidate) => candidate.name === scopeEntry.variantCase);
 			const field = variantCase?.fields.find((candidate) => candidate.name === expression.name);
+			const aliasResolution = resolveFieldAlias(variantCase?.fields ?? [], expression.name);
+			if (!field && aliasResolution.kind === "unique") {
+				return variantCase?.fields.find((candidate) => candidate.name === aliasResolution.fieldName)?.type ?? null;
+			}
 			if (!field) {
+				if (aliasResolution.kind === "ambiguous") {
+					this.push(
+						"unknown-field",
+						`Unknown field ${expression.name} on ${targetType.name}.${scopeEntry.variantCase}`,
+						path,
+						expression.span,
+						{
+							expected: aliasResolution.labels,
+							actual: expression.name,
+							repair: `Field alias ${expression.name} is ambiguous. Choose one of: ${aliasResolution.labels.join(", ")}.`,
+						},
+					);
+					return null;
+				}
 				this.push("unknown-field", `Unknown field ${expression.name} on ${targetType.name}.${scopeEntry.variantCase}`, path, expression.span, {
 					expected: this.fieldLabels(variantCase?.fields ?? []),
 					actual: expression.name,
-					repair: `Use one of: ${this.fieldLabels(variantCase?.fields ?? []).join(", ")}.`,
+					repair: this.unknownFieldRepair(variantCase?.fields ?? [], expression.name),
 				});
 				return null;
 			}
 			return field.type;
 		}
 		const field = declaration.fields.find((candidate) => candidate.name === expression.name);
+		const aliasResolution = resolveFieldAlias(declaration.fields, expression.name);
+		if (!field && aliasResolution.kind === "unique") {
+			return declaration.fields.find((candidate) => candidate.name === aliasResolution.fieldName)?.type ?? null;
+		}
 		if (!field) {
+			if (aliasResolution.kind === "ambiguous") {
+				this.push("unknown-field", `Unknown field ${expression.name} on ${targetType.name}`, path, expression.span, {
+					expected: aliasResolution.labels,
+					actual: expression.name,
+					repair: `Field alias ${expression.name} is ambiguous. Choose one of: ${aliasResolution.labels.join(", ")}.`,
+					relatedRefs: this.fieldRefsFor(declaration),
+				});
+				return null;
+			}
 			this.push("unknown-field", `Unknown field ${expression.name} on ${targetType.name}`, path, expression.span, {
 				expected: this.fieldLabels(declaration.fields),
 				actual: expression.name,
-				repair: `Use one of: ${this.fieldLabels(declaration.fields).join(", ")}.`,
+				repair: this.unknownFieldRepair(declaration.fields, expression.name),
 				relatedRefs: this.fieldRefsFor(declaration),
 			});
 			return null;
@@ -852,6 +884,14 @@ class CoreChecker {
 
 	private fieldLabels(fields: Array<{ name: string; semanticName?: string }>): string[] {
 		return fields.map((field) => this.fieldLabel(field));
+	}
+
+	private unknownFieldRepair(fields: Array<{ name: string; semanticName?: string }>, accessName: string): string {
+		const labels = this.fieldLabels(fields);
+		const baseRepair = `Use one of: ${labels.join(", ")}.`;
+		const suggestion = suggestFieldLabel(fields, accessName);
+		if (!suggestion) return baseRepair;
+		return `${baseRepair} Did you mean "${suggestion}"?`;
 	}
 
 	private refFor(path: string): string {

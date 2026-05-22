@@ -1033,3 +1033,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check examples/full-stack-template/src/app.point`; full-stack template tests pass.
 - Next: Phase 23 Wave 2 Instant; P22-8 catalog package; changelog site version sync.
 - Blocked: none
+
+## Checkpoint Phase 26 P26-1 — Field aliases and fuzzy diagnostics
+
+- Completed: Added field-alias resolution for property access so camelCase accesses can map to spaced record fields when the alias is uniquely closest; ambiguous aliases now return `unknown-field` with narrowed candidate labels; unknown fields include edit-distance-based `Did you mean "..."?` repair hints.
+- Verified: `bun test tests/field-alias.test.ts` passes.
+- Checkboxes marked: Phase 26 P26-1 field access aliases and fuzzy diagnostics.
+- Next: Phase 26 P26-2 variant exhaustiveness.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

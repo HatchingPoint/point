@@ -55,6 +55,15 @@ quadrant: Reference
 
 Parse failures from the semantic parser may surface as `parse-error` in LSP output.
 
+## unknown-field behavior
+
+`unknown-field` now supports two repair-oriented ergonomics:
+
+- CamelCase aliases can resolve to spaced field labels when the match is unique (for example `input.monthlyAmount` can resolve to `monthly price`).
+- When a field is still unknown, the repair hint can include `Did you mean "..."?` based on edit distance to known field labels.
+
+If an alias is ambiguous, diagnostics keep `code: "unknown-field"` and narrow `expected` to ambiguous candidates so agents can pick a concrete field explicitly.
+
 ## Repair workflow
 
 1. `point check-json <file>`
