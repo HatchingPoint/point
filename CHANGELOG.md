@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+### Added
+
+- Full-app agent benchmarks with paired Next.js scaffolds, measured TS context, model eval harness, and proof:agent-app.
+
 ## 0.1.2
 
 ### Added
