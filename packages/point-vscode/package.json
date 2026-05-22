@@ -2,7 +2,7 @@
   "name": "point",
   "displayName": "Point Language",
   "description": "Cursor and VS Code language support for Point.",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "private": false,
   "publisher": "hatchingpoint",
   "icon": "icons/icon.png",
@@ -76,7 +76,7 @@
         "point.cliPath": {
           "type": "string",
           "default": "",
-          "markdownDescription": "Path to the Point CLI (`cli.ts` or `point` executable). Leave empty to auto-detect (monorepo sibling package, then `point` on PATH)."
+          "markdownDescription": "Path to the Point CLI (`cli.ts` or `point` executable). Leave empty to auto-detect: workspace `node_modules/@hatchingpoint/point`, then monorepo sibling package, then `point` on PATH."
         },
         "point.runtime": {
           "type": "string",

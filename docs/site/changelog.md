@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.8**
+Current release: **0.1.9**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.9** | Fix fmt-check/publish CI: formatter resolves `use std.*` callables; map/lookup format; `label is` parse in calculations. |
 | **0.1.8** | Phase 23 Wave 2: `Instant` opaque type with `std.time` (`instant now`, `format instant`, `parse instant`); dependency-aware parse/desugar for multi-word std callables. |
 | **0.1.7** | Phase 24 Path B: `point dev` app mode (Vite + Bun API), `point serve`, `point build-app`, full-stack template with Render deploy path. |
 | **0.1.6** | Phase 22 dedomainized docs; Phase 23 `Map<Text, T>`, lookup, and std money pattern. |

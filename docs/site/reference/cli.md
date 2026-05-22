@@ -8,7 +8,7 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point@0.1.8` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.1.9` (see `npm view @hatchingpoint/point version`)
 
 ## Invocation
 
@@ -50,9 +50,12 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 |---------|---------|------|
 | `create` | Scaffold a new app: `point create <name> [directory] [--template full-stack-app]` | 1 on invalid name or non-empty target |
 | `create --list-templates` | List bundled app templates | 0 |
+| `init` | Add Point to an existing repo: `point init [directory] [--skip-install] [--force]` | 0 |
 | `app new` | Legacy alias for `point create` | same as `create` |
 
-Creates a project directory with `point.json`, `package.json`, `src/app.point` (layout, navigation, three pages, sample action), `.gitignore`, and README. Templates ship inside `@hatchingpoint/point` at `templates/full-stack-app/` (synced from `examples/full-stack-template/` in the repo).
+Creates a project directory with `point.json`, `package.json`, `src/app.point`, editor configs (`.vscode/`, `.point/`), `.gitignore`, and README. Templates ship inside `@hatchingpoint/point` at `templates/full-stack-app/` (synced from `examples/full-stack-template/` in the repo).
+
+`point init` adds `@hatchingpoint/point`, workspace editor settings, `.point/lsp.mjs` (portable LSP launcher), and a `check` script when `.point` files are present.
 
 ## Package management
 
