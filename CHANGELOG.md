@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Added
+
+- point create scaffolds full-stack apps from npm-bundled templates; point app new remains as alias
+
 ## 0.1.1
 
 ### Fixed
