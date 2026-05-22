@@ -37,6 +37,7 @@
     "benchmark:emit": "bun scripts/benchmark-emit.ts",
     "benchmark:phase7": "bun scripts/phase7-benchmark.ts",
     "benchmark:platform": "bun scripts/benchmark-platform.ts",
+    "benchmark:agent-repair": "bun scripts/agent-repair-benchmark.ts",
     "publish:release": "bun scripts/publish.ts",
     "publish:npm": "bun scripts/publish-npm.ts",
     "publish:logic": "bun scripts/publish-logic.ts",
@@ -45,7 +46,7 @@
     "version:patch": "bun scripts/bump-version.ts patch",
     "version:minor": "bun scripts/bump-version.ts minor",
     "version:major": "bun scripts/bump-version.ts major",
-    "ci": "bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run vscode:build && bun run vscode:package"
+    "ci": "bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run benchmark:agent-repair && bun run vscode:build && bun run vscode:package"
   },
   "devDependencies": {
     "@hatchingpoint/point": "workspace:packages/point",

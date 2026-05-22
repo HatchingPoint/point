@@ -1,0 +1,11 @@
+module Broken
+
+record User
+  name: Text
+  active: Bool
+
+label user status
+  input user: User
+  output Text
+  when user.active return user.name
+  otherwise return "inactive"
