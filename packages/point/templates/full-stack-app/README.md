@@ -6,9 +6,11 @@ A Point-native full-stack admin app — UI, API, and product logic in `.point` s
 
 ```bash
 bun install
-point check src/app.point
+bun run check
 bun run dev
 ```
+
+Open a `.point` file — **VS Code / Cursor** will recommend the Point Language extension. **Neovim / Zed / other LSP editors:** see `.point/editor.json`.
 
 Open **http://localhost:5173** for the React UI. The Bun API listens on **http://localhost:3456** (`/api/health`, `/api/members`).
 

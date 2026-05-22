@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, stat } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { runPointInit } from "./init-project.ts";
 
 export const REPO_TEMPLATE_REL = "examples/full-stack-template";
 export const DEFAULT_APP_TEMPLATE_ID = "full-stack-app";
@@ -174,8 +175,11 @@ function printCreateNextSteps(appName: string, targetDir: string): void {
 	console.log("Next steps:");
 	console.log(`  cd ${relativeTarget}`);
 	console.log("  bun install");
-	console.log("  point check src/app.point");
+	console.log("  bun run check");
 	console.log("  bun run dev");
+	console.log("");
+	console.log("Editor: open a .point file — VS Code/Cursor will recommend the Point extension.");
+	console.log("Other editors: see .point/editor.json (Neovim, Zed, or any LSP client).");
 	console.log("");
 	console.log("Edit src/app.point — your app lives entirely in Point source.");
 	console.log("Docs: https://hatchingpoint.com/point/guide/quick-start");
@@ -197,6 +201,7 @@ export async function runCreateApp(args: string[]): Promise<void> {
 		targetDir: parsed.targetDir,
 		templateId: parsed.templateId,
 	});
+	await runPointInit(["--skip-install", "--quiet", "--force", result.targetDir]);
 	console.log(`Created ${result.appName} at ${result.targetDir.replaceAll("\\", "/")}`);
 	console.log(`Template: ${result.templateId} (${result.files.length} files)`);
 	printCreateNextSteps(result.appName, result.targetDir);

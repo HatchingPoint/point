@@ -10,6 +10,17 @@ quadrant: Reference
 
 ## Install
 
+**Project-local (recommended for teams):**
+
+```bash
+bun install          # after @hatchingpoint/point is in package.json
+bun .point/lsp.mjs lsp
+```
+
+Projects from `point create` or `point init` include `.point/lsp.mjs` and `.point/editor.json`.
+
+**Global (optional):**
+
 ```bash
 bun install -g @hatchingpoint/point
 point lsp

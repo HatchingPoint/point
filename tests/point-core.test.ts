@@ -260,6 +260,8 @@ calculation echo
 		expect(extension).toContain('"lsp"');
 		expect(extension).toContain("resolveServerOptions");
 		expect(extension).toContain("point.cliPath");
+		expect(extension).toContain("resolveLocalCli");
+		expect(extension).toContain("node_modules/@hatchingpoint/point/src/cli.ts");
 		expect(manifest.contributes.configuration.properties["point.cliPath"]).toBeDefined();
 		expect(manifest.contributes.configurationDefaults["[point]"]["editor.formatOnSave"]).toBe(true);
 		await Bun.spawn(["bun", "scripts/build-vscode-extension.ts"], { cwd: process.cwd(), stdout: "ignore", stderr: "ignore" }).exited;

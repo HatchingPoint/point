@@ -18087,6 +18087,8 @@ var cp = require("child_process");
 var fs = require("fs");
 var path = require("path");
 var { LanguageClient, TransportKind } = require_node3();
+var LOCAL_POINT_CLI_REL = "node_modules/@hatchingpoint/point/src/cli.ts";
+var LOCAL_POINT_BIN_REL = process.platform === "win32" ? "node_modules/.bin/point.cmd" : "node_modules/.bin/point";
 var client;
 function activate(context) {
   const serverOptions = resolveServerOptions();
@@ -18094,7 +18096,7 @@ function activate(context) {
     if (!warnedMissingCli) {
       warnedMissingCli = true;
       void vscode.window.showWarningMessage(
-        "Point CLI not found. Install Bun + @hatchingpoint/point globally, clone the monorepo, or set point.cliPath."
+        "Point CLI not found. Run bun install in this project, install @hatchingpoint/point globally, or set point.cliPath."
       );
     }
     return;
@@ -18144,6 +18146,10 @@ function resolveCli() {
     }
     return { command: "bun", argsPrefix: [override] };
   }
+  for (const root of workspaceRoots()) {
+    const local = resolveLocalCli(root);
+    if (local) return local;
+  }
   const bundledCandidates = [
     path.join(__dirname, "../point/src/cli.ts"),
     path.join(__dirname, "../../packages/point/src/cli.ts")
@@ -18159,6 +18165,38 @@ function resolveCli() {
   }
   return null;
 }
+function workspaceRoots() {
+  const roots = /* @__PURE__ */ new Set();
+  for (const folder of vscode.workspace.workspaceFolders ?? []) {
+    roots.add(folder.uri.fsPath);
+  }
+  const activeDoc = vscode.window.activeTextEditor?.document.uri.fsPath;
+  if (activeDoc) {
+    let dir = path.dirname(activeDoc);
+    for (let depth = 0; depth < 8; depth += 1) {
+      roots.add(dir);
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+  }
+  return [...roots];
+}
+function resolveLocalCli(workspaceRoot) {
+  const localPackageCli = path.join(workspaceRoot, LOCAL_POINT_CLI_REL);
+  if (fs.existsSync(localPackageCli)) {
+    return { command: "bun", argsPrefix: [localPackageCli] };
+  }
+  const localBin = path.join(workspaceRoot, LOCAL_POINT_BIN_REL);
+  if (fs.existsSync(localBin)) {
+    return { command: localBin, argsPrefix: [] };
+  }
+  const launcher = path.join(workspaceRoot, ".point/lsp.mjs");
+  if (fs.existsSync(launcher)) {
+    return { command: "bun", argsPrefix: [launcher, "lsp"] };
+  }
+  return null;
+}
 function findOnPath(name) {
   const lookup = process.platform === "win32" ? "where" : "which";
   const result = cp.spawnSync(lookup, [name], { encoding: "utf8" });
@@ -18167,4 +18205,4 @@ function findOnPath(name) {
   return line?.trim() || null;
 }
 var warnedMissingCli = false;
-module.exports = { activate, deactivate, resolveCli, resolveServerOptions, findOnPath };
+module.exports = { activate, deactivate, resolveCli, resolveServerOptions, findOnPath, resolveLocalCli, workspaceRoots };

@@ -14,6 +14,7 @@ import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, wri
 import { parsePointSource } from "./parser.ts";
 import { runCheckDocs } from "./check-docs.ts";
 import { runAppNew, runCreateApp } from "./app-cli.ts";
+import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock } from "./packages.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
@@ -91,6 +92,16 @@ export async function main() {
 
 	if (command === "create") {
 		await runCreateApp(tail);
+		return;
+	}
+
+	if (command === "init") {
+		if (tail.includes("--help") || tail.includes("-h")) {
+			console.log("Usage: point init [directory] [--skip-install] [--force] [--quiet]");
+			console.log("  Adds @hatchingpoint/point, editor configs (.vscode, .point), and a check script.");
+			return;
+		}
+		await runPointInit(tail);
 		return;
 	}
 
