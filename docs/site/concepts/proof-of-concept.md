@@ -201,5 +201,6 @@ Token estimates use a ~4 characters/token heuristic; your model billing varies. 
 - [Why Point exists](/point/concepts/why-point-exists)
 - [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
 - [How Point is novel](/point/concepts/how-point-is-novel)
+- [Agent coding loop](/point/ai/agent-coding-loop)
 - [Agent workflow](/point/ai/agent-workflow)
 - [Examples gallery](/point/examples)

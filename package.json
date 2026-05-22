@@ -38,6 +38,7 @@
     "benchmark:phase7": "bun scripts/phase7-benchmark.ts",
     "benchmark:platform": "bun scripts/benchmark-platform.ts",
     "benchmark:agent-repair": "bun scripts/agent-repair-benchmark.ts",
+    "benchmark:agent-repair-models": "bun scripts/agent-repair-model-benchmark.ts",
     "publish:release": "bun scripts/publish.ts",
     "publish:npm": "bun scripts/publish-npm.ts",
     "publish:logic": "bun scripts/publish-logic.ts",

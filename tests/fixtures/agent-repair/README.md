@@ -8,6 +8,7 @@ CI runs:
 ```bash
 bun test tests/agent-repair-sufficiency.test.ts
 bun run benchmark:agent-repair
+bun run benchmark:agent-repair-models   # needs OPENAI / ANTHROPIC / GEMINI keys
 ```
 
 Each case pairs `*-broken.point` with `*-fixed.point`. Tests assert:

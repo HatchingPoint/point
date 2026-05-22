@@ -46,4 +46,5 @@ For public `.point` source, prefer `point://semantic/...` refs. Core refs may ap
 - [Proof of concept](/point/concepts/proof-of-concept)
 - [Stable refs](/point/ai/stable-refs)
 - [Repair loops](/point/ai/repair-loops)
+- [Agent coding loop](/point/ai/agent-coding-loop)
 - [Agent workflow](/point/ai/agent-workflow)

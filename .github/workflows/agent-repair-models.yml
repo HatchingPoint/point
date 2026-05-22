@@ -1,0 +1,33 @@
+name: Agent repair model benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      models:
+        description: Comma-separated model ids (optional)
+        required: false
+        type: string
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Run model eval
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.models }}" ]; then
+            ARGS="--models=${{ inputs.models }}"
+          fi
+          bun run benchmark:agent-repair-models -- $ARGS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agent-repair-model-results
+          path: benchmarks/agent-repair-model-results.json

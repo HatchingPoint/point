@@ -45,8 +45,11 @@ For multiple errors, run `point repair-plan examples/math.point` and follow step
 
 Pasting an entire file into a model and asking for a fix forces the model to guess line numbers and generated names. Point diagnostics name the declaration, suggest repairs, and link related refs — smaller context, fewer wrong edits.
 
+For a full walkthrough of the TypeScript vs Point agent loop (Cursor, Codex, Claude Code), see [Agent coding loop](/point/ai/agent-coding-loop).
+
 ## See also
 
+- [Agent coding loop](/point/ai/agent-coding-loop)
 - [AI overview](/point/ai/overview)
 - [Stable refs](/point/ai/stable-refs)
 - [Repair loops](/point/ai/repair-loops)
