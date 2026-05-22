@@ -30,9 +30,14 @@ action std http example
   return await httpGetResponse(url)
 
 action std time example
+  output value: Instant
+  touches time
+  return instant now()
+
+action std time text example
   output value: Text
   touches time
-  return await currentTimeValue()
+  return await current time()
 
 action std fs example
   input path: Text

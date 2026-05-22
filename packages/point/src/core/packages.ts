@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 export const POINT_MANIFEST = "point.json";
@@ -73,14 +73,18 @@ export async function writePointManifest(manifest: PointManifest, cwd = process.
 	await Bun.write(path, `${JSON.stringify(manifest, null, 2)}\n`);
 }
 
-export async function readPointLock(cwd = process.cwd()): Promise<PointLock | null> {
+export function readPointLockSync(cwd = process.cwd()): PointLock | null {
 	const path = join(cwd, POINT_LOCK);
 	if (!existsSync(path)) return null;
-	const lock = (await Bun.file(path).json()) as PointLock;
+	const lock = JSON.parse(readFileSync(path, "utf8")) as PointLock;
 	if (lock.schemaVersion !== LOCK_SCHEMA) {
 		throw new Error(`Unsupported ${POINT_LOCK} schema: ${lock.schemaVersion}`);
 	}
 	return lock;
+}
+
+export async function readPointLock(cwd = process.cwd()): Promise<PointLock | null> {
+	return readPointLockSync(cwd);
 }
 
 export async function writePointLock(lock: PointLock, cwd = process.cwd()): Promise<void> {

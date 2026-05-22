@@ -57,7 +57,11 @@ import {
 	parseSemanticExpression,
 	parseSemanticTypeExpression,
 } from "./expressions.ts";
-import { collectSemanticCallables } from "./callables.ts";
+import { collectSemanticCallables, type CollectSemanticCallablesOptions } from "./callables.ts";
+
+export interface ParseSemanticSourceOptions {
+	resolveUseSource?: CollectSemanticCallablesOptions["resolveUseSource"];
+}
 import { toIdentifier } from "./naming.ts";
 
 type SemanticVariants = Map<string, Map<string, Map<string, string>>>;
@@ -76,15 +80,15 @@ export function isPointSemanticAstEnabled(): boolean {
 }
 
 /** Parse semantic `.point` source to semantic AST. */
-export function parsePointSourceV2(source: string): PointSemanticProgram {
-	return parseSemanticSource(source);
+export function parsePointSourceV2(source: string, options?: ParseSemanticSourceOptions): PointSemanticProgram {
+	return parseSemanticSource(source, options);
 }
 
-export function parseSemanticSource(source: string): PointSemanticProgram {
+export function parseSemanticSource(source: string, options?: ParseSemanticSourceOptions): PointSemanticProgram {
 	const lines = source.split(/\r?\n/);
 	const records = new Map<string, Map<string, string>>();
 	const variants = new Map<string, Map<string, Map<string, string>>>();
-	const callables = collectSemanticCallables(source);
+	const callables = collectSemanticCallables(source, { resolveUseSource: options?.resolveUseSource });
 	const uses: PointSemanticUseDeclaration[] = [];
 	const declarations: PointSemanticDeclaration[] = [];
 	let moduleName: string | undefined;

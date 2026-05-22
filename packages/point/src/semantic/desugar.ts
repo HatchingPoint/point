@@ -72,9 +72,16 @@ interface DesugarContext {
 	outputType: PointCoreTypeExpression;
 }
 
-export function desugarSemanticProgram(program: PointSemanticProgram): PointCoreProgram {
+export function desugarSemanticProgram(
+	program: PointSemanticProgram,
+	options?: { dependencyDeclarations?: PointSemanticDeclaration[] },
+): PointCoreProgram {
+	const mergedForCallables: PointSemanticProgram = {
+		...program,
+		declarations: [...(options?.dependencyDeclarations ?? []), ...program.declarations],
+	};
 	const records = new Map<string, Map<string, string>>();
-	const callables = buildCallableMap(program, records);
+	const callables = buildCallableMap(mergedForCallables, records);
 	const actionOutputs = buildActionOutputMap(program);
 	const policies = buildPolicyMap(program);
 	const guards = buildGuardMap(program);
@@ -1055,10 +1062,10 @@ function desugarParameter(binding: PointSemanticBinding): PointCoreParameter {
 }
 
 function desugarType(type: PointSemanticTypeExpression): PointCoreTypeExpression {
-	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler" || type.name === "Map") {
+	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler" || type.name === "Map" || type.name === "Instant") {
 		return { kind: "typeRef", name: type.name, args: type.args.map(desugarType) };
 	}
-	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Error", "Page"]);
+	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Error", "Page", "Instant"]);
 	if (primitives.has(type.name)) return { kind: "typeRef", name: type.name, args: [] };
 	return { kind: "typeRef", name: toPascalCase(type.name), args: [] };
 }

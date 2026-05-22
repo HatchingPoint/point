@@ -13,7 +13,32 @@ const CALLABLE_KEYWORDS = [
 	"command",
 ] as const;
 
-export function collectSemanticCallables(source: string): string[] {
+const USE_DECLARATION = /^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/;
+
+export interface CollectSemanticCallablesOptions {
+	resolveUseSource?: (use: { moduleName: string; from?: string }) => string | null | undefined;
+	visited?: Set<string>;
+}
+
+export function collectSemanticCallables(source: string, options?: CollectSemanticCallablesOptions): string[] {
+	const callables = new Set(collectSemanticCallablesFromSource(source));
+	const resolveUseSource = options?.resolveUseSource;
+	if (!resolveUseSource) return [...callables];
+	const visited = options?.visited ?? new Set<string>();
+	for (const use of scanUseDeclarations(source)) {
+		const key = use.from ?? use.moduleName;
+		if (visited.has(key)) continue;
+		visited.add(key);
+		const dependencySource = resolveUseSource(use);
+		if (!dependencySource) continue;
+		for (const callable of collectSemanticCallables(dependencySource, { resolveUseSource, visited })) {
+			callables.add(callable);
+		}
+	}
+	return [...callables];
+}
+
+function collectSemanticCallablesFromSource(source: string): string[] {
 	const callables = new Set<string>();
 	const lines = source.split(/\r?\n/);
 	let index = 0;
@@ -36,6 +61,15 @@ export function collectSemanticCallables(source: string): string[] {
 		index += 1;
 	}
 	return [...callables];
+}
+
+export function scanUseDeclarations(source: string): Array<{ moduleName: string; from?: string }> {
+	const uses: Array<{ moduleName: string; from?: string }> = [];
+	for (const line of source.split(/\r?\n/)) {
+		const match = line.trim().match(USE_DECLARATION);
+		if (match) uses.push({ moduleName: match[1] ?? "", from: match[2] });
+	}
+	return uses;
 }
 
 function collectBody(lines: string[], start: number): { lines: string[]; next: number } {

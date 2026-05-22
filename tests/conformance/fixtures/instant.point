@@ -1,0 +1,16 @@
+module ConformanceInstant
+
+use std.time
+
+calculation demo instant
+  output value: Instant
+  value is instant now()
+
+calculation demo instant label
+  input value: Instant
+  output label: Text
+  label is format instant(value)
+
+command instant demo
+  output result: Text
+  return "Instant ready"

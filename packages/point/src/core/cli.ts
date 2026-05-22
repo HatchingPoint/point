@@ -564,9 +564,18 @@ export function findRunEntryName(program: PointCoreProgram): string | null {
 	return preferred?.name ?? null;
 }
 
+export function buildCoreFileFromSource(
+	input: string,
+	source: string,
+	lock: Awaited<ReturnType<typeof readPointLock>>,
+	cwd = process.cwd(),
+): CoreFile {
+	return { input, source, program: parsePointSource(source, cwd), uses: parseUseDeclarations(source, input, lock) };
+}
+
 export async function loadCoreFile(input: string, lock: Awaited<ReturnType<typeof readPointLock>>, cwd = process.cwd()) {
 	const source = await Bun.file(resolve(cwd, input)).text();
-	return { input, source, program: parsePointSource(source), uses: parseUseDeclarations(source, input, lock) };
+	return buildCoreFileFromSource(input, source, lock, cwd);
 }
 
 type CoreFile = Awaited<ReturnType<typeof loadCoreFile>>;

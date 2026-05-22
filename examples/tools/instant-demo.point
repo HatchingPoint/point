@@ -1,0 +1,20 @@
+module InstantDemo
+
+use std.time
+
+record Event
+  name: Text
+  at: Instant
+
+calculation sample event
+  output event: Event
+  event is { name: "Launch", at: instant now() }
+
+label event summary
+  input event: Event
+  output summary: Text
+  otherwise return event.name + " at " + format instant(event.at)
+
+command instant demo
+  output result: Text
+  return event summary(sample event())

@@ -39,7 +39,7 @@ type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual
 type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean; variantCase?: string };
 type Scope = Map<string, ScopeEntry>;
 
-const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Map", "Maybe", "Error", "Or", "Page", "Handler"]);
+const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Map", "Maybe", "Instant", "Error", "Or", "Page", "Handler"]);
 
 export function checkPointCore(program: PointCoreProgram): PointCoreDiagnostic[] {
 	const checker = new CoreChecker(program);
@@ -807,6 +807,13 @@ class CoreChecker {
 				expected: "Handler T",
 				actual: formatType(type),
 				repair: "Use Handler Listing Signals or another record type.",
+			});
+		}
+		if (type.name === "Instant" && type.args.length !== 0) {
+			this.push("invalid-type-arity", "Instant is opaque and takes no type arguments", path, type.span, {
+				expected: "Instant",
+				actual: formatType(type),
+				repair: "Use Instant — not Instant<T>.",
 			});
 		}
 		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.name !== "Handler" && type.name !== "Map" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {

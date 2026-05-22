@@ -108,25 +108,26 @@ Do not silently use JavaScript `number` for currency emit.
 
 ### Today
 
-- `std.time` runtime shim (host `Date`, sleep, ISO strings) — not a first-class Point type.
-- No `Instant`, `Date`, or `Duration` in the type grammar.
+- **`Instant`** — opaque UTC timestamp type (ISO string at runtime via `std.time` shim).
+- **`std.time`** — `instant now`, `format instant`, `parse instant`, plus legacy `current time` (`Text`).
+- No `Date` or `Duration` in the type grammar yet.
 
-### Workarounds
+### Workarounds (legacy / advanced)
 
-1. **`Text` ISO timestamps** in records; parse/format in `action` via `std.time`.
+1. **`Text` ISO timestamps** when you only need strings, not typed instants.
 2. **`schedule`** for intervals (dev/demo; production cron on host).
 3. **`external`** — `Temporal`, `date-fns`, or Python `datetime`.
 
 ### Examples
 
+- `examples/tools/instant-demo.point` — `Instant` records + format
 - `examples/tools/health-check-schedule.point` — periodic jobs
 - Actions in workflow examples using host time indirectly
 
 ### Recommendation
 
-**Defer.** If added, start with:
+**Instant is shipped (Wave 2).** Optional follow-ups:
 
-- `Instant` as opaque type backed by shim
 - `Duration` for schedule/workflow timeouts (partially exists as workflow metadata)
 
 Avoid timezone logic in the language core — keep in actions.
@@ -149,10 +150,10 @@ Avoid timezone logic in the language core — keep in actions.
 
 ## Phase 23 candidates (implementation)
 
-1. `Map<Text, T>` with lookup syntax and emit parity
-2. `Money` or scaled decimal type with lint rules for raw `Float` on money fields
-3. Optional `Instant` type wired to `std.time`
-4. Spec + conformance fixture per new primitive
+1. `Map<Text, T>` with lookup syntax and emit parity ✓
+2. `Money` or scaled decimal type with lint rules for raw `Float` on money fields ✓
+3. `Instant` type wired to `std.time` ✓
+4. Spec + conformance fixture per new primitive ✓
 
 ---
 

@@ -1,6 +1,6 @@
 # Phase 23 — Language primitives
 
-**Status:** Wave 1 complete (P23-3 Instant deferred to Wave 2).  
+**Status:** Wave 2 complete (Instant type).  
 **Prerequisite:** Phase 22 complete (dedomainized docs + primitive audit).  
 **North star:** Close the highest-friction gaps from [language-primitive-audit.md](./language-primitive-audit.md) without breaking semantic-block authoring.
 
@@ -10,9 +10,9 @@
 
 - [x] **`Map<Text, T>`** — type, `map { "key": value }` literals, `lookup map key` expression; JS/TS/Python emit; conformance fixture
 - [x] **Money pattern** — `std/money.point` (cents-as-Int record + format calculations) documented in types guide
-- [ ] **Instant (optional)** — `Instant` opaque type wired to `std.time` or defer with docs (Wave 2)
-- [ ] Spec + site docs updated (`language-spec.md`, `types.md`)
-- [ ] `point check-docs` and `bun test` pass
+- [x] **Instant** — opaque type wired to `std.time`; parser resolves `use std.*` callables; conformance fixture
+- [x] Spec + site docs updated (`types.md`, `examples/tools/instant-demo.point`)
+- [x] `point check-docs` and `bun test` pass
 
 ---
 
@@ -32,8 +32,8 @@ Type parsing, map literals, `lookup`, checker, emit parity, `examples/catalog/pr
 ### P23-2 — Money std pattern (Wave 1)
 `std/money.point`: `record Money`, add/format/compare in cents; docs in `types.md`.
 
-### P23-3 — Instant type (Wave 2)
-Opaque `Instant` + `std.time` bridge or documented defer.
+### P23-3 — Instant type (Wave 2) ✓
+Opaque `Instant` + `std.time` bridge (`instant now`, `format instant`, `parse instant`); dependency-aware parse/desugar for multi-word std callables.
 
 ### P23-4 — Phase 13 resume (parallel)
 Python route spike closure, standalone starter template extract.

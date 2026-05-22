@@ -7,7 +7,7 @@ import { jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult } from "
 
 import { httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed } from "./http";
 
-import { timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMillisecondsResult } from "./time";
+import { instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, isFormatInstantRawValueLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult } from "./time";
 
 import { readFileRaw, writeFileRaw, readFileContents, writeFileResult } from "./fs";
 
@@ -26,6 +26,10 @@ export async function stdHttpExampleResponse(url: string): Promise<string | { me
 }
 
 export async function stdTimeExampleValue(): Promise<string> {
+  return instantNowValue();
+}
+
+export async function stdTimeTextExampleValue(): Promise<string> {
   return await currentTimeValue();
 }
 

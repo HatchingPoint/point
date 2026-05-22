@@ -575,6 +575,7 @@ function emitTypeExpression(type: PointCoreTypeExpression): string {
 	if (type.name === "Maybe") return `${type.args[0] ? emitTypeExpression(type.args[0]) : "unknown"} | null`;
 	if (type.name === "Or") return type.args.map(emitTypeExpression).join(" | ");
 	if (type.name === "Error") return "{ message: string }";
+	if (type.name === "Instant") return "string";
 	if (isPrimitiveType(type.name)) return emitPrimitiveType(type.name);
 	return type.name;
 }

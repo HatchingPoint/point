@@ -1,9 +1,27 @@
 module StdTime
 
 external point std time
+  instant now raw(): Instant from "@hatchingpoint/point/std/time" as instantNow
+  parse instant raw(value: Text): Instant or Error from "@hatchingpoint/point/std/time" as parseInstant
+  format instant raw(value: Instant): Text from "@hatchingpoint/point/std/time" as formatInstant
   time now(): Text from "@hatchingpoint/point/std/time" as now
   sleep milliseconds(ms: Int): Void from "@hatchingpoint/point/std/time" as sleep
   format time(value: Text): Text from "@hatchingpoint/point/std/time" as formatTime
+
+calculation instant now
+  output value: Instant
+  value is instant now raw()
+
+calculation format instant
+  input value: Instant
+  output label: Text
+  label is format instant raw(value)
+
+action parse instant
+  input value: Text
+  output result: Instant or Error
+  touches none
+  return parse instant raw(value)
 
 action current time
   output value: Text

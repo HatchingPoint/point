@@ -18,6 +18,7 @@ Point uses a small typed surface: primitives, generics, unions, and user record 
 | `Void` | No value |
 | `List<T>` | Homogeneous lists |
 | `Map<Text, T>` | String-keyed maps (`map { "key": value }`, `lookup map key`) |
+| `Instant` | Opaque UTC timestamp (ISO string at runtime via `std.time`) |
 | `Maybe<T>` | Optional (`none` literal) |
 | `A or B` | Union / result (`Text or Error`) |
 | Record name | User-defined struct (`Cart Item`) |
@@ -71,6 +72,34 @@ record Money
 ```
 
 See `std/money.point` for add/format helpers. Do not use `Float` for currency.
+
+### Instant (time pattern)
+
+Point has no timezone logic in the language core. Use **`Instant`** for UTC timestamps and **`std.time`** for create/parse/format:
+
+```point
+use std.time
+
+record Event
+  name: Text
+  at: Instant
+
+calculation sample event
+  output event: Event
+  event is { name: "Launch", at: instant now() }
+
+label event summary
+  input event: Event
+  output summary: Text
+  otherwise return event.name + " at " + format instant(event.at)
+```
+
+- `instant now()` — current UTC instant
+- `format instant(value)` — human-readable label
+- `parse instant(text)` — `Instant or Error` from ISO text
+- `current time()` remains for plain `Text` ISO strings (legacy)
+
+See `examples/tools/instant-demo.point`. Avoid `Float` or raw `Text` when you mean a typed timestamp.
 
 Operators: `+`, `-`, `*`, `/`, comparisons, `and`, `or`, property access with `.`
 

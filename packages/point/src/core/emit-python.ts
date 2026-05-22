@@ -187,6 +187,7 @@ function emitTypeExpression(type: PointCoreTypeExpression): string {
 	if (type.name === "Maybe") return `${type.args[0] ? emitTypeExpression(type.args[0]) : "object"} | None`;
 	if (type.name === "Or") return type.args.map(emitTypeExpression).join(" | ");
 	if (type.name === "Error") return "dict[str, str]";
+	if (type.name === "Instant") return "str";
 	if (isPrimitiveType(type.name)) return emitPrimitiveType(type.name);
 	return type.name;
 }

@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import type { PointCoreDiagnostic } from "./check.ts";
 import { checkPointCore } from "./check.ts";
-import { createModuleGraphForFile, loadCoreFile, programWithDependencyDeclarations } from "./cli.ts";
+import { createModuleGraphForFile, buildCoreFileFromSource, loadCoreFile, programWithDependencyDeclarations } from "./cli.ts";
 import { parsePointSource } from "./parser.ts";
 import { readPointLock } from "./packages.ts";
 
@@ -113,9 +113,23 @@ async function checkPointFile(source: string, filePath: string, label: string, m
 	}
 }
 
-function checkPointSource(source: string, label: string, kind: "snippet" | "file", markdownSource: string, line?: number): DocsCheckItemResult {
+async function checkPointSource(
+	source: string,
+	label: string,
+	kind: "snippet" | "file",
+	markdownSource: string,
+	cwd: string,
+	line?: number,
+): Promise<DocsCheckItemResult> {
 	try {
-		const program = parsePointSource(source);
+		if (/^\s*use\s+/m.test(source)) {
+			const lock = await readPointLock(cwd);
+			const coreFile = buildCoreFileFromSource(`__docs__/${label.replace(/[^\w.-]+/g, "-")}.point`, source, lock, cwd);
+			const graph = await createModuleGraphForFile(coreFile, lock, cwd);
+			const diagnostics = checkPointCore(programWithDependencyDeclarations(coreFile, graph));
+			return { kind, source: markdownSource, label, line, ok: diagnostics.length === 0, diagnostics };
+		}
+		const program = parsePointSource(source, cwd);
 		const diagnostics = checkPointCore(program);
 		return { kind, source: markdownSource, label, line, ok: diagnostics.length === 0, diagnostics };
 	} catch (error) {
@@ -153,7 +167,7 @@ export async function checkDocs(options: { docsDir?: string; cwd?: string } = {}
 		const markdown = await Bun.file(absoluteMarkdownPath).text();
 
 		for (const snippet of extractPointSnippets(markdown, markdownPath)) {
-			items.push(checkPointSource(snippet.code, snippet.label, "snippet", markdownPath, snippet.line));
+			items.push(await checkPointSource(snippet.code, snippet.label, "snippet", markdownPath, cwd, snippet.line));
 		}
 
 		for (const filePath of extractPointFileReferences(markdown, markdownPath, cwd)) {

@@ -7,7 +7,7 @@ import { jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult } from "
 
 import { httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed } from "./http";
 
-import { timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMillisecondsResult } from "./time";
+import { instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, isFormatInstantRawValueLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult } from "./time";
 
 import { readFileRaw, writeFileRaw, readFileContents, writeFileResult } from "./fs";
 
@@ -26,13 +26,17 @@ export async function stdHttpExampleResponse(url) {
 }
 
 export async function stdTimeExampleValue() {
-  return await currentTimeValue(); // @point 35
+  return instantNowValue(); // @point 35
+}
+
+export async function stdTimeTextExampleValue() {
+  return await currentTimeValue(); // @point 40
 }
 
 export async function stdFsExampleContents(path) {
-  return await readFileContents(path); // @point 41
+  return await readFileContents(path); // @point 46
 }
 
 export async function stdEnvExampleValue(name) {
-  return await getEnvVarValue(name); // @point 47
+  return await getEnvVarValue(name); // @point 52
 }
