@@ -34,8 +34,10 @@ import {
 	emitDataLoadGuardLines,
 	emitPointIsEmptyDataHelper,
 	emitViewContentFromBody,
+	emitViewRenderFragment,
 	wrapBodyWithDataLoad,
 } from "./emit-data-load.ts";
+import { resolveViewWrapperClassName } from "./ui-style.ts";
 import { wrapBodyWithStreamSubscribe } from "./emit-stream-subscribe.ts";
 import {
 	emitPipelineStepEventTypes,
@@ -347,7 +349,9 @@ function emitViewWithExtrasBody(body: PointCoreStatement[], extras: ViewExtrasSp
 
 function emitFormControls(controls: PointSemanticViewControls): string {
 	const fields = controls.fields.map((binding) => emitFormField(binding, controls.changeCallback)).join("");
-	return `<form className="point-form" onSubmit={(event) => event.preventDefault()}>${fields}</form>`;
+	const styleClasses = resolveViewWrapperClassName(undefined, controls.style);
+	const formClassName = styleClasses ? `point-form ${styleClasses}` : "point-form";
+	return `<form className="${escapeJsxAttribute(formClassName)}" onSubmit={(event) => event.preventDefault()}>${fields}</form>`;
 }
 
 function emitFormField(binding: PointSemanticViewFieldBinding, changeCallback: string): string {
@@ -362,7 +366,8 @@ function emitFormField(binding: PointSemanticViewFieldBinding, changeCallback: s
 function emitEachList(spec: PointSemanticViewEachSpec): string {
 	const item = spec.itemIdentifier;
 	const itemContent = emitEachItemContent(spec);
-	const classAttr = spec.className ? ` className="${escapeJsxAttribute(spec.className)}"` : "";
+	const itemClassName = resolveViewWrapperClassName(spec.className, spec.style);
+	const classAttr = itemClassName ? ` className="${escapeJsxAttribute(itemClassName)}"` : "";
 	return `<ul className="point-list" role="list">{(${emitExpression(spec.iterable)} ?? []).map((${item}, index) => (<li key={String(index)}${classAttr} role="listitem">${itemContent}</li>))}</ul>`;
 }
 
@@ -370,8 +375,8 @@ function emitEachItemContent(spec: PointSemanticViewEachSpec): string {
 	if (spec.linkPath) {
 		return `{pointNavigationLink(String(${emitExpression(spec.render)}), String(${emitExpression(spec.linkPath)}))}`;
 	}
-	if (spec.className) {
-		return emitViewRenderFragment(spec.render, spec.className);
+	if (spec.className || spec.style?.length) {
+		return emitViewRenderFragment(spec.render, spec.className, spec.style);
 	}
 	if (spec.render.kind === "literal" && typeof spec.render.value === "string") {
 		return escapeJsxText(spec.render.value);
@@ -388,7 +393,7 @@ function emitViewTabs(spec: PointSemanticViewTabsSpec): string {
 
 function emitModal(spec: PointSemanticViewModalSpec): string {
 	const titleId = `point-modal-${toIdentifier(spec.title)}`;
-	const body = emitViewRenderFragment(spec.content, spec.className);
+	const body = emitViewRenderFragment(spec.content, spec.className, spec.style);
 	const dialog = `<div className="point-modal-overlay" role="presentation"><div className="point-modal" role="dialog" aria-modal="true" aria-labelledby="${titleId}"><h2 id="${titleId}">${escapeJsxText(spec.title)}</h2><div className="point-modal-body">${body}</div></div></div>`;
 	if (!spec.when) return dialog;
 	return `{${emitCondition(spec.when)} ? (${dialog}) : null}`;
@@ -435,29 +440,16 @@ function emitViewContentExpression(body: PointCoreStatement[]): string {
 		const statement = body[index];
 		if (!statement) continue;
 		if (statement.kind === "return" && statement.value) {
-			expression = emitViewRenderFragment(statement.value, statement.className);
+			expression = emitViewRenderFragment(statement.value, statement.className, statement.style);
 			continue;
 		}
 		if (statement.kind === "if" && statement.thenBody.length === 1 && statement.thenBody[0]?.kind === "return" && statement.thenBody[0].value) {
 			const thenReturn = statement.thenBody[0];
-			const thenValue = emitViewRenderFragment(thenReturn.value, thenReturn.className);
+			const thenValue = emitViewRenderFragment(thenReturn.value, thenReturn.className, thenReturn.style);
 			expression = `${emitCondition(statement.condition)} ? ${thenValue} : ${expression}`;
 		}
 	}
 	return `{${expression}}`;
-}
-
-function emitViewRenderFragment(expression: PointCoreExpression, className?: string): string {
-	if (!className) {
-		if (expression.kind === "literal" && typeof expression.value === "string") {
-			return `<>${escapeJsxText(expression.value)}</>`;
-		}
-		return `<>{${emitExpression(expression)}}</>`;
-	}
-	if (expression.kind === "literal" && typeof expression.value === "string") {
-		return `<div className="${escapeJsxAttribute(className)}">${escapeJsxText(expression.value)}</div>`;
-	}
-	return `<div className="${escapeJsxAttribute(className)}">{${emitExpression(expression)}}</div>`;
 }
 
 function emitPageBody(layout: PointSemanticPageLayout): string[] {
@@ -469,9 +461,8 @@ function emitPageBody(layout: PointSemanticPageLayout): string[] {
 		? `\n      <p className="point-page-description">${emitJsxChild(layout.description)}</p>`
 		: "";
 	const main = emitJsxChild(layout.main, true);
-	const mainClassName = layout.mainClassName
-		? `point-page-main ${layout.mainClassName}`
-		: "point-page-main";
+	const mainStyleClasses = resolveViewWrapperClassName(layout.mainClassName, layout.mainStyle);
+	const mainClassName = mainStyleClasses ? `point-page-main ${mainStyleClasses}` : "point-page-main";
 	const pageContent = [
 		`      <>`,
 		`        <header className="point-page-header">`,
@@ -511,7 +502,7 @@ function emitStatement(statement: PointCoreStatement, semanticKind?: string): st
 	}
 	if (statement.kind === "return") {
 		if (semanticKind === "view" && statement.value) {
-			return [`return ${emitViewRenderFragment(statement.value, statement.className)};`];
+			return [`return ${emitViewRenderFragment(statement.value, statement.className, statement.style)};`];
 		}
 		return [statement.value ? `return ${emitExpression(statement.value)};` : "return;"];
 	}

@@ -202,19 +202,25 @@ export interface PointSemanticPageDeclaration {
 	description?: PointSemanticExpression;
 	main: PointSemanticExpression;
 	mainClassName?: string;
+	mainStyle?: string[];
 	whenLoadingRender?: PointSemanticExpression;
 	whenLoadingClassName?: string;
+	whenLoadingStyle?: string[];
 	whenErrorRender?: PointSemanticExpression;
 	whenErrorClassName?: string;
+	whenErrorStyle?: string[];
 	whenEmptyRender?: PointSemanticExpression;
 	whenEmptyClassName?: string;
+	whenEmptyStyle?: string[];
 	streamSubscribePath?: string;
 	streamSubscribeRoute?: string;
 	onMessageCall?: string;
 	whenConnectingRender?: PointSemanticExpression;
 	whenConnectingClassName?: string;
+	whenConnectingStyle?: string[];
 	whenDisconnectedRender?: PointSemanticExpression;
 	whenDisconnectedClassName?: string;
+	whenDisconnectedStyle?: string[];
 	span?: PointSourceSpan;
 }
 
@@ -343,6 +349,7 @@ export interface PointSemanticViewTab {
 	label: string;
 	value: PointSemanticExpression;
 	className?: string;
+	style?: string[];
 	span?: PointSourceSpan;
 }
 
@@ -351,25 +358,25 @@ export type PointSemanticViewBindStatement =
 	| { kind: "bindField"; label: string; target: PointSemanticExpression; span?: PointSourceSpan };
 
 export type PointSemanticViewStatement =
-	| { kind: "render"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
-	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "render"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
+	| { kind: "whenRender"; condition: PointSemanticExpression; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "loadData"; action: string; span?: PointSourceSpan }
 	| { kind: "loadFetch"; method: "GET"; url: string; field: string; itemType: string; span?: PointSourceSpan }
 	| { kind: "onMountCall"; action: string; span?: PointSourceSpan }
 	| { kind: "streamSubscribePath"; path: string; span?: PointSourceSpan }
 	| { kind: "streamSubscribeRoute"; routeName: string; span?: PointSourceSpan }
 	| { kind: "onMessageCall"; callback: string; span?: PointSourceSpan }
-	| { kind: "whenConnectingRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
-	| { kind: "whenDisconnectedRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
-	| { kind: "whenLoadingRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
-	| { kind: "whenErrorRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
-	| { kind: "whenEmptyRender"; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "whenConnectingRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
+	| { kind: "whenDisconnectedRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
+	| { kind: "whenLoadingRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
+	| { kind: "whenErrorRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
+	| { kind: "whenEmptyRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "link"; label: string; path: string; span?: PointSourceSpan }
 	| { kind: "navigate"; path: string; span?: PointSourceSpan }
 	| PointSemanticViewBindStatement
-	| { kind: "form"; bindings: PointSemanticViewBindStatement[]; span?: PointSourceSpan }
-	| { kind: "eachRender"; item: string; iterable: PointSemanticExpression; value: PointSemanticExpression; className?: string; linkPath?: PointSemanticExpression; span?: PointSourceSpan }
-	| { kind: "modal"; title: string; when?: PointSemanticExpression; value: PointSemanticExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "form"; bindings: PointSemanticViewBindStatement[]; style?: string[]; span?: PointSourceSpan }
+	| { kind: "eachRender"; item: string; iterable: PointSemanticExpression; value: PointSemanticExpression; className?: string; style?: string[]; linkPath?: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "modal"; title: string; when?: PointSemanticExpression; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "tabs"; tabs: PointSemanticViewTab[]; span?: PointSourceSpan }
 	| { kind: "onChangeCall"; callback: string; span?: PointSourceSpan };
 

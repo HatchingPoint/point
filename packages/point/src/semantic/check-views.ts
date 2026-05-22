@@ -1,5 +1,6 @@
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import type { PointSourceSpan } from "../core/ast.ts";
+import { POINT_STYLE_MODIFIERS, isPointStyleModifier } from "../core/ui-style.ts";
 import type { PointSemanticProgram, PointSemanticViewDeclaration, PointSemanticViewStatement } from "./ast.ts";
 
 export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiagnostic[] {
@@ -133,8 +134,45 @@ function checkViewDeclaration(
 				),
 			);
 		}
+		diagnostics.push(...checkStatementStyleModifiers(moduleName, declaration.name, statement));
 	}
 
+	return diagnostics;
+}
+
+function checkStatementStyleModifiers(
+	moduleName: string,
+	viewName: string,
+	statement: PointSemanticViewStatement,
+): PointCoreDiagnostic[] {
+	const diagnostics: PointCoreDiagnostic[] = [];
+	const styleSources: Array<{ style?: string[]; span?: PointSourceSpan; label: string }> = [];
+	if ("style" in statement && statement.style) {
+		styleSources.push({ style: statement.style, span: statement.span, label: statement.kind });
+	}
+	if (statement.kind === "form" && statement.style) {
+		styleSources.push({ style: statement.style, span: statement.span, label: "form" });
+	}
+	if (statement.kind === "tabs") {
+		for (const tab of statement.tabs) {
+			if (tab.style) styleSources.push({ style: tab.style, span: tab.span, label: `tab ${tab.label}` });
+		}
+	}
+	for (const source of styleSources) {
+		for (const modifier of source.style ?? []) {
+			if (isPointStyleModifier(modifier)) continue;
+			diagnostics.push(
+				viewDiagnostic(
+					"unknown-view-style",
+					`View ${viewName} ${source.label} uses unknown style modifier "${modifier}"`,
+					moduleName,
+					viewName,
+					`Use one of: ${POINT_STYLE_MODIFIERS.join(", ")}.`,
+					source.span,
+				),
+			);
+		}
+	}
 	return diagnostics;
 }
 

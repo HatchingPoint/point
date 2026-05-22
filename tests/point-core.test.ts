@@ -297,7 +297,24 @@ view counter
 		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/Views/view.counter");
 	});
 
-	test("emits Tailwind class modifiers on view render nodes", () => {
+	test("emits semantic style modifiers on view render nodes", () => {
+		const program = parsePointSource(`module Views
+
+view counter
+  input count: Int
+  when count > 0 render emphasized large "Counter ready"
+  render muted "Counter empty"
+`);
+
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain('className="point-style-emphasized point-style-large"');
+		expect(emitted).toContain('className="point-style-muted"');
+		expect(emitted).toContain("Counter ready");
+		expect(emitted).toContain("Counter empty");
+	});
+
+	test("emits raw class escape hatch on view render nodes", () => {
 		const program = parsePointSource(`module Views
 
 view counter
@@ -310,8 +327,6 @@ view counter
 		const emitted = emitPointCoreTypeScript(program);
 		expect(emitted).toContain('className="text-lg font-semibold text-green-700"');
 		expect(emitted).toContain('className="text-muted"');
-		expect(emitted).toContain("Counter ready");
-		expect(emitted).toContain("Counter empty");
 		expect(emitted).toContain('return <div className="text-lg font-semibold text-green-700">Counter ready</div>');
 		expect(emitted).toContain('return <div className="text-muted">Counter empty</div>');
 	});

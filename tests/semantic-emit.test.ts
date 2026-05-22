@@ -35,6 +35,7 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/catalog/price-lookup.point",
 	"examples/std-usage.point",
 	"examples/tools/instant-demo.point",
+	"examples/view.point",
 	"std/process.point",
 	"std/http.point",
 	"std/time.point",

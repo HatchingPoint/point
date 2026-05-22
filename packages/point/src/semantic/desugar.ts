@@ -440,10 +440,13 @@ function buildDataLoad(
 	actionOutputs: Map<string, PointSemanticTypeExpression>,
 	loading?: PointSemanticExpression,
 	loadingClassName?: string,
+	loadingStyle?: string[],
 	error?: PointSemanticExpression,
 	errorClassName?: string,
+	errorStyle?: string[],
 	empty?: PointSemanticExpression,
 	emptyClassName?: string,
+	emptyStyle?: string[],
 	ctx?: DesugarContext,
 ): PointSemanticDataLoad | undefined {
 	const outputType = actionOutputs.get(actionName);
@@ -456,10 +459,13 @@ function buildDataLoad(
 		bindingName: "data",
 		loading: loading && ctx ? desugarExpression(loading, ctx) : undefined,
 		loadingClassName,
+		loadingStyle,
 		error: error && ctx ? desugarExpression(error, ctx) : undefined,
 		errorClassName,
+		errorStyle,
 		empty: empty && ctx ? desugarExpression(empty, ctx) : undefined,
 		emptyClassName,
+		emptyStyle,
 	};
 }
 
@@ -477,10 +483,13 @@ function buildFetchDataLoad(
 	fetch: Extract<PointSemanticViewStatement, { kind: "loadFetch" }>,
 	loading?: PointSemanticExpression,
 	loadingClassName?: string,
+	loadingStyle?: string[],
 	error?: PointSemanticExpression,
 	errorClassName?: string,
+	errorStyle?: string[],
 	empty?: PointSemanticExpression,
 	emptyClassName?: string,
+	emptyStyle?: string[],
 	ctx?: DesugarContext,
 ): PointSemanticDataLoad {
 	return {
@@ -492,10 +501,13 @@ function buildFetchDataLoad(
 		bindingName: "data",
 		loading: loading && ctx ? desugarExpression(loading, ctx) : undefined,
 		loadingClassName,
+		loadingStyle,
 		error: error && ctx ? desugarExpression(error, ctx) : undefined,
 		errorClassName,
+		errorStyle,
 		empty: empty && ctx ? desugarExpression(empty, ctx) : undefined,
 		emptyClassName,
+		emptyStyle,
 	};
 }
 
@@ -516,10 +528,13 @@ function buildViewDataLoad(
 			fetchStatement,
 			loading?.value,
 			loading?.className,
+			loading && "style" in loading ? loading.style : undefined,
 			error?.value,
 			error?.className,
+			error && "style" in error ? error.style : undefined,
 			empty?.value,
 			empty?.className,
+			empty && "style" in empty ? empty.style : undefined,
 			ctx,
 		);
 	}
@@ -534,10 +549,13 @@ function buildViewDataLoad(
 		actionOutputs,
 		loading?.value,
 		loading?.className,
+		loading && "style" in loading ? loading.style : undefined,
 		error?.value,
 		error?.className,
+		error && "style" in error ? error.style : undefined,
 		empty?.value,
 		empty?.className,
+		empty && "style" in empty ? empty.style : undefined,
 		ctx,
 	);
 }
@@ -592,10 +610,13 @@ function buildViewStreamSubscribe(
 		messageCallback: onMessageCall ? toIdentifier(onMessageCall.callback) : undefined,
 		connecting: connecting && "value" in connecting ? desugarExpression(connecting.value, ctx) : undefined,
 		connectingClassName: connecting && "className" in connecting ? connecting.className : undefined,
+		connectingStyle: connecting && "style" in connecting ? connecting.style : undefined,
 		disconnected: disconnected && "value" in disconnected ? desugarExpression(disconnected.value, ctx) : undefined,
 		disconnectedClassName: disconnected && "className" in disconnected ? disconnected.className : undefined,
+		disconnectedStyle: disconnected && "style" in disconnected ? disconnected.style : undefined,
 		error: error && "value" in error ? desugarExpression(error.value, ctx) : undefined,
 		errorClassName: error && "className" in error ? error.className : undefined,
+		errorStyle: error && "style" in error ? error.style : undefined,
 	};
 }
 
@@ -617,10 +638,13 @@ function buildPageStreamSubscribe(
 		messageCallback: declaration.onMessageCall ? toIdentifier(declaration.onMessageCall) : undefined,
 		connecting: declaration.whenConnectingRender ? desugarExpression(declaration.whenConnectingRender, ctx) : undefined,
 		connectingClassName: declaration.whenConnectingClassName,
+		connectingStyle: declaration.whenConnectingStyle,
 		disconnected: declaration.whenDisconnectedRender ? desugarExpression(declaration.whenDisconnectedRender, ctx) : undefined,
 		disconnectedClassName: declaration.whenDisconnectedClassName,
+		disconnectedStyle: declaration.whenDisconnectedStyle,
 		error: declaration.whenErrorRender ? desugarExpression(declaration.whenErrorRender, ctx) : undefined,
 		errorClassName: declaration.whenErrorClassName,
+		errorStyle: declaration.whenErrorStyle,
 	};
 }
 
@@ -688,6 +712,9 @@ function buildViewControls(
 	const onChangeCall = declaration.body.find(
 		(statement): statement is Extract<PointSemanticViewStatement, { kind: "onChangeCall" }> => statement.kind === "onChangeCall",
 	);
+	const formStatement = declaration.body.find(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "form" }> => statement.kind === "form",
+	);
 	const handlerInput = declaration.inputs.find((input) => input.type.name === "Handler" && input.type.args.length === 1);
 	const callbackLabel = onChangeCall?.callback ?? handlerInput?.label;
 	if (!callbackLabel) {
@@ -698,6 +725,7 @@ function buildViewControls(
 	return {
 		changeCallback,
 		fields: bindStatements.map((statement) => desugarViewFieldBinding(statement, ctx)),
+		...(formStatement?.style ? { style: formStatement.style } : {}),
 	};
 }
 
@@ -730,6 +758,7 @@ function buildViewEach(declaration: PointSemanticViewDeclaration, ctx: DesugarCo
 			iterable: desugarExpression(statement.iterable, ctx),
 			render: desugarExpression(statement.value, ctx),
 			className: statement.className,
+			style: statement.style,
 			linkPath: statement.linkPath ? desugarExpression(statement.linkPath, ctx) : undefined,
 		}));
 }
@@ -742,6 +771,7 @@ function buildViewModal(declaration: PointSemanticViewDeclaration, ctx: DesugarC
 		when: modal.when ? desugarExpression(modal.when, ctx) : undefined,
 		content: desugarExpression(modal.value, ctx),
 		className: modal.className,
+		style: modal.style,
 	};
 }
 
@@ -813,10 +843,13 @@ function desugarPage(
 			actionOutputs,
 			declaration.whenLoadingRender,
 			declaration.whenLoadingClassName,
+			declaration.whenLoadingStyle,
 			declaration.whenErrorRender,
 			declaration.whenErrorClassName,
+			declaration.whenErrorStyle,
 			declaration.whenEmptyRender,
 			declaration.whenEmptyClassName,
+			declaration.whenEmptyStyle,
 			ctx,
 		);
 		ctx.bindings.set("data", "data");
@@ -835,6 +868,7 @@ function desugarPage(
 		description: declaration.description ? desugarExpression(declaration.description, ctx) : undefined,
 		main: desugarExpression(declaration.main, ctx),
 		mainClassName: declaration.mainClassName,
+		mainStyle: declaration.mainStyle,
 		dataLoad,
 		streamSubscribe: pageStreamSubscribe,
 	};
@@ -1230,6 +1264,7 @@ function desugarViewBody(statements: PointSemanticViewStatement[], ctx: DesugarC
 				kind: "return",
 				value: desugarExpression(statement.value, ctx),
 				...(statement.className ? { className: statement.className } : {}),
+				...(statement.style ? { style: statement.style } : {}),
 				span: statement.span,
 			}],
 				elseBody: [],
@@ -1241,6 +1276,7 @@ function desugarViewBody(statements: PointSemanticViewStatement[], ctx: DesugarC
 			kind: "return",
 			value: desugarExpression(statement.value, ctx),
 			...(statement.className ? { className: statement.className } : {}),
+			...(statement.style ? { style: statement.style } : {}),
 			span: statement.span,
 		});
 	}

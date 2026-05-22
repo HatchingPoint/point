@@ -14,23 +14,68 @@ React-oriented UI (first target). See `examples/view.point`.
 
 Callable expressions in `render` and `when ... render` clauses produce dynamic content in views. Use `point build` when a host framework consumes the output — see [Build and emit](/point/toolchain/build-emit).
 
-### Tailwind styling bridge
+### Semantic styling
 
-View nodes accept an optional `class "..."` modifier after `render`. The compiler adds a wrapper with that class — authors stay in Point syntax.
+View nodes accept semantic style modifiers after `render`. The compiler maps them to shipped `point-ui.css` classes — authors stay in Point syntax with no separate stylesheet.
 
 ```point
+module Counter
+
 view counter
   input count: Int
-  when count > 0 render class "text-lg font-semibold text-green-700" "Counter ready"
-  render class "text-muted" "Counter empty"
+  when count > 0 render emphasized large "Counter ready"
+  render muted "Counter empty"
 ```
 
-Pages can style the main content region with `main render class "..."`:
+Pages can style the main content region:
 
 ```point
+module Demo
+
+view dashboard view
+  render "Dashboard body"
+
 page demo page
   title "Dashboard"
-  main render class "space-y-4 prose" dashboardView()
+  main render padded dashboardView()
+```
+
+Forms accept layout modifiers:
+
+```point
+module Demo
+
+record Settings
+  name: Text
+
+view settings form
+  input settings: Settings
+  input on settings change: Handler Settings
+  on change call on settings change
+  form compact
+    bind field "Name" to settings.name
+```
+
+Modifiers: `emphasized`, `muted`, `danger`, `success`, `large`, `small`, `compact`, `padded`, `centered`.
+
+Import styles in your web entry (full-stack apps):
+
+```css
+@import "@hatchingpoint/point/ui/point-ui.css";
+```
+
+Unknown modifiers produce a `unknown-view-style` diagnostic with a repair hint listing valid modifiers.
+
+### Raw class escape hatch
+
+View nodes still accept `class "..."` after `render` for custom CSS classes when semantic modifiers are not enough:
+
+```point
+module Demo
+
+view counter
+  input count: Int
+  when count > 0 render class "my-custom-class" "Counter ready"
 ```
 
 See `examples/view.point` for a minimal styled view.

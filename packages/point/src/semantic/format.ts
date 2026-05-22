@@ -19,6 +19,12 @@ import type {
 	PointSemanticServerDbStatement,
 } from "./ast.ts";
 
+function formatStylePrefix(style?: string[], className?: string): string {
+	if (className) return `class "${className}" `;
+	if (style && style.length > 0) return `${style.join(" ")} `;
+	return "";
+}
+
 export function formatSemanticProgram(program: PointSemanticProgram): string {
 	const blocks: string[] = [];
 	if (program.module) blocks.push(`module ${program.module}`);
@@ -159,7 +165,9 @@ function formatDeclaration(declaration: PointSemanticDeclaration): string[] {
 				...(declaration.description ? [`  description ${formatExpression(declaration.description)}`] : []),
 				declaration.mainClassName
 					? `  main render class "${declaration.mainClassName}" ${formatExpression(declaration.main)}`
-					: `  main render ${formatExpression(declaration.main)}`,
+					: declaration.mainStyle?.length
+						? `  main render ${declaration.mainStyle.join(" ")} ${formatExpression(declaration.main)}`
+						: `  main render ${formatExpression(declaration.main)}`,
 			];
 		case "middleware":
 			return [
@@ -309,53 +317,47 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	if (statement.kind === "streamSubscribeRoute") return `subscribe to stream ${statement.routeName}`;
 	if (statement.kind === "onMessageCall") return `on message call ${statement.callback}`;
 	if (statement.kind === "whenConnectingRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
-		return `when connecting render ${classPrefix}${formatExpression(statement.value)}`;
+		return `when connecting render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "whenDisconnectedRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
-		return `when disconnected render ${classPrefix}${formatExpression(statement.value)}`;
+		return `when disconnected render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "whenLoadingRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
-		return `when loading render ${classPrefix}${formatExpression(statement.value)}`;
+		return `when loading render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "whenErrorRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
-		return `when error render ${classPrefix}${formatExpression(statement.value)}`;
+		return `when error render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "whenEmptyRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
-		return `when empty render ${classPrefix}${formatExpression(statement.value)}`;
+		return `when empty render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "link") return `link "${statement.label}" to "${statement.path}"`;
 	if (statement.kind === "navigate") return `navigate to "${statement.path}"`;
 	if (statement.kind === "whenRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
-		return `when ${formatExpression(statement.condition)} render ${classPrefix}${formatExpression(statement.value)}`;
+		return `when ${formatExpression(statement.condition)} render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "bindCheckbox") return `bind checkbox "${statement.label}" to ${formatExpression(statement.target)}`;
 	if (statement.kind === "bindField") return `bind field "${statement.label}" to ${formatExpression(statement.target)}`;
 	if (statement.kind === "form") {
-		return ["form", ...statement.bindings.map((binding) => `  ${formatViewStatement(binding)}`)].join("\n");
+		const stylePrefix = statement.style?.length ? `${statement.style.join(" ")}` : "form";
+		return [stylePrefix, ...statement.bindings.map((binding) => `  ${formatViewStatement(binding)}`)].join("\n");
 	}
 	if (statement.kind === "eachRender") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
 		if (statement.linkPath) {
-			return `each ${statement.item} in ${formatExpression(statement.iterable)} render ${classPrefix}link ${formatExpression(statement.value)} to ${formatExpression(statement.linkPath)}`;
+			return `each ${statement.item} in ${formatExpression(statement.iterable)} render ${formatStylePrefix(statement.style, statement.className)}link ${formatExpression(statement.value)} to ${formatExpression(statement.linkPath)}`;
 		}
-		return `each ${statement.item} in ${formatExpression(statement.iterable)} render ${classPrefix}${formatExpression(statement.value)}`;
+		return `each ${statement.item} in ${formatExpression(statement.iterable)} render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;
 	}
 	if (statement.kind === "modal") {
-		const classPrefix = statement.className ? `class "${statement.className}" ` : "";
 		const whenPrefix = statement.when ? `when ${formatExpression(statement.when)} ` : "";
-		return `modal "${statement.title}" ${whenPrefix}render ${classPrefix}${formatExpression(statement.value)}`.replace("  ", " ");
+		return `modal "${statement.title}" ${whenPrefix}render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`.replace("  ", " ");
 	}
 	if (statement.kind === "tabs") {
-		return ["tabs", ...statement.tabs.map((tab) => `  tab "${tab.label}" render ${tab.className ? `class "${tab.className}" ` : ""}${formatExpression(tab.value)}`)].join("\n");
+		return ["tabs", ...statement.tabs.map((tab) => `  tab "${tab.label}" render ${formatStylePrefix(tab.style, tab.className)}${formatExpression(tab.value)}`)].join("\n");
 	}
 	if (statement.kind === "onChangeCall") return `on change call ${statement.callback}`;
 	if (statement.className) return `render class "${statement.className}" ${formatExpression(statement.value)}`;
+	if (statement.style?.length) return `render ${statement.style.join(" ")} ${formatExpression(statement.value)}`;
 	return `render ${formatExpression(statement.value)}`;
 }
 

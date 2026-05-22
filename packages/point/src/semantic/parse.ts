@@ -1,4 +1,5 @@
 import type { PointSourceSpan } from "../core/ast.ts";
+import { parseStylePrefix, isPointStyleModifier } from "../core/ui-style.ts";
 import type {
 	PointSemanticActionDeclaration,
 	PointSemanticActionStatement,
@@ -844,12 +845,12 @@ function parseGuardPattern(raw: string, source: string, lineNumber: number): str
 	return trimmed;
 }
 
-function parseClassPrefixedRender(
+function parseStyledRender(
 	rest: string,
 	context: ReturnType<typeof expressionContext>,
 	source: string,
 	lineNumber: number,
-): { className?: string; value: PointSemanticExpression } {
+): { className?: string; style?: string[]; value: PointSemanticExpression } {
 	const classMatch = rest.match(/^class "([^"]+)" (.+)$/);
 	if (classMatch) {
 		return {
@@ -857,17 +858,42 @@ function parseClassPrefixedRender(
 			value: parseLineExpression(classMatch[2] ?? "", context, source, lineNumber),
 		};
 	}
-	return { value: parseLineExpression(rest, context, source, lineNumber) };
+	const { style, remainder } = parseStylePrefix(rest);
+	const unknownStringRender = remainder.match(/^([a-z]+) "([^"]*)"$/);
+	if (unknownStringRender && !isPointStyleModifier(unknownStringRender[1] ?? "")) {
+		style.push(unknownStringRender[1] ?? "");
+		return {
+			style: style.length > 0 ? style : undefined,
+			value: parseLineExpression(`"${unknownStringRender[2] ?? ""}"`, context, source, lineNumber),
+		};
+	}
+	return {
+		style: style.length > 0 ? style : undefined,
+		value: parseLineExpression(remainder, context, source, lineNumber),
+	};
 }
 
 function parseDataLoadStateRender(
-	state: "loading" | "error" | "empty",
+	state: "loading" | "error" | "empty" | "connecting" | "disconnected",
 	rest: string,
 	context: ReturnType<typeof expressionContext>,
 	source: string,
 	lineNumber: number,
-): { className?: string; value: PointSemanticExpression } {
-	return parseClassPrefixedRender(rest, context, source, lineNumber);
+): { className?: string; style?: string[]; value: PointSemanticExpression } {
+	return parseStyledRender(rest, context, source, lineNumber);
+}
+
+function parseFormStyleLine(rest: string): string[] | undefined {
+	const { style, remainder } = parseStylePrefix(rest);
+	if (remainder.trim()) throw new Error(`Unknown form style modifier: ${remainder.trim()}`);
+	return style.length > 0 ? style : undefined;
+}
+
+function styledRenderFields(render: { className?: string; style?: string[] }): { className?: string; style?: string[] } {
+	return {
+		...(render.className ? { className: render.className } : {}),
+		...(render.style ? { style: render.style } : {}),
+	};
 }
 
 function parseView(
@@ -992,7 +1018,7 @@ function parseView(
 		const whenConnecting = line.match(/^when connecting render (.+)$/);
 		if (whenConnecting) {
 			const render = parseDataLoadStateRender("connecting", whenConnecting[1] ?? "", context, source, lineNumber);
-			statements.push({ kind: "whenConnectingRender", value: render.value, className: render.className, span: lineSpan(source, lineNumber) });
+			statements.push({ kind: "whenConnectingRender", value: render.value, ...styledRenderFields(render), span: lineSpan(source, lineNumber) });
 			continue;
 		}
 		const whenDisconnectedClass = line.match(/^when disconnected render class "([^"]+)" (.+)$/);
@@ -1012,7 +1038,7 @@ function parseView(
 			statements.push({
 				kind: "whenDisconnectedRender",
 				value: render.value,
-				className: render.className,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -1031,7 +1057,7 @@ function parseView(
 		const whenLoading = line.match(/^when loading render (.+)$/);
 		if (whenLoading) {
 			const render = parseDataLoadStateRender("loading", whenLoading[1] ?? "", context, source, lineNumber);
-			statements.push({ kind: "whenLoadingRender", value: render.value, className: render.className, span: lineSpan(source, lineNumber) });
+			statements.push({ kind: "whenLoadingRender", value: render.value, ...styledRenderFields(render), span: lineSpan(source, lineNumber) });
 			continue;
 		}
 		const whenErrorClass = line.match(/^when error render class "([^"]+)" (.+)$/);
@@ -1048,7 +1074,7 @@ function parseView(
 		const whenError = line.match(/^when error render (.+)$/);
 		if (whenError) {
 			const render = parseDataLoadStateRender("error", whenError[1] ?? "", context, source, lineNumber);
-			statements.push({ kind: "whenErrorRender", value: render.value, className: render.className, span: lineSpan(source, lineNumber) });
+			statements.push({ kind: "whenErrorRender", value: render.value, ...styledRenderFields(render), span: lineSpan(source, lineNumber) });
 			continue;
 		}
 		const whenEmptyClass = line.match(/^when empty render class "([^"]+)" (.+)$/);
@@ -1065,7 +1091,7 @@ function parseView(
 		const whenEmpty = line.match(/^when empty render (.+)$/);
 		if (whenEmpty) {
 			const render = parseDataLoadStateRender("empty", whenEmpty[1] ?? "", context, source, lineNumber);
-			statements.push({ kind: "whenEmptyRender", value: render.value, className: render.className, span: lineSpan(source, lineNumber) });
+			statements.push({ kind: "whenEmptyRender", value: render.value, ...styledRenderFields(render), span: lineSpan(source, lineNumber) });
 			continue;
 		}
 		const whenRenderClass = line.match(/^when (.+) render class "([^"]+)" (.+)$/);
@@ -1081,10 +1107,12 @@ function parseView(
 		}
 		const whenRender = line.match(/^when (.+) render (.+)$/);
 		if (whenRender) {
+			const render = parseStyledRender(whenRender[2] ?? "", context, source, lineNumber);
 			statements.push({
 				kind: "whenRender",
 				condition: parseLineExpression(whenRender[1] ?? "", context, source, lineNumber),
-				value: parseLineExpression(whenRender[2] ?? "", context, source, lineNumber),
+				value: render.value,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -1100,11 +1128,11 @@ function parseView(
 				});
 				continue;
 			}
-			const render = parseClassPrefixedRender(line.slice("render ".length), context, source, lineNumber);
+			const render = parseStyledRender(line.slice("render ".length), context, source, lineNumber);
 			statements.push({
 				kind: "render",
 				value: render.value,
-				className: render.className,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -1148,10 +1176,17 @@ function parseView(
 			});
 			continue;
 		}
-		if (line === "form") {
+		const formLine = line.match(/^form(?: (.+))?$/);
+		if (formLine) {
 			const bindings = parseViewBindBlock(body, lineIndex + 1, context, source);
 			if (bindings.bindings.length === 0) throw new Error(`form requires bind field or bind checkbox lines`);
-			statements.push({ kind: "form", bindings: bindings.bindings, span: lineSpan(source, lineNumber) });
+			const style = formLine[1] ? parseFormStyleLine(formLine[1]) : undefined;
+			statements.push({
+				kind: "form",
+				bindings: bindings.bindings,
+				...(style ? { style } : {}),
+				span: lineSpan(source, lineNumber),
+			});
 			lineIndex = bindings.next - 1;
 			continue;
 		}
@@ -1205,11 +1240,28 @@ function parseView(
 		const eachRender = line.match(/^each (.+) in (.+) render (.+)$/);
 		if (eachRender) {
 			const eachContext = eachItemContext(bindings, paramTypes, records, variants, callables, eachRender[1] ?? "", eachRender[2] ?? "");
+			const rest = eachRender[3] ?? "";
+			const { style, remainder } = parseStylePrefix(rest);
+			const linkMatch = remainder.match(/^link (.+) to (.+)$/);
+			if (linkMatch) {
+				statements.push({
+					kind: "eachRender",
+					item: eachRender[1] ?? "",
+					iterable: parseLineExpression(eachRender[2] ?? "", context, source, lineNumber),
+					...(style.length > 0 ? { style } : {}),
+					value: parseLineExpression(linkMatch[1] ?? "", eachContext, source, lineNumber),
+					linkPath: parseLineExpression(linkMatch[2] ?? "", eachContext, source, lineNumber),
+					span: lineSpan(source, lineNumber),
+				});
+				continue;
+			}
+			const render = parseStyledRender(rest, eachContext, source, lineNumber);
 			statements.push({
 				kind: "eachRender",
 				item: eachRender[1] ?? "",
 				iterable: parseLineExpression(eachRender[2] ?? "", context, source, lineNumber),
-				value: parseLineExpression(eachRender[3] ?? "", eachContext, source, lineNumber),
+				value: render.value,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -1228,11 +1280,13 @@ function parseView(
 		}
 		const modalWhen = line.match(/^modal "(.+)" when (.+) render (.+)$/);
 		if (modalWhen) {
+			const render = parseStyledRender(modalWhen[3] ?? "", context, source, lineNumber);
 			statements.push({
 				kind: "modal",
 				title: modalWhen[1] ?? "",
 				when: parseLineExpression(modalWhen[2] ?? "", context, source, lineNumber),
-				value: parseLineExpression(modalWhen[3] ?? "", context, source, lineNumber),
+				value: render.value,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -1250,10 +1304,12 @@ function parseView(
 		}
 		const modalRender = line.match(/^modal "(.+)" render (.+)$/);
 		if (modalRender) {
+			const render = parseStyledRender(modalRender[2] ?? "", context, source, lineNumber);
 			statements.push({
 				kind: "modal",
 				title: modalRender[1] ?? "",
-				value: parseLineExpression(modalRender[2] ?? "", context, source, lineNumber),
+				value: render.value,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -1388,19 +1444,25 @@ function parsePage(
 	let description: PointSemanticPageDeclaration["description"];
 	let main: PointSemanticPageDeclaration["main"] | undefined;
 	let mainClassName: string | undefined;
+	let mainStyle: string[] | undefined;
 	let whenLoadingRender: PointSemanticPageDeclaration["whenLoadingRender"];
 	let whenLoadingClassName: string | undefined;
+	let whenLoadingStyle: string[] | undefined;
 	let whenErrorRender: PointSemanticPageDeclaration["whenErrorRender"];
 	let whenErrorClassName: string | undefined;
+	let whenErrorStyle: string[] | undefined;
 	let whenEmptyRender: PointSemanticPageDeclaration["whenEmptyRender"];
 	let whenEmptyClassName: string | undefined;
+	let whenEmptyStyle: string[] | undefined;
 	let streamSubscribePath: string | undefined;
 	let streamSubscribeRoute: string | undefined;
 	let onMessageCall: string | undefined;
 	let whenConnectingRender: PointSemanticPageDeclaration["whenConnectingRender"];
 	let whenConnectingClassName: string | undefined;
+	let whenConnectingStyle: string[] | undefined;
 	let whenDisconnectedRender: PointSemanticPageDeclaration["whenDisconnectedRender"];
 	let whenDisconnectedClassName: string | undefined;
+	let whenDisconnectedStyle: string[] | undefined;
 	let hasDataBinding = false;
 	let hasStreamBinding = false;
 
@@ -1474,6 +1536,7 @@ function parsePage(
 			const render = parseDataLoadStateRender("connecting", whenConnecting[1] ?? "", context, source, lineNumber);
 			whenConnectingRender = render.value;
 			whenConnectingClassName = render.className;
+			whenConnectingStyle = render.style;
 			continue;
 		}
 		const whenDisconnectedClass = line.match(/^when disconnected render class "([^"]+)" (.+)$/);
@@ -1487,6 +1550,7 @@ function parsePage(
 			const render = parseDataLoadStateRender("disconnected", whenDisconnected[1] ?? "", context, source, lineNumber);
 			whenDisconnectedRender = render.value;
 			whenDisconnectedClassName = render.className;
+			whenDisconnectedStyle = render.style;
 			continue;
 		}
 		const whenLoadingClass = line.match(/^when loading render class "([^"]+)" (.+)$/);
@@ -1500,6 +1564,7 @@ function parsePage(
 			const render = parseDataLoadStateRender("loading", whenLoading[1] ?? "", context, source, lineNumber);
 			whenLoadingRender = render.value;
 			whenLoadingClassName = render.className;
+			whenLoadingStyle = render.style;
 			continue;
 		}
 		const whenErrorClass = line.match(/^when error render class "([^"]+)" (.+)$/);
@@ -1513,6 +1578,7 @@ function parsePage(
 			const render = parseDataLoadStateRender("error", whenError[1] ?? "", context, source, lineNumber);
 			whenErrorRender = render.value;
 			whenErrorClassName = render.className;
+			whenErrorStyle = render.style;
 			continue;
 		}
 		const whenEmptyClass = line.match(/^when empty render class "([^"]+)" (.+)$/);
@@ -1526,6 +1592,7 @@ function parsePage(
 			const render = parseDataLoadStateRender("empty", whenEmpty[1] ?? "", context, source, lineNumber);
 			whenEmptyRender = render.value;
 			whenEmptyClassName = render.className;
+			whenEmptyStyle = render.style;
 			continue;
 		}
 		if (line.startsWith("layout ")) {
@@ -1540,16 +1607,18 @@ function parsePage(
 			description = parseLineExpression(line.slice("description ".length), context, source, lineNumber);
 			continue;
 		}
-		if (line.startsWith("main render class ")) {
-			const mainRenderClass = line.match(/^main render class "([^"]+)" (.+)$/);
-			if (mainRenderClass) {
-				mainClassName = mainRenderClass[1];
-				main = parseLineExpression(mainRenderClass[2] ?? "", context, source, lineNumber);
+		if (line.startsWith("main render ")) {
+			const rest = line.slice("main render ".length);
+			const classMatch = rest.match(/^class "([^"]+)" (.+)$/);
+			if (classMatch) {
+				mainClassName = classMatch[1];
+				main = parseLineExpression(classMatch[2] ?? "", context, source, lineNumber);
 				continue;
 			}
-		}
-		if (line.startsWith("main render ")) {
-			main = parseLineExpression(line.slice("main render ".length), context, source, lineNumber);
+			const styled = parseStyledRender(rest, context, source, lineNumber);
+			main = styled.value;
+			mainClassName = styled.className;
+			mainStyle = styled.style;
 			continue;
 		}
 		throw new Error(`Unknown page statement: ${line}`);
@@ -1569,19 +1638,25 @@ function parsePage(
 			description,
 			main,
 			mainClassName,
+			...(mainStyle ? { mainStyle } : {}),
 			whenLoadingRender,
 			whenLoadingClassName,
+			...(whenLoadingStyle ? { whenLoadingStyle } : {}),
 			whenErrorRender,
 			whenErrorClassName,
+			...(whenErrorStyle ? { whenErrorStyle } : {}),
 			whenEmptyRender,
 			whenEmptyClassName,
+			...(whenEmptyStyle ? { whenEmptyStyle } : {}),
 			streamSubscribePath,
 			streamSubscribeRoute,
 			onMessageCall,
 			whenConnectingRender,
 			whenConnectingClassName,
+			...(whenConnectingStyle ? { whenConnectingStyle } : {}),
 			whenDisconnectedRender,
 			whenDisconnectedClassName,
+			...(whenDisconnectedStyle ? { whenDisconnectedStyle } : {}),
 			span: lineSpan(source, start + 1),
 		},
 		next: body.next,

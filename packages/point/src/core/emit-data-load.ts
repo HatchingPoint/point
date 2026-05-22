@@ -1,4 +1,5 @@
 import type { PointCoreExpression, PointCoreStatement, PointSemanticDataLoad } from "./ast.ts";
+import { resolveViewWrapperClassName } from "./ui-style.ts";
 
 function escapeJsxText(value: string): string {
 	return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -29,22 +30,23 @@ function emitExpression(expression: PointCoreExpression): string {
 	return "null";
 }
 
-export function emitViewRenderFragment(expression: PointCoreExpression, className?: string): string {
-	if (!className) {
+export function emitViewRenderFragment(expression: PointCoreExpression, className?: string, style?: string[]): string {
+	const wrapperClassName = resolveViewWrapperClassName(className, style);
+	if (!wrapperClassName) {
 		if (expression.kind === "literal" && typeof expression.value === "string") {
 			return `<>${escapeJsxText(expression.value)}</>`;
 		}
 		return `<>{${emitExpression(expression)}}</>`;
 	}
 	if (expression.kind === "literal" && typeof expression.value === "string") {
-		return `<div className="${escapeJsxAttribute(className)}">${escapeJsxText(expression.value)}</div>`;
+		return `<div className="${escapeJsxAttribute(wrapperClassName)}">${escapeJsxText(expression.value)}</div>`;
 	}
-	return `<div className="${escapeJsxAttribute(className)}">{${emitExpression(expression)}}</div>`;
+	return `<div className="${escapeJsxAttribute(wrapperClassName)}">{${emitExpression(expression)}}</div>`;
 }
 
-function emitStateReturn(expression: PointCoreExpression | undefined, className?: string): string[] | null {
+function emitStateReturn(expression: PointCoreExpression | undefined, className?: string, style?: string[]): string[] | null {
 	if (!expression) return null;
-	return [`return ${emitViewRenderFragment(expression, className)};`];
+	return [`return ${emitViewRenderFragment(expression, className, style)};`];
 }
 
 export function emitDataLoadHookLines(spec: PointSemanticDataLoad, paramNames: string[]): string[] {
@@ -103,11 +105,11 @@ export function emitDataLoadHookLines(spec: PointSemanticDataLoad, paramNames: s
 
 export function emitDataLoadGuardLines(spec: PointSemanticDataLoad): string[] {
 	const lines: string[] = [];
-	const loadingReturn = emitStateReturn(spec.loading, spec.loadingClassName);
+	const loadingReturn = emitStateReturn(spec.loading, spec.loadingClassName, spec.loadingStyle);
 	if (loadingReturn) lines.push("if (loading) {", ...indent(loadingReturn), "}");
-	const errorReturn = emitStateReturn(spec.error, spec.errorClassName);
+	const errorReturn = emitStateReturn(spec.error, spec.errorClassName, spec.errorStyle);
 	if (errorReturn) lines.push("if (error) {", ...indent(errorReturn), "}");
-	const emptyReturn = emitStateReturn(spec.empty, spec.emptyClassName);
+	const emptyReturn = emitStateReturn(spec.empty, spec.emptyClassName, spec.emptyStyle);
 	if (emptyReturn) {
 		lines.push(`if (pointIsEmptyData(${spec.bindingName})) {`, ...indent(emptyReturn), "}");
 	}
@@ -136,12 +138,12 @@ export function emitViewContentFromBody(body: PointCoreStatement[]): string {
 		const statement = body[index];
 		if (!statement) continue;
 		if (statement.kind === "return" && statement.value) {
-			expression = emitViewRenderFragment(statement.value, statement.className);
+			expression = emitViewRenderFragment(statement.value, statement.className, statement.style);
 			continue;
 		}
 		if (statement.kind === "if" && statement.thenBody.length === 1 && statement.thenBody[0]?.kind === "return" && statement.thenBody[0].value) {
 			const thenReturn = statement.thenBody[0];
-			const thenValue = emitViewRenderFragment(thenReturn.value, thenReturn.className);
+			const thenValue = emitViewRenderFragment(thenReturn.value, thenReturn.className, thenReturn.style);
 			const cond =
 				statement.condition.kind === "binary" || statement.condition.kind === "identifier"
 					? emitExpression(statement.condition)

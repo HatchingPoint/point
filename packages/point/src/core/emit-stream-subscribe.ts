@@ -23,9 +23,9 @@ function emitExpression(expression: PointCoreExpression): string {
 	return "null";
 }
 
-function emitStateReturn(expression: PointCoreExpression | undefined, className?: string): string[] | null {
+function emitStateReturn(expression: PointCoreExpression | undefined, className?: string, style?: string[]): string[] | null {
 	if (!expression) return null;
-	return [`return ${emitViewRenderFragment(expression, className)};`];
+	return [`return ${emitViewRenderFragment(expression, className, style)};`];
 }
 
 export function emitStreamSubscribeHookLines(spec: PointSemanticStreamSubscribe, paramNames: string[]): string[] {
@@ -73,11 +73,11 @@ export function emitStreamSubscribeHookLines(spec: PointSemanticStreamSubscribe,
 
 export function emitStreamSubscribeGuardLines(spec: PointSemanticStreamSubscribe): string[] {
 	const lines: string[] = [];
-	const connectingReturn = emitStateReturn(spec.connecting, spec.connectingClassName);
+	const connectingReturn = emitStateReturn(spec.connecting, spec.connectingClassName, spec.connectingStyle);
 	if (connectingReturn) lines.push("if (connecting) {", ...indent(connectingReturn), "}");
-	const errorReturn = emitStateReturn(spec.error, spec.errorClassName);
+	const errorReturn = emitStateReturn(spec.error, spec.errorClassName, spec.errorStyle);
 	if (errorReturn) lines.push("if (error) {", ...indent(errorReturn), "}");
-	const disconnectedReturn = emitStateReturn(spec.disconnected, spec.disconnectedClassName);
+	const disconnectedReturn = emitStateReturn(spec.disconnected, spec.disconnectedClassName, spec.disconnectedStyle);
 	if (disconnectedReturn) {
 		lines.push("if (!connected && !connecting) {", ...indent(disconnectedReturn), "}");
 	}

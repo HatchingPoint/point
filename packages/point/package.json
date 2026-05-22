@@ -15,6 +15,7 @@
   },
   "files": [
     "src",
+    "ui",
     "templates",
     "python_std",
     "README.md",
@@ -39,7 +40,8 @@
     "./std/yaml": "./src/std/yaml.ts",
     "./std/stream": "./src/std/stream.ts",
     "./std/sql": "./src/std/sql.ts",
-    "./std/ai": "./src/std/ai.ts"
+    "./std/ai": "./src/std/ai.ts",
+    "./ui/point-ui.css": "./ui/point-ui.css"
   },
   "dependencies": {
     "yaml": "^2.8.0"

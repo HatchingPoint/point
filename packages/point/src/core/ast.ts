@@ -109,6 +109,7 @@ export interface PointSemanticPageLayout {
 	description?: PointCoreExpression;
 	main: PointCoreExpression;
 	mainClassName?: string;
+	mainStyle?: string[];
 	dataLoad?: PointSemanticDataLoad;
 	streamSubscribe?: PointSemanticStreamSubscribe;
 }
@@ -124,6 +125,7 @@ export interface PointSemanticViewFieldBinding {
 export interface PointSemanticViewControls {
 	changeCallback: string;
 	fields: PointSemanticViewFieldBinding[];
+	style?: string[];
 }
 
 export interface PointSemanticViewEachSpec {
@@ -132,6 +134,7 @@ export interface PointSemanticViewEachSpec {
 	iterable: PointCoreExpression;
 	render: PointCoreExpression;
 	className?: string;
+	style?: string[];
 	linkPath?: PointCoreExpression;
 }
 
@@ -140,6 +143,7 @@ export interface PointSemanticViewModalSpec {
 	when?: PointCoreExpression;
 	content: PointCoreExpression;
 	className?: string;
+	style?: string[];
 }
 
 export interface PointSemanticViewTabSpec {
@@ -171,10 +175,13 @@ export interface PointSemanticDataLoad {
 	bindingName: string;
 	loading?: PointCoreExpression;
 	loadingClassName?: string;
+	loadingStyle?: string[];
 	error?: PointCoreExpression;
 	errorClassName?: string;
+	errorStyle?: string[];
 	empty?: PointCoreExpression;
 	emptyClassName?: string;
+	emptyStyle?: string[];
 }
 
 export interface PointSemanticStreamSubscribe {
@@ -185,10 +192,13 @@ export interface PointSemanticStreamSubscribe {
 	messageCallback?: string;
 	connecting?: PointCoreExpression;
 	connectingClassName?: string;
+	connectingStyle?: string[];
 	disconnected?: PointCoreExpression;
 	disconnectedClassName?: string;
+	disconnectedStyle?: string[];
 	error?: PointCoreExpression;
 	errorClassName?: string;
+	errorStyle?: string[];
 }
 
 export interface PointSemanticDeclarationMetadata {
@@ -224,7 +234,7 @@ export interface PointCoreRecordField {
 }
 
 export type PointCoreStatement =
-	| { kind: "return"; value?: PointCoreExpression; className?: string; span?: PointSourceSpan }
+	| { kind: "return"; value?: PointCoreExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "yield"; value?: PointCoreExpression; span?: PointSourceSpan }
 	| PointCoreValueDeclaration
 	| {

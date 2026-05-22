@@ -1,0 +1,295 @@
+:root {
+  color-scheme: light dark;
+  --point-font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --point-font-size: 1rem;
+  --point-line-height: 1.5;
+  --point-color-text: #111827;
+  --point-color-muted: #6b7280;
+  --point-color-emphasis: #111827;
+  --point-color-danger: #b91c1c;
+  --point-color-success: #15803d;
+  --point-color-accent: #4f46e5;
+  --point-color-border: #d1d5db;
+  --point-color-surface: #ffffff;
+  --point-color-surface-muted: #f9fafb;
+  --point-radius: 0.5rem;
+  --point-space-xs: 0.25rem;
+  --point-space-sm: 0.5rem;
+  --point-space-md: 1rem;
+  --point-space-lg: 1.5rem;
+  --point-space-xl: 2rem;
+  --point-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
+  --point-shadow-md: 0 10px 25px rgb(0 0 0 / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --point-color-text: #f3f4f6;
+    --point-color-muted: #9ca3af;
+    --point-color-emphasis: #f9fafb;
+    --point-color-danger: #f87171;
+    --point-color-success: #4ade80;
+    --point-color-accent: #818cf8;
+    --point-color-border: #374151;
+    --point-color-surface: #111827;
+    --point-color-surface-muted: #1f2937;
+    --point-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+    --point-shadow-md: 0 10px 25px rgb(0 0 0 / 0.45);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--point-font-family);
+  font-size: var(--point-font-size);
+  line-height: var(--point-line-height);
+  color: var(--point-color-text);
+  background: var(--point-color-surface-muted);
+}
+
+.point-page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--point-space-xl) var(--point-space-lg);
+}
+
+.point-page-header h1 {
+  margin: 0 0 var(--point-space-sm);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--point-color-emphasis);
+}
+
+.point-page-description {
+  margin: 0;
+  color: var(--point-color-muted);
+}
+
+.point-page-main {
+  margin-top: var(--point-space-lg);
+}
+
+.point-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--point-color-surface-muted);
+}
+
+.point-layout-header {
+  padding: var(--point-space-md) var(--point-space-lg);
+  border-bottom: 1px solid var(--point-color-border);
+  background: var(--point-color-surface);
+}
+
+.point-layout-body {
+  display: grid;
+  grid-template-columns: minmax(12rem, 16rem) 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.point-layout-sidebar {
+  padding: var(--point-space-lg);
+  border-right: 1px solid var(--point-color-border);
+  background: var(--point-color-surface);
+}
+
+.point-layout-main {
+  padding: var(--point-space-xl);
+}
+
+.point-layout-footer {
+  padding: var(--point-space-md) var(--point-space-lg);
+  border-top: 1px solid var(--point-color-border);
+  background: var(--point-color-surface);
+  color: var(--point-color-muted);
+}
+
+.point-link {
+  color: var(--point-color-accent);
+  text-decoration: none;
+}
+
+.point-link:hover {
+  text-decoration: underline;
+}
+
+.point-form {
+  display: grid;
+  gap: var(--point-space-md);
+  padding: var(--point-space-lg);
+  border: 1px solid var(--point-color-border);
+  border-radius: var(--point-radius);
+  background: var(--point-color-surface);
+  box-shadow: var(--point-shadow-sm);
+}
+
+.point-form-field {
+  display: grid;
+  gap: var(--point-space-xs);
+  font-size: 0.95rem;
+}
+
+.point-form-field span {
+  font-weight: 600;
+  color: var(--point-color-emphasis);
+}
+
+.point-form-field input[type="text"] {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--point-color-border);
+  border-radius: calc(var(--point-radius) - 0.125rem);
+  background: var(--point-color-surface);
+  color: var(--point-color-text);
+}
+
+.point-form-field input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--point-color-accent);
+}
+
+.point-tabs {
+  display: grid;
+  gap: var(--point-space-md);
+}
+
+.point-tabs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--point-space-sm);
+}
+
+.point-tab {
+  border: 1px solid var(--point-color-border);
+  border-radius: calc(var(--point-radius) - 0.125rem);
+  background: var(--point-color-surface);
+  color: var(--point-color-text);
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+
+.point-tab-active {
+  border-color: var(--point-color-accent);
+  color: var(--point-color-accent);
+  font-weight: 600;
+}
+
+.point-tabpanel {
+  padding: var(--point-space-md);
+  border: 1px solid var(--point-color-border);
+  border-radius: var(--point-radius);
+  background: var(--point-color-surface);
+}
+
+.point-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--point-space-lg);
+  background: rgb(17 24 39 / 0.45);
+  z-index: 50;
+}
+
+.point-modal {
+  width: min(100%, 32rem);
+  padding: var(--point-space-lg);
+  border-radius: var(--point-radius);
+  background: var(--point-color-surface);
+  box-shadow: var(--point-shadow-md);
+}
+
+.point-modal h2 {
+  margin: 0 0 var(--point-space-md);
+  font-size: 1.25rem;
+}
+
+.point-modal-body {
+  color: var(--point-color-text);
+}
+
+.point-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--point-space-sm);
+}
+
+.point-list li {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--point-color-border);
+  border-radius: calc(var(--point-radius) - 0.125rem);
+  background: var(--point-color-surface);
+}
+
+.point-style-emphasized {
+  color: var(--point-color-emphasis);
+  font-weight: 600;
+}
+
+.point-style-muted {
+  color: var(--point-color-muted);
+}
+
+.point-style-danger {
+  color: var(--point-color-danger);
+  font-weight: 600;
+}
+
+.point-style-success {
+  color: var(--point-color-success);
+  font-weight: 600;
+}
+
+.point-style-large {
+  font-size: 1.25rem;
+}
+
+.point-style-small {
+  font-size: 0.875rem;
+}
+
+.point-style-compact {
+  gap: var(--point-space-sm);
+  padding: var(--point-space-md);
+}
+
+.point-form.point-style-compact {
+  gap: var(--point-space-sm);
+  padding: var(--point-space-md);
+}
+
+.point-style-padded {
+  padding: var(--point-space-lg);
+}
+
+.point-style-centered {
+  text-align: center;
+}
+
+.point-page-main.point-style-padded,
+.point-layout-main.point-style-padded {
+  padding: var(--point-space-xl);
+}
+
+@media (max-width: 48rem) {
+  .point-layout-body {
+    grid-template-columns: 1fr;
+  }
+
+  .point-layout-sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--point-color-border);
+  }
+}
