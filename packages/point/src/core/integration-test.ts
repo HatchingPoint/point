@@ -35,7 +35,8 @@ export function findIntegrationTests(program: PointCoreProgram): PointCoreFuncti
 }
 
 export function supportsIntegrationTests(program: PointCoreProgram): boolean {
-	return detectDevMode(program).kind === "routes";
+	const mode = detectDevMode(program, { apiOnly: true });
+	return mode.kind === "routes" || mode.kind === "app";
 }
 
 function pathToFileUrl(path: string): string {

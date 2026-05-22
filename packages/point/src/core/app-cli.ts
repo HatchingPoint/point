@@ -173,8 +173,9 @@ function printCreateNextSteps(appName: string, targetDir: string): void {
 	console.log("");
 	console.log("Next steps:");
 	console.log(`  cd ${relativeTarget}`);
+	console.log("  bun install");
 	console.log("  point check src/app.point");
-	console.log("  point run src/app.point");
+	console.log("  bun run dev");
 	console.log("");
 	console.log("Edit src/app.point — your app lives entirely in Point source.");
 	console.log("Docs: https://hatchingpoint.com/point/guide/quick-start");

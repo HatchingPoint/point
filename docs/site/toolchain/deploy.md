@@ -27,6 +27,43 @@ point build-ts src/app.point generated/app.ts
 
 Database access stays in `action` blocks with `touches database` — wire connection strings via `std.env` in your host bootstrap. See [Database interop](/point/ecosystem/database-interop).
 
+## Bun — Path B native full stack
+
+For apps scaffolded with `point create` (navigation + routes + `web/` Vite host):
+
+```bash
+bun install
+point check src/app.point
+bun run dev          # Vite UI on :5173, Bun API on :3456
+```
+
+Production:
+
+```bash
+point build-app src/app.point   # emit + vite build → dist/
+point serve src/app.point --port 8080
+```
+
+Or `bun run build` then `bun run serve` from the template.
+
+`point serve` serves static files from `dist/` and routes under `/api/*` from one Bun listener. No Next.js host required.
+
+Use `point dev --api` when you only want the API process (no Vite).
+
+### Render, Railway, Fly (no Docker)
+
+Path B is a single **Web Service**: one Bun process serves the Vite-built UI and `/api/*`.
+
+| Setting | Value |
+|---------|--------|
+| Runtime | Bun |
+| Build command | `bun install && bun run build` |
+| Start command | `bun run serve` |
+
+Set environment variables (`DATABASE_URL`, etc.) in the host dashboard — load them in Point via `std.env` inside actions.
+
+Vite runs only at **build time** (`point build-app` → `dist/`). Production is just `point serve` reading static files and API emit. No container required unless you choose one.
+
 ## Bun — API and route apps
 
 Route modules emit `createPointRouteFetchHandler()` and a `serve …` command that calls `Bun.serve`. After production build:
@@ -88,6 +125,7 @@ point dev src/app.point --port 3456   # hot reload; not for production
 
 ## See also
 
+- [Dev and serve](/point/toolchain/dev)
 - [Build and emit](/point/toolchain/build-emit)
 - [point run](/point/toolchain/run)
 - [CLI reference](/point/reference/cli)

@@ -36,7 +36,9 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `build-py` | Emit Python (logic, actions, routes, workflows, commands where supported) | 1 on diagnostics |
 | `build-py-all` | Emit Python for all discovered files (skips unsupported blocks) | 1 on diagnostics |
 | `run` | Check, run zero-arg entrypoint (in-memory bundle for pure logic; else temp JS) | 1 on check/runtime error |
-| `dev` | Watch module graph, incremental check/build, restart Bun server or re-run entry | 1 on initial check failure |
+| `dev` | Watch module graph, incremental check/build, restart Bun server or re-run entry; auto-starts Vite when navigation + routes + `web/` exist | 1 on initial check failure |
+| `serve` | Production Path B server: static `dist/` + `/api/*` routes | 1 on check failure or missing `dist/` |
+| `build-app` | Emit JS + TS then run Vite build → `dist/` (requires `web/vite.config.*`) | 1 on check failure or vite error |
 | `test` | Run `test*` Bool calculations/actions | 1 on failure |
 | `test integration` | Start route server and run `integration test*` Bool actions | 1 on failure |
 | `repl` | Evaluate expressions from stdin or inline | 0 |
@@ -97,9 +99,13 @@ Prefer `check-json`, `index`, `explain`, and `repair-plan` for automation. See [
 | Flag | Commands | Effect |
 |------|----------|--------|
 | `--production` | `build`, `build-js` | Optimized JavaScript emit for deploy (header + compact spacing; use host minifier for final bundle) |
+| `--port <n>` | `dev`, `serve` | Listen port (default `3456`) |
+| `--api` | `dev` | API-only dev — skip Vite |
+| `--static <dir>` | `serve` | Static root (default `dist`) |
 
 ## See also
 
+- [Dev and serve](/point/toolchain/dev)
 - [Deploy](/point/toolchain/deploy)
 - [LSP](/point/toolchain/lsp)
 - [Diagnostics](/point/reference/diagnostics)

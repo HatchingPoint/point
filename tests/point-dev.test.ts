@@ -5,8 +5,10 @@ import { join } from "node:path";
 import {
 	buildDevEntry,
 	createDevBootstrap,
+	detectAppDevMode,
 	detectDevMode,
 	parseDevCliFlags,
+	viteWebRoot,
 } from "../packages/point/src/core/dev.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 
@@ -40,10 +42,35 @@ async function waitForServer(baseUrl: string, timeoutMs = 5000): Promise<void> {
 	throw new Error(`Timed out waiting for ${baseUrl}/hello`);
 }
 
+const appDevSource = `module DevApp
+
+view home
+  render "Home"
+
+page home page
+  title "Home"
+  main render home()
+
+navigation main app
+  path "/" page home page
+  bootstrap router
+
+route ping
+  method GET
+  path "/api/ping"
+  output response: Text
+  return "pong"
+
+command serve dev app
+  output status: Text
+  return "ready"
+`;
+
 describe("point dev helpers", () => {
-	test("parseDevCliFlags reads --port", () => {
+	test("parseDevCliFlags reads --port and --api", () => {
 		expect(parseDevCliFlags(["app.point", "--port", "4001"]).port).toBe(4001);
 		expect(parseDevCliFlags(["--port=4002", "app.point"]).port).toBe(4002);
+		expect(parseDevCliFlags(["--api", "app.point"]).apiOnly).toBe(true);
 	});
 
 	test("detectDevMode prefers routes over run entry", () => {
@@ -65,6 +92,40 @@ describe("point dev helpers", () => {
 			expect(build.ok).toBe(true);
 			expect(build.mode.kind).toBe("routes");
 			expect(existsSync(build.jsOutput)).toBe(true);
+			expect((await Bun.file(build.jsOutput).text()).includes("createPointRouteFetchHandler")).toBe(true);
+		} finally {
+			await rm(projectDir, { recursive: true, force: true });
+		}
+	});
+
+	test("detectDevMode selects app when navigation, routes, and web/ exist", async () => {
+		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-dev-app-mode-"));
+		try {
+			await writeFile(join(projectDir, "app.point"), appDevSource);
+			await mkdir(join(projectDir, "web"), { recursive: true });
+			await writeFile(join(projectDir, "web/vite.config.ts"), "export default {};\n");
+			const program = parsePointSource(appDevSource);
+			expect(viteWebRoot(projectDir)).toBe(join(projectDir, "web"));
+			expect(detectAppDevMode(program, projectDir)).toEqual({ kind: "app", webRoot: join(projectDir, "web") });
+			expect(detectDevMode(program, { cwd: projectDir }).kind).toBe("app");
+			expect(detectDevMode(program, { cwd: projectDir, apiOnly: true }).kind).toBe("routes");
+		} finally {
+			await rm(projectDir, { recursive: true, force: true });
+		}
+	});
+
+	test("buildDevEntry emits TypeScript in app mode", async () => {
+		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/point-dev-app-build-"));
+		try {
+			await writeFile(join(projectDir, "app.point"), appDevSource);
+			await mkdir(join(projectDir, "web"), { recursive: true });
+			await writeFile(join(projectDir, "web/vite.config.ts"), "export default {};\n");
+			const build = await buildDevEntry("app.point", projectDir);
+			expect(build.ok).toBe(true);
+			expect(build.mode.kind).toBe("app");
+			expect(build.tsOutput).toBeDefined();
+			expect(existsSync(build.tsOutput!)).toBe(true);
+			expect((await Bun.file(build.tsOutput!).text()).includes("mountMainApp")).toBe(true);
 			expect((await Bun.file(build.jsOutput).text()).includes("createPointRouteFetchHandler")).toBe(true);
 		} finally {
 			await rm(projectDir, { recursive: true, force: true });

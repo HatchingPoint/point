@@ -53,6 +53,7 @@ For debugging and tooling — not normal app execution.
 
 ## See also
 
+- [Dev and serve](/point/toolchain/dev)
 - [How Point runs](/point/concepts/how-point-runs)
 - [Run, test, REPL](/point/toolchain/run-test-repl)
 - [Deploy](/point/toolchain/deploy)

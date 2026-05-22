@@ -81,16 +81,20 @@ Prefer semantic refs such as `point://semantic/Checkout/rule.cart total` over li
 
 ## Scaffold an app
 
-Create a full-stack admin app (layout, navigation, pages, actions) — like `create-next-app` for Point:
+Create a Point-native full-stack admin app (UI + API in `.point`, Vite host included):
 
 ```bash
 bun install -g @hatchingpoint/point
 point create my-app
 cd my-app
+bun install
 point check src/app.point
-point run src/app.point
-bun run build
+bun run dev
 ```
+
+Open **http://localhost:5173** for the UI. The Bun API runs on **http://localhost:3456** (`/api/health`, `/api/members`).
+
+Production: `bun run build` then `bun run serve`. See [Deploy](/point/toolchain/deploy).
 
 Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.
 

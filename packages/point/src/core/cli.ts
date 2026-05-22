@@ -17,6 +17,8 @@ import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock } from "./packages.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
+import { runPointBuildApp } from "./build-app.ts";
+import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
@@ -48,7 +50,16 @@ export async function main() {
 	}
 	if (command === "dev") {
 		const parsed = parseDevCliFlags(tail);
-		await runPointDev(parsed.positional[0] ?? DEFAULT_INPUT, { port: parsed.port });
+		await runPointDev(parsed.positional[0] ?? DEFAULT_INPUT, { port: parsed.port, apiOnly: parsed.apiOnly });
+		return;
+	}
+	if (command === "serve") {
+		const parsed = parseServeCliFlags(tail);
+		await runPointServe(parsed.positional[0] ?? DEFAULT_INPUT, { port: parsed.port, staticDir: parsed.staticDir });
+		return;
+	}
+	if (command === "build-app") {
+		await runPointBuildApp(tail[0] ?? "src/app.point");
 		return;
 	}
 	if (command === "test" && tail[0] === "integration") {
@@ -673,7 +684,7 @@ function outputFor(input: string): string {
 	return `${GENERATED_DIR}/${name}.ast.json`;
 }
 
-function tsOutputFor(input: string): string {
+export function tsOutputFor(input: string): string {
 	const name = outputBaseName(input);
 	return `${GENERATED_DIR}/${name}.ts`;
 }

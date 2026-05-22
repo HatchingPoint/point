@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { watch } from "node:fs";
 import type { PointCoreProgram } from "./ast.ts";
@@ -10,8 +11,10 @@ import {
 	orderByDependencies,
 	programWithDependencyDeclarations,
 	programWithTypeScriptImports,
+	tsOutputFor,
 } from "./cli.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
+import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { isCacheHit, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { readPointLock } from "./packages.ts";
 
@@ -21,9 +24,11 @@ const DEV_RUNNER = "dev-runner.ts";
 export interface PointDevOptions {
 	port: number;
 	cwd?: string;
+	apiOnly?: boolean;
 }
 
 export type PointDevMode =
+	| { kind: "app"; webRoot: string }
 	| { kind: "routes" }
 	| { kind: "schedules"; entryName: string }
 	| { kind: "run"; entryName: string };
@@ -32,13 +37,15 @@ export interface PointDevBuildResult {
 	ok: boolean;
 	entry: string;
 	jsOutput: string;
+	tsOutput?: string;
 	mode: PointDevMode;
 	diagnostics: PointCoreDiagnostic[];
 	watchedInputs: string[];
 }
 
-export function parseDevCliFlags(args: string[]): { port: number; positional: string[] } {
+export function parseDevCliFlags(args: string[]): { port: number; apiOnly: boolean; positional: string[] } {
 	let port = 3456;
+	let apiOnly = false;
 	const positional: string[] = [];
 	for (let index = 0; index < args.length; index += 1) {
 		const arg = args[index]!;
@@ -50,17 +57,54 @@ export function parseDevCliFlags(args: string[]): { port: number; positional: st
 			port = Number(arg.slice("--port=".length));
 			continue;
 		}
+		if (arg === "--api" || arg === "--api-only") {
+			apiOnly = true;
+			continue;
+		}
 		positional.push(arg);
 	}
 	if (!Number.isFinite(port) || port <= 0) throw new Error(`Invalid --port value: ${port}`);
-	return { port, positional };
+	return { port, apiOnly, positional };
 }
 
-export function detectDevMode(program: PointCoreProgram): PointDevMode {
-	const hasRoutes =
+export function hasRoutes(program: PointCoreProgram): boolean {
+	return (
 		program.semanticSource?.declarations.some((declaration) => declaration.kind === "route" || declaration.kind === "streamRoute") ??
-		false;
-	if (hasRoutes) return { kind: "routes" };
+		false
+	);
+}
+
+export function hasBootstrapNavigation(program: PointCoreProgram): boolean {
+	return (
+		program.semanticSource?.declarations.some(
+			(declaration) => declaration.kind === "navigation" && declaration.bootstrapRouter,
+		) ?? false
+	);
+}
+
+export function viteWebRoot(cwd: string): string | null {
+	const candidates = ["web/vite.config.ts", "web/vite.config.js", "web/vite.config.mts"];
+	for (const candidate of candidates) {
+		const configPath = resolve(cwd, candidate);
+		if (existsSync(configPath)) return dirname(configPath);
+	}
+	return null;
+}
+
+export function detectAppDevMode(program: PointCoreProgram, cwd: string): PointDevMode | null {
+	if (!hasBootstrapNavigation(program) || !hasRoutes(program)) return null;
+	const webRoot = viteWebRoot(cwd);
+	if (!webRoot) return null;
+	return { kind: "app", webRoot };
+}
+
+export function detectDevMode(program: PointCoreProgram, options: { cwd?: string; apiOnly?: boolean } = {}): PointDevMode {
+	const cwd = options.cwd ?? process.cwd();
+	if (!options.apiOnly) {
+		const appMode = detectAppDevMode(program, cwd);
+		if (appMode) return appMode;
+	}
+	if (hasRoutes(program)) return { kind: "routes" };
 
 	const schedules = program.semanticSource?.declarations.filter((declaration) => declaration.kind === "schedule") ?? [];
 	if (schedules.length > 0) {
@@ -75,7 +119,7 @@ export function detectDevMode(program: PointCoreProgram): PointDevMode {
 	return { kind: "run", entryName };
 }
 
-export async function buildDevEntry(entry: string, cwd = process.cwd()): Promise<PointDevBuildResult> {
+export async function buildDevEntry(entry: string, cwd = process.cwd(), options: { apiOnly?: boolean } = {}): Promise<PointDevBuildResult> {
 	const normalizedEntry = entry.replaceAll("\\", "/");
 	const lock = await readPointLock(cwd);
 	const coreFile = await loadCoreFile(normalizedEntry, lock, cwd);
@@ -96,12 +140,14 @@ export async function buildDevEntry(entry: string, cwd = process.cwd()): Promise
 	}
 	await writeBuildCache(cache, cwd);
 
+	const mode = detectDevMode(coreFile.program, { cwd, apiOnly: options.apiOnly });
 	if (diagnostics.length > 0) {
 		return {
 			ok: false,
 			entry: normalizedEntry,
 			jsOutput: resolve(cwd, jsOutputFor(normalizedEntry)),
-			mode: detectDevMode(coreFile.program),
+			tsOutput: mode.kind === "app" ? resolve(cwd, tsOutputFor(normalizedEntry)) : undefined,
+			mode,
 			diagnostics,
 			watchedInputs,
 		};
@@ -111,12 +157,18 @@ export async function buildDevEntry(entry: string, cwd = process.cwd()): Promise
 	const jsOutput = resolve(cwd, jsOutputFor(normalizedEntry));
 	await Bun.$`mkdir -p ${dirname(jsOutput)}`.quiet();
 	await Bun.write(jsOutput, emitPointCoreJavaScript(program));
+	let tsOutput: string | undefined;
+	if (mode.kind === "app") {
+		tsOutput = resolve(cwd, tsOutputFor(normalizedEntry));
+		await Bun.write(tsOutput, emitPointCoreTypeScript(program, normalizedEntry));
+	}
 
 	return {
 		ok: true,
 		entry: normalizedEntry,
 		jsOutput,
-		mode: detectDevMode(program),
+		tsOutput,
+		mode,
 		diagnostics: [],
 		watchedInputs,
 	};
@@ -161,24 +213,52 @@ async function writeDevRunner(cwd: string, jsOutput: string, mode: PointDevMode)
 type DevProcess = ReturnType<typeof Bun.spawn>;
 type RouteServer = ReturnType<typeof Bun.serve>;
 
+const DEFAULT_VITE_PORT = 5173;
+
 function pathToFileUrl(path: string): string {
 	return `file://${path.replaceAll("\\", "/")}`;
+}
+
+function viteConfigPath(cwd: string): string | null {
+	const candidates = ["web/vite.config.ts", "web/vite.config.js", "web/vite.config.mts"];
+	for (const candidate of candidates) {
+		const configPath = resolve(cwd, candidate);
+		if (existsSync(configPath)) return configPath;
+	}
+	return null;
+}
+
+async function startRouteServerFromBuild(cwd: string, jsOutput: string, port: number): Promise<RouteServer> {
+	process.env.PORT = String(port);
+	const devModulePath = resolve(cwd, DEV_CACHE_DIR, `serve-${Date.now()}.js`);
+	await Bun.$`mkdir -p ${dirname(devModulePath)}`.quiet();
+	await Bun.write(devModulePath, await Bun.file(jsOutput).text());
+	const mod = await import(pathToFileUrl(devModulePath));
+	return mod.startRoutesServer();
 }
 
 export async function runPointDev(entry: string, options: PointDevOptions): Promise<void> {
 	const cwd = options.cwd ?? process.cwd();
 	const normalizedEntry = entry.replaceAll("\\", "/");
 	let activeProcess: DevProcess | null = null;
+	let viteProcess: DevProcess | null = null;
 	let routeServer: RouteServer | null = null;
 	let watchedPaths = new Set<string>();
 	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 	let reloadGeneration = 0;
 	let watcherStop: (() => void) | null = null;
+	let viteStarted = false;
 
 	const stopActiveProcess = async () => {
 		if (routeServer) {
 			routeServer.stop(true);
 			routeServer = null;
+		}
+		if (viteProcess) {
+			viteProcess.kill();
+			await viteProcess.exited.catch(() => undefined);
+			viteProcess = null;
+			viteStarted = false;
 		}
 		if (!activeProcess) return;
 		activeProcess.kill();
@@ -186,16 +266,43 @@ export async function runPointDev(entry: string, options: PointDevOptions): Prom
 		activeProcess = null;
 	};
 
+	const startViteProcess = (webRoot: string) => {
+		if (viteStarted) return;
+		const configPath = viteConfigPath(cwd);
+		if (!configPath) {
+			throw new Error("Vite config not found under web/. Add web/vite.config.ts for full-stack dev.");
+		}
+		const vitePort = Number(process.env.VITE_PORT ?? DEFAULT_VITE_PORT);
+		const env = {
+			...process.env,
+			VITE_API_PORT: String(options.port),
+			VITE_PORT: String(vitePort),
+		};
+		viteProcess = Bun.spawn(["bunx", "vite", "--config", configPath.replaceAll("\\", "/")], {
+			cwd: webRoot,
+			env,
+			stdout: "inherit",
+			stderr: "inherit",
+		});
+		viteStarted = true;
+		console.log(`Point dev UI (Vite) on http://localhost:${vitePort} — web root ${webRoot.replaceAll("\\", "/")}`);
+	};
+
 	const startDevProcess = async (build: PointDevBuildResult) => {
-		await stopActiveProcess();
 		const env = { ...process.env, PORT: String(options.port) };
+		if (build.mode.kind === "app") {
+			if (routeServer) {
+				routeServer.stop(true);
+				routeServer = null;
+			}
+			routeServer = await startRouteServerFromBuild(cwd, build.jsOutput, options.port);
+			console.log(`Point dev API on http://localhost:${routeServer.port}`);
+			startViteProcess(build.mode.webRoot);
+			return;
+		}
+		await stopActiveProcess();
 		if (build.mode.kind === "routes") {
-			process.env.PORT = String(options.port);
-			const devModulePath = resolve(cwd, DEV_CACHE_DIR, `serve-${Date.now()}.js`);
-			await Bun.$`mkdir -p ${dirname(devModulePath)}`.quiet();
-			await Bun.write(devModulePath, await Bun.file(build.jsOutput).text());
-			const mod = await import(pathToFileUrl(devModulePath));
-			routeServer = mod.startRoutesServer();
+			routeServer = await startRouteServerFromBuild(cwd, build.jsOutput, options.port);
 			console.log(`Point dev listening on http://localhost:${routeServer.port}`);
 			return;
 		}
@@ -228,7 +335,7 @@ export async function runPointDev(entry: string, options: PointDevOptions): Prom
 	const rebuild = async (initial = false) => {
 		const generation = ++reloadGeneration;
 		console.log(`Point dev rebuilding ${normalizedEntry}...`);
-		const build = await buildDevEntry(normalizedEntry, cwd);
+		const build = await buildDevEntry(normalizedEntry, cwd, { apiOnly: options.apiOnly });
 		if (generation !== reloadGeneration) return;
 		if (!build.ok) {
 			console.error(JSON.stringify({ ok: false, diagnostics: build.diagnostics }, null, 2));

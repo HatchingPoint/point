@@ -1,51 +1,62 @@
 # {{APP_NAME}}
 
-A Point full-stack admin app scaffolded with `point create`.
-
-Everything lives in `.point` source — layout, navigation, pages, views, and actions. No hand-written TypeScript required for product logic.
+A Point-native full-stack admin app — UI, API, and product logic in `.point` source.
 
 ## Quick start
 
 ```bash
+bun install
 point check src/app.point
-point run src/app.point
-npm run build
+bun run dev
 ```
 
-Expected `point run` output:
+Open **http://localhost:5173** for the React UI. The Bun API listens on **http://localhost:3456** (`/api/health`, `/api/members`).
 
-```text
-Admin app navigation ready
-```
+## Scripts
+
+| Script | What it does |
+|--------|----------------|
+| `dev` | Vite UI + Bun API with hot reload |
+| `dev:api` | API only (no Vite) |
+| `build` | Emit Point → `generated/`, then Vite → `dist/` |
+| `serve` | Production: static `dist/` + API on one port |
+| `preview` | Build then serve |
 
 ## Project layout
 
 ```text
 {{APP_NAME}}/
-  point.json
-  package.json
-  src/
-    app.point
-  generated/          # created by point build (gitignored)
+  src/app.point       # layout, pages, views, routes, actions
+  web/                # Vite host (main.tsx mounts generated UI)
+  generated/          # point build output (gitignored)
+  dist/               # vite production bundle (gitignored)
 ```
 
 ## What's inside
 
-- **layout** `admin shell` — sidebar + main slots
 - **navigation** — `/settings`, `/members`, `/members/:id`
-- **pages** — settings (form + tabs + modal), members list, member detail
-- **action** `fetch members` — sample data (swap for your API)
+- **routes** — `GET /api/health`, `GET /api/members`
+- **pages** — settings form, members list with data load, member detail
 - **command** `admin demo` — CLI smoke test for `point run`
 
 ## Next steps
 
-1. Edit `src/app.point` — add rules, routes, pages, pipelines
-2. Run `point check-json src/app.point` for agent-friendly diagnostics
-3. Wire a database with `std.sql` or `external` drivers — see [Database interop](https://hatchingpoint.com/point/ecosystem/database-interop)
-4. Emit TypeScript for a React host: `point build-ts src/app.point generated/app.ts`
+1. Edit `src/app.point` — add rules, DB actions, more routes
+2. Point actions can call your API or stay in-process for v1
+3. Deploy: `bun run build` then `bun run serve` on any Bun host (Render, Railway, Fly, a VPS). No Docker required.
+
+## Deploy (Render and similar)
+
+On a **Web Service** with Bun:
+
+| Setting | Value |
+|---------|--------|
+| Build command | `bun install && bun run build` |
+| Start command | `bun run serve` |
+
+The platform sets `PORT`; `point serve` picks it up automatically.
 
 ## Docs
 
 - [Quick start](https://hatchingpoint.com/point/guide/quick-start)
-- [Language overview](https://hatchingpoint.com/point/language/overview)
-- [Agent coding loop](https://hatchingpoint.com/point/ai/agent-coding-loop)
+- [Deploy Path B](https://hatchingpoint.com/point/toolchain/deploy)

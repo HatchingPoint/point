@@ -1019,3 +1019,10 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun test tests/map-types.test.ts` — 4 pass; conformance — 28 pass; `point check-docs` — 64 snippets, 50 file refs.
 - Next: P23-3 Instant spike; Phase 13 Python route closure; v0.1.6 release.
 - Blocked: none
+
+## Checkpoint Phase 24 — Path B native full stack
+
+- Completed: P24-1 `point dev` app mode (Vite UI + Bun API, `--api` flag). P24-2 `point serve` (static `dist/` + `/api/*`). P24-3 full-stack template upgrade (routes, `web/`, scripts). P24-4 deploy + quick-start docs. Wave 2: P24-5 `point build-app`, P24-6 `toolchain/dev.md` + CLI ref, P24-7 Dockerfile, P24-8 E2E tests.
+- Verified: `bun test tests/point-dev.test.ts tests/point-serve.test.ts tests/point-build-app.test.ts`; `point check examples/full-stack-template/src/app.point`.
+- Next: v0.1.7 release; optional HTTP data-load for members list; LandingPage docs sync.
+- Blocked: none

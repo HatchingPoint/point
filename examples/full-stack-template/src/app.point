@@ -10,6 +10,9 @@ record Member
   name: Text
   role: Text
 
+record Members Response
+  members: List<Member>
+
 view admin nav
   link "Settings" to "/settings"
   link "Members" to "/members"
@@ -78,6 +81,22 @@ navigation admin app
   path "/members" page members page
   path "/members/:id" page member detail page
   bootstrap router
+
+route health check
+  method GET
+  path "/api/health"
+  output response: Text
+  return "ok"
+
+route list members
+  method GET
+  path "/api/members"
+  output response: Members Response
+  return json { members: sample members() }
+
+command serve admin app
+  output status: Text
+  return "Admin app ready"
 
 command admin demo
   output result: Text
