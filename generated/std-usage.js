@@ -7,7 +7,7 @@ import { jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult } from "
 
 import { httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed } from "./http";
 
-import { instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, isFormatInstantRawValueLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult } from "./time";
+import { instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult } from "./time";
 
 import { readFileRaw, writeFileRaw, readFileContents, writeFileResult } from "./fs";
 

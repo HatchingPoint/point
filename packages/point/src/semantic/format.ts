@@ -39,6 +39,13 @@ export function formatSemanticProgram(program: PointSemanticProgram): string {
 
 function formatDeclaration(declaration: PointSemanticDeclaration): string[] {
 	switch (declaration.kind) {
+		case "theme":
+			return [
+				`theme ${declaration.name}`,
+				...(declaration.accent ? [`  accent ${declaration.accent}`] : []),
+				...(declaration.density ? [`  density ${declaration.density}`] : []),
+				...(declaration.radius ? [`  radius ${declaration.radius}`] : []),
+			];
 		case "record":
 			return [`record ${declaration.name}`, ...declaration.fields.map((field) => `  ${field.label}: ${formatType(field.type)}`)];
 		case "variant":

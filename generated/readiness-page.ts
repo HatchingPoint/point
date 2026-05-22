@@ -47,7 +47,7 @@ export function readinessWidgetView(signals: ListingSignals, onSignalsChange: (v
   return (
     <>
     <form className="point-form" onSubmit={(event) => event.preventDefault()}><label className="point-form-field"><input type="checkbox" checked={signals.hasScreenshots} onChange={(event) => onSignalsChange({ ...signals, hasScreenshots: event.target.checked })} aria-label="Screenshots" />Screenshots</label><label className="point-form-field"><input type="checkbox" checked={signals.hasDescription} onChange={(event) => onSignalsChange({ ...signals, hasDescription: event.target.checked })} aria-label="Description" />Description</label><label className="point-form-field"><input type="checkbox" checked={signals.hasPrivacyPolicy} onChange={(event) => onSignalsChange({ ...signals, hasPrivacyPolicy: event.target.checked })} aria-label="Privacy policy" />Privacy policy</label><label className="point-form-field"><input type="checkbox" checked={signals.hasSupportUrl} onChange={(event) => onSignalsChange({ ...signals, hasSupportUrl: event.target.checked })} aria-label="Support URL" />Support URL</label><label className="point-form-field"><input type="checkbox" checked={signals.hasAgeRating} onChange={(event) => onSignalsChange({ ...signals, hasAgeRating: event.target.checked })} aria-label="Age rating" />Age rating</label></form>
-    {listingScore(signals) >= 90 ? <>{readinessSummary(signals)}</> : listingScore(signals) >= 60 ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}
+    {(listingScore(signals) >= 90) ? <>{readinessSummary(signals)}</> : (listingScore(signals) >= 60) ? <>{readinessSummary(signals)}</> : <>{readinessSummary(signals)}</>}
     </>
   );
 }

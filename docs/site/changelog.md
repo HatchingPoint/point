@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.14**
+Current release: **0.1.17**
 
 Check the published npm version:
 
@@ -22,6 +22,9 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.17** | Phase 25 Wave 2: `theme` blocks, new style modifiers, `vercel-app` template, `build-app` writes `.tsx`, route handler without `command serve`, NavLink active state. |
+| **0.1.16** | Fix invalid JSX when views emit multiple render lines. |
+| **0.1.15** | Multi-render view emit; `.point-nav` wrapper and CSS. |
 | **0.1.14** | Phase 25 Wave 1: native semantic view styling, shipped `point-ui.css`, `unknown-view-style` checker diagnostics. |
 | **0.1.13** | Fix CI tests that mkdir gitignored `tests/tmp` before creating temp project dirs. |
 | **0.1.12** | Fix CI test suite: Instant/`use std.*` parsing, `point run` prefers non-serve commands, ephemeral ports for test HTTP servers. |

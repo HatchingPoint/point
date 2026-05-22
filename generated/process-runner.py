@@ -3,7 +3,34 @@
 
 from __future__ import annotations
 
-from process import ProcessResult, spawnRaw, streamLinesRaw, spawnCommandResult, streamLinesFromProcessLine, processStdout, processExitCode
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
+
+from typing import TypedDict
+
+class ProcessResult(TypedDict):
+    stdout: str
+    stderr: str
+    exitCode: int
+
+from point_std.process import processSpawn as spawnRaw
+
+from point_std.process import processStreamLines as streamLinesRaw
+
+async def spawnCommandResult(command: str, args: list[str], env: list[str]) -> ProcessResult | dict[str, str]:
+    return spawnRaw(command, args, env)
+
+async def streamLinesFromProcessLine(command: str, args: list[str], env: list[str]) -> str:
+    streamLinesRaw(command, args, env)
+
+def processStdout(result: ProcessResult) -> str:
+    return result["stdout"]
+
+def processExitCode(result: ProcessResult) -> int:
+    return result["exitCode"]
 
 async def runEchoCommandResult(message: str) -> ProcessResult | dict[str, str]:
     return await spawnCommandResult("echo", [message], [])

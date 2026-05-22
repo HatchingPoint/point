@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.17
+
+### Added
+
+- Phase 25 Wave 2: `theme` blocks (accent, density, radius), new style modifiers (`card`, `stack`, `badge`, `panel`, `spaced`), and theme classes on layout/router mount.
+- `point build-app` writes `generated/app.tsx` for Vite hosts.
+- Route handler emits when routes exist without a `command serve` block.
+- NavLink active state for navigation links (`point-link-active`).
+- `vercel-app` template for Vercel deploy (`point create my-app --template vercel-app`).
+
 ## 0.1.16
 
 ### Added

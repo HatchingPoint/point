@@ -53,7 +53,7 @@ export function emitPointCoreJavaScript(program: PointCoreProgram, options: Emit
 		}
 		lines.push(...emitDeclaration(declaration), "");
 	}
-	if ((routes.length > 0 || streamRoutes.length > 0) && routeServeCommand) {
+	if (routes.length > 0 || streamRoutes.length > 0) {
 		const middlewareByName = buildMiddlewareMap(program.semanticSource?.declarations ?? []);
 		const records = buildRecordFieldMap(program.semanticSource?.declarations ?? []);
 		lines.push(...emitRouteServerRuntime(routes, streamRoutes, middlewareByName, records, actionFnByName), "");

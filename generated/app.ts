@@ -23,3 +23,108 @@ export async function helloCommand(): Promise<string> {
 export function getHealthRoute(): Response | string {
   return "ok";
 }
+
+function pointRouteResponse(value, init = {}) {
+  if (value instanceof Response) return value;
+  const status = init.status ?? 200;
+  const headers = { "content-type": "application/json", ...(init.headers ?? {}) };
+  const body = typeof value === "string" ? value : JSON.stringify(value);
+  return new Response(body, { status, headers });
+}
+
+function pointJsonResponse(body, status = 200, headers = {}) {
+  return pointRouteResponse(body, { status, headers });
+}
+
+function pointQueryRecord(searchParams, fields) {
+  const record = {};
+  for (const field of fields) {
+    const value = searchParams.get(field);
+    if (value !== null) record[field] = value;
+  }
+  return record;
+}
+
+function pointHeaderRecord(requestHeaders, fields) {
+  const record = {};
+  for (const field of fields) {
+    const value = requestHeaders.get(field) ?? requestHeaders.get(field.toLowerCase());
+    if (value !== null && value !== undefined) record[field] = value;
+  }
+  return record;
+}
+
+async function pointBodyRecord(request, fields) {
+  const contentType = request.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) return {};
+  try {
+    const parsed = await request.json();
+    if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const record = {};
+    for (const field of fields) {
+      if (Object.prototype.hasOwnProperty.call(parsed, field)) record[field] = parsed[field];
+    }
+    return record;
+  } catch {
+    return {};
+  }
+}
+
+function pointParseStreamMessage(rawMessage, fields) {
+  let parsed = rawMessage;
+  if (typeof rawMessage === "string") {
+    try {
+      parsed = JSON.parse(rawMessage);
+    } catch {
+      parsed = {};
+    }
+  }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) parsed = {};
+  const record = {};
+  for (const field of fields) {
+    if (Object.prototype.hasOwnProperty.call(parsed, field)) record[field] = parsed[field];
+  }
+  return record;
+}
+
+function pointSendStreamPayload(ws, value) {
+  if (value == null) return;
+  ws.send(typeof value === "string" ? value : JSON.stringify(value));
+}
+
+function pointWrapStreamLine(line, fields) {
+  if (fields.length === 1) return { [fields[0]]: line };
+  return { line };
+}
+
+const POINT_STREAM_BACKPRESSURE_LIMIT = 65536;
+
+async function pointPumpProcessStreamToWebSocket(ws, streamFactory, messageFields) {
+  const stream = streamFactory();
+  try {
+    for await (const line of stream) {
+      if (ws.readyState !== 1) break;
+      if (ws.bufferedAmount > POINT_STREAM_BACKPRESSURE_LIMIT) continue;
+      pointSendStreamPayload(ws, pointWrapStreamLine(line, messageFields));
+    }
+  } catch {
+    /* stream ended */
+  }
+}
+
+export function createPointRouteFetchHandler() {
+  return async (req) => {
+    const url = new URL(req.url);
+  if (req.method === "GET" && new RegExp("^\\/health$").test(url.pathname)) {
+    const match = url.pathname.match(new RegExp("^\\/health$"));
+    const handlerResult = getHealthRoute();
+    return pointRouteResponse(await handlerResult);
+  }
+    return new Response(JSON.stringify({ error: "Not found" }), { status: 404, headers: { "content-type": "application/json" } });
+  };
+}
+
+export function startRoutesServer() {
+  const port = Number(process.env.PORT ?? 0);
+  return Bun.serve({ port, fetch: createPointRouteFetchHandler() });
+}

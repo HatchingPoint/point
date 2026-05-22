@@ -1,0 +1,7 @@
+generated/
+.point-cache/
+node_modules/
+dist/
+.vercel/
+.DS_Store
+*.log

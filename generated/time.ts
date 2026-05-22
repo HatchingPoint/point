@@ -18,9 +18,7 @@ export function instantNowValue(): string {
 }
 
 export function formatInstantLabel(value: string): string {
-}
-
-export function isFormatInstantRawValueLabel(): string {
+  return formatInstantRaw(value);
 }
 
 export async function parseInstantResult(value: string): Promise<string | { message: string }> {

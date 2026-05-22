@@ -22,6 +22,7 @@ import { checkSemanticWorkflows } from "../semantic/check-workflows.ts";
 import { checkSemanticPipelines } from "../semantic/check-pipelines.ts";
 import { checkSemanticSessions } from "../semantic/check-sessions.ts";
 import { checkSemanticGuards } from "../semantic/check-guards.ts";
+import { checkSemanticThemes } from "../semantic/check-themes.ts";
 export interface PointCoreDiagnostic {
 	code: string;
 	message: string;
@@ -70,6 +71,7 @@ class CoreChecker {
 			this.diagnostics.push(...checkSemanticPipelines(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticSessions(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticGuards(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticThemes(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticStreamSubscribe(this.program.semanticSource));
 		}
 		return this.diagnostics;

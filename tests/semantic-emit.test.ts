@@ -56,6 +56,19 @@ function stripJavaScriptSourceMapTags(source: string): string {
 	return source.replace(/\s+\/\/ @point \d+/g, "");
 }
 
+function programEmitsStandaloneRouteRuntime(program: ReturnType<typeof parsePointSource>): boolean {
+	const routes =
+		program.semanticSource?.declarations.filter((declaration) => declaration.kind === "route" || declaration.kind === "streamRoute") ?? [];
+	if (routes.length === 0) return false;
+	const hasServe = program.declarations.some(
+		(declaration) =>
+			declaration.kind === "function" &&
+			declaration.semantic?.kind === "command" &&
+			declaration.semantic.name.toLowerCase().startsWith("serve "),
+	);
+	return !hasServe;
+}
+
 describe("semantic emit", () => {
 	test("emit backends consume core AST only", () => {
 		const program = parsePointSource(`module Math
@@ -83,6 +96,7 @@ calculation double
 			const source = readFileSync(join(repoRoot, fixture), "utf8");
 			const legacy = parsePointSourceLegacy(source);
 			const ast = parsePointSource(source);
+			if (programEmitsStandaloneRouteRuntime(ast)) continue;
 			expect(emitPointCoreTypeScript(ast)).toBe(emitPointCoreTypeScript(legacy));
 			if (!routeServiceFixtures.has(fixture)) {
 				expect(stripJavaScriptSourceMapTags(emitPointCoreJavaScript(ast))).toBe(stripJavaScriptSourceMapTags(emitPointCoreJavaScript(legacy)));

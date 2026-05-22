@@ -311,6 +311,88 @@ body {
   padding: var(--point-space-xl);
 }
 
+.point-style-card {
+  padding: var(--point-space-lg);
+  border: 1px solid var(--point-color-border);
+  border-radius: var(--point-radius);
+  background: var(--point-color-surface);
+  box-shadow: var(--point-shadow-sm);
+}
+
+.point-style-stack {
+  display: grid;
+  gap: var(--point-space-md);
+}
+
+.point-style-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--point-color-surface-muted);
+  border: 1px solid var(--point-color-border);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.point-style-panel {
+  padding: var(--point-space-md);
+  border-radius: var(--point-radius);
+  background: var(--point-color-surface);
+  border: 1px solid var(--point-color-border);
+}
+
+.point-style-spaced {
+  margin-top: var(--point-space-md);
+}
+
+.point-link-active {
+  background: var(--point-color-surface-muted);
+  color: var(--point-color-emphasis);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.point-theme-accent-indigo {
+  --point-color-accent: #6366f1;
+}
+
+.point-theme-accent-emerald {
+  --point-color-accent: #059669;
+}
+
+.point-theme-accent-rose {
+  --point-color-accent: #e11d48;
+}
+
+.point-theme-accent-slate {
+  --point-color-accent: #475569;
+}
+
+.point-theme-density-compact {
+  --point-space-md: 0.75rem;
+  --point-space-lg: 1rem;
+  --point-space-xl: 1.25rem;
+}
+
+.point-theme-density-comfortable {
+  --point-space-md: 1rem;
+  --point-space-lg: 1.5rem;
+  --point-space-xl: 2rem;
+}
+
+.point-theme-radius-soft {
+  --point-radius: 0.75rem;
+}
+
+.point-theme-radius-medium {
+  --point-radius: 0.5rem;
+}
+
+.point-theme-radius-sharp {
+  --point-radius: 0.25rem;
+}
+
 @media (max-width: 48rem) {
   .point-layout-body {
     grid-template-columns: 1fr;

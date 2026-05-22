@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _PointPath
+_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
+if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+    sys.path.insert(0, str(_point_std_root))
+
 def pointIsError(value) -> bool:
     return isinstance(value, dict) and isinstance(value.get("message"), str)
 
@@ -13,7 +19,32 @@ async def pointWorkflowTimedStep(run, ms: int):
     except asyncio.TimeoutError:
         return {"message": "Workflow step timed out"}
 
-from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult
+from point_std.time import instantNow as instantNowRaw
+
+from point_std.time import parseInstant as parseInstantRaw
+
+from point_std.time import formatInstant as formatInstantRaw
+
+from point_std.time import now as timeNow
+
+from point_std.time import sleep as sleepMilliseconds
+
+from point_std.time import formatTime as formatTime
+
+def instantNowValue() -> str:
+    return instantNowRaw()
+
+def formatInstantLabel(value: str) -> str:
+    return formatInstantRaw(value)
+
+async def parseInstantResult(value: str) -> str | dict[str, str]:
+    return parseInstantRaw(value)
+
+async def currentTimeValue() -> str:
+    return timeNow()
+
+async def waitMillisecondsResult(ms: int) -> None:
+    return sleepMilliseconds(ms)
 
 def canSignupPolicy(email: str) -> bool:
     return (email != "")

@@ -1,0 +1,28 @@
+{
+  "name": "{{APP_NAME}}",
+  "private": true,
+  "type": "module",
+  "description": "Point app on Vercel — UI + API in src/app.point.",
+  "scripts": {
+    "check": "point check src/app.point",
+    "dev": "point dev src/app.point --port 3456",
+    "dev:api": "point dev src/app.point --port 3456 --api",
+    "build": "point check src/app.point && point build-app src/app.point",
+    "serve": "point serve src/app.point --port 3456",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.0"
+  },
+  "devDependencies": {
+    "@hatchingpoint/point": "^0.1.17",
+    "@types/bun": "^1.3.13",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}

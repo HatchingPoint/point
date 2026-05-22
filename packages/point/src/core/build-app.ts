@@ -9,6 +9,7 @@ import {
 	programWithDependencyDeclarations,
 	programWithTypeScriptImports,
 	tsOutputFor,
+	tsxOutputFor,
 } from "./cli.ts";
 import { viteWebRoot } from "./dev.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
@@ -20,6 +21,7 @@ export interface PointBuildAppResult {
 	entry: string;
 	jsOutput: string;
 	tsOutput: string;
+	tsxOutput: string;
 	distDir: string;
 	diagnostics: PointCoreDiagnostic[];
 }
@@ -50,13 +52,16 @@ export async function buildPointApp(entry: string, cwd = process.cwd()): Promise
 	}
 	const jsOutput = resolve(cwd, jsOutputFor(normalizedEntry));
 	const tsOutput = resolve(cwd, tsOutputFor(normalizedEntry));
+	const tsxOutput = resolve(cwd, tsxOutputFor(normalizedEntry));
 	if (diagnostics.length > 0) {
-		return { ok: false, entry: normalizedEntry, jsOutput, tsOutput, distDir, diagnostics };
+		return { ok: false, entry: normalizedEntry, jsOutput, tsOutput, tsxOutput, distDir, diagnostics };
 	}
 	const program = programWithTypeScriptImports(coreFile, graph);
+	const emittedTs = emitPointCoreTypeScript(program, normalizedEntry);
 	await Bun.$`mkdir -p ${dirname(jsOutput)}`.quiet();
 	await Bun.write(jsOutput, emitPointCoreJavaScript(program));
-	await Bun.write(tsOutput, emitPointCoreTypeScript(program, normalizedEntry));
+	await Bun.write(tsOutput, emittedTs);
+	await Bun.write(tsxOutput, emittedTs);
 	const webRoot = viteWebRoot(cwd);
 	const configPath = viteConfigPath(cwd);
 	if (!webRoot || !configPath) {
@@ -71,7 +76,7 @@ export async function buildPointApp(entry: string, cwd = process.cwd()): Promise
 	if (exitCode !== 0) {
 		throw new Error(`vite build failed with exit code ${exitCode}`);
 	}
-	return { ok: true, entry: normalizedEntry, jsOutput, tsOutput, distDir, diagnostics: [] };
+	return { ok: true, entry: normalizedEntry, jsOutput, tsOutput, tsxOutput, distDir, diagnostics: [] };
 }
 
 export async function runPointBuildApp(entry: string, cwd = process.cwd()): Promise<void> {
@@ -82,5 +87,6 @@ export async function runPointBuildApp(entry: string, cwd = process.cwd()): Prom
 	}
 	console.log(`Point build-app wrote ${result.jsOutput.replaceAll("\\", "/")}`);
 	console.log(`Point build-app wrote ${result.tsOutput.replaceAll("\\", "/")}`);
+	console.log(`Point build-app wrote ${result.tsxOutput.replaceAll("\\", "/")}`);
 	console.log(`Point build-app wrote ${result.distDir.replaceAll("\\", "/")}`);
 }

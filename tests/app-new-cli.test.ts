@@ -139,4 +139,23 @@ describe("full-stack template and point create", () => {
 			Bun.$`bun ${cli} create blocked-app ${target}`.cwd(projectDir).quiet().then(() => ({ ok: true })).catch(() => ({ ok: false })),
 		).resolves.toEqual({ ok: false });
 	});
+
+	test("vercel-app template is bundled and scaffolds", async () => {
+		const bundled = bundledTemplateDir("vercel-app");
+		expect(existsSync(bundled)).toBe(true);
+		expect(existsSync(join(bundled, "vercel.json"))).toBe(true);
+		expect(existsSync(join(bundled, "api/[[...path]].ts"))).toBe(true);
+		const appPoint = join(bundled, "src/app.point");
+		await Bun.$`bun ${cli} check ${appPoint}`.quiet();
+		const result = await scaffoldAppFromTemplate("vercel-demo", {
+			cwd: projectDir,
+			templateId: "vercel-app",
+		});
+		expect(result.templateDir.replaceAll("\\", "/")).toContain("/packages/point/templates/vercel-app");
+		const target = join(projectDir, "vercel-demo");
+		const pkg = JSON.parse(readFileSync(join(target, "package.json"), "utf8")) as { scripts: Record<string, string> };
+		expect(pkg.scripts.build).toContain("build-app");
+		expect(readFileSync(join(target, "src/app.point"), "utf8")).toContain("theme app theme");
+		await Bun.$`bun ${cli} check src/app.point`.cwd(target).quiet();
+	});
 });

@@ -56,7 +56,25 @@ view settings form
     bind field "Name" to settings.name
 ```
 
-Modifiers: `emphasized`, `muted`, `danger`, `success`, `large`, `small`, `compact`, `padded`, `centered`.
+Modifiers: `emphasized`, `muted`, `danger`, `success`, `large`, `small`, `compact`, `padded`, `centered`, `card`, `stack`, `badge`, `panel`, `spaced`.
+
+### Theme presets
+
+Declare one theme block per module to apply accent, density, and radius tokens on layout roots and router mount wrappers:
+
+```point
+module Demo
+
+record Placeholder
+  id: Text
+
+theme app theme
+  accent indigo
+  density comfortable
+  radius medium
+```
+
+Accents: `indigo`, `emerald`, `rose`, `slate`. Density: `compact`, `comfortable`. Radius: `soft`, `medium`, `sharp`.
 
 Import styles in your web entry (full-stack apps):
 

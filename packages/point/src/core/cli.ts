@@ -709,6 +709,11 @@ function outputFor(input: string): string {
 	return `${GENERATED_DIR}/${name}.ast.json`;
 }
 
+export function tsxOutputFor(input: string): string {
+	const name = outputBaseName(input);
+	return `${GENERATED_DIR}/${name}.tsx`;
+}
+
 export function tsOutputFor(input: string): string {
 	const name = outputBaseName(input);
 	return `${GENERATED_DIR}/${name}.ts`;

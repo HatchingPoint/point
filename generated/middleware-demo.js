@@ -163,6 +163,6 @@ export function createPointRouteFetchHandler() {
 }
 
 export function startRoutesServer() {
-  const port = Number(process.env.PORT ?? 3456);
+  const port = Number(process.env.PORT ?? 0);
   return Bun.serve({ port, fetch: createPointRouteFetchHandler() });
 }

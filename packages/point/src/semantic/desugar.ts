@@ -265,6 +265,7 @@ function desugarDeclaration(
 			return [desugarCommand(declaration, records, callables)];
 		case "schedule":
 		case "prompt":
+		case "theme":
 			return [];
 	}
 }

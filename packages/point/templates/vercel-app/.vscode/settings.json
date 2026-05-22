@@ -1,0 +1,4 @@
+{
+  "point.runtime": "bun",
+  "point.cliPath": "node_modules/@hatchingpoint/point/src/cli.ts"
+}

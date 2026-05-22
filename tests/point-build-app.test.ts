@@ -46,6 +46,7 @@ describe("point build-app", () => {
 			expect(result.ok).toBe(true);
 			expect(await Bun.file(result.jsOutput).exists()).toBe(true);
 			expect(await Bun.file(result.tsOutput).exists()).toBe(true);
+			expect(await Bun.file(result.tsxOutput).exists()).toBe(true);
 			expect(await Bun.file(join(result.distDir, "index.html")).exists()).toBe(true);
 		} finally {
 			await rm(projectDir, { recursive: true, force: true });

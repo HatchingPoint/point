@@ -16,6 +16,7 @@ export interface PointSemanticUseDeclaration {
 }
 
 export type PointSemanticDeclaration =
+	| PointSemanticThemeDeclaration
 	| PointSemanticRecordDeclaration
 	| PointSemanticVariantDeclaration
 	| PointSemanticCalculationDeclaration
@@ -61,6 +62,15 @@ export interface PointSemanticPromptDeclaration {
 	version: string;
 	recordName: string;
 	template: string;
+	span?: PointSourceSpan;
+}
+
+export interface PointSemanticThemeDeclaration {
+	kind: "theme";
+	name: string;
+	accent?: string;
+	density?: string;
+	radius?: string;
 	span?: PointSourceSpan;
 }
 

@@ -106,6 +106,7 @@ export function emitClientNavigationRuntime(
 	navigation: PointSemanticNavigationDeclaration,
 	pages: Map<string, PointSemanticPageDeclaration>,
 	records: Map<string, Map<string, string>>,
+	themeClassName = "point-app",
 ): string[] {
 	const specs = navigation.routes.map((route) => {
 		const page = pages.get(route.pageName);
@@ -121,7 +122,11 @@ export function emitClientNavigationRuntime(
 	const routeEntries = specs.map((spec) => `{ path: ${JSON.stringify(spec.path)}, element: <${spec.wrapperName} /> }`).join(",\n  ");
 	lines.push(`export const ${routerName} = createBrowserRouter([`, `  ${routeEntries}`, "]);", "");
 	if (navigation.bootstrapRouter) {
-		lines.push(`export function ${mountName}(): JSX.Element {`, `  return <RouterProvider router={${routerName}} />;`, "}");
+		lines.push(
+			`export function ${mountName}(): JSX.Element {`,
+			`  return <div className=${JSON.stringify(themeClassName)}><RouterProvider router={${routerName}} /></div>;`,
+			"}",
+		);
 	}
 	return lines;
 }

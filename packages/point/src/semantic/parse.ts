@@ -22,6 +22,7 @@ import type {
 	PointSemanticGuardDeclaration,
 	PointSemanticPolicyStatement,
 	PointSemanticProgram,
+	PointSemanticThemeDeclaration,
 	PointSemanticRecordDeclaration,
 	PointSemanticVariantDeclaration,
 	PointSemanticVariantCase,
@@ -110,6 +111,12 @@ export function parseSemanticSource(source: string, options?: ParseSemanticSourc
 		if (trimmed.startsWith("use ")) {
 			uses.push(parseUseDeclaration(trimmed, lineNumber));
 			index += 1;
+			continue;
+		}
+		if (trimmed.startsWith("theme ")) {
+			const parsed = parseTheme(lines, index, source);
+			declarations.push(parsed.declaration);
+			index = parsed.next;
 			continue;
 		}
 		if (trimmed.startsWith("record ")) {
@@ -264,6 +271,43 @@ function parseUseDeclaration(line: string, lineNumber: number): PointSemanticUse
 		moduleName: match[1] ?? "",
 		from: match[2],
 		span: lineSpanFromLine(lineNumber, line),
+	};
+}
+
+function parseTheme(
+	lines: string[],
+	start: number,
+	source: string,
+): { declaration: PointSemanticThemeDeclaration; next: number } {
+	const header = (lines[start] ?? "").trim();
+	const headerMatch = header.match(/^theme\s+(.+)$/);
+	if (!headerMatch) throw new Error(`Invalid theme declaration: ${header}`);
+	const name = headerMatch[1] ?? "";
+	const settings: Pick<PointSemanticThemeDeclaration, "accent" | "density" | "radius"> = {};
+	let index = start + 1;
+	while (index < lines.length) {
+		const lineNumber = index + 1;
+		const line = (lines[index] ?? "").trim();
+		if (!line) {
+			index += 1;
+			continue;
+		}
+		if (!line.startsWith("  ") && line.length > 0 && !/^\s/.test(lines[index] ?? "")) break;
+		const trimmed = line.trim();
+		const settingMatch = trimmed.match(/^(accent|density|radius)\s+([a-z]+)$/);
+		if (!settingMatch) throw new Error(`Unknown theme setting at ${lineNumber}: ${trimmed}`);
+		const key = settingMatch[1] as "accent" | "density" | "radius";
+		settings[key] = settingMatch[2] ?? "";
+		index += 1;
+	}
+	return {
+		declaration: {
+			kind: "theme",
+			name,
+			...settings,
+			span: lineSpan(source, start + 1),
+		},
+		next: index,
 	};
 }
 
@@ -2547,7 +2591,7 @@ function collectSemanticBody(lines: string[], start: number): SemanticBody {
 
 function isSemanticTopLevel(line: string): boolean {
 	if (/^label\s+is\s+/.test(line)) return false;
-	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule|prompt)\s+/.test(line);
+	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule|prompt|theme)\s+/.test(line);
 }
 
 function isLoopBoundary(line: string): boolean {

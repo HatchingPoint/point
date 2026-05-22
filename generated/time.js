@@ -18,9 +18,7 @@ export function instantNowValue() {
 }
 
 export function formatInstantLabel(value) {
-}
-
-export function isFormatInstantRawValueLabel() {
+  return formatInstantRaw(value); // @point 18
 }
 
 export async function parseInstantResult(value) {

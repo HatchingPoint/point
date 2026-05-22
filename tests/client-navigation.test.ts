@@ -53,7 +53,7 @@ navigation broken app
 		const program = parsePointSource(await Bun.file(dashboardSource).text());
 		expect(checkPointCore(program)).toEqual([]);
 		const emitted = emitPointCoreTypeScript(program);
-		expect(emitted).toContain('import { createBrowserRouter, Link, RouterProvider, useParams } from "react-router-dom"');
+		expect(emitted).toContain('import { createBrowserRouter, NavLink, RouterProvider, useParams } from "react-router-dom"');
 		expect(emitted).toContain("export const DashboardAppRouter = createBrowserRouter([");
 		expect(emitted).toContain('{ path: "/items/:id", element: <ItemDetailPageRoute /> }');
 		expect(emitted).toContain("function ItemDetailPageRoute()");
@@ -61,7 +61,7 @@ navigation broken app
 		expect(emitted).toContain("return itemDetailPage(id);");
 		expect(emitted).toContain("export function mountDashboardApp(): JSX.Element");
 		expect(emitted).toContain('pointNavigationLink("Settings", "/settings")');
-		expect(emitted).toContain('className="point-link"');
+		expect(emitted).toContain('className={({ isActive }) => isActive ? "point-link point-link-active" : "point-link"}');
 	});
 
 	test("indexes navigation refs and explain coverage", async () => {
