@@ -17,13 +17,11 @@ record Invoice
   total: Int
 
 use std.http
-
-use Pricing from "./pricing.point"
 ```
 
 - `module Name` sets the module name for semantic refs
 - `use std.<module>` resolves standard library files under `std/`
-- `use Module from "./path.point"` links another file
+- `use Module from "./path.point"` links another file (see `examples/multi-file/order.point`)
 
 ## Semantics
 
