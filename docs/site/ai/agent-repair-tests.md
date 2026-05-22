@@ -16,28 +16,28 @@ This page is the hub for those tests, the interactive comparison demo, and optio
 |------|---------|----------------|
 | Agent repair sufficiency | `bun test tests/agent-repair-sufficiency.test.ts` | Real `check-json` on broken fixtures; golden one-line fix → `point check` passes |
 | Context size | same test file | `check-json` context stays under 1,200 chars per case |
+| Token gap | same test file | Point context is 79–91% smaller than illustrative TS paste heuristics |
 | Benchmark summary | `bun run benchmark:agent-repair` | Prints token counts and pass/fail for all fixtures |
 
-**Fixtures:** `tests/fixtures/agent-repair/` — two cases today:
+**Fixtures:** `tests/fixtures/agent-repair/` — **14 exported cases** (13 single-shot + 1 repair-plan loop):
 
-- `unknown-field-broken.point` / `unknown-field-fixed.point` — wrong field on a **rule**
-- `label-unknown-field-broken.point` / `label-unknown-field-fixed.point` — wrong field on a **label**
+- **8 typo-fix cases** — wrong field, missing await, arity, operator types
+- **5 feature-build cases** — AI agent scaffolds dashboard, pipeline, notes app, routing, or guarded write with one wiring bug
+- **1 repair-plan loop** — launch app with two bugs; CI simulates check → fix → check again
+
+Each feature-build case includes an `agentTask` describing what the user asked a coding agent to build.
 
 No LLM is involved in sufficiency tests. They prove the **compiler output alone** is enough to reach a passing check.
 
 ## What is estimated (not a logged agent session)
 
-The TypeScript column on the comparison demo uses a **12,000-character paste heuristic** (~3,000 tokens) for a typical component + lib + tests paste. That number is illustrative — we have not published a logged Cursor/Codex trace for it.
+The TypeScript column on the comparison demo uses **per-case paste heuristics** (3,200–12,000 characters, ~4 chars/token). Those numbers are illustrative — we have not published a logged Cursor/Codex trace for them.
 
 ## Model benchmark (live run)
 
-See the **Model benchmark** section below for the interactive table, per-fixture breakdown, and model responses. Latest headline result (v0.1.1): GPT-4o and Claude Opus 4.6 both passed Point and TS workflows (4/4 each) after `expected` fields use Point source syntax.
+See the **Model benchmark** section below for the interactive table, per-fixture breakdown, and model responses. Default models include GPT-4.1, o4-mini, Claude Opus 4.6, Claude Sonnet 4.6, and Gemini 2.5 Pro.
 
-Reproduce: `bun run benchmark:agent-repair-models -- --models=gpt-4o,claude-opus-4-6` (requires API keys).
-
-## Model benchmark (optional setup)
-
-`bun run benchmark:agent-repair-models` calls GPT, Claude, and Gemini on the same fixtures under TS vs Point workflows. Requires provider API keys. Results sync to the site when committed to `benchmarks/agent-repair-model-results.json`.
+Reproduce: `bun run benchmark:agent-repair-models -- --models=gpt-4.1,claude-opus-4-6,claude-sonnet-4-6` (requires API keys).
 
 ## Reproduce locally
 
@@ -46,6 +46,7 @@ git clone https://github.com/HatchingPoint/point
 cd point
 bun test tests/agent-repair-sufficiency.test.ts
 bun run benchmark:agent-repair
+bun run export:agent-repair-cases
 point check-json tests/fixtures/agent-repair/unknown-field-broken.point
 ```
 

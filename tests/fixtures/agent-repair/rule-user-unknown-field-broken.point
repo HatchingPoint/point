@@ -1,0 +1,12 @@
+module Users
+
+record User
+  name: Text
+  active: Bool
+
+rule user points
+  input user: User
+  output score: Int
+  score starts at 0
+  add 10 when user.enabled
+  return score

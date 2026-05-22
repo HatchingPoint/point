@@ -2412,6 +2412,7 @@ function parseWorkflowStepOptions(
 		const requirePolicy = nextLine.match(/^require policy (.+)$/);
 		if (requirePolicy) {
 			options.requiredPolicy = requirePolicy[1]?.trim() ?? "";
+			options.requiredPolicySpan = lineSpan(source, lineNumber);
 			continue;
 		}
 		const touchScope = nextLine.match(/^touches file scope (.+)$/);

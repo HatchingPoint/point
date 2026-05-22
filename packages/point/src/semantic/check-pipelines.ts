@@ -30,6 +30,9 @@ export function checkSemanticPipelines(program: PointSemanticProgram): PointCore
 						declaration,
 						statement,
 						`Declare policy ${policyName} in this module or import it before pipeline ${declaration.name}.`,
+						[...policies.keys()].sort(),
+						policyName,
+						statement.options?.requiredPolicySpan ?? statement.span ?? undefined,
 					),
 				);
 			}
@@ -46,6 +49,8 @@ function pipelineStepDiagnostic(
 	pipeline: PointSemanticPipelineDeclaration,
 	step: Extract<PointSemanticPipelineStatement, { kind: "step" }>,
 	repair: string,
+	expected?: string[],
+	actual?: string,
 	span?: PointSourceSpan,
 ): PointCoreDiagnostic {
 	return {
@@ -56,5 +61,7 @@ function pipelineStepDiagnostic(
 		severity: "error",
 		span: span ?? step.span ?? pipeline.span ?? null,
 		repair,
+		expected,
+		actual,
 	};
 }

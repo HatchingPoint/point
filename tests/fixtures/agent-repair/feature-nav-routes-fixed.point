@@ -1,0 +1,25 @@
+module SettingsApp
+
+view app nav
+  link "Settings" to "/settings"
+  link "Profile" to "/profile"
+  render "Menu"
+
+layout app shell
+  slot sidebar render app nav()
+  slot main render "Select a page"
+
+page settings page
+  layout app shell
+  title "Settings"
+  main render "Workspace settings"
+
+page profile page
+  layout app shell
+  title "Profile"
+  main render "User profile"
+
+navigation settings app
+  path "/settings" page settings page
+  path "/profile" page profile page
+  bootstrap router

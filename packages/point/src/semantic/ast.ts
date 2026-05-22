@@ -388,6 +388,7 @@ export interface PointSemanticWorkflowStepOptions {
 	retryCount?: number;
 	timeoutSeconds?: number;
 	requiredPolicy?: string;
+	requiredPolicySpan?: PointSourceSpan;
 	fileScopeGuard?: string;
 	onFailure?: PointSemanticExpression;
 }

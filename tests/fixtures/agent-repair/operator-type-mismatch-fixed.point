@@ -1,0 +1,7 @@
+module Grades
+
+label score band
+  input score: Int
+  output Text
+  when score >= 90 return "A"
+  otherwise return "F"

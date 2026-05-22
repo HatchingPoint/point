@@ -1,0 +1,24 @@
+module Widget
+
+record Listing Signals
+  has screenshots: Bool
+  has description: Bool
+
+rule listing score
+  input signals: Listing Signals
+  output score: Int
+  score starts at 0
+  add 50 when signals.has screenshots
+  add 50 when signals.has description
+  return score
+
+label listing status
+  input score: Int
+  output Text
+  when score >= 90 return "Ready"
+  otherwise return "Needs work"
+
+calculation readiness summary
+  input signals: Listing Signals
+  output summary: Text
+  summary is listing status(listing score(signals), signals)

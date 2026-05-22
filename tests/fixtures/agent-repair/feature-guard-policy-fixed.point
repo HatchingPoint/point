@@ -1,0 +1,22 @@
+module GuardedWrite
+
+guard output paths
+  allow "output/**"
+
+policy allowed path
+  input target: Text
+  require target != ""
+
+action write path
+  input target: Text
+  output path: Text or Error
+  touches file
+  return target
+
+pipeline guarded write
+  input target: Text
+  output result: Text or Error
+  step written is await write path(target)
+    touches file scope output paths
+    require policy allowed path
+  return written

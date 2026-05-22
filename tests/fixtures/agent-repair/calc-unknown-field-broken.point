@@ -1,0 +1,10 @@
+module Pricing
+
+record Price Input
+  monthly price: Int
+  discount percent: Int
+
+calculation annual price
+  input input: Price Input
+  output annual price: Int
+  annual price is input.monthly amount * 12

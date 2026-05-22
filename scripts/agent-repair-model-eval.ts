@@ -23,11 +23,12 @@ export type ModelSpec = {
 };
 
 export const DEFAULT_MODELS: ModelSpec[] = [
-	{ provider: "openai", id: "gpt-4o-mini", label: "GPT-4o mini", envKey: "OPENAI_API_KEY" },
+	{ provider: "openai", id: "gpt-4.1", label: "GPT-4.1", envKey: "OPENAI_API_KEY" },
+	{ provider: "openai", id: "o4-mini", label: "o4-mini", envKey: "OPENAI_API_KEY" },
 	{ provider: "openai", id: "gpt-4o", label: "GPT-4o", envKey: "OPENAI_API_KEY" },
 	{ provider: "anthropic", id: "claude-opus-4-6", label: "Claude Opus 4.6", envKey: "ANTHROPIC_API_KEY" },
-	{ provider: "anthropic", id: "claude-3-5-haiku-latest", label: "Claude Haiku 3.5", envKey: "ANTHROPIC_API_KEY" },
-	{ provider: "google", id: "gemini-2.0-flash", label: "Gemini 2.0 Flash", envKey: "GEMINI_API_KEY" },
+	{ provider: "anthropic", id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6", envKey: "ANTHROPIC_API_KEY" },
+	{ provider: "google", id: "gemini-2.5-pro", label: "Gemini 2.5 Pro", envKey: "GEMINI_API_KEY" },
 ];
 
 export type ModelEvalRun = {
@@ -67,48 +68,6 @@ type SuccessRate = {
 	rate: number;
 };
 
-const TYPESCRIPT_CONTEXT_BY_CASE: Record<string, { excerpt: string; totalChars: number; tscError: string }> = {
-	"unknown-field-rule": {
-		excerpt: `// ReadinessPanel.tsx — excerpt (~320 lines total in real repos)
-import { useMemo } from "react";
-import type { LaunchSignals } from "../../types";
-import { launchReadinessScore, scoreStatusLabel } from "../../lib/math";
-
-export function ReadinessPanel({ signals }: { signals: LaunchSignals }) {
-  const score = useMemo(() => launchReadinessScore(signals), [signals]);
-  const label = scoreStatusLabel(score);
-  // ... route loader, error boundary, Storybook, MSW mocks ...
-  return (<section><h2>Launch readiness</h2><p>Score: {score} — {label}</p></section>);
-}
-
-// lib/math.ts — agent often pastes this too when tsc fails
-export function launchReadinessScore(signals: LaunchSignals): number {
-  let score = 0;
-  if (signals.unknownField) score += 30;
-  if (signals.submittedForReview) score += 40;
-  if (signals.hasPassingTests) score += 30;
-  return score;
-}
-// ... scoreStatusLabel, tests, fixtures, re-exports ...`,
-		totalChars: 12000,
-		tscError: `error TS2339: Property 'unknownField' does not exist on type 'LaunchSignals'.
-  at launchReadinessScore (lib/math.ts:18:15)`,
-	},
-	"label-unknown-field": {
-		excerpt: `// UserStatusBadge.tsx — excerpt
-import type { User } from "../types";
-
-export function userStatusLabel(user: User): string {
-  if (user.enabled) return user.name;
-  return "inactive";
-}
-// ... parent components, hooks, tests ...`,
-		totalChars: 4200,
-		tscError: `error TS2339: Property 'enabled' does not exist on type 'User'.
-  at userStatusLabel (UserStatusBadge.tsx:4:12)`,
-	},
-};
-
 export function buildEvalPrompt(
 	testCase: AgentRepairCase,
 	condition: EvalCondition,
@@ -135,8 +94,7 @@ Patch target ref: ${diagnostic.ref}
 Line ${lineNumber} currently reads:
 ${currentLine}`;
 	} else {
-		const ts = TYPESCRIPT_CONTEXT_BY_CASE[testCase.id];
-		if (!ts) throw new Error(`Missing TS context for ${testCase.id}`);
+		const ts = testCase.typescriptContext;
 		context = `Workflow: TypeScript + chat paste
 
 TypeScript files pasted into the agent context (~${ts.totalChars} chars total in real repos):
@@ -152,15 +110,21 @@ Line ${lineNumber} currently reads:
 ${currentLine}`;
 	}
 
-	const prompt = `You are repairing a Point (.point) source file.
+	const prompt = `You are repairing a Point (.point) source file after an AI coding agent scaffolded a feature.
+
+Agent task: ${testCase.agentTask}
 
 Return ONLY valid JSON with this shape:
 {"fixedLine":"<exact replacement for line ${lineNumber}>","reason":"<one short sentence>"}
 
 Rules:
 - fixedLine must be the full line text only (preserve indentation)
-- use a field from the diagnostic expected list when fixing unknown-field errors
-- Point field access uses spaces, not camelCase (example: signals.has bundle id)
+- for unknown-field errors, pick from expected and use Point field syntax with spaces (example: signals.has bundle id)
+- for missing-await errors, follow the repair hint (await action calls or use the declared data binding)
+- for unknown-load-action errors, pick the correct action name from expected
+- for unknown-nav-page errors, pick the correct page name from expected
+- for arity-mismatch errors, call the function with the expected number of arguments
+- for operator-type-mismatch errors, use numeric operands where the repair hint says so
 - do not wrap JSON in markdown fences
 - do not return the whole file
 
@@ -347,7 +311,6 @@ export async function runModelEval(options: {
 				const diagnostic = runCheckJson(brokenSource).diagnostics[0] as PointCoreDiagnostic;
 				const lineNumber = diagnostic.span!.start.line;
 				const { prompt, contextChars } = buildEvalPrompt(testCase, condition);
-				const tsMeta = TYPESCRIPT_CONTEXT_BY_CASE[testCase.id];
 				const reportedContextTokens =
 					condition === "point"
 						? estimateTokens(
@@ -357,7 +320,7 @@ export async function runModelEval(options: {
 									diagnostics: [diagnostic],
 								}),
 							)
-						: estimateTokens("x".repeat(tsMeta?.totalChars ?? contextChars));
+						: estimateTokens("x".repeat(testCase.typescriptContext.totalChars));
 				const started = performance.now();
 				let run: ModelEvalRun = {
 					modelId: model.id,
@@ -367,7 +330,7 @@ export async function runModelEval(options: {
 					condition,
 					success: false,
 					checkPassed: false,
-					contextChars: condition === "point" ? contextChars : (tsMeta?.totalChars ?? contextChars),
+					contextChars: condition === "point" ? contextChars : testCase.typescriptContext.totalChars,
 					contextTokens: reportedContextTokens,
 					promptTokens: null,
 					completionTokens: null,

@@ -1,0 +1,38 @@
+module DashboardApp
+
+record Item
+  id: Text
+  title: Text
+
+calculation sample items
+  output items: List<Item>
+  return [{ id: "alpha", title: "Alpha" }, { id: "beta", title: "Beta" }]
+
+action fetch items
+  output items: List<Item>
+  touches none
+  return sample items()
+
+view dashboard nav
+  link "Items" to "/items"
+  render "Dashboard"
+
+view items list
+  load data from action fetch items
+  when loading render "Loading items..."
+  when error render "Could not load items"
+  when empty render "No items yet"
+  render fetch items()
+
+layout app shell
+  slot sidebar render dashboard nav()
+  slot main render "Select a page"
+
+page items list page
+  layout app shell
+  title "Items"
+  main render items list()
+
+navigation dashboard app
+  path "/items" page items list page
+  bootstrap router

@@ -68,6 +68,11 @@ view items list
 	test("check-json surfaces load diagnostics with repair hints", () => {
 		const broken = parsePointSource(`module Broken
 
+action list notes
+  output notes: List<Text>
+  touches none
+  return ["a"]
+
 view items list
   load data from action missing action
   render "ok"
@@ -76,5 +81,6 @@ view items list
 		const diagnostic = diagnostics.find((entry) => entry.code === "unknown-load-action");
 		expect(diagnostic?.repair).toContain("missing action");
 		expect(diagnostic?.ref).toBe("point://semantic/Broken/view.items list");
+		expect(diagnostic?.expected).toEqual(["list notes"]);
 	});
 });

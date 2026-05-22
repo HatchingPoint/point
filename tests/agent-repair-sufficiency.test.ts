@@ -8,6 +8,7 @@ import {
 	loadFixture,
 	runCheckJson,
 	serializeCheckJson,
+	summarizeTokenReduction,
 } from "../scripts/agent-repair-sufficiency.ts";
 import { checkPointCore } from "../packages/point/src/core/check.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
@@ -24,9 +25,11 @@ describe("agent repair sufficiency", () => {
 
 			const diagnostic = payload.diagnostics[0]!;
 			assertDiagnosticIsAgentReady(diagnostic);
-			expect(diagnostic.code).toBe("unknown-field");
+			expect(diagnostic.code).toBe(testCase.expectedCode);
 
-			expect(expectedListIncludesFixField(diagnostic, testCase.chosenField)).toBe(true);
+			if (testCase.chosenField) {
+				expect(expectedListIncludesFixField(diagnostic, testCase.chosenField)).toBe(true);
+			}
 
 			const repaired = applyLineRepairFromGolden(brokenSource, fixedSource, diagnostic);
 			expect(repaired).toBe(fixedSource);
@@ -59,6 +62,12 @@ describe("agent repair sufficiency", () => {
 	test("benchmark harness reports all cases passing", () => {
 		const results = AGENT_REPAIR_CASES.map((testCase) => evaluateRepairSufficiency(testCase));
 		expect(results.every((result) => result.passed)).toBe(true);
-		expect(results.every((result) => result.estimatedTokens < 300)).toBe(true);
+		expect(results.every((result) => result.estimatedTokens < 350)).toBe(true);
+	});
+
+	test("Point check-json stays much smaller than TS paste heuristics", () => {
+		const summary = summarizeTokenReduction();
+		expect(summary.minReductionPercent).toBeGreaterThanOrEqual(75);
+		expect(summary.maxReductionPercent).toBeGreaterThanOrEqual(85);
 	});
 });

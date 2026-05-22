@@ -48,6 +48,8 @@ export function checkSemanticNavigation(program: PointSemanticProgram): PointCor
 						`Declare page ${route.pageName} before navigation ${declaration.name}.`,
 						route.span,
 						[`point://semantic/${moduleName}/page.${route.pageName}`],
+						[...pages.keys()].sort(),
+						route.pageName,
 					),
 				);
 				continue;
@@ -118,6 +120,8 @@ function navigationDiagnostic(
 	repair: string,
 	span?: PointSourceSpan,
 	relatedRefs?: string[],
+	expected?: string[],
+	actual?: string,
 ): PointCoreDiagnostic {
 	return {
 		code,
@@ -128,5 +132,7 @@ function navigationDiagnostic(
 		span: span ?? navigation.span ?? null,
 		repair,
 		relatedRefs,
+		expected,
+		actual,
 	};
 }

@@ -1,0 +1,13 @@
+module Async
+
+action fetch item
+  input id: Text
+  output title: Text
+  touches network
+  return "item"
+
+action get title
+  input id: Text
+  output title: Text
+  touches network
+  return await fetch item(id)

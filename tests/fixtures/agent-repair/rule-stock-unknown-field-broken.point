@@ -1,0 +1,14 @@
+module Inventory
+
+record Item
+  sku: Text
+  in stock: Bool
+  quantity: Int
+
+rule stock status
+  input item: Item
+  output score: Int
+  score starts at 0
+  add 50 when item.in stock
+  add 50 when item.warehouse qty > 0
+  return score

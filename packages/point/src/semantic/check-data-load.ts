@@ -61,6 +61,8 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 					ref,
 					severity: "error",
 					span: loadStatement.span ?? declaration.span ?? null,
+					expected: [...actions.keys()].sort(),
+					actual: actionName,
 					repair: `Declare action ${actionName} or fix the load data from action name.`,
 					relatedRefs: [semanticRefFor(moduleName, path)],
 				});
@@ -96,6 +98,8 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 					ref,
 					severity: "error",
 					span: declaration.span ?? null,
+					expected: [...actions.keys()].sort(),
+					actual: actionName,
 					repair: `Declare action ${actionName} or fix the load data from action name.`,
 					relatedRefs: [ref],
 				});

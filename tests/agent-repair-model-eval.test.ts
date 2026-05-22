@@ -20,8 +20,7 @@ describe("agent repair model eval", () => {
 		for (const testCase of AGENT_REPAIR_CASES) {
 			const point = buildEvalPrompt(testCase, "point");
 			const ts = buildEvalPrompt(testCase, "typescript");
-			const tsMeta = testCase.id === "unknown-field-rule" ? 12000 : 4200;
-			expect(point.contextTokens).toBeLessThan(estimateTokens("x".repeat(tsMeta)));
+			expect(point.contextTokens).toBeLessThan(estimateTokens("x".repeat(testCase.typescriptContext.totalChars)));
 			expect(point.context).toContain("point check-json output:");
 			expect(ts.context).toContain("TypeScript compiler error:");
 		}

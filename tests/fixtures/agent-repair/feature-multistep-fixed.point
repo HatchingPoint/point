@@ -1,0 +1,27 @@
+module LaunchApp
+
+record Launch Signals
+  has bundle id: Bool
+  submitted for review: Bool
+  has passing tests: Bool
+
+rule launch readiness
+  input signals: Launch Signals
+  output score: Int
+  score starts at 0
+  add 30 when signals.has bundle id
+  add 40 when signals.submitted for review
+  add 30 when signals.has passing tests
+  return score
+
+label score band
+  input score: Int
+  output Text
+  when score >= 90 return "Ready"
+  when score >= 60 return "Almost"
+  otherwise return "Needs work"
+
+calculation launch summary
+  input signals: Launch Signals
+  output summary: Text
+  summary is score band(launch readiness(signals))
