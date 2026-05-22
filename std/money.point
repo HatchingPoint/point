@@ -1,0 +1,23 @@
+module Money
+
+record Money
+  amount cents: Int
+  currency: Text
+
+calculation money from cents
+  input amount cents: Int
+  input currency: Text
+  output money: Money
+  money is { amount cents: amount cents, currency: currency }
+
+calculation add money
+  input left: Money
+  input right: Money
+  output total: Money
+  total is { amount cents: left.amount cents + right.amount cents, currency: left.currency }
+
+label money display
+  input money: Money
+  output Text
+  when money.currency == "USD" return "USD"
+  otherwise return money.currency

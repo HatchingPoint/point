@@ -81,6 +81,10 @@ const P22_CROSS_DOMAIN_BLOCKS = {
 		example: "examples/app/dashboard/dashboard.point",
 		fixture: "tests/conformance/fixtures/rich-view.point",
 	},
+	map: {
+		example: "examples/catalog/price-lookup.point",
+		fixture: "tests/conformance/fixtures/map-lookup.point",
+	},
 } as const;
 
 const MINIMAL_FIXTURE_EMIT_EXPECTATIONS: Record<
@@ -136,6 +140,11 @@ const MINIMAL_FIXTURE_EMIT_EXPECTATIONS: Record<
 	},
 	"tests/conformance/fixtures/rich-view.point": {
 		ts: ["settingsFormView", "point-form-field"],
+	},
+	"tests/conformance/fixtures/map-lookup.point": {
+		js: ['"alpha": 10', 'String("alpha")'],
+		ts: ['"alpha": 10'],
+		py: ['"alpha": 10', '.get(str("alpha"))'],
 	},
 };
 

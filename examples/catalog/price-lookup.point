@@ -1,0 +1,18 @@
+module Catalog
+
+calculation default prices
+  output prices: Map<Text, Int>
+  prices is map { "sku-a": 100, "sku-b": 250, "sku-c": 75 }
+
+calculation unit price for sku
+  input prices: Map<Text, Int>
+  input sku: Text
+  output price: Int
+  price is lookup prices sku
+
+label price tier
+  input price: Int
+  output Text
+  when price >= 200 return "Premium"
+  when price >= 100 return "Standard"
+  otherwise return "Budget"

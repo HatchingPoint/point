@@ -39,7 +39,7 @@ type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual
 type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean; variantCase?: string };
 type Scope = Map<string, ScopeEntry>;
 
-const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or", "Page", "Handler"]);
+const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Map", "Maybe", "Error", "Or", "Page", "Handler"]);
 
 export function checkPointCore(program: PointCoreProgram): PointCoreDiagnostic[] {
 	const checker = new CoreChecker(program);
@@ -282,6 +282,10 @@ class CoreChecker {
 			this.checkListAssignable(expression, expected, path, scope);
 			return;
 		}
+		if (expression.kind === "call" && expression.callee === "pointMapLiteral") {
+			this.checkMapLiteralAssignable(expression, expected, path, scope);
+			return;
+		}
 		if (expression.kind === "record") {
 			this.checkRecordAssignable(expression, expected, path, scope);
 			return;
@@ -297,6 +301,41 @@ class CoreChecker {
 				actual: formatType(actual),
 				repair: `Return or assign a ${formatType(expected)} value here.`,
 			});
+		}
+	}
+
+	private checkMapLiteralAssignable(
+		expression: Extract<PointCoreExpression, { kind: "call" }>,
+		expected: PointCoreTypeExpression,
+		path: string,
+		scope: Scope,
+	) {
+		if (expected.name !== "Map" || expected.args.length !== 2) {
+			this.push("type-mismatch", `Expected ${formatType(expected)}, got map literal`, path, expression.span, {
+				expected: formatType(expected),
+				actual: "map",
+				repair: `Annotate output as Map<Text, T> or assign to a Map<Text, T> binding.`,
+			});
+			return;
+		}
+		if (expected.args[0]?.name !== "Text") {
+			this.push("invalid-map-key-type", "Map keys must be Text", path, expression.span, {
+				expected: "Map<Text, T>",
+				actual: formatType(expected),
+				repair: "Use Map<Text, T> for string-keyed maps.",
+			});
+		}
+		const valueType = expected.args[1];
+		if (!valueType) return;
+		for (let index = 0; index < expression.args.length; index += 2) {
+			const keyArg = expression.args[index]!;
+			const valueArg = expression.args[index + 1]!;
+			if (keyArg.kind !== "literal" || typeof keyArg.value !== "string") {
+				this.push("invalid-map-literal", "map keys must be string literals", path, keyArg.span ?? expression.span, {
+					repair: 'Quote map keys: map { "sku-a": 100 }.',
+				});
+			}
+			if (valueArg) this.checkExpressionAssignable(valueArg, valueType, `${path}.value${index / 2}`, scope);
 		}
 	}
 
@@ -489,6 +528,70 @@ class CoreChecker {
 		if (expression.callee === "pointPipelineNow") return typeRef("Int", [], expression.span);
 		if (expression.callee === "pointPipelineShouldLog") return typeRef("Bool", [], expression.span);
 		if (expression.callee === "pointPipelineEmitLog") return typeRef("Void", [], expression.span);
+		if (expression.callee === "pointMapLookup") {
+			if (expression.args.length !== 2) {
+				this.push("arity-mismatch", "lookup expects map and key arguments", path, expression.span, {
+					expected: "2 args",
+					actual: `${expression.args.length} args`,
+					repair: "Use lookup catalog sku where catalog is Map<Text, T> and sku is Text.",
+				});
+				return null;
+			}
+			const mapType = this.typeOfExpression(expression.args[0]!, scope, `${path}.map`);
+			const keyType = this.typeOfExpression(expression.args[1]!, scope, `${path}.key`);
+			if (keyType && keyType.name !== "Text") {
+				this.push("type-mismatch", "lookup key must be Text", path, expression.span, {
+					expected: "Text",
+					actual: formatType(keyType),
+					repair: "Pass a Text key to lookup.",
+				});
+			}
+			if (!mapType || mapType.name !== "Map" || mapType.args.length !== 2) {
+				this.push("type-mismatch", "lookup requires Map<Text, T>", path, expression.span, {
+					expected: "Map<Text, T>",
+					actual: mapType ? formatType(mapType) : "unknown",
+					repair: "Use a Map<Text, T> value as the first argument to lookup.",
+				});
+				return null;
+			}
+			if (mapType.args[0]?.name !== "Text") {
+				this.push("invalid-map-key-type", "Map keys must be Text in Phase 23", path, expression.span, {
+					expected: "Map<Text, T>",
+					actual: formatType(mapType),
+					repair: "Use Map<Text, T> — non-Text keys are not supported yet.",
+				});
+			}
+			return mapType.args[1] ?? null;
+		}
+		if (expression.callee === "pointMapLiteral") {
+			if (expression.args.length === 0 || expression.args.length % 2 !== 0) {
+				this.push("invalid-map-literal", "map literals require key/value pairs", path, expression.span, {
+					repair: 'Use map { "key": value, "other": value } syntax.',
+				});
+				return null;
+			}
+			let valueType: PointCoreTypeExpression | null = null;
+			for (let index = 0; index < expression.args.length; index += 2) {
+				const keyArg = expression.args[index]!;
+				const valueArg = expression.args[index + 1]!;
+				if (keyArg.kind !== "literal" || typeof keyArg.value !== "string") {
+					this.push("invalid-map-literal", "map keys must be string literals", path, keyArg.span ?? expression.span, {
+						repair: 'Quote map keys: map { "sku-a": 100 }.',
+					});
+				}
+				const entryType = this.typeOfExpression(valueArg, scope, `${path}.value${index / 2}`);
+				if (!entryType) continue;
+				if (!valueType) valueType = entryType;
+				else if (!sameType(valueType, entryType)) {
+					this.push("type-mismatch", "map values must share the same type", path, valueArg.span ?? expression.span, {
+						expected: formatType(valueType),
+						actual: formatType(entryType),
+						repair: "Use the same value type for every map entry.",
+					});
+				}
+			}
+			return valueType ? typeRef("Map", [typeRef("Text"), valueType], expression.span) : null;
+		}
 		const handler = scope.get(expression.callee);
 		if (handler?.type.name === "Handler") {
 			if (expression.args[0]) this.typeOfExpression(expression.args[0], scope, `${path}.arg0`);
@@ -671,6 +774,20 @@ class CoreChecker {
 				repair: "Use List<Text>, List<Int>, or another concrete item type.",
 			});
 		}
+		if (type.name === "Map" && type.args.length !== 2) {
+			this.push("invalid-type-arity", "Map requires two type arguments", path, type.span, {
+				expected: "Map<Text, T>",
+				actual: formatType(type),
+				repair: "Use Map<Text, Int> or another Map<Text, T> type.",
+			});
+		}
+		if (type.name === "Map" && type.args[0]?.name !== "Text") {
+			this.push("invalid-map-key-type", "Map keys must be Text", path, type.span, {
+				expected: "Map<Text, T>",
+				actual: formatType(type),
+				repair: "Phase 23 supports Map<Text, T> only.",
+			});
+		}
 		if (type.name === "Maybe" && type.args.length !== 1) {
 			this.push("invalid-type-arity", "Maybe requires one type argument", path, type.span, {
 				expected: "Maybe<T>",
@@ -692,7 +809,7 @@ class CoreChecker {
 				repair: "Use Handler Listing Signals or another record type.",
 			});
 		}
-		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.name !== "Handler" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {
+		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.name !== "Handler" && type.name !== "Map" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {
 			this.push("invalid-type-arity", `${type.name} does not accept type arguments`, path, type.span, {
 				expected: String(type.name),
 				actual: formatType(type),

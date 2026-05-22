@@ -34,6 +34,7 @@ Every public file must contain at least one top-level declaration from the famil
 | `Bool` | boolean | `boolean` |
 | `Void` | no value | `void` |
 | `List<T>` | homogeneous list | `Array<T>` |
+| `Map<Text, T>` | string-keyed map | `Record<string, T>` |
 | `Maybe<T>` | optional | `T \| null` |
 | `A or B` | union / result | `A \| B` |
 | Record name | user struct | `interface` |
@@ -44,6 +45,8 @@ Literals: `"text"`, numbers, `true`, `false`, `none`, `[ ... ]`, `{ field: value
 **Variant types (chosen over `enum`):** Point uses `variant` blocks for tagged unions with optional payloads per case. TypeScript emit uses a `kind` discriminator and case-specific fields. Dispatch in `label` blocks uses `on Case return ...` or `on Case with field return ...` (minimal pattern match); boolean guards still use `when ... return`.
 
 Operators: `+`, `-`, `*`, `/`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `and`, `or`, property access with `.`
+
+**Maps (Phase 23):** `Map<Text, T>` with literals `map { "key": value }` and `lookup map key` expression. Emits to plain objects / Python dicts.
 
 ---
 

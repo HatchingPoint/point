@@ -219,6 +219,21 @@ function emitExpression(expression: PointCoreExpression): string {
 			const message = expression.args[0] ? emitExpression(expression.args[0]) : '""';
 			return `{"message": ${message}}`;
 		}
+		if (expression.callee === "pointMapLookup") {
+			const mapExpr = expression.args[0] ? emitExpression(expression.args[0]) : "{}";
+			const keyExpr = expression.args[1] ? emitExpression(expression.args[1]) : '""';
+			return `(${mapExpr}.get(str(${keyExpr})))`;
+		}
+		if (expression.callee === "pointMapLiteral") {
+			const pairs: string[] = [];
+			for (let index = 0; index < expression.args.length; index += 2) {
+				const keyArg = expression.args[index];
+				const valueArg = expression.args[index + 1];
+				const key = keyArg?.kind === "literal" && typeof keyArg.value === "string" ? JSON.stringify(keyArg.value) : '""';
+				pairs.push(`${key}: ${valueArg ? emitExpression(valueArg) : "None"}`);
+			}
+			return `{${pairs.join(", ")}}`;
+		}
 		if (expression.callee === "pointJsonResponse") {
 			const body = expression.args[0] ? emitExpression(expression.args[0]) : "{}";
 			const status = expression.args[1] ? emitExpression(expression.args[1]) : "200";

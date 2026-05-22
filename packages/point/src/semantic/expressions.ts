@@ -29,6 +29,16 @@ export function parseSemanticTypeExpression(source: string): PointSemanticTypeEx
 	if (listMatch) {
 		return { kind: "typeRef", name: "List", args: [parseSemanticTypeExpression(listMatch[1] ?? "")] };
 	}
+	const mapMatch = trimmed.match(/^Map<(.+)>$/);
+	if (mapMatch) {
+		const inner = splitTopLevel(mapMatch[1] ?? "", ",").map((part) => part.trim());
+		if (inner.length !== 2) throw new Error(`Map requires two type arguments: Map<Text, T>`);
+		return {
+			kind: "typeRef",
+			name: "Map",
+			args: [parseSemanticTypeExpression(inner[0] ?? ""), parseSemanticTypeExpression(inner[1] ?? "")],
+		};
+	}
 	const maybeMatch = trimmed.match(/^Maybe<(.+)>$/);
 	if (maybeMatch) {
 		return { kind: "typeRef", name: "Maybe", args: [parseSemanticTypeExpression(maybeMatch[1] ?? "")] };
@@ -104,6 +114,22 @@ export function withExpressionSpan(expression: PointSemanticExpression, span: Po
 					value: withExpressionSpan(field.value, span),
 				})),
 			};
+		case "map":
+			return {
+				...expression,
+				span: expression.span ?? span,
+				entries: expression.entries.map((entry) => ({
+					...entry,
+					value: withExpressionSpan(entry.value, span),
+				})),
+			};
+		case "lookup":
+			return {
+				...expression,
+				span: expression.span ?? span,
+				map: withExpressionSpan(expression.map, span),
+				key: withExpressionSpan(expression.key, span),
+			};
 		case "variant":
 			return {
 				...expression,
@@ -148,6 +174,12 @@ function parsePrimaryExpression(source: string, context: PointSemanticExpression
 	if (trimmed.startsWith("await ")) {
 		const inner = parsePrimaryExpression(trimmed.slice("await ".length), context);
 		return { expression: { kind: "await", value: inner.expression }, consumed: inner.consumed };
+	}
+	if (trimmed.startsWith("lookup ")) {
+		return parseLookupExpression(trimmed.slice("lookup ".length), context);
+	}
+	if (trimmed.startsWith("map {")) {
+		return parseMapExpression(trimmed, context);
 	}
 	if (trimmed.startsWith("[")) {
 		return parseListExpression(trimmed, context);
@@ -218,6 +250,42 @@ function parseJsonStringLiteral(source: string): { value: string; consumed: stri
 		index += 1;
 	}
 	throw new Error(`Unterminated string literal: ${source}`);
+}
+
+function parseMapExpression(source: string, context: PointSemanticExpressionContext): { expression: PointSemanticExpression; consumed: string } {
+	let rest = source.trim().slice("map {".length).trimStart();
+	const entries: PointSemanticRecordLiteralField[] = [];
+	while (rest && !rest.startsWith("}")) {
+		let label = "";
+		if (rest.startsWith('"')) {
+			const literal = parseJsonStringLiteral(rest);
+			label = literal.value;
+			rest = literal.consumed.trimStart();
+		} else {
+			const colon = rest.indexOf(":");
+			if (colon === -1) throw new Error(`Expected map entry key: ${source}`);
+			label = rest.slice(0, colon).trim();
+			rest = rest.slice(colon + 1).trimStart();
+		}
+		if (rest.startsWith(":")) rest = rest.slice(1).trimStart();
+		const parsed = parseBinaryExpression(rest, 0, context);
+		entries.push({ label, value: parsed.expression });
+		rest = parsed.consumed.trimStart();
+		if (rest.startsWith(",")) rest = rest.slice(1).trimStart();
+	}
+	if (!rest.startsWith("}")) throw new Error(`Unterminated map literal: ${source}`);
+	return { expression: { kind: "map", entries }, consumed: rest.slice(1) };
+}
+
+function parseLookupExpression(source: string, context: PointSemanticExpressionContext): { expression: PointSemanticExpression; consumed: string } {
+	const mapParsed = parseBinaryExpression(source, 0, context);
+	const rest = mapParsed.consumed.trimStart();
+	if (!rest) throw new Error(`lookup requires map and key expressions: lookup ${source}`);
+	const keyParsed = parseBinaryExpression(rest, 0, context);
+	return {
+		expression: { kind: "lookup", map: mapParsed.expression, key: keyParsed.expression },
+		consumed: keyParsed.consumed,
+	};
 }
 
 function parseListExpression(source: string, context: PointSemanticExpressionContext): { expression: PointSemanticExpression; consumed: string } {

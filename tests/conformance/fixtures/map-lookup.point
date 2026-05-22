@@ -1,0 +1,14 @@
+module ConformanceMap
+
+calculation default prices
+  output prices: Map<Text, Int>
+  prices is map { "alpha": 10, "beta": 20 }
+
+calculation lookup alpha
+  input prices: Map<Text, Int>
+  output price: Int
+  price is lookup prices "alpha"
+
+command map demo
+  output result: Text
+  return "Map ready"

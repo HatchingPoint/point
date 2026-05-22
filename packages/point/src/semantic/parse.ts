@@ -2474,6 +2474,9 @@ function typeLabel(type: { kind: "typeRef"; name: string; args: unknown[] }): st
 	if (type.name === "Handler" && type.args[0]) {
 		return `Handler ${typeLabel(type.args[0] as { kind: "typeRef"; name: string; args: unknown[] })}`;
 	}
+	if (type.name === "Map" && type.args[0] && type.args[1]) {
+		return `Map<${typeLabel(type.args[0] as { kind: "typeRef"; name: string; args: unknown[] })}, ${typeLabel(type.args[1] as { kind: "typeRef"; name: string; args: unknown[] })}>`;
+	}
 	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Maybe", "Or", "Error", "Page", "Handler"]);
 	if (primitives.has(type.name)) return type.name;
 	return toPascalCase(type.name);

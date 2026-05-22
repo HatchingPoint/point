@@ -435,6 +435,8 @@ export type PointSemanticExpression =
 	| { kind: "property"; target: PointSemanticExpression; label: string; span?: PointSourceSpan }
 	| { kind: "list"; items: PointSemanticExpression[]; span?: PointSourceSpan }
 	| { kind: "record"; fields: PointSemanticRecordLiteralField[]; span?: PointSourceSpan }
+	| { kind: "map"; entries: PointSemanticRecordLiteralField[]; span?: PointSourceSpan }
+	| { kind: "lookup"; map: PointSemanticExpression; key: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "call"; callee: string; args: PointSemanticExpression[]; span?: PointSourceSpan }
 	| { kind: "await"; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "error"; message: string; span?: PointSourceSpan }

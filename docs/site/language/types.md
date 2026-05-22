@@ -17,6 +17,7 @@ Point uses a small typed surface: primitives, generics, unions, and user record 
 | `Bool` | Booleans |
 | `Void` | No value |
 | `List<T>` | Homogeneous lists |
+| `Map<Text, T>` | String-keyed maps (`map { "key": value }`, `lookup map key`) |
 | `Maybe<T>` | Optional (`none` literal) |
 | `A or B` | Union / result (`Text or Error`) |
 | Record name | User-defined struct (`Cart Item`) |
@@ -40,6 +41,36 @@ label order status label
 ```
 
 See `examples/variants/order-status.point`.
+
+### Maps
+
+String-keyed associative data (Phase 23):
+
+```point
+calculation default prices
+  output prices: Map<Text, Int>
+  prices is map { "sku-a": 100, "sku-b": 250 }
+
+calculation unit price for sku
+  input prices: Map<Text, Int>
+  input sku: Text
+  output price: Int
+  price is lookup prices sku
+```
+
+See `examples/catalog/price-lookup.point`. Keys must be `Text`; values share one type `T`.
+
+### Money (cents pattern)
+
+Point has no built-in decimal type yet. Store money as **integer minor units** (cents) in a record:
+
+```point
+record Money
+  amount cents: Int
+  currency: Text
+```
+
+See `std/money.point` for add/format helpers. Do not use `Float` for currency.
 
 Operators: `+`, `-`, `*`, `/`, comparisons, `and`, `or`, property access with `.`
 

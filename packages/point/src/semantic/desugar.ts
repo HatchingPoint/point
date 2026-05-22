@@ -1003,7 +1003,7 @@ function desugarParameter(binding: PointSemanticBinding): PointCoreParameter {
 }
 
 function desugarType(type: PointSemanticTypeExpression): PointCoreTypeExpression {
-	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler") {
+	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler" || type.name === "Map") {
 		return { kind: "typeRef", name: type.name, args: type.args.map(desugarType) };
 	}
 	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Error", "Page"]);
@@ -1718,6 +1718,23 @@ function desugarExpression(expression: PointSemanticExpression, ctx: DesugarCont
 					value: desugarExpression(field.value, ctx),
 					span: field.span,
 				})),
+				span: expression.span,
+			};
+		case "map":
+			return {
+				kind: "call",
+				callee: "pointMapLiteral",
+				args: expression.entries.flatMap((entry) => [
+					{ kind: "literal", value: entry.label, span: entry.span ?? expression.span },
+					desugarExpression(entry.value, ctx),
+				]),
+				span: expression.span,
+			};
+		case "lookup":
+			return {
+				kind: "call",
+				callee: "pointMapLookup",
+				args: [desugarExpression(expression.map, ctx), desugarExpression(expression.key, ctx)],
 				span: expression.span,
 			};
 		case "variant":
