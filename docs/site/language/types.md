@@ -121,12 +121,32 @@ record User
   email: Maybe<Text>
 ```
 
+Presence checks narrow `Maybe<T>` in `when` guards:
+
+```point
+record Contact
+  email: Text
+
+record Profile
+  contact: Maybe<Contact>
+
+label contact email
+  input profile: Profile
+  output Text
+  when profile.contact present return profile.contact.email
+  when profile.contact is none return "missing"
+  otherwise return "missing"
+```
+
+Use `when <expr> present` when you need non-null fields in that branch. Use `when <expr> is none` for explicit empty-state branches.
+
 From `examples/result.point` (pattern): actions and workflows may return `Text or Error`.
 
 ## Common mistakes
 
 - Wrong arity on generics (`invalid-type-arity`)
 - Accessing fields on `Maybe<T>` without narrowing (`nullable-field-access`)
+- Forgetting `present`/`is none` checks before optional field access in conditionals
 - Empty list without expected `List<T>` context (`list-type-required`)
 
 ## Agent diagnostic notes

@@ -1033,3 +1033,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check examples/full-stack-template/src/app.point`; full-stack template tests pass.
 - Next: Phase 23 Wave 2 Instant; P22-8 catalog package; changelog site version sync.
 - Blocked: none
+
+## Checkpoint Phase 26 P26-3 — Maybe presence narrowing
+
+- Completed: Added `when <expr> present` and `when <expr> is none` condition forms in label/rule/calculation bodies plus view guards, with parser desugaring to null checks. Core checker now narrows `Maybe<T>` to `T` inside present branches (including nested property paths) so `nullable-field-access` only appears when truly unsafe.
+- Verified: `bun test tests/maybe-narrowing.test.ts` passes.
+- Example: `examples/tools/maybe-narrow.point`
+- Next: Continue remaining Phase 26 goals (P26-4+).
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

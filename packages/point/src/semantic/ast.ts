@@ -330,6 +330,7 @@ export type PointSemanticCalculationStatement =
 	| { kind: "startsAt"; name: string; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "startsAs"; name: string; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "forEach"; item: string; iterable: PointSemanticExpression; body: PointSemanticMutationStatement[]; span?: PointSourceSpan }
+	| { kind: "whenReturn"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan }
 	| PointSemanticMutationStatement
 	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
 
@@ -337,6 +338,7 @@ export type PointSemanticRuleStatement =
 	| { kind: "startsAt"; name: string; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "addWhen"; amount: PointSemanticExpression; condition: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "forEach"; item: string; iterable: PointSemanticExpression; body: PointSemanticMutationStatement[]; span?: PointSourceSpan }
+	| { kind: "whenReturn"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan }
 	| PointSemanticMutationStatement
 	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
 
