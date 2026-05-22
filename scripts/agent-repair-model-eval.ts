@@ -238,7 +238,7 @@ async function callAnthropic(model: string, prompt: string, apiKey: string) {
 		},
 		body: JSON.stringify({
 			model,
-			max_tokens: 400,
+			max_tokens: maxTokens,
 			temperature: 0,
 			system: "You fix Point source files and return JSON only.",
 			messages: [{ role: "user", content: prompt }],
@@ -284,7 +284,7 @@ async function callGoogle(model: string, prompt: string, apiKey: string) {
 	};
 }
 
-async function callModel(model: ModelSpec, prompt: string): Promise<{ text: string; promptTokens: number | null; completionTokens: number | null }> {
+async function callModel(model: ModelSpec, prompt: string, maxTokens = 400): Promise<{ text: string; promptTokens: number | null; completionTokens: number | null }> {
 	const apiKey = process.env[model.envKey];
 	if (!apiKey) {
 		throw new Error(`Missing ${model.envKey}`);
@@ -394,3 +394,5 @@ export async function runModelEval(options: {
 
 	return report;
 }
+
+export { callModel };

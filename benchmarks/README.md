@@ -42,3 +42,25 @@ Only models whose provider key is set are run.
 ## CI
 
 `.github/workflows/agent-repair-models.yml` runs on `workflow_dispatch` when repository secrets are configured.
+
+---
+
+# Agent app model benchmark
+
+Full-app fixtures (~84–105 lines) paired with `benchmarks/next-dashboard/` Next.js scaffolds.
+
+1. **Point** — `check-json` + numbered broken app (app-repair: single `fixedLine`; feature-add: multi-edit JSON)
+2. **TypeScript** — measured Next scaffold paste + tsc error + numbered `.point` file
+
+Success means the model's edit(s) pass `point check` (same gate as CI).
+
+## Run locally
+
+```bash
+bun run benchmark:agent-app-models
+bun run proof:agent-app -- --skip-models   # CI proof without API keys
+```
+
+Output: `benchmarks/agent-app-model-results.json`, `benchmarks/agent-app-proof-report.json`
+
+`.github/workflows/agent-app-models.yml` — optional live model run on `workflow_dispatch`.

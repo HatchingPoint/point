@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "point.agent-app-proof.v1",
+  "generatedAt": "2026-05-22T10:54:30.042Z",
+  "overallOk": true,
+  "ciPassed": true,
+  "sections": [
+    {
+      "title": "CI: full-app benchmark fixtures (check-json gate, no LLM)",
+      "verified": "ci",
+      "passed": true,
+      "detail": "2 cases · base/broken/golden apps from examples/app/dashboard"
+    },
+    {
+      "title": "CI: paired Next.js dashboard scaffold",
+      "verified": "ci",
+      "passed": true,
+      "detail": "2 measured TS context bundles in benchmarks/next-dashboard/"
+    },
+    {
+      "title": "CI: app model eval prompts and golden edit verification",
+      "verified": "ci",
+      "passed": true,
+      "detail": "Multi-edit JSON for feature-add · single-line for app-repair · no API calls"
+    },
+    {
+      "title": "Measured: check-json context vs paired Next scaffold",
+      "verified": "ci",
+      "passed": true,
+      "detail": "dashboard-add-search: 203 tok vs 1093 tok (81% saved); dashboard-search-wiring: 208 tok vs 501 tok (58% saved)"
+    },
+    {
+      "title": "Compared: Point check-json vs measured Next.js scaffold",
+      "verified": "estimated",
+      "passed": true,
+      "detail": "58–81% less context (avg 70%). TS sizes are measured file bundles, not Cursor traces."
+    }
+  ],
+  "fixtureCounts": {
+    "cases": 2,
+    "nextDashboardVariants": 2
+  },
+  "tokenReductionPercent": {
+    "minReductionPercent": 58,
+    "maxReductionPercent": 81,
+    "avgReductionPercent": 70
+  },
+  "modelEval": null,
+  "reproduce": [
+    "bun run proof:agent-app",
+    "bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/agent-app-model-eval.test.ts",
+    "bun run benchmark:agent-app-models"
+  ]
+}

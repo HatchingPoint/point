@@ -1,0 +1,414 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import type { PointCoreDiagnostic } from "../packages/point/src/core/check.ts";
+import { checkPointCore } from "../packages/point/src/core/check.ts";
+import { parsePointSource } from "../packages/point/src/core/parser.ts";
+import {
+	AGENT_APP_BENCHMARK_CASES,
+	loadAppFixture,
+	resolveTypescriptContext,
+	type AgentAppBenchmarkCase,
+} from "./agent-app-benchmark.ts";
+import {
+	applyLineRepairFromGolden,
+	estimateTokens,
+	runCheckJson,
+	serializeCheckJson,
+} from "./agent-repair-sufficiency.ts";
+import {
+	callModel,
+	DEFAULT_MODELS,
+	parseModelJson,
+	verifyPointSource,
+	type EvalCondition,
+	type ModelSpec,
+} from "./agent-repair-model-eval.ts";
+
+export { DEFAULT_MODELS };
+
+export type AppModelEdit =
+	| { kind: "replaceLine"; line: number; text: string }
+	| { kind: "insertAfterLine"; line: number; lines: string[] };
+
+export type AppModelEvalMode = "single-line" | "multi-edit";
+
+export type AppModelEvalRun = {
+	modelId: string;
+	modelLabel: string;
+	provider: ModelSpec["provider"];
+	caseId: string;
+	category: AgentAppBenchmarkCase["category"];
+	condition: EvalCondition;
+	mode: AppModelEvalMode;
+	success: boolean;
+	checkPassed: boolean;
+	contextChars: number;
+	contextTokens: number;
+	promptTokens: number | null;
+	completionTokens: number | null;
+	latencyMs: number;
+	stepsUsed: number;
+	editCount: number;
+	modelResponseExcerpt: string | null;
+	error: string | null;
+};
+
+export type AppModelEvalReport = {
+	schemaVersion: "point.agent-app-model-eval.v1";
+	generatedAt: string;
+	methodology: string;
+	models: string[];
+	cases: string[];
+	runs: AppModelEvalRun[];
+	summary: {
+		overall: { point: SuccessRate; typescript: SuccessRate };
+		byModel: Record<string, { point: SuccessRate; typescript: SuccessRate }>;
+		byCategory: Record<string, { point: SuccessRate; typescript: SuccessRate }>;
+	};
+};
+
+type SuccessRate = {
+	passed: number;
+	total: number;
+	rate: number;
+};
+
+export function evalModeForCase(testCase: AgentAppBenchmarkCase): AppModelEvalMode {
+	return testCase.category === "feature-add" ? "multi-edit" : "single-line";
+}
+
+export function numberSourceLines(source: string): string {
+	return source
+		.split("\n")
+		.map((line, index) => `${String(index + 1).padStart(3, " ")}| ${line}`)
+		.join("\n");
+}
+
+export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
+	if (testCase.id === "dashboard-add-search") {
+		return `error TS2307: Cannot find module '../lib/searchItems' or its corresponding type declarations.
+  at components/SearchPanel.tsx:1:29`;
+	}
+	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
+  at components/SearchPanel.tsx:1:10`;
+}
+
+export function buildAppEvalPrompt(
+	testCase: AgentAppBenchmarkCase,
+	condition: EvalCondition,
+): { prompt: string; context: string; contextChars: number; contextTokens: number; mode: AppModelEvalMode } {
+	const brokenSource = loadAppFixture(testCase.brokenFile);
+	const payload = runCheckJson(brokenSource);
+	const diagnostic = payload.diagnostics[0];
+	if (!diagnostic?.span) {
+		throw new Error(`Fixture ${testCase.id} missing diagnostic span`);
+	}
+
+	const mode = evalModeForCase(testCase);
+	const lineNumber = diagnostic.span.start.line;
+	const currentLine = brokenSource.split("\n")[lineNumber - 1] ?? "";
+	const numberedSource = numberSourceLines(brokenSource);
+	const typescript = resolveTypescriptContext(testCase);
+
+	let context = "";
+	if (condition === "point") {
+		const checkJson = serializeCheckJson({ schemaVersion: payload.schemaVersion, ok: false, diagnostics: [diagnostic] });
+		context = `Workflow: Point agent loop (check-json only)
+
+point check-json output:
+${checkJson}
+
+Patch target ref: ${diagnostic.ref}
+Line ${lineNumber} currently reads:
+${currentLine}
+
+Numbered broken app (for multi-line inserts):
+${numberedSource}`;
+	} else {
+		context = `Workflow: TypeScript + paired Next.js scaffold
+
+Task context (~${typescript.chars} chars measured from benchmarks/next-dashboard/):
+${typescript.excerpt}
+
+TypeScript compiler error:
+${buildAppTscError(testCase)}
+
+Authoritative Point source file to repair (edit this .point file, not the TypeScript):
+${numberedSource}
+
+Line ${lineNumber} currently reads:
+${currentLine}`;
+	}
+
+	const responseShape =
+		mode === "single-line"
+			? `Return ONLY valid JSON:
+{"fixedLine":"<exact replacement for line ${lineNumber}>","reason":"<one short sentence>"}`
+			: `Return ONLY valid JSON:
+{"edits":[{"kind":"replaceLine","line":<n>,"text":"<full line>"},{"kind":"insertAfterLine","line":<n>,"lines":["<line>", "..."]}],"reason":"<one short sentence>"}`;
+
+	const prompt = `You are repairing a full Point (.point) application after an AI coding agent scaffolded a feature.
+
+Agent task: ${testCase.agentTask}
+
+${responseShape}
+
+Rules:
+- preserve indentation exactly
+- for unknown-load-action errors, add the missing action block or fix the action name from expected
+- for feature-add tasks you may need insertAfterLine to add new action/view blocks — use line numbers from the numbered source
+- apply edits using original line numbers before any insertions
+- do not wrap JSON in markdown fences
+- do not return the whole file unless using multi-edit with targeted lines only
+
+${context}`;
+
+	return {
+		prompt,
+		context,
+		contextChars: context.length,
+		contextTokens: estimateTokens(context),
+		mode,
+	};
+}
+
+export function parseAppModelResponse(text: string, mode: AppModelEvalMode): {
+	fixedLine?: string;
+	edits?: AppModelEdit[];
+} {
+	if (mode === "single-line") {
+		return parseModelJson(text);
+	}
+	const trimmed = text.trim();
+	const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/);
+	const candidate = fenced?.[1]?.trim() ?? trimmed;
+	const start = candidate.indexOf("{");
+	const end = candidate.lastIndexOf("}");
+	if (start === -1 || end === -1) return {};
+	try {
+		const parsed = JSON.parse(candidate.slice(start, end + 1)) as { edits?: AppModelEdit[] };
+		if (!Array.isArray(parsed.edits)) return {};
+		const edits = parsed.edits.filter(
+			(edit) =>
+				(edit.kind === "replaceLine" && typeof edit.line === "number" && typeof edit.text === "string") ||
+				(edit.kind === "insertAfterLine" && typeof edit.line === "number" && Array.isArray(edit.lines)),
+		);
+		return { edits };
+	} catch {
+		return {};
+	}
+}
+
+function editLine(edit: AppModelEdit): number {
+	return edit.line;
+}
+
+export function applyAppEdits(source: string, edits: AppModelEdit[]): string {
+	const lines = source.split("\n");
+	const sorted = [...edits].sort((left, right) => editLine(right) - editLine(left));
+	for (const edit of sorted) {
+		if (edit.kind === "replaceLine") {
+			lines[edit.line - 1] = edit.text;
+			continue;
+		}
+		lines.splice(edit.line, 0, ...edit.lines);
+	}
+	return lines.join("\n");
+}
+
+export function applyAppModelResponse(
+	source: string,
+	mode: AppModelEvalMode,
+	response: { fixedLine?: string; edits?: AppModelEdit[] },
+	diagnostic: PointCoreDiagnostic,
+): string {
+	if (mode === "single-line") {
+		if (!response.fixedLine) throw new Error("Model JSON missing fixedLine");
+		const lines = source.split("\n");
+		lines[diagnostic.span!.start.line - 1] = response.fixedLine;
+		return lines.join("\n");
+	}
+	if (!response.edits?.length) throw new Error("Model JSON missing edits");
+	return applyAppEdits(source, response.edits);
+}
+
+function successRate(passed: number, total: number): SuccessRate {
+	return { passed, total, rate: total === 0 ? 0 : Math.round((passed / total) * 100) };
+}
+
+export function summarizeAppRuns(runs: AppModelEvalRun[]): AppModelEvalReport["summary"] {
+	const byModel: AppModelEvalReport["summary"]["byModel"] = {};
+	const byCategory: AppModelEvalReport["summary"]["byCategory"] = {};
+	for (const run of runs) {
+		byModel[run.modelId] ??= { point: successRate(0, 0), typescript: successRate(0, 0) };
+		byCategory[run.category] ??= { point: successRate(0, 0), typescript: successRate(0, 0) };
+		for (const bucket of [byModel[run.modelId]![run.condition], byCategory[run.category]![run.condition]]) {
+			bucket.total += 1;
+			if (run.success) bucket.passed += 1;
+			bucket.rate = bucket.total === 0 ? 0 : Math.round((bucket.passed / bucket.total) * 100);
+		}
+	}
+	const overallPoint = runs.filter((run) => run.condition === "point");
+	const overallTs = runs.filter((run) => run.condition === "typescript");
+	return {
+		overall: {
+			point: successRate(
+				overallPoint.filter((run) => run.success).length,
+				overallPoint.length,
+			),
+			typescript: successRate(
+				overallTs.filter((run) => run.success).length,
+				overallTs.length,
+			),
+		},
+		byModel,
+		byCategory,
+	};
+}
+
+/** Golden-derived edits for CI verification without calling models. */
+export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdit[] {
+	if (testCase.id === "dashboard-search-wiring") {
+		return [{ kind: "replaceLine", line: 58, text: "  load data from action search items" }];
+	}
+	return [
+		{
+			kind: "insertAfterLine",
+			line: 37,
+			lines: [
+				"",
+				"action search items",
+				"  input query: Text",
+				"  output items: List<Item>",
+				"  touches none",
+				"  return sample items()",
+			],
+		},
+		{ kind: "replaceLine", line: 55, text: '  when empty render "No matches"' },
+		{ kind: "insertAfterLine", line: 55, lines: ["  each item in data render item.title"] },
+	];
+}
+
+export async function runAppModelEval(options: {
+	models?: ModelSpec[];
+	cases?: AgentAppBenchmarkCase[];
+	outputPath?: string;
+}): Promise<AppModelEvalReport> {
+	const models = options.models ?? DEFAULT_MODELS.filter((model) => Boolean(process.env[model.envKey]));
+	const cases = options.cases ?? AGENT_APP_BENCHMARK_CASES;
+	if (models.length === 0) {
+		throw new Error("No API keys found. Set OPENAI_API_KEY, ANTHROPIC_API_KEY, and/or GEMINI_API_KEY.");
+	}
+
+	const runs: AppModelEvalRun[] = [];
+	for (const model of models) {
+		for (const testCase of cases) {
+			for (const condition of ["point", "typescript"] as const) {
+				const brokenSource = loadAppFixture(testCase.brokenFile);
+				const goldenSource = loadAppFixture(testCase.goldenFile);
+				const diagnostic = runCheckJson(brokenSource).diagnostics[0] as PointCoreDiagnostic;
+				const mode = evalModeForCase(testCase);
+				const { prompt, contextChars, contextTokens } = buildAppEvalPrompt(testCase, condition);
+				const typescript = resolveTypescriptContext(testCase);
+				const reportedContextTokens =
+					condition === "point"
+						? estimateTokens(
+								serializeCheckJson({
+									schemaVersion: "point.core.check.v1",
+									ok: false,
+									diagnostics: [diagnostic],
+								}),
+							)
+						: typescript.tokens;
+				const started = performance.now();
+				const run: AppModelEvalRun = {
+					modelId: model.id,
+					modelLabel: model.label,
+					provider: model.provider,
+					caseId: testCase.id,
+					category: testCase.category,
+					condition,
+					mode,
+					success: false,
+					checkPassed: false,
+					contextChars: condition === "point" ? contextChars : typescript.chars,
+					contextTokens: reportedContextTokens,
+					promptTokens: null,
+					completionTokens: null,
+					latencyMs: 0,
+					stepsUsed: 1,
+					editCount: 0,
+					modelResponseExcerpt: null,
+					error: null,
+				};
+				try {
+					const maxTokens = mode === "multi-edit" ? 900 : 400;
+					const result = await callModel(model, prompt, maxTokens);
+					run.latencyMs = Math.round(performance.now() - started);
+					run.promptTokens = result.promptTokens;
+					run.completionTokens = result.completionTokens;
+					run.modelResponseExcerpt = result.text.slice(0, 320);
+					const parsed = parseAppModelResponse(result.text, mode);
+					const candidate = applyAppModelResponse(brokenSource, mode, parsed, diagnostic);
+					run.editCount = mode === "multi-edit" ? (parsed.edits?.length ?? 0) : parsed.fixedLine ? 1 : 0;
+					run.checkPassed = verifyPointSource(candidate);
+					run.success = run.checkPassed;
+					if (!run.checkPassed) {
+						run.error = "point check failed after applying model edits";
+					} else if (candidate !== goldenSource && mode === "single-line") {
+						const goldenLine = applyLineRepairFromGolden(brokenSource, goldenSource, diagnostic);
+						if (goldenLine !== candidate) {
+							run.error = "check passed (alternate valid fix)";
+						}
+					}
+					if (mode === "multi-edit" && !parsed.edits?.length) {
+						run.error = "Model JSON missing edits";
+						run.success = false;
+						run.checkPassed = false;
+					}
+					if (mode === "single-line" && !parsed.fixedLine) {
+						run.error = "Model JSON missing fixedLine";
+						run.success = false;
+						run.checkPassed = false;
+					}
+				} catch (error) {
+					run.latencyMs = Math.round(performance.now() - started);
+					run.error = error instanceof Error ? error.message : String(error);
+				}
+				runs.push(run);
+				console.log(
+					`${model.label} · ${testCase.id} · ${condition} · ${mode}: ${run.success ? "PASS" : "FAIL"}${run.error ? ` (${run.error})` : ""}`,
+				);
+			}
+		}
+	}
+
+	const report: AppModelEvalReport = {
+		schemaVersion: "point.agent-app-model-eval.v1",
+		generatedAt: new Date().toISOString(),
+		methodology:
+			"Full-app fixtures (~84–105 lines). App-repair uses single-line JSON; feature-add uses multi-edit JSON with numbered source. Success = point check passes (same gate as CI). TS workflow adds measured Next.js scaffold paste.",
+		models: models.map((model) => model.id),
+		cases: cases.map((testCase) => testCase.id),
+		runs,
+		summary: summarizeAppRuns(runs),
+	};
+
+	if (options.outputPath) {
+		mkdirSync(join(options.outputPath, ".."), { recursive: true });
+		writeFileSync(options.outputPath, `${JSON.stringify(report, null, 2)}\n`);
+	}
+
+	return report;
+}
+
+export function verifyGoldenEditsPass(testCase: AgentAppBenchmarkCase): boolean {
+	const brokenSource = loadAppFixture(testCase.brokenFile);
+	const edits = goldenEditsForCase(testCase);
+	const candidate = applyAppEdits(brokenSource, edits);
+	try {
+		return checkPointCore(parsePointSource(candidate)).length === 0;
+	} catch {
+		return false;
+	}
+}
