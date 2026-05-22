@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.11
+
+### Added
+
+- Fix check-docs CI for modules.md snippets and restore `@hatchingpoint/point` in the published full-stack template.
+
 ## 0.1.6
 
 ### Added
