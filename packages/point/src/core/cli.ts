@@ -13,7 +13,7 @@ import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
 import { runCheckDocs } from "./check-docs.ts";
-import { runAppNew } from "./app-cli.ts";
+import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock } from "./packages.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
@@ -78,16 +78,21 @@ export async function main() {
 		return;
 	}
 
+	if (command === "create") {
+		await runCreateApp(tail);
+		return;
+	}
+
 	if (command === "app") {
 		const subcommand = Bun.argv[3];
 		if (subcommand === "new") {
 			const appName = Bun.argv[4];
 			const targetDir = Bun.argv[5];
-			if (!appName) throw new Error("Usage: point app new <name> [directory]");
+			if (!appName) throw new Error("Usage: point app new <name> [directory]  (prefer: point create <name>)");
 			await runAppNew(appName, targetDir);
 			return;
 		}
-		throw new Error("Usage: point app new <name> [directory]");
+		throw new Error("Usage: point app new <name> [directory]  (prefer: point create <name>)");
 	}
 
 	if (command === "add") {

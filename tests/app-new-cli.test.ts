@@ -1,20 +1,24 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { existsSync, readFileSync } from "node:fs";
-import { mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, cp } from "node:fs/promises";
 import { join } from "node:path";
 import {
-	FULL_STACK_TEMPLATE_REL,
+	bundledTemplateDir,
+	DEFAULT_APP_TEMPLATE_ID,
 	fullStackTemplateDir,
 	locatePointToolkitRoot,
+	parseCreateAppArgs,
+	REPO_TEMPLATE_REL,
+	resolveAppTemplateDir,
 	scaffoldAppFromTemplate,
 	validateAppName,
 } from "../packages/point/src/core/app-cli.ts";
 
 const repoRoot = join(import.meta.dir, "..");
 const cli = join(repoRoot, "packages/point/src/cli.ts");
-const templateApp = join(repoRoot, FULL_STACK_TEMPLATE_REL, "src/app.point");
+const templateApp = join(repoRoot, REPO_TEMPLATE_REL, "src/app.point");
 
-describe("full-stack template and point app new", () => {
+describe("full-stack template and point create", () => {
 	let projectDir = "";
 
 	beforeEach(async () => {
@@ -32,10 +36,33 @@ describe("full-stack template and point app new", () => {
 		expect(() => validateAppName("")).toThrow(/Invalid app name/);
 	});
 
+	test("bundled template ships inside @hatchingpoint/point package", () => {
+		const bundled = bundledTemplateDir(DEFAULT_APP_TEMPLATE_ID);
+		expect(existsSync(bundled)).toBe(true);
+		expect(existsSync(join(bundled, "src/app.point"))).toBe(true);
+		expect(existsSync(join(bundled, "package.json"))).toBe(true);
+		expect(existsSync(join(bundled, ".gitignore"))).toBe(true);
+	});
+
+	test("resolveAppTemplateDir prefers bundled template over repo walk", () => {
+		const dir = resolveAppTemplateDir(DEFAULT_APP_TEMPLATE_ID);
+		expect(dir.replaceAll("\\", "/")).toContain("/packages/point/templates/full-stack-app");
+	});
+
 	test("locatePointToolkitRoot finds examples/full-stack-template", () => {
 		const root = locatePointToolkitRoot();
 		expect(existsSync(fullStackTemplateDir(root))).toBe(true);
 		expect(existsSync(join(fullStackTemplateDir(root), "src/app.point"))).toBe(true);
+	});
+
+	test("parseCreateAppArgs supports template flag and list", () => {
+		expect(parseCreateAppArgs(["--list-templates"]).listTemplates).toBe(true);
+		expect(parseCreateAppArgs(["my-app", "./out", "--template", "full-stack-app"])).toEqual({
+			appName: "my-app",
+			targetDir: "./out",
+			templateId: "full-stack-app",
+			listTemplates: false,
+		});
 	});
 
 	test("full-stack template checks and builds TypeScript", async () => {
@@ -55,22 +82,41 @@ describe("full-stack template and point app new", () => {
 		const result = await scaffoldAppFromTemplate("acme-admin", {
 			cwd: projectDir,
 			targetDir: target,
-			toolkitRoot: repoRoot,
 		});
-		expect(result.files.length).toBeGreaterThan(0);
+		expect(result.files.length).toBeGreaterThan(3);
 		expect(existsSync(join(target, "point.json"))).toBe(true);
+		expect(existsSync(join(target, "package.json"))).toBe(true);
 		expect(existsSync(join(target, "src/app.point"))).toBe(true);
 		const manifest = JSON.parse(readFileSync(join(target, "point.json"), "utf8")) as { name: string };
 		expect(manifest.name).toBe("acme-admin");
+		const pkg = JSON.parse(readFileSync(join(target, "package.json"), "utf8")) as { name: string };
+		expect(pkg.name).toBe("acme-admin");
 		const readme = readFileSync(join(target, "README.md"), "utf8");
-		expect(readme).toContain("acme-admin/");
+		expect(readme).toContain("acme-admin");
 		expect(readme).not.toContain("{{APP_NAME}}");
 		await Bun.$`bun ${cli} check ${join(target, "src/app.point")}`.cwd(target).quiet();
 	});
 
-	test("point app new CLI creates scaffold in cwd", async () => {
+	test("scaffold uses bundled template directory", async () => {
+		const result = await scaffoldAppFromTemplate("bundled-app", { cwd: projectDir });
+		expect(result.templateDir.replaceAll("\\", "/")).toContain("/packages/point/templates/full-stack-app");
+		expect(existsSync(join(projectDir, "bundled-app", "package.json"))).toBe(true);
+	});
+
+	test("npm-style package layout scaffolds without repo examples path", async () => {
+		const miniPackage = join(projectDir, "mini-point");
+		await cp(join(repoRoot, "packages/point/src"), join(miniPackage, "src"), { recursive: true });
+		await cp(join(repoRoot, "packages/point/templates"), join(miniPackage, "templates"), { recursive: true });
+		const miniCli = join(miniPackage, "src/cli.ts");
+		await Bun.$`bun ${miniCli} create npm-style-app`.cwd(projectDir).quiet();
+		const appDir = join(projectDir, "npm-style-app");
+		expect(existsSync(join(appDir, "src/app.point"))).toBe(true);
+		await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
+	});
+
+	test("point create CLI creates scaffold in cwd", async () => {
 		const name = "demo-saas";
-		await Bun.$`bun ${cli} app new ${name}`.cwd(projectDir).quiet();
+		await Bun.$`bun ${cli} create ${name}`.cwd(projectDir).quiet();
 		const appDir = join(projectDir, name);
 		expect(existsSync(join(appDir, "src/app.point"))).toBe(true);
 		const manifest = JSON.parse(readFileSync(join(appDir, "point.json"), "utf8")) as { name: string };
@@ -79,12 +125,18 @@ describe("full-stack template and point app new", () => {
 		expect(existsSync(join(appDir, "generated/app.ts"))).toBe(true);
 	});
 
-	test("point app new rejects non-empty target directory", async () => {
+	test("point app new remains available as alias", async () => {
+		const name = "legacy-new";
+		await Bun.$`bun ${cli} app new ${name}`.cwd(projectDir).quiet();
+		expect(existsSync(join(projectDir, name, "src/app.point"))).toBe(true);
+	});
+
+	test("point create rejects non-empty target directory", async () => {
 		const target = join(projectDir, "blocked");
 		await mkdir(target);
 		await Bun.write(join(target, "keep.txt"), "x");
 		expect(
-			Bun.$`bun ${cli} app new blocked-app ${target}`.cwd(projectDir).quiet().then(() => ({ ok: true })).catch(() => ({ ok: false })),
+			Bun.$`bun ${cli} create blocked-app ${target}`.cwd(projectDir).quiet().then(() => ({ ok: true })).catch(() => ({ ok: false })),
 		).resolves.toEqual({ ok: false });
 	});
 });

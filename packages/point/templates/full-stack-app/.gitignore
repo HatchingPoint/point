@@ -1,0 +1,5 @@
+generated/
+.point-cache/
+node_modules/
+.DS_Store
+*.log

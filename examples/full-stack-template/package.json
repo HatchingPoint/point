@@ -1,0 +1,10 @@
+{
+  "name": "full-stack-template",
+  "private": true,
+  "scripts": {
+    "check": "point check src/app.point",
+    "run": "point run src/app.point",
+    "build": "point build-ts src/app.point generated/app.ts",
+    "dev": "point dev src/app.point --port 3456"
+  }
+}

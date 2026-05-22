@@ -8,8 +8,13 @@ Requires [Bun](https://bun.sh) on PATH.
 
 ```bash
 npm install -g @hatchingpoint/point
-point check examples/math.point
+point create my-app
+cd my-app
+point check src/app.point
+point run src/app.point
 ```
+
+List templates with `point create --list-templates`. Legacy alias: `point app new`.
 
 Pair with the [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) extension in VS Code or Cursor.
 

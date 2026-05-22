@@ -517,7 +517,8 @@ Commands: `point index`, `point explain`, `point check-json`, `point repair-plan
 | `point test` | Run unit tests |
 | `point test integration` | Run integration test actions against live routes |
 | `point test-all` | Run all unit tests in project |
-| `point app new` | Scaffold from full-stack template |
+| `point create` | Scaffold a new app from bundled template |
+| `point app new` | Legacy alias for `point create` |
 | `point repl` | Expression REPL |
 | `point index` | Symbol index |
 

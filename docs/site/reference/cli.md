@@ -46,9 +46,11 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 
 | Command | Purpose | Exit |
 |---------|---------|------|
-| `app new` | Copy full-stack template: `point app new <name> [directory]` | 1 on invalid name or non-empty target |
+| `create` | Scaffold a new app: `point create <name> [directory] [--template full-stack-app]` | 1 on invalid name or non-empty target |
+| `create --list-templates` | List bundled app templates | 0 |
+| `app new` | Legacy alias for `point create` | same as `create` |
 
-Creates a project directory with `point.json`, `src/app.point` (layout, navigation, three pages, sample action), and README. Template source: `examples/full-stack-template/` in the Point repo.
+Creates a project directory with `point.json`, `package.json`, `src/app.point` (layout, navigation, three pages, sample action), `.gitignore`, and README. Templates ship inside `@hatchingpoint/point` at `templates/full-stack-app/` (synced from `examples/full-stack-template/` in the repo).
 
 ## Package management
 

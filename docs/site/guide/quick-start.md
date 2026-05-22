@@ -76,14 +76,22 @@ point repair-plan examples/math.point
 
 Prefer semantic refs such as `point://semantic/Math/label.score status` over line numbers or generated names.
 
-## Scaffold an app (v0.1.0)
+## Scaffold an app
+
+Create a full-stack admin app (layout, navigation, pages, actions) — like `create-next-app` for Point:
 
 ```bash
-point app new my-app
+npm install -g @hatchingpoint/point
+point create my-app
 cd my-app
 point check src/app.point
-point dev src/app.point --port 3456
+point run src/app.point
+npm run build
 ```
+
+Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.
+
+Legacy alias: `point app new my-app`.
 
 ## See also
 

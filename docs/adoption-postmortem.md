@@ -100,13 +100,13 @@ Point is ready for **pilot projects** transpiling to TypeScript on Bun, with glo
 | **Deploy is docs spike** | `point deploy` / production paths documented; no one-click multi-cloud upload | **Open** — Phase 20 P20-5 spike; teams wire `point build --production` themselves |
 | **Statement-level source maps** | Runtime errors map to declarations, not expressions | **Open** — same as v1 |
 | **Hosted Point package index** | `point add` uses npm/workspace/file; no curated registry service | **Open** — Phase 20 P20-4 |
-| **Global toolkit path** | `point app new` requires `@hatchingpoint/point` on PATH or monorepo checkout | **Mitigated** — README documents both paths |
+| **Global toolkit path** | `point create` ships templates inside `@hatchingpoint/point` npm package | **Fixed in v0.1.1+** — `templates/full-stack-app/` bundled; `point app new` alias kept |
 
 ### External team checklist (v2)
 
 When a team outside core Point ships on the full-stack template:
 
-1. **Scaffold:** `point app new <name>` (or clone `examples/full-stack-template/`)
+1. **Scaffold:** `point create <name>` (or legacy `point app new`; or clone `examples/full-stack-template/`)
 2. **Install:** `npm install -g @hatchingpoint/point` (or use monorepo `bun packages/point/src/cli.ts`)
 3. **Verify:** `point check src/app.point` → `point build-ts src/app.point generated/app.ts` → `point run src/app.point`
 4. **Customize:** Replace `calculation sample members` / `action fetch members` with your API; add `route` blocks if you need `point dev` on HTTP

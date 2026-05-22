@@ -15,6 +15,7 @@
   },
   "files": [
     "src",
+    "templates",
     "python_std",
     "README.md",
     "LICENSE"
@@ -46,6 +47,9 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "prepublishOnly": "cd ../.. && bun run sync:app-template"
   },
   "license": "MIT"
 }

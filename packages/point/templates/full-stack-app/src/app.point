@@ -1,0 +1,84 @@
+module AdminApp
+
+record WorkspaceSettings
+  workspace name: Text
+  notifications enabled: Bool
+  theme: Text
+
+record Member
+  id: Text
+  name: Text
+  role: Text
+
+view admin nav
+  link "Settings" to "/settings"
+  link "Members" to "/members"
+  render "SaaS Admin"
+
+view settings form
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  on change call on settings change
+  form
+  bind field "Workspace name" to settings.workspace name
+  bind checkbox "Email notifications" to settings.notifications enabled
+  tabs
+  tab "General" render "Theme: " + settings.theme
+  tab "Advanced" render "Notification settings apply workspace-wide"
+  modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active for this workspace"
+
+calculation sample members
+  output members: List<Member>
+  return [{ id: "u-1", name: "Alex Chen", role: "Owner" }, { id: "u-2", name: "Jordan Lee", role: "Admin" }, { id: "u-3", name: "Sam Rivera", role: "Member" }]
+
+action fetch members
+  output members: List<Member>
+  touches none
+  return sample members()
+
+view members list
+  load data from action fetch members
+  when loading render "Loading members..."
+  when error render "Could not load members"
+  when empty render "No members yet"
+  each member in data render link member.name to "/members/" + member.id
+
+view member detail
+  input id: Text
+  modal "Member actions" when id != "" render "Manage access for " + id
+  render "Member profile for " + id
+
+layout admin shell
+  slot sidebar render admin nav()
+  slot main render "Select a page from the sidebar"
+
+page settings page
+  layout admin shell
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  title "Settings"
+  description "Manage workspace preferences"
+  main render settings form(settings, on settings change)
+
+page members page
+  layout admin shell
+  title "Members"
+  description "Browse workspace members"
+  main render members list()
+
+page member detail page
+  layout admin shell
+  input id: Text
+  title "Member"
+  description "Inspect a workspace member"
+  main render member detail(id)
+
+navigation admin app
+  path "/settings" page settings page
+  path "/members" page members page
+  path "/members/:id" page member detail page
+  bootstrap router
+
+command admin demo
+  output result: Text
+  return "Admin app navigation ready"
