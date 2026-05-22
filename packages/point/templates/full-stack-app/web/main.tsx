@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { mountAdminApp } from "../generated/app.ts";
+import { mountAdminApp } from "../generated/app.tsx";
 import "./styles.css";
 
 const root = document.getElementById("root");

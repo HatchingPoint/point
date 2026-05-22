@@ -1,5 +1,10 @@
 module AdminApp
 
+theme app theme
+  accent slate
+  density comfortable
+  radius medium
+
 record WorkspaceSettings
   workspace name: Text
   notifications enabled: Bool
