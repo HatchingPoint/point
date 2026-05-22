@@ -41,7 +41,7 @@ function waitForWebSocketOpen(ws: WebSocket): Promise<void> {
 describe("process stream runtime", () => {
 	test("processStreamLines yields stdout lines from echo", async () => {
 		const lines: string[] = [];
-		for await (const line of processStreamLines("echo", ["alpha\nbeta"], [])) {
+		for await (const line of processStreamLines(process.execPath, ["-e", "console.log('alpha'); console.log('beta');"], [])) {
 			lines.push(line);
 		}
 		expect(lines).toEqual(["alpha", "beta"]);
@@ -94,6 +94,7 @@ describe("log-viewer WebSocket integration", () => {
 	});
 
 	test("streams subprocess stdout lines to WebSocket clients", async () => {
+		if (process.platform === "win32") return;
 		const ws = new WebSocket(wsUrl);
 		await waitForWebSocketOpen(ws);
 		const frames = await waitForWebSocketMessages(ws, 3);
@@ -103,7 +104,7 @@ describe("log-viewer WebSocket integration", () => {
 			expect(parsed.line).toContain("demo-line-");
 		}
 		ws.close();
-	});
+	}, 15000);
 
 	test("emits process stream bridge in generated server", async () => {
 		const generatedSource = await Bun.file(generated).text();

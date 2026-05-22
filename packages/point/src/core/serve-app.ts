@@ -99,7 +99,7 @@ export function createServeBootstrap(jsOutput: string, staticDir: string): strin
 		"  return new Response(\"Not found\", { status: 404 });",
 		"}",
 		"export function startAppServer() {",
-		"  const port = Number(process.env.PORT ?? 3456);",
+		"  const port = Number(process.env.PORT ?? 0);",
 		"  return Bun.serve({",
 		"    port,",
 		"    async fetch(req) {",

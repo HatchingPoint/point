@@ -1,4 +1,6 @@
 import { expect, test } from "bun:test";
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { checkPointCore, emitPointCoreTypeScript, parsePointSource } from "../packages/point/src/core/index.ts";
 import { createSemanticIndex, mapPublicDiagnostics } from "../packages/point/src/semantic/context.ts";
 
@@ -53,7 +55,9 @@ pipeline guarded write
 `);
 
 	const emitted = emitPointCoreTypeScript(program);
-	const modulePath = `${import.meta.dir}/tmp/guard-runtime-${Date.now()}.ts`;
+	const tmpDir = join(import.meta.dir, "tmp");
+	await mkdir(tmpDir, { recursive: true });
+	const modulePath = join(tmpDir, `guard-runtime-${Date.now()}.ts`);
 	await Bun.write(modulePath, emitted);
 	const mod = await import(modulePath);
 

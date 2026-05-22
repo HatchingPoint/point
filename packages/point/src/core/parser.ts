@@ -10,7 +10,7 @@ import { assertSemanticPointSource } from "./semantic-source.ts";
 
 export { isSemanticPointSyntax } from "./semantic-source.ts";
 
-function createUseSourceResolver(cwd: string): NonNullable<ParseSemanticSourceOptions["resolveUseSource"]> {
+export function createUseSourceResolver(cwd: string): NonNullable<ParseSemanticSourceOptions["resolveUseSource"]> {
 	const lock = readPointLockSync(cwd);
 	return (use) => {
 		try {

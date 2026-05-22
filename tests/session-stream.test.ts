@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { checkPointCore, emitPointCoreTypeScript, parsePointSource } from "../packages/point/src/core/index.ts";
 import { createSemanticIndex, explainSemanticRef } from "../packages/point/src/semantic/context.ts";
@@ -136,7 +137,9 @@ session support chat
 
 	const emitted = emitPointCoreTypeScript(program);
 	const events: Array<Record<string, unknown>> = [];
-	const modulePath = `${import.meta.dir}/tmp/session-runtime-${Date.now()}.ts`;
+	const tmpDir = join(import.meta.dir, "tmp");
+	await mkdir(tmpDir, { recursive: true });
+	const modulePath = join(tmpDir, `session-runtime-${Date.now()}.ts`);
 	await Bun.write(modulePath, emitted);
 	const mod = await import(modulePath);
 
@@ -223,7 +226,9 @@ session support chat
 
 		expect(checkPointCore(program)).toEqual([]);
 		const emitted = emitPointCoreTypeScript(program);
-		const modulePath = `${import.meta.dir}/tmp/session-provider-${Date.now()}.ts`;
+		const tmpDir = join(import.meta.dir, "tmp");
+		await mkdir(tmpDir, { recursive: true });
+		const modulePath = join(tmpDir, `session-provider-${Date.now()}.ts`);
 		await Bun.write(modulePath, emitted);
 		const mod = await import(modulePath);
 		let state = mod.supportChatSessionCreate();

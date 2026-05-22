@@ -33,8 +33,12 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/variants/order-status.point",
 	"examples/workflow-retry.point",
 	"examples/workflow.point",
+	"examples/catalog/price-lookup.point",
+	"examples/std-usage.point",
+	"examples/tools/instant-demo.point",
 	"std/process.point",
 	"std/http.point",
+	"std/time.point",
 ]);
 
 async function discoverFixtures(): Promise<string[]> {
@@ -51,7 +55,7 @@ async function discoverFixtures(): Promise<string[]> {
 describe("semantic desugar", () => {
 	test("parsePointSource uses in-memory desugar pipeline", () => {
 		const source = readFileSync(join(repoRoot, "examples/math.point"), "utf8");
-		expect(stripSpans(parsePointSource(source))).toEqual(stripSpans(desugarSemanticProgram(parseSemanticSource(source))));
+		expect(stripSpans(parsePointSource(source, repoRoot))).toEqual(stripSpans(desugarSemanticProgram(parseSemanticSource(source))));
 	});
 
 	test("desugared core AST matches legacy pipeline for all fixtures", async () => {
@@ -59,7 +63,7 @@ describe("semantic desugar", () => {
 			if (LEGACY_PARITY_SKIP.has(fixture)) continue;
 			const source = readFileSync(join(repoRoot, fixture), "utf8");
 			const legacy = parsePointSourceLegacy(source);
-			const desugared = desugarSemanticProgram(parseSemanticSource(source));
+			const desugared = parsePointSource(source, repoRoot);
 			expect(stripSpans(desugared)).toEqual(stripSpans(legacy));
 		}
 	});

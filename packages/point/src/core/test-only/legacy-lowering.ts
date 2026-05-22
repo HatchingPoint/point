@@ -1,5 +1,9 @@
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import type { PointCoreProgram, PointCoreStatement } from "../ast.ts";
+import { modulePathFromLock, readPointLockSync } from "../packages.ts";
 import { assertSemanticPointSource, isSemanticPointSyntax } from "../semantic-source.ts";
+import { scanUseDeclarations } from "../../semantic/callables.ts";
 import { desugarSemanticProgram } from "../../semantic/desugar.ts";
 import { parseSemanticSource } from "../../semantic/parse.ts";
 import { parsePointCore } from "./core-text-parser.ts";
@@ -1067,6 +1071,36 @@ function collectExternalBindings(source: string): Map<string, string> {
 	return bindings;
 }
 
+function collectImportedBindings(source: string, cwd: string): Map<string, string> {
+	const bindings = new Map<string, string>();
+	try {
+		const lock = readPointLockSync(cwd);
+		const visited = new Set<string>();
+		const pending = [...scanUseDeclarations(source)];
+		while (pending.length > 0) {
+			const use = pending.pop()!;
+			const key = use.from ?? use.moduleName;
+			if (visited.has(key)) continue;
+			visited.add(key);
+			let dependencySource: string | null = null;
+			try {
+				const from = use.from ?? modulePathFromLock(lock, use.moduleName, cwd);
+				const path = resolve(cwd, from);
+				if (existsSync(path)) dependencySource = readFileSync(path, "utf8");
+			} catch {
+				dependencySource = null;
+			}
+			if (!dependencySource) continue;
+			for (const [label, identifier] of collectExternalBindings(dependencySource)) bindings.set(label, identifier);
+			for (const [label, identifier] of collectCallableBindings(dependencySource)) bindings.set(label, identifier);
+			for (const nestedUse of scanUseDeclarations(dependencySource)) pending.push(nestedUse);
+		}
+	} catch {
+		return bindings;
+	}
+	return bindings;
+}
+
 function collectCallableBindings(source: string): Map<string, string> {
 	const bindings = new Map<string, string>();
 	for (const declaration of collectSemanticDeclarationInfo(source)) {
@@ -1182,6 +1216,13 @@ function lowerExpression(
 	bindings: Map<string, string> = new Map(),
 ): string {
 	let expression = source.trim();
+	const lookupMatch = expression.match(/^lookup\s+(.+?)\s+((?:"(?:\\.|[^"\\])*")|[A-Za-z][A-Za-z0-9 ]*)$/);
+	if (lookupMatch) {
+		return `pointMapLookup(${lowerExpression(lookupMatch[1] ?? "", paramTypes, records, bindings)}, ${lowerExpression(lookupMatch[2] ?? "", paramTypes, records, bindings)})`;
+	}
+	if (/^map\s*\{/.test(expression)) {
+		expression = expression.replace(/^map\s+/, "");
+	}
 	expression = expression.replace(/^Error\s+"([^"]*)"$/, (_match, message: string) => `Error(${JSON.stringify(message)})`);
 	for (const [label, identifier] of [...bindings].sort((a, b) => b[0].length - a[0].length)) {
 		expression = replaceSemanticName(expression, label, identifier);

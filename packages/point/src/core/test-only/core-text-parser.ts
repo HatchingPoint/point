@@ -322,7 +322,7 @@ class CoreParser {
 		const fields: PointCoreRecordField[] = [];
 		if (!this.check("rightBrace")) {
 			do {
-				const name = this.consume("identifier", "Expected record field name");
+				const name = this.parseRecordFieldName();
 				this.consume("colon", `Expected value for record field ${name.value}`);
 				const value = this.parseExpression();
 				fields.push({
@@ -334,6 +334,15 @@ class CoreParser {
 		}
 		this.consume("rightBrace", "Expected end of record");
 		return { kind: "record", fields, span: { start, end: this.previous().span.end } };
+	}
+
+	private parseRecordFieldName() {
+		if (this.check("string")) {
+			const token = this.advance();
+			return { value: token.value, span: token.span };
+		}
+		const name = this.consume("identifier", "Expected record field name");
+		return { value: name.value, span: name.span };
 	}
 
 	private peekBinaryOperator(): PointCoreBinaryOperator | null {

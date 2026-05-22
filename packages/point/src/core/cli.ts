@@ -568,7 +568,12 @@ export function parseBuildCliFlags(args: string[]): { production: boolean; posit
 
 export function findRunEntryName(program: PointCoreProgram): string | null {
 	const zeroArgFunctions = program.declarations.filter((declaration) => declaration.kind === "function" && declaration.params.length === 0);
+	const isServeCommand = (declaration: (typeof zeroArgFunctions)[number]) => {
+		const name = declaration.semantic?.name ?? "";
+		return declaration.semantic?.kind === "command" && name.toLowerCase().startsWith("serve ");
+	};
 	const preferred =
+		zeroArgFunctions.find((declaration) => declaration.semantic?.kind === "command" && !isServeCommand(declaration)) ??
 		zeroArgFunctions.find((declaration) => declaration.semantic?.kind === "command") ??
 		zeroArgFunctions.find((declaration) => declaration.name === "main") ??
 		zeroArgFunctions[0];

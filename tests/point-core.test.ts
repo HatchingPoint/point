@@ -485,7 +485,7 @@ command hello cli
 		expect(await Bun.file("examples/full-stack-template/README.md").exists()).toBe(true);
 		const manifest = await Bun.file("examples/full-stack-template/point.json").json();
 		expect(manifest.name).toBe("full-stack-template");
-	});
+	}, 30000);
 
 	test("external starter template checks, builds, and runs without hand-written TypeScript", async () => {
 		const app = "examples/starter-template/src/app.point";

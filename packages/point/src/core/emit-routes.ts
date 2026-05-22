@@ -350,7 +350,7 @@ export function emitRouteServerRuntime(
 		"",
 		...(streamRoutes.length > 0 ? ["", ...emitStreamRouteWebSocketHandlers(streamSpecs), ""] : []),
 		"export function startRoutesServer() {",
-		"  const port = Number(process.env.PORT ?? 3456);",
+		"  const port = Number(process.env.PORT ?? 0);",
 		...(streamRoutes.length > 0
 			? [
 					"  return Bun.serve({",

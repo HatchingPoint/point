@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { createUseSourceResolver, parseSemanticSourceWithUses } from "../packages/point/src/core/parser.ts";
 import {
 	isPointSemanticAstEnabled,
 	parsePointSourceV2,
@@ -48,7 +49,10 @@ describe("semantic AST", () => {
 
 	test("parsePointSourceV2 matches parseSemanticSource", () => {
 		const source = readFileSync(join(repoRoot, "examples/std-usage.point"), "utf8");
-		expect(serializeSemanticProgram(parsePointSourceV2(source))).toBe(serializeSemanticProgram(parseSemanticSource(source)));
+		const resolveUseSource = createUseSourceResolver(repoRoot);
+		expect(serializeSemanticProgram(parsePointSourceV2(source, { resolveUseSource }))).toBe(
+			serializeSemanticProgram(parseSemanticSource(source, { resolveUseSource })),
+		);
 	});
 
 	test("isPointSemanticAstEnabled is true unless legacy lowering is forced", () => {
@@ -66,7 +70,7 @@ describe("semantic parse coverage", () => {
 	for (const file of discoverPointFiles(join(repoRoot, "examples"))) {
 		test(`parses ${file.replace(`${repoRoot}\\`, "").replace(`${repoRoot}/`, "")}`, () => {
 			const source = readFileSync(file, "utf8");
-			const program = parsePointSourceV2(source);
+			const program = parseSemanticSourceWithUses(source, repoRoot);
 			expect(program.kind).toBe("semanticProgram");
 			expect(program.declarations.length + program.uses.length).toBeGreaterThan(0);
 		});

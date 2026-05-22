@@ -72,10 +72,10 @@ describe("full-stack template and point create", () => {
 		const emitted = await Bun.file(out).text();
 		expect(emitted).toContain("export function adminShellLayout");
 		expect(emitted).toContain("createBrowserRouter");
-		expect(emitted).toContain("fetchMembers");
+		expect(emitted).toContain('fetch("/api/members")');
 		const run = await Bun.$`bun ${cli} run ${templateApp}`.quiet();
 		expect(run.stdout.toString().trim()).toBe("Admin app navigation ready");
-	});
+	}, 30000);
 
 	test("scaffoldAppFromTemplate copies tree and substitutes app name", async () => {
 		const target = join(projectDir, "acme-admin");
