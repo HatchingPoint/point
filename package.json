@@ -39,8 +39,10 @@
     "benchmark:platform": "bun scripts/benchmark-platform.ts",
     "benchmark:agent-repair": "bun scripts/agent-repair-benchmark.ts",
     "benchmark:agent-repair-models": "bun scripts/agent-repair-model-benchmark.ts",
-    "sync:app-template": "bun scripts/sync-app-template.ts",
+    "benchmark:agent-app": "bun scripts/run-agent-app-benchmark.ts",
+    "export:agent-app-cases": "bun scripts/export-agent-app-cases.ts",
     "export:agent-repair-cases": "bun scripts/export-agent-repair-cases.ts",
+    "sync:app-template": "bun scripts/sync-app-template.ts",
     "proof:agent-repair": "bun scripts/agent-repair-proof.ts",
     "publish:release": "bun scripts/publish.ts",
     "publish:npm": "bun scripts/publish-npm.ts",
@@ -50,7 +52,7 @@
     "version:patch": "bun scripts/bump-version.ts patch",
     "version:minor": "bun scripts/bump-version.ts minor",
     "version:major": "bun scripts/bump-version.ts major",
-    "ci": "bun run sync:app-template && bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run benchmark:agent-repair && bun run vscode:build && bun run vscode:package"
+    "ci": "bun run sync:app-template && bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run benchmark:agent-repair && bun run benchmark:agent-app && bun run vscode:build && bun run vscode:package"
   },
   "devDependencies": {
     "@hatchingpoint/point": "workspace:packages/point",

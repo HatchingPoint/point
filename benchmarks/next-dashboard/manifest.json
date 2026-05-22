@@ -1,0 +1,46 @@
+{
+  "title": "Next.js admin dashboard (paired benchmark scaffold)",
+  "description": "Mirrors tests/fixtures/agent-app dashboard cases for measured TypeScript agent context.",
+  "variants": {
+    "base": "base",
+    "golden": "golden",
+    "dashboard-add-search-broken": "broken-feature-add",
+    "dashboard-search-wiring-broken": "broken-wiring"
+  },
+  "caseMapping": {
+    "dashboard-add-search": {
+      "baseVariant": "base",
+      "brokenVariant": "dashboard-add-search-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/admin/layout.tsx",
+        "app/admin/settings/page.tsx",
+        "app/admin/items/page.tsx",
+        "app/admin/items/[id]/page.tsx",
+        "app/admin/search/page.tsx",
+        "components/AdminNav.tsx",
+        "components/SettingsForm.tsx",
+        "components/ItemsList.tsx",
+        "components/ItemDetail.tsx",
+        "components/SearchPanel.tsx",
+        "lib/types.ts",
+        "lib/items.ts",
+        "lib/searchItems.ts"
+      ]
+    },
+    "dashboard-search-wiring": {
+      "baseVariant": "golden",
+      "brokenVariant": "dashboard-search-wiring-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/admin/layout.tsx",
+        "app/admin/search/page.tsx",
+        "components/AdminNav.tsx",
+        "components/SearchPanel.tsx",
+        "lib/searchItems.ts",
+        "lib/items.ts",
+        "lib/types.ts"
+      ]
+    }
+  }
+}
