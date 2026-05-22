@@ -9,11 +9,26 @@ _point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "poin
 if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
+from point_std.time import instantNow as instantNowRaw
+
+from point_std.time import parseInstant as parseInstantRaw
+
+from point_std.time import formatInstant as formatInstantRaw
+
 from point_std.time import now as timeNow
 
 from point_std.time import sleep as sleepMilliseconds
 
 from point_std.time import formatTime as formatTime
+
+def instantNowValue() -> str:
+    return instantNowRaw()
+
+def formatInstantLabel(value: str) -> str:
+    return formatInstantRaw(value)
+
+async def parseInstantResult(value: str) -> str | dict[str, str]:
+    return parseInstantRaw(value)
 
 async def currentTimeValue() -> str:
     return timeNow()

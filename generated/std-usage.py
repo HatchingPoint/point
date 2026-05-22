@@ -9,7 +9,7 @@ from json import jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult
 
 from http import httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed
 
-from time import timeNow, sleepMilliseconds, formatTime, currentTimeValue, waitMillisecondsResult
+from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult
 
 from fs import readFileRaw, writeFileRaw, readFileContents, writeFileResult
 
@@ -25,6 +25,9 @@ async def stdHttpExampleResponse(url: str) -> str | dict[str, str]:
     return await httpGetResponse(url)
 
 async def stdTimeExampleValue() -> str:
+    return instantNowValue()
+
+async def stdTimeTextExampleValue() -> str:
     return await currentTimeValue()
 
 async def stdFsExampleContents(path: str) -> str | dict[str, str]:
