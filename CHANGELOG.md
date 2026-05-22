@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4
+
+### Added
+
+- Four full-app agent benchmark cases with notes and refactor fixtures, paired next-notes scaffold, and home-page-ready export.
+
 ## 0.1.3
 
 ### Added
