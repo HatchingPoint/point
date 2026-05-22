@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.1**
+Current release: **0.1.7**
 
 Check the published npm version:
 
@@ -22,6 +22,9 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.7** | Phase 24 Path B: `point dev` app mode (Vite + Bun API), `point serve`, `point build-app`, full-stack template with Render deploy path. |
+| **0.1.6** | Phase 22 dedomainized docs; Phase 23 `Map<Text, T>`, lookup, and std money pattern. |
+| **0.1.5** | Bun-first install docs; `point add` prefers bun. |
 | **0.1.1** | Agent repair: check-json lists Point source field names in expected/repair; model benchmark + CI sufficiency tests. |
 | **0.1.0** | Platform Phases 14–21: multi-page apps, WebSockets, generic DB (`std.sql` + external), pipelines/sessions/prompts, Python parity, `point dev`, full-stack template. Convex removed. |
 | **0.0.15** | Phase 12 complete: starter template, Open VSX, live demo, point-logic source on npm |
