@@ -192,6 +192,7 @@ export interface PointSemanticViewDeclaration {
 export interface PointSemanticLayoutSlot {
 	name: string;
 	content: PointSemanticExpression;
+	style?: string[];
 	span?: PointSourceSpan;
 }
 

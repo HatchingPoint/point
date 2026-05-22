@@ -95,6 +95,7 @@ export interface PointSemanticProgramMetadata {
 export interface PointSemanticLayoutSlotContent {
 	name: string;
 	content: PointCoreExpression;
+	style?: string[];
 }
 
 export interface PointSemanticLayoutSpec {
@@ -149,6 +150,8 @@ export interface PointSemanticViewModalSpec {
 export interface PointSemanticViewTabSpec {
 	label: string;
 	content: PointCoreExpression;
+	className?: string;
+	style?: string[];
 }
 
 export interface PointSemanticViewTabsSpec {

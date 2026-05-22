@@ -1404,10 +1404,12 @@ function parseLayout(
 		if (!slotMatch) throw new Error(`Unknown layout statement: ${line}`);
 		const slotName = slotMatch[1] ?? "";
 		const renderSource = slotMatch[2] ?? "";
+		const { style, remainder } = parseStylePrefix(renderSource);
 		const context = expressionContext({ bindings, paramTypes, records, variants, callables });
 		slots.push({
 			name: slotName,
-			content: parseLineExpression(renderSource, context, source, lineNumber),
+			content: parseLineExpression(remainder, context, source, lineNumber),
+			...(style.length > 0 ? { style } : {}),
 			span: lineSpan(source, lineNumber),
 		});
 	}
@@ -2492,21 +2494,13 @@ function parseViewTabsBlock(
 	for (; index < body.lines.length; index += 1) {
 		const line = body.lines[index] ?? "";
 		const lineNumber = body.lineNumbers[index] ?? start + 1;
-		const tabClass = line.match(/^tab "(.+)" render class "([^"]+)" (.+)$/);
-		if (tabClass) {
+		const tabRender = line.match(/^tab "(.+)" render (.+)$/);
+		if (tabRender) {
+			const render = parseStyledRender(tabRender[2] ?? "", context, source, lineNumber);
 			tabs.push({
-				label: tabClass[1] ?? "",
-				className: tabClass[2],
-				value: parseLineExpression(tabClass[3] ?? "", context, source, lineNumber),
-				span: lineSpan(source, lineNumber),
-			});
-			continue;
-		}
-		const tabPlain = line.match(/^tab "(.+)" render (.+)$/);
-		if (tabPlain) {
-			tabs.push({
-				label: tabPlain[1] ?? "",
-				value: parseLineExpression(tabPlain[2] ?? "", context, source, lineNumber),
+				label: tabRender[1] ?? "",
+				value: render.value,
+				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;

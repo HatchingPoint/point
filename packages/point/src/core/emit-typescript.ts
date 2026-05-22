@@ -302,7 +302,7 @@ function emitLayoutBody(functionName: string, spec: PointSemanticLayoutSpec, the
 	const slotSet = new Set(spec.slots.map((slot) => slot.name));
 	const defaultFor = (slotName: string): string => {
 		const slot = spec.slots.find((candidate) => candidate.name === slotName);
-		return slot ? emitJsxSlotDefault(slot.content) : "<></>";
+		return slot ? emitViewRenderFragment(slot.content, undefined, slot.style) : "<></>";
 	};
 	const lines = ["return (", `  <div className="${escapeJsxAttribute(`${themeClassName} point-layout point-layout-${toIdentifier(spec.name)}`)}">`];
 	if (slotSet.has("header")) {
@@ -323,13 +323,6 @@ function emitLayoutBody(functionName: string, spec: PointSemanticLayoutSpec, the
 	}
 	lines.push(`  </div>`, ");");
 	return lines;
-}
-
-function emitJsxSlotDefault(expression: PointCoreExpression): string {
-	if (expression.kind === "literal" && typeof expression.value === "string") {
-		return `<>${escapeJsxText(expression.value)}</>`;
-	}
-	return `<>{${emitExpression(expression)}}</>`;
 }
 
 function emitViewDataLoadBody(body: PointCoreStatement[]): string[] {
@@ -402,7 +395,7 @@ function emitEachItemContent(spec: PointSemanticViewEachSpec): string {
 
 function emitViewTabs(spec: PointSemanticViewTabsSpec): string {
 	const entries = spec.tabs
-		.map((tab) => `{ label: ${JSON.stringify(tab.label)}, content: ${emitViewRenderFragment(tab.content)} }`)
+		.map((tab) => `{ label: ${JSON.stringify(tab.label)}, content: ${emitViewRenderFragment(tab.content, tab.className, tab.style)} }`)
 		.join(", ");
 	return `{pointViewTabs([${entries}])}`;
 }
