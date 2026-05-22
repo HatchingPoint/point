@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.15
+
+### Added
+
+- Fix multi-render view emit; add point-nav layout styles to point-ui.css.
+
 ## 0.1.13
 
 ### Added
