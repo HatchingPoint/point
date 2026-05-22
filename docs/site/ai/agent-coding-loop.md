@@ -8,7 +8,7 @@ quadrant: Explanation
 
 If you use **Cursor Agent**, **Codex**, or **Claude Code**, you already run a repair loop: compiler error → paste context → model patch → verify. On a TypeScript repo, that loop is expensive and fragile. Point replaces paste-and-pray with a compiler that returns JSON shaped for agents: `ref`, `expected`, `repair`, and `span`.
 
-Live walkthrough with real code: [Proof of concept — agent coding loop](https://www.hatchingpoint.com/point/concepts/proof-of-concept#agent-coding-loop).
+Live walkthrough with real code: [Agent repair tests](/point/ai/agent-repair-tests).
 
 ## The bug (same product logic, two stacks)
 

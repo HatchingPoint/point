@@ -8,7 +8,7 @@ quadrant: Explanation
 
 Point is designed for a workflow where coding agents write, check, explain, and repair software continuously.
 
-For the full comparison to TypeScript, Python, and prompt-only workflows, see [Point vs other languages for AI engineering](/point/ai/vs-other-languages). For worked examples and benchmarks, see [Proof of concept](/point/concepts/proof-of-concept).
+For the full comparison to TypeScript, Python, and prompt-only workflows, see [Point vs other languages for AI engineering](/point/ai/vs-other-languages). For worked examples and benchmarks, see [Proof of concept](/point/concepts/proof-of-concept) and [Agent repair tests](/point/ai/agent-repair-tests).
 
 ## The problem with raw text
 
