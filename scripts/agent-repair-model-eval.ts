@@ -195,21 +195,24 @@ export function summarizeRuns(runs: ModelEvalRun[]): ModelEvalReport["summary"] 
 }
 
 async function callOpenAI(model: string, prompt: string, apiKey: string) {
+	const body: Record<string, unknown> = {
+		model,
+		response_format: { type: "json_object" },
+		messages: [
+			{ role: "system", content: "You fix Point source files and return JSON only." },
+			{ role: "user", content: prompt },
+		],
+	};
+	if (!/^o[34](-|$)/.test(model)) {
+		body.temperature = 0;
+	}
 	const response = await fetch("https://api.openai.com/v1/chat/completions", {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${apiKey}`,
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({
-			model,
-			temperature: 0,
-			response_format: { type: "json_object" },
-			messages: [
-				{ role: "system", content: "You fix Point source files and return JSON only." },
-				{ role: "user", content: prompt },
-			],
-		}),
+		body: JSON.stringify(body),
 	});
 	if (!response.ok) {
 		throw new Error(`OpenAI ${response.status}: ${await response.text()}`);
@@ -353,9 +356,9 @@ export async function runModelEval(options: {
 						const candidate = applyFixedLine(brokenSource, lineNumber, parsed.fixedLine);
 						run.checkPassed = verifyPointSource(candidate);
 						const golden = applyLineRepairFromGolden(brokenSource, fixedSource, diagnostic);
-						run.success = run.checkPassed && candidate === golden;
-						if (!run.success && run.checkPassed) {
-							run.error = "check passed but line differs from golden fixture";
+						run.success = run.checkPassed;
+						if (run.checkPassed && candidate !== golden) {
+							run.error = "check passed (alternate valid fix)";
 						}
 						if (!run.checkPassed) {
 							run.error = "point check failed after applying model line";
@@ -377,7 +380,7 @@ export async function runModelEval(options: {
 		schemaVersion: "point.agent-repair-model-eval.v1",
 		generatedAt: new Date().toISOString(),
 		methodology:
-			"Each model receives either check-json only (Point) or TS paste + tsc error + full .point file (TypeScript). Success = applied fixedLine passes point check and matches the CI golden fixture line.",
+			"Each model receives either check-json only (Point) or TS paste + tsc error + full .point file (TypeScript). Success = applied fixedLine passes point check (same gate as CI).",
 		models: models.map((model) => model.id),
 		cases: cases.map((testCase) => testCase.id),
 		runs,

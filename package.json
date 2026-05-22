@@ -40,6 +40,7 @@
     "benchmark:agent-repair": "bun scripts/agent-repair-benchmark.ts",
     "benchmark:agent-repair-models": "bun scripts/agent-repair-model-benchmark.ts",
     "export:agent-repair-cases": "bun scripts/export-agent-repair-cases.ts",
+    "proof:agent-repair": "bun scripts/agent-repair-proof.ts",
     "publish:release": "bun scripts/publish.ts",
     "publish:npm": "bun scripts/publish-npm.ts",
     "publish:logic": "bun scripts/publish-logic.ts",

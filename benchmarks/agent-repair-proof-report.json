@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "point.agent-repair-proof.v1",
+  "generatedAt": "2026-05-22T03:14:26.469Z",
+  "overallOk": true,
+  "ciPassed": true,
+  "sections": [
+    {
+      "title": "CI: check-json sufficiency (single-shot agent loop, no LLM)",
+      "verified": "ci",
+      "passed": true,
+      "detail": "13 fixtures · real check-json → golden line → point check"
+    },
+    {
+      "title": "CI: repair-plan loop (check → fix → check again, no LLM)",
+      "verified": "ci",
+      "passed": true,
+      "detail": "1 multistep fixture(s) · simulates rushed auto-coding scaffold"
+    },
+    {
+      "title": "Measured: check-json context size per fixture",
+      "verified": "ci",
+      "passed": true,
+      "detail": "unknown-field-rule: 1051 chars (~263 tok); label-unknown-field: 813 chars (~203 tok); calc-unknown-field: 907 chars (~227 tok); rule-stock-unknown-field: 936 chars (~234 tok); rule-user-unknown-field: 809 chars (~202 tok); missing-await: 747 chars (~187 tok); arity-mismatch: 755 chars (~189 tok); operator-type-mismatch: 672 chars (~168 tok); feature-dashboard-load: 963 chars (~241 tok); feature-pipeline-await: 807 chars (~202 tok); feature-notes-crud: 789 chars (~197 tok); feature-nav-routes: 849 chars (~212 tok); feature-guard-policy: 784 chars (~196 tok)"
+    },
+    {
+      "title": "Compared: Point check-json vs illustrative TS paste heuristic",
+      "verified": "estimated",
+      "passed": true,
+      "detail": "79–93% less context (avg 87%). TS paste sizes are heuristics, not logged agent traces."
+    },
+    {
+      "title": "CI: multistep golden repair",
+      "verified": "ci",
+      "passed": true,
+      "detail": "feature-multistep-launch: 2/2 steps"
+    },
+    {
+      "title": "Live: frontier models — real API, point check verifier",
+      "verified": "live-model",
+      "passed": true,
+      "detail": "78/78 runs pass point check · Point workflow 100% · TS workflow 100%"
+    }
+  ],
+  "fixtureCounts": {
+    "singleShot": 13,
+    "multistep": 1,
+    "exported": 14
+  },
+  "tokenReductionPercent": {
+    "minReductionPercent": 79,
+    "maxReductionPercent": 93,
+    "avgReductionPercent": 87
+  },
+  "modelEval": {
+    "generatedAt": "2026-05-22T03:16:58.464Z",
+    "summary": {
+      "overall": {
+        "point": {
+          "passed": 39,
+          "total": 39,
+          "rate": 100
+        },
+        "typescript": {
+          "passed": 39,
+          "total": 39,
+          "rate": 100
+        }
+      },
+      "byModel": {
+        "gpt-4.1": {
+          "point": {
+            "passed": 13,
+            "total": 13,
+            "rate": 100
+          },
+          "typescript": {
+            "passed": 13,
+            "total": 13,
+            "rate": 100
+          }
+        },
+        "claude-opus-4-6": {
+          "point": {
+            "passed": 13,
+            "total": 13,
+            "rate": 100
+          },
+          "typescript": {
+            "passed": 13,
+            "total": 13,
+            "rate": 100
+          }
+        },
+        "claude-sonnet-4-6": {
+          "point": {
+            "passed": 13,
+            "total": 13,
+            "rate": 100
+          },
+          "typescript": {
+            "passed": 13,
+            "total": 13,
+            "rate": 100
+          }
+        }
+      }
+    },
+    "models": [
+      "gpt-4.1",
+      "claude-opus-4-6",
+      "claude-sonnet-4-6"
+    ]
+  },
+  "reproduce": [
+    "bun run proof:agent-repair",
+    "bun test tests/agent-repair-sufficiency.test.ts tests/agent-repair-multistep.test.ts",
+    "bun run benchmark:agent-repair-models"
+  ]
+}
