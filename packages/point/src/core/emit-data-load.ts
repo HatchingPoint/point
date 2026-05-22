@@ -140,9 +140,10 @@ export function emitViewContentFromBody(body: PointCoreStatement[]): string {
 			statement.thenBody.some((thenStatement) => thenStatement.kind === "return" && thenStatement.value),
 	);
 	if (!hasConditionalRenders && directRenders.length > 1) {
-		return directRenders
-			.map((statement) => emitViewRenderFragment(statement.value!, statement.className, statement.style))
-			.join("");
+		const fragments = directRenders.map((statement) =>
+			emitViewRenderFragment(statement.value!, statement.className, statement.style),
+		);
+		return `<>` + fragments.join("") + `</>`;
 	}
 	if (!hasConditionalRenders && directRenders.length === 1) {
 		return emitViewRenderFragment(directRenders[0]!.value!, directRenders[0]!.className, directRenders[0]!.style);
