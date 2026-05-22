@@ -19,6 +19,7 @@ label status message
   input status: Order Status
   output Text
   on Pending return "Your order is pending"
+  on Processing return "Your order is processing"
   on Shipped with tracking number return "Shipped — tracking " + tracking number
+  on Delivered return "Your order was delivered"
   on Cancelled with reason return "Cancelled: " + reason
-  otherwise return "In progress"

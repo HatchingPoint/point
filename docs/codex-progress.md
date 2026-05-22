@@ -1033,3 +1033,13 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `point check examples/full-stack-template/src/app.point`; full-stack template tests pass.
 - Next: Phase 23 Wave 2 Instant; P22-8 catalog package; changelog site version sync.
 - Blocked: none
+
+## Checkpoint Phase 26 P26-2 — Variant exhaustiveness
+
+- Completed: Added semantic variant exhaustiveness checker (`missing-variant-case`) for `on Case return` dispatch sites in label/rule/calculation blocks when dispatching on a variant-typed input. Diagnostics now include uncovered cases and concrete repair branches.
+- Verified: `bun test tests/variant-exhaustiveness.test.ts`.
+- Example: `examples/variants/order-status.point` (now explicitly handles every declared `Order Status` case).
+- Files: `packages/point/src/semantic/check-variants.ts`, `packages/point/src/core/check.ts`, `tests/variant-exhaustiveness.test.ts`, `docs/site/reference/diagnostics.md`, `examples/variants/order-status.point`.
+- Next: Phase 26 P26-3 (`Maybe` presence narrowing).
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
