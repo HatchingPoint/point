@@ -659,7 +659,13 @@ function findConditionSpan(declaration: PointSemanticDeclaration): PointSourceSp
 	}
 	if (declaration.kind === "rule") {
 		for (const statement of declaration.body) {
+			if (statement.kind === "whenReturn") return expressionSpan(statement.condition) ?? statement.span ?? null;
 			if (statement.kind === "addWhen") return expressionSpan(statement.condition) ?? statement.span ?? null;
+		}
+	}
+	if (declaration.kind === "calculation") {
+		for (const statement of declaration.body) {
+			if (statement.kind === "whenReturn") return expressionSpan(statement.condition) ?? statement.span ?? null;
 		}
 	}
 	if (declaration.kind === "policy") {

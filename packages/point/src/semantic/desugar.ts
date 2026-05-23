@@ -1124,6 +1124,16 @@ function desugarCalculationBody(statements: PointSemanticCalculationStatement[],
 			body.push(...desugarForEach(statement, ctx));
 			continue;
 		}
+		if (statement.kind === "whenReturn") {
+			body.push({
+				kind: "if",
+				condition: desugarExpression(statement.condition, ctx),
+				thenBody: [{ kind: "return", value: desugarExpression(statement.value, ctx), span: statement.span }],
+				elseBody: [],
+				span: statement.span,
+			});
+			continue;
+		}
 		if (statement.kind === "return") {
 			body.push({ kind: "return", value: desugarExpression(statement.value, ctx), span: statement.span });
 			continue;
@@ -1162,6 +1172,16 @@ function desugarRuleBody(statements: PointSemanticRuleStatement[], ctx: DesugarC
 		}
 		if (statement.kind === "forEach") {
 			body.push(...desugarForEach(statement, ctx));
+			continue;
+		}
+		if (statement.kind === "whenReturn") {
+			body.push({
+				kind: "if",
+				condition: desugarExpression(statement.condition, ctx),
+				thenBody: [{ kind: "return", value: desugarExpression(statement.value, ctx), span: statement.span }],
+				elseBody: [],
+				span: statement.span,
+			});
 			continue;
 		}
 		if (statement.kind === "return") {

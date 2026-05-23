@@ -277,6 +277,7 @@ function formatCalculationStatement(statement: PointSemanticCalculationStatement
 			"\n",
 		);
 	}
+	if (statement.kind === "whenReturn") return `when ${formatExpression(statement.condition)} return ${formatExpression(statement.value)}`;
 	if (statement.kind === "return") return `return ${formatExpression(statement.value)}`;
 	return formatMutation(statement);
 }
@@ -290,6 +291,7 @@ function formatRuleStatement(statement: PointSemanticRuleStatement): string[] {
 			...statement.body.map((mutation) => `  ${formatMutation(mutation)}`),
 		];
 	}
+	if (statement.kind === "whenReturn") return [`  when ${formatExpression(statement.condition)} return ${formatExpression(statement.value)}`];
 	if (statement.kind === "return") return [`  return ${formatExpression(statement.value)}`];
 	return [`  ${formatMutation(statement)}`];
 }

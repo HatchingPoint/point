@@ -77,6 +77,36 @@ function parseLineExpression(
 	return parseSemanticExpression(expressionSource, context, lineSpan(fileSource, lineNumber));
 }
 
+function parseWhenCondition(
+	conditionSource: string,
+	context: ReturnType<typeof expressionContext>,
+	fileSource: string,
+	lineNumber: number,
+): PointSemanticExpression {
+	const trimmed = conditionSource.trim();
+	const presentMatch = trimmed.match(/^(.+)\s+present$/);
+	if (presentMatch) {
+		return {
+			kind: "binary",
+			operator: "!=",
+			left: parseLineExpression(presentMatch[1] ?? "", context, fileSource, lineNumber),
+			right: { kind: "literal", value: null, span: lineSpan(fileSource, lineNumber) },
+			span: lineSpan(fileSource, lineNumber),
+		};
+	}
+	const noneMatch = trimmed.match(/^(.+)\s+is\s+none$/);
+	if (noneMatch) {
+		return {
+			kind: "binary",
+			operator: "==",
+			left: parseLineExpression(noneMatch[1] ?? "", context, fileSource, lineNumber),
+			right: { kind: "literal", value: null, span: lineSpan(fileSource, lineNumber) },
+			span: lineSpan(fileSource, lineNumber),
+		};
+	}
+	return parseLineExpression(conditionSource, context, fileSource, lineNumber);
+}
+
 export function isPointSemanticAstEnabled(): boolean {
 	return process.env.POINT_LEGACY_LOWER !== "1";
 }
@@ -563,6 +593,24 @@ function parseCalculation(
 			statements.push({ kind: "forEach", item, iterable, body: loopBody, span: lineSpan(source, lineNumber) });
 			continue;
 		}
+		const whenReturn = line.match(/^when (.+) return (.+)$/);
+		if (whenReturn) {
+			statements.push({
+				kind: "whenReturn",
+				condition: parseWhenCondition(whenReturn[1] ?? "", context, source, lineNumber),
+				value: parseLineExpression(whenReturn[2] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		if (line.startsWith("otherwise return ")) {
+			statements.push({
+				kind: "return",
+				value: parseLineExpression(line.slice("otherwise return ".length), context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
 		const isExpr = line.match(/^(.+) is (.+)$/);
 		if (isExpr) {
 			statements.push({
@@ -669,7 +717,7 @@ function parseRule(
 			statements.push({
 				kind: "addWhen",
 				amount: parseLineExpression(addWhen[1] ?? "", context, source, lineNumber),
-				condition: parseLineExpression(addWhen[2] ?? "", context, source, lineNumber),
+				condition: parseWhenCondition(addWhen[2] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -693,6 +741,24 @@ function parseRule(
 		const mutation = parseMutationStatement(line, context, source, lineNumber);
 		if (mutation) {
 			statements.push(mutation);
+			continue;
+		}
+		const whenReturn = line.match(/^when (.+) return (.+)$/);
+		if (whenReturn) {
+			statements.push({
+				kind: "whenReturn",
+				condition: parseWhenCondition(whenReturn[1] ?? "", context, source, lineNumber),
+				value: parseLineExpression(whenReturn[2] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		if (line.startsWith("otherwise return ")) {
+			statements.push({
+				kind: "return",
+				value: parseLineExpression(line.slice("otherwise return ".length), context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
 			continue;
 		}
 		if (line.startsWith("return ")) {
@@ -747,7 +813,7 @@ function parseLabel(
 		if (whenReturn) {
 			statements.push({
 				kind: "whenReturn",
-				condition: parseLineExpression(whenReturn[1] ?? "", context, source, lineNumber),
+				condition: parseWhenCondition(whenReturn[1] ?? "", context, source, lineNumber),
 				value: parseLineExpression(whenReturn[2] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});
@@ -1142,7 +1208,7 @@ function parseView(
 		if (whenRenderClass) {
 			statements.push({
 				kind: "whenRender",
-				condition: parseLineExpression(whenRenderClass[1] ?? "", context, source, lineNumber),
+				condition: parseWhenCondition(whenRenderClass[1] ?? "", context, source, lineNumber),
 				className: whenRenderClass[2],
 				value: parseLineExpression(whenRenderClass[3] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
@@ -1154,7 +1220,7 @@ function parseView(
 			const render = parseStyledRender(whenRender[2] ?? "", context, source, lineNumber);
 			statements.push({
 				kind: "whenRender",
-				condition: parseLineExpression(whenRender[1] ?? "", context, source, lineNumber),
+				condition: parseWhenCondition(whenRender[1] ?? "", context, source, lineNumber),
 				value: render.value,
 				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
@@ -1315,7 +1381,7 @@ function parseView(
 			statements.push({
 				kind: "modal",
 				title: modalWhenClass[1] ?? "",
-				when: parseLineExpression(modalWhenClass[2] ?? "", context, source, lineNumber),
+				when: parseWhenCondition(modalWhenClass[2] ?? "", context, source, lineNumber),
 				className: modalWhenClass[3],
 				value: parseLineExpression(modalWhenClass[4] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
@@ -1328,7 +1394,7 @@ function parseView(
 			statements.push({
 				kind: "modal",
 				title: modalWhen[1] ?? "",
-				when: parseLineExpression(modalWhen[2] ?? "", context, source, lineNumber),
+				when: parseWhenCondition(modalWhen[2] ?? "", context, source, lineNumber),
 				value: render.value,
 				...styledRenderFields(render),
 				span: lineSpan(source, lineNumber),
@@ -1743,7 +1809,7 @@ function parseMiddleware(
 			if (!match) throw new Error(`Unknown middleware statement: ${line}`);
 			statements.push({
 				kind: "whenReturn",
-				condition: parseLineExpression(match[1] ?? "", context, source, lineNumber),
+				condition: parseWhenCondition(match[1] ?? "", context, source, lineNumber),
 				value: parseLineExpression(match[2] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});

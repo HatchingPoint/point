@@ -1048,5 +1048,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Example: `examples/variants/order-status.point` (now explicitly handles every declared `Order Status` case).
 - Files: `packages/point/src/semantic/check-variants.ts`, `packages/point/src/core/check.ts`, `tests/variant-exhaustiveness.test.ts`, `docs/site/reference/diagnostics.md`, `examples/variants/order-status.point`.
 - Next: Phase 26 P26-3 (`Maybe` presence narrowing).
+
+## Checkpoint Phase 26 P26-3 — Maybe presence narrowing
+
+- Completed: Added `when <expr> present` and `when <expr> is none` condition forms in label/rule/calculation bodies plus view guards, with parser desugaring to null checks. Core checker now narrows `Maybe<T>` to `T` inside present branches (including nested property paths) so `nullable-field-access` only appears when truly unsafe.
+- Verified: `bun test tests/maybe-narrowing.test.ts` passes.
+- Example: `examples/tools/maybe-narrow.point`
+- Next: Phase 26 P26-4 tab/slot modifiers.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

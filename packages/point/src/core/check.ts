@@ -41,6 +41,7 @@ export interface PointCoreDiagnostic {
 type DiagnosticMetadata = Partial<Pick<PointCoreDiagnostic, "expected" | "actual" | "repair" | "relatedRefs">>;
 type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean; variantCase?: string };
 type Scope = Map<string, ScopeEntry>;
+const scopeMaybeNarrowings = new WeakMap<Scope, Set<string>>();
 
 const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Map", "Maybe", "Instant", "Error", "Or", "Page", "Handler"]);
 
@@ -141,7 +142,7 @@ class CoreChecker {
 
 	private checkFunction(declaration: PointCoreFunctionDeclaration) {
 		this.checkType(declaration.returnType, `fn.${declaration.name}.return`);
-		const locals = new Map(this.globals);
+		const locals = cloneScope(this.globals);
 		for (const param of declaration.params) {
 			this.checkType(param.type, `fn.${declaration.name}.${param.name}.type`);
 			locals.set(param.name, { type: param.type, mutable: false });
@@ -179,9 +180,9 @@ class CoreChecker {
 		}
 		if (statement.kind === "if") {
 			this.checkExpressionAssignable(statement.condition, typeRef("Bool"), `fn.${fn.name}.if.condition`, locals);
-			const thenLocals = narrowScopeForCondition(statement.condition, locals);
+			const thenLocals = narrowScopeForCondition(statement.condition, locals, "then");
 			for (const child of statement.thenBody) this.checkStatement(child, fn, thenLocals);
-			const elseLocals = new Map(locals);
+			const elseLocals = narrowScopeForCondition(statement.condition, locals, "else");
 			for (const child of statement.elseBody) this.checkStatement(child, fn, elseLocals);
 			return;
 		}
@@ -208,7 +209,7 @@ class CoreChecker {
 			});
 			return;
 		}
-		const loopLocals = new Map(locals);
+		const loopLocals = cloneScope(locals);
 		loopLocals.set(statement.itemName, { type: iterableType.args[0]!, mutable: false });
 		for (const child of statement.body) this.checkStatement(child, fn, loopLocals);
 	}
@@ -663,15 +664,19 @@ class CoreChecker {
 		scope: Scope,
 		path: string,
 	): PointCoreTypeExpression | null {
-		const targetType = this.typeOfExpression(expression.target, scope, `${path}.target`);
+		let targetType = this.typeOfExpression(expression.target, scope, `${path}.target`);
 		if (!targetType) return null;
 		if (targetType.name === "Maybe" && targetType.args.length === 1) {
-			this.push("nullable-field-access", `Cannot access field ${expression.name} on nullable ${formatType(targetType)}`, path, expression.span, {
-				expected: formatType(targetType.args[0]!),
-				actual: formatType(targetType),
-				repair: "Check that this Maybe value is present before accessing its fields.",
-			});
-			return null;
+			if (isMaybePathNarrowed(expression.target, scope)) {
+				targetType = targetType.args[0]!;
+			} else {
+				this.push("nullable-field-access", `Cannot access field ${expression.name} on nullable ${formatType(targetType)}`, path, expression.span, {
+					expected: formatType(targetType.args[0]!),
+					actual: formatType(targetType),
+					repair: "Check that this Maybe value is present before accessing its fields.",
+				});
+				return null;
+			}
 		}
 		const declaration = this.typeDeclarations.get(String(targetType.name));
 		if (!declaration) {
@@ -769,6 +774,11 @@ class CoreChecker {
 			return { kind: "typeRef", name: "Bool", args: [], span: expression.span };
 		}
 		if (expression.operator === "==" || expression.operator === "!=") {
+			const comparesMaybeAndNone =
+				(left.name === "Maybe" && right.name === "Void") || (left.name === "Void" && right.name === "Maybe");
+			if (comparesMaybeAndNone) {
+				return { kind: "typeRef", name: "Bool", args: [], span: expression.span };
+			}
 			if (left.name !== right.name) {
 				this.push("operator-type-mismatch", `${expression.operator} requires matching operand types`, path, expression.span, {
 					expected: formatType(left),
@@ -911,10 +921,16 @@ class CoreChecker {
 	}
 }
 
-function narrowScopeForCondition(condition: PointCoreExpression, locals: Scope): Scope {
+function narrowScopeForCondition(condition: PointCoreExpression, locals: Scope, branch: "then" | "else"): Scope {
+	const narrowed = cloneScope(locals);
 	const match = extractVariantNarrowing(condition);
-	if (!match) return new Map(locals);
-	return applyVariantNarrowing(locals, match);
+	if (branch === "then" && match) applyVariantNarrowing(narrowed, match);
+	const maybe = extractMaybePresenceNarrowing(condition);
+	if (maybe) {
+		const appliesToBranch = (maybe.kind === "present" && branch === "then") || (maybe.kind === "none" && branch === "else");
+		if (appliesToBranch) addMaybeNarrowing(narrowed, maybe.key);
+	}
+	return narrowed;
 }
 
 function extractVariantNarrowing(condition: PointCoreExpression): { identifier: string; caseName: string } | null {
@@ -926,12 +942,59 @@ function extractVariantNarrowing(condition: PointCoreExpression): { identifier: 
 	return { identifier: left.target.name, caseName: right.value };
 }
 
-function applyVariantNarrowing(locals: Scope, match: { identifier: string; caseName: string }): Scope {
-	const narrowed = new Map(locals);
+function applyVariantNarrowing(locals: Scope, match: { identifier: string; caseName: string }): void {
 	const entry = locals.get(match.identifier);
-	if (!entry) return narrowed;
-	narrowed.set(match.identifier, { ...entry, variantCase: match.caseName });
-	return narrowed;
+	if (!entry) return;
+	locals.set(match.identifier, { ...entry, variantCase: match.caseName });
+}
+
+function cloneScope(locals: Scope): Scope {
+	const cloned = new Map(locals);
+	scopeMaybeNarrowings.set(cloned, new Set(getMaybeNarrowings(locals)));
+	return cloned;
+}
+
+function getMaybeNarrowings(scope: Scope): Set<string> {
+	const existing = scopeMaybeNarrowings.get(scope);
+	if (existing) return existing;
+	const created = new Set<string>();
+	scopeMaybeNarrowings.set(scope, created);
+	return created;
+}
+
+function addMaybeNarrowing(scope: Scope, key: string): void {
+	getMaybeNarrowings(scope).add(key);
+}
+
+function isMaybePathNarrowed(expression: PointCoreExpression, scope: Scope): boolean {
+	const key = maybeExpressionKey(expression);
+	if (!key) return false;
+	return getMaybeNarrowings(scope).has(key);
+}
+
+function maybeExpressionKey(expression: PointCoreExpression): string | null {
+	if (expression.kind === "identifier") return expression.name;
+	if (expression.kind !== "property") return null;
+	const target = maybeExpressionKey(expression.target);
+	if (!target) return null;
+	return `${target}.${expression.name}`;
+}
+
+function extractMaybePresenceNarrowing(condition: PointCoreExpression): { key: string; kind: "present" | "none" } | null {
+	if (condition.kind !== "binary") return null;
+	const leftNull = isNullLiteral(condition.left);
+	const rightNull = isNullLiteral(condition.right);
+	if (!leftNull && !rightNull) return null;
+	const candidate = leftNull ? condition.right : condition.left;
+	const key = maybeExpressionKey(candidate);
+	if (!key) return null;
+	if (condition.operator === "!=") return { key, kind: "present" };
+	if (condition.operator === "==") return { key, kind: "none" };
+	return null;
+}
+
+function isNullLiteral(expression: PointCoreExpression): boolean {
+	return expression.kind === "literal" && expression.value === null;
 }
 
 function isNumeric(type: string): boolean {
