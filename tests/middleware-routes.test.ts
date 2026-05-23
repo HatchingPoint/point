@@ -28,6 +28,63 @@ route bad query route
 		expect(diagnostics.some((diagnostic) => diagnostic.code === "invalid-route-input")).toBe(true);
 	});
 
+	test("rejects middleware input missing on route", () => {
+		const program = parsePointSource(`module Broken
+
+record Auth Headers
+  authorization: Text
+
+record Item Query
+  limit: Text
+
+middleware require body
+  input body: Create Item Body
+  output response: Maybe Text
+  otherwise return none
+
+record Create Item Body
+  name: Text
+
+route get item
+  method GET
+  path "/items"
+  before require body
+  input headers: Auth Headers
+  input query: Item Query
+  output response: Text
+  return "ok"
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "middleware-input-unavailable")).toBe(true);
+		expect(diagnostics.find((diagnostic) => diagnostic.code === "middleware-input-unavailable")?.repair).toContain("body");
+	});
+
+	test("rejects middleware input type mismatch against route", () => {
+		const program = parsePointSource(`module Broken
+
+record Auth Headers
+  authorization: Text
+
+record Other Headers
+  token: Text
+
+middleware require auth
+  input headers: Other Headers
+  output response: Maybe Text
+  otherwise return none
+
+route get item
+  method GET
+  path "/items"
+  before require auth
+  input headers: Auth Headers
+  output response: Text
+  return "ok"
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "middleware-input-type-mismatch")).toBe(true);
+	});
+
 	test("rejects unknown middleware references", () => {
 		const program = parsePointSource(`module Broken
 

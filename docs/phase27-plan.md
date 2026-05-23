@@ -5,7 +5,7 @@
 
 ## Success criteria
 
-- [ ] Middleware ↔ route validation
+- [x] Middleware ↔ route validation
 - [ ] View runtime source maps for `when … render`
 - [ ] Theme toggle API (semantic light/dark)
 - [ ] Record-backed schema stub / SQL codegen spike

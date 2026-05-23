@@ -211,6 +211,13 @@ export function recordFieldNames(
 	return [...fields.values()];
 }
 
+export function routeProvidesInputLabel(route: PointSemanticRouteDeclaration, label: string): boolean {
+	if (ROUTE_HTTP_INPUTS.has(label)) {
+		return route.inputs.some((input) => input.label === label);
+	}
+	return pathParamInputs(route).some((input) => input.label === label);
+}
+
 function extractedArgExpression(route: PointSemanticRouteDeclaration, label: string): string | null {
 	if (label === "query") return "queryRecord";
 	if (label === "body") return "bodyRecord";

@@ -1,7 +1,14 @@
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import type { PointSourceSpan } from "../core/ast.ts";
-import type { PointSemanticBinding, PointSemanticProgram, PointSemanticRouteDeclaration, PointSemanticStreamRouteDeclaration } from "./ast.ts";
-import { ROUTE_HTTP_INPUTS } from "../core/emit-routes.ts";
+import type {
+	PointSemanticBinding,
+	PointSemanticMiddlewareDeclaration,
+	PointSemanticProgram,
+	PointSemanticRouteDeclaration,
+	PointSemanticStreamRouteDeclaration,
+	PointSemanticTypeExpression,
+} from "./ast.ts";
+import { ROUTE_HTTP_INPUTS, routeProvidesInputLabel } from "../core/emit-routes.ts";
 import { toPascalCase } from "./naming.ts";
 
 const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Maybe", "Error", "Or", "Page", "Handler"]);
@@ -23,7 +30,8 @@ export function checkSemanticRoutes(program: PointSemanticProgram): PointCoreDia
 		}
 		if (declaration.kind !== "route") continue;
 		for (const middlewareName of declaration.before) {
-			if (!middlewareNames.has(middlewareName)) {
+			const middleware = middlewareNames.get(middlewareName);
+			if (!middleware) {
 				diagnostics.push(
 					routeDiagnostic(
 						"unknown-middleware",
@@ -33,7 +41,9 @@ export function checkSemanticRoutes(program: PointSemanticProgram): PointCoreDia
 						`Declare middleware ${middlewareName} before route ${declaration.name}.`,
 					),
 				);
+				continue;
 			}
+			diagnostics.push(...checkRouteMiddlewareInputs(moduleName, declaration, middleware));
 		}
 		for (const input of declaration.inputs) {
 			if (!ROUTE_HTTP_INPUTS.has(input.label)) continue;
@@ -53,6 +63,62 @@ export function checkSemanticRoutes(program: PointSemanticProgram): PointCoreDia
 	}
 
 	return diagnostics;
+}
+
+function checkRouteMiddlewareInputs(
+	moduleName: string,
+	route: PointSemanticRouteDeclaration,
+	middleware: PointSemanticMiddlewareDeclaration,
+): PointCoreDiagnostic[] {
+	const diagnostics: PointCoreDiagnostic[] = [];
+	const routeInputs = new Map(route.inputs.map((input) => [input.label, input]));
+
+	for (const input of middleware.inputs) {
+		if (!routeProvidesInputLabel(route, input.label)) {
+			diagnostics.push({
+				code: "middleware-input-unavailable",
+				message: `Middleware ${middleware.name} input ${input.label} is not available on route ${route.name}`,
+				path: `route.${route.name}.before.${middleware.name}`,
+				ref: `point://semantic/${moduleName}/route.${route.name}`,
+				severity: "error",
+				span: input.span ?? route.span ?? null,
+				expected: [...routeInputs.keys()].sort(),
+				actual: input.label,
+				repair: `Add input ${input.label} to route ${route.name} or remove it from middleware ${middleware.name}.`,
+				relatedRefs: [
+					`point://semantic/${moduleName}/route.${route.name}`,
+					`point://semantic/${moduleName}/middleware.${middleware.name}`,
+				],
+			});
+			continue;
+		}
+		const routeInput = routeInputs.get(input.label);
+		if (!routeInput) continue;
+		if (sameSemanticType(routeInput.type, input.type)) continue;
+		diagnostics.push({
+			code: "middleware-input-type-mismatch",
+			message: `Middleware ${middleware.name} input ${input.label} (${formatType(input.type)}) does not match route ${route.name} input (${formatType(routeInput.type)})`,
+			path: `route.${route.name}.before.${middleware.name}`,
+			ref: `point://semantic/${moduleName}/route.${route.name}`,
+			severity: "error",
+			span: input.span ?? routeInput.span ?? route.span ?? null,
+			expected: formatType(routeInput.type),
+			actual: formatType(input.type),
+			repair: `Use the same type for ${input.label} on middleware ${middleware.name} and route ${route.name}.`,
+			relatedRefs: [
+				`point://semantic/${moduleName}/route.${route.name}`,
+				`point://semantic/${moduleName}/middleware.${middleware.name}`,
+			],
+		});
+	}
+
+	return diagnostics;
+}
+
+function sameSemanticType(left: PointSemanticTypeExpression, right: PointSemanticTypeExpression): boolean {
+	if (left.name !== right.name) return false;
+	if (left.args.length !== right.args.length) return false;
+	return left.args.every((arg, index) => sameSemanticType(arg, right.args[index]!));
 }
 
 function checkStreamRoute(

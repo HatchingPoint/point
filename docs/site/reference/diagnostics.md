@@ -46,6 +46,8 @@ quadrant: Reference
 | `missing-variant-case` | `on Case return` dispatch misses declared variant cases |
 | `pipeline-step-type-mismatch` | Pipeline step argument types do not match action inputs or pipeline output |
 | `float-money-field` | Float used on a money-like record field name |
+| `middleware-input-unavailable` | Route referenced by `before` does not declare a middleware input |
+| `middleware-input-type-mismatch` | Middleware input type does not match route input for the same label |
 | `immutable-assignment` | Assign to non-mutable binding |
 | `nullable-field-access` | Field access on `Maybe<T>` without narrow |
 | `not-a-record` | Field access on non-record type |
