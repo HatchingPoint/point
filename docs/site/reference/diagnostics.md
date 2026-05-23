@@ -43,6 +43,7 @@ quadrant: Reference
 | `operator-type-mismatch` | Operator used on wrong types |
 | `arity-mismatch` | Wrong number of call arguments |
 | `missing-await` | Action call without `await` |
+| `missing-variant-case` | `on Case return` dispatch misses declared variant cases |
 | `immutable-assignment` | Assign to non-mutable binding |
 | `nullable-field-access` | Field access on `Maybe<T>` without narrow |
 | `not-a-record` | Field access on non-record type |
