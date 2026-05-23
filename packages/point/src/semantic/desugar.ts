@@ -783,6 +783,8 @@ function buildViewTabs(declaration: PointSemanticViewDeclaration, ctx: DesugarCo
 		tabs: tabsStatement.tabs.map((tab) => ({
 			label: tab.label,
 			content: desugarExpression(tab.value, ctx),
+			className: tab.className,
+			style: tab.style,
 		})),
 	};
 }
@@ -810,6 +812,7 @@ function desugarLayout(
 		slots: declaration.slots.map((slot) => ({
 			name: slot.name,
 			content: desugarExpression(slot.content, ctx),
+			style: slot.style,
 		})),
 	};
 	return {

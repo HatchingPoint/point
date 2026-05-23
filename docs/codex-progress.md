@@ -1055,5 +1055,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun test tests/maybe-narrowing.test.ts` passes.
 - Example: `examples/tools/maybe-narrow.point`
 - Next: Phase 26 P26-4 tab/slot modifiers.
+
+## Checkpoint Phase 26 P26-4 — Tab and layout slot modifiers
+
+- Completed: Extended semantic parsing so `tab ... render ...` and `layout slot ... render ...` consume semantic style prefixes via shared style-prefix parsing; threaded tab/layout slot style metadata through desugar/core AST and TypeScript emit; tab content now emits through wrapper-class resolution with style/class support. Updated vercel template tabs to `render muted`, expanded style tests for tab and layout slots, and documented tab style modifiers in UI docs.
+- Verified: `bun test tests/semantic-view-style.test.ts` (7 pass, 0 fail); `point check packages/point/templates/vercel-app/src/app.point` passes.
+- Checkboxes marked: Phase 26 P26-4 tab and layout slot style modifiers.
+- Next: Phase 26 Wave 2 (P26-5 onward).
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

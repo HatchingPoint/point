@@ -48,8 +48,8 @@ view settings form
   bind checkbox "Email notifications" to settings.notifications enabled
   bind field "Theme label" to settings.theme
   tabs
-  tab "General" render "Theme: " + settings.theme
-  tab "Alerts" render "Notification settings apply workspace-wide"
+  tab "General" render muted "Theme: " + settings.theme
+  tab "Alerts" render muted "Notification settings apply workspace-wide"
   modal "Notifications on" when settings.notifications enabled render "Alerts are live for " + settings.workspace name
 
 layout app shell

@@ -80,4 +80,51 @@ page dashboard page
 		expect(emitted).toContain('className="point-form point-style-compact"');
 		expect(emitted).toContain('className="point-page-main point-style-padded"');
 	});
+
+	test("parses and emits style modifiers on tab render lines", () => {
+		const program = parsePointSource(`module Demo
+
+record Settings
+  theme: Text
+
+view settings tabs
+  input settings: Settings
+  tabs
+  tab "General" render muted "Theme: " + settings.theme
+  tab "Alerts" render emphasized "Workspace alerts"
+`);
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain('content: <div className="point-style-muted">');
+		expect(emitted).toContain('content: <div className="point-style-emphasized">Workspace alerts</div>');
+	});
+
+	test("rejects unknown tab style modifiers with repair hint", () => {
+		const program = parsePointSource(`module Demo
+
+view bad tabs
+  tabs
+  tab "General" render flashy "General settings"
+  tab "Alerts" render "Alert settings"
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "unknown-view-style")).toBe(true);
+		expect(diagnostics[0]?.repair).toContain(POINT_STYLE_MODIFIERS[0]!);
+	});
+
+	test("parses and emits style modifiers on layout slots", () => {
+		const program = parsePointSource(`module Demo
+
+view dashboard view
+  render "Dashboard"
+
+layout app shell
+  slot sidebar render muted "Primary nav"
+  slot main render padded dashboardView()
+`);
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain('slots.sidebar ?? <div className="point-style-muted">Primary nav</div>');
+		expect(emitted).toContain('slots.main ?? <div className="point-style-padded">{dashboardView()}</div>');
+	});
 });

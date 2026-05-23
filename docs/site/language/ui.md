@@ -195,11 +195,12 @@ record WorkspaceSettings
 view settings tabs
   input settings: WorkspaceSettings
   tabs
-  tab "General" render "Theme: " + settings.theme
-  tab "Advanced" render "Workspace-wide notification settings"
+  tab "General" render muted "Theme: " + settings.theme
+  tab "Advanced" render emphasized "Workspace-wide notification settings"
 ```
 
 Optional classes: `tab "General" render class "font-bold" "General settings"`.
+Tabs also accept semantic style modifiers before the render expression, using the same modifier list as view `render` lines.
 
 #### Modals
 
