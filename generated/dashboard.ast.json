@@ -961,6 +961,7 @@
           }
         ],
         "viewDataLoad": {
+          "source": "action",
           "actionName": "fetch items",
           "actionFunction": "fetchItems",
           "bindingName": "data",

@@ -7,4 +7,4 @@ record Price Input
 calculation annual price
   input input: Price Input
   output annual price: Int
-  annual price is input.monthly amount * 12
+  annual price is input.unknown amount * 12

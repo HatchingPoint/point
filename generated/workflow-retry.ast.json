@@ -2106,6 +2106,18 @@
               "retryCount": 3,
               "timeoutSeconds": 5,
               "requiredPolicy": "can signup",
+              "requiredPolicySpan": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 488
+                },
+                "end": {
+                  "line": 27,
+                  "column": 30,
+                  "offset": 517
+                }
+              },
               "onFailure": {
                 "kind": "error",
                 "message": "Email verification failed",

@@ -27,7 +27,7 @@ Phase 26 addresses (1)–(4) in Wave 1–2 and (5) in Wave 2. ORM, SSR, and full
 - [x] **Field alias resolution** — camelCase property access resolves to spaced record fields when unambiguous; diagnostics include fuzzy “did you mean” when not
 - [x] **Variant exhaustiveness** — `on Case` dispatch reports `missing-variant-case` for uncovered cases
 - [x] **`Maybe` presence narrowing** — `when <expr> present` / `when <expr> is none` narrows type in branch; improved `nullable-field-access` repair
-- [ ] **Tab + layout slot modifiers** — `tab "X" render muted "..."` and `slot main render padded view()` parse and emit like view renders
+- [x] **Tab + layout slot modifiers** — `tab "X" render muted "..."` and `slot main render padded view()` parse and emit like view renders
 - [ ] **Pipeline step I/O** (Wave 2) — checker validates step output record fields match next step input where declared
 - [ ] **Money lint** (Wave 2) — optional diagnostic when Float used on `*price*` / `*amount*` / `*cents*` named fields
 - [ ] **Load-data repair** (Wave 2) — `missing-await` in views suggests exact `load data` fix with field name

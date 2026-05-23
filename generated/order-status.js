@@ -14,11 +14,16 @@ export function statusMessageLabel(status) {
   if (status.kind == "Pending") { // @point 21
     return "Your order is pending"; // @point 21
   }
-  if (status.kind == "Shipped") { // @point 22
-    return ("Shipped — tracking " + status.trackingNumber); // @point 22
+  if (status.kind == "Processing") { // @point 22
+    return "Your order is processing"; // @point 22
   }
-  if (status.kind == "Cancelled") { // @point 23
-    return ("Cancelled: " + status.reason); // @point 23
+  if (status.kind == "Shipped") { // @point 23
+    return ("Shipped — tracking " + status.trackingNumber); // @point 23
   }
-  return "In progress"; // @point 24
+  if (status.kind == "Delivered") { // @point 24
+    return "Your order was delivered"; // @point 24
+  }
+  if (status.kind == "Cancelled") { // @point 25
+    return ("Cancelled: " + status.reason); // @point 25
+  }
 }

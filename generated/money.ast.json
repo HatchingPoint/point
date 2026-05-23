@@ -1,0 +1,1288 @@
+{
+  "kind": "coreProgram",
+  "module": "Money",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Money",
+      "fields": [
+        {
+          "name": "amountCents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "amount cents",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 27
+            },
+            "end": {
+              "line": 4,
+              "column": 20,
+              "offset": 46
+            }
+          }
+        },
+        {
+          "name": "currency",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "currency",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 47
+            },
+            "end": {
+              "line": 5,
+              "column": 17,
+              "offset": 63
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Money"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 14
+        },
+        "end": {
+          "line": 3,
+          "column": 13,
+          "offset": 26
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "moneyFromCentsMoney",
+      "params": [
+        {
+          "name": "amountCents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "amount cents",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        },
+        {
+          "name": "currency",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "currency",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Money",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "amountCents",
+                "value": {
+                  "kind": "identifier",
+                  "name": "amountCents",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 165
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 62,
+                      "offset": 226
+                    }
+                  }
+                }
+              },
+              {
+                "name": "currency",
+                "value": {
+                  "kind": "identifier",
+                  "name": "currency",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 165
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 62,
+                      "offset": 226
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 165
+              },
+              "end": {
+                "line": 11,
+                "column": 62,
+                "offset": 226
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 165
+            },
+            "end": {
+              "line": 11,
+              "column": 62,
+              "offset": 226
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "money from cents",
+        "outputName": "money",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 65
+        },
+        "end": {
+          "line": 7,
+          "column": 29,
+          "offset": 93
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "addMoneyTotal",
+      "params": [
+        {
+          "name": "left",
+          "type": {
+            "kind": "typeRef",
+            "name": "Money",
+            "args": []
+          },
+          "semanticName": "left",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "right",
+          "type": {
+            "kind": "typeRef",
+            "name": "Money",
+            "args": []
+          },
+          "semanticName": "right",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Money",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "amountCents",
+                "value": {
+                  "kind": "binary",
+                  "operator": "+",
+                  "left": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "identifier",
+                      "name": "left",
+                      "span": {
+                        "start": {
+                          "line": 17,
+                          "column": 1,
+                          "offset": 313
+                        },
+                        "end": {
+                          "line": 17,
+                          "column": 93,
+                          "offset": 405
+                        }
+                      }
+                    },
+                    "name": "amountCents",
+                    "span": {
+                      "start": {
+                        "line": 17,
+                        "column": 1,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 93,
+                        "offset": 405
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "identifier",
+                      "name": "right",
+                      "span": {
+                        "start": {
+                          "line": 17,
+                          "column": 1,
+                          "offset": 313
+                        },
+                        "end": {
+                          "line": 17,
+                          "column": 93,
+                          "offset": 405
+                        }
+                      }
+                    },
+                    "name": "amountCents",
+                    "span": {
+                      "start": {
+                        "line": 17,
+                        "column": 1,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 93,
+                        "offset": 405
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 313
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 93,
+                      "offset": 405
+                    }
+                  }
+                }
+              },
+              {
+                "name": "currency",
+                "value": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "left",
+                    "span": {
+                      "start": {
+                        "line": 17,
+                        "column": 1,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 93,
+                        "offset": 405
+                      }
+                    }
+                  },
+                  "name": "currency",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 313
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 93,
+                      "offset": 405
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 313
+              },
+              "end": {
+                "line": 17,
+                "column": 93,
+                "offset": 405
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 313
+            },
+            "end": {
+              "line": 17,
+              "column": 93,
+              "offset": 405
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "add money",
+        "outputName": "total",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 228
+        },
+        "end": {
+          "line": 13,
+          "column": 22,
+          "offset": 249
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "moneyDisplayLabel",
+      "params": [
+        {
+          "name": "money",
+          "type": {
+            "kind": "typeRef",
+            "name": "Money",
+            "args": []
+          },
+          "semanticName": "money",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 20,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "money",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 462
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 44,
+                    "offset": 505
+                  }
+                }
+              },
+              "name": "currency",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 462
+                },
+                "end": {
+                  "line": 22,
+                  "column": 44,
+                  "offset": 505
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "USD",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 462
+                },
+                "end": {
+                  "line": 22,
+                  "column": 44,
+                  "offset": 505
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 462
+              },
+              "end": {
+                "line": 22,
+                "column": 44,
+                "offset": 505
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "USD",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 462
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 44,
+                    "offset": 505
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 462
+                },
+                "end": {
+                  "line": 22,
+                  "column": 44,
+                  "offset": 505
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 462
+            },
+            "end": {
+              "line": 22,
+              "column": 44,
+              "offset": 505
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "property",
+            "target": {
+              "kind": "identifier",
+              "name": "money",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 506
+                },
+                "end": {
+                  "line": 23,
+                  "column": 34,
+                  "offset": 539
+                }
+              }
+            },
+            "name": "currency",
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 506
+              },
+              "end": {
+                "line": 23,
+                "column": 34,
+                "offset": 539
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 506
+            },
+            "end": {
+              "line": 23,
+              "column": 34,
+              "offset": 539
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "money display",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 407
+        },
+        "end": {
+          "line": 19,
+          "column": 20,
+          "offset": 426
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 13,
+      "offset": 12
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Money",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Money",
+        "fields": [
+          {
+            "label": "amount cents",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 27
+              },
+              "end": {
+                "line": 4,
+                "column": 20,
+                "offset": 46
+              }
+            }
+          },
+          {
+            "label": "currency",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 47
+              },
+              "end": {
+                "line": 5,
+                "column": 17,
+                "offset": 63
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 14
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 26
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "money from cents",
+        "inputs": [
+          {
+            "label": "amount cents",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          },
+          {
+            "label": "currency",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "money",
+          "type": {
+            "kind": "typeRef",
+            "name": "Money",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "money",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "amount cents",
+                  "value": {
+                    "kind": "name",
+                    "label": "amount cents",
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 165
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 62,
+                        "offset": 226
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "currency",
+                  "value": {
+                    "kind": "name",
+                    "label": "currency",
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 165
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 62,
+                        "offset": 226
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 165
+                },
+                "end": {
+                  "line": 11,
+                  "column": 62,
+                  "offset": 226
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 165
+              },
+              "end": {
+                "line": 11,
+                "column": 62,
+                "offset": 226
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 65
+          },
+          "end": {
+            "line": 7,
+            "column": 29,
+            "offset": 93
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "add money",
+        "inputs": [
+          {
+            "label": "left",
+            "type": {
+              "kind": "typeRef",
+              "name": "Money",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "right",
+            "type": {
+              "kind": "typeRef",
+              "name": "Money",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "total",
+          "type": {
+            "kind": "typeRef",
+            "name": "Money",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "total",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "amount cents",
+                  "value": {
+                    "kind": "binary",
+                    "operator": "+",
+                    "left": {
+                      "kind": "property",
+                      "target": {
+                        "kind": "name",
+                        "label": "left",
+                        "span": {
+                          "start": {
+                            "line": 17,
+                            "column": 1,
+                            "offset": 313
+                          },
+                          "end": {
+                            "line": 17,
+                            "column": 93,
+                            "offset": 405
+                          }
+                        }
+                      },
+                      "label": "amount cents",
+                      "span": {
+                        "start": {
+                          "line": 17,
+                          "column": 1,
+                          "offset": 313
+                        },
+                        "end": {
+                          "line": 17,
+                          "column": 93,
+                          "offset": 405
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "property",
+                      "target": {
+                        "kind": "name",
+                        "label": "right",
+                        "span": {
+                          "start": {
+                            "line": 17,
+                            "column": 1,
+                            "offset": 313
+                          },
+                          "end": {
+                            "line": 17,
+                            "column": 93,
+                            "offset": 405
+                          }
+                        }
+                      },
+                      "label": "amount cents",
+                      "span": {
+                        "start": {
+                          "line": 17,
+                          "column": 1,
+                          "offset": 313
+                        },
+                        "end": {
+                          "line": 17,
+                          "column": 93,
+                          "offset": 405
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 17,
+                        "column": 1,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 93,
+                        "offset": 405
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "currency",
+                  "value": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "left",
+                      "span": {
+                        "start": {
+                          "line": 17,
+                          "column": 1,
+                          "offset": 313
+                        },
+                        "end": {
+                          "line": 17,
+                          "column": 93,
+                          "offset": 405
+                        }
+                      }
+                    },
+                    "label": "currency",
+                    "span": {
+                      "start": {
+                        "line": 17,
+                        "column": 1,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 93,
+                        "offset": 405
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 313
+                },
+                "end": {
+                  "line": 17,
+                  "column": 93,
+                  "offset": 405
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 313
+              },
+              "end": {
+                "line": 17,
+                "column": 93,
+                "offset": 405
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 228
+          },
+          "end": {
+            "line": 13,
+            "column": 22,
+            "offset": 249
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "money display",
+        "inputs": [
+          {
+            "label": "money",
+            "type": {
+              "kind": "typeRef",
+              "name": "Money",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "money",
+                  "span": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 462
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 44,
+                      "offset": 505
+                    }
+                  }
+                },
+                "label": "currency",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 462
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 44,
+                    "offset": 505
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "USD",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 462
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 44,
+                    "offset": 505
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 462
+                },
+                "end": {
+                  "line": 22,
+                  "column": 44,
+                  "offset": 505
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "USD",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 462
+                },
+                "end": {
+                  "line": 22,
+                  "column": 44,
+                  "offset": 505
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 462
+              },
+              "end": {
+                "line": 22,
+                "column": 44,
+                "offset": 505
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "property",
+              "target": {
+                "kind": "name",
+                "label": "money",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 506
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 34,
+                    "offset": 539
+                  }
+                }
+              },
+              "label": "currency",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 506
+                },
+                "end": {
+                  "line": 23,
+                  "column": 34,
+                  "offset": 539
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 506
+              },
+              "end": {
+                "line": 23,
+                "column": 34,
+                "offset": 539
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 407
+          },
+          "end": {
+            "line": 19,
+            "column": 20,
+            "offset": 426
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 13,
+        "offset": 12
+      }
+    }
+  }
+}

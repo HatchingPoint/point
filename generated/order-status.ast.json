@@ -456,8 +456,8 @@
                   },
                   "end": {
                     "line": 22,
-                    "column": 81,
-                    "offset": 534
+                    "column": 50,
+                    "offset": 503
                   }
                 }
               },
@@ -470,14 +470,14 @@
                 },
                 "end": {
                   "line": 22,
-                  "column": 81,
-                  "offset": 534
+                  "column": 50,
+                  "offset": 503
                 }
               }
             },
             "right": {
               "kind": "literal",
-              "value": "Shipped",
+              "value": "Processing",
               "span": {
                 "start": {
                   "line": 22,
@@ -486,8 +486,8 @@
                 },
                 "end": {
                   "line": 22,
-                  "column": 81,
-                  "offset": 534
+                  "column": 50,
+                  "offset": 503
                 }
               }
             },
@@ -499,8 +499,8 @@
               },
               "end": {
                 "line": 22,
-                "column": 81,
-                "offset": 534
+                "column": 50,
+                "offset": 503
               }
             }
           },
@@ -508,56 +508,8 @@
             {
               "kind": "return",
               "value": {
-                "kind": "binary",
-                "operator": "+",
-                "left": {
-                  "kind": "literal",
-                  "value": "Shipped — tracking ",
-                  "span": {
-                    "start": {
-                      "line": 22,
-                      "column": 1,
-                      "offset": 454
-                    },
-                    "end": {
-                      "line": 22,
-                      "column": 81,
-                      "offset": 534
-                    }
-                  }
-                },
-                "right": {
-                  "kind": "property",
-                  "target": {
-                    "kind": "identifier",
-                    "name": "status",
-                    "span": {
-                      "start": {
-                        "line": 22,
-                        "column": 1,
-                        "offset": 454
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 81,
-                        "offset": 534
-                      }
-                    }
-                  },
-                  "name": "trackingNumber",
-                  "span": {
-                    "start": {
-                      "line": 22,
-                      "column": 1,
-                      "offset": 454
-                    },
-                    "end": {
-                      "line": 22,
-                      "column": 81,
-                      "offset": 534
-                    }
-                  }
-                },
+                "kind": "literal",
+                "value": "Your order is processing",
                 "span": {
                   "start": {
                     "line": 22,
@@ -566,8 +518,8 @@
                   },
                   "end": {
                     "line": 22,
-                    "column": 81,
-                    "offset": 534
+                    "column": 50,
+                    "offset": 503
                   }
                 }
               },
@@ -579,8 +531,8 @@
                 },
                 "end": {
                   "line": 22,
-                  "column": 81,
-                  "offset": 534
+                  "column": 50,
+                  "offset": 503
                 }
               }
             }
@@ -594,8 +546,8 @@
             },
             "end": {
               "line": 22,
-              "column": 81,
-              "offset": 534
+              "column": 50,
+              "offset": 503
             }
           }
         },
@@ -613,12 +565,12 @@
                   "start": {
                     "line": 23,
                     "column": 1,
-                    "offset": 535
+                    "offset": 504
                   },
                   "end": {
                     "line": 23,
-                    "column": 57,
-                    "offset": 591
+                    "column": 81,
+                    "offset": 584
                   }
                 }
               },
@@ -627,12 +579,286 @@
                 "start": {
                   "line": 23,
                   "column": 1,
-                  "offset": 535
+                  "offset": 504
                 },
                 "end": {
                   "line": 23,
+                  "column": 81,
+                  "offset": 584
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "Shipped",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 504
+                },
+                "end": {
+                  "line": 23,
+                  "column": 81,
+                  "offset": 584
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 504
+              },
+              "end": {
+                "line": 23,
+                "column": 81,
+                "offset": 584
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "Shipped — tracking ",
+                  "span": {
+                    "start": {
+                      "line": 23,
+                      "column": 1,
+                      "offset": 504
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 81,
+                      "offset": 584
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "status",
+                    "span": {
+                      "start": {
+                        "line": 23,
+                        "column": 1,
+                        "offset": 504
+                      },
+                      "end": {
+                        "line": 23,
+                        "column": 81,
+                        "offset": 584
+                      }
+                    }
+                  },
+                  "name": "trackingNumber",
+                  "span": {
+                    "start": {
+                      "line": 23,
+                      "column": 1,
+                      "offset": 504
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 81,
+                      "offset": 584
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 504
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 81,
+                    "offset": 584
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 504
+                },
+                "end": {
+                  "line": 23,
+                  "column": 81,
+                  "offset": 584
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 504
+            },
+            "end": {
+              "line": 23,
+              "column": 81,
+              "offset": 584
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "status",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 585
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 49,
+                    "offset": 633
+                  }
+                }
+              },
+              "name": "kind",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 585
+                },
+                "end": {
+                  "line": 24,
+                  "column": 49,
+                  "offset": 633
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "Delivered",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 585
+                },
+                "end": {
+                  "line": 24,
+                  "column": 49,
+                  "offset": 633
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 585
+              },
+              "end": {
+                "line": 24,
+                "column": 49,
+                "offset": 633
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "Your order was delivered",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 585
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 49,
+                    "offset": 633
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 585
+                },
+                "end": {
+                  "line": 24,
+                  "column": 49,
+                  "offset": 633
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 585
+            },
+            "end": {
+              "line": 24,
+              "column": 49,
+              "offset": 633
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "status",
+                "span": {
+                  "start": {
+                    "line": 25,
+                    "column": 1,
+                    "offset": 634
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 57,
+                    "offset": 690
+                  }
+                }
+              },
+              "name": "kind",
+              "span": {
+                "start": {
+                  "line": 25,
+                  "column": 1,
+                  "offset": 634
+                },
+                "end": {
+                  "line": 25,
                   "column": 57,
-                  "offset": 591
+                  "offset": 690
                 }
               }
             },
@@ -641,27 +867,27 @@
               "value": "Cancelled",
               "span": {
                 "start": {
-                  "line": 23,
+                  "line": 25,
                   "column": 1,
-                  "offset": 535
+                  "offset": 634
                 },
                 "end": {
-                  "line": 23,
+                  "line": 25,
                   "column": 57,
-                  "offset": 591
+                  "offset": 690
                 }
               }
             },
             "span": {
               "start": {
-                "line": 23,
+                "line": 25,
                 "column": 1,
-                "offset": 535
+                "offset": 634
               },
               "end": {
-                "line": 23,
+                "line": 25,
                 "column": 57,
-                "offset": 591
+                "offset": 690
               }
             }
           },
@@ -676,14 +902,14 @@
                   "value": "Cancelled: ",
                   "span": {
                     "start": {
-                      "line": 23,
+                      "line": 25,
                       "column": 1,
-                      "offset": 535
+                      "offset": 634
                     },
                     "end": {
-                      "line": 23,
+                      "line": 25,
                       "column": 57,
-                      "offset": 591
+                      "offset": 690
                     }
                   }
                 },
@@ -694,54 +920,54 @@
                     "name": "status",
                     "span": {
                       "start": {
-                        "line": 23,
+                        "line": 25,
                         "column": 1,
-                        "offset": 535
+                        "offset": 634
                       },
                       "end": {
-                        "line": 23,
+                        "line": 25,
                         "column": 57,
-                        "offset": 591
+                        "offset": 690
                       }
                     }
                   },
                   "name": "reason",
                   "span": {
                     "start": {
-                      "line": 23,
+                      "line": 25,
                       "column": 1,
-                      "offset": 535
+                      "offset": 634
                     },
                     "end": {
-                      "line": 23,
+                      "line": 25,
                       "column": 57,
-                      "offset": 591
+                      "offset": 690
                     }
                   }
                 },
                 "span": {
                   "start": {
-                    "line": 23,
+                    "line": 25,
                     "column": 1,
-                    "offset": 535
+                    "offset": 634
                   },
                   "end": {
-                    "line": 23,
+                    "line": 25,
                     "column": 57,
-                    "offset": 591
+                    "offset": 690
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 23,
+                  "line": 25,
                   "column": 1,
-                  "offset": 535
+                  "offset": 634
                 },
                 "end": {
-                  "line": 23,
+                  "line": 25,
                   "column": 57,
-                  "offset": 591
+                  "offset": 690
                 }
               }
             }
@@ -749,45 +975,14 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 23,
+              "line": 25,
               "column": 1,
-              "offset": 535
+              "offset": 634
             },
             "end": {
-              "line": 23,
+              "line": 25,
               "column": 57,
-              "offset": 591
-            }
-          }
-        },
-        {
-          "kind": "return",
-          "value": {
-            "kind": "literal",
-            "value": "In progress",
-            "span": {
-              "start": {
-                "line": 24,
-                "column": 1,
-                "offset": 592
-              },
-              "end": {
-                "line": 24,
-                "column": 33,
-                "offset": 624
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 24,
-              "column": 1,
-              "offset": 592
-            },
-            "end": {
-              "line": 24,
-              "column": 33,
-              "offset": 624
+              "offset": 690
             }
           }
         }
@@ -1181,6 +1376,39 @@
           },
           {
             "kind": "onVariantReturn",
+            "caseLabel": "Processing",
+            "bindings": [],
+            "value": {
+              "kind": "literal",
+              "value": "Your order is processing",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 454
+                },
+                "end": {
+                  "line": 22,
+                  "column": 50,
+                  "offset": 503
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 454
+              },
+              "end": {
+                "line": 22,
+                "column": 50,
+                "offset": 503
+              }
+            }
+          },
+          {
+            "kind": "onVariantReturn",
             "caseLabel": "Shipped",
             "bindings": [
               "tracking number"
@@ -1193,14 +1421,14 @@
                 "value": "Shipped — tracking ",
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 23,
                     "column": 1,
-                    "offset": 454
+                    "offset": 504
                   },
                   "end": {
-                    "line": 22,
+                    "line": 23,
                     "column": 81,
-                    "offset": 534
+                    "offset": 584
                   }
                 }
               },
@@ -1209,40 +1437,73 @@
                 "label": "tracking number",
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 23,
                     "column": 1,
-                    "offset": 454
+                    "offset": 504
                   },
                   "end": {
-                    "line": 22,
+                    "line": 23,
                     "column": 81,
-                    "offset": 534
+                    "offset": 584
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 23,
                   "column": 1,
-                  "offset": 454
+                  "offset": 504
                 },
                 "end": {
-                  "line": 22,
+                  "line": 23,
                   "column": 81,
-                  "offset": 534
+                  "offset": 584
                 }
               }
             },
             "span": {
               "start": {
-                "line": 22,
+                "line": 23,
                 "column": 1,
-                "offset": 454
+                "offset": 504
               },
               "end": {
-                "line": 22,
+                "line": 23,
                 "column": 81,
-                "offset": 534
+                "offset": 584
+              }
+            }
+          },
+          {
+            "kind": "onVariantReturn",
+            "caseLabel": "Delivered",
+            "bindings": [],
+            "value": {
+              "kind": "literal",
+              "value": "Your order was delivered",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 585
+                },
+                "end": {
+                  "line": 24,
+                  "column": 49,
+                  "offset": 633
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 585
+              },
+              "end": {
+                "line": 24,
+                "column": 49,
+                "offset": 633
               }
             }
           },
@@ -1260,14 +1521,14 @@
                 "value": "Cancelled: ",
                 "span": {
                   "start": {
-                    "line": 23,
+                    "line": 25,
                     "column": 1,
-                    "offset": 535
+                    "offset": 634
                   },
                   "end": {
-                    "line": 23,
+                    "line": 25,
                     "column": 57,
-                    "offset": 591
+                    "offset": 690
                   }
                 }
               },
@@ -1276,71 +1537,40 @@
                 "label": "reason",
                 "span": {
                   "start": {
-                    "line": 23,
+                    "line": 25,
                     "column": 1,
-                    "offset": 535
+                    "offset": 634
                   },
                   "end": {
-                    "line": 23,
+                    "line": 25,
                     "column": 57,
-                    "offset": 591
+                    "offset": 690
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 23,
+                  "line": 25,
                   "column": 1,
-                  "offset": 535
+                  "offset": 634
                 },
                 "end": {
-                  "line": 23,
+                  "line": 25,
                   "column": 57,
-                  "offset": 591
+                  "offset": 690
                 }
               }
             },
             "span": {
               "start": {
-                "line": 23,
+                "line": 25,
                 "column": 1,
-                "offset": 535
+                "offset": 634
               },
               "end": {
-                "line": 23,
+                "line": 25,
                 "column": 57,
-                "offset": 591
-              }
-            }
-          },
-          {
-            "kind": "otherwiseReturn",
-            "value": {
-              "kind": "literal",
-              "value": "In progress",
-              "span": {
-                "start": {
-                  "line": 24,
-                  "column": 1,
-                  "offset": 592
-                },
-                "end": {
-                  "line": 24,
-                  "column": 33,
-                  "offset": 624
-                }
-              }
-            },
-            "span": {
-              "start": {
-                "line": 24,
-                "column": 1,
-                "offset": 592
-              },
-              "end": {
-                "line": 24,
-                "column": 33,
-                "offset": 624
+                "offset": 690
               }
             }
           }

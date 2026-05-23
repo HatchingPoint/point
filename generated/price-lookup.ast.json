@@ -1,0 +1,1143 @@
+{
+  "kind": "coreProgram",
+  "module": "Catalog",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "defaultPrices",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Map",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointMapLiteral",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "sku-a",
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 75
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 60,
+                    "offset": 134
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 100,
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 75
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 60,
+                    "offset": 134
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "sku-b",
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 75
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 60,
+                    "offset": 134
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 250,
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 75
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 60,
+                    "offset": 134
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "sku-c",
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 75
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 60,
+                    "offset": 134
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 75,
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 75
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 60,
+                    "offset": 134
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 75
+              },
+              "end": {
+                "line": 5,
+                "column": 60,
+                "offset": 134
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 75
+            },
+            "end": {
+              "line": 5,
+              "column": 60,
+              "offset": 134
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "default prices",
+        "outputName": "prices",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 16
+        },
+        "end": {
+          "line": 3,
+          "column": 27,
+          "offset": 42
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "unitPriceForSkuPrice",
+      "params": [
+        {
+          "name": "prices",
+          "type": {
+            "kind": "typeRef",
+            "name": "Map",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Int",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "prices",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        },
+        {
+          "name": "sku",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "sku",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointMapLookup",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "prices",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 29,
+                    "offset": 264
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "sku",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 29,
+                    "offset": 264
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 236
+              },
+              "end": {
+                "line": 11,
+                "column": 29,
+                "offset": 264
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 236
+            },
+            "end": {
+              "line": 11,
+              "column": 29,
+              "offset": 264
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "unit price for sku",
+        "outputName": "price",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 136
+        },
+        "end": {
+          "line": 7,
+          "column": 31,
+          "offset": 166
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "priceTierLabel",
+      "params": [
+        {
+          "name": "price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "price",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "identifier",
+              "name": "price",
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 316
+                },
+                "end": {
+                  "line": 16,
+                  "column": 37,
+                  "offset": 352
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 200,
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 316
+                },
+                "end": {
+                  "line": 16,
+                  "column": 37,
+                  "offset": 352
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 316
+              },
+              "end": {
+                "line": 16,
+                "column": 37,
+                "offset": 352
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "Premium",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 316
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 37,
+                    "offset": 352
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 316
+                },
+                "end": {
+                  "line": 16,
+                  "column": 37,
+                  "offset": 352
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 316
+            },
+            "end": {
+              "line": 16,
+              "column": 37,
+              "offset": 352
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": ">=",
+            "left": {
+              "kind": "identifier",
+              "name": "price",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 353
+                },
+                "end": {
+                  "line": 17,
+                  "column": 38,
+                  "offset": 390
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 100,
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 353
+                },
+                "end": {
+                  "line": 17,
+                  "column": 38,
+                  "offset": 390
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 353
+              },
+              "end": {
+                "line": 17,
+                "column": 38,
+                "offset": 390
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "Standard",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 353
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 38,
+                    "offset": 390
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 353
+                },
+                "end": {
+                  "line": 17,
+                  "column": 38,
+                  "offset": 390
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 353
+            },
+            "end": {
+              "line": 17,
+              "column": 38,
+              "offset": 390
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Budget",
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 391
+              },
+              "end": {
+                "line": 18,
+                "column": 28,
+                "offset": 418
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 391
+            },
+            "end": {
+              "line": 18,
+              "column": 28,
+              "offset": 418
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "price tier",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 266
+        },
+        "end": {
+          "line": 13,
+          "column": 17,
+          "offset": 282
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 15,
+      "offset": 14
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Catalog",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "calculation",
+        "name": "default prices",
+        "inputs": [],
+        "output": {
+          "name": "prices",
+          "type": {
+            "kind": "typeRef",
+            "name": "Map",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Int",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "prices",
+            "value": {
+              "kind": "map",
+              "entries": [
+                {
+                  "label": "sku-a",
+                  "value": {
+                    "kind": "literal",
+                    "value": 100,
+                    "span": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 75
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 60,
+                        "offset": 134
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "sku-b",
+                  "value": {
+                    "kind": "literal",
+                    "value": 250,
+                    "span": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 75
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 60,
+                        "offset": 134
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "sku-c",
+                  "value": {
+                    "kind": "literal",
+                    "value": 75,
+                    "span": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 75
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 60,
+                        "offset": 134
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 75
+                },
+                "end": {
+                  "line": 5,
+                  "column": 60,
+                  "offset": 134
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 75
+              },
+              "end": {
+                "line": 5,
+                "column": 60,
+                "offset": 134
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 16
+          },
+          "end": {
+            "line": 3,
+            "column": 27,
+            "offset": 42
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "unit price for sku",
+        "inputs": [
+          {
+            "label": "prices",
+            "type": {
+              "kind": "typeRef",
+              "name": "Map",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          },
+          {
+            "label": "sku",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 10,
+                "offset": 9
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "price",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "price",
+            "value": {
+              "kind": "lookup",
+              "map": {
+                "kind": "name",
+                "label": "prices",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 29,
+                    "offset": 264
+                  }
+                }
+              },
+              "key": {
+                "kind": "name",
+                "label": "sku",
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 29,
+                    "offset": 264
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 236
+                },
+                "end": {
+                  "line": 11,
+                  "column": 29,
+                  "offset": 264
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 236
+              },
+              "end": {
+                "line": 11,
+                "column": 29,
+                "offset": 264
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 136
+          },
+          "end": {
+            "line": 7,
+            "column": 31,
+            "offset": 166
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "price tier",
+        "inputs": [
+          {
+            "label": "price",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "name",
+                "label": "price",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 316
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 37,
+                    "offset": 352
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 200,
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 316
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 37,
+                    "offset": 352
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 316
+                },
+                "end": {
+                  "line": 16,
+                  "column": 37,
+                  "offset": 352
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "Premium",
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 316
+                },
+                "end": {
+                  "line": 16,
+                  "column": 37,
+                  "offset": 352
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 316
+              },
+              "end": {
+                "line": 16,
+                "column": 37,
+                "offset": 352
+              }
+            }
+          },
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": ">=",
+              "left": {
+                "kind": "name",
+                "label": "price",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 353
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 38,
+                    "offset": 390
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 100,
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 353
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 38,
+                    "offset": 390
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 353
+                },
+                "end": {
+                  "line": 17,
+                  "column": 38,
+                  "offset": 390
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "Standard",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 353
+                },
+                "end": {
+                  "line": 17,
+                  "column": 38,
+                  "offset": 390
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 353
+              },
+              "end": {
+                "line": 17,
+                "column": 38,
+                "offset": 390
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": "Budget",
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 391
+                },
+                "end": {
+                  "line": 18,
+                  "column": 28,
+                  "offset": 418
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 391
+              },
+              "end": {
+                "line": 18,
+                "column": 28,
+                "offset": 418
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 266
+          },
+          "end": {
+            "line": 13,
+            "column": 17,
+            "offset": 282
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15,
+        "offset": 14
+      }
+    }
+  }
+}

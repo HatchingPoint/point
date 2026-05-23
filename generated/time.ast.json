@@ -4,6 +4,145 @@
   "declarations": [
     {
       "kind": "external",
+      "name": "instantNowRaw",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Instant",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "instantNow",
+      "semantic": {
+        "kind": "external",
+        "name": "instant now raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 40
+        },
+        "end": {
+          "line": 4,
+          "column": 80,
+          "offset": 119
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "parseInstantRaw",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "parseInstant",
+      "semantic": {
+        "kind": "external",
+        "name": "parse instant raw"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 120
+        },
+        "end": {
+          "line": 5,
+          "column": 104,
+          "offset": 223
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "formatInstantRaw",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "formatInstant",
+      "semantic": {
+        "kind": "external",
+        "name": "format instant raw"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 224
+        },
+        "end": {
+          "line": 6,
+          "column": 97,
+          "offset": 320
+        }
+      }
+    },
+    {
+      "kind": "external",
       "name": "timeNow",
       "params": [],
       "returnType": {
@@ -19,14 +158,14 @@
       },
       "span": {
         "start": {
-          "line": 4,
+          "line": 7,
           "column": 1,
-          "offset": 40
+          "offset": 321
         },
         "end": {
-          "line": 4,
+          "line": 7,
           "column": 63,
-          "offset": 102
+          "offset": 383
         }
       }
     },
@@ -44,12 +183,12 @@
           "semanticName": "ms",
           "span": {
             "start": {
-              "line": 5,
+              "line": 8,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 5,
+              "line": 8,
               "column": 8,
               "offset": 7
             }
@@ -69,14 +208,14 @@
       },
       "span": {
         "start": {
-          "line": 5,
+          "line": 8,
           "column": 1,
-          "offset": 103
+          "offset": 384
         },
         "end": {
-          "line": 5,
+          "line": 8,
           "column": 82,
-          "offset": 184
+          "offset": 465
         }
       }
     },
@@ -94,12 +233,12 @@
           "semanticName": "value",
           "span": {
             "start": {
-              "line": 6,
+              "line": 9,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 6,
+              "line": 9,
               "column": 12,
               "offset": 11
             }
@@ -119,14 +258,291 @@
       },
       "span": {
         "start": {
-          "line": 6,
+          "line": 9,
           "column": 1,
-          "offset": 185
+          "offset": 466
         },
         "end": {
-          "line": 6,
+          "line": 9,
           "column": 84,
-          "offset": 268
+          "offset": 549
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "instantNowValue",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Instant",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "instantNowRaw",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 599
+              },
+              "end": {
+                "line": 13,
+                "column": 29,
+                "offset": 627
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 599
+            },
+            "end": {
+              "line": 13,
+              "column": 29,
+              "offset": 627
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "instant now",
+        "outputName": "value",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 551
+        },
+        "end": {
+          "line": 11,
+          "column": 24,
+          "offset": 574
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "formatInstantLabel",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "formatInstantRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 700
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 37,
+                    "offset": 736
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 700
+              },
+              "end": {
+                "line": 18,
+                "column": 37,
+                "offset": 736
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 700
+            },
+            "end": {
+              "line": 18,
+              "column": 37,
+              "offset": 736
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "format instant",
+        "outputName": "label",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 629
+        },
+        "end": {
+          "line": 15,
+          "column": 27,
+          "offset": 655
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "parseInstantResult",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 21,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "parseInstantRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 828
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 34,
+                    "offset": 861
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 828
+              },
+              "end": {
+                "line": 24,
+                "column": 34,
+                "offset": 861
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 828
+            },
+            "end": {
+              "line": 24,
+              "column": 34,
+              "offset": 861
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "parse instant",
+        "outputName": "result",
+        "effects": [
+          "none"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 738
+        },
+        "end": {
+          "line": 20,
+          "column": 21,
+          "offset": 758
         }
       }
     },
@@ -148,27 +564,27 @@
             "args": [],
             "span": {
               "start": {
-                "line": 11,
+                "line": 29,
                 "column": 1,
-                "offset": 326
+                "offset": 919
               },
               "end": {
-                "line": 11,
+                "line": 29,
                 "column": 20,
-                "offset": 345
+                "offset": 938
               }
             }
           },
           "span": {
             "start": {
-              "line": 11,
+              "line": 29,
               "column": 1,
-              "offset": 326
+              "offset": 919
             },
             "end": {
-              "line": 11,
+              "line": 29,
               "column": 20,
-              "offset": 345
+              "offset": 938
             }
           }
         }
@@ -183,14 +599,14 @@
       },
       "span": {
         "start": {
-          "line": 8,
+          "line": 26,
           "column": 1,
-          "offset": 270
+          "offset": 863
         },
         "end": {
-          "line": 8,
+          "line": 26,
           "column": 20,
-          "offset": 289
+          "offset": 882
         }
       }
     },
@@ -208,12 +624,12 @@
           "semanticName": "ms",
           "span": {
             "start": {
-              "line": 14,
+              "line": 32,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 14,
+              "line": 32,
               "column": 8,
               "offset": 7
             }
@@ -237,41 +653,41 @@
                 "name": "ms",
                 "span": {
                   "start": {
-                    "line": 17,
+                    "line": 35,
                     "column": 1,
-                    "offset": 417
+                    "offset": 1010
                   },
                   "end": {
-                    "line": 17,
+                    "line": 35,
                     "column": 32,
-                    "offset": 448
+                    "offset": 1041
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 17,
+                "line": 35,
                 "column": 1,
-                "offset": 417
+                "offset": 1010
               },
               "end": {
-                "line": 17,
+                "line": 35,
                 "column": 32,
-                "offset": 448
+                "offset": 1041
               }
             }
           },
           "span": {
             "start": {
-              "line": 17,
+              "line": 35,
               "column": 1,
-              "offset": 417
+              "offset": 1010
             },
             "end": {
-              "line": 17,
+              "line": 35,
               "column": 32,
-              "offset": 448
+              "offset": 1041
             }
           }
         }
@@ -286,14 +702,14 @@
       },
       "span": {
         "start": {
-          "line": 13,
+          "line": 31,
           "column": 1,
-          "offset": 347
+          "offset": 940
         },
         "end": {
-          "line": 13,
+          "line": 31,
           "column": 25,
-          "offset": 371
+          "offset": 964
         }
       }
     }
@@ -323,6 +739,128 @@
         "name": "point std time",
         "functions": [
           {
+            "label": "instant now raw",
+            "params": [],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Instant",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "instantNow",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 40
+              },
+              "end": {
+                "line": 4,
+                "column": 80,
+                "offset": 119
+              }
+            }
+          },
+          {
+            "label": "parse instant raw",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Instant",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "parseInstant",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 120
+              },
+              "end": {
+                "line": 5,
+                "column": 104,
+                "offset": 223
+              }
+            }
+          },
+          {
+            "label": "format instant raw",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Instant",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "formatInstant",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 224
+              },
+              "end": {
+                "line": 6,
+                "column": 97,
+                "offset": 320
+              }
+            }
+          },
+          {
             "label": "time now",
             "params": [],
             "returnType": {
@@ -334,14 +872,14 @@
             "importAs": "now",
             "span": {
               "start": {
-                "line": 4,
+                "line": 7,
                 "column": 1,
-                "offset": 40
+                "offset": 321
               },
               "end": {
-                "line": 4,
+                "line": 7,
                 "column": 63,
-                "offset": 102
+                "offset": 383
               }
             }
           },
@@ -357,12 +895,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 5,
+                    "line": 8,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 5,
+                    "line": 8,
                     "column": 8,
                     "offset": 7
                   }
@@ -378,14 +916,14 @@
             "importAs": "sleep",
             "span": {
               "start": {
-                "line": 5,
+                "line": 8,
                 "column": 1,
-                "offset": 103
+                "offset": 384
               },
               "end": {
-                "line": 5,
+                "line": 8,
                 "column": 82,
-                "offset": 184
+                "offset": 465
               }
             }
           },
@@ -401,12 +939,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 6,
+                    "line": 9,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 6,
+                    "line": 9,
                     "column": 12,
                     "offset": 11
                   }
@@ -422,14 +960,14 @@
             "importAs": "formatTime",
             "span": {
               "start": {
-                "line": 6,
+                "line": 9,
                 "column": 1,
-                "offset": 185
+                "offset": 466
               },
               "end": {
-                "line": 6,
+                "line": 9,
                 "column": 84,
-                "offset": 268
+                "offset": 549
               }
             }
           }
@@ -444,6 +982,275 @@
             "line": 3,
             "column": 24,
             "offset": 39
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "instant now",
+        "inputs": [],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "value",
+            "value": {
+              "kind": "call",
+              "callee": "instant now raw",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 599
+                },
+                "end": {
+                  "line": 13,
+                  "column": 29,
+                  "offset": 627
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 599
+              },
+              "end": {
+                "line": 13,
+                "column": 29,
+                "offset": 627
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 551
+          },
+          "end": {
+            "line": 11,
+            "column": 24,
+            "offset": 574
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "format instant",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Instant",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "label",
+            "value": {
+              "kind": "call",
+              "callee": "format instant raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 700
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 37,
+                      "offset": 736
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 700
+                },
+                "end": {
+                  "line": 18,
+                  "column": 37,
+                  "offset": 736
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 700
+              },
+              "end": {
+                "line": 18,
+                "column": 37,
+                "offset": 736
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 629
+          },
+          "end": {
+            "line": 15,
+            "column": 27,
+            "offset": 655
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "parse instant",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Instant",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "none"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "parse instant raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 828
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 34,
+                      "offset": 861
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 828
+                },
+                "end": {
+                  "line": 24,
+                  "column": 34,
+                  "offset": 861
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 828
+              },
+              "end": {
+                "line": 24,
+                "column": 34,
+                "offset": 861
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 738
+          },
+          "end": {
+            "line": 20,
+            "column": 21,
+            "offset": 758
           }
         }
       },
@@ -471,41 +1278,41 @@
               "args": [],
               "span": {
                 "start": {
-                  "line": 11,
+                  "line": 29,
                   "column": 1,
-                  "offset": 326
+                  "offset": 919
                 },
                 "end": {
-                  "line": 11,
+                  "line": 29,
                   "column": 20,
-                  "offset": 345
+                  "offset": 938
                 }
               }
             },
             "span": {
               "start": {
-                "line": 11,
+                "line": 29,
                 "column": 1,
-                "offset": 326
+                "offset": 919
               },
               "end": {
-                "line": 11,
+                "line": 29,
                 "column": 20,
-                "offset": 345
+                "offset": 938
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 8,
+            "line": 26,
             "column": 1,
-            "offset": 270
+            "offset": 863
           },
           "end": {
-            "line": 8,
+            "line": 26,
             "column": 20,
-            "offset": 289
+            "offset": 882
           }
         }
       },
@@ -522,12 +1329,12 @@
             },
             "span": {
               "start": {
-                "line": 14,
+                "line": 32,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 14,
+                "line": 32,
                 "column": 8,
                 "offset": 7
               }
@@ -557,55 +1364,55 @@
                   "label": "ms",
                   "span": {
                     "start": {
-                      "line": 17,
+                      "line": 35,
                       "column": 1,
-                      "offset": 417
+                      "offset": 1010
                     },
                     "end": {
-                      "line": 17,
+                      "line": 35,
                       "column": 32,
-                      "offset": 448
+                      "offset": 1041
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 17,
+                  "line": 35,
                   "column": 1,
-                  "offset": 417
+                  "offset": 1010
                 },
                 "end": {
-                  "line": 17,
+                  "line": 35,
                   "column": 32,
-                  "offset": 448
+                  "offset": 1041
                 }
               }
             },
             "span": {
               "start": {
-                "line": 17,
+                "line": 35,
                 "column": 1,
-                "offset": 417
+                "offset": 1010
               },
               "end": {
-                "line": 17,
+                "line": 35,
                 "column": 32,
-                "offset": 448
+                "offset": 1041
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 13,
+            "line": 31,
             "column": 1,
-            "offset": 347
+            "offset": 940
           },
           "end": {
-            "line": 13,
+            "line": 31,
             "column": 25,
-            "offset": 371
+            "offset": 964
           }
         }
       }

@@ -127,14 +127,11 @@ Presence checks narrow `Maybe<T>` in `when` guards:
 record Contact
   email: Text
 
-record Profile
-  contact: Maybe<Contact>
-
-label contact email
-  input profile: Profile
+label contact email label
+  input contact: Maybe<Contact>
   output Text
-  when profile.contact present return profile.contact.email
-  when profile.contact is none return "missing"
+  when contact present return contact.email
+  when contact is none return "missing"
   otherwise return "missing"
 ```
 

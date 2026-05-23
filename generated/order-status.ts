@@ -15,11 +15,16 @@ export function statusMessageLabel(status: OrderStatus): string {
   if (status.kind == "Pending") {
     return "Your order is pending";
   }
+  if (status.kind == "Processing") {
+    return "Your order is processing";
+  }
   if (status.kind == "Shipped") {
     return ("Shipped — tracking " + status.trackingNumber);
+  }
+  if (status.kind == "Delivered") {
+    return "Your order was delivered";
   }
   if (status.kind == "Cancelled") {
     return ("Cancelled: " + status.reason);
   }
-  return "In progress";
 }

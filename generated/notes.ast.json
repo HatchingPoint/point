@@ -663,6 +663,7 @@
         "outputName": "view",
         "effects": [],
         "viewDataLoad": {
+          "source": "action",
           "actionName": "list notes",
           "actionFunction": "listNotesRows",
           "bindingName": "data",

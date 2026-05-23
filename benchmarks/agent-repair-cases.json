@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-22T03:19:22.107Z",
+  "generatedAt": "2026-05-23T13:13:51.557Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -43,22 +43,22 @@
       "brokenSource": "module Broken\n\nrecord User\n  name: Text\n  active: Bool\n\nlabel user status\n  input user: User\n  output Text\n  when user.enabled return user.name\n  otherwise return \"inactive\"\n",
       "fixedSource": "module Broken\n\nrecord User\n  name: Text\n  active: Bool\n\nlabel user status\n  input user: User\n  output Text\n  when user.active return user.name\n  otherwise return \"inactive\"\n",
       "errorLine": 10,
-      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-field\",\n      \"message\": \"Unknown field enabled on User\",\n      \"path\": \"fn.userStatusLabel.if.condition\",\n      \"ref\": \"point://semantic/Broken/label.user status\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 10,\n          \"column\": 1,\n          \"offset\": 107\n        },\n        \"end\": {\n          \"line\": 10,\n          \"column\": 37,\n          \"offset\": 143\n        }\n      },\n      \"expected\": [\n        \"name\",\n        \"active\"\n      ],\n      \"actual\": \"enabled\",\n      \"repair\": \"Use one of: name, active.\",\n      \"relatedRefs\": [\n        \"point://semantic/Broken/record.User.field.name\",\n        \"point://semantic/Broken/record.User.field.active\"\n      ]\n    }\n  ]\n}",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-field\",\n      \"message\": \"Unknown field enabled on User\",\n      \"path\": \"fn.userStatusLabel.if.condition\",\n      \"ref\": \"point://semantic/Broken/label.user status\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 10,\n          \"column\": 1,\n          \"offset\": 107\n        },\n        \"end\": {\n          \"line\": 10,\n          \"column\": 37,\n          \"offset\": 143\n        }\n      },\n      \"expected\": [\n        \"name\",\n        \"active\"\n      ],\n      \"actual\": \"enabled\",\n      \"repair\": \"Use one of: name, active. Did you mean \\\"active\\\"?\",\n      \"relatedRefs\": [\n        \"point://semantic/Broken/record.User.field.name\",\n        \"point://semantic/Broken/record.User.field.active\"\n      ]\n    }\n  ]\n}",
       "diagnosticCode": "unknown-field",
       "typescriptExcerpt": "// UserStatusBadge.tsx — excerpt\nimport type { User } from \"../types\";\n\nexport function userStatusLabel(user: User): string {\n  if (user.enabled) return user.name;\n  return \"inactive\";\n}",
       "typescriptNote": "Illustrative ~4,200-char paste heuristic. Not from a logged agent session.",
       "typescriptTotalChars": 4200,
       "tscError": "error TS2339: Property 'enabled' does not exist on type 'User'.\n  at userStatusLabel (UserStatusBadge.tsx:4:12)",
       "ref": "point://semantic/Broken/label.user status",
-      "repairHint": "Use one of: name, active.",
+      "repairHint": "Use one of: name, active. Did you mean \"active\"?",
       "expectedFields": [
         "name",
         "active"
       ],
-      "contextChars": 813,
-      "contextTokens": 203,
+      "contextChars": 838,
+      "contextTokens": 210,
       "tsContextTokens": 1050,
-      "tokenReductionPercent": 81,
+      "tokenReductionPercent": 80,
       "ciPass": true
     },
     {
@@ -69,10 +69,10 @@
       "repairMode": "single-shot",
       "summary": "tests/fixtures/agent-repair/calc-unknown-field-broken.point",
       "fixturePath": "tests/fixtures/agent-repair/calc-unknown-field-broken.point",
-      "brokenSource": "module Pricing\n\nrecord Price Input\n  monthly price: Int\n  discount percent: Int\n\ncalculation annual price\n  input input: Price Input\n  output annual price: Int\n  annual price is input.monthly amount * 12\n",
+      "brokenSource": "module Pricing\n\nrecord Price Input\n  monthly price: Int\n  discount percent: Int\n\ncalculation annual price\n  input input: Price Input\n  output annual price: Int\n  annual price is input.unknown amount * 12\n",
       "fixedSource": "module Pricing\n\nrecord Price Input\n  monthly price: Int\n  discount percent: Int\n\ncalculation annual price\n  input input: Price Input\n  output annual price: Int\n  annual price is input.monthly price * 12\n",
       "errorLine": 10,
-      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-field\",\n      \"message\": \"Unknown field monthlyAmount on PriceInput\",\n      \"path\": \"fn.annualPrice.return.left\",\n      \"ref\": \"point://semantic/Pricing/calculation.annual price\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 10,\n          \"column\": 1,\n          \"offset\": 160\n        },\n        \"end\": {\n          \"line\": 10,\n          \"column\": 44,\n          \"offset\": 203\n        }\n      },\n      \"expected\": [\n        \"monthly price\",\n        \"discount percent\"\n      ],\n      \"actual\": \"monthlyAmount\",\n      \"repair\": \"Use one of: monthly price, discount percent.\",\n      \"relatedRefs\": [\n        \"point://semantic/Pricing/record.Price Input.field.monthly price\",\n        \"point://semantic/Pricing/record.Price Input.field.discount percent\"\n      ]\n    }\n  ]\n}",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-field\",\n      \"message\": \"Unknown field unknownAmount on PriceInput\",\n      \"path\": \"fn.annualPrice.return.left\",\n      \"ref\": \"point://semantic/Pricing/calculation.annual price\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 10,\n          \"column\": 1,\n          \"offset\": 160\n        },\n        \"end\": {\n          \"line\": 10,\n          \"column\": 44,\n          \"offset\": 203\n        }\n      },\n      \"expected\": [\n        \"monthly price\",\n        \"discount percent\"\n      ],\n      \"actual\": \"unknownAmount\",\n      \"repair\": \"Use one of: monthly price, discount percent.\",\n      \"relatedRefs\": [\n        \"point://semantic/Pricing/record.Price Input.field.monthly price\",\n        \"point://semantic/Pricing/record.Price Input.field.discount percent\"\n      ]\n    }\n  ]\n}",
       "diagnosticCode": "unknown-field",
       "typescriptExcerpt": "// pricing.ts — excerpt\nexport type PriceInput = { monthlyPrice: number; discountPercent: number };\n\nexport function annualPrice(input: PriceInput): number {\n  return input.monthlyAmount * 12;\n}",
       "typescriptNote": "Illustrative ~6,800-char paste heuristic. Not from a logged agent session.",
@@ -131,20 +131,20 @@
       "brokenSource": "module Users\n\nrecord User\n  name: Text\n  active: Bool\n\nrule user points\n  input user: User\n  output score: Int\n  score starts at 0\n  add 10 when user.enabled\n  return score\n",
       "fixedSource": "module Users\n\nrecord User\n  name: Text\n  active: Bool\n\nrule user points\n  input user: User\n  output score: Int\n  score starts at 0\n  add 10 when user.active\n  return score\n",
       "errorLine": 11,
-      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-field\",\n      \"message\": \"Unknown field enabled on User\",\n      \"path\": \"fn.userPointsScore.if.condition\",\n      \"ref\": \"point://semantic/Users/rule.user points\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 11,\n          \"column\": 1,\n          \"offset\": 131\n        },\n        \"end\": {\n          \"line\": 11,\n          \"column\": 27,\n          \"offset\": 157\n        }\n      },\n      \"expected\": [\n        \"name\",\n        \"active\"\n      ],\n      \"actual\": \"enabled\",\n      \"repair\": \"Use one of: name, active.\",\n      \"relatedRefs\": [\n        \"point://semantic/Users/record.User.field.name\",\n        \"point://semantic/Users/record.User.field.active\"\n      ]\n    }\n  ]\n}",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-field\",\n      \"message\": \"Unknown field enabled on User\",\n      \"path\": \"fn.userPointsScore.if.condition\",\n      \"ref\": \"point://semantic/Users/rule.user points\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 11,\n          \"column\": 1,\n          \"offset\": 131\n        },\n        \"end\": {\n          \"line\": 11,\n          \"column\": 27,\n          \"offset\": 157\n        }\n      },\n      \"expected\": [\n        \"name\",\n        \"active\"\n      ],\n      \"actual\": \"enabled\",\n      \"repair\": \"Use one of: name, active. Did you mean \\\"active\\\"?\",\n      \"relatedRefs\": [\n        \"point://semantic/Users/record.User.field.name\",\n        \"point://semantic/Users/record.User.field.active\"\n      ]\n    }\n  ]\n}",
       "diagnosticCode": "unknown-field",
       "typescriptExcerpt": "// users.ts — excerpt\nexport type User = { name: string; active: boolean };\n\nexport function userPointsScore(user: User): number {\n  let score = 0;\n  if (user.enabled) score += 10;\n  return score;\n}",
       "typescriptNote": "Illustrative ~3,900-char paste heuristic. Not from a logged agent session.",
       "typescriptTotalChars": 3900,
       "tscError": "error TS2339: Property 'enabled' does not exist on type 'User'.\n  at userPointsScore (users.ts:5:12)",
       "ref": "point://semantic/Users/rule.user points",
-      "repairHint": "Use one of: name, active.",
+      "repairHint": "Use one of: name, active. Did you mean \"active\"?",
       "expectedFields": [
         "name",
         "active"
       ],
-      "contextChars": 809,
-      "contextTokens": 202,
+      "contextChars": 834,
+      "contextTokens": 209,
       "tsContextTokens": 975,
       "tokenReductionPercent": 79,
       "ciPass": true

@@ -383,41 +383,26 @@
       "params": [],
       "returnType": {
         "kind": "typeRef",
-        "name": "Text",
+        "name": "Instant",
         "args": []
       },
       "body": [
         {
           "kind": "return",
           "value": {
-            "kind": "await",
-            "value": {
-              "kind": "call",
-              "callee": "currentTimeValue",
-              "args": [],
-              "span": {
-                "start": {
-                  "line": 35,
-                  "column": 1,
-                  "offset": 534
-                },
-                "end": {
-                  "line": 35,
-                  "column": 34,
-                  "offset": 567
-                }
-              }
-            },
+            "kind": "call",
+            "callee": "instantNowValue",
+            "args": [],
             "span": {
               "start": {
                 "line": 35,
                 "column": 1,
-                "offset": 534
+                "offset": 537
               },
               "end": {
                 "line": 35,
-                "column": 34,
-                "offset": 567
+                "column": 23,
+                "offset": 559
               }
             }
           },
@@ -425,12 +410,12 @@
             "start": {
               "line": 35,
               "column": 1,
-              "offset": 534
+              "offset": 537
             },
             "end": {
               "line": 35,
-              "column": 34,
-              "offset": 567
+              "column": 23,
+              "offset": 559
             }
           }
         }
@@ -458,6 +443,85 @@
     },
     {
       "kind": "function",
+      "name": "stdTimeTextExampleValue",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "currentTimeValue",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 626
+                },
+                "end": {
+                  "line": 40,
+                  "column": 30,
+                  "offset": 655
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 626
+              },
+              "end": {
+                "line": 40,
+                "column": 30,
+                "offset": 655
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 626
+            },
+            "end": {
+              "line": 40,
+              "column": 30,
+              "offset": 655
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "std time text example",
+        "outputName": "value",
+        "effects": [
+          "time"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 561
+        },
+        "end": {
+          "line": 37,
+          "column": 29,
+          "offset": 589
+        }
+      }
+    },
+    {
+      "kind": "function",
       "name": "stdFsExampleContents",
       "params": [
         {
@@ -470,12 +534,12 @@
           "semanticName": "path",
           "span": {
             "start": {
-              "line": 38,
+              "line": 43,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 38,
+              "line": 43,
               "column": 11,
               "offset": 10
             }
@@ -512,54 +576,54 @@
                   "name": "path",
                   "span": {
                     "start": {
-                      "line": 41,
+                      "line": 46,
                       "column": 1,
-                      "offset": 658
+                      "offset": 746
                     },
                     "end": {
-                      "line": 41,
+                      "line": 46,
                       "column": 38,
-                      "offset": 695
+                      "offset": 783
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 41,
+                  "line": 46,
                   "column": 1,
-                  "offset": 658
+                  "offset": 746
                 },
                 "end": {
-                  "line": 41,
+                  "line": 46,
                   "column": 38,
-                  "offset": 695
+                  "offset": 783
                 }
               }
             },
             "span": {
               "start": {
-                "line": 41,
+                "line": 46,
                 "column": 1,
-                "offset": 658
+                "offset": 746
               },
               "end": {
-                "line": 41,
+                "line": 46,
                 "column": 38,
-                "offset": 695
+                "offset": 783
               }
             }
           },
           "span": {
             "start": {
-              "line": 41,
+              "line": 46,
               "column": 1,
-              "offset": 658
+              "offset": 746
             },
             "end": {
-              "line": 41,
+              "line": 46,
               "column": 38,
-              "offset": 695
+              "offset": 783
             }
           }
         }
@@ -574,14 +638,14 @@
       },
       "span": {
         "start": {
-          "line": 37,
+          "line": 42,
           "column": 1,
-          "offset": 569
+          "offset": 657
         },
         "end": {
-          "line": 37,
+          "line": 42,
           "column": 22,
-          "offset": 590
+          "offset": 678
         }
       }
     },
@@ -599,12 +663,12 @@
           "semanticName": "name",
           "span": {
             "start": {
-              "line": 44,
+              "line": 49,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 44,
+              "line": 49,
               "column": 11,
               "offset": 10
             }
@@ -636,54 +700,54 @@
                   "name": "name",
                   "span": {
                     "start": {
-                      "line": 47,
+                      "line": 52,
                       "column": 1,
-                      "offset": 781
+                      "offset": 869
                     },
                     "end": {
-                      "line": 47,
+                      "line": 52,
                       "column": 36,
-                      "offset": 816
+                      "offset": 904
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 47,
+                  "line": 52,
                   "column": 1,
-                  "offset": 781
+                  "offset": 869
                 },
                 "end": {
-                  "line": 47,
+                  "line": 52,
                   "column": 36,
-                  "offset": 816
+                  "offset": 904
                 }
               }
             },
             "span": {
               "start": {
-                "line": 47,
+                "line": 52,
                 "column": 1,
-                "offset": 781
+                "offset": 869
               },
               "end": {
-                "line": 47,
+                "line": 52,
                 "column": 36,
-                "offset": 816
+                "offset": 904
               }
             }
           },
           "span": {
             "start": {
-              "line": 47,
+              "line": 52,
               "column": 1,
-              "offset": 781
+              "offset": 869
             },
             "end": {
-              "line": 47,
+              "line": 52,
               "column": 36,
-              "offset": 816
+              "offset": 904
             }
           }
         }
@@ -698,14 +762,14 @@
       },
       "span": {
         "start": {
-          "line": 43,
+          "line": 48,
           "column": 1,
-          "offset": 697
+          "offset": 785
         },
         "end": {
-          "line": 43,
+          "line": 48,
           "column": 23,
-          "offset": 719
+          "offset": 807
         }
       }
     }
@@ -1201,7 +1265,7 @@
           "name": "value",
           "type": {
             "kind": "typeRef",
-            "name": "Text",
+            "name": "Instant",
             "args": []
           }
         },
@@ -1212,34 +1276,19 @@
           {
             "kind": "return",
             "value": {
-              "kind": "await",
-              "value": {
-                "kind": "call",
-                "callee": "currentTimeValue",
-                "args": [],
-                "span": {
-                  "start": {
-                    "line": 35,
-                    "column": 1,
-                    "offset": 534
-                  },
-                  "end": {
-                    "line": 35,
-                    "column": 34,
-                    "offset": 567
-                  }
-                }
-              },
+              "kind": "call",
+              "callee": "instant now",
+              "args": [],
               "span": {
                 "start": {
                   "line": 35,
                   "column": 1,
-                  "offset": 534
+                  "offset": 537
                 },
                 "end": {
                   "line": 35,
-                  "column": 34,
-                  "offset": 567
+                  "column": 23,
+                  "offset": 559
                 }
               }
             },
@@ -1247,12 +1296,12 @@
               "start": {
                 "line": 35,
                 "column": 1,
-                "offset": 534
+                "offset": 537
               },
               "end": {
                 "line": 35,
-                "column": 34,
-                "offset": 567
+                "column": 23,
+                "offset": 559
               }
             }
           }
@@ -1272,6 +1321,83 @@
       },
       {
         "kind": "action",
+        "name": "std time text example",
+        "inputs": [],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "time"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "current time",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 626
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 30,
+                    "offset": 655
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 626
+                },
+                "end": {
+                  "line": 40,
+                  "column": 30,
+                  "offset": 655
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 626
+              },
+              "end": {
+                "line": 40,
+                "column": 30,
+                "offset": 655
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 37,
+            "column": 1,
+            "offset": 561
+          },
+          "end": {
+            "line": 37,
+            "column": 29,
+            "offset": 589
+          }
+        }
+      },
+      {
+        "kind": "action",
         "name": "std fs example",
         "inputs": [
           {
@@ -1283,12 +1409,12 @@
             },
             "span": {
               "start": {
-                "line": 38,
+                "line": 43,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 38,
+                "line": 43,
                 "column": 11,
                 "offset": 10
               }
@@ -1331,68 +1457,68 @@
                     "label": "path",
                     "span": {
                       "start": {
-                        "line": 41,
+                        "line": 46,
                         "column": 1,
-                        "offset": 658
+                        "offset": 746
                       },
                       "end": {
-                        "line": 41,
+                        "line": 46,
                         "column": 38,
-                        "offset": 695
+                        "offset": 783
                       }
                     }
                   }
                 ],
                 "span": {
                   "start": {
-                    "line": 41,
+                    "line": 46,
                     "column": 1,
-                    "offset": 658
+                    "offset": 746
                   },
                   "end": {
-                    "line": 41,
+                    "line": 46,
                     "column": 38,
-                    "offset": 695
+                    "offset": 783
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 41,
+                  "line": 46,
                   "column": 1,
-                  "offset": 658
+                  "offset": 746
                 },
                 "end": {
-                  "line": 41,
+                  "line": 46,
                   "column": 38,
-                  "offset": 695
+                  "offset": 783
                 }
               }
             },
             "span": {
               "start": {
-                "line": 41,
+                "line": 46,
                 "column": 1,
-                "offset": 658
+                "offset": 746
               },
               "end": {
-                "line": 41,
+                "line": 46,
                 "column": 38,
-                "offset": 695
+                "offset": 783
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 37,
+            "line": 42,
             "column": 1,
-            "offset": 569
+            "offset": 657
           },
           "end": {
-            "line": 37,
+            "line": 42,
             "column": 22,
-            "offset": 590
+            "offset": 678
           }
         }
       },
@@ -1409,12 +1535,12 @@
             },
             "span": {
               "start": {
-                "line": 44,
+                "line": 49,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 44,
+                "line": 49,
                 "column": 11,
                 "offset": 10
               }
@@ -1452,68 +1578,68 @@
                     "label": "name",
                     "span": {
                       "start": {
-                        "line": 47,
+                        "line": 52,
                         "column": 1,
-                        "offset": 781
+                        "offset": 869
                       },
                       "end": {
-                        "line": 47,
+                        "line": 52,
                         "column": 36,
-                        "offset": 816
+                        "offset": 904
                       }
                     }
                   }
                 ],
                 "span": {
                   "start": {
-                    "line": 47,
+                    "line": 52,
                     "column": 1,
-                    "offset": 781
+                    "offset": 869
                   },
                   "end": {
-                    "line": 47,
+                    "line": 52,
                     "column": 36,
-                    "offset": 816
+                    "offset": 904
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 47,
+                  "line": 52,
                   "column": 1,
-                  "offset": 781
+                  "offset": 869
                 },
                 "end": {
-                  "line": 47,
+                  "line": 52,
                   "column": 36,
-                  "offset": 816
+                  "offset": 904
                 }
               }
             },
             "span": {
               "start": {
-                "line": 47,
+                "line": 52,
                 "column": 1,
-                "offset": 781
+                "offset": 869
               },
               "end": {
-                "line": 47,
+                "line": 52,
                 "column": 36,
-                "offset": 816
+                "offset": 904
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 43,
+            "line": 48,
             "column": 1,
-            "offset": 697
+            "offset": 785
           },
           "end": {
-            "line": 43,
+            "line": 48,
             "column": 23,
-            "offset": 719
+            "offset": 807
           }
         }
       }

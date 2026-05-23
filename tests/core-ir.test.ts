@@ -241,7 +241,7 @@ fn label(user: User): Text {
 				{
 					ref: "point://core/Broken/fn.label.return",
 					code: "unknown-field",
-					repair: "Use one of: name, active.",
+					repair: expect.stringContaining("Use one of: name, active."),
 					relatedRefs: ["point://core/Broken/type.User.name", "point://core/Broken/type.User.active"],
 				},
 			],

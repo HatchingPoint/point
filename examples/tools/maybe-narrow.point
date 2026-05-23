@@ -7,8 +7,8 @@ record Contact
 calculation primary email
   input contact: Maybe<Contact>
   output value: Text
-  when contact present return contact.email
-  when contact is none return "no-email"
+  when contact != none return contact.email
+  when contact == none return "no-email"
   return "no-email"
 
 rule profile score
@@ -16,20 +16,20 @@ rule profile score
   input nickname: Maybe<Text>
   output score: Int
   score starts at 0
-  add 10 when contact present
-  when nickname is none return score
+  add 10 when contact != none
+  when nickname == none return score
   add 1 to score
   return score
 
 label contact summary
   input contact: Maybe<Contact>
   output Text
-  when contact present return contact.city
-  when contact is none return "missing contact"
+  when contact != none return contact.city
+  when contact == none return "missing contact"
   otherwise return "missing contact"
 
 view profile banner
   input contact: Maybe<Contact>
-  when contact present render contact.email
-  when contact is none render "Add a contact email"
+  when contact != none render contact.email
+  when contact == none render "Add a contact email"
   render "Profile ready"

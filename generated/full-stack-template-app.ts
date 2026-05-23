@@ -133,7 +133,7 @@ export type AdminShellLayoutSlots = { header?: JSX.Element; sidebar?: JSX.Elemen
 
 export function adminShellLayout(slots: AdminShellLayoutSlots = {}): JSX.Element {
   return (
-    <div className="point-app point-layout point-layout-adminShell">
+    <div className="point-app point-theme-accent-slate point-theme-density-comfortable point-theme-radius-medium point-layout point-layout-adminShell">
       <div className="point-layout-body">
         <aside className="point-layout-sidebar">{slots.sidebar ?? <>{adminNavView()}</>}</aside>
         <section className="point-layout-main">{slots.main ?? <>Select a page from the sidebar</>}</section>
@@ -339,5 +339,5 @@ export const AdminAppRouter = createBrowserRouter([
 ]);
 
 export function mountAdminApp(): JSX.Element {
-  return <div className="point-app"><RouterProvider router={AdminAppRouter} /></div>;
+  return <div className="point-app point-theme-accent-slate point-theme-density-comfortable point-theme-radius-medium"><RouterProvider router={AdminAppRouter} /></div>;
 }

@@ -1,0 +1,926 @@
+{
+  "kind": "coreProgram",
+  "module": "InstantDemo",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Event",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 47
+            },
+            "end": {
+              "line": 6,
+              "column": 13,
+              "offset": 59
+            }
+          }
+        },
+        {
+          "name": "at",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "at",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 60
+            },
+            "end": {
+              "line": 7,
+              "column": 14,
+              "offset": 73
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Event"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 34
+        },
+        "end": {
+          "line": 5,
+          "column": 13,
+          "offset": 46
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sampleEvent",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Event",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "name",
+                "value": {
+                  "kind": "literal",
+                  "value": "Launch",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 122
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 49,
+                      "offset": 170
+                    }
+                  }
+                }
+              },
+              {
+                "name": "at",
+                "value": {
+                  "kind": "call",
+                  "callee": "instantNowValue",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 122
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 49,
+                      "offset": 170
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 122
+              },
+              "end": {
+                "line": 11,
+                "column": 49,
+                "offset": 170
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 122
+            },
+            "end": {
+              "line": 11,
+              "column": 49,
+              "offset": 170
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sample event",
+        "outputName": "event",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 75
+        },
+        "end": {
+          "line": 9,
+          "column": 25,
+          "offset": 99
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "eventSummaryLabel",
+      "params": [
+        {
+          "name": "event",
+          "type": {
+            "kind": "typeRef",
+            "name": "Event",
+            "args": []
+          },
+          "semanticName": "event",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "event",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 236
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 66,
+                      "offset": 301
+                    }
+                  }
+                },
+                "name": "name",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 66,
+                    "offset": 301
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": " at ",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 66,
+                    "offset": 301
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 236
+                },
+                "end": {
+                  "line": 16,
+                  "column": 66,
+                  "offset": 301
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "formatInstantLabel",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "event",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 236
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 66,
+                        "offset": 301
+                      }
+                    }
+                  },
+                  "name": "at",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 236
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 66,
+                      "offset": 301
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 236
+                },
+                "end": {
+                  "line": 16,
+                  "column": 66,
+                  "offset": 301
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 236
+              },
+              "end": {
+                "line": 16,
+                "column": 66,
+                "offset": 301
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 236
+            },
+            "end": {
+              "line": 16,
+              "column": 66,
+              "offset": 301
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "event summary",
+        "outputName": "summary",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 172
+        },
+        "end": {
+          "line": 13,
+          "column": 20,
+          "offset": 191
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "instantDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "eventSummaryLabel",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "sampleEvent",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 20,
+                    "column": 1,
+                    "offset": 346
+                  },
+                  "end": {
+                    "line": 20,
+                    "column": 39,
+                    "offset": 384
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 346
+              },
+              "end": {
+                "line": 20,
+                "column": 39,
+                "offset": 384
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 346
+            },
+            "end": {
+              "line": 20,
+              "column": 39,
+              "offset": 384
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "instant demo",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 303
+        },
+        "end": {
+          "line": 18,
+          "column": 21,
+          "offset": 323
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 19,
+      "offset": 18
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "InstantDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.time",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Event",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 47
+              },
+              "end": {
+                "line": 6,
+                "column": 13,
+                "offset": 59
+              }
+            }
+          },
+          {
+            "label": "at",
+            "type": {
+              "kind": "typeRef",
+              "name": "Instant",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 60
+              },
+              "end": {
+                "line": 7,
+                "column": 14,
+                "offset": 73
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 34
+          },
+          "end": {
+            "line": 5,
+            "column": 13,
+            "offset": 46
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sample event",
+        "inputs": [],
+        "output": {
+          "name": "event",
+          "type": {
+            "kind": "typeRef",
+            "name": "Event",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "event",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "name",
+                  "value": {
+                    "kind": "literal",
+                    "value": "Launch",
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 122
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 49,
+                        "offset": 170
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "at",
+                  "value": {
+                    "kind": "call",
+                    "callee": "instant now",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 122
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 49,
+                        "offset": 170
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 122
+                },
+                "end": {
+                  "line": 11,
+                  "column": 49,
+                  "offset": 170
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 122
+              },
+              "end": {
+                "line": 11,
+                "column": 49,
+                "offset": 170
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 75
+          },
+          "end": {
+            "line": 9,
+            "column": 25,
+            "offset": 99
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "event summary",
+        "inputs": [
+          {
+            "label": "event",
+            "type": {
+              "kind": "typeRef",
+              "name": "Event",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "summary",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "event",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 236
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 66,
+                        "offset": 301
+                      }
+                    }
+                  },
+                  "label": "name",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 236
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 66,
+                      "offset": 301
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": " at ",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 236
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 66,
+                      "offset": 301
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 66,
+                    "offset": 301
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "format instant",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "event",
+                      "span": {
+                        "start": {
+                          "line": 16,
+                          "column": 1,
+                          "offset": 236
+                        },
+                        "end": {
+                          "line": 16,
+                          "column": 66,
+                          "offset": 301
+                        }
+                      }
+                    },
+                    "label": "at",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 236
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 66,
+                        "offset": 301
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 236
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 66,
+                    "offset": 301
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 236
+                },
+                "end": {
+                  "line": 16,
+                  "column": 66,
+                  "offset": 301
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 236
+              },
+              "end": {
+                "line": 16,
+                "column": 66,
+                "offset": 301
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 172
+          },
+          "end": {
+            "line": 13,
+            "column": 20,
+            "offset": 191
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "instant demo",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "event summary",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "sample event",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 20,
+                      "column": 1,
+                      "offset": 346
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 39,
+                      "offset": 384
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 346
+                },
+                "end": {
+                  "line": 20,
+                  "column": 39,
+                  "offset": 384
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 346
+              },
+              "end": {
+                "line": 20,
+                "column": 39,
+                "offset": 384
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 18,
+            "column": 1,
+            "offset": 303
+          },
+          "end": {
+            "line": 18,
+            "column": 21,
+            "offset": 323
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 19,
+        "offset": 18
+      }
+    }
+  }
+}
