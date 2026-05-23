@@ -1,9 +1,31 @@
 import type { PointCoreDiagnostic } from "../core/check.ts";
-import type { PointSemanticActionDeclaration, PointSemanticExpression, PointSemanticProgram, PointSemanticViewStatement } from "./ast.ts";
+import type {
+	PointSemanticActionDeclaration,
+	PointSemanticExpression,
+	PointSemanticProgram,
+	PointSemanticTypeExpression,
+	PointSemanticViewDeclaration,
+	PointSemanticViewStatement,
+} from "./ast.ts";
 import { semanticFunctionName } from "./naming.ts";
 
 function semanticRefFor(moduleName: string, path: string): string {
 	return `point://semantic/${moduleName}/${path}`;
+}
+
+function formatOutputType(type: PointSemanticTypeExpression): string {
+	if (type.name === "Or") return type.args.map(formatOutputType).join(" or ");
+	if (type.args.length === 0) return type.name;
+	return `${type.name}<${type.args.map(formatOutputType).join(", ")}>`;
+}
+
+function loadDataRepairBlock(actionName: string, outputType: string): string {
+	return [
+		`load data from action ${actionName}`,
+		`when loading render "Loading..."`,
+		`when error render "Could not load"`,
+		`render data  // data: ${outputType}`,
+	].join("\n");
 }
 
 function expressionCallsAction(expression: PointSemanticExpression, actionName: string, functionName: string): boolean {
@@ -34,6 +56,17 @@ function statementUsesUnawaitedAction(
 	return check(statement.condition) || check(statement.value);
 }
 
+function viewCallsActionDirectly(
+	declaration: PointSemanticViewDeclaration,
+	actionName: string,
+	functionName: string,
+): PointSemanticViewStatement | null {
+	for (const statement of declaration.body) {
+		if (statementUsesUnawaitedAction(statement, actionName, functionName)) return statement;
+	}
+	return null;
+}
+
 export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreDiagnostic[] {
 	const moduleName = program.module ?? "anonymous";
 	const actions = new Map<string, PointSemanticActionDeclaration>();
@@ -48,40 +81,64 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 				(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadData" | "onMountCall" }> =>
 					statement.kind === "loadData" || statement.kind === "onMountCall",
 			);
-			if (!loadStatement) continue;
-			const actionName = loadStatement.action;
-			const path = `view.${declaration.name}`;
-			const ref = semanticRefFor(moduleName, path);
-			const action = actions.get(actionName);
-			if (!action) {
-				diagnostics.push({
-					code: "unknown-load-action",
-					message: `View ${declaration.name} loads unknown action ${actionName}`,
-					path,
-					ref,
-					severity: "error",
-					span: loadStatement.span ?? declaration.span ?? null,
-					expected: [...actions.keys()].sort(),
-					actual: actionName,
-					repair: `Declare action ${actionName} or fix the load data from action name.`,
-					relatedRefs: [semanticRefFor(moduleName, path)],
-				});
+			if (loadStatement) {
+				const actionName = loadStatement.action;
+				const path = `view.${declaration.name}`;
+				const ref = semanticRefFor(moduleName, path);
+				const action = actions.get(actionName);
+				if (!action) {
+					diagnostics.push({
+						code: "unknown-load-action",
+						message: `View ${declaration.name} loads unknown action ${actionName}`,
+						path,
+						ref,
+						severity: "error",
+						span: loadStatement.span ?? declaration.span ?? null,
+						expected: [...actions.keys()].sort(),
+						actual: actionName,
+						repair: `Declare action ${actionName} or fix the load data from action name.`,
+						relatedRefs: [semanticRefFor(moduleName, path)],
+					});
+					continue;
+				}
+				const functionName = semanticFunctionName(actionName, action.output.name, "action");
+				const outputType = formatOutputType(action.output.type);
+				for (const statement of declaration.body) {
+					if (!statementUsesUnawaitedAction(statement, actionName, functionName)) continue;
+					diagnostics.push({
+						code: "missing-await",
+						message: `Action ${actionName} must be awaited in view ${declaration.name}; use the data binding from load data from action`,
+						path: `${path}.render`,
+						ref,
+						severity: "error",
+						span: statement.span ?? declaration.span ?? null,
+						expected: `await ${actionName}(...) or reference data`,
+						actual: `${actionName}(...)`,
+						repair: `Use data from load data from action ${actionName} (type ${outputType}) instead of calling the action directly:\n${loadDataRepairBlock(actionName, outputType)}`,
+						relatedRefs: [semanticRefFor(moduleName, `action.${actionName}`), ref],
+					});
+				}
 				continue;
 			}
-			const functionName = semanticFunctionName(actionName, action.output.name, "action");
-			for (const statement of declaration.body) {
-				if (!statementUsesUnawaitedAction(statement, actionName, functionName)) continue;
+
+			for (const action of actions.values()) {
+				const functionName = semanticFunctionName(action.name, action.output.name, "action");
+				const offending = viewCallsActionDirectly(declaration, action.name, functionName);
+				if (!offending) continue;
+				const path = `view.${declaration.name}`;
+				const ref = semanticRefFor(moduleName, path);
+				const outputType = formatOutputType(action.output.type);
 				diagnostics.push({
 					code: "missing-await",
-					message: `Action ${actionName} must be awaited in view ${declaration.name}; use the data binding from load data from action`,
+					message: `Action ${action.name} must be awaited in view ${declaration.name}; use load data from action instead`,
 					path: `${path}.render`,
 					ref,
 					severity: "error",
-					span: statement.span ?? declaration.span ?? null,
-					expected: `await ${actionName}(...) or reference data`,
-					actual: `${actionName}(...)`,
-					repair: `Use the data binding from load data from action ${actionName} instead of calling the action directly.`,
-					relatedRefs: [semanticRefFor(moduleName, `action.${actionName}`), ref],
+					span: offending.span ?? declaration.span ?? null,
+					expected: `load data from action ${action.name}`,
+					actual: `${action.name}(...)`,
+					repair: `Replace the direct action call with:\n${loadDataRepairBlock(action.name, outputType)}`,
+					relatedRefs: [semanticRefFor(moduleName, `action.${action.name}`), ref],
 				});
 			}
 		}
@@ -106,6 +163,7 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 				continue;
 			}
 			const functionName = semanticFunctionName(actionName, action.output.name, "action");
+			const outputType = formatOutputType(action.output.type);
 			if (expressionCallsAction(declaration.main, actionName, functionName)) {
 				diagnostics.push({
 					code: "missing-await",
@@ -116,7 +174,7 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 					span: declaration.span ?? null,
 					expected: `await ${actionName}(...) or reference data`,
 					actual: `${actionName}(...)`,
-					repair: `Pass data to main render instead of calling ${actionName}() directly.`,
+					repair: `Pass data to main render instead of calling ${actionName}() directly. Data type is ${outputType}.`,
 					relatedRefs: [semanticRefFor(moduleName, `action.${actionName}`), ref],
 				});
 			}

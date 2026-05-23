@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-23T13:13:51.557Z",
+  "generatedAt": "2026-05-23T13:29:50.495Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -178,6 +178,34 @@
       "ciPass": true
     },
     {
+      "id": "load-data-repair",
+      "title": "View — load data instead of direct action call",
+      "category": "typo-fix",
+      "agentTask": "Fix a view that calls an action directly instead of using the load data binding.",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/load-data-repair-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/load-data-repair-broken.point",
+      "brokenSource": "module NotesList\n\nrecord Note\n  id: Text\n  title: Text\n\naction list notes\n  output notes: List<Note>\n  touches none\n  return [{ id: \"1\", title: \"Hello\" }]\n\nview notes list\n  load data from action list notes\n  render list notes()\n",
+      "fixedSource": "module NotesList\n\nrecord Note\n  id: Text\n  title: Text\n\naction list notes\n  output notes: List<Note>\n  touches none\n  return [{ id: \"1\", title: \"Hello\" }]\n\nview notes list\n  load data from action list notes\n  render data\n",
+      "errorLine": 14,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"missing-await\",\n      \"message\": \"Action list notes must be awaited in view notes list; use the data binding from load data from action\",\n      \"path\": \"view.notes list.render\",\n      \"ref\": \"point://semantic/NotesList/view.notes list\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 14,\n          \"column\": 1,\n          \"offset\": 207\n        },\n        \"end\": {\n          \"line\": 14,\n          \"column\": 22,\n          \"offset\": 228\n        }\n      },\n      \"expected\": \"await list notes(...) or reference data\",\n      \"actual\": \"list notes(...)\",\n      \"repair\": \"Use data from load data from action list notes (type List<Note>) instead of calling the action directly:\\nload data from action list notes\\nwhen loading render \\\"Loading...\\\"\\nwhen error render \\\"Could not load\\\"\\nrender data  // data: List<Note>\",\n      \"relatedRefs\": [\n        \"point://semantic/NotesList/action.list notes\",\n        \"point://semantic/NotesList/view.notes list\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "missing-await",
+      "typescriptExcerpt": "// ItemsList.tsx — excerpt\nexport function ItemsList() {\n  const notes = listNotes(); // forgot load hook pattern\n  return notes.map(note => <div key={note.id}>{note.title}</div>);\n}",
+      "typescriptNote": "Illustrative ~12,000-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 12000,
+      "tscError": "error TS2345: Argument of type 'Promise<Note[]>' is not assignable to parameter of type 'Note[]'.\n  at ItemsList (ItemsList.tsx:3:17)",
+      "ref": "point://semantic/NotesList/view.notes list",
+      "repairHint": "Use data from load data from action list notes (type List<Note>) instead of calling the action directly:\nload data from action list notes\nwhen loading render \"Loading...\"\nwhen error render \"Could not load\"\nrender data  // data: List<Note>",
+      "expectedFields": [
+        "await list notes(...) or reference data"
+      ],
+      "contextChars": 1097,
+      "contextTokens": 274,
+      "tsContextTokens": 3000,
+      "tokenReductionPercent": 91,
+      "ciPass": true
+    },
+    {
       "id": "arity-mismatch",
       "title": "Calculation — arity mismatch",
       "category": "typo-fix",
@@ -244,21 +272,21 @@
       "brokenSource": "module DashboardApp\n\nrecord Item\n  id: Text\n  title: Text\n\ncalculation sample items\n  output items: List<Item>\n  return [{ id: \"alpha\", title: \"Alpha\" }, { id: \"beta\", title: \"Beta\" }]\n\naction fetch items\n  output items: List<Item>\n  touches none\n  return sample items()\n\nview dashboard nav\n  link \"Items\" to \"/items\"\n  render \"Dashboard\"\n\nview items list\n  load data from action fetch items\n  when loading render \"Loading items...\"\n  when error render \"Could not load items\"\n  when empty render \"No items yet\"\n  render fetch items()\n\nlayout app shell\n  slot sidebar render dashboard nav()\n  slot main render \"Select a page\"\n\npage items list page\n  layout app shell\n  title \"Items\"\n  main render items list()\n\nnavigation dashboard app\n  path \"/items\" page items list page\n  bootstrap router\n",
       "fixedSource": "module DashboardApp\n\nrecord Item\n  id: Text\n  title: Text\n\ncalculation sample items\n  output items: List<Item>\n  return [{ id: \"alpha\", title: \"Alpha\" }, { id: \"beta\", title: \"Beta\" }]\n\naction fetch items\n  output items: List<Item>\n  touches none\n  return sample items()\n\nview dashboard nav\n  link \"Items\" to \"/items\"\n  render \"Dashboard\"\n\nview items list\n  load data from action fetch items\n  when loading render \"Loading items...\"\n  when error render \"Could not load items\"\n  when empty render \"No items yet\"\n  each item in data render link item.title to \"/items/\" + item.id\n\nlayout app shell\n  slot sidebar render dashboard nav()\n  slot main render \"Select a page\"\n\npage items list page\n  layout app shell\n  title \"Items\"\n  main render items list()\n\nnavigation dashboard app\n  path \"/items\" page items list page\n  bootstrap router\n",
       "errorLine": 25,
-      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"missing-await\",\n      \"message\": \"Action fetch items must be awaited in view items list; use the data binding from load data from action\",\n      \"path\": \"view.items list.render\",\n      \"ref\": \"point://semantic/DashboardApp/view.items list\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 25,\n          \"column\": 1,\n          \"offset\": 511\n        },\n        \"end\": {\n          \"line\": 25,\n          \"column\": 23,\n          \"offset\": 533\n        }\n      },\n      \"expected\": \"await fetch items(...) or reference data\",\n      \"actual\": \"fetch items(...)\",\n      \"repair\": \"Use the data binding from load data from action fetch items instead of calling the action directly.\",\n      \"relatedRefs\": [\n        \"point://semantic/DashboardApp/action.fetch items\",\n        \"point://semantic/DashboardApp/view.items list\"\n      ]\n    }\n  ]\n}",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"missing-await\",\n      \"message\": \"Action fetch items must be awaited in view items list; use the data binding from load data from action\",\n      \"path\": \"view.items list.render\",\n      \"ref\": \"point://semantic/DashboardApp/view.items list\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 25,\n          \"column\": 1,\n          \"offset\": 511\n        },\n        \"end\": {\n          \"line\": 25,\n          \"column\": 23,\n          \"offset\": 533\n        }\n      },\n      \"expected\": \"await fetch items(...) or reference data\",\n      \"actual\": \"fetch items(...)\",\n      \"repair\": \"Use data from load data from action fetch items (type List<Item>) instead of calling the action directly:\\nload data from action fetch items\\nwhen loading render \\\"Loading...\\\"\\nwhen error render \\\"Could not load\\\"\\nrender data  // data: List<Item>\",\n      \"relatedRefs\": [\n        \"point://semantic/DashboardApp/action.fetch items\",\n        \"point://semantic/DashboardApp/view.items list\"\n      ]\n    }\n  ]\n}",
       "diagnosticCode": "missing-await",
       "typescriptExcerpt": "// Agent pasted React dashboard scaffold (~400 lines in real repos)\n// ItemsList.tsx, useItems.ts, router layout, MSW handlers, Storybook...\n\nexport function ItemsList() {\n  const [items, setItems] = useState<Item[]>([]);\n  useEffect(() => { fetchItems().then(setItems); }, []); // wrong: bypasses load hook pattern\n  return items.map(item => <Link key={item.id} href={`/items/${item.id}`}>{item.title}</Link>);\n}",
       "typescriptNote": "Illustrative ~14,000-char paste heuristic. Not from a logged agent session.",
       "typescriptTotalChars": 14000,
       "tscError": "error TS2345: Argument of type 'Promise<Item[]>' is not assignable to parameter of type 'SetStateAction<Item[]>'.\n  at ItemsList (ItemsList.tsx:6:38)",
       "ref": "point://semantic/DashboardApp/view.items list",
-      "repairHint": "Use the data binding from load data from action fetch items instead of calling the action directly.",
+      "repairHint": "Use data from load data from action fetch items (type List<Item>) instead of calling the action directly:\nload data from action fetch items\nwhen loading render \"Loading...\"\nwhen error render \"Could not load\"\nrender data  // data: List<Item>",
       "expectedFields": [
         "await fetch items(...) or reference data"
       ],
-      "contextChars": 963,
-      "contextTokens": 241,
+      "contextChars": 1112,
+      "contextTokens": 278,
       "tsContextTokens": 3500,
-      "tokenReductionPercent": 93,
+      "tokenReductionPercent": 92,
       "ciPass": true
     },
     {
@@ -408,7 +436,7 @@
     }
   ],
   "summary": {
-    "caseCount": 14,
+    "caseCount": 15,
     "diagnosticCodes": [
       "unknown-field",
       "missing-await",
@@ -426,7 +454,7 @@
     "multistepCount": 1,
     "tokenReductionPercent": {
       "minReductionPercent": 79,
-      "maxReductionPercent": 93,
+      "maxReductionPercent": 92,
       "avgReductionPercent": 87
     }
   }

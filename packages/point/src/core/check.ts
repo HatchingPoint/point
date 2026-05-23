@@ -20,6 +20,7 @@ import { checkSemanticSchedules } from "../semantic/check-schedules.ts";
 import { checkSemanticPrompts } from "../semantic/check-prompts.ts";
 import { checkSemanticWorkflows } from "../semantic/check-workflows.ts";
 import { checkSemanticPipelines } from "../semantic/check-pipelines.ts";
+import { checkSemanticMoneyLint } from "../semantic/check-money-lint.ts";
 import { checkSemanticSessions } from "../semantic/check-sessions.ts";
 import { checkSemanticGuards } from "../semantic/check-guards.ts";
 import { checkSemanticThemes } from "../semantic/check-themes.ts";
@@ -72,6 +73,7 @@ class CoreChecker {
 			this.diagnostics.push(...checkSemanticPrompts(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticWorkflows(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticPipelines(this.program.semanticSource));
+			this.diagnostics.push(...checkSemanticMoneyLint(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticSessions(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticGuards(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticThemes(this.program.semanticSource));

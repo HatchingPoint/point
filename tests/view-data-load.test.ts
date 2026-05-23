@@ -23,7 +23,24 @@ view items list
 `);
 		const diagnostics = checkPointCore(program);
 		expect(diagnostics.some((diagnostic) => diagnostic.code === "missing-await")).toBe(true);
-		expect(diagnostics.find((diagnostic) => diagnostic.code === "missing-await")?.repair).toContain("data binding");
+	});
+
+	test("suggests load data block when view calls action without load binding", () => {
+		const program = parsePointSource(`module Broken
+
+action list notes
+  output notes: List<Text>
+  touches none
+  return ["a"]
+
+view notes list
+  render list notes()
+`);
+		const diagnostics = checkPointCore(program);
+		const diagnostic = diagnostics.find((entry) => entry.code === "missing-await" && entry.path.includes("view.notes list"));
+		expect(diagnostic?.repair).toContain("load data from action list notes");
+		expect(diagnostic?.repair).toContain("when loading render");
+		expect(diagnostic?.repair).toContain("List<Text>");
 	});
 
 	test("rejects unknown load actions", () => {

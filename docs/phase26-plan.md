@@ -28,12 +28,12 @@ Phase 26 addresses (1)–(4) in Wave 1–2 and (5) in Wave 2. ORM, SSR, and full
 - [x] **Variant exhaustiveness** — `on Case` dispatch reports `missing-variant-case` for uncovered cases
 - [x] **`Maybe` presence narrowing** — `when <expr> present` / `when <expr> is none` narrows type in branch; improved `nullable-field-access` repair
 - [x] **Tab + layout slot modifiers** — `tab "X" render muted "..."` and `slot main render padded view()` parse and emit like view renders
-- [ ] **Pipeline step I/O** (Wave 2) — checker validates step output record fields match next step input where declared
-- [ ] **Money lint** (Wave 2) — optional diagnostic when Float used on `*price*` / `*amount*` / `*cents*` named fields
-- [ ] **Load-data repair** (Wave 2) — `missing-await` in views suggests exact `load data` fix with field name
-- [ ] General examples + agent-repair fixtures for each feature
-- [ ] `bun test`, `point check-docs`, principles gate per deliverable
-- [ ] Patch release **v0.1.18+**
+- [x] **Pipeline step I/O** (Wave 2) — checker validates step output record fields match next step input where declared
+- [x] **Money lint** (Wave 2) — optional diagnostic when Float used on `*price*` / `*amount*` / `*cents*` named fields
+- [x] **Load-data repair** (Wave 2) — `missing-await` in views suggests exact `load data` fix with field name
+- [x] General examples + agent-repair fixtures for each feature
+- [x] `bun test`, `point check-docs`, principles gate per deliverable
+- [x] Patch release **v0.1.18+**
 
 ---
 

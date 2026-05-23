@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.19
+
+### Added
+
+- Phase 26 Wave 2: pipeline step I/O checking (`pipeline-step-type-mismatch`), money field lint (`float-money-field`), and richer `missing-await` repair hints for views that should use `load data from action`.
+
 ## 0.1.18
 
 ### Added

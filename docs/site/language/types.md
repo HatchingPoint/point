@@ -71,7 +71,7 @@ record Money
   currency: Text
 ```
 
-See `std/money.point` for add/format helpers. Do not use `Float` for currency.
+See `std/money.point` for add/format helpers. Do not use `Float` for currency — the checker reports `float-money-field` when record field names match money heuristics (`price`, `amount`, `cost`, `cents`) with type `Float`.
 
 ### Instant (time pattern)
 

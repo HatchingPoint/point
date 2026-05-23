@@ -1064,3 +1064,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: Phase 26 Wave 2 (P26-5 onward).
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 26 Wave 2 — Pipeline I/O, money lint, load-data repairs
+
+- Completed: P26-5 pipeline step I/O checker validates step argument types against action inputs and pipeline return output (`pipeline-step-type-mismatch`). P26-6 money lint flags Float on money-like record field names (`float-money-field`). P26-7 load-data repair hints now suggest full `load data from action` blocks with output types; views without load bindings get actionable missing-await repairs.
+- Verified: `bun run ci` green; `tests/pipeline-step-types.test.ts`, `tests/money-lint.test.ts`, `tests/view-data-load.test.ts`, agent-repair `load-data-repair` fixture.
+- Release: v0.1.19 tagged and pushed.
+- Next: Phase 27 (see `docs/phase27-plan.md`).
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

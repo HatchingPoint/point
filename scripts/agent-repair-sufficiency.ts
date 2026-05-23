@@ -224,6 +224,26 @@ async function fetchItem(id: string): Promise<string> {
 		},
 	},
 	{
+		id: "load-data-repair",
+		title: "View — load data instead of direct action call",
+		category: "typo-fix",
+		agentTask: "Fix a view that calls an action directly instead of using the load data binding.",
+		repairMode: "single-shot",
+		brokenFile: "load-data-repair-broken.point",
+		fixedFile: "load-data-repair-fixed.point",
+		expectedCode: "missing-await",
+		typescriptContext: {
+			excerpt: `// ItemsList.tsx — excerpt
+export function ItemsList() {
+  const notes = listNotes(); // forgot load hook pattern
+  return notes.map(note => <div key={note.id}>{note.title}</div>);
+}`,
+			totalChars: 12000,
+			tscError: `error TS2345: Argument of type 'Promise<Note[]>' is not assignable to parameter of type 'Note[]'.
+  at ItemsList (ItemsList.tsx:3:17)`,
+		},
+	},
+	{
 		id: "arity-mismatch",
 		title: "Calculation — arity mismatch",
 		category: "typo-fix",

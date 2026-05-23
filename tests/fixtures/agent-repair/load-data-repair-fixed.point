@@ -1,0 +1,14 @@
+module NotesList
+
+record Note
+  id: Text
+  title: Text
+
+action list notes
+  output notes: List<Note>
+  touches none
+  return [{ id: "1", title: "Hello" }]
+
+view notes list
+  load data from action list notes
+  render data
