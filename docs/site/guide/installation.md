@@ -8,7 +8,7 @@ quadrant: Tutorial
 
 Point projects work best with **Bun + a local `@hatchingpoint/point` devDependency**. After `bun install`, the CLI and LSP resolve from `node_modules` — no global install required for team members cloning your repo.
 
-For greenfield work, `point create` scaffolds a project with editor configs. For an existing repo (Surgetn Marketing, a monorepo folder, etc.), run **`point init`**.
+For greenfield work, `point create` scaffolds a project with editor configs. For an existing repo, a monorepo package, or an app folder, run **`point init`**.
 
 ## Clone an existing Point project
 
@@ -90,5 +90,6 @@ Syntax highlighting works once the extension is installed. Hover, diagnostics, a
 ## See also
 
 - [Toolchain: LSP](/point/toolchain/lsp)
+- [Project structure](/point/guide/project-structure)
 - [CLI reference](/point/reference/cli)
 - [AI overview](/point/ai/overview)

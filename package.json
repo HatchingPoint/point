@@ -11,10 +11,11 @@
     "./cli": "./packages/point/src/cli.ts",
     "./core": "./packages/point/src/core/index.ts"
   },
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
     "test": "bun test",
     "test:py-parity": "bun scripts/py-parity.ts",
     "point": "bun packages/point/src/cli.ts",
@@ -29,8 +30,11 @@
     "build": "bun packages/point/src/cli.ts build-all",
     "build:ts": "bun packages/point/src/cli.ts build-ts-all",
     "build:ast": "bun packages/point/src/cli.ts build-ast-all",
-    "build:py": "bun packages/point/src/cli.ts build-py-all",
-    "build:logic": "bun run --cwd packages/point-logic build",
+		"build:py": "bun packages/point/src/cli.ts build-py-all",
+		"build:logic": "bun run --cwd packages/point-logic build",
+		"docs:sync": "bun scripts/sync-docs-site.ts",
+		"docs:dev": "bun run docs:sync && bun run --cwd apps/docs dev",
+		"docs:build": "bun run docs:sync && bun run --cwd apps/docs build",
     "vscode:package": "bun run vscode:build && bun run --cwd packages/point-vscode package:vsix",
     "vscode:build": "bun scripts/build-vscode-extension.ts",
     "point:test": "bun packages/point/src/cli.ts test-all",

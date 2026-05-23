@@ -52,6 +52,7 @@ The VS Code Marketplace entry uses the same product line but may have its own pa
 
 ## See also
 
+- [Compatibility](/point/guide/compatibility)
 - [npm](/point/ecosystem/npm)
 - [Marketplace](/point/ecosystem/marketplace)
 - [Installation](/point/guide/installation)

@@ -8,7 +8,7 @@ quadrant: Tutorial
 
 Point is a general-purpose language for product logic — expressed as semantic blocks that humans and coding agents can read, check, and repair.
 
-Start with [Quick start](/point/guide/quick-start), [Language overview](/point/language/overview), or [Proof of concept](/point/concepts/proof-of-concept) for worked examples.
+Start with [Quick start](/point/guide/quick-start), [Language tour](/point/guide/language-tour), [Language overview](/point/language/overview), or [Proof of concept](/point/concepts/proof-of-concept) for worked examples.
 
 ## What Point is
 

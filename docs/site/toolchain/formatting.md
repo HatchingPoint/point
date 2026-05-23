@@ -29,5 +29,6 @@ Stable formatting makes semantic refs and repair plans easier to follow. Agents 
 
 ## See also
 
+- [Style guide](/point/guide/style-guide)
 - [CLI reference](/point/reference/cli)
 - [Repair loops](/point/ai/repair-loops)

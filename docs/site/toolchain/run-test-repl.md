@@ -64,5 +64,6 @@ The REPL evaluates expressions and prints the value plus inferred Point type.
 
 ## See also
 
+- [Testing](/point/guide/testing)
 - [CLI reference](/point/reference/cli)
 - [Commands in applications](/point/language/applications)

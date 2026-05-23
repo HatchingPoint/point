@@ -103,6 +103,10 @@ Legacy alias: `point app new my-app`.
 ## See also
 
 - [Installation](/point/guide/installation)
+- [Language tour](/point/guide/language-tour)
+- [Project structure](/point/guide/project-structure)
+- [Style guide](/point/guide/style-guide)
+- [Testing](/point/guide/testing)
 - [How Point runs](/point/concepts/how-point-runs)
 - [Language overview](/point/language/overview)
 - [Stable refs](/point/ai/stable-refs)

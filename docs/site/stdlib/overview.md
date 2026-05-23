@@ -19,7 +19,43 @@ record App Config
 use std.text
 ```
 
-Standard modules map to files under `std/`, such as `std/text.point`, `std/json.point`, `std/http.point`, `std/time.point`, `std/fs.point`, `std/env.point`, `std/path.point`, `std/crypto.point`, `std/process.point`, `std/yaml.point`, `std/stream.point`, `std/sql.point`, and `std/ai.point`.
+Standard modules map to files under `std/`, such as `std/text.point`, `std/json.point`, `std/http.point`, `std/time.point`, `std/fs.point`, `std/env.point`, `std/path.point`, `std/crypto.point`, `std/process.point`, `std/yaml.point`, `std/stream.point`, `std/sql.point`, `std/money.point`, and `std/ai.point`.
+
+## Module index
+
+| Import | File | Purpose |
+|--------|------|---------|
+| `use std.text` | `std/text.point` | Text length, contains, split, trim, concat |
+| `use std.json` | `std/json.point` | JSON parse/stringify bridge |
+| `use std.yaml` | `std/yaml.point` | YAML parse/stringify bridge |
+| `use std.http` | `std/http.point` | HTTP client helpers and route-test assertions |
+| `use std.time` | `std/time.point` | `Instant`, current time, sleep |
+| `use std.fs` | `std/fs.point` | Read/write file actions |
+| `use std.env` | `std/env.point` | Environment variable actions and defaults |
+| `use std.path` | `std/path.point` | Path join, basename, dirname, extname, resolve |
+| `use std.crypto` | `std/crypto.point` | SHA-256, HMAC, JWT helpers |
+| `use std.process` | `std/process.point` | Spawn commands and inspect process result |
+| `use std.stream` | `std/stream.point` | Read/write text and lines from stream-like sources |
+| `use std.sql` | `std/sql.point` | Parameterized SQLite query action |
+| `use std.money` | `std/money.point` | Cents-as-Int money record and helpers |
+| `use std.ai` | `std/ai.point` | OpenAI and Anthropic text provider actions |
+
+### std.text
+
+- `concat text(left: Text, right: Text): Text`
+- `text length(value: Text): Int`
+- `text contains(value: Text, search: Text): Bool`
+- `text split(value: Text, separator: Text): List<Text>`
+- `text trim(value: Text): Text`
+
+### std.json and std.yaml
+
+- `parse json(value: Text): Text or Error`
+- `stringify json(value: Text): Text`
+- `parse yaml(value: Text): Text or Error`
+- `stringify yaml(value: Text): Text`
+
+Both modules return text snapshots at the Point boundary today. Host-specific structured JSON/YAML values should be decoded by the host or represented with Point records around the boundary.
 
 ### std.http
 
@@ -60,9 +96,68 @@ OpenAI and Anthropic HTTP provider actions for complete and stream text:
 
 Parameterized SQLite queries for local scripts and tests (Bun `bun:sqlite`):
 
-- `sql query raw(sql: Text, params: List<Text>): Text or Error`
+- `sql query(sql: Text, params: List<Text>): Text or Error`
 
 Set `POINT_SQL_DATABASE` or `DATABASE_URL` to a `sqlite:` path. For PostgreSQL in production, declare an `external` driver instead — see [Database interop](/point/ecosystem/database-interop).
+
+### std.time
+
+- `instant now(): Instant`
+- `format instant(value: Instant): Text`
+- `parse instant(value: Text): Instant or Error`
+- `current time(): Text`
+- `wait milliseconds(ms: Int): Void`
+
+Prefer `Instant` when you mean a typed timestamp. `current time()` exists for legacy/plain-text timestamps.
+
+### std.fs and std.env
+
+- `read file(path: Text): Text or Error`
+- `write file(path: Text, contents: Text): Void or Error`
+- `get env var(name: Text): Maybe<Text>`
+- `env with default(value: Maybe<Text>, default value: Text): Text`
+
+Use `std.env` for secrets and environment-specific configuration. Do not embed production keys in `.point` source.
+
+### std.path
+
+- `join paths(left: Text, right: Text): Text`
+- `path basename(value: Text): Text`
+- `path dirname(value: Text): Text`
+- `path extname(value: Text): Text`
+- `resolve path(value: Text): Text`
+- `path is absolute(value: Text): Bool`
+
+### std.process
+
+- `spawn command(command: Text, args: List<Text>): Process Result or Error`
+- `stream lines from process(command: Text, args: List<Text>): List<Text> or Error`
+- `process stdout(result: Process Result): Text`
+- `process exit code(result: Process Result): Int`
+
+`Process Result` contains `stdout`, `stderr`, and `exit code`.
+
+### std.stream
+
+- `stream read text(source: Text): Text or Error`
+- `stream write text(sink: Text, contents: Text): Void or Error`
+- `stream read lines(source: Text): List<Text> or Error`
+- `stream write lines(sink: Text, lines: List<Text>): Void or Error`
+- `join stream lines(lines: List<Text>): Text`
+
+### std.money
+
+`std.money` documents the current money pattern:
+
+```point
+record Money
+  amount cents: Int
+  currency: Text
+```
+
+- `money from cents(amount cents: Int, currency: Text): Money`
+- `add money(left: Money, right: Money): Money`
+- `money display(money: Money): Text`
 
 ## Why stdlib is small
 

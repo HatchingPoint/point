@@ -26,6 +26,51 @@ Point source is organized as semantic blocks. Each block has a dedicated page in
 | `workflow`, `schedule`, `command` | Orchestration and CLI | [Workflows](/point/language/workflows) |
 | `pipeline`, `session`, `prompt`, `guard` | Agent orchestration | [Agents](/point/language/agents) |
 
+For a compact reference of every block, purity boundary, and emitted target, see [Block reference](/point/reference/blocks). For literals, calls, maps, optionals, and operators, see [Expressions and operators](/point/reference/expressions).
+
+## Language layers
+
+Point has three author-visible layers:
+
+| Layer | Blocks | Use when |
+|-------|--------|----------|
+| Data and pure logic | `record`, `variant`, `calculation`, `rule`, `label` | You need checked product rules, scoring, classification, and typed values |
+| Effects and interop | `external`, `action`, `policy`, `guard` | You need IO, host APIs, security boundaries, or reviewable side effects |
+| Application and agents | `view`, `page`, `layout`, `navigation`, `route`, `stream route`, `workflow`, `pipeline`, `session`, `prompt`, `schedule`, `command` | You need runnable apps, APIs, realtime flows, background work, or agent workflows |
+
+The compiler treats internal core IR as an implementation detail. Authors should document and discuss semantic Point syntax, not generated TypeScript, JavaScript, Python, or core lowering names.
+
+## Minimal grammar shape
+
+Most executable blocks follow the same readable shape:
+
+```point
+calculation name
+  input value: Text
+  output result: Text
+  result is value
+```
+
+Effectful blocks declare their boundary:
+
+```point
+action load config
+  input path: Text
+  output contents: Text
+  touches file
+  return read file(path)
+```
+
+Application blocks name the runtime surface directly:
+
+```point
+route health check
+  method GET
+  path "/api/health"
+  output body: Text
+  return "ok"
+```
+
 ## First commands
 
 ```bash
