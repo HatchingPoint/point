@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",

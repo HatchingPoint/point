@@ -1,0 +1,47 @@
+/goal Point language overnight — execute next unfinished work, release when waves complete, expand to Phase 27 if Phase 26 finishes.
+
+READ FIRST every iteration:
+  docs/phase26-plan.md
+  docs/phase27-plan.md (only after Phase 26 exit gate)
+  docs/codex-goal-phase26.md
+  docs/codex-goal-cursor-overnight.md
+  docs/codex-progress.md
+  docs/point-principles-gate.md
+
+PICK WORK:
+  1. If on a feature branch with unfinished goal, finish it first
+  2. Else pick lowest unchecked P26-N (Wave 1 before Wave 2)
+  3. If all Phase 26 checkboxes are [x], switch to Phase 27 plan
+  4. Integrator goals only when sibling worker goals for that wave are done on branches or main
+
+IMPLEMENT:
+  - Semantic blocks only in .point — no fn/let/type in public source
+  - Tests + general example per deliverable
+  - point index / explain for new diagnostics
+  - Run goal-specific tests, then bun run ci
+
+GIT (Cursor single-agent mode — sequential on main OK):
+  - Prefer: one goal → one commit on main if ci green (faster overnight)
+  - Or: branch phase26/p26-N-* → push → integrator merges
+  - Never force push, skip hooks, or change git config
+
+PHASE RELEASE RITUAL (integrator or phase complete):
+  1. bun run ci
+  2. Mark phase plan checkboxes [x]
+  3. Append codex-progress checkpoint + principles gate
+  4. Bump package.json + packages/point + packages/point-vscode versions (patch)
+  5. Update CHANGELOG.md + docs/site/changelog.md
+  6. Commit "Release vX.Y.Z with Phase NN …"
+  7. git push origin main && git tag vX.Y.Z && git push origin vX.Y.Z
+  8. LandingPage: if ../LandingPage exists run npm run sync:point-docs && npm run build && commit push there; else note in codex-progress
+  9. point-pulse: bump @hatchingpoint/point if npm published
+
+PRIORITY (Phase 26 remaining — Wave 1 DONE on main):
+  P26-5 pipeline step I/O → P26-6 money lint → P26-7 load-data repairs → Wave 2 integrator → v0.1.18 if not yet tagged
+  Then Phase 27 P27-1… → v0.1.19
+
+BLOCKED:
+  Append "Blocked:" + reason to codex-progress.md and stop the loop iteration (do not spin)
+
+WHEN COMPLETELY DONE WITH PHASE 27:
+  Write final summary to codex-progress.md and stop.

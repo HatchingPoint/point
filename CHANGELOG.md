@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.18
+
+### Added
+
+- Phase 26 Wave 1: camelCase field alias resolution and fuzzy unknown-field hints, variant exhaustiveness (`missing-variant-case`), `Maybe` presence narrowing (`when expr present` / `is none`), tab and layout slot semantic style modifiers.
+
 ## 0.1.17
 
 ### Added
