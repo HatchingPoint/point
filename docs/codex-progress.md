@@ -1072,3 +1072,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Release: v0.1.19 tagged and pushed.
 - Next: Phase 27 (see `docs/phase27-plan.md`).
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 27 P27-1 — Middleware ↔ route validation
+
+- Completed: Route checker validates middleware `before` chains — unknown middleware, unavailable inputs (`middleware-input-unavailable`), and type mismatches (`middleware-input-type-mismatch`) against route inputs. Exported `routeProvidesInputLabel` for accurate HTTP/path binding checks.
+- Verified: `bun test tests/middleware-routes.test.ts`; `bun run ci` green.
+- Example: `examples/api/middleware-demo.point` (unchanged, still passes).
+- Next: P27-2 view runtime source maps.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
