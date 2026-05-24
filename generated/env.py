@@ -19,4 +19,6 @@ async def getEnvVarValue(name: str) -> str | None:
     return envGetRaw(name)
 
 def envWithDefaultResult(value: str | None, defaultValue: str) -> str:
+    if value != None:
+        return value
     return defaultValue

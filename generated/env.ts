@@ -8,5 +8,8 @@ export async function getEnvVarValue(name: string): Promise<string | null> {
 }
 
 export function envWithDefaultResult(value: string | null, defaultValue: string): string {
+  if (value != null) {
+    return value;
+  }
   return defaultValue;
 }

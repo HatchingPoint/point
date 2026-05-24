@@ -84,6 +84,18 @@ describe("saas-app HTTP service", () => {
 		expect(await response.json()).toEqual({ error: "unauthorized" });
 	});
 
+	test("POST /api/login returns JWT token", async () => {
+		const response = await fetch(`${baseUrl}/api/login`, {
+			method: "POST",
+			headers: { "content-type": "application/json" },
+			body: JSON.stringify({ email: "pilot@example.com", password: "demo" }),
+		});
+		expect(response.status).toBe(200);
+		const body = (await response.json()) as { token: string };
+		expect(typeof body.token).toBe("string");
+		expect(body.token.length).toBeGreaterThan(10);
+	});
+
 	test("POST /api/members persists member and GET lists it", async () => {
 		const response = await fetch(`${baseUrl}/api/members`, {
 			method: "POST",

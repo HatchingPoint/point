@@ -6,6 +6,7 @@ theme app theme
   accent slate
   density comfortable
   radius medium
+  toggle
 
 record Auth Headers
   authorization: Text
@@ -27,9 +28,19 @@ record Create Member Body
   name: Text
   role: Text
 
+record Login Body
+  email: Text
+  password: Text
+
+record Login Response
+  token: Text
+
 view admin nav
   link "Settings" to "/settings"
   link "Members" to "/members"
+  link "New member" to "/members/new"
+  link "Login" to "/login"
+  toggle theme
   render "SaaS Admin"
 
 view settings form
@@ -43,6 +54,26 @@ view settings form
   tab "General" render "Theme: " + settings.theme
   tab "Advanced" render "Notification settings apply workspace-wide"
   modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active for this workspace"
+
+view login form
+  input credentials: Login Body
+  input on credentials change: Handler<Login Body>
+  on change call on credentials change
+  form
+  bind field "Email" to credentials.email
+  bind field "Password" to credentials.password
+  submit "Sign in" POST "/api/login" body credentials save token field token then navigate "/members"
+  render "Use password demo for the pilot workspace"
+
+view create member form
+  input draft: Create Member Body
+  input on draft change: Handler<Create Member Body>
+  on change call on draft change
+  form
+  bind field "Name" to draft.name
+  bind field "Role" to draft.role
+  submit "Create member" POST "/api/members" body draft with auth then navigate "/members"
+  render "Creates a member with your saved Bearer token"
 
 calculation jwt secret
   output secret: Text
@@ -99,10 +130,28 @@ page member detail page
   description "Inspect a workspace member"
   main render member detail(id)
 
+page login page
+  layout admin shell
+  input credentials: Login Body
+  input on credentials change: Handler<Login Body>
+  title "Login"
+  description "Sign in to get a Bearer token for protected routes"
+  main render login form(credentials, on credentials change)
+
+page create member page
+  layout admin shell
+  input draft: Create Member Body
+  input on draft change: Handler<Create Member Body>
+  title "New member"
+  description "Create a workspace member"
+  main render create member form(draft, on draft change)
+
 navigation admin app
   path "/settings" page settings page
   path "/members" page members page
+  path "/members/new" page create member page
   path "/members/:id" page member detail page
+  path "/login" page login page
   bootstrap router
 
 middleware require auth
@@ -138,6 +187,13 @@ route health check
   path "/api/health"
   output response: Text
   return "ok"
+
+route login
+  method POST
+  path "/api/login"
+  input body: Login Body
+  output response: Login Response
+  return json { token: sign auth jwt("{\"sub\":\"" + body.email + "\"}", jwtSecret()) }
 
 route list members
   method GET

@@ -2591,6 +2591,23 @@ function parseViewBindBlock(
 			});
 			continue;
 		}
+		const submitLine = line.match(
+			/^submit "(.+)" POST "(.+)" body (.+?)(?: save token field ([a-z][a-z0-9 ]*))?( with auth)?(?: then navigate "(.+)")?\s*$/i,
+		);
+		if (submitLine) {
+			bindings.push({
+				kind: "submit",
+				label: submitLine[1] ?? "",
+				method: "POST",
+				url: submitLine[2] ?? "",
+				body: parseLineExpression(submitLine[3] ?? "", context, source, lineNumber),
+				...(submitLine[4] ? { saveTokenField: submitLine[4] } : {}),
+				...(submitLine[5] ? { withAuth: true } : {}),
+				...(submitLine[6] ? { navigateTo: submitLine[6] } : {}),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
 		break;
 	}
 	return { bindings, next: index };

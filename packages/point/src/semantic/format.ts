@@ -370,6 +370,15 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	}
 	if (statement.kind === "bindCheckbox") return `bind checkbox "${statement.label}" to ${formatExpression(statement.target)}`;
 	if (statement.kind === "bindField") return `bind field "${statement.label}" to ${formatExpression(statement.target)}`;
+	if (statement.kind === "submit") {
+		const parts = [
+			`submit "${statement.label}" POST "${statement.url}" body ${formatExpression(statement.body)}`,
+			statement.saveTokenField ? `save token field ${statement.saveTokenField}` : "",
+			statement.withAuth ? "with auth" : "",
+			statement.navigateTo ? `then navigate "${statement.navigateTo}"` : "",
+		].filter(Boolean);
+		return parts.join(" ");
+	}
 	if (statement.kind === "form") {
 		const stylePrefix = statement.style?.length ? `${statement.style.join(" ")}` : "form";
 		return [stylePrefix, ...statement.bindings.map((binding) => `  ${formatViewStatement(binding)}`)].join("\n");

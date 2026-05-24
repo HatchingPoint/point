@@ -18,6 +18,7 @@ import type {
 	PointSemanticViewTabsSpec,
 	PointSemanticViewToggleTheme,
 	PointSemanticViewFieldBinding,
+	PointSemanticFormSubmitSpec,
 	PointSemanticDataLoad,
 	PointSemanticStreamSubscribe,
 } from "../core/ast.ts";
@@ -51,6 +52,7 @@ import type {
 	PointSemanticUseDeclaration,
 	PointSemanticViewDeclaration,
 	PointSemanticViewStatement,
+	PointSemanticViewBindStatement,
 	PointSemanticPageDeclaration,
 	PointSemanticLayoutDeclaration,
 	PointSemanticWorkflowDeclaration,
@@ -753,9 +755,23 @@ function desugarView(
 function collectViewBindStatements(declaration: PointSemanticViewDeclaration): Extract<PointSemanticViewStatement, { kind: "bindCheckbox" | "bindField" }>[] {
 	return declaration.body.flatMap((statement) => {
 		if (statement.kind === "bindCheckbox" || statement.kind === "bindField") return [statement];
-		if (statement.kind === "form") return statement.bindings;
+		if (statement.kind === "form") {
+			return statement.bindings.filter(
+				(binding): binding is Extract<PointSemanticViewBindStatement, { kind: "bindCheckbox" | "bindField" }> =>
+					binding.kind === "bindCheckbox" || binding.kind === "bindField",
+			);
+		}
 		return [];
 	});
+}
+
+function findViewFormSubmit(declaration: PointSemanticViewDeclaration): Extract<PointSemanticViewBindStatement, { kind: "submit" }> | undefined {
+	for (const statement of declaration.body) {
+		if (statement.kind !== "form") continue;
+		const submit = statement.bindings.find((binding): binding is Extract<PointSemanticViewBindStatement, { kind: "submit" }> => binding.kind === "submit");
+		if (submit) return submit;
+	}
+	return undefined;
 }
 
 function isValidSemanticBindTarget(target: PointSemanticExpression): boolean {
@@ -783,11 +799,34 @@ function buildViewControls(
 		throw new Error(`View ${declaration.name} with form bindings requires input Handler T or on change call`);
 	}
 	const changeCallback = toIdentifier(callbackLabel);
+	const submitStatement = findViewFormSubmit(declaration);
+	const submit = submitStatement ? desugarViewFormSubmit(submitStatement, ctx) : undefined;
 
 	return {
 		changeCallback,
 		fields: bindStatements.map((statement) => desugarViewFieldBinding(statement, ctx)),
 		...(formStatement?.style ? { style: formStatement.style } : {}),
+		...(submit ? { submit } : {}),
+	};
+}
+
+function desugarViewFormSubmit(
+	statement: Extract<PointSemanticViewBindStatement, { kind: "submit" }>,
+	ctx: DesugarContext,
+): PointSemanticFormSubmitSpec {
+	const body = desugarExpression(statement.body, ctx);
+	if (body.kind !== "identifier") {
+		throw new Error(`submit body must be an input record identifier`);
+	}
+	return {
+		label: statement.label,
+		method: statement.method,
+		url: statement.url,
+		body,
+		bodyParam: body.name,
+		...(statement.saveTokenField ? { saveTokenField: toIdentifier(statement.saveTokenField) } : {}),
+		...(statement.withAuth ? { withAuth: true } : {}),
+		...(statement.navigateTo ? { navigateTo: statement.navigateTo } : {}),
 	};
 }
 

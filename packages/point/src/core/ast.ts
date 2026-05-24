@@ -125,10 +125,22 @@ export interface PointSemanticViewFieldBinding {
 	inputKind: "text" | "checkbox";
 }
 
+export interface PointSemanticFormSubmitSpec {
+	label: string;
+	method: "POST";
+	url: string;
+	body: PointCoreExpression;
+	bodyParam: string;
+	saveTokenField?: string;
+	withAuth?: boolean;
+	navigateTo?: string;
+}
+
 export interface PointSemanticViewControls {
 	changeCallback: string;
 	fields: PointSemanticViewFieldBinding[];
 	style?: string[];
+	submit?: PointSemanticFormSubmitSpec;
 }
 
 export interface PointSemanticViewEachSpec {

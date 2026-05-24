@@ -1,7 +1,7 @@
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import type { PointSourceSpan } from "../core/ast.ts";
 import { POINT_STYLE_MODIFIERS, isPointStyleModifier } from "../core/ui-style.ts";
-import type { PointSemanticProgram, PointSemanticViewDeclaration, PointSemanticViewStatement } from "./ast.ts";
+import type { PointSemanticProgram, PointSemanticViewDeclaration, PointSemanticViewStatement, PointSemanticViewBindStatement } from "./ast.ts";
 
 export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiagnostic[] {
 	const diagnostics: PointCoreDiagnostic[] = [];
@@ -183,7 +183,12 @@ function checkStatementStyleModifiers(
 function collectBindStatements(statements: PointSemanticViewStatement[]) {
 	return statements.flatMap((statement) => {
 		if (statement.kind === "bindCheckbox" || statement.kind === "bindField") return [statement];
-		if (statement.kind === "form") return statement.bindings;
+		if (statement.kind === "form") {
+			return statement.bindings.filter(
+				(binding): binding is Extract<PointSemanticViewBindStatement, { kind: "bindField" | "bindCheckbox" }> =>
+					binding.kind === "bindField" || binding.kind === "bindCheckbox",
+			);
+		}
 		return [];
 	});
 }

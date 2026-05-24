@@ -29,10 +29,10 @@ point launch src/app.point init database
 | Layer | Included |
 |-------|----------|
 | **Capabilities** | `auth`, `http`, `sql`, `env` |
-| **UI** | Settings, members list, member detail — same shell as full-stack-app |
+| **UI** | Settings, members list, login form, create-member form, theme toggle |
 | **Database** | SQLite via `std.sql` — `command init database` creates + seeds members table |
-| **Auth** | JWT middleware on `POST /api/members` — swap secret via `JWT_SECRET` |
-| **Routes** | `GET /api/health`, `GET /api/members`, protected `POST /api/members` |
+| **Auth** | JWT middleware on `POST /api/members`; login form saves Bearer token in browser storage |
+| **Routes** | `GET /api/health`, `GET /api/members`, `POST /api/login`, protected `POST /api/members` |
 | **Deploy** | `render.yaml` + `bun run preview` smoke path |
 
 ## Scripts
@@ -45,11 +45,18 @@ point launch src/app.point init database
 | `serve` | Production: static `dist/` + API on one port |
 | `preview` | Build then serve (local deploy smoke) |
 
+## Pilot login
+
+1. Open **Login** in the sidebar
+2. Enter any email and password `demo`
+3. Submit — token is saved and you are redirected to **Members**
+4. Use **New member** to create a row via the protected API
+
 ## Next steps
 
-1. Add login UI and pass Bearer tokens to protected routes
-2. Swap SQLite for PostgreSQL — see [Database interop](https://hatchingpoint.com/point/ecosystem/database-interop)
-3. Extend `POST /api/members` to insert into the members table
+1. Swap SQLite for PostgreSQL — see [Database interop](https://hatchingpoint.com/point/ecosystem/database-interop)
+2. Add password validation and sign-out UI for production auth
+3. Deploy with `render.yaml` — run `bash scripts/deploy-smoke.sh` from the monorepo to verify login + CRUD
 
 ## Deploy (Render)
 

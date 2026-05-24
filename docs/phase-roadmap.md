@@ -4,12 +4,13 @@
 
 ## Active execution
 
-**Phase 47** — Credible SaaS CRUD. Plan: [phase47-plan.md](./phase47-plan.md).
+**Phase 48** — Login UI + create member. Plan: [phase48-plan.md](./phase48-plan.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **48** | v0.1.40 | Form submit POST, login/create-member UI, deploy smoke, theme toggle in saas-app |
 | **47** | v0.1.39 | POST member INSERT, env JWT secret, onboarding SQL smoke, render env vars |
 | **46** | v0.1.38 | SQL-backed saas members, build inlining, saas e2e integration |
 | **45** | v0.1.37 | SQL action wiring, auth-bearer repair gate, saas integration test, pilot quickstart |

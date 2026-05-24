@@ -37,7 +37,7 @@ bun run dev
 The **default saas-app path** already uses a real DB query — members load from SQLite after `init:db`. Pick one customization:
 
 - [ ] Extend the members model (new fields, filters, or a second table)
-- [ ] Add login UI and pass Bearer tokens to the protected `POST /api/members` route
+- [x] Login UI + Bearer token for protected `POST /api/members` (built into saas-app template)
 - [ ] Deploy to Render/Fly using bundled `render.yaml`
 
 ## Record back

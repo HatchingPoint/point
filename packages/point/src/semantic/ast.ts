@@ -372,7 +372,18 @@ export interface PointSemanticViewTab {
 
 export type PointSemanticViewBindStatement =
 	| { kind: "bindCheckbox"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
-	| { kind: "bindField"; label: string; target: PointSemanticExpression; span?: PointSourceSpan };
+	| { kind: "bindField"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
+	| {
+			kind: "submit";
+			label: string;
+			method: "POST";
+			url: string;
+			body: PointSemanticExpression;
+			saveTokenField?: string;
+			withAuth?: boolean;
+			navigateTo?: string;
+			span?: PointSourceSpan;
+	  };
 
 export type PointSemanticViewStatement =
 	| { kind: "render"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }

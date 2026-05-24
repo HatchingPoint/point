@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.40
+
+### Added
+
+- Phase 48: **Form submit POST** — `submit "Label" POST "/api/..." body record` inside forms; optional `with auth`, `save token field token`, `then navigate "/path"`.
+- Phase 48: **Login + create-member UI** — saas-app login form saves Bearer token; create-member form POSTs with auth.
+- Phase 48: **Deploy smoke** — `scripts/deploy-smoke.sh` + `tests/deploy-smoke.test.ts` (login → POST member → GET list).
+- Phase 48: **Theme toggle** — enabled in saas-app template (`toggle` on theme block + nav control).
+
 ## 0.1.39
 
 ### Added

@@ -8,5 +8,8 @@ export async function getEnvVarValue(name) {
 }
 
 export function envWithDefaultResult(value, defaultValue) {
-  return defaultValue; // @point 16
+  if (value != null) { // @point 16
+    return value; // @point 16
+  }
+  return defaultValue; // @point 17
 }
