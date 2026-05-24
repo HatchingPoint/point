@@ -1231,3 +1231,20 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P28-4 LSP vs check-json parity spot-check.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28 P28-4 — LSP vs check-json parity spot-check
+
+- Completed: LSP diagnostics now use `sortDiagnosticsForRepairPlan` (same order as `check-json`), expose `code` + `ref` + `repair` on the diagnostic object, append repair hints to the editor message, and set `source: "point"`. Added `tests/agent-lsp-check-json-parity.test.ts` matrix (10 cases: six Phase 26–27 agent-repair codes + core unknown-field/missing-await/arity/operator). Documented intentional LSP gaps (`expected`, `actual`, `relatedRefs`) in `docs/site/ai/check-json.md`.
+- Verified: `bun test tests/agent-lsp-check-json-parity.test.ts tests/point-lsp.test.ts` — 20 pass.
+- Example: `middleware-input-unavailable-broken.point` — LSP first diagnostic matches CLI `code` and `repair`.
+- Next: P28-5 self-host increment.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28 P28-5 — Self-host diagnostic catalog pass
+
+- Completed: Added `compiler/passes/diagnostic-catalog.point` — Point-authored catalog of nine agent-ready diagnostic codes (middleware, pipeline, money lint, variants, view binds, unknown-field, missing-await) with suite test `test phase 26 27 agent catalog`. Wired into `tests/point-core.test.ts` and conformance fixture discovery. Updated `compiler/passes/README.md` and `docs/self-hosting.md`.
+- Verified: `point test compiler/passes/diagnostic-catalog.point` — 5/5 pass; `bun test tests/point-core.test.ts -t self-hosted` — 2 pass.
+- Next: Phase 28 integrator — mark exit gate checkboxes, release when Phase 29 also complete.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
