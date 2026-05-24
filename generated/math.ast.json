@@ -1862,5 +1862,11 @@
         "offset": 11
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "annual price",
+    "launch readiness",
+    "score status",
+    "user status"
+  ]
 }

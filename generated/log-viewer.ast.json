@@ -1633,5 +1633,13 @@
         "offset": 16
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "log stream panel",
+    "log stream with handler",
+    "log viewer page",
+    "serve log viewer",
+    "stream lines raw",
+    "tail demo logs"
+  ]
 }

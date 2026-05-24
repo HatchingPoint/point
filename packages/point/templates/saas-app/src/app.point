@@ -52,8 +52,18 @@ calculation sample members
   output members: List<Member>
   return [{ id: "u-1", name: "Alex Chen", role: "Owner" }, { id: "u-2", name: "Jordan Lee", role: "Admin" }, { id: "u-3", name: "Sam Rivera", role: "Member" }]
 
+action query member rows
+  output rows: Text or Error
+  touches database
+  return sql query raw("SELECT id, name, role FROM members ORDER BY name", [])
+
+action fetch members
+  output members: List<Member>
+  touches database
+  return sample members()
+
 view members list
-  load data from fetch GET "/api/members" field members type List<Member>
+  load data from action fetch members
   when loading render "Loading members..."
   when error render "Could not load members"
   when empty render "No members yet"
@@ -127,7 +137,7 @@ route list members
   method GET
   path "/api/members"
   output response: Members Response
-  return json { members: sample members() }
+  return json { members: await fetch members() }
 
 route create member
   method POST

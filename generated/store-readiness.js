@@ -74,11 +74,11 @@ export function listingStatusPayloadLabel(id) {
   return needsWorkStatusJsonLabel(); // @point 58
 }
 
-export function getListingStatusRoute(id) {
+export async function getListingStatusRoute(id) {
   return listingStatusPayloadLabel(id); // @point 65
 }
 
-export function healthCheckRoute() {
+export async function healthCheckRoute() {
   return "{\"status\":\"ok\"}"; // @point 71
 }
 

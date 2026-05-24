@@ -507,5 +507,13 @@
         "offset": 21
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "load config",
+    "parse yaml",
+    "serialized config yaml",
+    "stringify yaml",
+    "yaml parse",
+    "yaml stringify"
+  ]
 }

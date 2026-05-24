@@ -5702,5 +5702,44 @@
         "offset": 28
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "assert create item response",
+    "assert missing auth response",
+    "assert valid get item response",
+    "auth ok",
+    "auth unauthorized body",
+    "authorized get options",
+    "bearer token",
+    "bearer token from authorization",
+    "create item",
+    "create item options",
+    "demo jwt secret",
+    "fetch authorized get item snapshot",
+    "fetch create item snapshot",
+    "fetch missing auth snapshot",
+    "get item",
+    "http assert json body",
+    "http assert json body raw",
+    "http assert status",
+    "http assert status raw",
+    "http fetch",
+    "http fetch raw",
+    "http get",
+    "http get raw",
+    "http post",
+    "http post raw",
+    "integration demo token",
+    "integration test create item",
+    "integration test missing auth",
+    "integration test valid get item",
+    "jwt auth ok",
+    "require auth",
+    "serve middleware integration",
+    "sign auth jwt",
+    "sign auth jwt raw",
+    "unauthorized response raw",
+    "verify auth jwt",
+    "verify jwt from authorization"
+  ]
 }

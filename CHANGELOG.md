@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.37
+
+### Added
+
+- Phase 45: **SaaS action wiring** — `action fetch members` + dashboard-style view load; route awaits fetch members.
+- Phase 45: **`auth-bearer` repair case** — agent benchmark gate min 23 single-shot fixtures.
+- Phase 45: **SaaS integration test** — HTTP health, members GET, POST auth 401/201.
+- Phase 45: **`scripts/pilot-quickstart.sh`** — one-script external evaluator path.
+
+### Fixed
+
+- Phase 45: **Async route emit** — routes with `await` in `return json` emit as async functions.
+- Phase 45: **Agent repair check** — fixture checks resolve `capabilities` std modules like CLI check.
+- Phase 45: **`semanticCallables` in check-json** — unknown-function hints list spaced std names for agents.
+
 ## 0.1.36
 
 ### Added

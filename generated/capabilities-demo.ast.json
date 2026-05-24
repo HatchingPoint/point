@@ -742,5 +742,24 @@
         "offset": 23
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "fetch snapshot",
+    "http assert json body",
+    "http assert json body raw",
+    "http assert status",
+    "http assert status raw",
+    "http fetch",
+    "http fetch raw",
+    "http get",
+    "http get raw",
+    "http post",
+    "http post raw",
+    "json parse",
+    "json stringify",
+    "parse json",
+    "parse snapshot",
+    "pass through",
+    "stringify json"
+  ]
 }

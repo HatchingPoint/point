@@ -1666,5 +1666,11 @@
         "offset": 18
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "build greeting prompt",
+    "env get raw",
+    "openai stream raw",
+    "summarize support"
+  ]
 }

@@ -4654,5 +4654,23 @@
         "offset": 24
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "agent diagnostic status",
+    "agent diagnostic valid",
+    "float money field entry",
+    "invalid view bind target entry",
+    "middleware input type mismatch entry",
+    "middleware input unavailable entry",
+    "missing await entry",
+    "missing variant case entry",
+    "pipeline step type mismatch entry",
+    "score agent diagnostic",
+    "test core agent diagnostics",
+    "test middleware diagnostics",
+    "test phase 26 27 agent catalog",
+    "test pipeline and money diagnostics",
+    "test variant and view diagnostics",
+    "unknown field entry"
+  ]
 }

@@ -2932,5 +2932,17 @@
         "offset": 12
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "create note",
+    "list notes",
+    "note create form",
+    "note create page",
+    "notes demo",
+    "notes list",
+    "notes list page",
+    "notes nav",
+    "notes shell",
+    "sql query raw"
+  ]
 }

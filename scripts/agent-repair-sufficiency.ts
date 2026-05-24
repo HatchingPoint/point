@@ -1,8 +1,11 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import type { PointCoreDiagnostic } from "../packages/point/src/core/check.ts";
 import { checkPointCore } from "../packages/point/src/core/check.ts";
 import { sortDiagnosticsForRepairPlan } from "../packages/point/src/core/context.ts";
+import { buildCoreFileFromSource, programWithDependencyDeclarations } from "../packages/point/src/core/cli.ts";
+import { resolveUseDependencyInput } from "../packages/point/src/core/module-resolve.ts";
+import { readPointLockSync } from "../packages/point/src/core/packages.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { mapPublicDiagnostics } from "../packages/point/src/semantic/context.ts";
 
@@ -69,7 +72,8 @@ export type SufficiencyResult = {
 	ref?: string;
 };
 
-const FIXTURES_DIR = join(import.meta.dir, "../tests/fixtures/agent-repair");
+const REPO_ROOT = join(import.meta.dir, "..");
+const FIXTURES_DIR = join(REPO_ROOT, "tests/fixtures/agent-repair");
 
 export const AGENT_REPAIR_CASES: AgentRepairCase[] = [
 	{
@@ -291,6 +295,31 @@ export function requireAuth(headers: MiddlewareHeaders, routeHeaders: RouteHeade
 			totalChars: 5200,
 			tscError: `error TS2322: Type 'MiddlewareHeaders' is not assignable to type 'RouteHeaders'.
   at requireAuth (middleware/auth.ts:5:60)`,
+		},
+	},
+	{
+		id: "auth-bearer",
+		title: "Auth — legacy JWT helper typo",
+		category: "typo-fix",
+		agentTask: "Fix auth middleware on a protected route — agent called a nonexistent legacyJwtCheck helper instead of std/auth auth ok.",
+		repairMode: "single-shot",
+		brokenFile: "auth-bearer-broken.point",
+		fixedFile: "auth-bearer-fixed.point",
+		expectedCode: "unknown-function",
+		chosenField: "auth ok",
+		typescriptContext: {
+			excerpt: `// middleware/requireAuth.ts — excerpt
+import { jwtAuthOk, unauthorizedBody } from "@/lib/auth";
+
+export function requireAuth(headers: { authorization: string }, secret: string) {
+  if (!legacyJwtCheck(headers.authorization, secret)) {
+    return unauthorizedBody();
+  }
+  return null;
+}`,
+			totalChars: 4800,
+			tscError: `error TS2304: Cannot find name 'legacyJwtCheck'.
+  at requireAuth (middleware/requireAuth.ts:5:8)`,
 		},
 	},
 	{
@@ -692,8 +721,54 @@ export function loadFixture(name: string): string {
 	return readFileSync(join(FIXTURES_DIR, name), "utf8");
 }
 
-export function runCheckJson(source: string): CheckJsonPayload {
-	const program = parsePointSource(source);
+function fixtureInputPath(fixtureFile: string): string {
+	return fixtureFile.includes("/") ? fixtureFile : join(FIXTURES_DIR, fixtureFile);
+}
+
+function loadFixtureCoreFile(fixtureFile: string) {
+	const input = fixtureInputPath(fixtureFile);
+	const lock = readPointLockSync(REPO_ROOT);
+	const source = readFileSync(resolve(REPO_ROOT, input), "utf8");
+	return buildCoreFileFromSource(input, source, lock, REPO_ROOT);
+}
+
+function createFixtureModuleGraph(coreFile: ReturnType<typeof loadFixtureCoreFile>) {
+	const lock = readPointLockSync(REPO_ROOT);
+	const loaded = new Map<string, ReturnType<typeof loadFixtureCoreFile>>();
+	const pending = [coreFile];
+	while (pending.length > 0) {
+		const current = pending.pop()!;
+		const key = current.input.replaceAll("\\", "/");
+		if (loaded.has(key)) continue;
+		loaded.set(key, current);
+		for (const use of current.uses) {
+			const dependencyInput = resolveUseDependencyInput(current.input, use.from, REPO_ROOT);
+			const dependencyKey = dependencyInput.replaceAll("\\", "/");
+			if (loaded.has(dependencyKey)) continue;
+			const dependencySource = readFileSync(resolve(REPO_ROOT, dependencyInput), "utf8");
+			pending.push(buildCoreFileFromSource(dependencyInput, dependencySource, lock, REPO_ROOT));
+		}
+	}
+	const graph = new Map<string, { result: (typeof loaded extends Map<string, infer V> ? V : never); dependencies: Array<(typeof loaded extends Map<string, infer V> ? V : never)> }>();
+	for (const result of loaded.values()) {
+		const dependencies = result.uses.map((use) => {
+			const dependencyInput = resolveUseDependencyInput(result.input, use.from, REPO_ROOT);
+			return loaded.get(dependencyInput.replaceAll("\\", "/"))!;
+		});
+		graph.set(result.input.replaceAll("\\", "/"), { result, dependencies });
+	}
+	return graph;
+}
+
+export function parseFixtureSource(source: string, fixtureFile: string) {
+	const coreFile = buildCoreFileFromSource(fixtureInputPath(fixtureFile), source, readPointLockSync(REPO_ROOT), REPO_ROOT);
+	if (coreFile.uses.length === 0) return coreFile.program;
+	const graph = createFixtureModuleGraph(coreFile);
+	return programWithDependencyDeclarations(coreFile, graph, REPO_ROOT);
+}
+
+export function runCheckJson(source: string, fixtureFile = "inline.point"): CheckJsonPayload {
+	const program = parseFixtureSource(source, fixtureFile);
 	const diagnostics = sortDiagnosticsForRepairPlan(mapPublicDiagnostics(program, checkPointCore(program)));
 	return {
 		schemaVersion: "point.core.check.v1",
@@ -725,12 +800,13 @@ export function applyLineRepairFromGolden(brokenSource: string, fixedSource: str
 export function applyRepairPlanFromGolden(
 	brokenSource: string,
 	fixedSource: string,
+	fixtureFile: string,
 	maxSteps = 10,
 ): { source: string; stepsApplied: number; codes: string[] } {
 	let source = brokenSource;
 	const codes: string[] = [];
 	for (let step = 0; step < maxSteps; step++) {
-		const payload = runCheckJson(source);
+		const payload = runCheckJson(source, fixtureFile);
 		if (payload.ok) break;
 		const diagnostic = payload.diagnostics[0];
 		if (!diagnostic?.span) break;
@@ -743,8 +819,8 @@ export function applyRepairPlanFromGolden(
 export function evaluateMultistepRepair(testCase: AgentRepairMultistepCase): MultistepRepairResult {
 	const brokenSource = loadFixture(testCase.brokenFile);
 	const fixedSource = loadFixture(testCase.fixedFile);
-	const { source, stepsApplied, codes } = applyRepairPlanFromGolden(brokenSource, fixedSource, testCase.expectedSteps + 2);
-	const checkPasses = checkPointCore(parsePointSource(source)).length === 0;
+	const { source, stepsApplied, codes } = applyRepairPlanFromGolden(brokenSource, fixedSource, testCase.brokenFile, testCase.expectedSteps + 2);
+	const checkPasses = checkPointCore(parseFixtureSource(source, testCase.brokenFile)).length === 0;
 	return {
 		id: testCase.id,
 		passed:
@@ -788,7 +864,7 @@ export function assertDiagnosticIsAgentReady(diagnostic: PointCoreDiagnostic): v
 export function evaluateRepairSufficiency(testCase: AgentRepairCase): SufficiencyResult {
 	const brokenSource = loadFixture(testCase.brokenFile);
 	const fixedSource = loadFixture(testCase.fixedFile);
-	const payload = runCheckJson(brokenSource);
+	const payload = runCheckJson(brokenSource, testCase.brokenFile);
 	const diagnostic = payload.diagnostics[0];
 	if (!diagnostic) {
 		return {
@@ -811,7 +887,7 @@ export function evaluateRepairSufficiency(testCase: AgentRepairCase): Sufficienc
 	try {
 		assertDiagnosticIsAgentReady(diagnostic);
 		const repaired = applyLineRepairFromGolden(brokenSource, fixedSource, diagnostic);
-		const repairedProgram = parsePointSource(repaired);
+		const repairedProgram = parseFixtureSource(repaired, testCase.brokenFile);
 		checkPassesAfterRepair = checkPointCore(repairedProgram).length === 0;
 	} catch {
 		checkPassesAfterRepair = false;
@@ -842,7 +918,7 @@ export function summarizeTokenReduction(cases: AgentRepairCase[] = AGENT_REPAIR_
 	avgReductionPercent: number;
 } {
 	const reductions = cases.map((testCase) => {
-		const payload = runCheckJson(loadFixture(testCase.brokenFile));
+		const payload = runCheckJson(loadFixture(testCase.brokenFile), testCase.brokenFile);
 		const diagnostic = payload.diagnostics[0];
 		if (!diagnostic) return 0;
 		const context = serializeCheckJson({ schemaVersion: payload.schemaVersion, ok: false, diagnostics: [diagnostic] });

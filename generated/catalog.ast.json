@@ -490,5 +490,8 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "product line total"
+  ]
 }

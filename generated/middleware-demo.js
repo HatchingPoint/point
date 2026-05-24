@@ -22,11 +22,11 @@ export function auditRequestMiddleware(headers) {
   return null; // @point 32
 }
 
-export function getItemRoute(headers, query) {
+export async function getItemRoute(headers, query) {
   return pointJsonResponse({ item: query.limit, authenticated: true }, 200, {}); // @point 42
 }
 
-export function createItemRoute(headers, body) {
+export async function createItemRoute(headers, body) {
   return pointJsonResponse({ item: body.name, authenticated: true }, 201, {}); // @point 51
 }
 

@@ -2038,5 +2038,12 @@
         "offset": 23
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "annual price",
+    "discount multiplier",
+    "price display",
+    "seat total",
+    "tier name"
+  ]
 }

@@ -62,8 +62,11 @@ class CoreChecker {
 	private readonly typeDeclarations = new Map<string, PointCoreTypeDeclaration>();
 	private readonly globals: Scope = new Map();
 	private readonly functions = new Map<string, PointCoreFunctionDeclaration | PointCoreExternalDeclaration>();
+	private readonly semanticCallables: string[];
 
-	constructor(private readonly program: PointCoreProgram) {}
+	constructor(private readonly program: PointCoreProgram) {
+		this.semanticCallables = program.semanticCallables ?? [];
+	}
 
 	check(): PointCoreDiagnostic[] {
 		this.collectDeclarations();
@@ -627,9 +630,11 @@ class CoreChecker {
 		}
 		const target = this.functions.get(expression.callee);
 		if (!target) {
+			const expected =
+				this.semanticCallables.length > 0 ? this.semanticCallables : [...this.functions.keys()].sort();
 			this.push("unknown-function", `Unknown function ${expression.callee}`, path, expression.span, {
 				actual: expression.callee,
-				expected: [...this.functions.keys()],
+				expected,
 				repair: `Define fn ${expression.callee}(...) or call an existing function.`,
 			});
 			return null;

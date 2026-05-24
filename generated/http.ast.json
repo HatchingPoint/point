@@ -2075,5 +2075,17 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "http assert json body",
+    "http assert json body raw",
+    "http assert status",
+    "http assert status raw",
+    "http fetch",
+    "http fetch raw",
+    "http get",
+    "http get raw",
+    "http post",
+    "http post raw"
+  ]
 }

@@ -11,10 +11,9 @@ describe("emit import pruning", () => {
 		const result = await Bun.$`bun ${cli} build examples/tools/instant-demo.point ${output}`.cwd(repoRoot).quiet();
 		expect(result.exitCode).toBe(0);
 		const emitted = readFileSync(output, "utf8");
-		const importLine = emitted.split("\n").find((line) => line.startsWith("import {")) ?? "";
-		expect(importLine).toContain("instantNowValue");
-		expect(importLine).toContain("formatInstantLabel");
-		expect(importLine).not.toContain("formatInstantInTimezoneLabel");
-		expect(importLine).not.toContain("durationFromSecondsDuration");
+		expect(emitted).toContain("instantNowValue");
+		expect(emitted).toContain("formatInstantLabel");
+		expect(emitted).not.toContain("formatInstantInTimezoneLabel");
+		expect(emitted).not.toContain("durationFromSecondsDuration");
 	});
 });

@@ -533,5 +533,9 @@
         "offset": 13
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "sql query",
+    "sql query raw"
+  ]
 }

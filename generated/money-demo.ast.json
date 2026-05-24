@@ -877,5 +877,15 @@
         "offset": 16
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "add money",
+    "demo receipt",
+    "demo total",
+    "format cents usd raw",
+    "money display",
+    "money from cents",
+    "test format usd money",
+    "text from int raw"
+  ]
 }

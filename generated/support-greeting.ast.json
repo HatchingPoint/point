@@ -177,5 +177,6 @@
         "offset": 22
       }
     }
-  }
+  },
+  "semanticCallables": []
 }

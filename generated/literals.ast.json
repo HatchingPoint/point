@@ -665,5 +665,9 @@
         "offset": 15
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "sample item",
+    "sample numbers"
+  ]
 }

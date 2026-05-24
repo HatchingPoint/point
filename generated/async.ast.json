@@ -436,5 +436,9 @@
         "offset": 19
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "load user",
+    "load user label"
+  ]
 }

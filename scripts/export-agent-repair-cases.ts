@@ -20,7 +20,7 @@ const outputPath = join(repoRoot, "benchmarks/agent-repair-cases.json");
 function exportCase(testCase: AgentRepairCase) {
 	const brokenSource = loadFixture(testCase.brokenFile);
 	const fixedSource = loadFixture(testCase.fixedFile);
-	const payload = runCheckJson(brokenSource);
+	const payload = runCheckJson(brokenSource, testCase.brokenFile);
 	const diagnostic = payload.diagnostics[0];
 	if (!diagnostic?.span) {
 		throw new Error(`Fixture ${testCase.id} missing diagnostic span`);
@@ -74,7 +74,7 @@ function exportCase(testCase: AgentRepairCase) {
 function exportMultistepCase(testCase: AgentRepairMultistepCase) {
 	const brokenSource = loadFixture(testCase.brokenFile);
 	const fixedSource = loadFixture(testCase.fixedFile);
-	const firstPayload = runCheckJson(brokenSource);
+	const firstPayload = runCheckJson(brokenSource, testCase.brokenFile);
 	const firstDiagnostic = firstPayload.diagnostics[0];
 	if (!firstDiagnostic?.span) {
 		throw new Error(`Multistep fixture ${testCase.id} missing first diagnostic span`);
@@ -84,7 +84,7 @@ function exportMultistepCase(testCase: AgentRepairMultistepCase) {
 		ok: false,
 		diagnostics: [firstDiagnostic],
 	});
-	const { stepsApplied, codes } = applyRepairPlanFromGolden(brokenSource, fixedSource, testCase.expectedSteps + 2);
+	const { stepsApplied, codes } = applyRepairPlanFromGolden(brokenSource, fixedSource, testCase.brokenFile, testCase.expectedSteps + 2);
 	return {
 		id: testCase.id,
 		title: testCase.title,

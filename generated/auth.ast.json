@@ -1785,5 +1785,17 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "auth ok",
+    "auth unauthorized body",
+    "bearer token",
+    "bearer token from authorization",
+    "jwt auth ok",
+    "sign auth jwt",
+    "sign auth jwt raw",
+    "unauthorized response raw",
+    "verify auth jwt",
+    "verify jwt from authorization"
+  ]
 }

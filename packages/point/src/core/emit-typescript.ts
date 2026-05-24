@@ -229,7 +229,8 @@ function emitFunction(
 		: declaration.semantic?.kind === "action" ||
 				declaration.semantic?.kind === "workflow" ||
 				declaration.semantic?.kind === "pipeline" ||
-				declaration.semantic?.kind === "command"
+				declaration.semantic?.kind === "command" ||
+				declaration.semantic?.kind === "route"
 			? "async "
 			: "";
 	const returnType = isStreamAction
@@ -242,7 +243,7 @@ function emitFunction(
 			: declaration.semantic?.kind === "view" || declaration.semantic?.kind === "page" || declaration.semantic?.kind === "layout"
 				? "JSX.Element"
 				: declaration.semantic?.kind === "route"
-					? "Response | string"
+					? "Promise<Response | string>"
 				: emitTypeExpression(declaration.returnType);
 	const viewControls = declaration.semantic?.viewControls;
 	const viewNavigation = declaration.semantic?.viewNavigation;

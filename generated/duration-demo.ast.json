@@ -1247,5 +1247,33 @@
         "offset": 19
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "current time",
+    "duration demo",
+    "duration from minutes",
+    "duration from minutes raw",
+    "duration from seconds",
+    "duration from seconds raw",
+    "duration to seconds",
+    "duration to seconds raw",
+    "format instant",
+    "format instant in timezone",
+    "format instant in timezone raw",
+    "format instant raw",
+    "format time",
+    "instant now",
+    "instant now raw",
+    "is format instant in timezone raw(value, timezone)",
+    "is format instant raw(value)",
+    "ninety seconds ttl",
+    "parse instant",
+    "parse instant raw",
+    "sample window",
+    "sleep milliseconds",
+    "time now",
+    "ttl is under one hour",
+    "wait milliseconds",
+    "window ttl seconds"
+  ]
 }

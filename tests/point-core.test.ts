@@ -433,7 +433,7 @@ route get user
 
 		expect(checkPointCore(program)).toEqual([]);
 		const emitted = emitPointCoreTypeScript(program);
-		expect(emitted).toContain("export function getUserRoute(id: string): Response | string");
+		expect(emitted).toContain("export async function getUserRoute(id: string): Promise<Response | string>");
 		expect(emitted).toContain("return id;");
 		expect(createPointCoreIndex(program).refs.map((symbol) => symbol.ref)).toContain("point://semantic/Routes/route.get user");
 	});

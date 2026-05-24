@@ -64,9 +64,17 @@ export function parsePointSource(source: string, cwdOrOptions: string | ParsePoi
 	const { cwd, input } = normalizeParseOptions(cwdOrOptions);
 	const resolveUseSource = createUseSourceResolver(cwd, input || undefined);
 	const semantic = parseSemanticSource(source, { resolveUseSource, inputPath: input || undefined, cwd });
-	return desugarSemanticProgram(semantic, {
+	const program = desugarSemanticProgram(semantic, {
 		dependencyDeclarations: collectDependencyDeclarations(source, cwd, input || undefined, resolveUseSource),
 	});
+	return {
+		...program,
+		semanticCallables: collectSemanticCallables(source, {
+			resolveUseSource: (use, fromInputPath) => resolveUseSource(use, fromInputPath ?? (input || undefined)),
+			inputPath: input || undefined,
+			cwd,
+		}).sort(),
+	};
 }
 
 export function semanticCallablesForSource(source: string, options?: ParsePointSourceOptions): string[] {

@@ -3926,5 +3926,18 @@
         "offset": 19
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "app shell",
+    "dashboard demo",
+    "dashboard nav",
+    "fetch items",
+    "item detail",
+    "item detail page",
+    "items list",
+    "items list page",
+    "sample items",
+    "settings form",
+    "settings page"
+  ]
 }

@@ -627,5 +627,8 @@
         "offset": 17
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "serve stream echo"
+  ]
 }

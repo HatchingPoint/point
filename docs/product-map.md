@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.36** — Phase 44 saas-app template, onboarding smoke, std resolution fix.
+Update this line each release: **v0.1.37** — Phase 45 SaaS action wiring, auth-bearer repair, saas integration test.

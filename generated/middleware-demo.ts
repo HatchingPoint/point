@@ -35,11 +35,11 @@ export function auditRequestMiddleware(headers: AuthHeaders): string | null {
   return null;
 }
 
-export function getItemRoute(headers: AuthHeaders, query: ItemQuery): Response | string {
+export async function getItemRoute(headers: AuthHeaders, query: ItemQuery): Promise<Response | string> {
   return pointJsonResponse({ item: query.limit, authenticated: true });
 }
 
-export function createItemRoute(headers: AuthHeaders, body: CreateItemBody): Response | string {
+export async function createItemRoute(headers: AuthHeaders, body: CreateItemBody): Promise<Response | string> {
   return pointJsonResponse({ item: body.name, authenticated: true }, 201);
 }
 

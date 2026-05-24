@@ -25,7 +25,7 @@ const typicalTsPasteChars = 12_000;
 console.log("Context comparison (same repair task)");
 console.log(`  TypeScript file paste heuristic: ~${estimateTokens("x".repeat(typicalTsPasteChars))} tokens (${typicalTsPasteChars} chars)`);
 for (const testCase of AGENT_REPAIR_CASES) {
-	const payload = runCheckJson(loadFixture(testCase.brokenFile));
+	const payload = runCheckJson(loadFixture(testCase.brokenFile), testCase.brokenFile);
 	const diagnostic = payload.diagnostics[0];
 	if (!diagnostic) continue;
 	const context = serializeCheckJson({ schemaVersion: "point.core.check.v1", ok: false, diagnostics: [diagnostic] });

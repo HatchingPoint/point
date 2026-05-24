@@ -17,7 +17,7 @@ export async function helloCommand() {
   return "Hello from Point starter"; // @point 19
 }
 
-export function getHealthRoute() {
+export async function getHealthRoute() {
   return "ok"; // @point 25
 }
 

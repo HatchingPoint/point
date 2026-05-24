@@ -5337,5 +5337,18 @@
         "offset": 21
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "demo app signals",
+    "demo app status json",
+    "get listing status",
+    "health check",
+    "listing score",
+    "listing signals for app",
+    "listing status",
+    "listing status payload",
+    "needs work signals",
+    "needs work status json",
+    "serve store readiness"
+  ]
 }

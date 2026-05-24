@@ -489,5 +489,16 @@
         "offset": 13
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "anthropic complete raw",
+    "anthropic stream raw",
+    "complete text with anthropic",
+    "complete text with openai",
+    "env get raw",
+    "openai complete raw",
+    "openai stream raw",
+    "stream text with anthropic",
+    "stream text with openai"
+  ]
 }

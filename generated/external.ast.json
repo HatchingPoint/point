@@ -347,5 +347,9 @@
         "offset": 22
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "load config",
+    "read file"
+  ]
 }

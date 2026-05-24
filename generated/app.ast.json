@@ -955,5 +955,11 @@
         "offset": 17
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "annual price",
+    "get health",
+    "hello",
+    "pricing tier"
+  ]
 }

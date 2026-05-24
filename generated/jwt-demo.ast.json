@@ -1212,5 +1212,25 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "check jwt valid",
+    "demo token valid",
+    "digest demo",
+    "digest hmac sha256",
+    "digest sha256",
+    "env get raw",
+    "env with default",
+    "get env var",
+    "hmac demo",
+    "hmac sha256",
+    "jwt auth ok",
+    "jwt sign",
+    "jwt verify",
+    "sha256 hash",
+    "sign jwt",
+    "signed demo token",
+    "verify jwt",
+    "verify signed token"
+  ]
 }

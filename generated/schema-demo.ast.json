@@ -887,5 +887,6 @@
         "offset": 17
       }
     }
-  }
+  },
+  "semanticCallables": []
 }

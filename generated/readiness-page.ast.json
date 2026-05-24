@@ -3564,5 +3564,12 @@
         "offset": 20
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "listing score",
+    "listing status",
+    "readiness page",
+    "readiness summary",
+    "readiness widget"
+  ]
 }

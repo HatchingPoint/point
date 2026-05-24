@@ -1601,5 +1601,10 @@
         "offset": 21
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "pending status",
+    "shipped status",
+    "status message"
+  ]
 }

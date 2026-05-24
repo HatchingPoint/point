@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-24T13:02:17.177Z",
+  "generatedAt": "2026-05-24T15:00:49.133Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -259,6 +259,45 @@
       "contextTokens": 228,
       "tsContextTokens": 1300,
       "tokenReductionPercent": 82,
+      "ciPass": true
+    },
+    {
+      "id": "auth-bearer",
+      "title": "Auth — legacy JWT helper typo",
+      "category": "typo-fix",
+      "agentTask": "Fix auth middleware on a protected route — agent called a nonexistent legacyJwtCheck helper instead of std/auth auth ok.",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/auth-bearer-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/auth-bearer-broken.point",
+      "brokenSource": "module AuthRepairBroken\n\ncapabilities auth\n\nrecord Auth Headers\n  authorization: Text\n\ncalculation demo secret\n  output secret: Text\n  secret is \"demo-secret\"\n\nmiddleware require auth\n  input headers: Auth Headers\n  output response: Maybe Text\n  when legacyJwtCheck(headers.authorization, demoSecret()) == false return \"{\\\"error\\\":\\\"unauthorized\\\"}\"\n  otherwise return none\n",
+      "fixedSource": "module AuthRepairBroken\n\ncapabilities auth\n\nrecord Auth Headers\n  authorization: Text\n\ncalculation demo secret\n  output secret: Text\n  secret is \"demo-secret\"\n\nmiddleware require auth\n  input headers: Auth Headers\n  output response: Maybe Text\n  when auth ok(headers.authorization, demoSecret()) == false return auth unauthorized body()\n  otherwise return none\n",
+      "errorLine": 15,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-function\",\n      \"message\": \"Unknown function legacyJwtCheck\",\n      \"path\": \"fn.requireAuthMiddleware.if.condition.left\",\n      \"ref\": \"point://semantic/AuthRepairBroken/middleware.require auth\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 15,\n          \"column\": 1,\n          \"offset\": 244\n        },\n        \"end\": {\n          \"line\": 15,\n          \"column\": 106,\n          \"offset\": 349\n        }\n      },\n      \"actual\": \"legacyJwtCheck\",\n      \"expected\": [\n        \"auth ok\",\n        \"auth unauthorized body\",\n        \"bearer token\",\n        \"bearer token from authorization\",\n        \"demo secret\",\n        \"jwt auth ok\",\n        \"require auth\",\n        \"sign auth jwt\",\n        \"sign auth jwt raw\",\n        \"unauthorized response raw\",\n        \"verify auth jwt\",\n        \"verify jwt from authorization\"\n      ],\n      \"repair\": \"Define fn legacyJwtCheck(...) or call an existing function.\"\n    }\n  ]\n}",
+      "diagnosticCode": "unknown-function",
+      "typescriptExcerpt": "// middleware/requireAuth.ts — excerpt\nimport { jwtAuthOk, unauthorizedBody } from \"@/lib/auth\";\n\nexport function requireAuth(headers: { authorization: string }, secret: string) {\n  if (!legacyJwtCheck(headers.authorization, secret)) {\n    return unauthorizedBody();\n  }\n  return null;\n}",
+      "typescriptNote": "Illustrative ~4,800-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 4800,
+      "tscError": "error TS2304: Cannot find name 'legacyJwtCheck'.\n  at requireAuth (middleware/requireAuth.ts:5:8)",
+      "ref": "point://semantic/AuthRepairBroken/middleware.require auth",
+      "repairHint": "Define fn legacyJwtCheck(...) or call an existing function.",
+      "expectedFields": [
+        "auth ok",
+        "auth unauthorized body",
+        "bearer token",
+        "bearer token from authorization",
+        "demo secret",
+        "jwt auth ok",
+        "require auth",
+        "sign auth jwt",
+        "sign auth jwt raw",
+        "unauthorized response raw",
+        "verify auth jwt",
+        "verify jwt from authorization"
+      ],
+      "contextChars": 1053,
+      "contextTokens": 263,
+      "tsContextTokens": 1200,
+      "tokenReductionPercent": 78,
       "ciPass": true
     },
     {
@@ -758,12 +797,13 @@
     }
   ],
   "summary": {
-    "caseCount": 26,
+    "caseCount": 27,
     "diagnosticCodes": [
       "unknown-field",
       "missing-await",
       "middleware-input-unavailable",
       "middleware-input-type-mismatch",
+      "unknown-function",
       "pipeline-step-type-mismatch",
       "float-money-field",
       "missing-variant-case",

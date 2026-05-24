@@ -463,5 +463,9 @@
         "offset": 12
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "order total",
+    "product line total"
+  ]
 }

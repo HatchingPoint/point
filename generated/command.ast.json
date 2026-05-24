@@ -155,5 +155,8 @@
         "offset": 15
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "hello cli"
+  ]
 }

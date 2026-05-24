@@ -428,5 +428,6 @@
         "offset": 15
       }
     }
-  }
+  },
+  "semanticCallables": []
 }

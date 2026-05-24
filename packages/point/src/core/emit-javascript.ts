@@ -103,7 +103,8 @@ function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
 		: declaration.semantic?.kind === "action" ||
 				declaration.semantic?.kind === "workflow" ||
 				declaration.semantic?.kind === "pipeline" ||
-				declaration.semantic?.kind === "command"
+				declaration.semantic?.kind === "command" ||
+				declaration.semantic?.kind === "route"
 			? "async "
 			: "";
 	const bodyLines =

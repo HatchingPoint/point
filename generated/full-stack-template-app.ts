@@ -184,11 +184,11 @@ export function memberDetailPage(id: string): JSX.Element {
   });
 }
 
-export function healthCheckRoute(): Response | string {
+export async function healthCheckRoute(): Promise<Response | string> {
   return "ok";
 }
 
-export function listMembersRoute(): Response | string {
+export async function listMembersRoute(): Promise<Response | string> {
   return pointJsonResponse({ members: sampleMembers() });
 }
 

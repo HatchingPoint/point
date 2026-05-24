@@ -2112,5 +2112,14 @@
         "offset": 21
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "audit request",
+    "check jwt valid",
+    "create item",
+    "demo jwt secret",
+    "get item",
+    "require auth",
+    "serve middleware demo"
+  ]
 }

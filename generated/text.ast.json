@@ -1606,5 +1606,16 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "concat text",
+    "text contains",
+    "text from int",
+    "text from int raw",
+    "text length",
+    "text pad start",
+    "text pad start raw",
+    "text split",
+    "text trim"
+  ]
 }

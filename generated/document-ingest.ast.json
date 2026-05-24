@@ -4164,5 +4164,12 @@
         "offset": 21
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "classify document",
+    "document ingest",
+    "fetch document",
+    "parse document",
+    "store document"
+  ]
 }

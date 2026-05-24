@@ -1139,5 +1139,10 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "default prices",
+    "price tier",
+    "unit price for sku"
+  ]
 }

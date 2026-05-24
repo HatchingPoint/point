@@ -388,5 +388,8 @@
         "offset": 12
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "counter"
+  ]
 }

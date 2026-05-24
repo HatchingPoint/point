@@ -868,5 +868,32 @@
         "offset": 19
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "current time",
+    "duration from minutes",
+    "duration from minutes raw",
+    "duration from seconds",
+    "duration from seconds raw",
+    "duration to seconds",
+    "duration to seconds raw",
+    "format instant",
+    "format instant in timezone",
+    "format instant in timezone raw",
+    "format instant raw",
+    "format time",
+    "instant now",
+    "instant now raw",
+    "is format instant in timezone raw(value, timezone)",
+    "is format instant in timezone(meeting.at, timezone)",
+    "is format instant raw(value)",
+    "launch meeting",
+    "meeting in timezone",
+    "parse instant",
+    "parse instant raw",
+    "sleep milliseconds",
+    "time now",
+    "timezone demo",
+    "wait milliseconds"
+  ]
 }

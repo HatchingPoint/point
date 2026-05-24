@@ -2229,5 +2229,10 @@
         "offset": 20
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "blocked write",
+    "guarded write",
+    "resolve path"
+  ]
 }

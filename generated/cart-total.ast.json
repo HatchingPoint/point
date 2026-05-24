@@ -995,5 +995,9 @@
         "offset": 15
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "cart total",
+    "line total"
+  ]
 }

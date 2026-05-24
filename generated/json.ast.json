@@ -688,5 +688,11 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "json parse",
+    "json stringify",
+    "parse json",
+    "stringify json"
+  ]
 }

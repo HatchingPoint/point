@@ -2019,5 +2019,17 @@
         "offset": 16
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "check jwt valid",
+    "digest hmac sha256",
+    "digest sha256",
+    "hmac sha256",
+    "jwt auth ok",
+    "jwt sign",
+    "jwt verify",
+    "sha256 hash",
+    "sign jwt",
+    "verify jwt"
+  ]
 }

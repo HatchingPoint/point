@@ -20,6 +20,8 @@ export interface PointCoreProgram {
 	span?: PointSourceSpan;
 	semantic?: PointSemanticProgramMetadata;
 	semanticSource?: PointSemanticProgram;
+	/** Spaced semantic callable names from the module and merged std dependencies (for agent repair hints). */
+	semanticCallables?: string[];
 }
 
 export type PointCoreDeclaration =

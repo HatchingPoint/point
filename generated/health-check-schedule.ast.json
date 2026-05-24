@@ -383,5 +383,10 @@
         "offset": 26
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "health check",
+    "run schedules",
+    "time now"
+  ]
 }

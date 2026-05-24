@@ -201,5 +201,8 @@
         "offset": 13
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "get user"
+  ]
 }

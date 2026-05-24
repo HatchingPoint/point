@@ -8,6 +8,7 @@ import {
 	applyLineRepairFromGolden,
 	estimateTokens,
 	loadFixture,
+	parseFixtureSource,
 	runCheckJson,
 	serializeCheckJson,
 	type AgentRepairCase,
@@ -73,7 +74,7 @@ export function buildEvalPrompt(
 	condition: EvalCondition,
 ): { prompt: string; context: string; contextChars: number; contextTokens: number } {
 	const brokenSource = loadFixture(testCase.brokenFile);
-	const payload = runCheckJson(brokenSource);
+	const payload = runCheckJson(brokenSource, testCase.brokenFile);
 	const diagnostic = payload.diagnostics[0];
 	if (!diagnostic?.span) {
 		throw new Error(`Fixture ${testCase.id} missing diagnostic span`);
@@ -158,9 +159,9 @@ export function applyFixedLine(source: string, lineNumber: number, fixedLine: st
 	return lines.join("\n");
 }
 
-export function verifyPointSource(source: string): boolean {
+export function verifyPointSource(source: string, fixtureFile = "inline.point"): boolean {
 	try {
-		return checkPointCore(parsePointSource(source)).length === 0;
+		return checkPointCore(parseFixtureSource(source, fixtureFile)).length === 0;
 	} catch {
 		return false;
 	}
@@ -311,7 +312,7 @@ export async function runModelEval(options: {
 			for (const condition of ["point", "typescript"] as const) {
 				const brokenSource = loadFixture(testCase.brokenFile);
 				const fixedSource = loadFixture(testCase.fixedFile);
-				const diagnostic = runCheckJson(brokenSource).diagnostics[0] as PointCoreDiagnostic;
+				const diagnostic = runCheckJson(brokenSource, testCase.brokenFile).diagnostics[0] as PointCoreDiagnostic;
 				const lineNumber = diagnostic.span!.start.line;
 				const { prompt, contextChars } = buildEvalPrompt(testCase, condition);
 				const reportedContextTokens =
@@ -354,7 +355,7 @@ export async function runModelEval(options: {
 					} else {
 						run.fixedLine = parsed.fixedLine;
 						const candidate = applyFixedLine(brokenSource, lineNumber, parsed.fixedLine);
-						run.checkPassed = verifyPointSource(candidate);
+						run.checkPassed = verifyPointSource(candidate, testCase.brokenFile);
 						const golden = applyLineRepairFromGolden(brokenSource, fixedSource, diagnostic);
 						run.success = run.checkPassed;
 						if (run.checkPassed && candidate !== golden) {

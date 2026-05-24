@@ -688,5 +688,11 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "parse yaml",
+    "stringify yaml",
+    "yaml parse",
+    "yaml stringify"
+  ]
 }

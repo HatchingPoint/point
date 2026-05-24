@@ -37,9 +37,9 @@ describe("agent repair model eval", () => {
 		for (const testCase of AGENT_REPAIR_CASES) {
 			const broken = loadFixture(testCase.brokenFile);
 			const fixed = loadFixture(testCase.fixedFile);
-			const diagnostic = runCheckJson(broken).diagnostics[0]!;
+			const diagnostic = runCheckJson(broken, testCase.brokenFile).diagnostics[0]!;
 			const repaired = applyLineRepairFromGolden(broken, fixed, diagnostic);
-			expect(verifyPointSource(repaired)).toBe(true);
+			expect(verifyPointSource(repaired, testCase.brokenFile)).toBe(true);
 		}
 	});
 

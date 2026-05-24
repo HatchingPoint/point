@@ -408,5 +408,9 @@
         "offset": 17
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "test arithmetic",
+    "test async value"
+  ]
 }

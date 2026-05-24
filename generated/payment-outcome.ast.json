@@ -1344,5 +1344,10 @@
         "offset": 23
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "charge card",
+    "outcome message",
+    "payment outcome for amount"
+  ]
 }

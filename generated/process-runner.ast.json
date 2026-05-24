@@ -1059,5 +1059,17 @@
         "offset": 20
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "captured stdout",
+    "child exit code",
+    "process exit code",
+    "process runner demo",
+    "process stdout",
+    "run echo command",
+    "spawn command",
+    "spawn raw",
+    "stream lines from process",
+    "stream lines raw"
+  ]
 }

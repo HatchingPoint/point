@@ -3190,5 +3190,11 @@
         "offset": 22
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "listing score",
+    "listing status",
+    "readiness summary",
+    "readiness widget"
+  ]
 }

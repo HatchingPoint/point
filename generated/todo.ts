@@ -19,7 +19,7 @@ export async function openDashboardWorkflow(): Promise<string> {
   return loadedTodos;
 }
 
-export function getTodosRoute(): Response | string {
+export async function getTodosRoute(): Promise<Response | string> {
   return "[]";
 }
 

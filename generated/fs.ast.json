@@ -850,5 +850,11 @@
         "offset": 12
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "read file",
+    "read file raw",
+    "write file",
+    "write file raw"
+  ]
 }

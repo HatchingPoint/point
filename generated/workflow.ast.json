@@ -556,5 +556,9 @@
         "offset": 16
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "create user",
+    "signup flow"
+  ]
 }

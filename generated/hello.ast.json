@@ -160,5 +160,8 @@
         "offset": 12
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "main"
+  ]
 }

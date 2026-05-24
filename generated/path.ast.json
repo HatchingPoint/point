@@ -659,5 +659,13 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "join paths",
+    "path basename",
+    "path dirname",
+    "path extname",
+    "path is absolute",
+    "resolve path"
+  ]
 }

@@ -2011,5 +2011,17 @@
         "offset": 16
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "join stream lines",
+    "stream join lines raw",
+    "stream read lines",
+    "stream read lines raw",
+    "stream read text",
+    "stream read text raw",
+    "stream write lines",
+    "stream write lines raw",
+    "stream write text",
+    "stream write text raw"
+  ]
 }

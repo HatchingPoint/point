@@ -276,5 +276,8 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "find user"
+  ]
 }

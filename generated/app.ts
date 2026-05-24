@@ -20,7 +20,7 @@ export async function helloCommand(): Promise<string> {
   return "Hello from Point starter";
 }
 
-export function getHealthRoute(): Response | string {
+export async function getHealthRoute(): Promise<Response | string> {
   return "ok";
 }
 

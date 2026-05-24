@@ -1772,5 +1772,12 @@
         "offset": 12
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "add money",
+    "format cents usd raw",
+    "money display",
+    "money from cents",
+    "text from int raw"
+  ]
 }

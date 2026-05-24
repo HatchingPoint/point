@@ -24,11 +24,11 @@ export function requireAuthMiddleware(headers) {
   return null; // @point 30
 }
 
-export function getItemRoute(headers, query) {
+export async function getItemRoute(headers, query) {
   return pointJsonResponse({ item: query.limit, authenticated: true }, 200, {}); // @point 39
 }
 
-export function createItemRoute(headers, body) {
+export async function createItemRoute(headers, body) {
   return pointJsonResponse({ item: body.name, authenticated: true }, 201, {}); // @point 48
 }
 

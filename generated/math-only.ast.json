@@ -423,5 +423,9 @@
         "offset": 21
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "annual price",
+    "demo"
+  ]
 }

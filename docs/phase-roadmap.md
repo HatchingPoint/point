@@ -4,7 +4,7 @@
 
 ## Active execution
 
-**Phase 44** — Stranger succeeds (adoption burst). Plan: [phase44-plan.md](./phase44-plan.md).
+**Phase 45** — SaaS depth + repair gate (adoption burst). Plan: [phase45-plan.md](./phase45-plan.md).
 
 ## Completed (integrator shipped)
 

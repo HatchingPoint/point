@@ -906,5 +906,12 @@
         "offset": 14
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "get todos",
+    "load todos",
+    "open dashboard",
+    "todo demo",
+    "todo item"
+  ]
 }

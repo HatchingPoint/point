@@ -1596,5 +1596,20 @@
         "offset": 15
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "absolute config path",
+    "backup extension",
+    "config file path",
+    "join paths",
+    "log directory",
+    "log file name",
+    "path basename",
+    "path demo",
+    "path dirname",
+    "path extname",
+    "path is absolute",
+    "resolve path",
+    "uses absolute path"
+  ]
 }

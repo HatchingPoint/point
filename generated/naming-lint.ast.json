@@ -6028,5 +6028,24 @@
         "offset": 25
       }
     }
-  }
+  },
+  "semanticCallables": [
+    "annual price calculation case",
+    "calculation naming case ok",
+    "cart total rule case",
+    "label naming case ok",
+    "launch readiness rule case",
+    "line total calculation case",
+    "naming example status",
+    "naming example valid",
+    "rule naming case ok",
+    "score status label case",
+    "test calculation naming",
+    "test cart total naming",
+    "test label naming",
+    "test launch readiness naming",
+    "test naming fixture suite",
+    "user status label case",
+    "validate naming example"
+  ]
 }

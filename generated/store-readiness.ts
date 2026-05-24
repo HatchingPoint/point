@@ -81,11 +81,11 @@ export function listingStatusPayloadLabel(id: string): string {
   return needsWorkStatusJsonLabel();
 }
 
-export function getListingStatusRoute(id: string): Response | string {
+export async function getListingStatusRoute(id: string): Promise<Response | string> {
   return listingStatusPayloadLabel(id);
 }
 
-export function healthCheckRoute(): Response | string {
+export async function healthCheckRoute(): Promise<Response | string> {
   return "{\"status\":\"ok\"}";
 }
 

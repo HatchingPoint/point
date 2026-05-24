@@ -15,7 +15,7 @@ export async function openDashboardWorkflow() {
   return loadedTodos; // @point 19
 }
 
-export function getTodosRoute() {
+export async function getTodosRoute() {
   return "[]"; // @point 25
 }
 
