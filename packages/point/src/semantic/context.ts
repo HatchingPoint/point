@@ -99,7 +99,7 @@ export function createSemanticIndex(program: PointSemanticProgram): PointSemanti
 	return { schemaVersion: "point.semantic.index.v1", module: moduleName, refs };
 }
 
-export function explainSemanticRef(program: PointSemanticProgram, ref: string): PointSemanticExplanation {
+export function explainSemanticRef(program: PointSemanticProgram, ref: string, diagnosticCode?: string): PointSemanticExplanation {
 	const index = createSemanticIndex(program);
 	const symbol = index.refs.find((candidate) => candidate.ref === ref);
 	if (!symbol) {
@@ -112,13 +112,18 @@ export function explainSemanticRef(program: PointSemanticProgram, ref: string): 
 		};
 	}
 	const relatedRefs = relatedRefsFor(symbol, index);
+	let summary = summaryFor(symbol);
+	if (diagnosticCode === "action-outcome-not-exhaustive") {
+		summary +=
+			" Exhaustive outcome dispatch adds on Case return branches for every variant case of an action outcome type (types named ending with \" Outcome\").";
+	}
 	return {
 		schemaVersion: "point.semantic.explain.v1",
 		ref,
 		found: true,
 		symbol,
 		relatedRefs,
-		summary: summaryFor(symbol),
+		summary,
 	};
 }
 

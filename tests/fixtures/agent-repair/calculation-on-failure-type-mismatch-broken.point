@@ -1,0 +1,8 @@
+module Margin
+
+calculation net after gateway fee
+  output net cents: Int
+  input gross cents: Int
+  when gross cents < 0 return 0
+  on failure return "invalid gross"
+  otherwise return gross cents - 35

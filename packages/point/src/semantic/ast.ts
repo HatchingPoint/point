@@ -118,6 +118,8 @@ export interface PointSemanticCalculationDeclaration {
 	name: string;
 	inputs: PointSemanticBinding[];
 	output: PointSemanticOutputBinding;
+	/** Fallback return when preceding branches do not return (e.g. variant dispatch fallback). Lowered as a trailing return. */
+	onFailure?: PointSemanticExpression;
 	body: PointSemanticCalculationStatement[];
 	span?: PointSourceSpan;
 }
@@ -333,6 +335,7 @@ export type PointSemanticCalculationStatement =
 	| { kind: "startsAs"; name: string; value: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "forEach"; item: string; iterable: PointSemanticExpression; body: PointSemanticMutationStatement[]; span?: PointSourceSpan }
 	| { kind: "whenReturn"; condition: PointSemanticExpression; value: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "onVariantReturn"; caseLabel: string; bindings: string[]; value: PointSemanticExpression; span?: PointSourceSpan }
 	| PointSemanticMutationStatement
 	| { kind: "return"; value: PointSemanticExpression; span?: PointSourceSpan };
 

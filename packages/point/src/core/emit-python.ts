@@ -264,10 +264,11 @@ function emitImportDeclaration(declaration: Extract<PointCoreDeclaration, { kind
 }
 
 function emitType(declaration: PointCoreTypeDeclaration): string[] {
-	return [
-		`class ${declaration.name}(TypedDict):`,
-		...declaration.fields.map((field) => `    ${field.name}: ${emitTypeExpression(field.type)}`),
-	];
+	const fieldLines = declaration.fields.map((field) => `    ${field.name}: ${emitTypeExpression(field.type)}`);
+	if (fieldLines.length === 0) {
+		return [`class ${declaration.name}(TypedDict):`, "    pass"];
+	}
+	return [`class ${declaration.name}(TypedDict):`, ...fieldLines];
 }
 
 function emitExternal(declaration: PointCoreExternalDeclaration): string[] {
@@ -382,6 +383,9 @@ function emitExpression(expression: PointCoreExpression, inAsyncFunction = false
 	if (expression.kind === "record") {
 		return `{${expression.fields.map((field) => `"${field.name}": ${emitExpression(field.value, inAsyncFunction, asyncStdCalls)}`).join(", ")}}`;
 	}
+	// Tagged dict / discriminated union (Python parity with TS/JS): every variant lowers to one object whose
+	// discriminator is the string field "kind", equal to the Point case label in PascalCase (e.g. Succeeded).
+	// Payload field keys match core lowering / Point identifiers (camelCase fragments, e.g. receipt id → receiptId).
 	if (expression.kind === "variant") {
 		const payload = expression.fields.map((field) => `"${field.name}": ${emitExpression(field.value, inAsyncFunction, asyncStdCalls)}`).join(", ");
 		return payload.length > 0

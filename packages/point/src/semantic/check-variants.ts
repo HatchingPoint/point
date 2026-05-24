@@ -34,18 +34,36 @@ export function checkSemanticVariants(program: PointSemanticProgram): PointCoreD
 
 		const path = `${declaration.kind}.${declaration.name}`;
 		const ref = `point://semantic/${moduleName}/${path}`;
-		diagnostics.push({
-			code: "missing-variant-case",
-			message: `${declaration.kind} ${declaration.name} is missing variant cases: ${missingCases.join(", ")}`,
-			path,
-			ref,
-			severity: "error",
-			span: dispatchCases[0]?.span ?? declaration.span ?? null,
-			expected: declaredCases,
-			actual: [...coveredCases].sort().join(", "),
-			repair: `Add branches for uncovered cases: ${missingCases.map((caseName) => `on ${caseName} return ...`).join("; ")}.`,
-			relatedRefs: [ref, `point://semantic/${moduleName}/variant.${variantInput.type.name}`],
-		});
+		const isOutcomeVariantType = variantInput.type.name.endsWith(" Outcome");
+		const uncoveredList = missingCases.join(", ");
+		const branchesHint = missingCases.map((caseName) => `on ${caseName} return ...`).join("; ");
+		if (isOutcomeVariantType) {
+			diagnostics.push({
+				code: "action-outcome-not-exhaustive",
+				message: `${declaration.kind} ${declaration.name} is missing outcome dispatch cases: ${uncoveredList}`,
+				path,
+				ref,
+				severity: "error",
+				span: dispatchCases[0]?.span ?? declaration.span ?? null,
+				expected: declaredCases,
+				actual: [...coveredCases].sort().join(", "),
+				repair: `Add outcome dispatch branches for uncovered cases: ${branchesHint}.`,
+				relatedRefs: [ref, `point://semantic/${moduleName}/variant.${variantInput.type.name}`],
+			});
+		} else {
+			diagnostics.push({
+				code: "missing-variant-case",
+				message: `${declaration.kind} ${declaration.name} is missing variant cases: ${uncoveredList}`,
+				path,
+				ref,
+				severity: "error",
+				span: dispatchCases[0]?.span ?? declaration.span ?? null,
+				expected: declaredCases,
+				actual: [...coveredCases].sort().join(", "),
+				repair: `Add branches for uncovered cases: ${branchesHint}.`,
+				relatedRefs: [ref, `point://semantic/${moduleName}/variant.${variantInput.type.name}`],
+			});
+		}
 	}
 
 	return diagnostics;

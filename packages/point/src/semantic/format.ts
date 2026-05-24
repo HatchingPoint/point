@@ -74,6 +74,7 @@ function formatDeclaration(declaration: PointSemanticDeclaration): string[] {
 				`calculation ${declaration.name}`,
 				...formatInputs(declaration.inputs),
 				...formatOutput(declaration.output, declaration.kind),
+				...(declaration.onFailure ? [`  on failure return ${formatExpression(declaration.onFailure)}`] : []),
 				...declaration.body.map((statement) => `  ${formatCalculationStatement(statement)}`),
 			];
 		case "rule":
@@ -278,6 +279,10 @@ function formatCalculationStatement(statement: PointSemanticCalculationStatement
 		);
 	}
 	if (statement.kind === "whenReturn") return `when ${formatExpression(statement.condition)} return ${formatExpression(statement.value)}`;
+	if (statement.kind === "onVariantReturn") {
+		const payload = statement.bindings.length > 0 ? ` with ${statement.bindings.join(" and ")}` : "";
+		return `on ${statement.caseLabel}${payload} return ${formatExpression(statement.value)}`;
+	}
 	if (statement.kind === "return") return `return ${formatExpression(statement.value)}`;
 	return formatMutation(statement);
 }

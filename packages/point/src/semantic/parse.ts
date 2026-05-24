@@ -504,7 +504,7 @@ function parseOnVariantReturn(
 	context: ReturnType<typeof expressionContext>,
 	source: string,
 	lineNumber: number,
-): PointSemanticLabelStatement | null {
+): Extract<PointSemanticLabelStatement, { kind: "onVariantReturn" }> | null {
 	const match = line.match(/^on (.+?) return (.+)$/);
 	if (!match) return null;
 	const casePart = match[1]?.trim() ?? "";
@@ -552,6 +552,7 @@ function parseCalculation(
 	const paramTypes = new Map<string, string>();
 	const bindings: string[] = [];
 	let output: PointSemanticOutputBinding = { name: "result", type: { kind: "typeRef", name: "Void", args: [] } };
+	let onFailure: PointSemanticExpression | undefined;
 	const statements: PointSemanticCalculationStatement[] = [];
 
 	for (let lineIndex = 0; lineIndex < body.lines.length; lineIndex += 1) {
@@ -577,6 +578,11 @@ function parseCalculation(
 			callables,
 			outputType: typeLabel(output.type),
 		});
+		if (line.startsWith("on failure return ")) {
+			if (onFailure !== undefined) throw new Error("Duplicate on failure return in calculation");
+			onFailure = parseLineExpression(line.slice("on failure return ".length), context, source, lineNumber);
+			continue;
+		}
 		const loop = line.match(/^for each (.+) in (.+)$/);
 		if (loop) {
 			const item = loop[1]?.trim() ?? "";
@@ -606,6 +612,11 @@ function parseCalculation(
 				value: parseLineExpression(whenReturn[2] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});
+			continue;
+		}
+		const onVariantReturnCalculation = parseOnVariantReturn(line, context, source, lineNumber);
+		if (onVariantReturnCalculation) {
+			statements.push(onVariantReturnCalculation);
 			continue;
 		}
 		if (line.startsWith("otherwise return ")) {
@@ -668,6 +679,7 @@ function parseCalculation(
 			name,
 			inputs,
 			output,
+			...(onFailure !== undefined ? { onFailure } : {}),
 			body: statements,
 			span: lineSpan(source, start + 1),
 		},

@@ -1303,3 +1303,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: Phase 31 (typed domain errors) or expansion loop backlog.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 31 integrator — v0.1.23 (parallel waves P31-1–P31-4)
+
+- Completed: Variant-first domain errors — `examples/variants/payment-outcome.point`, Domain outcomes docs, `action-outcome-not-exhaustive` diagnostic, calculation `on failure return` + `calculation-on-failure-type-mismatch`, Python variant `kind` dict emit, 2 agent-repair fixture pairs (26 benchmark cases).
+- Verified: `bun run ci` green; `bun test tests/payment-outcome.test.ts tests/action-outcome-exhaustiveness.test.ts tests/calculation-on-failure.test.ts tests/python-payment-outcome.test.ts`.
+- Released: **v0.1.23**
+- Next: Phase 32 candidate (Map/dict or Money) via expansion loop.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

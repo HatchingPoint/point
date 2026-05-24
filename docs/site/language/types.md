@@ -43,6 +43,38 @@ label order status label
 
 See `examples/variants/order-status.point`.
 
+### Domain outcomes
+
+Model success and failure payloads as a **`variant`** (for example paid vs declined) instead of a language-wide `Result` type. Dispatch with **`on Case`** in labels, and reuse the same machinery as other tagged unions.
+
+An `action` body is a single-return callable today — put guarded **`when`** / **`otherwise`** branches that build variant values in a **`label`** (or other block that supports guarded returns), then call that helper from the action:
+
+```point
+variant Payment Outcome
+  Succeeded with charge id: Text
+  Failed with message: Text
+
+label payment outcome for amount
+  input amount cents: Int
+  output Payment Outcome
+  when amount cents <= 0 return Failed with message: "Amount must be positive"
+  otherwise return Succeeded with charge id: "ch_demo"
+
+action charge card
+  input amount cents: Int
+  output outcome: Payment Outcome
+  touches network
+  return payment outcome for amount(amount cents)
+
+label outcome message
+  input outcome: Payment Outcome
+  output Text
+  on Succeeded with charge id return "Paid " + charge id
+  on Failed with message return message
+```
+
+See `examples/variants/payment-outcome.point`. A generic `Result<T, E>` primitive remains deferred; domain-specific variants keep checker and emit precise.
+
 ### Maps
 
 String-keyed associative data (Phase 23):

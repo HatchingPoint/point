@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-24T10:21:15.048Z",
+  "generatedAt": "2026-05-24T13:02:17.177Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -344,6 +344,63 @@
       "contextTokens": 219,
       "tsContextTokens": 1400,
       "tokenReductionPercent": 84,
+      "ciPass": true
+    },
+    {
+      "id": "action-outcome-not-exhaustive",
+      "title": "Label — outcome dispatch typo (Payment Outcome)",
+      "category": "typo-fix",
+      "agentTask": "Fix payment headline label — agent misspelled the Succeeded branch on an outcome variant (types named ending with \" Outcome\").",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/action-outcome-not-exhaustive-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/action-outcome-not-exhaustive-broken.point",
+      "brokenSource": "module Payment Demo\n\nvariant Payment Outcome\n  Succeeded with receipt id: Text\n  Failed with message: Text\n\naction charge stub\n  input amount: Int\n  output receipt: Payment Outcome\n  touches network\n  return Succeeded with receipt id: \"RX-01\"\n\nlabel charge headline\n  input outcome: Payment Outcome\n  output Text\n  on Succeded with receipt id return \"Paid (\" + receipt id + \")\"\n  on Failed with message return message\n",
+      "fixedSource": "module Payment Demo\n\nvariant Payment Outcome\n  Succeeded with receipt id: Text\n  Failed with message: Text\n\naction charge stub\n  input amount: Int\n  output receipt: Payment Outcome\n  touches network\n  return Succeeded with receipt id: \"RX-01\"\n\nlabel charge headline\n  input outcome: Payment Outcome\n  output Text\n  on Succeeded with receipt id return \"Paid (\" + receipt id + \")\"\n  on Failed with message return message\n",
+      "errorLine": 16,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"action-outcome-not-exhaustive\",\n      \"message\": \"label charge headline is missing outcome dispatch cases: Succeeded\",\n      \"path\": \"label.charge headline\",\n      \"ref\": \"point://semantic/Payment Demo/label.charge headline\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 16,\n          \"column\": 1,\n          \"offset\": 313\n        },\n        \"end\": {\n          \"line\": 16,\n          \"column\": 65,\n          \"offset\": 377\n        }\n      },\n      \"expected\": [\n        \"Succeeded\",\n        \"Failed\"\n      ],\n      \"actual\": \"Failed, Succeded\",\n      \"repair\": \"Add outcome dispatch branches for uncovered cases: on Succeeded return ....\",\n      \"relatedRefs\": [\n        \"point://semantic/Payment Demo/label.charge headline\",\n        \"point://semantic/Payment Demo/variant.Payment Outcome\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "action-outcome-not-exhaustive",
+      "typescriptExcerpt": "// payments/detailLine.ts — excerpt\ntype PaymentOutcome =\n  | { kind: \"Succeeded\"; receiptId: string }\n  | { kind: \"Failed\"; message: string };\n\nexport function paymentDetailLine(outcome: PaymentOutcome): string {\n  switch (outcome.kind) {\n    case \"Succeded\":\n      return \"Paid (\" + outcome.receiptId + \")\";\n    case \"Failed\":\n      return outcome.message;\n  }\n}",
+      "typescriptNote": "Illustrative ~5,400-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 5400,
+      "tscError": "error TS2678: Type '\"Succeded\"' is not comparable to type '\"Succeeded\" | \"Failed\"'.",
+      "ref": "point://semantic/Payment Demo/label.charge headline",
+      "repairHint": "Add outcome dispatch branches for uncovered cases: on Succeeded return ....",
+      "expectedFields": [
+        "Succeeded",
+        "Failed"
+      ],
+      "contextChars": 940,
+      "contextTokens": 235,
+      "tsContextTokens": 1350,
+      "tokenReductionPercent": 83,
+      "ciPass": true
+    },
+    {
+      "id": "calculation-on-failure-type-mismatch",
+      "title": "Calculation — on failure return type mismatch",
+      "category": "typo-fix",
+      "agentTask": "Fix margin calculation fallback — agent returned a string from on failure return but output is integer cents.",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/calculation-on-failure-type-mismatch-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/calculation-on-failure-type-mismatch-broken.point",
+      "brokenSource": "module Margin\n\ncalculation net after gateway fee\n  output net cents: Int\n  input gross cents: Int\n  when gross cents < 0 return 0\n  on failure return \"invalid gross\"\n  otherwise return gross cents - 35\n",
+      "fixedSource": "module Margin\n\ncalculation net after gateway fee\n  output net cents: Int\n  input gross cents: Int\n  when gross cents < 0 return 0\n  on failure return 0\n  otherwise return gross cents - 35\n",
+      "errorLine": 7,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"calculation-on-failure-type-mismatch\",\n      \"message\": \"on failure return is not assignable to calculation output (Int)\",\n      \"path\": \"calculation.net after gateway fee.onFailure\",\n      \"ref\": \"point://semantic/Margin/calculation.net after gateway fee\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 7,\n          \"column\": 1,\n          \"offset\": 130\n        },\n        \"end\": {\n          \"line\": 7,\n          \"column\": 36,\n          \"offset\": 165\n        }\n      },\n      \"expected\": \"Int\",\n      \"actual\": \"Text\",\n      \"repair\": \"Provide a value assignable to Int for on failure return.\"\n    }\n  ]\n}",
+      "diagnosticCode": "calculation-on-failure-type-mismatch",
+      "typescriptExcerpt": "// margin/netCents.ts — excerpt\nexport function netAfterGatewayFee(grossCents: number): number {\n  if (grossCents < 0) return 0;\n  // domain fallback must still be cents (Int), not text\n  return \"invalid gross\" as unknown as number;\n}",
+      "typescriptNote": "Illustrative ~6,200-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 6200,
+      "tscError": "error TS2322: Type 'string' is not assignable to type 'number'.\n  at netAfterGatewayFee (margin/netCents.ts:5:3)",
+      "ref": "point://semantic/Margin/calculation.net after gateway fee",
+      "repairHint": "Provide a value assignable to Int for on failure return.",
+      "expectedFields": [
+        "Int"
+      ],
+      "contextChars": 738,
+      "contextTokens": 185,
+      "tsContextTokens": 1550,
+      "tokenReductionPercent": 88,
       "ciPass": true
     },
     {
@@ -701,7 +758,7 @@
     }
   ],
   "summary": {
-    "caseCount": 24,
+    "caseCount": 26,
     "diagnosticCodes": [
       "unknown-field",
       "missing-await",
@@ -710,6 +767,8 @@
       "pipeline-step-type-mismatch",
       "float-money-field",
       "missing-variant-case",
+      "action-outcome-not-exhaustive",
+      "calculation-on-failure-type-mismatch",
       "invalid-view-bind-target",
       "arity-mismatch",
       "operator-type-mismatch",

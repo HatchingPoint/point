@@ -1,6 +1,6 @@
 # Phase 31 — Typed domain errors (variant-first)
 
-**Status:** Draft — not started  
+**Status:** Complete — v0.1.23  
 **Prerequisite:** Phase 26 variant exhaustiveness shipped; Phases 28/29/30 may still be active — run **after** 28/29 exit gates or in a dedicated chat with file ownership respected  
 **North star:** Authors model success and failure with **`variant` + `label` + action outputs** — not host `try/catch`, not a generic `Result<T, E>` type parameter.
 
@@ -58,14 +58,14 @@ Same as [point-principles-gate.md](./point-principles-gate.md):
 
 ## Success criteria (Phase 31 exit gate)
 
-- [ ] **Outcome variant convention** — documented pattern: `variant <Domain> Outcome` with success/failure cases; spec section in `docs/site/language/types.md`
-- [ ] **Action output variant checking** — actions declaring `output result: Some Outcome` get exhaustiveness when callers `on Case` dispatch (reuse/extend P26-2)
-- [ ] **Calculation `on failure return`** — calculations may declare `on failure return <expr>` for domain fallbacks (workflow/pipeline parity); checker + emit for JS/TS/Python
-- [ ] **Label ↔ outcome wiring** — `label` blocks over outcome variants emit readable message helpers; tests for `order-status`-style example
-- [ ] **Python emit parity** — variant outcome actions emit discriminated shapes (dataclass/TypedDict or documented dict tag) in `emit-python.ts`
-- [ ] **General example** — `examples/variants/payment-outcome.point` (or extend order-status) with action returning outcome variant + label for UI copy
-- [ ] **Agent loop** — at least 2 domain-outcome diagnostics or repair fixtures (e.g. missing outcome case, invalid `on failure return` type)
-- [ ] `bun run ci` passes; patch release **v0.1.23+** (integrator after prior phases)
+- [x] **Outcome variant convention** — documented pattern: `variant <Domain> Outcome` with success/failure cases; spec section in `docs/site/language/types.md`
+- [x] **Action output variant checking** — actions declaring `output result: Some Outcome` get exhaustiveness when callers `on Case` dispatch (reuse/extend P26-2)
+- [x] **Calculation `on failure return`** — calculations may declare `on failure return <expr>` for domain fallbacks (workflow/pipeline parity); checker + emit for JS/TS/Python
+- [x] **Label ↔ outcome wiring** — `label` blocks over outcome variants emit readable message helpers; tests for `order-status`-style example
+- [x] **Python emit parity** — variant outcome actions emit discriminated shapes (dataclass/TypedDict or documented dict tag) in `emit-python.ts`
+- [x] **General example** — `examples/variants/payment-outcome.point` (or extend order-status) with action returning outcome variant + label for UI copy
+- [x] **Agent loop** — at least 2 domain-outcome diagnostics or repair fixtures (e.g. missing outcome case, invalid `on failure return` type)
+- [x] `bun run ci` passes; patch release **v0.1.23+** (integrator after prior phases)
 
 ---
 

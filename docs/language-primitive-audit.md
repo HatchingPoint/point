@@ -14,7 +14,7 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 |-----------|--------|-------------------|
 | `Map<K,V>` / dict | Missing | **Defer** — use records + lists or `external` JSON |
 | Money / decimal | `Int` only | **Defer** — document cents-as-Int pattern |
-| Rich errors / `Result` | Diagnostics only | **Defer** — use records + labels for domain errors |
+| Rich errors / `Result` | Pattern shipped (variant-first) | **Pattern shipped (variant-first)** — generic `Result` still deferred |
 | Author-facing dates | `std.time` shim | **Defer** — `external` + `action` for now |
 
 ---

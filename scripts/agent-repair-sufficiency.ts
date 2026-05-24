@@ -361,6 +361,56 @@ export function statusMessage(status: OrderStatus): string {
 		},
 	},
 	{
+		id: "action-outcome-not-exhaustive",
+		title: "Label — outcome dispatch typo (Payment Outcome)",
+		category: "typo-fix",
+		agentTask: "Fix payment headline label — agent misspelled the Succeeded branch on an outcome variant (types named ending with \" Outcome\").",
+		repairMode: "single-shot",
+		brokenFile: "action-outcome-not-exhaustive-broken.point",
+		fixedFile: "action-outcome-not-exhaustive-fixed.point",
+		expectedCode: "action-outcome-not-exhaustive",
+		chosenField: "Succeeded",
+		typescriptContext: {
+			excerpt: `// payments/detailLine.ts — excerpt
+type PaymentOutcome =
+  | { kind: "Succeeded"; receiptId: string }
+  | { kind: "Failed"; message: string };
+
+export function paymentDetailLine(outcome: PaymentOutcome): string {
+  switch (outcome.kind) {
+    case "Succeded":
+      return "Paid (" + outcome.receiptId + ")";
+    case "Failed":
+      return outcome.message;
+  }
+}`,
+			totalChars: 5400,
+			tscError: `error TS2678: Type '"Succeded"' is not comparable to type '"Succeeded" | "Failed"'.`,
+		},
+	},
+	{
+		id: "calculation-on-failure-type-mismatch",
+		title: "Calculation — on failure return type mismatch",
+		category: "typo-fix",
+		agentTask: "Fix margin calculation fallback — agent returned a string from on failure return but output is integer cents.",
+		repairMode: "single-shot",
+		brokenFile: "calculation-on-failure-type-mismatch-broken.point",
+		fixedFile: "calculation-on-failure-type-mismatch-fixed.point",
+		expectedCode: "calculation-on-failure-type-mismatch",
+		chosenField: "Int",
+		typescriptContext: {
+			excerpt: `// margin/netCents.ts — excerpt
+export function netAfterGatewayFee(grossCents: number): number {
+  if (grossCents < 0) return 0;
+  // domain fallback must still be cents (Int), not text
+  return "invalid gross" as unknown as number;
+}`,
+			totalChars: 6200,
+			tscError: `error TS2322: Type 'string' is not assignable to type 'number'.
+  at netAfterGatewayFee (margin/netCents.ts:5:3)`,
+		},
+	},
+	{
 		id: "invalid-view-bind-target",
 		title: "View — invalid bind target",
 		category: "typo-fix",

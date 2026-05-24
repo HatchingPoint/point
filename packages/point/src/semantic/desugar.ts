@@ -64,7 +64,7 @@ import { pipelineLogParamName } from "../core/emit-pipeline.ts";
 import { semanticFunctionName, streamRouteHandlerName, toIdentifier, toPascalCase, guardPatternsConstName } from "./naming.ts";
 import { semanticDeclarationMetadata } from "./metadata.ts";
 
-interface DesugarContext {
+export interface DesugarContext {
 	records: Map<string, Map<string, string>>;
 	callables: Map<string, string>;
 	bindings: Map<string, string>;
@@ -73,16 +73,37 @@ interface DesugarContext {
 	outputType: PointCoreTypeExpression;
 }
 
+export function loweringMapsFor(
+	program: PointSemanticProgram,
+	dependencyDeclarations?: PointSemanticDeclaration[],
+): { records: Map<string, Map<string, string>>; callables: Map<string, string> } {
+	const mergedForCallables: PointSemanticProgram = {
+		...program,
+		declarations: [...(dependencyDeclarations ?? []), ...program.declarations],
+	};
+	const records = new Map<string, Map<string, string>>();
+	const callables = buildCallableMap(mergedForCallables, records);
+	return { records, callables };
+}
+
+export function desugarContextForCalculation(
+	declaration: PointSemanticCalculationDeclaration,
+	records: Map<string, Map<string, string>>,
+	callables: Map<string, string>,
+): DesugarContext {
+	const { bindings, outputName, outputType } = collectBindings(declaration.inputs, declaration.output);
+	return { records, callables, bindings, outputName, outputType };
+}
+
+export function desugarSemanticExpressionForCheck(expression: PointSemanticExpression, ctx: DesugarContext): PointCoreExpression {
+	return desugarExpression(expression, ctx);
+}
+
 export function desugarSemanticProgram(
 	program: PointSemanticProgram,
 	options?: { dependencyDeclarations?: PointSemanticDeclaration[] },
 ): PointCoreProgram {
-	const mergedForCallables: PointSemanticProgram = {
-		...program,
-		declarations: [...(options?.dependencyDeclarations ?? []), ...program.declarations],
-	};
-	const records = new Map<string, Map<string, string>>();
-	const callables = buildCallableMap(mergedForCallables, records);
+	const { records, callables } = loweringMapsFor(program, options?.dependencyDeclarations);
 	const actionOutputs = buildActionOutputMap(program);
 	const policies = buildPolicyMap(program);
 	const guards = buildGuardMap(program);
@@ -329,12 +350,25 @@ function desugarCalculation(
 ): PointCoreFunctionDeclaration {
 	const { params, bindings, outputName, outputType } = collectBindings(declaration.inputs, declaration.output);
 	const ctx: DesugarContext = { records, callables, bindings, outputName, outputType };
+	const variantInput =
+		declaration.inputs.length === 1 ? ([declaration.inputs[0]!.label, toIdentifier(declaration.inputs[0]!.label)] as const) : undefined;
+	const bodyCore = desugarCalculationBody(declaration.body, ctx, variantInput);
+	const trailing: PointCoreStatement[] =
+		declaration.onFailure !== undefined
+			? [
+					{
+						kind: "return",
+						value: desugarExpression(declaration.onFailure, ctx),
+						span: declaration.onFailure.span ?? declaration.span,
+					},
+				]
+			: [];
 	return {
 		kind: "function",
 		name: semanticFunctionName(declaration.name, outputName, "calculation"),
 		params,
 		returnType: outputType,
-		body: desugarCalculationBody(declaration.body, ctx),
+		body: [...bodyCore, ...trailing],
 		semantic: semanticDeclarationMetadata(declaration),
 		span: declaration.span,
 	};
@@ -1143,7 +1177,11 @@ function desugarType(type: PointSemanticTypeExpression): PointCoreTypeExpression
 	return { kind: "typeRef", name: toPascalCase(type.name), args: [] };
 }
 
-function desugarCalculationBody(statements: PointSemanticCalculationStatement[], ctx: DesugarContext): PointCoreStatement[] {
+function desugarCalculationBody(
+	statements: PointSemanticCalculationStatement[],
+	ctx: DesugarContext,
+	variantInput?: readonly [string, string],
+): PointCoreStatement[] {
 	const body: PointCoreStatement[] = [];
 	for (const statement of statements) {
 		if (statement.kind === "assignIs") {
@@ -1172,6 +1210,37 @@ function desugarCalculationBody(statements: PointSemanticCalculationStatement[],
 			});
 			continue;
 		}
+		if (statement.kind === "onVariantReturn") {
+			if (!variantInput) {
+				throw new Error("Calculation on … return dispatch requires exactly one input");
+			}
+			const [, identifier] = variantInput;
+			body.push({
+				kind: "if",
+				condition: {
+					kind: "binary",
+					operator: "==",
+					left: {
+						kind: "property",
+						target: { kind: "identifier", name: identifier, span: statement.span },
+						name: "kind",
+						span: statement.span,
+					},
+					right: { kind: "literal", value: toPascalCase(statement.caseLabel), span: statement.span },
+					span: statement.span,
+				},
+				thenBody: [
+					{
+						kind: "return",
+						value: desugarOnVariantReturnCalculationValue(statement, ctx, identifier),
+						span: statement.span,
+					},
+				],
+				elseBody: [],
+				span: statement.span,
+			});
+			continue;
+		}
 		if (statement.kind === "return") {
 			body.push({ kind: "return", value: desugarExpression(statement.value, ctx), span: statement.span });
 			continue;
@@ -1179,6 +1248,18 @@ function desugarCalculationBody(statements: PointSemanticCalculationStatement[],
 		body.push(...desugarMutation(statement, ctx));
 	}
 	return body;
+}
+
+function desugarOnVariantReturnCalculationValue(
+	statement: Extract<PointSemanticCalculationStatement, { kind: "onVariantReturn" }>,
+	ctx: DesugarContext,
+	identifier: string,
+): PointCoreExpression {
+	const payloadFields = new Map<string, { base: string; field: string }>();
+	for (const binding of statement.bindings) {
+		payloadFields.set(binding, { base: identifier, field: toIdentifier(binding) });
+	}
+	return desugarExpression(statement.value, { ...ctx, payloadFields });
 }
 
 function desugarRuleBody(statements: PointSemanticRuleStatement[], ctx: DesugarContext): PointCoreStatement[] {

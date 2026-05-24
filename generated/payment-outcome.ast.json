@@ -1,0 +1,1348 @@
+{
+  "kind": "coreProgram",
+  "module": "Payment Outcomes",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "PaymentOutcome",
+      "fields": [],
+      "variantCases": [
+        {
+          "name": "Succeeded",
+          "fields": [
+            {
+              "name": "chargeId",
+              "type": {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              "semanticName": "charge id",
+              "span": {
+                "start": {
+                  "line": 4,
+                  "column": 1,
+                  "offset": 49
+                },
+                "end": {
+                  "line": 4,
+                  "column": 33,
+                  "offset": 81
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 49
+            },
+            "end": {
+              "line": 4,
+              "column": 33,
+              "offset": 81
+            }
+          }
+        },
+        {
+          "name": "Failed",
+          "fields": [
+            {
+              "name": "message",
+              "type": {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              "semanticName": "message",
+              "span": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 82
+                },
+                "end": {
+                  "line": 5,
+                  "column": 28,
+                  "offset": 109
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 82
+            },
+            "end": {
+              "line": 5,
+              "column": 28,
+              "offset": 109
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "variant",
+        "name": "Payment Outcome"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 25
+        },
+        "end": {
+          "line": 3,
+          "column": 24,
+          "offset": 48
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "paymentOutcomeForAmountLabel",
+      "params": [
+        {
+          "name": "amountCents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "amount cents",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "PaymentOutcome",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "<=",
+            "left": {
+              "kind": "identifier",
+              "name": "amountCents",
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 195
+                },
+                "end": {
+                  "line": 10,
+                  "column": 79,
+                  "offset": 273
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 0,
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 195
+                },
+                "end": {
+                  "line": 10,
+                  "column": 79,
+                  "offset": 273
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 195
+              },
+              "end": {
+                "line": 10,
+                "column": 79,
+                "offset": 273
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "variant",
+                "caseName": "Failed",
+                "fields": [
+                  {
+                    "name": "message",
+                    "value": {
+                      "kind": "literal",
+                      "value": "Amount must be positive",
+                      "span": {
+                        "start": {
+                          "line": 10,
+                          "column": 1,
+                          "offset": 195
+                        },
+                        "end": {
+                          "line": 10,
+                          "column": 79,
+                          "offset": 273
+                        }
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 195
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 79,
+                    "offset": 273
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 195
+                },
+                "end": {
+                  "line": 10,
+                  "column": 79,
+                  "offset": 273
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 195
+            },
+            "end": {
+              "line": 10,
+              "column": 79,
+              "offset": 273
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "variant",
+            "caseName": "Succeeded",
+            "fields": [
+              {
+                "name": "chargeId",
+                "value": {
+                  "kind": "literal",
+                  "value": "ch_demo",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 274
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 55,
+                      "offset": 328
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 274
+              },
+              "end": {
+                "line": 11,
+                "column": 55,
+                "offset": 328
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 274
+            },
+            "end": {
+              "line": 11,
+              "column": 55,
+              "offset": 328
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "payment outcome for amount",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 111
+        },
+        "end": {
+          "line": 7,
+          "column": 33,
+          "offset": 143
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "chargeCardOutcome",
+      "params": [
+        {
+          "name": "amountCents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "amount cents",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "PaymentOutcome",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "paymentOutcomeForAmountLabel",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "amountCents",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 427
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 50,
+                    "offset": 476
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 427
+              },
+              "end": {
+                "line": 17,
+                "column": 50,
+                "offset": 476
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 427
+            },
+            "end": {
+              "line": 17,
+              "column": 50,
+              "offset": 476
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "charge card",
+        "outputName": "outcome",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 330
+        },
+        "end": {
+          "line": 13,
+          "column": 19,
+          "offset": 348
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "outcomeMessageLabel",
+      "params": [
+        {
+          "name": "outcome",
+          "type": {
+            "kind": "typeRef",
+            "name": "PaymentOutcome",
+            "args": []
+          },
+          "semanticName": "outcome",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 20,
+              "column": 25,
+              "offset": 24
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "outcome",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 547
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 57,
+                    "offset": 603
+                  }
+                }
+              },
+              "name": "kind",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 547
+                },
+                "end": {
+                  "line": 22,
+                  "column": 57,
+                  "offset": 603
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "Succeeded",
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 547
+                },
+                "end": {
+                  "line": 22,
+                  "column": 57,
+                  "offset": 603
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 547
+              },
+              "end": {
+                "line": 22,
+                "column": 57,
+                "offset": 603
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "literal",
+                  "value": "Paid ",
+                  "span": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 547
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 57,
+                      "offset": 603
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "outcome",
+                    "span": {
+                      "start": {
+                        "line": 22,
+                        "column": 1,
+                        "offset": 547
+                      },
+                      "end": {
+                        "line": 22,
+                        "column": 57,
+                        "offset": 603
+                      }
+                    }
+                  },
+                  "name": "chargeId",
+                  "span": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 547
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 57,
+                      "offset": 603
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 547
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 57,
+                    "offset": 603
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 547
+                },
+                "end": {
+                  "line": 22,
+                  "column": 57,
+                  "offset": 603
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 547
+            },
+            "end": {
+              "line": 22,
+              "column": 57,
+              "offset": 603
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "outcome",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 604
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 40,
+                    "offset": 643
+                  }
+                }
+              },
+              "name": "kind",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 604
+                },
+                "end": {
+                  "line": 23,
+                  "column": 40,
+                  "offset": 643
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "Failed",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 604
+                },
+                "end": {
+                  "line": 23,
+                  "column": 40,
+                  "offset": 643
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 604
+              },
+              "end": {
+                "line": 23,
+                "column": 40,
+                "offset": 643
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "outcome",
+                  "span": {
+                    "start": {
+                      "line": 23,
+                      "column": 1,
+                      "offset": 604
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 40,
+                      "offset": 643
+                    }
+                  }
+                },
+                "name": "message",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 604
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 40,
+                    "offset": 643
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 604
+                },
+                "end": {
+                  "line": 23,
+                  "column": 40,
+                  "offset": 643
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 604
+            },
+            "end": {
+              "line": 23,
+              "column": 40,
+              "offset": 643
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "outcome message",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 478
+        },
+        "end": {
+          "line": 19,
+          "column": 22,
+          "offset": 499
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 24,
+      "offset": 23
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "Payment Outcomes",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "variant",
+        "name": "Payment Outcome",
+        "cases": [
+          {
+            "label": "Succeeded",
+            "fields": [
+              {
+                "label": "charge id",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 49
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 33,
+                    "offset": 81
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 49
+              },
+              "end": {
+                "line": 4,
+                "column": 33,
+                "offset": 81
+              }
+            }
+          },
+          {
+            "label": "Failed",
+            "fields": [
+              {
+                "label": "message",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 82
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 28,
+                    "offset": 109
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 82
+              },
+              "end": {
+                "line": 5,
+                "column": 28,
+                "offset": 109
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 25
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 48
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "payment outcome for amount",
+        "inputs": [
+          {
+            "label": "amount cents",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Payment Outcome",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "<=",
+              "left": {
+                "kind": "name",
+                "label": "amount cents",
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 195
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 79,
+                    "offset": 273
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 0,
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 195
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 79,
+                    "offset": 273
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 195
+                },
+                "end": {
+                  "line": 10,
+                  "column": 79,
+                  "offset": 273
+                }
+              }
+            },
+            "value": {
+              "kind": "variant",
+              "caseLabel": "Failed",
+              "fields": [
+                {
+                  "label": "message",
+                  "value": {
+                    "kind": "literal",
+                    "value": "Amount must be positive",
+                    "span": {
+                      "start": {
+                        "line": 10,
+                        "column": 1,
+                        "offset": 195
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 79,
+                        "offset": 273
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 195
+                },
+                "end": {
+                  "line": 10,
+                  "column": 79,
+                  "offset": 273
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 195
+              },
+              "end": {
+                "line": 10,
+                "column": 79,
+                "offset": 273
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "variant",
+              "caseLabel": "Succeeded",
+              "fields": [
+                {
+                  "label": "charge id",
+                  "value": {
+                    "kind": "literal",
+                    "value": "ch_demo",
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 274
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 55,
+                        "offset": 328
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 274
+                },
+                "end": {
+                  "line": 11,
+                  "column": 55,
+                  "offset": 328
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 274
+              },
+              "end": {
+                "line": 11,
+                "column": 55,
+                "offset": 328
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 7,
+            "column": 1,
+            "offset": 111
+          },
+          "end": {
+            "line": 7,
+            "column": 33,
+            "offset": 143
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "charge card",
+        "inputs": [
+          {
+            "label": "amount cents",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "outcome",
+          "type": {
+            "kind": "typeRef",
+            "name": "Payment Outcome",
+            "args": []
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "payment outcome for amount",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "amount cents",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 427
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 50,
+                      "offset": 476
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 427
+                },
+                "end": {
+                  "line": 17,
+                  "column": 50,
+                  "offset": 476
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 427
+              },
+              "end": {
+                "line": 17,
+                "column": 50,
+                "offset": 476
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 330
+          },
+          "end": {
+            "line": 13,
+            "column": 19,
+            "offset": 348
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "outcome message",
+        "inputs": [
+          {
+            "label": "outcome",
+            "type": {
+              "kind": "typeRef",
+              "name": "Payment Outcome",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 25,
+                "offset": 24
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "onVariantReturn",
+            "caseLabel": "Succeeded",
+            "bindings": [
+              "charge id"
+            ],
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "Paid ",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 547
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 57,
+                    "offset": 603
+                  }
+                }
+              },
+              "right": {
+                "kind": "name",
+                "label": "charge id",
+                "span": {
+                  "start": {
+                    "line": 22,
+                    "column": 1,
+                    "offset": 547
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 57,
+                    "offset": 603
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 547
+                },
+                "end": {
+                  "line": 22,
+                  "column": 57,
+                  "offset": 603
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 547
+              },
+              "end": {
+                "line": 22,
+                "column": 57,
+                "offset": 603
+              }
+            }
+          },
+          {
+            "kind": "onVariantReturn",
+            "caseLabel": "Failed",
+            "bindings": [
+              "message"
+            ],
+            "value": {
+              "kind": "name",
+              "label": "message",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 604
+                },
+                "end": {
+                  "line": 23,
+                  "column": 40,
+                  "offset": 643
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 604
+              },
+              "end": {
+                "line": 23,
+                "column": 40,
+                "offset": 643
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 478
+          },
+          "end": {
+            "line": 19,
+            "column": 22,
+            "offset": 499
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 24,
+        "offset": 23
+      }
+    }
+  }
+}

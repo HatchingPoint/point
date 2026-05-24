@@ -26,6 +26,11 @@ import { checkSemanticGuards } from "../semantic/check-guards.ts";
 import { checkSemanticThemes } from "../semantic/check-themes.ts";
 import { resolveFieldAlias, suggestFieldLabel } from "../semantic/field-alias.ts";
 import { checkSemanticVariants } from "../semantic/check-variants.ts";
+import {
+	desugarContextForCalculation,
+	desugarSemanticExpressionForCheck,
+	loweringMapsFor,
+} from "../semantic/desugar.ts";
 export interface PointCoreDiagnostic {
 	code: string;
 	message: string;
@@ -79,6 +84,7 @@ class CoreChecker {
 			this.diagnostics.push(...checkSemanticThemes(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticStreamSubscribe(this.program.semanticSource));
 			this.diagnostics.push(...checkSemanticVariants(this.program.semanticSource));
+			this.checkCalculationOnFailureSemantics();
 		}
 		return this.diagnostics;
 	}
@@ -167,6 +173,16 @@ class CoreChecker {
 				return;
 			}
 			if (fn.semantic?.kind === "page" || fn.semantic?.kind === "view" || fn.semantic?.kind === "layout" || fn.semantic?.kind === "route") return;
+			if (fn.semantic?.kind === "calculation" && this.program.semanticSource) {
+				const calculationName = fn.semantic.name;
+				const calcDecl = this.program.semanticSource.declarations.find(
+					(d) => d.kind === "calculation" && d.name === calculationName,
+				);
+				if (calcDecl?.kind === "calculation" && calcDecl.onFailure !== undefined) {
+					const lastStmt = fn.body.at(-1);
+					if (lastStmt?.kind === "return" && lastStmt === statement) return;
+				}
+			}
 			this.checkExpressionAssignable(statement.value, fn.returnType, `fn.${fn.name}.return`, locals);
 			return;
 		}
@@ -872,6 +888,50 @@ class CoreChecker {
 			});
 		}
 		for (const arg of type.args) this.checkType(arg, `${path}.arg`);
+	}
+
+	private checkCalculationOnFailureSemantics(): void {
+		const sem = this.program.semanticSource;
+		if (!sem) return;
+		const { records, callables } = loweringMapsFor(sem);
+		const moduleNameForRef = sem.module ?? "anonymous";
+		for (const decl of sem.declarations) {
+			if (decl.kind !== "calculation" || decl.onFailure === undefined) continue;
+			const coreFn = this.program.declarations.find(
+				(d): d is PointCoreFunctionDeclaration =>
+					d.kind === "function" && d.semantic?.kind === "calculation" && d.semantic.name === decl.name,
+			);
+			if (!coreFn) continue;
+			const ctx = desugarContextForCalculation(decl, records, callables);
+			const coreExpr = desugarSemanticExpressionForCheck(decl.onFailure, ctx);
+			const locals = cloneScope(this.globals);
+			for (const param of coreFn.params) {
+				locals.set(param.name, { type: param.type, mutable: false });
+			}
+			const probePath = `_calculation_on_failure_probe_.${decl.name}`;
+			const diagStart = this.diagnostics.length;
+			this.checkExpressionAssignable(coreExpr, coreFn.returnType, probePath, locals);
+			const probeBatch = this.diagnostics.splice(diagStart);
+			const semanticPath = `calculation.${decl.name}.onFailure`;
+			const semanticOwnerRef = `point://semantic/${moduleNameForRef}/calculation.${decl.name}`;
+			for (const d of probeBatch) {
+				if (d.code === "type-mismatch" && d.path === probePath) {
+					this.diagnostics.push({
+						code: "calculation-on-failure-type-mismatch",
+						message: `on failure return is not assignable to calculation output (${formatType(coreFn.returnType)})`,
+						path: semanticPath,
+						ref: semanticOwnerRef,
+						severity: "error",
+						span: decl.onFailure.span ?? decl.span ?? null,
+						expected: d.expected,
+						actual: d.actual,
+						repair: `Provide a value assignable to ${formatType(coreFn.returnType)} for on failure return.`,
+					});
+					continue;
+				}
+				this.diagnostics.push(d);
+			}
+		}
 	}
 
 	private push(

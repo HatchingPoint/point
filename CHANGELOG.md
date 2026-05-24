@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.23
+
+### Added
+
+- Phase 31: variant-first domain outcomes — `examples/variants/payment-outcome.point`, Domain outcomes docs, `action-outcome-not-exhaustive` diagnostic for `* Outcome` variant dispatch.
+- Phase 31: calculation `on failure return` with `calculation-on-failure-type-mismatch` checking; `on Case` dispatch in calculations.
+- Phase 31: Python emit variant dict convention (`kind` + payload keys); agent-repair fixtures for outcome exhaustiveness and on-failure type mismatch.
+
 ## 0.1.22
 
 ### Added

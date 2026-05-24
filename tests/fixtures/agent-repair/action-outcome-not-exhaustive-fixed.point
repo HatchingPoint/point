@@ -1,0 +1,17 @@
+module Payment Demo
+
+variant Payment Outcome
+  Succeeded with receipt id: Text
+  Failed with message: Text
+
+action charge stub
+  input amount: Int
+  output receipt: Payment Outcome
+  touches network
+  return Succeeded with receipt id: "RX-01"
+
+label charge headline
+  input outcome: Payment Outcome
+  output Text
+  on Succeeded with receipt id return "Paid (" + receipt id + ")"
+  on Failed with message return message
