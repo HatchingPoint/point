@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.24
+
+### Added
+
+- Phase 32: opaque **`Duration`** type (integer seconds at runtime) with JS/TS/Python emit parity.
+- Phase 32: `std.time` duration helpers — `duration from seconds`, `duration to seconds`, `duration minutes`.
+- Phase 32: `examples/tools/duration-demo.point`; `Duration` → BIGINT/INTEGER in `build-schema`.
+- Phase 32: `language-primitive-audit.md` synced — Map shipped, Money/errors patterns documented.
+
 ## 0.1.23
 
 ### Added

@@ -1311,3 +1311,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Released: **v0.1.23**
 - Next: Phase 32 candidate (Map/dict or Money) via expansion loop.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 32 integrator — v0.1.24 (parallel P32-1–P32-3)
+
+- Completed: **Duration** opaque type (seconds at runtime), std.time duration helpers, `duration-demo.point`, build-schema Duration columns, audit sync (Map shipped, Money/errors patterns).
+- Verified: `bun run ci` green; `bun test tests/duration-type.test.ts tests/duration-std.test.ts tests/sql-schema-duration.test.ts`.
+- Released: **v0.1.24**
+- Next: Phase 33 — Python route productization (Phase 13) or Money decimal type if author friction remains.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

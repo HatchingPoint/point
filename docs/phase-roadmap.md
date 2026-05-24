@@ -16,6 +16,7 @@ _None — pick a draft below or run expansion loop for Phase 32._
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **32** | v0.1.24 | Duration type, std.time helpers, audit sync (Map/Money/errors) |
 | **31** | v0.1.23 | Variant-first domain errors, calculation `on failure return`, Python outcome emit |
 | **30** | v0.1.22 | SQL productization — FK, dialects, migrations, multi-module schema |
 | **28** | v0.1.21 | Agent loop hardening — repair fixtures, LSP parity, diagnostic catalog |

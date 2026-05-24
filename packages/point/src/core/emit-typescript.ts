@@ -597,6 +597,7 @@ function emitTypeExpression(type: PointCoreTypeExpression): string {
 	if (type.name === "Or") return type.args.map(emitTypeExpression).join(" | ");
 	if (type.name === "Error") return "{ message: string }";
 	if (type.name === "Instant") return "string";
+	if (type.name === "Duration") return "number";
 	if (isPrimitiveType(type.name)) return emitPrimitiveType(type.name);
 	return type.name;
 }

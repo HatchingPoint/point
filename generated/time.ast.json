@@ -270,6 +270,156 @@
       }
     },
     {
+      "kind": "external",
+      "name": "durationFromSecondsRaw",
+      "params": [
+        {
+          "name": "seconds",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "seconds",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Duration",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "durationFromSeconds",
+      "semantic": {
+        "kind": "external",
+        "name": "duration from seconds raw"
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 550
+        },
+        "end": {
+          "line": 10,
+          "column": 112,
+          "offset": 661
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "durationToSecondsRaw",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Duration",
+            "args": []
+          },
+          "semanticName": "elapsed",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "durationToSeconds",
+      "semantic": {
+        "kind": "external",
+        "name": "duration to seconds raw"
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 662
+        },
+        "end": {
+          "line": 11,
+          "column": 108,
+          "offset": 769
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "durationFromMinutesRaw",
+      "params": [
+        {
+          "name": "minutes",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "minutes",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Duration",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "durationFromMinutes",
+      "semantic": {
+        "kind": "external",
+        "name": "duration from minutes raw"
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 770
+        },
+        "end": {
+          "line": 12,
+          "column": 112,
+          "offset": 881
+        }
+      }
+    },
+    {
       "kind": "function",
       "name": "instantNowValue",
       "params": [],
@@ -287,27 +437,27 @@
             "args": [],
             "span": {
               "start": {
-                "line": 13,
+                "line": 16,
                 "column": 1,
-                "offset": 599
+                "offset": 931
               },
               "end": {
-                "line": 13,
+                "line": 16,
                 "column": 29,
-                "offset": 627
+                "offset": 959
               }
             }
           },
           "span": {
             "start": {
-              "line": 13,
+              "line": 16,
               "column": 1,
-              "offset": 599
+              "offset": 931
             },
             "end": {
-              "line": 13,
+              "line": 16,
               "column": 29,
-              "offset": 627
+              "offset": 959
             }
           }
         }
@@ -320,14 +470,14 @@
       },
       "span": {
         "start": {
-          "line": 11,
+          "line": 14,
           "column": 1,
-          "offset": 551
+          "offset": 883
         },
         "end": {
-          "line": 11,
+          "line": 14,
           "column": 24,
-          "offset": 574
+          "offset": 906
         }
       }
     },
@@ -345,12 +495,12 @@
           "semanticName": "value",
           "span": {
             "start": {
-              "line": 16,
+              "line": 19,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 16,
+              "line": 19,
               "column": 15,
               "offset": 14
             }
@@ -374,41 +524,41 @@
                 "name": "value",
                 "span": {
                   "start": {
-                    "line": 18,
+                    "line": 21,
                     "column": 1,
-                    "offset": 700
+                    "offset": 1032
                   },
                   "end": {
-                    "line": 18,
+                    "line": 21,
                     "column": 37,
-                    "offset": 736
+                    "offset": 1068
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 18,
+                "line": 21,
                 "column": 1,
-                "offset": 700
+                "offset": 1032
               },
               "end": {
-                "line": 18,
+                "line": 21,
                 "column": 37,
-                "offset": 736
+                "offset": 1068
               }
             }
           },
           "span": {
             "start": {
-              "line": 18,
+              "line": 21,
               "column": 1,
-              "offset": 700
+              "offset": 1032
             },
             "end": {
-              "line": 18,
+              "line": 21,
               "column": 37,
-              "offset": 736
+              "offset": 1068
             }
           }
         }
@@ -421,14 +571,14 @@
       },
       "span": {
         "start": {
-          "line": 15,
+          "line": 18,
           "column": 1,
-          "offset": 629
+          "offset": 961
         },
         "end": {
-          "line": 15,
+          "line": 18,
           "column": 27,
-          "offset": 655
+          "offset": 987
         }
       }
     },
@@ -446,12 +596,12 @@
           "semanticName": "value",
           "span": {
             "start": {
-              "line": 21,
+              "line": 24,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 21,
+              "line": 24,
               "column": 12,
               "offset": 11
             }
@@ -486,41 +636,41 @@
                 "name": "value",
                 "span": {
                   "start": {
-                    "line": 24,
+                    "line": 27,
                     "column": 1,
-                    "offset": 828
+                    "offset": 1160
                   },
                   "end": {
-                    "line": 24,
+                    "line": 27,
                     "column": 34,
-                    "offset": 861
+                    "offset": 1193
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 24,
+                "line": 27,
                 "column": 1,
-                "offset": 828
+                "offset": 1160
               },
               "end": {
-                "line": 24,
+                "line": 27,
                 "column": 34,
-                "offset": 861
+                "offset": 1193
               }
             }
           },
           "span": {
             "start": {
-              "line": 24,
+              "line": 27,
               "column": 1,
-              "offset": 828
+              "offset": 1160
             },
             "end": {
-              "line": 24,
+              "line": 27,
               "column": 34,
-              "offset": 861
+              "offset": 1193
             }
           }
         }
@@ -535,14 +685,14 @@
       },
       "span": {
         "start": {
-          "line": 20,
+          "line": 23,
           "column": 1,
-          "offset": 738
+          "offset": 1070
         },
         "end": {
-          "line": 20,
+          "line": 23,
           "column": 21,
-          "offset": 758
+          "offset": 1090
         }
       }
     },
@@ -564,27 +714,27 @@
             "args": [],
             "span": {
               "start": {
-                "line": 29,
+                "line": 32,
                 "column": 1,
-                "offset": 919
+                "offset": 1251
               },
               "end": {
-                "line": 29,
+                "line": 32,
                 "column": 20,
-                "offset": 938
+                "offset": 1270
               }
             }
           },
           "span": {
             "start": {
-              "line": 29,
+              "line": 32,
               "column": 1,
-              "offset": 919
+              "offset": 1251
             },
             "end": {
-              "line": 29,
+              "line": 32,
               "column": 20,
-              "offset": 938
+              "offset": 1270
             }
           }
         }
@@ -599,14 +749,14 @@
       },
       "span": {
         "start": {
-          "line": 26,
+          "line": 29,
           "column": 1,
-          "offset": 863
+          "offset": 1195
         },
         "end": {
-          "line": 26,
+          "line": 29,
           "column": 20,
-          "offset": 882
+          "offset": 1214
         }
       }
     },
@@ -624,12 +774,12 @@
           "semanticName": "ms",
           "span": {
             "start": {
-              "line": 32,
+              "line": 35,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 32,
+              "line": 35,
               "column": 8,
               "offset": 7
             }
@@ -653,41 +803,41 @@
                 "name": "ms",
                 "span": {
                   "start": {
-                    "line": 35,
+                    "line": 38,
                     "column": 1,
-                    "offset": 1010
+                    "offset": 1342
                   },
                   "end": {
-                    "line": 35,
+                    "line": 38,
                     "column": 32,
-                    "offset": 1041
+                    "offset": 1373
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 35,
+                "line": 38,
                 "column": 1,
-                "offset": 1010
+                "offset": 1342
               },
               "end": {
-                "line": 35,
+                "line": 38,
                 "column": 32,
-                "offset": 1041
+                "offset": 1373
               }
             }
           },
           "span": {
             "start": {
-              "line": 35,
+              "line": 38,
               "column": 1,
-              "offset": 1010
+              "offset": 1342
             },
             "end": {
-              "line": 35,
+              "line": 38,
               "column": 32,
-              "offset": 1041
+              "offset": 1373
             }
           }
         }
@@ -702,14 +852,317 @@
       },
       "span": {
         "start": {
-          "line": 31,
+          "line": 34,
           "column": 1,
-          "offset": 940
+          "offset": 1272
         },
         "end": {
-          "line": 31,
+          "line": 34,
           "column": 25,
-          "offset": 964
+          "offset": 1296
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "durationFromSecondsDuration",
+      "params": [
+        {
+          "name": "seconds",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "seconds",
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 41,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Duration",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "durationFromSecondsRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "seconds",
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1458
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 49,
+                    "offset": 1506
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1458
+              },
+              "end": {
+                "line": 43,
+                "column": 49,
+                "offset": 1506
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 43,
+              "column": 1,
+              "offset": 1458
+            },
+            "end": {
+              "line": 43,
+              "column": 49,
+              "offset": 1506
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "duration from seconds",
+        "outputName": "duration",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 40,
+          "column": 1,
+          "offset": 1375
+        },
+        "end": {
+          "line": 40,
+          "column": 34,
+          "offset": 1408
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "durationToSeconds",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": {
+            "kind": "typeRef",
+            "name": "Duration",
+            "args": []
+          },
+          "semanticName": "elapsed",
+          "span": {
+            "start": {
+              "line": 46,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 46,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "durationToSecondsRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "elapsed",
+                "span": {
+                  "start": {
+                    "line": 48,
+                    "column": 1,
+                    "offset": 1588
+                  },
+                  "end": {
+                    "line": 48,
+                    "column": 46,
+                    "offset": 1633
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1,
+                "offset": 1588
+              },
+              "end": {
+                "line": 48,
+                "column": 46,
+                "offset": 1633
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 48,
+              "column": 1,
+              "offset": 1588
+            },
+            "end": {
+              "line": 48,
+              "column": 46,
+              "offset": 1633
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "duration to seconds",
+        "outputName": "seconds",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 45,
+          "column": 1,
+          "offset": 1508
+        },
+        "end": {
+          "line": 45,
+          "column": 32,
+          "offset": 1539
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "durationFromMinutesDuration",
+      "params": [
+        {
+          "name": "minutes",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "minutes",
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 51,
+              "column": 13,
+              "offset": 12
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Duration",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "durationFromMinutesRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "minutes",
+                "span": {
+                  "start": {
+                    "line": 53,
+                    "column": 1,
+                    "offset": 1718
+                  },
+                  "end": {
+                    "line": 53,
+                    "column": 49,
+                    "offset": 1766
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 53,
+                "column": 1,
+                "offset": 1718
+              },
+              "end": {
+                "line": 53,
+                "column": 49,
+                "offset": 1766
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 1,
+              "offset": 1718
+            },
+            "end": {
+              "line": 53,
+              "column": 49,
+              "offset": 1766
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "duration from minutes",
+        "outputName": "duration",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 50,
+          "column": 1,
+          "offset": 1635
+        },
+        "end": {
+          "line": 50,
+          "column": 34,
+          "offset": 1668
         }
       }
     }
@@ -970,6 +1423,138 @@
                 "offset": 549
               }
             }
+          },
+          {
+            "label": "duration from seconds raw",
+            "params": [
+              {
+                "label": "seconds",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Duration",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "durationFromSeconds",
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 550
+              },
+              "end": {
+                "line": 10,
+                "column": 112,
+                "offset": 661
+              }
+            }
+          },
+          {
+            "label": "duration to seconds raw",
+            "params": [
+              {
+                "label": "elapsed",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Duration",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 11,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 18,
+                    "offset": 17
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "durationToSeconds",
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 662
+              },
+              "end": {
+                "line": 11,
+                "column": 108,
+                "offset": 769
+              }
+            }
+          },
+          {
+            "label": "duration from minutes raw",
+            "params": [
+              {
+                "label": "minutes",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 12,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Duration",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "durationFromMinutes",
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 770
+              },
+              "end": {
+                "line": 12,
+                "column": 112,
+                "offset": 881
+              }
+            }
           }
         ],
         "span": {
@@ -1007,41 +1592,41 @@
               "args": [],
               "span": {
                 "start": {
-                  "line": 13,
+                  "line": 16,
                   "column": 1,
-                  "offset": 599
+                  "offset": 931
                 },
                 "end": {
-                  "line": 13,
+                  "line": 16,
                   "column": 29,
-                  "offset": 627
+                  "offset": 959
                 }
               }
             },
             "span": {
               "start": {
-                "line": 13,
+                "line": 16,
                 "column": 1,
-                "offset": 599
+                "offset": 931
               },
               "end": {
-                "line": 13,
+                "line": 16,
                 "column": 29,
-                "offset": 627
+                "offset": 959
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 11,
+            "line": 14,
             "column": 1,
-            "offset": 551
+            "offset": 883
           },
           "end": {
-            "line": 11,
+            "line": 14,
             "column": 24,
-            "offset": 574
+            "offset": 906
           }
         }
       },
@@ -1058,12 +1643,12 @@
             },
             "span": {
               "start": {
-                "line": 16,
+                "line": 19,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 16,
+                "line": 19,
                 "column": 15,
                 "offset": 14
               }
@@ -1091,55 +1676,55 @@
                   "label": "value",
                   "span": {
                     "start": {
-                      "line": 18,
+                      "line": 21,
                       "column": 1,
-                      "offset": 700
+                      "offset": 1032
                     },
                     "end": {
-                      "line": 18,
+                      "line": 21,
                       "column": 37,
-                      "offset": 736
+                      "offset": 1068
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 18,
+                  "line": 21,
                   "column": 1,
-                  "offset": 700
+                  "offset": 1032
                 },
                 "end": {
-                  "line": 18,
+                  "line": 21,
                   "column": 37,
-                  "offset": 736
+                  "offset": 1068
                 }
               }
             },
             "span": {
               "start": {
-                "line": 18,
+                "line": 21,
                 "column": 1,
-                "offset": 700
+                "offset": 1032
               },
               "end": {
-                "line": 18,
+                "line": 21,
                 "column": 37,
-                "offset": 736
+                "offset": 1068
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 15,
+            "line": 18,
             "column": 1,
-            "offset": 629
+            "offset": 961
           },
           "end": {
-            "line": 15,
+            "line": 18,
             "column": 27,
-            "offset": 655
+            "offset": 987
           }
         }
       },
@@ -1156,12 +1741,12 @@
             },
             "span": {
               "start": {
-                "line": 21,
+                "line": 24,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 21,
+                "line": 24,
                 "column": 12,
                 "offset": 11
               }
@@ -1202,55 +1787,55 @@
                   "label": "value",
                   "span": {
                     "start": {
-                      "line": 24,
+                      "line": 27,
                       "column": 1,
-                      "offset": 828
+                      "offset": 1160
                     },
                     "end": {
-                      "line": 24,
+                      "line": 27,
                       "column": 34,
-                      "offset": 861
+                      "offset": 1193
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 24,
+                  "line": 27,
                   "column": 1,
-                  "offset": 828
+                  "offset": 1160
                 },
                 "end": {
-                  "line": 24,
+                  "line": 27,
                   "column": 34,
-                  "offset": 861
+                  "offset": 1193
                 }
               }
             },
             "span": {
               "start": {
-                "line": 24,
+                "line": 27,
                 "column": 1,
-                "offset": 828
+                "offset": 1160
               },
               "end": {
-                "line": 24,
+                "line": 27,
                 "column": 34,
-                "offset": 861
+                "offset": 1193
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 20,
+            "line": 23,
             "column": 1,
-            "offset": 738
+            "offset": 1070
           },
           "end": {
-            "line": 20,
+            "line": 23,
             "column": 21,
-            "offset": 758
+            "offset": 1090
           }
         }
       },
@@ -1278,41 +1863,41 @@
               "args": [],
               "span": {
                 "start": {
-                  "line": 29,
+                  "line": 32,
                   "column": 1,
-                  "offset": 919
+                  "offset": 1251
                 },
                 "end": {
-                  "line": 29,
+                  "line": 32,
                   "column": 20,
-                  "offset": 938
+                  "offset": 1270
                 }
               }
             },
             "span": {
               "start": {
-                "line": 29,
+                "line": 32,
                 "column": 1,
-                "offset": 919
+                "offset": 1251
               },
               "end": {
-                "line": 29,
+                "line": 32,
                 "column": 20,
-                "offset": 938
+                "offset": 1270
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 26,
+            "line": 29,
             "column": 1,
-            "offset": 863
+            "offset": 1195
           },
           "end": {
-            "line": 26,
+            "line": 29,
             "column": 20,
-            "offset": 882
+            "offset": 1214
           }
         }
       },
@@ -1329,12 +1914,12 @@
             },
             "span": {
               "start": {
-                "line": 32,
+                "line": 35,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 32,
+                "line": 35,
                 "column": 8,
                 "offset": 7
               }
@@ -1364,55 +1949,349 @@
                   "label": "ms",
                   "span": {
                     "start": {
-                      "line": 35,
+                      "line": 38,
                       "column": 1,
-                      "offset": 1010
+                      "offset": 1342
                     },
                     "end": {
-                      "line": 35,
+                      "line": 38,
                       "column": 32,
-                      "offset": 1041
+                      "offset": 1373
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 35,
+                  "line": 38,
                   "column": 1,
-                  "offset": 1010
+                  "offset": 1342
                 },
                 "end": {
-                  "line": 35,
+                  "line": 38,
                   "column": 32,
-                  "offset": 1041
+                  "offset": 1373
                 }
               }
             },
             "span": {
               "start": {
-                "line": 35,
+                "line": 38,
                 "column": 1,
-                "offset": 1010
+                "offset": 1342
               },
               "end": {
-                "line": 35,
+                "line": 38,
                 "column": 32,
-                "offset": 1041
+                "offset": 1373
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 31,
+            "line": 34,
             "column": 1,
-            "offset": 940
+            "offset": 1272
           },
           "end": {
-            "line": 31,
+            "line": 34,
             "column": 25,
-            "offset": 964
+            "offset": 1296
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "duration from seconds",
+        "inputs": [
+          {
+            "label": "seconds",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 41,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "duration",
+          "type": {
+            "kind": "typeRef",
+            "name": "Duration",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "duration",
+            "value": {
+              "kind": "call",
+              "callee": "duration from seconds raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "seconds",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1458
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 49,
+                      "offset": 1506
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1458
+                },
+                "end": {
+                  "line": 43,
+                  "column": 49,
+                  "offset": 1506
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1458
+              },
+              "end": {
+                "line": 43,
+                "column": 49,
+                "offset": 1506
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 40,
+            "column": 1,
+            "offset": 1375
+          },
+          "end": {
+            "line": 40,
+            "column": 34,
+            "offset": 1408
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "duration to seconds",
+        "inputs": [
+          {
+            "label": "elapsed",
+            "type": {
+              "kind": "typeRef",
+              "name": "Duration",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 46,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "seconds",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "seconds",
+            "value": {
+              "kind": "call",
+              "callee": "duration to seconds raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "elapsed",
+                  "span": {
+                    "start": {
+                      "line": 48,
+                      "column": 1,
+                      "offset": 1588
+                    },
+                    "end": {
+                      "line": 48,
+                      "column": 46,
+                      "offset": 1633
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 48,
+                  "column": 1,
+                  "offset": 1588
+                },
+                "end": {
+                  "line": 48,
+                  "column": 46,
+                  "offset": 1633
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1,
+                "offset": 1588
+              },
+              "end": {
+                "line": 48,
+                "column": 46,
+                "offset": 1633
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 45,
+            "column": 1,
+            "offset": 1508
+          },
+          "end": {
+            "line": 45,
+            "column": 32,
+            "offset": 1539
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "duration from minutes",
+        "inputs": [
+          {
+            "label": "minutes",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 51,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 51,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "duration",
+          "type": {
+            "kind": "typeRef",
+            "name": "Duration",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "duration",
+            "value": {
+              "kind": "call",
+              "callee": "duration from minutes raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "minutes",
+                  "span": {
+                    "start": {
+                      "line": 53,
+                      "column": 1,
+                      "offset": 1718
+                    },
+                    "end": {
+                      "line": 53,
+                      "column": 49,
+                      "offset": 1766
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 53,
+                  "column": 1,
+                  "offset": 1718
+                },
+                "end": {
+                  "line": 53,
+                  "column": 49,
+                  "offset": 1766
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 53,
+                "column": 1,
+                "offset": 1718
+              },
+              "end": {
+                "line": 53,
+                "column": 49,
+                "offset": 1766
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 50,
+            "column": 1,
+            "offset": 1635
+          },
+          "end": {
+            "line": 50,
+            "column": 34,
+            "offset": 1668
           }
         }
       }

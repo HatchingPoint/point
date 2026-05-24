@@ -1169,10 +1169,10 @@ function desugarParameter(binding: PointSemanticBinding): PointCoreParameter {
 }
 
 function desugarType(type: PointSemanticTypeExpression): PointCoreTypeExpression {
-	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler" || type.name === "Map" || type.name === "Instant") {
+	if (type.name === "List" || type.name === "Maybe" || type.name === "Or" || type.name === "Handler" || type.name === "Map" || type.name === "Instant" || type.name === "Duration") {
 		return { kind: "typeRef", name: type.name, args: type.args.map(desugarType) };
 	}
-	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Error", "Page", "Instant"]);
+	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Error", "Page", "Instant", "Duration"]);
 	if (primitives.has(type.name)) return { kind: "typeRef", name: type.name, args: [] };
 	return { kind: "typeRef", name: toPascalCase(type.name), args: [] };
 }

@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.23**
+Current release: **0.1.24**
 
 Check the published npm version:
 
@@ -22,7 +22,8 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
-| **0.1.23** | Phase 31: variant-first domain errors, calculation on failure return, Python outcome emit. |
+| **0.1.24** | Phase 32: Duration type, std.time duration helpers, audit sync. |
+| **0.1.23** | Phase 31: variant-first domain errors, calculation on failure return. |
 | **0.1.22** | Phase 30 SQL productization + roadmap-analyze CI fix. |
 | **0.1.21** | Phase 28 agent loop hardening + Phase 29 Python std mirror. |
 | **0.1.20** | Phase 27: middleware validation, view source maps, theme toggle, `build-schema` SQL stub. |

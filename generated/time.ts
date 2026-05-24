@@ -13,6 +13,12 @@ import { sleep as sleepMilliseconds } from "@hatchingpoint/point/std/time";
 
 import { formatTime as formatTime } from "@hatchingpoint/point/std/time";
 
+import { durationFromSeconds as durationFromSecondsRaw } from "@hatchingpoint/point/std/time";
+
+import { durationToSeconds as durationToSecondsRaw } from "@hatchingpoint/point/std/time";
+
+import { durationFromMinutes as durationFromMinutesRaw } from "@hatchingpoint/point/std/time";
+
 export function instantNowValue(): string {
   return instantNowRaw();
 }
@@ -31,4 +37,16 @@ export async function currentTimeValue(): Promise<string> {
 
 export async function waitMillisecondsResult(ms: number): Promise<void> {
   return sleepMilliseconds(ms);
+}
+
+export function durationFromSecondsDuration(seconds: number): number {
+  return durationFromSecondsRaw(seconds);
+}
+
+export function durationToSeconds(elapsed: number): number {
+  return durationToSecondsRaw(elapsed);
+}
+
+export function durationFromMinutesDuration(minutes: number): number {
+  return durationFromMinutesRaw(minutes);
 }

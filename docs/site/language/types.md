@@ -19,6 +19,7 @@ Point uses a small typed surface: primitives, generics, unions, and user record 
 | `List<T>` | Homogeneous lists |
 | `Map<Text, T>` | String-keyed maps (`map { "key": value }`, `lookup map key`) |
 | `Instant` | Opaque UTC timestamp (ISO string at runtime via `std.time`) |
+| `Duration` | Elapsed time as opaque **whole seconds** (number at runtime via `std.time`) |
 | `Maybe<T>` | Optional (`none` literal) |
 | `A or B` | Union / result (`Text or Error`) |
 | Record name | User-defined struct (`Cart Item`) |
@@ -132,6 +133,37 @@ label event summary
 - `current time()` remains for plain `Text` ISO strings (legacy)
 
 See `examples/tools/instant-demo.point`. Avoid `Float` or raw `Text` when you mean a typed timestamp.
+
+### Duration (elapsed seconds)
+
+Author-facing durations are modeled as **`Duration`** (integer **seconds**, no sub-second precision). Create and read them via **`std.time`** so timeouts and SLA fields stay typed instead of raw `Int` math:
+
+```point
+use std.time
+
+record Window
+  label: Text
+  ttl: Duration
+
+calculation sample window
+  output window: Window
+  window is { label: "Session", ttl: duration from minutes(15) }
+
+calculation window ttl seconds
+  input window: Window
+  output seconds: Int
+  seconds is duration to seconds(window.ttl)
+```
+
+- `duration from seconds(n)` — build a `Duration` from an `Int`
+- `duration to seconds(value)` — read back whole seconds (`Int`)
+- `duration from minutes(m)` — convenience for `m * 60` seconds
+
+`build-schema` maps `Duration` fields to **`BIGINT`** on PostgreSQL and **`INTEGER`** on SQLite — same scaling as workflow `timeout after … seconds` and schedule intervals (whole seconds).
+
+Timezones remain out of scope for the language core; defer to actions and hosts.
+
+See `examples/tools/duration-demo.point`.
 
 Operators: `+`, `-`, `*`, `/`, comparisons, `and`, `or`, property access with `.`
 

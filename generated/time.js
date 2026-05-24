@@ -13,22 +13,40 @@ import { sleep as sleepMilliseconds } from "@hatchingpoint/point/std/time";
 
 import { formatTime as formatTime } from "@hatchingpoint/point/std/time";
 
+import { durationFromSeconds as durationFromSecondsRaw } from "@hatchingpoint/point/std/time";
+
+import { durationToSeconds as durationToSecondsRaw } from "@hatchingpoint/point/std/time";
+
+import { durationFromMinutes as durationFromMinutesRaw } from "@hatchingpoint/point/std/time";
+
 export function instantNowValue() {
-  return instantNowRaw(); // @point 13
+  return instantNowRaw(); // @point 16
 }
 
 export function formatInstantLabel(value) {
-  return formatInstantRaw(value); // @point 18
+  return formatInstantRaw(value); // @point 21
 }
 
 export async function parseInstantResult(value) {
-  return parseInstantRaw(value); // @point 24
+  return parseInstantRaw(value); // @point 27
 }
 
 export async function currentTimeValue() {
-  return timeNow(); // @point 29
+  return timeNow(); // @point 32
 }
 
 export async function waitMillisecondsResult(ms) {
-  return sleepMilliseconds(ms); // @point 35
+  return sleepMilliseconds(ms); // @point 38
+}
+
+export function durationFromSecondsDuration(seconds) {
+  return durationFromSecondsRaw(seconds); // @point 43
+}
+
+export function durationToSeconds(elapsed) {
+  return durationToSecondsRaw(elapsed); // @point 48
+}
+
+export function durationFromMinutesDuration(minutes) {
+  return durationFromMinutesRaw(minutes); // @point 53
 }

@@ -24,7 +24,7 @@ function isUnsupportedSqlType(type: PointSemanticTypeExpression, recordNames: Se
 	if (UNSUPPORTED_SQL_ROOT_TYPES.has(inner.name)) return true;
 	if (inner.name === "List" || inner.name === "Variant") return false;
 	if (inner.name === "Maybe") return false;
-	if (inner.name === "Instant") return false;
+	if (inner.name === "Instant" || inner.name === "Duration") return false;
 	if (recordNames.has(inner.name)) return false;
 	if (["Text", "Bool", "Int", "Float"].includes(inner.name)) return false;
 	return true;
@@ -115,7 +115,7 @@ export function checkSemanticSqlSchema(
 						`Record ${record.name} field "${field.label}" uses type ${unsupportedTypeLabel(field.type)} which build-schema cannot map yet`,
 						moduleName,
 						record.name,
-						"Use Text, Bool, Int, Float, Instant, Maybe<T>, List<T>, or another record type for schema-backed fields.",
+						"Use Text, Bool, Int, Float, Instant, Duration, Maybe<T>, List<T>, or another record type for schema-backed fields.",
 						field.span,
 					),
 				);
@@ -148,7 +148,7 @@ export function checkSemanticSqlSchema(
 						`Record ${record.name} field "${field.label}" cannot be mapped to SQL`,
 						moduleName,
 						record.name,
-						"Use Text, Bool, Int, Float, Instant, Maybe<T>, List<T>, or another record type for schema-backed fields.",
+						"Use Text, Bool, Int, Float, Instant, Duration, Maybe<T>, List<T>, or another record type for schema-backed fields.",
 						field.span,
 					),
 				);

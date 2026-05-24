@@ -1,0 +1,29 @@
+module DurationDemo
+
+use std.time
+
+record Window
+  label: Text
+  ttl: Duration
+
+calculation sample window
+  output window: Window
+  window is { label: "Session", ttl: duration from minutes(15) }
+
+calculation window ttl seconds
+  input window: Window
+  output seconds: Int
+  seconds is duration to seconds(window.ttl)
+
+calculation ninety seconds ttl
+  output value: Duration
+  value is duration from seconds(90)
+
+command duration demo
+  output ttl seconds: Int
+  return window ttl seconds(sample window())
+
+label ttl is under one hour
+  input window: Window
+  output short: Bool
+  otherwise return duration to seconds(window.ttl) < 3600

@@ -1,0 +1,1251 @@
+{
+  "kind": "coreProgram",
+  "module": "DurationDemo",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Window",
+      "fields": [
+        {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "label",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 49
+            },
+            "end": {
+              "line": 6,
+              "column": 14,
+              "offset": 62
+            }
+          }
+        },
+        {
+          "name": "ttl",
+          "type": {
+            "kind": "typeRef",
+            "name": "Duration",
+            "args": []
+          },
+          "semanticName": "ttl",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 63
+            },
+            "end": {
+              "line": 7,
+              "column": 16,
+              "offset": 78
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Window"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 35
+        },
+        "end": {
+          "line": 5,
+          "column": 14,
+          "offset": 48
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sampleWindow",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Window",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "label",
+                "value": {
+                  "kind": "literal",
+                  "value": "Session",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 130
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 65,
+                      "offset": 194
+                    }
+                  }
+                }
+              },
+              {
+                "name": "ttl",
+                "value": {
+                  "kind": "call",
+                  "callee": "durationFromMinutesDuration",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": 15,
+                      "span": {
+                        "start": {
+                          "line": 11,
+                          "column": 1,
+                          "offset": 130
+                        },
+                        "end": {
+                          "line": 11,
+                          "column": 65,
+                          "offset": 194
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 130
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 65,
+                      "offset": 194
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 130
+              },
+              "end": {
+                "line": 11,
+                "column": 65,
+                "offset": 194
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 130
+            },
+            "end": {
+              "line": 11,
+              "column": 65,
+              "offset": 194
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sample window",
+        "outputName": "window",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 80
+        },
+        "end": {
+          "line": 9,
+          "column": 26,
+          "offset": 105
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "windowTtlSeconds",
+      "params": [
+        {
+          "name": "window",
+          "type": {
+            "kind": "typeRef",
+            "name": "Window",
+            "args": []
+          },
+          "semanticName": "window",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "durationToSeconds",
+            "args": [
+              {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "window",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 272
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 45,
+                      "offset": 316
+                    }
+                  }
+                },
+                "name": "ttl",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 272
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 45,
+                    "offset": 316
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 272
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 316
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 272
+            },
+            "end": {
+              "line": 16,
+              "column": 45,
+              "offset": 316
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "window ttl seconds",
+        "outputName": "seconds",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 196
+        },
+        "end": {
+          "line": 13,
+          "column": 31,
+          "offset": 226
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "ninetySecondsTtlValue",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Duration",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "durationFromSecondsDuration",
+            "args": [
+              {
+                "kind": "literal",
+                "value": 90,
+                "span": {
+                  "start": {
+                    "line": 20,
+                    "column": 1,
+                    "offset": 374
+                  },
+                  "end": {
+                    "line": 20,
+                    "column": 37,
+                    "offset": 410
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 374
+              },
+              "end": {
+                "line": 20,
+                "column": 37,
+                "offset": 410
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 374
+            },
+            "end": {
+              "line": 20,
+              "column": 37,
+              "offset": 410
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "ninety seconds ttl",
+        "outputName": "value",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 318
+        },
+        "end": {
+          "line": 18,
+          "column": 31,
+          "offset": 348
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "durationDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "windowTtlSeconds",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "sampleWindow",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 460
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 45,
+                    "offset": 504
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 460
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 504
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 460
+            },
+            "end": {
+              "line": 24,
+              "column": 45,
+              "offset": 504
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "duration demo",
+        "outputName": "ttl seconds",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 412
+        },
+        "end": {
+          "line": 22,
+          "column": 22,
+          "offset": 433
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "ttlIsUnderOneHourLabel",
+      "params": [
+        {
+          "name": "window",
+          "type": {
+            "kind": "typeRef",
+            "name": "Window",
+            "args": []
+          },
+          "semanticName": "window",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "<",
+            "left": {
+              "kind": "call",
+              "callee": "durationToSeconds",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "window",
+                    "span": {
+                      "start": {
+                        "line": 29,
+                        "column": 1,
+                        "offset": 578
+                      },
+                      "end": {
+                        "line": 29,
+                        "column": 58,
+                        "offset": 635
+                      }
+                    }
+                  },
+                  "name": "ttl",
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 578
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 58,
+                      "offset": 635
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 578
+                },
+                "end": {
+                  "line": 29,
+                  "column": 58,
+                  "offset": 635
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": 3600,
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 578
+                },
+                "end": {
+                  "line": 29,
+                  "column": 58,
+                  "offset": 635
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 578
+              },
+              "end": {
+                "line": 29,
+                "column": 58,
+                "offset": 635
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 578
+            },
+            "end": {
+              "line": 29,
+              "column": 58,
+              "offset": 635
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "ttl is under one hour",
+        "outputName": "short",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 506
+        },
+        "end": {
+          "line": 26,
+          "column": 28,
+          "offset": 533
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 20,
+      "offset": 19
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "DurationDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.time",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Window",
+        "fields": [
+          {
+            "label": "label",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 49
+              },
+              "end": {
+                "line": 6,
+                "column": 14,
+                "offset": 62
+              }
+            }
+          },
+          {
+            "label": "ttl",
+            "type": {
+              "kind": "typeRef",
+              "name": "Duration",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 63
+              },
+              "end": {
+                "line": 7,
+                "column": 16,
+                "offset": 78
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 35
+          },
+          "end": {
+            "line": 5,
+            "column": 14,
+            "offset": 48
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sample window",
+        "inputs": [],
+        "output": {
+          "name": "window",
+          "type": {
+            "kind": "typeRef",
+            "name": "Window",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "window",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "label",
+                  "value": {
+                    "kind": "literal",
+                    "value": "Session",
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 130
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 65,
+                        "offset": 194
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "ttl",
+                  "value": {
+                    "kind": "call",
+                    "callee": "duration from minutes",
+                    "args": [
+                      {
+                        "kind": "literal",
+                        "value": 15,
+                        "span": {
+                          "start": {
+                            "line": 11,
+                            "column": 1,
+                            "offset": 130
+                          },
+                          "end": {
+                            "line": 11,
+                            "column": 65,
+                            "offset": 194
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 130
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 65,
+                        "offset": 194
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 130
+                },
+                "end": {
+                  "line": 11,
+                  "column": 65,
+                  "offset": 194
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 130
+              },
+              "end": {
+                "line": 11,
+                "column": 65,
+                "offset": 194
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 80
+          },
+          "end": {
+            "line": 9,
+            "column": 26,
+            "offset": 105
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "window ttl seconds",
+        "inputs": [
+          {
+            "label": "window",
+            "type": {
+              "kind": "typeRef",
+              "name": "Window",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "seconds",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "seconds",
+            "value": {
+              "kind": "call",
+              "callee": "duration to seconds",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "window",
+                    "span": {
+                      "start": {
+                        "line": 16,
+                        "column": 1,
+                        "offset": 272
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 45,
+                        "offset": 316
+                      }
+                    }
+                  },
+                  "label": "ttl",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 272
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 45,
+                      "offset": 316
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 272
+                },
+                "end": {
+                  "line": 16,
+                  "column": 45,
+                  "offset": 316
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 272
+              },
+              "end": {
+                "line": 16,
+                "column": 45,
+                "offset": 316
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 196
+          },
+          "end": {
+            "line": 13,
+            "column": 31,
+            "offset": 226
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "ninety seconds ttl",
+        "inputs": [],
+        "output": {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Duration",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "value",
+            "value": {
+              "kind": "call",
+              "callee": "duration from seconds",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": 90,
+                  "span": {
+                    "start": {
+                      "line": 20,
+                      "column": 1,
+                      "offset": 374
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 37,
+                      "offset": 410
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 374
+                },
+                "end": {
+                  "line": 20,
+                  "column": 37,
+                  "offset": 410
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 374
+              },
+              "end": {
+                "line": 20,
+                "column": 37,
+                "offset": 410
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 18,
+            "column": 1,
+            "offset": 318
+          },
+          "end": {
+            "line": 18,
+            "column": 31,
+            "offset": 348
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "duration demo",
+        "inputs": [],
+        "output": {
+          "name": "ttl seconds",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "window ttl seconds",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "sample window",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 24,
+                      "column": 1,
+                      "offset": 460
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 45,
+                      "offset": 504
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 460
+                },
+                "end": {
+                  "line": 24,
+                  "column": 45,
+                  "offset": 504
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 460
+              },
+              "end": {
+                "line": 24,
+                "column": 45,
+                "offset": 504
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 22,
+            "column": 1,
+            "offset": 412
+          },
+          "end": {
+            "line": 22,
+            "column": 22,
+            "offset": 433
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "ttl is under one hour",
+        "inputs": [
+          {
+            "label": "window",
+            "type": {
+              "kind": "typeRef",
+              "name": "Window",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "short",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "binary",
+              "operator": "<",
+              "left": {
+                "kind": "call",
+                "callee": "duration to seconds",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "window",
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 578
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 58,
+                          "offset": 635
+                        }
+                      }
+                    },
+                    "label": "ttl",
+                    "span": {
+                      "start": {
+                        "line": 29,
+                        "column": 1,
+                        "offset": 578
+                      },
+                      "end": {
+                        "line": 29,
+                        "column": 58,
+                        "offset": 635
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 578
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 58,
+                    "offset": 635
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": 3600,
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 578
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 58,
+                    "offset": 635
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 578
+                },
+                "end": {
+                  "line": 29,
+                  "column": 58,
+                  "offset": 635
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 578
+              },
+              "end": {
+                "line": 29,
+                "column": 58,
+                "offset": 635
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 506
+          },
+          "end": {
+            "line": 26,
+            "column": 28,
+            "offset": 533
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 20,
+        "offset": 19
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { modulePathFromLock, readPointLockSync } from "../packages.ts";
 import { assertSemanticPointSource, isSemanticPointSyntax } from "../semantic-source.ts";
 import { scanUseDeclarations } from "../../semantic/callables.ts";
 import { desugarSemanticProgram } from "../../semantic/desugar.ts";
-import { parseSemanticSource } from "../../semantic/parse.ts";
+import { parseSemanticSourceWithUses } from "../parser.ts";
 import { parsePointCore } from "./core-text-parser.ts";
 
 /** Legacy string-lowering path retained for migration parity tests only. */
@@ -27,7 +27,7 @@ function parsePointSourceViaLowering(source: string): PointCoreProgram {
 }
 
 function enrichViewRenderClasses(program: PointCoreProgram, source: string): void {
-	const desugared = desugarSemanticProgram(parseSemanticSource(source));
+	const desugared = desugarSemanticProgram(parseSemanticSourceWithUses(source));
 	const viewFunctions = desugared.declarations.filter(
 		(declaration): declaration is Extract<(typeof desugared.declarations)[number], { kind: "function" }> =>
 			declaration.kind === "function" && declaration.semantic?.kind === "view",
@@ -60,7 +60,7 @@ function copyViewRenderClasses(target: PointCoreStatement[], source: PointCoreSt
 }
 
 function enrichLayoutSpecs(program: PointCoreProgram, source: string): void {
-	const desugared = desugarSemanticProgram(parseSemanticSource(source));
+	const desugared = desugarSemanticProgram(parseSemanticSourceWithUses(source));
 	const layoutFunctions = desugared.declarations.filter(
 		(declaration): declaration is Extract<(typeof desugared.declarations)[number], { kind: "function" }> =>
 			declaration.kind === "function" && declaration.semantic?.kind === "layout",
@@ -74,7 +74,7 @@ function enrichLayoutSpecs(program: PointCoreProgram, source: string): void {
 }
 
 function enrichPageLayouts(program: PointCoreProgram, source: string): void {
-	const desugared = desugarSemanticProgram(parseSemanticSource(source));
+	const desugared = desugarSemanticProgram(parseSemanticSourceWithUses(source));
 	const pageFunctions = desugared.declarations.filter(
 		(declaration): declaration is Extract<(typeof desugared.declarations)[number], { kind: "function" }> =>
 			declaration.kind === "function" && declaration.semantic?.kind === "page",
@@ -87,12 +87,17 @@ function enrichPageLayouts(program: PointCoreProgram, source: string): void {
 	}
 }
 
-function lowerSemanticPointSyntax(source: string): string {
+function lowerSemanticPointSyntax(source: string, cwd?: string): string {
 	if (!isSemanticPointSyntax(source)) return source;
 	const lines = source.split(/\r?\n/);
 	const output: string[] = [];
 	const records = new Map<string, Map<string, string>>();
-	const externalBindings = new Map([...collectExternalBindings(source), ...collectCallableBindings(source)]);
+	const cwdResolved = cwd ?? process.cwd();
+	const externalBindings = new Map([
+		...collectExternalBindings(source),
+		...collectCallableBindings(source),
+		...collectImportedBindings(source, cwdResolved),
+	]);
 	let index = 0;
 
 	while (index < lines.length) {

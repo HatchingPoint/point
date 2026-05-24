@@ -49,7 +49,7 @@ type ScopeEntry = { type: PointCoreTypeExpression; mutable: boolean; variantCase
 type Scope = Map<string, ScopeEntry>;
 const scopeMaybeNarrowings = new WeakMap<Scope, Set<string>>();
 
-const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Map", "Maybe", "Instant", "Error", "Or", "Page", "Handler"]);
+const PRIMITIVE_TYPES = new Set(["Text", "Int", "Float", "Bool", "Void", "List", "Map", "Maybe", "Instant", "Duration", "Error", "Or", "Page", "Handler"]);
 
 export function checkPointCore(program: PointCoreProgram): PointCoreDiagnostic[] {
 	const checker = new CoreChecker(program);
@@ -878,6 +878,13 @@ class CoreChecker {
 				expected: "Instant",
 				actual: formatType(type),
 				repair: "Use Instant — not Instant<T>.",
+			});
+		}
+		if (type.name === "Duration" && type.args.length !== 0) {
+			this.push("invalid-type-arity", "Duration is opaque and takes no type arguments", path, type.span, {
+				expected: "Duration",
+				actual: formatType(type),
+				repair: "Use Duration — not Duration<T>.",
 			});
 		}
 		if (type.name !== "List" && type.name !== "Maybe" && type.name !== "Or" && type.name !== "Handler" && type.name !== "Map" && type.args.length > 0 && !this.typeDeclarations.has(String(type.name))) {

@@ -6,7 +6,7 @@ import { envGet } from "@hatchingpoint/point/std/env";
 import { readFile, writeFile } from "@hatchingpoint/point/std/fs";
 import { httpAssertJsonBody, httpAssertStatus, httpFetch, httpGet, httpPost } from "@hatchingpoint/point/std/http";
 import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
-import { formatTime, now, sleep } from "@hatchingpoint/point/std/time";
+import { durationFromSeconds, durationToSeconds, formatTime, now, sleep } from "@hatchingpoint/point/std/time";
 import {
 	cryptoHmacSha256,
 	cryptoJwtIsValid,
@@ -206,6 +206,9 @@ describe("@hatchingpoint/point std runtime shims", () => {
 		expect(now()).toMatch(/^\d{4}-\d{2}-\d{2}T/);
 		expect(formatTime(iso)).toBe(new Date(iso).toUTCString());
 		expect(formatTime("not-a-date")).toBe("not-a-date");
+		expect(durationFromSeconds(900)).toBe(900);
+		expect(durationFromSeconds(-2.9)).toBe(-2);
+		expect(durationToSeconds(450)).toBe(450);
 		const start = Date.now();
 		await sleep(10);
 		expect(Date.now() - start).toBeGreaterThanOrEqual(5);

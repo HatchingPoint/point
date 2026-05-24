@@ -47,6 +47,10 @@ export function parseSemanticTypeExpression(source: string): PointSemanticTypeEx
 	if (instantMatch) {
 		return { kind: "typeRef", name: "Instant", args: [parseSemanticTypeExpression(instantMatch[1] ?? "")] };
 	}
+	const durationMatch = trimmed.match(/^Duration<(.+)>$/);
+	if (durationMatch) {
+		return { kind: "typeRef", name: "Duration", args: [parseSemanticTypeExpression(durationMatch[1] ?? "")] };
+	}
 	const handlerMatch = trimmed.match(/^Handler\s+(.+)$/);
 	if (handlerMatch) {
 		return { kind: "typeRef", name: "Handler", args: [parseSemanticTypeExpression(handlerMatch[1] ?? "")] };

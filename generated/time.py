@@ -25,6 +25,12 @@ from point_std.time import sleep as sleepMilliseconds
 
 from point_std.time import formatTime as formatTime
 
+from point_std.time import durationFromSeconds as durationFromSecondsRaw
+
+from point_std.time import durationToSeconds as durationToSecondsRaw
+
+from point_std.time import durationFromMinutes as durationFromMinutesRaw
+
 def instantNowValue() -> str:
     return instantNowRaw()
 
@@ -39,3 +45,12 @@ async def currentTimeValue() -> str:
 
 async def waitMillisecondsResult(ms: int) -> None:
     return await sleepMilliseconds(ms)
+
+def durationFromSecondsDuration(seconds: int) -> int:
+    return durationFromSecondsRaw(seconds)
+
+def durationToSeconds(elapsed: int) -> int:
+    return durationToSecondsRaw(elapsed)
+
+def durationFromMinutesDuration(minutes: int) -> int:
+    return durationFromMinutesRaw(minutes)

@@ -29,7 +29,7 @@ export interface SqlSchemaEmitOptions {
 	migration?: { sequence: number; label: string };
 }
 
-const PRIMITIVE_SQL_TYPES = new Set(["Text", "Bool", "Int", "Float", "Instant"]);
+const PRIMITIVE_SQL_TYPES = new Set(["Text", "Bool", "Int", "Float", "Instant", "Duration"]);
 
 export function toSqlIdentifier(label: string): string {
 	const words = label.match(/[A-Za-z0-9]+/g) ?? [];
@@ -74,6 +74,9 @@ function mapScalarSqlType(typeName: string, dialect: SqlDialect): string | undef
 	if (typeName === "Instant") {
 		return dialect === "sqlite" ? "TEXT" : "TIMESTAMP WITH TIME ZONE";
 	}
+	if (typeName === "Duration") {
+		return dialect === "sqlite" ? "INTEGER" : "BIGINT";
+	}
 	return undefined;
 }
 
@@ -103,6 +106,12 @@ export function mapRecordFieldToSqlColumn(
 		if (inner.name === "Bool" && !nullable) column.defaultSql = dialect === "sqlite" ? "0" : "FALSE";
 		if (inner.name === "Instant" && dialect === "sqlite") {
 			column.comment = "Point Instant — store ISO-8601 text in sqlite";
+		}
+		if (inner.name === "Duration" && dialect === "postgres") {
+			column.comment = "Point Duration — whole seconds";
+		}
+		if (inner.name === "Duration" && dialect === "sqlite") {
+			column.comment = "Point Duration — whole seconds stored as INTEGER";
 		}
 		return column;
 	}

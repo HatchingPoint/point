@@ -37,3 +37,16 @@ def formatTime(value: str) -> str:
 		return format_datetime(parsed, usegmt=True)
 	except ValueError:
 		return value
+
+
+def durationFromSeconds(seconds: int | float) -> int:
+	"""Elapsed duration as integer seconds (opaque Duration in Point)."""
+	return int(seconds)
+
+
+def durationToSeconds(duration: int | float) -> int:
+	return int(duration)
+
+
+def durationFromMinutes(minutes: int | float) -> int:
+	return int(minutes) * 60

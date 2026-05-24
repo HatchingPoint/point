@@ -29,3 +29,17 @@ export function formatTime(value: string): string {
 	}
 	return date.toUTCString();
 }
+
+/** Elapsed duration as integer seconds (opaque `Duration` in Point). */
+export function durationFromSeconds(seconds: number): number {
+	return Math.trunc(seconds);
+}
+
+export function durationToSeconds(duration: number): number {
+	return Math.trunc(duration);
+}
+
+/** Minutes to whole-second duration (JS convenience; authors use `duration minutes` in Point). */
+export function durationFromMinutes(minutes: number): number {
+	return Math.trunc(minutes) * 60;
+}

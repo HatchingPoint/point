@@ -12,10 +12,10 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 
 | Primitive | Status | Phase 22 decision |
 |-----------|--------|-------------------|
-| `Map<K,V>` / dict | Missing | **Defer** — use records + lists or `external` JSON |
-| Money / decimal | `Int` only | **Defer** — document cents-as-Int pattern |
-| Rich errors / `Result` | Pattern shipped (variant-first) | **Pattern shipped (variant-first)** — generic `Result` still deferred |
-| Author-facing dates | `std.time` shim | **Defer** — `external` + `action` for now |
+| `Map<K,V>` / dict | **Shipped** (Phase 23) | **`Map<Text, T>` shipped** |
+| Money / decimal | `Int` only | **`Pattern shipped`** — cents-as-Int + `float-money-field` lint |
+| Rich errors / `Result` | Pattern shipped (variant-first) | **`Pattern shipped (variant-first)`** — generic `Result` still deferred |
+| Author-facing dates | **`Instant`** + **`Duration`** (whole seconds); timezones deferred | **`Instant + Duration`** (partial timezone defer) — use `std.time`; host/actions for TZ |
 
 ---
 
@@ -25,11 +25,11 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 
 - Records model fixed field sets (`record Cart Item`).
 - Lists model ordered collections (`List<Cart Item>`).
-- No keyed lookup type in the checker.
+- **`Map<Text, T>`** models string-keyed maps (`map { … }`, `lookup map key`).
 
 ### Workarounds
 
-1. **Record of optional fields** when keys are a fixed small set.
+1. **Record of optional fields** when keys are a fixed small set (still fine for closed key sets).
 2. **`List<{ key: Text, value: T }>`** with a calculation to find by key (fine for small maps).
 3. **`external` + JSON** — parse objects in an `action` and return a record or list (`std.json`).
 4. **Database** — keyed rows via `std.sql` in actions; views load through `load data from action`.
@@ -41,11 +41,7 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 
 ### Recommendation
 
-**Defer to Phase 23.** Add `Map<Text, T>` or `Dict<Text, T>` only after:
-
-- Checker support for indexing syntax (`map[key]` or `lookup map key`)
-- Emit for JS (`Map` or plain object) and Python (`dict`)
-- Conformance fixtures for at least ecommerce + config use cases
+**Shipped (Phase 23).** Prefer `Map<Text, T>` plus `lookup …` for associative data; see [`types` guide](./site/language/types.md) and catalog examples.
 
 ---
 
@@ -69,12 +65,7 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 
 ### Recommendation
 
-**Defer to Phase 23.** If added, prefer:
-
-- `Money` record type (`amount: Int`, `currency: Text`) **or**
-- fixed-scale `Decimal` with explicit rounding rules in the checker
-
-Do not silently use JavaScript `number` for currency emit.
+**Pattern shipped.** Use integer minor units + **`std/money`** helpers; the checker flags `float-money-field` when money-shaped labels use `Float`. A real `Decimal`/`Money` primitive remains deferred.
 
 ---
 
@@ -100,17 +91,13 @@ Do not silently use JavaScript `number` for currency emit.
 
 ### Recommendation
 
-**Defer.** A `Result` type or `on failure return` on calculations would need desugar + emit across JS and Python. Until then, variants + labels are the idiomatic Point pattern.
-
----
-
-## Date and time (author surface)
+**Pattern shipped (variant-first).** A generic `Result<T, E>` or `on failure return` on calculations would still need desugar + emit across JS and Python. Until/unless that lands, **`variant`** + labels are the idiomatic Point pattern.
 
 ### Today
 
-- **`Instant`** — opaque UTC timestamp type (ISO string at runtime via `std.time` shim).
-- **`std.time`** — `instant now`, `format instant`, `parse instant`, plus legacy `current time` (`Text`).
-- No `Date` or `Duration` in the type grammar yet.
+- **`Instant`** — opaque UTC timestamp type (ISO string at runtime via `std.time`).
+- **`Duration`** — opaque elapsed time type (integer seconds at runtime via `std.time`); combine with **`std.time`** (`duration from seconds`, `duration to seconds`, `duration from minutes`) instead of unexplained integer fields.
+- **`std.time`** — instants (`instant now`, `format instant`, `parse instant`), durations (`duration from seconds`, `duration to seconds`, `duration from minutes`), plus legacy `current time` (`Text`).
 
 ### Workarounds (legacy / advanced)
 
@@ -121,14 +108,13 @@ Do not silently use JavaScript `number` for currency emit.
 ### Examples
 
 - `examples/tools/instant-demo.point` — `Instant` records + format
+- `examples/tools/duration-demo.point` — `Duration` on records via `std.time`
 - `examples/tools/health-check-schedule.point` — periodic jobs
 - Actions in workflow examples using host time indirectly
 
 ### Recommendation
 
-**Instant is shipped (Wave 2).** Optional follow-ups:
-
-- `Duration` for schedule/workflow timeouts (partially exists as workflow metadata)
+**`Instant`** and **`Duration`** are shipped (`Duration` stores **whole seconds**). Optional follow-up: finer-than-second wall-clock math or centralized IANA TZ rules — keep those in **`action`** / **`external`** boundaries rather than baking them into expressions.
 
 Avoid timezone logic in the language core — keep in actions.
 
