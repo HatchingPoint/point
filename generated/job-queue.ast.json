@@ -1,0 +1,7454 @@
+{
+  "kind": "coreProgram",
+  "module": "JobQueueApp",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Job",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 122
+            },
+            "end": {
+              "line": 11,
+              "column": 11,
+              "offset": 132
+            }
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 133
+            },
+            "end": {
+              "line": 12,
+              "column": 13,
+              "offset": 145
+            }
+          }
+        },
+        {
+          "name": "status",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "status",
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 146
+            },
+            "end": {
+              "line": 13,
+              "column": 15,
+              "offset": 160
+            }
+          }
+        },
+        {
+          "name": "createdAt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "created_at",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 161
+            },
+            "end": {
+              "line": 14,
+              "column": 19,
+              "offset": 179
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Job"
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 111
+        },
+        "end": {
+          "line": 10,
+          "column": 11,
+          "offset": 121
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "JobsResponse",
+      "fields": [
+        {
+          "name": "jobs",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Job",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "jobs",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 202
+            },
+            "end": {
+              "line": 17,
+              "column": 18,
+              "offset": 219
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Jobs Response"
+      },
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 181
+        },
+        "end": {
+          "line": 16,
+          "column": 21,
+          "offset": 201
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "CreateJobBody",
+      "fields": [
+        {
+          "name": "name",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "name",
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 244
+            },
+            "end": {
+              "line": 20,
+              "column": 13,
+              "offset": 256
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Create Job Body"
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 221
+        },
+        "end": {
+          "line": 19,
+          "column": 23,
+          "offset": 243
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "sqlQueryRaw",
+      "params": [
+        {
+          "name": "sql",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "sql",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        },
+        {
+          "name": "params",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "params",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/sql",
+      "importName": "sqlQueryRaw",
+      "semantic": {
+        "kind": "external",
+        "name": "sql query raw"
+      },
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 281
+        },
+        "end": {
+          "line": 23,
+          "column": 113,
+          "offset": 393
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "sqlJsonRowsList",
+      "params": [
+        {
+          "name": "raw",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "raw",
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 24,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Job",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/sql",
+      "importName": "sqlJsonRowsList",
+      "semantic": {
+        "kind": "external",
+        "name": "sql json rows list"
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 394
+        },
+        "end": {
+          "line": 24,
+          "column": 107,
+          "offset": 500
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "sqlJsonMemberRow",
+      "params": [
+        {
+          "name": "raw",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "raw",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Job",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/sql",
+      "importName": "sqlJsonMemberRow",
+      "semantic": {
+        "kind": "external",
+        "name": "sql json member row"
+      },
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 501
+        },
+        "end": {
+          "line": 25,
+          "column": 103,
+          "offset": 603
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "createJobsTableResult",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlQueryRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL)",
+                "span": {
+                  "start": {
+                    "line": 30,
+                    "column": 1,
+                    "offset": 680
+                  },
+                  "end": {
+                    "line": 30,
+                    "column": 161,
+                    "offset": 840
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [],
+                "span": {
+                  "start": {
+                    "line": 30,
+                    "column": 1,
+                    "offset": 680
+                  },
+                  "end": {
+                    "line": 30,
+                    "column": 161,
+                    "offset": 840
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 680
+              },
+              "end": {
+                "line": 30,
+                "column": 161,
+                "offset": 840
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 680
+            },
+            "end": {
+              "line": 30,
+              "column": 161,
+              "offset": 840
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "create jobs table",
+        "outputName": "result",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 1,
+          "offset": 605
+        },
+        "end": {
+          "line": 27,
+          "column": 25,
+          "offset": 629
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "queryAllJobRows",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlQueryRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "SELECT id, name, status, created_at FROM jobs ORDER BY datetime(created_at) DESC",
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 916
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 111,
+                    "offset": 1026
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [],
+                "span": {
+                  "start": {
+                    "line": 35,
+                    "column": 1,
+                    "offset": 916
+                  },
+                  "end": {
+                    "line": 35,
+                    "column": 111,
+                    "offset": 1026
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 916
+              },
+              "end": {
+                "line": 35,
+                "column": 111,
+                "offset": 1026
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 916
+            },
+            "end": {
+              "line": 35,
+              "column": 111,
+              "offset": 1026
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "query all job rows",
+        "outputName": "rows",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 842
+        },
+        "end": {
+          "line": 32,
+          "column": 26,
+          "offset": 867
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "fetchAllJobs",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Job",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlJsonRowsList",
+            "args": [
+              {
+                "kind": "await",
+                "value": {
+                  "kind": "call",
+                  "callee": "queryAllJobRows",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1094
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 56,
+                      "offset": 1149
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 40,
+                    "column": 1,
+                    "offset": 1094
+                  },
+                  "end": {
+                    "line": 40,
+                    "column": 56,
+                    "offset": 1149
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1094
+              },
+              "end": {
+                "line": 40,
+                "column": 56,
+                "offset": 1149
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 1094
+            },
+            "end": {
+              "line": 40,
+              "column": 56,
+              "offset": 1149
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "fetch all jobs",
+        "outputName": "jobs",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 37,
+          "column": 1,
+          "offset": 1028
+        },
+        "end": {
+          "line": 37,
+          "column": 22,
+          "offset": 1049
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "enqueueJob",
+      "params": [
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "CreateJobBody",
+            "args": []
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 43,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 43,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Job",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlJsonMemberRow",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "sqlQueryRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "INSERT INTO jobs (id, name, status, created_at) VALUES (lower(hex(randomblob(8))), ?, 'pending', datetime('now')) RETURNING id, name, status, created_at",
+                    "span": {
+                      "start": {
+                        "line": 46,
+                        "column": 1,
+                        "offset": 1237
+                      },
+                      "end": {
+                        "line": 46,
+                        "column": 213,
+                        "offset": 1449
+                      }
+                    }
+                  },
+                  {
+                    "kind": "list",
+                    "items": [
+                      {
+                        "kind": "property",
+                        "target": {
+                          "kind": "identifier",
+                          "name": "body",
+                          "span": {
+                            "start": {
+                              "line": 46,
+                              "column": 1,
+                              "offset": 1237
+                            },
+                            "end": {
+                              "line": 46,
+                              "column": 213,
+                              "offset": 1449
+                            }
+                          }
+                        },
+                        "name": "name",
+                        "span": {
+                          "start": {
+                            "line": 46,
+                            "column": 1,
+                            "offset": 1237
+                          },
+                          "end": {
+                            "line": 46,
+                            "column": 213,
+                            "offset": 1449
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 46,
+                        "column": 1,
+                        "offset": 1237
+                      },
+                      "end": {
+                        "line": 46,
+                        "column": 213,
+                        "offset": 1449
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 46,
+                    "column": 1,
+                    "offset": 1237
+                  },
+                  "end": {
+                    "line": 46,
+                    "column": 213,
+                    "offset": 1449
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 46,
+                "column": 1,
+                "offset": 1237
+              },
+              "end": {
+                "line": 46,
+                "column": 213,
+                "offset": 1449
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 46,
+              "column": 1,
+              "offset": 1237
+            },
+            "end": {
+              "line": 46,
+              "column": 213,
+              "offset": 1449
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "enqueue job",
+        "outputName": "job",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 42,
+          "column": 1,
+          "offset": 1151
+        },
+        "end": {
+          "line": 42,
+          "column": 19,
+          "offset": 1169
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "queryJobUnionRowRows",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 49,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 49,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlQueryRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "SELECT id, name, status, created_at FROM jobs WHERE id = ? UNION ALL SELECT '__missing__', '', '', '' WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE id = ? LIMIT 1) LIMIT 1",
+                "span": {
+                  "start": {
+                    "line": 52,
+                    "column": 1,
+                    "offset": 1543
+                  },
+                  "end": {
+                    "line": 52,
+                    "column": 205,
+                    "offset": 1747
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "kind": "identifier",
+                    "name": "id",
+                    "span": {
+                      "start": {
+                        "line": 52,
+                        "column": 1,
+                        "offset": 1543
+                      },
+                      "end": {
+                        "line": 52,
+                        "column": 205,
+                        "offset": 1747
+                      }
+                    }
+                  },
+                  {
+                    "kind": "identifier",
+                    "name": "id",
+                    "span": {
+                      "start": {
+                        "line": 52,
+                        "column": 1,
+                        "offset": 1543
+                      },
+                      "end": {
+                        "line": 52,
+                        "column": 205,
+                        "offset": 1747
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 52,
+                    "column": 1,
+                    "offset": 1543
+                  },
+                  "end": {
+                    "line": 52,
+                    "column": 205,
+                    "offset": 1747
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 52,
+                "column": 1,
+                "offset": 1543
+              },
+              "end": {
+                "line": 52,
+                "column": 205,
+                "offset": 1747
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 52,
+              "column": 1,
+              "offset": 1543
+            },
+            "end": {
+              "line": 52,
+              "column": 205,
+              "offset": 1747
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "query job union row",
+        "outputName": "rows",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 48,
+          "column": 1,
+          "offset": 1451
+        },
+        "end": {
+          "line": 48,
+          "column": 27,
+          "offset": 1477
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "decodeUnionJob",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 55,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 55,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Job",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlJsonMemberRow",
+            "args": [
+              {
+                "kind": "await",
+                "value": {
+                  "kind": "call",
+                  "callee": "queryJobUnionRowRows",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "id",
+                      "span": {
+                        "start": {
+                          "line": 58,
+                          "column": 1,
+                          "offset": 1827
+                        },
+                        "end": {
+                          "line": 58,
+                          "column": 60,
+                          "offset": 1886
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 58,
+                      "column": 1,
+                      "offset": 1827
+                    },
+                    "end": {
+                      "line": 58,
+                      "column": 60,
+                      "offset": 1886
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 58,
+                    "column": 1,
+                    "offset": 1827
+                  },
+                  "end": {
+                    "line": 58,
+                    "column": 60,
+                    "offset": 1886
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 1,
+                "offset": 1827
+              },
+              "end": {
+                "line": 58,
+                "column": 60,
+                "offset": 1886
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 58,
+              "column": 1,
+              "offset": 1827
+            },
+            "end": {
+              "line": 58,
+              "column": 60,
+              "offset": 1886
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "decode union job",
+        "outputName": "job",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 54,
+          "column": 1,
+          "offset": 1749
+        },
+        "end": {
+          "line": 54,
+          "column": 24,
+          "offset": 1772
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobApiEnvelopeLabel",
+      "params": [
+        {
+          "name": "job",
+          "type": {
+            "kind": "typeRef",
+            "name": "Job",
+            "args": []
+          },
+          "semanticName": "job",
+          "span": {
+            "start": {
+              "line": 61,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 61,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "job",
+                "span": {
+                  "start": {
+                    "line": 63,
+                    "column": 1,
+                    "offset": 1952
+                  },
+                  "end": {
+                    "line": 63,
+                    "column": 85,
+                    "offset": 2036
+                  }
+                }
+              },
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 63,
+                  "column": 1,
+                  "offset": 1952
+                },
+                "end": {
+                  "line": 63,
+                  "column": 85,
+                  "offset": 2036
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": "__missing__",
+              "span": {
+                "start": {
+                  "line": 63,
+                  "column": 1,
+                  "offset": 1952
+                },
+                "end": {
+                  "line": 63,
+                  "column": 85,
+                  "offset": 2036
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 63,
+                "column": 1,
+                "offset": 1952
+              },
+              "end": {
+                "line": 63,
+                "column": 85,
+                "offset": 2036
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "pointJsonResponse",
+                "args": [
+                  {
+                    "kind": "record",
+                    "fields": [
+                      {
+                        "name": "error",
+                        "value": {
+                          "kind": "literal",
+                          "value": "not found",
+                          "span": {
+                            "start": {
+                              "line": 63,
+                              "column": 1,
+                              "offset": 1952
+                            },
+                            "end": {
+                              "line": 63,
+                              "column": 85,
+                              "offset": 2036
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 63,
+                        "column": 1,
+                        "offset": 1952
+                      },
+                      "end": {
+                        "line": 63,
+                        "column": 85,
+                        "offset": 2036
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": 404,
+                    "span": {
+                      "start": {
+                        "line": 63,
+                        "column": 1,
+                        "offset": 1952
+                      },
+                      "end": {
+                        "line": 63,
+                        "column": 85,
+                        "offset": 2036
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 63,
+                    "column": 1,
+                    "offset": 1952
+                  },
+                  "end": {
+                    "line": 63,
+                    "column": 85,
+                    "offset": 2036
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 63,
+                  "column": 1,
+                  "offset": 1952
+                },
+                "end": {
+                  "line": 63,
+                  "column": 85,
+                  "offset": 2036
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 63,
+              "column": 1,
+              "offset": 1952
+            },
+            "end": {
+              "line": 63,
+              "column": 85,
+              "offset": 2036
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointJsonResponse",
+            "args": [
+              {
+                "kind": "record",
+                "fields": [
+                  {
+                    "name": "job",
+                    "value": {
+                      "kind": "identifier",
+                      "name": "job",
+                      "span": {
+                        "start": {
+                          "line": 64,
+                          "column": 1,
+                          "offset": 2037
+                        },
+                        "end": {
+                          "line": 64,
+                          "column": 56,
+                          "offset": 2092
+                        }
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 64,
+                    "column": 1,
+                    "offset": 2037
+                  },
+                  "end": {
+                    "line": 64,
+                    "column": 56,
+                    "offset": 2092
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 200,
+                "span": {
+                  "start": {
+                    "line": 64,
+                    "column": 1,
+                    "offset": 2037
+                  },
+                  "end": {
+                    "line": 64,
+                    "column": 56,
+                    "offset": 2092
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 1,
+                "offset": 2037
+              },
+              "end": {
+                "line": 64,
+                "column": 56,
+                "offset": 2092
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 64,
+              "column": 1,
+              "offset": 2037
+            },
+            "end": {
+              "line": 64,
+              "column": 56,
+              "offset": 2092
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "job api envelope",
+        "outputName": "envelope",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 60,
+          "column": 1,
+          "offset": 1888
+        },
+        "end": {
+          "line": 60,
+          "column": 23,
+          "offset": 1910
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "markNextPendingRunningResult",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlQueryRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "UPDATE jobs SET status = 'running' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'pending' ORDER BY datetime(created_at) ASC LIMIT 1)",
+                "span": {
+                  "start": {
+                    "line": 69,
+                    "column": 1,
+                    "offset": 2177
+                  },
+                  "end": {
+                    "line": 69,
+                    "column": 172,
+                    "offset": 2348
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [],
+                "span": {
+                  "start": {
+                    "line": 69,
+                    "column": 1,
+                    "offset": 2177
+                  },
+                  "end": {
+                    "line": 69,
+                    "column": 172,
+                    "offset": 2348
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 69,
+                "column": 1,
+                "offset": 2177
+              },
+              "end": {
+                "line": 69,
+                "column": 172,
+                "offset": 2348
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 69,
+              "column": 1,
+              "offset": 2177
+            },
+            "end": {
+              "line": 69,
+              "column": 172,
+              "offset": 2348
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "mark next pending running",
+        "outputName": "result",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 66,
+          "column": 1,
+          "offset": 2094
+        },
+        "end": {
+          "line": 66,
+          "column": 33,
+          "offset": 2126
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "completeOldestRunningJobResult",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlQueryRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "UPDATE jobs SET status = 'completed' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'running' ORDER BY datetime(created_at) ASC LIMIT 1)",
+                "span": {
+                  "start": {
+                    "line": 74,
+                    "column": 1,
+                    "offset": 2435
+                  },
+                  "end": {
+                    "line": 74,
+                    "column": 174,
+                    "offset": 2608
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [],
+                "span": {
+                  "start": {
+                    "line": 74,
+                    "column": 1,
+                    "offset": 2435
+                  },
+                  "end": {
+                    "line": 74,
+                    "column": 174,
+                    "offset": 2608
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 74,
+                "column": 1,
+                "offset": 2435
+              },
+              "end": {
+                "line": 74,
+                "column": 174,
+                "offset": 2608
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 74,
+              "column": 1,
+              "offset": 2435
+            },
+            "end": {
+              "line": 74,
+              "column": 174,
+              "offset": 2608
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "complete oldest running job",
+        "outputName": "result",
+        "effects": [
+          "database"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 71,
+          "column": 1,
+          "offset": 2350
+        },
+        "end": {
+          "line": 71,
+          "column": 35,
+          "offset": 2384
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "initJobsDbWorkflow",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "value",
+          "mutable": false,
+          "name": "schema",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "createJobsTableResult",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 78,
+                  "column": 1,
+                  "offset": 2663
+                },
+                "end": {
+                  "line": 78,
+                  "column": 43,
+                  "offset": 2705
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 78,
+                "column": 1,
+                "offset": 2663
+              },
+              "end": {
+                "line": 78,
+                "column": 43,
+                "offset": 2705
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 78,
+              "column": 1,
+              "offset": 2663
+            },
+            "end": {
+              "line": 78,
+              "column": 43,
+              "offset": 2705
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "schema",
+            "span": {
+              "start": {
+                "line": 79,
+                "column": 1,
+                "offset": 2706
+              },
+              "end": {
+                "line": 79,
+                "column": 16,
+                "offset": 2721
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 1,
+              "offset": 2706
+            },
+            "end": {
+              "line": 79,
+              "column": 16,
+              "offset": 2721
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "workflow",
+        "name": "init jobs db",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 76,
+          "column": 1,
+          "offset": 2610
+        },
+        "end": {
+          "line": 76,
+          "column": 22,
+          "offset": 2631
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "processNextJobWorkflow",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "value",
+          "mutable": false,
+          "name": "started",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "markNextPendingRunningResult",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 83,
+                  "column": 1,
+                  "offset": 2780
+                },
+                "end": {
+                  "line": 83,
+                  "column": 52,
+                  "offset": 2831
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 83,
+                "column": 1,
+                "offset": 2780
+              },
+              "end": {
+                "line": 83,
+                "column": 52,
+                "offset": 2831
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 83,
+              "column": 1,
+              "offset": 2780
+            },
+            "end": {
+              "line": 83,
+              "column": 52,
+              "offset": 2831
+            }
+          }
+        },
+        {
+          "kind": "value",
+          "mutable": false,
+          "name": "finalized",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "completeOldestRunningJobResult",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 84,
+                  "column": 1,
+                  "offset": 2832
+                },
+                "end": {
+                  "line": 84,
+                  "column": 56,
+                  "offset": 2887
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 84,
+                "column": 1,
+                "offset": 2832
+              },
+              "end": {
+                "line": 84,
+                "column": 56,
+                "offset": 2887
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 84,
+              "column": 1,
+              "offset": 2832
+            },
+            "end": {
+              "line": 84,
+              "column": 56,
+              "offset": 2887
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "finalized",
+            "span": {
+              "start": {
+                "line": 85,
+                "column": 1,
+                "offset": 2888
+              },
+              "end": {
+                "line": 85,
+                "column": 19,
+                "offset": 2906
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 85,
+              "column": 1,
+              "offset": 2888
+            },
+            "end": {
+              "line": 85,
+              "column": 19,
+              "offset": 2906
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "workflow",
+        "name": "process next job",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 81,
+          "column": 1,
+          "offset": 2723
+        },
+        "end": {
+          "line": 81,
+          "column": 26,
+          "offset": 2748
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "postJobRoute",
+      "params": [
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "CreateJobBody",
+            "args": []
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 90,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 90,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Job",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointJsonResponse",
+            "args": [
+              {
+                "kind": "await",
+                "value": {
+                  "kind": "call",
+                  "callee": "enqueueJob",
+                  "args": [
+                    {
+                      "kind": "identifier",
+                      "name": "body",
+                      "span": {
+                        "start": {
+                          "line": 92,
+                          "column": 1,
+                          "offset": 3009
+                        },
+                        "end": {
+                          "line": 92,
+                          "column": 49,
+                          "offset": 3057
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 92,
+                      "column": 1,
+                      "offset": 3009
+                    },
+                    "end": {
+                      "line": 92,
+                      "column": 49,
+                      "offset": 3057
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 92,
+                    "column": 1,
+                    "offset": 3009
+                  },
+                  "end": {
+                    "line": 92,
+                    "column": 49,
+                    "offset": 3057
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": 201,
+                "span": {
+                  "start": {
+                    "line": 92,
+                    "column": 1,
+                    "offset": 3009
+                  },
+                  "end": {
+                    "line": 92,
+                    "column": 49,
+                    "offset": 3057
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 92,
+                "column": 1,
+                "offset": 3009
+              },
+              "end": {
+                "line": 92,
+                "column": 49,
+                "offset": 3057
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 92,
+              "column": 1,
+              "offset": 3009
+            },
+            "end": {
+              "line": 92,
+              "column": 49,
+              "offset": 3057
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "post job",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 87,
+          "column": 1,
+          "offset": 2908
+        },
+        "end": {
+          "line": 87,
+          "column": 15,
+          "offset": 2922
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "listJobsRoute",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "JobsResponse",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "pointJsonResponse",
+            "args": [
+              {
+                "kind": "record",
+                "fields": [
+                  {
+                    "name": "jobs",
+                    "value": {
+                      "kind": "await",
+                      "value": {
+                        "kind": "call",
+                        "callee": "fetchAllJobs",
+                        "args": [],
+                        "span": {
+                          "start": {
+                            "line": 98,
+                            "column": 1,
+                            "offset": 3140
+                          },
+                          "end": {
+                            "line": 98,
+                            "column": 47,
+                            "offset": 3186
+                          }
+                        }
+                      },
+                      "span": {
+                        "start": {
+                          "line": 98,
+                          "column": 1,
+                          "offset": 3140
+                        },
+                        "end": {
+                          "line": 98,
+                          "column": 47,
+                          "offset": 3186
+                        }
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 98,
+                    "column": 1,
+                    "offset": 3140
+                  },
+                  "end": {
+                    "line": 98,
+                    "column": 47,
+                    "offset": 3186
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 98,
+                "column": 1,
+                "offset": 3140
+              },
+              "end": {
+                "line": 98,
+                "column": 47,
+                "offset": 3186
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 98,
+              "column": 1,
+              "offset": 3140
+            },
+            "end": {
+              "line": 98,
+              "column": 47,
+              "offset": 3186
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "list jobs",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 94,
+          "column": 1,
+          "offset": 3059
+        },
+        "end": {
+          "line": 94,
+          "column": 16,
+          "offset": 3074
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "getJobRoute",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 103,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 103,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "jobApiEnvelopeLabel",
+              "args": [
+                {
+                  "kind": "await",
+                  "value": {
+                    "kind": "call",
+                    "callee": "decodeUnionJob",
+                    "args": [
+                      {
+                        "kind": "identifier",
+                        "name": "id",
+                        "span": {
+                          "start": {
+                            "line": 105,
+                            "column": 1,
+                            "offset": 3279
+                          },
+                          "end": {
+                            "line": 105,
+                            "column": 60,
+                            "offset": 3338
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 105,
+                        "column": 1,
+                        "offset": 3279
+                      },
+                      "end": {
+                        "line": 105,
+                        "column": 60,
+                        "offset": 3338
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 105,
+                      "column": 1,
+                      "offset": 3279
+                    },
+                    "end": {
+                      "line": 105,
+                      "column": 60,
+                      "offset": 3338
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 105,
+                  "column": 1,
+                  "offset": 3279
+                },
+                "end": {
+                  "line": 105,
+                  "column": 60,
+                  "offset": 3338
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 105,
+                "column": 1,
+                "offset": 3279
+              },
+              "end": {
+                "line": 105,
+                "column": 60,
+                "offset": 3338
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 105,
+              "column": 1,
+              "offset": 3279
+            },
+            "end": {
+              "line": 105,
+              "column": 60,
+              "offset": 3338
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "route",
+        "name": "get job",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 100,
+          "column": 1,
+          "offset": 3188
+        },
+        "end": {
+          "line": 100,
+          "column": 14,
+          "offset": 3201
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobQueueNavView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Queues",
+            "span": {
+              "start": {
+                "line": 110,
+                "column": 1,
+                "offset": 3417
+              },
+              "end": {
+                "line": 110,
+                "column": 18,
+                "offset": 3434
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 110,
+              "column": 1,
+              "offset": 3417
+            },
+            "end": {
+              "line": 110,
+              "column": 18,
+              "offset": 3434
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "view",
+        "name": "job queue nav",
+        "outputName": "view",
+        "effects": [],
+        "viewNavigation": {
+          "links": [
+            {
+              "label": "Job queue",
+              "path": "/"
+            },
+            {
+              "label": "Enqueue",
+              "path": "/jobs/new"
+            }
+          ]
+        }
+      },
+      "span": {
+        "start": {
+          "line": 107,
+          "column": 1,
+          "offset": 3340
+        },
+        "end": {
+          "line": 107,
+          "column": 19,
+          "offset": 3358
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobsDashboardView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [],
+      "semantic": {
+        "kind": "view",
+        "name": "jobs dashboard",
+        "outputName": "view",
+        "effects": [],
+        "viewTable": {
+          "itemName": "row",
+          "itemIdentifier": "row",
+          "iterable": {
+            "kind": "identifier",
+            "name": "data",
+            "span": {
+              "start": {
+                "line": 117,
+                "column": 1,
+                "offset": 3657
+              },
+              "end": {
+                "line": 117,
+                "column": 72,
+                "offset": 3728
+              }
+            }
+          },
+          "columns": [
+            "name",
+            "status"
+          ],
+          "linkColumn": "name",
+          "linkPath": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "literal",
+              "value": "/jobs/",
+              "span": {
+                "start": {
+                  "line": 117,
+                  "column": 1,
+                  "offset": 3657
+                },
+                "end": {
+                  "line": 117,
+                  "column": 72,
+                  "offset": 3728
+                }
+              }
+            },
+            "right": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "row",
+                "span": {
+                  "start": {
+                    "line": 117,
+                    "column": 1,
+                    "offset": 3657
+                  },
+                  "end": {
+                    "line": 117,
+                    "column": 72,
+                    "offset": 3728
+                  }
+                }
+              },
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 117,
+                  "column": 1,
+                  "offset": 3657
+                },
+                "end": {
+                  "line": 117,
+                  "column": 72,
+                  "offset": 3728
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 117,
+                "column": 1,
+                "offset": 3657
+              },
+              "end": {
+                "line": 117,
+                "column": 72,
+                "offset": 3728
+              }
+            }
+          }
+        },
+        "viewDataLoad": {
+          "source": "fetch",
+          "fetchMethod": "GET",
+          "fetchUrl": "/api/jobs",
+          "fetchJsonField": "jobs",
+          "fetchTsType": "Array<Job>",
+          "bindingName": "data",
+          "loading": {
+            "kind": "literal",
+            "value": "Loading jobs...",
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 1,
+                "offset": 3521
+              },
+              "end": {
+                "line": 114,
+                "column": 40,
+                "offset": 3560
+              }
+            }
+          },
+          "error": {
+            "kind": "literal",
+            "value": "Could not load jobs",
+            "span": {
+              "start": {
+                "line": 115,
+                "column": 1,
+                "offset": 3561
+              },
+              "end": {
+                "line": 115,
+                "column": 42,
+                "offset": 3602
+              }
+            }
+          },
+          "empty": {
+            "kind": "literal",
+            "value": "Queue is empty - enqueue a job.",
+            "span": {
+              "start": {
+                "line": 116,
+                "column": 1,
+                "offset": 3603
+              },
+              "end": {
+                "line": 116,
+                "column": 54,
+                "offset": 3656
+              }
+            }
+          },
+          "loadingSpan": {
+            "start": {
+              "line": 114,
+              "column": 1,
+              "offset": 3521
+            },
+            "end": {
+              "line": 114,
+              "column": 40,
+              "offset": 3560
+            }
+          },
+          "errorSpan": {
+            "start": {
+              "line": 115,
+              "column": 1,
+              "offset": 3561
+            },
+            "end": {
+              "line": 115,
+              "column": 42,
+              "offset": 3602
+            }
+          },
+          "emptySpan": {
+            "start": {
+              "line": 116,
+              "column": 1,
+              "offset": 3603
+            },
+            "end": {
+              "line": 116,
+              "column": 54,
+              "offset": 3656
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 112,
+          "column": 1,
+          "offset": 3436
+        },
+        "end": {
+          "line": 112,
+          "column": 20,
+          "offset": 3455
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "enqueueJobFormView",
+      "params": [
+        {
+          "name": "draft",
+          "type": {
+            "kind": "typeRef",
+            "name": "CreateJobBody",
+            "args": []
+          },
+          "semanticName": "draft",
+          "span": {
+            "start": {
+              "line": 120,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 120,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        },
+        {
+          "name": "onDraftChange",
+          "type": {
+            "kind": "typeRef",
+            "name": "Handler",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "CreateJobBody",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "on draft change",
+          "span": {
+            "start": {
+              "line": 121,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 121,
+              "column": 42,
+              "offset": 41
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [],
+      "semantic": {
+        "kind": "view",
+        "name": "enqueue job form",
+        "outputName": "view",
+        "effects": [],
+        "viewControls": {
+          "changeCallback": "onDraftChange",
+          "fields": [
+            {
+              "label": "Job name",
+              "target": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "draft",
+                  "span": {
+                    "start": {
+                      "line": 124,
+                      "column": 1,
+                      "offset": 3873
+                    },
+                    "end": {
+                      "line": 124,
+                      "column": 38,
+                      "offset": 3910
+                    }
+                  }
+                },
+                "name": "name",
+                "span": {
+                  "start": {
+                    "line": 124,
+                    "column": 1,
+                    "offset": 3873
+                  },
+                  "end": {
+                    "line": 124,
+                    "column": 38,
+                    "offset": 3910
+                  }
+                }
+              },
+              "recordParam": "draft",
+              "fieldName": "name",
+              "inputKind": "text"
+            }
+          ],
+          "submit": {
+            "label": "Enqueue job",
+            "method": "POST",
+            "url": "/api/jobs",
+            "body": {
+              "kind": "identifier",
+              "name": "draft",
+              "span": {
+                "start": {
+                  "line": 125,
+                  "column": 1,
+                  "offset": 3911
+                },
+                "end": {
+                  "line": 125,
+                  "column": 69,
+                  "offset": 3979
+                }
+              }
+            },
+            "bodyParam": "draft",
+            "navigateTo": "/"
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 119,
+          "column": 1,
+          "offset": 3730
+        },
+        "end": {
+          "line": 119,
+          "column": 22,
+          "offset": 3751
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobQueueShellLayout",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "",
+            "span": {
+              "start": {
+                "line": 127,
+                "column": 1,
+                "offset": 3981
+              },
+              "end": {
+                "line": 127,
+                "column": 23,
+                "offset": 4003
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 127,
+              "column": 1,
+              "offset": 3981
+            },
+            "end": {
+              "line": 127,
+              "column": 23,
+              "offset": 4003
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "layout",
+        "name": "job queue shell",
+        "outputName": "layout",
+        "effects": [],
+        "layoutSpec": {
+          "name": "job queue shell",
+          "slots": [
+            {
+              "name": "sidebar",
+              "content": {
+                "kind": "call",
+                "callee": "jobQueueNavView",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 128,
+                    "column": 1,
+                    "offset": 4004
+                  },
+                  "end": {
+                    "line": 128,
+                    "column": 38,
+                    "offset": 4041
+                  }
+                }
+              }
+            },
+            {
+              "name": "main",
+              "content": {
+                "kind": "literal",
+                "value": "Queues",
+                "span": {
+                  "start": {
+                    "line": 129,
+                    "column": 1,
+                    "offset": 4042
+                  },
+                  "end": {
+                    "line": 129,
+                    "column": 28,
+                    "offset": 4069
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "span": {
+        "start": {
+          "line": 127,
+          "column": 1,
+          "offset": 3981
+        },
+        "end": {
+          "line": 127,
+          "column": 23,
+          "offset": 4003
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobQueueDashboardPage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "jobsDashboardView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 135,
+                "column": 1,
+                "offset": 4203
+              },
+              "end": {
+                "line": 135,
+                "column": 31,
+                "offset": 4233
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 131,
+              "column": 1,
+              "offset": 4071
+            },
+            "end": {
+              "line": 131,
+              "column": 30,
+              "offset": 4100
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "job queue dashboard page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "job queue shell",
+          "layoutFunction": "jobQueueShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Job queue",
+            "span": {
+              "start": {
+                "line": 133,
+                "column": 1,
+                "offset": 4126
+              },
+              "end": {
+                "line": 133,
+                "column": 20,
+                "offset": 4145
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "SQLite-backed enqueue + status dashboard",
+            "span": {
+              "start": {
+                "line": 134,
+                "column": 1,
+                "offset": 4146
+              },
+              "end": {
+                "line": 134,
+                "column": 57,
+                "offset": 4202
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "jobsDashboardView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 135,
+                "column": 1,
+                "offset": 4203
+              },
+              "end": {
+                "line": 135,
+                "column": 31,
+                "offset": 4233
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 131,
+          "column": 1,
+          "offset": 4071
+        },
+        "end": {
+          "line": 131,
+          "column": 30,
+          "offset": 4100
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobEnqueuePage",
+      "params": [
+        {
+          "name": "draft",
+          "type": {
+            "kind": "typeRef",
+            "name": "CreateJobBody",
+            "args": []
+          },
+          "semanticName": "draft",
+          "span": {
+            "start": {
+              "line": 139,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 139,
+              "column": 23,
+              "offset": 22
+            }
+          }
+        },
+        {
+          "name": "onDraftChange",
+          "type": {
+            "kind": "typeRef",
+            "name": "Handler",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "CreateJobBody",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "on draft change",
+          "span": {
+            "start": {
+              "line": 140,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 140,
+              "column": 42,
+              "offset": 41
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "enqueueJobFormView",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "draft",
+                "span": {
+                  "start": {
+                    "line": 143,
+                    "column": 1,
+                    "offset": 4454
+                  },
+                  "end": {
+                    "line": 143,
+                    "column": 55,
+                    "offset": 4508
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "onDraftChange",
+                "span": {
+                  "start": {
+                    "line": 143,
+                    "column": 1,
+                    "offset": 4454
+                  },
+                  "end": {
+                    "line": 143,
+                    "column": 55,
+                    "offset": 4508
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 143,
+                "column": 1,
+                "offset": 4454
+              },
+              "end": {
+                "line": 143,
+                "column": 55,
+                "offset": 4508
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 137,
+              "column": 1,
+              "offset": 4235
+            },
+            "end": {
+              "line": 137,
+              "column": 22,
+              "offset": 4256
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "job enqueue page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "job queue shell",
+          "layoutFunction": "jobQueueShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Enqueue",
+            "span": {
+              "start": {
+                "line": 141,
+                "column": 1,
+                "offset": 4363
+              },
+              "end": {
+                "line": 141,
+                "column": 18,
+                "offset": 4380
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Adds a pending row consumed by workflow process next job",
+            "span": {
+              "start": {
+                "line": 142,
+                "column": 1,
+                "offset": 4381
+              },
+              "end": {
+                "line": 142,
+                "column": 73,
+                "offset": 4453
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "enqueueJobFormView",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "draft",
+                "span": {
+                  "start": {
+                    "line": 143,
+                    "column": 1,
+                    "offset": 4454
+                  },
+                  "end": {
+                    "line": 143,
+                    "column": 55,
+                    "offset": 4508
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "onDraftChange",
+                "span": {
+                  "start": {
+                    "line": 143,
+                    "column": 1,
+                    "offset": 4454
+                  },
+                  "end": {
+                    "line": 143,
+                    "column": 55,
+                    "offset": 4508
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 143,
+                "column": 1,
+                "offset": 4454
+              },
+              "end": {
+                "line": 143,
+                "column": 55,
+                "offset": 4508
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 137,
+          "column": 1,
+          "offset": 4235
+        },
+        "end": {
+          "line": 137,
+          "column": 22,
+          "offset": 4256
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "jobDetailPage",
+      "params": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 147,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 147,
+              "column": 9,
+              "offset": 8
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "literal",
+              "value": "Job detail for ",
+              "span": {
+                "start": {
+                  "line": 150,
+                  "column": 1,
+                  "offset": 4634
+                },
+                "end": {
+                  "line": 150,
+                  "column": 37,
+                  "offset": 4670
+                }
+              }
+            },
+            "right": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 150,
+                  "column": 1,
+                  "offset": 4634
+                },
+                "end": {
+                  "line": 150,
+                  "column": 37,
+                  "offset": 4670
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 150,
+                "column": 1,
+                "offset": 4634
+              },
+              "end": {
+                "line": 150,
+                "column": 37,
+                "offset": 4670
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 145,
+              "column": 1,
+              "offset": 4510
+            },
+            "end": {
+              "line": 145,
+              "column": 21,
+              "offset": 4530
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "job detail page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "job queue shell",
+          "layoutFunction": "jobQueueShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Job",
+            "span": {
+              "start": {
+                "line": 148,
+                "column": 1,
+                "offset": 4573
+              },
+              "end": {
+                "line": 148,
+                "column": 14,
+                "offset": 4586
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Fetched from GET /api/jobs/:id",
+            "span": {
+              "start": {
+                "line": 149,
+                "column": 1,
+                "offset": 4587
+              },
+              "end": {
+                "line": 149,
+                "column": 47,
+                "offset": 4633
+              }
+            }
+          },
+          "main": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "literal",
+              "value": "Job detail for ",
+              "span": {
+                "start": {
+                  "line": 150,
+                  "column": 1,
+                  "offset": 4634
+                },
+                "end": {
+                  "line": 150,
+                  "column": 37,
+                  "offset": 4670
+                }
+              }
+            },
+            "right": {
+              "kind": "identifier",
+              "name": "id",
+              "span": {
+                "start": {
+                  "line": 150,
+                  "column": 1,
+                  "offset": 4634
+                },
+                "end": {
+                  "line": 150,
+                  "column": 37,
+                  "offset": 4670
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 150,
+                "column": 1,
+                "offset": 4634
+              },
+              "end": {
+                "line": 150,
+                "column": 37,
+                "offset": 4670
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 145,
+          "column": 1,
+          "offset": 4510
+        },
+        "end": {
+          "line": 145,
+          "column": 21,
+          "offset": 4530
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "initJobsDatabaseCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "initJobsDbWorkflow",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 160,
+                  "column": 1,
+                  "offset": 4904
+                },
+                "end": {
+                  "line": 160,
+                  "column": 30,
+                  "offset": 4933
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 160,
+                "column": 1,
+                "offset": 4904
+              },
+              "end": {
+                "line": 160,
+                "column": 30,
+                "offset": 4933
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 160,
+              "column": 1,
+              "offset": 4904
+            },
+            "end": {
+              "line": 160,
+              "column": 30,
+              "offset": 4933
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "init jobs database",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 158,
+          "column": 1,
+          "offset": 4846
+        },
+        "end": {
+          "line": 158,
+          "column": 27,
+          "offset": 4872
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "drainOneJobDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "processNextJobWorkflow",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 164,
+                  "column": 1,
+                  "offset": 4993
+                },
+                "end": {
+                  "line": 164,
+                  "column": 34,
+                  "offset": 5026
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 164,
+                "column": 1,
+                "offset": 4993
+              },
+              "end": {
+                "line": 164,
+                "column": 34,
+                "offset": 5026
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 164,
+              "column": 1,
+              "offset": 4993
+            },
+            "end": {
+              "line": 164,
+              "column": 34,
+              "offset": 5026
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "drain one job demo",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 162,
+          "column": 1,
+          "offset": 4935
+        },
+        "end": {
+          "line": 162,
+          "column": 27,
+          "offset": 4961
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "serveJobQueueCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Job queue ready — enqueue at POST /api/jobs",
+            "span": {
+              "start": {
+                "line": 168,
+                "column": 1,
+                "offset": 5073
+              },
+              "end": {
+                "line": 168,
+                "column": 55,
+                "offset": 5127
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 168,
+              "column": 1,
+              "offset": 5073
+            },
+            "end": {
+              "line": 168,
+              "column": 55,
+              "offset": 5127
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "serve job queue",
+        "outputName": "ready",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 166,
+          "column": 1,
+          "offset": 5028
+        },
+        "end": {
+          "line": 166,
+          "column": 24,
+          "offset": 5051
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 19,
+      "offset": 18
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "JobQueueApp",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.http",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 18,
+            "offset": 17
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "theme",
+        "name": "app theme",
+        "accent": "emerald",
+        "density": "comfortable",
+        "radius": "medium",
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 39
+          },
+          "end": {
+            "line": 5,
+            "column": 16,
+            "offset": 54
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Job",
+        "fields": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 122
+              },
+              "end": {
+                "line": 11,
+                "column": 11,
+                "offset": 132
+              }
+            }
+          },
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 133
+              },
+              "end": {
+                "line": 12,
+                "column": 13,
+                "offset": 145
+              }
+            }
+          },
+          {
+            "label": "status",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 146
+              },
+              "end": {
+                "line": 13,
+                "column": 15,
+                "offset": 160
+              }
+            }
+          },
+          {
+            "label": "created_at",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 161
+              },
+              "end": {
+                "line": 14,
+                "column": 19,
+                "offset": 179
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 111
+          },
+          "end": {
+            "line": 10,
+            "column": 11,
+            "offset": 121
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Jobs Response",
+        "fields": [
+          {
+            "label": "jobs",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Job",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 202
+              },
+              "end": {
+                "line": 17,
+                "column": 18,
+                "offset": 219
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 16,
+            "column": 1,
+            "offset": 181
+          },
+          "end": {
+            "line": 16,
+            "column": 21,
+            "offset": 201
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Create Job Body",
+        "fields": [
+          {
+            "label": "name",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 244
+              },
+              "end": {
+                "line": 20,
+                "column": 13,
+                "offset": 256
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 221
+          },
+          "end": {
+            "line": 19,
+            "column": 23,
+            "offset": 243
+          }
+        }
+      },
+      {
+        "kind": "external",
+        "name": "point std sql",
+        "functions": [
+          {
+            "label": "sql query raw",
+            "params": [
+              {
+                "label": "sql",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 10,
+                    "offset": 9
+                  }
+                }
+              },
+              {
+                "label": "params",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 19,
+                    "offset": 18
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/sql",
+            "importAs": "sqlQueryRaw",
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 281
+              },
+              "end": {
+                "line": 23,
+                "column": 113,
+                "offset": 393
+              }
+            }
+          },
+          {
+            "label": "sql json rows list",
+            "params": [
+              {
+                "label": "raw",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Or",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    },
+                    {
+                      "kind": "typeRef",
+                      "name": "Error",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 19,
+                    "offset": 18
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Job",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/sql",
+            "importAs": "sqlJsonRowsList",
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 394
+              },
+              "end": {
+                "line": 24,
+                "column": 107,
+                "offset": 500
+              }
+            }
+          },
+          {
+            "label": "sql json member row",
+            "params": [
+              {
+                "label": "raw",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Or",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    },
+                    {
+                      "kind": "typeRef",
+                      "name": "Error",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 25,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 19,
+                    "offset": 18
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Job",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/sql",
+            "importAs": "sqlJsonMemberRow",
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 501
+              },
+              "end": {
+                "line": 25,
+                "column": 103,
+                "offset": 603
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 22,
+            "column": 1,
+            "offset": 258
+          },
+          "end": {
+            "line": 22,
+            "column": 23,
+            "offset": 280
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "create jobs table",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql query raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL)",
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 680
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 161,
+                      "offset": 840
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 680
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 161,
+                      "offset": 840
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 680
+                },
+                "end": {
+                  "line": 30,
+                  "column": 161,
+                  "offset": 840
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 680
+              },
+              "end": {
+                "line": 30,
+                "column": 161,
+                "offset": 840
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 27,
+            "column": 1,
+            "offset": 605
+          },
+          "end": {
+            "line": 27,
+            "column": 25,
+            "offset": 629
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "query all job rows",
+        "inputs": [],
+        "output": {
+          "name": "rows",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql query raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "SELECT id, name, status, created_at FROM jobs ORDER BY datetime(created_at) DESC",
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 916
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 111,
+                      "offset": 1026
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 35,
+                      "column": 1,
+                      "offset": 916
+                    },
+                    "end": {
+                      "line": 35,
+                      "column": 111,
+                      "offset": 1026
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 35,
+                  "column": 1,
+                  "offset": 916
+                },
+                "end": {
+                  "line": 35,
+                  "column": 111,
+                  "offset": 1026
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 35,
+                "column": 1,
+                "offset": 916
+              },
+              "end": {
+                "line": 35,
+                "column": 111,
+                "offset": 1026
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 842
+          },
+          "end": {
+            "line": 32,
+            "column": 26,
+            "offset": 867
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "fetch all jobs",
+        "inputs": [],
+        "output": {
+          "name": "jobs",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Job",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql json rows list",
+              "args": [
+                {
+                  "kind": "await",
+                  "value": {
+                    "kind": "call",
+                    "callee": "query all job rows",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 40,
+                        "column": 1,
+                        "offset": 1094
+                      },
+                      "end": {
+                        "line": 40,
+                        "column": 56,
+                        "offset": 1149
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 40,
+                      "column": 1,
+                      "offset": 1094
+                    },
+                    "end": {
+                      "line": 40,
+                      "column": 56,
+                      "offset": 1149
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 40,
+                  "column": 1,
+                  "offset": 1094
+                },
+                "end": {
+                  "line": 40,
+                  "column": 56,
+                  "offset": 1149
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1,
+                "offset": 1094
+              },
+              "end": {
+                "line": 40,
+                "column": 56,
+                "offset": 1149
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 37,
+            "column": 1,
+            "offset": 1028
+          },
+          "end": {
+            "line": 37,
+            "column": 22,
+            "offset": 1049
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "enqueue job",
+        "inputs": [
+          {
+            "label": "body",
+            "type": {
+              "kind": "typeRef",
+              "name": "Create Job Body",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 43,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "job",
+          "type": {
+            "kind": "typeRef",
+            "name": "Job",
+            "args": []
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql json member row",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "sql query raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "INSERT INTO jobs (id, name, status, created_at) VALUES (lower(hex(randomblob(8))), ?, 'pending', datetime('now')) RETURNING id, name, status, created_at",
+                      "span": {
+                        "start": {
+                          "line": 46,
+                          "column": 1,
+                          "offset": 1237
+                        },
+                        "end": {
+                          "line": 46,
+                          "column": 213,
+                          "offset": 1449
+                        }
+                      }
+                    },
+                    {
+                      "kind": "list",
+                      "items": [
+                        {
+                          "kind": "property",
+                          "target": {
+                            "kind": "name",
+                            "label": "body",
+                            "span": {
+                              "start": {
+                                "line": 46,
+                                "column": 1,
+                                "offset": 1237
+                              },
+                              "end": {
+                                "line": 46,
+                                "column": 213,
+                                "offset": 1449
+                              }
+                            }
+                          },
+                          "label": "name",
+                          "span": {
+                            "start": {
+                              "line": 46,
+                              "column": 1,
+                              "offset": 1237
+                            },
+                            "end": {
+                              "line": 46,
+                              "column": 213,
+                              "offset": 1449
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 46,
+                          "column": 1,
+                          "offset": 1237
+                        },
+                        "end": {
+                          "line": 46,
+                          "column": 213,
+                          "offset": 1449
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 46,
+                      "column": 1,
+                      "offset": 1237
+                    },
+                    "end": {
+                      "line": 46,
+                      "column": 213,
+                      "offset": 1449
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 46,
+                  "column": 1,
+                  "offset": 1237
+                },
+                "end": {
+                  "line": 46,
+                  "column": 213,
+                  "offset": 1449
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 46,
+                "column": 1,
+                "offset": 1237
+              },
+              "end": {
+                "line": 46,
+                "column": 213,
+                "offset": 1449
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 42,
+            "column": 1,
+            "offset": 1151
+          },
+          "end": {
+            "line": 42,
+            "column": 19,
+            "offset": 1169
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "query job union row",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 49,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 49,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "rows",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql query raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "SELECT id, name, status, created_at FROM jobs WHERE id = ? UNION ALL SELECT '__missing__', '', '', '' WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE id = ? LIMIT 1) LIMIT 1",
+                  "span": {
+                    "start": {
+                      "line": 52,
+                      "column": 1,
+                      "offset": 1543
+                    },
+                    "end": {
+                      "line": 52,
+                      "column": 205,
+                      "offset": 1747
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [
+                    {
+                      "kind": "name",
+                      "label": "id",
+                      "span": {
+                        "start": {
+                          "line": 52,
+                          "column": 1,
+                          "offset": 1543
+                        },
+                        "end": {
+                          "line": 52,
+                          "column": 205,
+                          "offset": 1747
+                        }
+                      }
+                    },
+                    {
+                      "kind": "name",
+                      "label": "id",
+                      "span": {
+                        "start": {
+                          "line": 52,
+                          "column": 1,
+                          "offset": 1543
+                        },
+                        "end": {
+                          "line": 52,
+                          "column": 205,
+                          "offset": 1747
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 52,
+                      "column": 1,
+                      "offset": 1543
+                    },
+                    "end": {
+                      "line": 52,
+                      "column": 205,
+                      "offset": 1747
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 52,
+                  "column": 1,
+                  "offset": 1543
+                },
+                "end": {
+                  "line": 52,
+                  "column": 205,
+                  "offset": 1747
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 52,
+                "column": 1,
+                "offset": 1543
+              },
+              "end": {
+                "line": 52,
+                "column": 205,
+                "offset": 1747
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 48,
+            "column": 1,
+            "offset": 1451
+          },
+          "end": {
+            "line": 48,
+            "column": 27,
+            "offset": 1477
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "decode union job",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 55,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "job",
+          "type": {
+            "kind": "typeRef",
+            "name": "Job",
+            "args": []
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql json member row",
+              "args": [
+                {
+                  "kind": "await",
+                  "value": {
+                    "kind": "call",
+                    "callee": "query job union row",
+                    "args": [
+                      {
+                        "kind": "name",
+                        "label": "id",
+                        "span": {
+                          "start": {
+                            "line": 58,
+                            "column": 1,
+                            "offset": 1827
+                          },
+                          "end": {
+                            "line": 58,
+                            "column": 60,
+                            "offset": 1886
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 58,
+                        "column": 1,
+                        "offset": 1827
+                      },
+                      "end": {
+                        "line": 58,
+                        "column": 60,
+                        "offset": 1886
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 58,
+                      "column": 1,
+                      "offset": 1827
+                    },
+                    "end": {
+                      "line": 58,
+                      "column": 60,
+                      "offset": 1886
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 58,
+                  "column": 1,
+                  "offset": 1827
+                },
+                "end": {
+                  "line": 58,
+                  "column": 60,
+                  "offset": 1886
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 1,
+                "offset": 1827
+              },
+              "end": {
+                "line": 58,
+                "column": 60,
+                "offset": 1886
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 54,
+            "column": 1,
+            "offset": 1749
+          },
+          "end": {
+            "line": 54,
+            "column": 24,
+            "offset": 1772
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "job api envelope",
+        "inputs": [
+          {
+            "label": "job",
+            "type": {
+              "kind": "typeRef",
+              "name": "Job",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 61,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "envelope",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "job",
+                  "span": {
+                    "start": {
+                      "line": 63,
+                      "column": 1,
+                      "offset": 1952
+                    },
+                    "end": {
+                      "line": 63,
+                      "column": 85,
+                      "offset": 2036
+                    }
+                  }
+                },
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 63,
+                    "column": 1,
+                    "offset": 1952
+                  },
+                  "end": {
+                    "line": 63,
+                    "column": 85,
+                    "offset": 2036
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "__missing__",
+                "span": {
+                  "start": {
+                    "line": 63,
+                    "column": 1,
+                    "offset": 1952
+                  },
+                  "end": {
+                    "line": 63,
+                    "column": 85,
+                    "offset": 2036
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 63,
+                  "column": 1,
+                  "offset": 1952
+                },
+                "end": {
+                  "line": 63,
+                  "column": 85,
+                  "offset": 2036
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "pointJsonResponse",
+              "args": [
+                {
+                  "kind": "record",
+                  "fields": [
+                    {
+                      "label": "error",
+                      "value": {
+                        "kind": "literal",
+                        "value": "not found",
+                        "span": {
+                          "start": {
+                            "line": 63,
+                            "column": 1,
+                            "offset": 1952
+                          },
+                          "end": {
+                            "line": 63,
+                            "column": 85,
+                            "offset": 2036
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 63,
+                      "column": 1,
+                      "offset": 1952
+                    },
+                    "end": {
+                      "line": 63,
+                      "column": 85,
+                      "offset": 2036
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 404,
+                  "span": {
+                    "start": {
+                      "line": 63,
+                      "column": 1,
+                      "offset": 1952
+                    },
+                    "end": {
+                      "line": 63,
+                      "column": 85,
+                      "offset": 2036
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 63,
+                  "column": 1,
+                  "offset": 1952
+                },
+                "end": {
+                  "line": 63,
+                  "column": 85,
+                  "offset": 2036
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 63,
+                "column": 1,
+                "offset": 1952
+              },
+              "end": {
+                "line": 63,
+                "column": 85,
+                "offset": 2036
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "call",
+              "callee": "pointJsonResponse",
+              "args": [
+                {
+                  "kind": "record",
+                  "fields": [
+                    {
+                      "label": "job",
+                      "value": {
+                        "kind": "name",
+                        "label": "job",
+                        "span": {
+                          "start": {
+                            "line": 64,
+                            "column": 1,
+                            "offset": 2037
+                          },
+                          "end": {
+                            "line": 64,
+                            "column": 56,
+                            "offset": 2092
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 64,
+                      "column": 1,
+                      "offset": 2037
+                    },
+                    "end": {
+                      "line": 64,
+                      "column": 56,
+                      "offset": 2092
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 200,
+                  "span": {
+                    "start": {
+                      "line": 64,
+                      "column": 1,
+                      "offset": 2037
+                    },
+                    "end": {
+                      "line": 64,
+                      "column": 56,
+                      "offset": 2092
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 64,
+                  "column": 1,
+                  "offset": 2037
+                },
+                "end": {
+                  "line": 64,
+                  "column": 56,
+                  "offset": 2092
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 1,
+                "offset": 2037
+              },
+              "end": {
+                "line": 64,
+                "column": 56,
+                "offset": 2092
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 60,
+            "column": 1,
+            "offset": 1888
+          },
+          "end": {
+            "line": 60,
+            "column": 23,
+            "offset": 1910
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "mark next pending running",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql query raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "UPDATE jobs SET status = 'running' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'pending' ORDER BY datetime(created_at) ASC LIMIT 1)",
+                  "span": {
+                    "start": {
+                      "line": 69,
+                      "column": 1,
+                      "offset": 2177
+                    },
+                    "end": {
+                      "line": 69,
+                      "column": 172,
+                      "offset": 2348
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 69,
+                      "column": 1,
+                      "offset": 2177
+                    },
+                    "end": {
+                      "line": 69,
+                      "column": 172,
+                      "offset": 2348
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 69,
+                  "column": 1,
+                  "offset": 2177
+                },
+                "end": {
+                  "line": 69,
+                  "column": 172,
+                  "offset": 2348
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 69,
+                "column": 1,
+                "offset": 2177
+              },
+              "end": {
+                "line": 69,
+                "column": 172,
+                "offset": 2348
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 66,
+            "column": 1,
+            "offset": 2094
+          },
+          "end": {
+            "line": 66,
+            "column": 33,
+            "offset": 2126
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "complete oldest running job",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "database"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql query raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "UPDATE jobs SET status = 'completed' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'running' ORDER BY datetime(created_at) ASC LIMIT 1)",
+                  "span": {
+                    "start": {
+                      "line": 74,
+                      "column": 1,
+                      "offset": 2435
+                    },
+                    "end": {
+                      "line": 74,
+                      "column": 174,
+                      "offset": 2608
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 74,
+                      "column": 1,
+                      "offset": 2435
+                    },
+                    "end": {
+                      "line": 74,
+                      "column": 174,
+                      "offset": 2608
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 74,
+                  "column": 1,
+                  "offset": 2435
+                },
+                "end": {
+                  "line": 74,
+                  "column": 174,
+                  "offset": 2608
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 74,
+                "column": 1,
+                "offset": 2435
+              },
+              "end": {
+                "line": 74,
+                "column": 174,
+                "offset": 2608
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 71,
+            "column": 1,
+            "offset": 2350
+          },
+          "end": {
+            "line": 71,
+            "column": 35,
+            "offset": 2384
+          }
+        }
+      },
+      {
+        "kind": "workflow",
+        "name": "init jobs db",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "schema",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "create jobs table",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 78,
+                    "column": 1,
+                    "offset": 2663
+                  },
+                  "end": {
+                    "line": 78,
+                    "column": 43,
+                    "offset": 2705
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 78,
+                  "column": 1,
+                  "offset": 2663
+                },
+                "end": {
+                  "line": 78,
+                  "column": 43,
+                  "offset": 2705
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 78,
+                "column": 1,
+                "offset": 2663
+              },
+              "end": {
+                "line": 78,
+                "column": 43,
+                "offset": 2705
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "schema",
+              "span": {
+                "start": {
+                  "line": 79,
+                  "column": 1,
+                  "offset": 2706
+                },
+                "end": {
+                  "line": 79,
+                  "column": 16,
+                  "offset": 2721
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 79,
+                "column": 1,
+                "offset": 2706
+              },
+              "end": {
+                "line": 79,
+                "column": 16,
+                "offset": 2721
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 76,
+            "column": 1,
+            "offset": 2610
+          },
+          "end": {
+            "line": 76,
+            "column": 22,
+            "offset": 2631
+          }
+        }
+      },
+      {
+        "kind": "workflow",
+        "name": "process next job",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "step",
+            "name": "started",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "mark next pending running",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 83,
+                    "column": 1,
+                    "offset": 2780
+                  },
+                  "end": {
+                    "line": 83,
+                    "column": 52,
+                    "offset": 2831
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 83,
+                  "column": 1,
+                  "offset": 2780
+                },
+                "end": {
+                  "line": 83,
+                  "column": 52,
+                  "offset": 2831
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 83,
+                "column": 1,
+                "offset": 2780
+              },
+              "end": {
+                "line": 83,
+                "column": 52,
+                "offset": 2831
+              }
+            }
+          },
+          {
+            "kind": "step",
+            "name": "finalized",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "complete oldest running job",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 84,
+                    "column": 1,
+                    "offset": 2832
+                  },
+                  "end": {
+                    "line": 84,
+                    "column": 56,
+                    "offset": 2887
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 84,
+                  "column": 1,
+                  "offset": 2832
+                },
+                "end": {
+                  "line": 84,
+                  "column": 56,
+                  "offset": 2887
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 84,
+                "column": 1,
+                "offset": 2832
+              },
+              "end": {
+                "line": 84,
+                "column": 56,
+                "offset": 2887
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "finalized",
+              "span": {
+                "start": {
+                  "line": 85,
+                  "column": 1,
+                  "offset": 2888
+                },
+                "end": {
+                  "line": 85,
+                  "column": 19,
+                  "offset": 2906
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 85,
+                "column": 1,
+                "offset": 2888
+              },
+              "end": {
+                "line": 85,
+                "column": 19,
+                "offset": 2906
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 81,
+            "column": 1,
+            "offset": 2723
+          },
+          "end": {
+            "line": 81,
+            "column": 26,
+            "offset": 2748
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "post job",
+        "method": "POST",
+        "path": "/api/jobs",
+        "before": [],
+        "inputs": [
+          {
+            "label": "body",
+            "type": {
+              "kind": "typeRef",
+              "name": "Create Job Body",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 90,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 90,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Job",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "returnJson",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "enqueue job",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "body",
+                    "span": {
+                      "start": {
+                        "line": 92,
+                        "column": 1,
+                        "offset": 3009
+                      },
+                      "end": {
+                        "line": 92,
+                        "column": 49,
+                        "offset": 3057
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 92,
+                    "column": 1,
+                    "offset": 3009
+                  },
+                  "end": {
+                    "line": 92,
+                    "column": 49,
+                    "offset": 3057
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 92,
+                  "column": 1,
+                  "offset": 3009
+                },
+                "end": {
+                  "line": 92,
+                  "column": 49,
+                  "offset": 3057
+                }
+              }
+            },
+            "status": {
+              "kind": "literal",
+              "value": 201,
+              "span": {
+                "start": {
+                  "line": 92,
+                  "column": 1,
+                  "offset": 3009
+                },
+                "end": {
+                  "line": 92,
+                  "column": 49,
+                  "offset": 3057
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 92,
+                "column": 1,
+                "offset": 3009
+              },
+              "end": {
+                "line": 92,
+                "column": 49,
+                "offset": 3057
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 87,
+            "column": 1,
+            "offset": 2908
+          },
+          "end": {
+            "line": 87,
+            "column": 15,
+            "offset": 2922
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "list jobs",
+        "method": "GET",
+        "path": "/api/jobs",
+        "before": [],
+        "inputs": [],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Jobs Response",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "returnJson",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "jobs",
+                  "value": {
+                    "kind": "await",
+                    "value": {
+                      "kind": "call",
+                      "callee": "fetch all jobs",
+                      "args": [],
+                      "span": {
+                        "start": {
+                          "line": 98,
+                          "column": 1,
+                          "offset": 3140
+                        },
+                        "end": {
+                          "line": 98,
+                          "column": 47,
+                          "offset": 3186
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 98,
+                        "column": 1,
+                        "offset": 3140
+                      },
+                      "end": {
+                        "line": 98,
+                        "column": 47,
+                        "offset": 3186
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 98,
+                  "column": 1,
+                  "offset": 3140
+                },
+                "end": {
+                  "line": 98,
+                  "column": 47,
+                  "offset": 3186
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 98,
+                "column": 1,
+                "offset": 3140
+              },
+              "end": {
+                "line": 98,
+                "column": 47,
+                "offset": 3186
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 94,
+            "column": 1,
+            "offset": 3059
+          },
+          "end": {
+            "line": 94,
+            "column": 16,
+            "offset": 3074
+          }
+        }
+      },
+      {
+        "kind": "route",
+        "name": "get job",
+        "method": "GET",
+        "path": "/api/jobs/:id",
+        "before": [],
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 103,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 103,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "job api envelope",
+                "args": [
+                  {
+                    "kind": "await",
+                    "value": {
+                      "kind": "call",
+                      "callee": "decode union job",
+                      "args": [
+                        {
+                          "kind": "name",
+                          "label": "id",
+                          "span": {
+                            "start": {
+                              "line": 105,
+                              "column": 1,
+                              "offset": 3279
+                            },
+                            "end": {
+                              "line": 105,
+                              "column": 60,
+                              "offset": 3338
+                            }
+                          }
+                        }
+                      ],
+                      "span": {
+                        "start": {
+                          "line": 105,
+                          "column": 1,
+                          "offset": 3279
+                        },
+                        "end": {
+                          "line": 105,
+                          "column": 60,
+                          "offset": 3338
+                        }
+                      }
+                    },
+                    "span": {
+                      "start": {
+                        "line": 105,
+                        "column": 1,
+                        "offset": 3279
+                      },
+                      "end": {
+                        "line": 105,
+                        "column": 60,
+                        "offset": 3338
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 105,
+                    "column": 1,
+                    "offset": 3279
+                  },
+                  "end": {
+                    "line": 105,
+                    "column": 60,
+                    "offset": 3338
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 105,
+                  "column": 1,
+                  "offset": 3279
+                },
+                "end": {
+                  "line": 105,
+                  "column": 60,
+                  "offset": 3338
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 105,
+                "column": 1,
+                "offset": 3279
+              },
+              "end": {
+                "line": 105,
+                "column": 60,
+                "offset": 3338
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 100,
+            "column": 1,
+            "offset": 3188
+          },
+          "end": {
+            "line": 100,
+            "column": 14,
+            "offset": 3201
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "job queue nav",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "link",
+            "label": "Job queue",
+            "path": "/",
+            "span": {
+              "start": {
+                "line": 108,
+                "column": 1,
+                "offset": 3359
+              },
+              "end": {
+                "line": 108,
+                "column": 26,
+                "offset": 3384
+              }
+            }
+          },
+          {
+            "kind": "link",
+            "label": "Enqueue",
+            "path": "/jobs/new",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 1,
+                "offset": 3385
+              },
+              "end": {
+                "line": 109,
+                "column": 32,
+                "offset": 3416
+              }
+            }
+          },
+          {
+            "kind": "render",
+            "value": {
+              "kind": "literal",
+              "value": "Queues",
+              "span": {
+                "start": {
+                  "line": 110,
+                  "column": 1,
+                  "offset": 3417
+                },
+                "end": {
+                  "line": 110,
+                  "column": 18,
+                  "offset": 3434
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 110,
+                "column": 1,
+                "offset": 3417
+              },
+              "end": {
+                "line": 110,
+                "column": 18,
+                "offset": 3434
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 107,
+            "column": 1,
+            "offset": 3340
+          },
+          "end": {
+            "line": 107,
+            "column": 19,
+            "offset": 3358
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "jobs dashboard",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "loadFetch",
+            "method": "GET",
+            "url": "/api/jobs",
+            "field": "jobs",
+            "itemType": "List<Job>",
+            "span": {
+              "start": {
+                "line": 113,
+                "column": 1,
+                "offset": 3456
+              },
+              "end": {
+                "line": 113,
+                "column": 65,
+                "offset": 3520
+              }
+            }
+          },
+          {
+            "kind": "whenLoadingRender",
+            "value": {
+              "kind": "literal",
+              "value": "Loading jobs...",
+              "span": {
+                "start": {
+                  "line": 114,
+                  "column": 1,
+                  "offset": 3521
+                },
+                "end": {
+                  "line": 114,
+                  "column": 40,
+                  "offset": 3560
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 1,
+                "offset": 3521
+              },
+              "end": {
+                "line": 114,
+                "column": 40,
+                "offset": 3560
+              }
+            }
+          },
+          {
+            "kind": "whenErrorRender",
+            "value": {
+              "kind": "literal",
+              "value": "Could not load jobs",
+              "span": {
+                "start": {
+                  "line": 115,
+                  "column": 1,
+                  "offset": 3561
+                },
+                "end": {
+                  "line": 115,
+                  "column": 42,
+                  "offset": 3602
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 115,
+                "column": 1,
+                "offset": 3561
+              },
+              "end": {
+                "line": 115,
+                "column": 42,
+                "offset": 3602
+              }
+            }
+          },
+          {
+            "kind": "whenEmptyRender",
+            "value": {
+              "kind": "literal",
+              "value": "Queue is empty - enqueue a job.",
+              "span": {
+                "start": {
+                  "line": 116,
+                  "column": 1,
+                  "offset": 3603
+                },
+                "end": {
+                  "line": 116,
+                  "column": 54,
+                  "offset": 3656
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 116,
+                "column": 1,
+                "offset": 3603
+              },
+              "end": {
+                "line": 116,
+                "column": 54,
+                "offset": 3656
+              }
+            }
+          },
+          {
+            "kind": "table",
+            "item": "row",
+            "iterable": {
+              "kind": "name",
+              "label": "data",
+              "span": {
+                "start": {
+                  "line": 117,
+                  "column": 1,
+                  "offset": 3657
+                },
+                "end": {
+                  "line": 117,
+                  "column": 72,
+                  "offset": 3728
+                }
+              }
+            },
+            "columns": [
+              "name",
+              "status"
+            ],
+            "linkColumn": "name",
+            "linkPath": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "/jobs/",
+                "span": {
+                  "start": {
+                    "line": 117,
+                    "column": 1,
+                    "offset": 3657
+                  },
+                  "end": {
+                    "line": 117,
+                    "column": 72,
+                    "offset": 3728
+                  }
+                }
+              },
+              "right": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "row",
+                  "span": {
+                    "start": {
+                      "line": 117,
+                      "column": 1,
+                      "offset": 3657
+                    },
+                    "end": {
+                      "line": 117,
+                      "column": 72,
+                      "offset": 3728
+                    }
+                  }
+                },
+                "label": "id",
+                "span": {
+                  "start": {
+                    "line": 117,
+                    "column": 1,
+                    "offset": 3657
+                  },
+                  "end": {
+                    "line": 117,
+                    "column": 72,
+                    "offset": 3728
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 117,
+                  "column": 1,
+                  "offset": 3657
+                },
+                "end": {
+                  "line": 117,
+                  "column": 72,
+                  "offset": 3728
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 117,
+                "column": 1,
+                "offset": 3657
+              },
+              "end": {
+                "line": 117,
+                "column": 72,
+                "offset": 3728
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 112,
+            "column": 1,
+            "offset": 3436
+          },
+          "end": {
+            "line": 112,
+            "column": 20,
+            "offset": 3455
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "enqueue job form",
+        "inputs": [
+          {
+            "label": "draft",
+            "type": {
+              "kind": "typeRef",
+              "name": "Create Job Body",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 120,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 120,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          },
+          {
+            "label": "on draft change",
+            "type": {
+              "kind": "typeRef",
+              "name": "Handler",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Create Job Body",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 121,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 121,
+                "column": 42,
+                "offset": 41
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "onChangeCall",
+            "callback": "on draft change",
+            "span": {
+              "start": {
+                "line": 122,
+                "column": 1,
+                "offset": 3833
+              },
+              "end": {
+                "line": 122,
+                "column": 33,
+                "offset": 3865
+              }
+            }
+          },
+          {
+            "kind": "form",
+            "bindings": [
+              {
+                "kind": "bindField",
+                "label": "Job name",
+                "target": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "draft",
+                    "span": {
+                      "start": {
+                        "line": 124,
+                        "column": 1,
+                        "offset": 3873
+                      },
+                      "end": {
+                        "line": 124,
+                        "column": 38,
+                        "offset": 3910
+                      }
+                    }
+                  },
+                  "label": "name",
+                  "span": {
+                    "start": {
+                      "line": 124,
+                      "column": 1,
+                      "offset": 3873
+                    },
+                    "end": {
+                      "line": 124,
+                      "column": 38,
+                      "offset": 3910
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 124,
+                    "column": 1,
+                    "offset": 3873
+                  },
+                  "end": {
+                    "line": 124,
+                    "column": 38,
+                    "offset": 3910
+                  }
+                }
+              },
+              {
+                "kind": "submit",
+                "label": "Enqueue job",
+                "method": "POST",
+                "url": "/api/jobs",
+                "body": {
+                  "kind": "name",
+                  "label": "draft",
+                  "span": {
+                    "start": {
+                      "line": 125,
+                      "column": 1,
+                      "offset": 3911
+                    },
+                    "end": {
+                      "line": 125,
+                      "column": 69,
+                      "offset": 3979
+                    }
+                  }
+                },
+                "navigateTo": "/",
+                "span": {
+                  "start": {
+                    "line": 125,
+                    "column": 1,
+                    "offset": 3911
+                  },
+                  "end": {
+                    "line": 125,
+                    "column": 69,
+                    "offset": 3979
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 123,
+                "column": 1,
+                "offset": 3866
+              },
+              "end": {
+                "line": 123,
+                "column": 7,
+                "offset": 3872
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 119,
+            "column": 1,
+            "offset": 3730
+          },
+          "end": {
+            "line": 119,
+            "column": 22,
+            "offset": 3751
+          }
+        }
+      },
+      {
+        "kind": "layout",
+        "name": "job queue shell",
+        "slots": [
+          {
+            "name": "sidebar",
+            "content": {
+              "kind": "call",
+              "callee": "job queue nav",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 128,
+                  "column": 1,
+                  "offset": 4004
+                },
+                "end": {
+                  "line": 128,
+                  "column": 38,
+                  "offset": 4041
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 128,
+                "column": 1,
+                "offset": 4004
+              },
+              "end": {
+                "line": 128,
+                "column": 38,
+                "offset": 4041
+              }
+            }
+          },
+          {
+            "name": "main",
+            "content": {
+              "kind": "literal",
+              "value": "Queues",
+              "span": {
+                "start": {
+                  "line": 129,
+                  "column": 1,
+                  "offset": 4042
+                },
+                "end": {
+                  "line": 129,
+                  "column": 28,
+                  "offset": 4069
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 129,
+                "column": 1,
+                "offset": 4042
+              },
+              "end": {
+                "line": 129,
+                "column": 28,
+                "offset": 4069
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 127,
+            "column": 1,
+            "offset": 3981
+          },
+          "end": {
+            "line": 127,
+            "column": 23,
+            "offset": 4003
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "job queue dashboard page",
+        "layout": "job queue shell",
+        "inputs": [],
+        "title": {
+          "kind": "literal",
+          "value": "Job queue",
+          "span": {
+            "start": {
+              "line": 133,
+              "column": 1,
+              "offset": 4126
+            },
+            "end": {
+              "line": 133,
+              "column": 20,
+              "offset": 4145
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "SQLite-backed enqueue + status dashboard",
+          "span": {
+            "start": {
+              "line": 134,
+              "column": 1,
+              "offset": 4146
+            },
+            "end": {
+              "line": 134,
+              "column": 57,
+              "offset": 4202
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "jobs dashboard",
+          "args": [],
+          "span": {
+            "start": {
+              "line": 135,
+              "column": 1,
+              "offset": 4203
+            },
+            "end": {
+              "line": 135,
+              "column": 31,
+              "offset": 4233
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 131,
+            "column": 1,
+            "offset": 4071
+          },
+          "end": {
+            "line": 131,
+            "column": 30,
+            "offset": 4100
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "job enqueue page",
+        "layout": "job queue shell",
+        "inputs": [
+          {
+            "label": "draft",
+            "type": {
+              "kind": "typeRef",
+              "name": "Create Job Body",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 139,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 139,
+                "column": 23,
+                "offset": 22
+              }
+            }
+          },
+          {
+            "label": "on draft change",
+            "type": {
+              "kind": "typeRef",
+              "name": "Handler",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Create Job Body",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 140,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 140,
+                "column": 42,
+                "offset": 41
+              }
+            }
+          }
+        ],
+        "title": {
+          "kind": "literal",
+          "value": "Enqueue",
+          "span": {
+            "start": {
+              "line": 141,
+              "column": 1,
+              "offset": 4363
+            },
+            "end": {
+              "line": 141,
+              "column": 18,
+              "offset": 4380
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Adds a pending row consumed by workflow process next job",
+          "span": {
+            "start": {
+              "line": 142,
+              "column": 1,
+              "offset": 4381
+            },
+            "end": {
+              "line": 142,
+              "column": 73,
+              "offset": 4453
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "enqueue job form",
+          "args": [
+            {
+              "kind": "name",
+              "label": "draft",
+              "span": {
+                "start": {
+                  "line": 143,
+                  "column": 1,
+                  "offset": 4454
+                },
+                "end": {
+                  "line": 143,
+                  "column": 55,
+                  "offset": 4508
+                }
+              }
+            },
+            {
+              "kind": "name",
+              "label": "on draft change",
+              "span": {
+                "start": {
+                  "line": 143,
+                  "column": 1,
+                  "offset": 4454
+                },
+                "end": {
+                  "line": 143,
+                  "column": 55,
+                  "offset": 4508
+                }
+              }
+            }
+          ],
+          "span": {
+            "start": {
+              "line": 143,
+              "column": 1,
+              "offset": 4454
+            },
+            "end": {
+              "line": 143,
+              "column": 55,
+              "offset": 4508
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 137,
+            "column": 1,
+            "offset": 4235
+          },
+          "end": {
+            "line": 137,
+            "column": 22,
+            "offset": 4256
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "job detail page",
+        "layout": "job queue shell",
+        "inputs": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 147,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 147,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          }
+        ],
+        "title": {
+          "kind": "literal",
+          "value": "Job",
+          "span": {
+            "start": {
+              "line": 148,
+              "column": 1,
+              "offset": 4573
+            },
+            "end": {
+              "line": 148,
+              "column": 14,
+              "offset": 4586
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Fetched from GET /api/jobs/:id",
+          "span": {
+            "start": {
+              "line": 149,
+              "column": 1,
+              "offset": 4587
+            },
+            "end": {
+              "line": 149,
+              "column": 47,
+              "offset": 4633
+            }
+          }
+        },
+        "main": {
+          "kind": "binary",
+          "operator": "+",
+          "left": {
+            "kind": "literal",
+            "value": "Job detail for ",
+            "span": {
+              "start": {
+                "line": 150,
+                "column": 1,
+                "offset": 4634
+              },
+              "end": {
+                "line": 150,
+                "column": 37,
+                "offset": 4670
+              }
+            }
+          },
+          "right": {
+            "kind": "name",
+            "label": "id",
+            "span": {
+              "start": {
+                "line": 150,
+                "column": 1,
+                "offset": 4634
+              },
+              "end": {
+                "line": 150,
+                "column": 37,
+                "offset": 4670
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 150,
+              "column": 1,
+              "offset": 4634
+            },
+            "end": {
+              "line": 150,
+              "column": 37,
+              "offset": 4670
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 145,
+            "column": 1,
+            "offset": 4510
+          },
+          "end": {
+            "line": 145,
+            "column": 21,
+            "offset": 4530
+          }
+        }
+      },
+      {
+        "kind": "navigation",
+        "name": "job queue navigation",
+        "routes": [
+          {
+            "path": "/",
+            "pageName": "job queue dashboard page",
+            "span": {
+              "start": {
+                "line": 153,
+                "column": 1,
+                "offset": 4704
+              },
+              "end": {
+                "line": 153,
+                "column": 41,
+                "offset": 4744
+              }
+            }
+          },
+          {
+            "path": "/jobs/new",
+            "pageName": "job enqueue page",
+            "span": {
+              "start": {
+                "line": 154,
+                "column": 1,
+                "offset": 4745
+              },
+              "end": {
+                "line": 154,
+                "column": 41,
+                "offset": 4785
+              }
+            }
+          },
+          {
+            "path": "/jobs/:id",
+            "pageName": "job detail page",
+            "span": {
+              "start": {
+                "line": 155,
+                "column": 1,
+                "offset": 4786
+              },
+              "end": {
+                "line": 155,
+                "column": 40,
+                "offset": 4825
+              }
+            }
+          }
+        ],
+        "bootstrapRouter": true,
+        "span": {
+          "start": {
+            "line": 152,
+            "column": 1,
+            "offset": 4672
+          },
+          "end": {
+            "line": 152,
+            "column": 32,
+            "offset": 4703
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "init jobs database",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "init jobs db",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 160,
+                    "column": 1,
+                    "offset": 4904
+                  },
+                  "end": {
+                    "line": 160,
+                    "column": 30,
+                    "offset": 4933
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 160,
+                  "column": 1,
+                  "offset": 4904
+                },
+                "end": {
+                  "line": 160,
+                  "column": 30,
+                  "offset": 4933
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 160,
+                "column": 1,
+                "offset": 4904
+              },
+              "end": {
+                "line": 160,
+                "column": 30,
+                "offset": 4933
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 158,
+            "column": 1,
+            "offset": 4846
+          },
+          "end": {
+            "line": 158,
+            "column": 27,
+            "offset": 4872
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "drain one job demo",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "process next job",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 164,
+                    "column": 1,
+                    "offset": 4993
+                  },
+                  "end": {
+                    "line": 164,
+                    "column": 34,
+                    "offset": 5026
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 164,
+                  "column": 1,
+                  "offset": 4993
+                },
+                "end": {
+                  "line": 164,
+                  "column": 34,
+                  "offset": 5026
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 164,
+                "column": 1,
+                "offset": 4993
+              },
+              "end": {
+                "line": 164,
+                "column": 34,
+                "offset": 5026
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 162,
+            "column": 1,
+            "offset": 4935
+          },
+          "end": {
+            "line": 162,
+            "column": 27,
+            "offset": 4961
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "serve job queue",
+        "inputs": [],
+        "output": {
+          "name": "ready",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Job queue ready — enqueue at POST /api/jobs",
+              "span": {
+                "start": {
+                  "line": 168,
+                  "column": 1,
+                  "offset": 5073
+                },
+                "end": {
+                  "line": 168,
+                  "column": 55,
+                  "offset": 5127
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 168,
+                "column": 1,
+                "offset": 5073
+              },
+              "end": {
+                "line": 168,
+                "column": 55,
+                "offset": 5127
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 166,
+            "column": 1,
+            "offset": 5028
+          },
+          "end": {
+            "line": 166,
+            "column": 24,
+            "offset": 5051
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 19,
+        "offset": 18
+      }
+    }
+  },
+  "semanticCallables": [
+    "complete oldest running job",
+    "create jobs table",
+    "decode union job",
+    "drain one job demo",
+    "enqueue job",
+    "enqueue job form",
+    "fetch all jobs",
+    "get job",
+    "http assert json body",
+    "http assert json body raw",
+    "http assert status",
+    "http assert status raw",
+    "http fetch",
+    "http fetch raw",
+    "http get",
+    "http get raw",
+    "http post",
+    "http post raw",
+    "init jobs database",
+    "init jobs db",
+    "job api envelope",
+    "job detail page",
+    "job enqueue page",
+    "job queue dashboard page",
+    "job queue nav",
+    "job queue shell",
+    "jobs dashboard",
+    "list jobs",
+    "mark next pending running",
+    "post job",
+    "process next job",
+    "query all job rows",
+    "query job union row",
+    "serve job queue",
+    "sql json member row",
+    "sql json rows list",
+    "sql query raw"
+  ]
+}

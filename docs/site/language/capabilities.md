@@ -50,6 +50,7 @@ JSON output uses schema `point.capabilities.v1` for agent scripts.
 | `env` | Environment variable access |
 | `path` | Path join and basename helpers |
 | `process` | Spawn and run host processes |
+| `pty` | Pseudo-terminal subprocess spawn and line streaming |
 | `crypto` | Hashing, HMAC, and JWT helpers |
 | `auth` | Bearer tokens, JWT auth checks, unauthorized responses |
 | `yaml` | YAML parse and stringify |

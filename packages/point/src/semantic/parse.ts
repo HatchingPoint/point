@@ -1121,6 +1121,50 @@ function parseView(
 			}
 			continue;
 		}
+		const refreshMatch = line.match(/^refresh every (\d+) (seconds|minutes)$/i);
+		if (refreshMatch) {
+			const count = Number(refreshMatch[1]);
+			const unitRaw = refreshMatch[2]?.toLowerCase() ?? "seconds";
+			const unit: "seconds" | "minutes" = unitRaw === "minutes" ? "minutes" : "seconds";
+			statements.push({
+				kind: "refreshEvery",
+				count,
+				unit,
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const terminalPathMatch = line.match(/^terminal subscribe to ("[^"]+")$/);
+		if (terminalPathMatch) {
+			const path = JSON.parse(terminalPathMatch[1] ?? '""') as string;
+			statements.push({ kind: "terminal", path, span: lineSpan(source, lineNumber) });
+			if (!paramTypes.has("messages")) {
+				paramTypes.set("messages", "List<Text>");
+				bindings.push("messages");
+			}
+			if (!paramTypes.has("connected")) {
+				paramTypes.set("connected", "Bool");
+				bindings.push("connected");
+			}
+			continue;
+		}
+		const terminalRouteMatch = line.match(/^terminal subscribe to stream (.+)$/);
+		if (terminalRouteMatch) {
+			statements.push({
+				kind: "terminal",
+				routeName: terminalRouteMatch[1]?.trim() ?? "",
+				span: lineSpan(source, lineNumber),
+			});
+			if (!paramTypes.has("messages")) {
+				paramTypes.set("messages", "List<Text>");
+				bindings.push("messages");
+			}
+			if (!paramTypes.has("connected")) {
+				paramTypes.set("connected", "Bool");
+				bindings.push("connected");
+			}
+			continue;
+		}
 		const subscribePathMatch = line.match(/^subscribe to ("[^"]+")$/);
 		if (subscribePathMatch) {
 			const path = JSON.parse(subscribePathMatch[1] ?? '""') as string;
@@ -1644,6 +1688,7 @@ function parsePage(
 	const bindings: string[] = [];
 	let layout: string | undefined;
 	let loadData: string | undefined;
+	let refreshEvery: PointSemanticPageDeclaration["refreshEvery"];
 	let title: PointSemanticPageDeclaration["title"] | undefined;
 	let description: PointSemanticPageDeclaration["description"];
 	let main: PointSemanticPageDeclaration["main"] | undefined;
@@ -1699,6 +1744,15 @@ function parsePage(
 				paramTypes.set("data", "Text");
 				bindings.push("data");
 			}
+			continue;
+		}
+		const pageRefreshMatch = line.match(/^refresh every (\d+) (seconds|minutes)$/i);
+		if (pageRefreshMatch) {
+			const count = Number(pageRefreshMatch[1]);
+			const unitRaw = pageRefreshMatch[2]?.toLowerCase() ?? "seconds";
+			const unit: "seconds" | "minutes" = unitRaw === "minutes" ? "minutes" : "seconds";
+			if (refreshEvery) throw new Error(`Page ${name} already declares refresh every; use one interval only`);
+			refreshEvery = { count, unit };
 			continue;
 		}
 		const subscribePathMatch = line.match(/^subscribe to ("[^"]+")$/);
@@ -1838,6 +1892,7 @@ function parsePage(
 			layout,
 			inputs,
 			loadData,
+			...(refreshEvery ? { refreshEvery } : {}),
 			title,
 			description,
 			main,

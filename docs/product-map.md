@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.41** — Phase 49 button/table UI, login validation, Stripe example.
+Update this line each release: **v0.1.42** — Phase 51–54 job queue, live refresh, std.pty, terminal view.

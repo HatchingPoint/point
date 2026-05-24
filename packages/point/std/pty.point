@@ -1,0 +1,34 @@
+module StdPty
+
+record Pty Handle
+  id: Text
+
+record Pty Output
+  stderr: Text
+  exit code: Int
+
+external point std pty
+  spawn raw(command: Text, args: List<Text>, env: List<Text>): Pty Handle or Error from "@hatchingpoint/point/std/pty" as ptySpawn
+  write raw(handle: Pty Handle, chunk: Text): Void or Error from "@hatchingpoint/point/std/pty" as ptyWrite
+  stream lines raw(handle: Pty Handle): Text from "@hatchingpoint/point/std/pty" as ptyStreamLines
+
+action spawn pty
+  input command: Text
+  input args: List<Text>
+  input env: List<Text>
+  output handle: Pty Handle or Error
+  touches process
+  return spawn raw(command, args, env)
+
+action write pty stdin
+  input handle: Pty Handle
+  input chunk: Text
+  output result: Void or Error
+  touches process
+  return write raw(handle, chunk)
+
+action stream lines from pty
+  input handle: Pty Handle
+  output line: Text
+  touches process
+  yield stream lines raw(handle)

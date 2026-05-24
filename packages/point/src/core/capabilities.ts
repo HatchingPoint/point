@@ -16,6 +16,7 @@ export const BUILTIN_CAPABILITIES: readonly PointCapability[] = [
 	{ name: "env", module: "std.env", summary: "Environment variable access" },
 	{ name: "path", module: "std.path", summary: "Path join and basename helpers" },
 	{ name: "process", module: "std.process", summary: "Spawn and run host processes" },
+	{ name: "pty", module: "std.pty", summary: "PTY subprocess spawn, stdin write, line streaming" },
 	{ name: "crypto", module: "std.crypto", summary: "Hashing, HMAC, and JWT helpers" },
 	{ name: "auth", module: "std.auth", summary: "Bearer tokens, JWT auth checks, unauthorized responses" },
 	{ name: "yaml", module: "std.yaml", summary: "YAML parse and stringify" },

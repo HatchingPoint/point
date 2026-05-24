@@ -66,6 +66,7 @@ import type {
 } from "./ast.ts";
 import { pipelineLogParamName } from "../core/emit-pipeline.ts";
 import { semanticFunctionName, streamRouteHandlerName, toIdentifier, toPascalCase, guardPatternsConstName } from "./naming.ts";
+import { resolveViewStreamSubscribeStatements } from "./view-stream-subscribe-resolve.ts";
 import { semanticDeclarationMetadata } from "./metadata.ts";
 
 export interface DesugarContext {
@@ -474,6 +475,10 @@ function desugarPolicy(
 	};
 }
 
+function refreshIntervalSemanticMs(spec: { count: number; unit: "seconds" | "minutes" }): number {
+	return spec.unit === "minutes" ? spec.count * 60_000 : spec.count * 1_000;
+}
+
 function buildDataLoad(
 	actionName: string,
 	callables: Map<string, string>,
@@ -575,8 +580,9 @@ function buildViewDataLoad(
 	const loading = declaration.body.find((statement) => statement.kind === "whenLoadingRender");
 	const error = declaration.body.find((statement) => statement.kind === "whenErrorRender");
 	const empty = declaration.body.find((statement) => statement.kind === "whenEmptyRender");
+	let spec: PointSemanticDataLoad | undefined;
 	if (fetchStatement) {
-		return buildFetchDataLoad(
+		spec = buildFetchDataLoad(
 			fetchStatement,
 			loading?.value,
 			loading?.className,
@@ -592,30 +598,39 @@ function buildViewDataLoad(
 			error?.span,
 			empty?.span,
 		);
+	} else {
+		const loadStatement = declaration.body.find(
+			(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadData" | "onMountCall" }> =>
+				statement.kind === "loadData" || statement.kind === "onMountCall",
+		);
+		if (!loadStatement) spec = undefined;
+		else {
+			spec = buildDataLoad(
+				loadStatement.action,
+				callables,
+				actionOutputs,
+				loading?.value,
+				loading?.className,
+				loading && "style" in loading ? loading.style : undefined,
+				error?.value,
+				error?.className,
+				error && "style" in error ? error.style : undefined,
+				empty?.value,
+				empty?.className,
+				empty && "style" in empty ? empty.style : undefined,
+				ctx,
+				loading?.span,
+				error?.span,
+				empty?.span,
+			);
+		}
 	}
-	const loadStatement = declaration.body.find(
-		(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadData" | "onMountCall" }> =>
-			statement.kind === "loadData" || statement.kind === "onMountCall",
+	if (!spec) return undefined;
+	const refreshStatements = declaration.body.filter(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "refreshEvery" }> => statement.kind === "refreshEvery",
 	);
-	if (!loadStatement) return undefined;
-	return buildDataLoad(
-		loadStatement.action,
-		callables,
-		actionOutputs,
-		loading?.value,
-		loading?.className,
-		loading && "style" in loading ? loading.style : undefined,
-		error?.value,
-		error?.className,
-		error && "style" in error ? error.style : undefined,
-		empty?.value,
-		empty?.className,
-		empty && "style" in empty ? empty.style : undefined,
-		ctx,
-		loading?.span,
-		error?.span,
-		empty?.span,
-	);
+	if (refreshStatements.length === 0) return spec;
+	return { ...spec, refreshIntervalMs: refreshIntervalSemanticMs(refreshStatements[0]!) };
 }
 
 function resolveStreamSubscribeTarget(
@@ -642,13 +657,10 @@ function buildViewStreamSubscribe(
 	streamRoutes: Map<string, PointSemanticStreamRouteDeclaration>,
 	ctx: DesugarContext,
 ): PointSemanticStreamSubscribe | undefined {
-	const subscribePath = declaration.body.find(
-		(statement): statement is Extract<PointSemanticViewStatement, { kind: "streamSubscribePath" }> => statement.kind === "streamSubscribePath",
-	);
-	const subscribeRoute = declaration.body.find(
-		(statement): statement is Extract<PointSemanticViewStatement, { kind: "streamSubscribeRoute" }> =>
-			statement.kind === "streamSubscribeRoute",
-	);
+	const resolved = resolveViewStreamSubscribeStatements(declaration);
+	const subscribePath = resolved.subscribePath;
+	const subscribeRoute = resolved.subscribeRoute;
+	const terminalSubscribe = resolved.isTerminal;
 	if (!subscribePath && !subscribeRoute) return undefined;
 	const target = subscribePath
 		? resolveStreamSubscribeTarget({ kind: "path", path: subscribePath.path }, streamRoutes)
@@ -665,6 +677,7 @@ function buildViewStreamSubscribe(
 		path: target.path,
 		messageTypeName: target.messageTypeName,
 		bindingName: "messages",
+		...(terminalSubscribe ? { terminal: true } : {}),
 		messageCallback: onMessageCall ? toIdentifier(onMessageCall.callback) : undefined,
 		connecting: connecting && "value" in connecting ? desugarExpression(connecting.value, ctx) : undefined,
 		connectingClassName: connecting && "className" in connecting ? connecting.className : undefined,
@@ -996,6 +1009,12 @@ function desugarPage(
 			declaration.whenEmptyStyle,
 			ctx,
 		);
+		if (declaration.refreshEvery) {
+			dataLoad = {
+				...dataLoad,
+				refreshIntervalMs: refreshIntervalSemanticMs(declaration.refreshEvery),
+			};
+		}
 		ctx.bindings.set("data", "data");
 		metadata.pageDataLoad = dataLoad;
 	}

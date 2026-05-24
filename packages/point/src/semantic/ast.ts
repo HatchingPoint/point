@@ -212,6 +212,7 @@ export interface PointSemanticPageDeclaration {
 	layout?: string;
 	inputs: PointSemanticBinding[];
 	loadData?: string;
+	refreshEvery?: { count: number; unit: "seconds" | "minutes" };
 	title: PointSemanticExpression;
 	description?: PointSemanticExpression;
 	main: PointSemanticExpression;
@@ -391,8 +392,11 @@ export type PointSemanticViewStatement =
 	| { kind: "loadData"; action: string; span?: PointSourceSpan }
 	| { kind: "loadFetch"; method: "GET"; url: string; field: string; itemType: string; span?: PointSourceSpan }
 	| { kind: "onMountCall"; action: string; span?: PointSourceSpan }
+	| { kind: "refreshEvery"; count: number; unit: "seconds" | "minutes"; span?: PointSourceSpan }
 	| { kind: "streamSubscribePath"; path: string; span?: PointSourceSpan }
 	| { kind: "streamSubscribeRoute"; routeName: string; span?: PointSourceSpan }
+	/** `terminal subscribe to stream <name>` or `terminal subscribe to "<path>"` */
+	| { kind: "terminal"; path?: string; routeName?: string; span?: PointSourceSpan }
 	| { kind: "onMessageCall"; callback: string; span?: PointSourceSpan }
 	| { kind: "whenConnectingRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "whenDisconnectedRender"; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }

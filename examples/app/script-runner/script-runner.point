@@ -1,0 +1,37 @@
+module ScriptRunnerTerminal
+
+external point std process
+  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from "@hatchingpoint/point/std/process" as processStreamLines
+
+record Script Line
+  stream: Text
+  text: Text
+
+action run demo shell
+  output line: Text
+  touches process
+  yield stream lines raw("sh", ["examples/app/script-runner/demo.sh"], [])
+
+stream route runner
+  path "/ws/script-runner"
+  message Script Line
+  on connect stream from action run demo shell
+  on disconnect return none
+
+view script terminal panel
+  terminal subscribe to stream runner
+  when connecting render "Connecting to subprocess stream..."
+  when disconnected render "Disconnected from script runner"
+
+page script runner page
+  title "Script runner demo"
+  description "Stdout, stderr (after exit), and exit code streamed through a terminal view"
+  main render scriptTerminalPanelView()
+
+navigation script runner app
+  path "/" page script runner page
+  bootstrap router
+
+command serve script runner
+  output result: Text
+  return "Script runner — WebSocket at /ws/script-runner"

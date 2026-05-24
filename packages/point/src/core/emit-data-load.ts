@@ -57,54 +57,73 @@ function emitStateReturn(
 
 export function emitDataLoadHookLines(spec: PointSemanticDataLoad, paramNames: string[]): string[] {
 	const deps = paramNames.length > 0 ? `[${paramNames.join(", ")}]` : "[]";
+	const setterName = capitalize(spec.bindingName);
+	const refreshMs = spec.refreshIntervalMs !== undefined ? String(spec.refreshIntervalMs) : null;
+	const effectCleanupLines =
+		refreshMs !== null
+			? [
+					`  const intervalId = setInterval(() => { void load(false); }, ${refreshMs});`,
+					"  return () => {",
+					"    cancelled = true;",
+					"    clearInterval(intervalId);",
+					"  };",
+				]
+			: ["  return () => { cancelled = true; };"];
+
 	if (spec.source === "fetch") {
 		const tsType = spec.fetchTsType ?? "unknown[]";
 		const url = JSON.stringify(spec.fetchUrl ?? "/");
 		const jsonField = JSON.stringify(spec.fetchJsonField ?? "data");
 		return [
-			`const [${spec.bindingName}, set${capitalize(spec.bindingName)}] = React.useState<${tsType} | undefined>(undefined);`,
+			`const [${spec.bindingName}, set${setterName}] = React.useState<${tsType} | undefined>(undefined);`,
 			"const [loading, setLoading] = React.useState(true);",
 			"const [error, setError] = React.useState<unknown>(null);",
 			"React.useEffect(() => {",
 			"  let cancelled = false;",
-			"  (async () => {",
-			"    setLoading(true);",
-			"    setError(null);",
+			"  const load = async (initial: boolean) => {",
+			"    if (initial) {",
+			"      setLoading(true);",
+			"      setError(null);",
+			"    }",
 			"    try {",
 			`      const response = await fetch(${url});`,
 			"      if (!response.ok) throw new Error(`HTTP ${response.status}`);",
 			"      const body = await response.json();",
 			`      const result = body[${jsonField}];`,
-			`      if (!cancelled) set${capitalize(spec.bindingName)}(result);`,
+			`      if (!cancelled) set${setterName}(result);`,
 			"    } catch (err) {",
 			"      if (!cancelled) setError(err);",
 			"    } finally {",
-			"      if (!cancelled) setLoading(false);",
+			"      if (initial && !cancelled) setLoading(false);",
 			"    }",
-			"  })();",
-			"  return () => { cancelled = true; };",
+			"  };",
+			"  void load(true);",
+			...effectCleanupLines,
 			`}, ${deps});`,
 		];
 	}
 	return [
-		`const [${spec.bindingName}, set${capitalize(spec.bindingName)}] = React.useState<Awaited<ReturnType<typeof ${spec.actionFunction}>> | undefined>(undefined);`,
+		`const [${spec.bindingName}, set${setterName}] = React.useState<Awaited<ReturnType<typeof ${spec.actionFunction}>> | undefined>(undefined);`,
 		"const [loading, setLoading] = React.useState(true);",
 		"const [error, setError] = React.useState<unknown>(null);",
 		"React.useEffect(() => {",
 		"  let cancelled = false;",
-		"  (async () => {",
-		"    setLoading(true);",
-		"    setError(null);",
+		"  const load = async (initial: boolean) => {",
+		"    if (initial) {",
+		"      setLoading(true);",
+		"      setError(null);",
+		"    }",
 		"    try {",
 		`      const result = await ${spec.actionFunction}();`,
-		`      if (!cancelled) set${capitalize(spec.bindingName)}(result);`,
+		`      if (!cancelled) set${setterName}(result);`,
 		"    } catch (err) {",
 		"      if (!cancelled) setError(err);",
 		"    } finally {",
-		"      if (!cancelled) setLoading(false);",
+		"      if (initial && !cancelled) setLoading(false);",
 		"    }",
-		"  })();",
-		"  return () => { cancelled = true; };",
+		"  };",
+		"  void load(true);",
+		...effectCleanupLines,
 		`}, ${deps});`,
 	];
 }

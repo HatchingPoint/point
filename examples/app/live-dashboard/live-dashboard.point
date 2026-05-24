@@ -1,0 +1,37 @@
+module LiveDashboardApp
+
+external point std time
+  time now(): Text from "@hatchingpoint/point/std/time" as now
+
+record Metric
+  label: Text
+  value: Text
+
+action fetch live metrics
+  output rows: List<Metric>
+  touches time
+  return [{ label: "As of", value: time now() }]
+
+view live metrics grid
+  load data from action fetch live metrics
+  refresh every 5 seconds
+  when loading render muted "Refreshing…"
+  when error render danger "Could not reach metrics"
+  table row in data columns label, value
+
+layout app shell
+  slot sidebar render "Live"
+  slot main render "Dashboard"
+
+page home page
+  layout app shell
+  title "Live metrics"
+  description "Polling example — values update every few seconds."
+  main render live metrics grid()
+
+navigation live dashboard app
+  path "/" page home page
+  bootstrap router
+
+theme live theme
+  accent indigo

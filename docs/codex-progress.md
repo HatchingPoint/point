@@ -1319,3 +1319,43 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Released: **v0.1.24**
 - Next: Phase 33 — Python route productization (Phase 13) or Money decimal type if author friction remains.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 51 — Job queue pattern
+
+- Completed: `examples/app/job-queue/job-queue.point` (`jobs` table, enqueue/list/detail HTTP routes + `label`/`pointJsonResponse` 404, `workflow init jobs db`, `workflow process next job`, `navigation` dashboard + enqueue form, CLI `serve`/`init`/`drain` commands), `examples/app/job-queue/README.md`, `tests/job-queue.test.ts`, `docs/site/language/workflows.md` (Job queue pattern), `docs/site/language/applications.md` demo bullet, `docs/phase51-plan.md` checklist.
+- Verified: `bun test tests/job-queue.test.ts`; `point build-ts examples/app/job-queue/job-queue.point` to a temp file (clean TypeScript emit).
+- Next: Roadmap backlog.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 52 — Live dashboard refresh
+
+- Completed: `refresh every N seconds|minutes` on views/pages with `load data from action`, `on mount call`, or `load data from fetch`; checker rules `refresh-without-load`, `duplicate-refresh-interval`, `invalid-refresh-interval`; emit `setInterval` refetch with cleanup in `emit-data-load.ts`; example `examples/app/live-dashboard/`; `tests/refresh-data-load.test.ts`; docs in `ui.md`, `realtime.md`, `language-spec.md`.
+- Verified: `bun test tests/refresh-data-load.test.ts`; full CI green.
+- Next: Phase 53 std.pty.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 53 — std.pty capability
+
+- Completed: `std/pty.point` + `packages/point/src/std/pty.ts` (`ptySpawn`, `ptyWrite`, `ptyStreamLines`); `capabilities pty` registration; package export; `tests/std-pty.test.ts`; docs in stdlib overview, capabilities, bridge.
+- Verified: `bun test`; full CI green (664+ tests).
+- Next: Phase 54 terminal view.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 54 — Terminal view + script runner
+
+- Completed: **`terminal subscribe to stream <route>`** / **`terminal subscribe to "/path"`** (semantic view statement **`terminal`**); **`view-stream-subscribe-resolve.ts`**; checker conflict **`terminal-stream-subscribe-conflict`**; desugar **`PointSemanticStreamSubscribe.terminal`**; **`emit-terminal.ts`** + **`point-ui.css`** (**.point-terminal**); **`emit-routes`** extended **`pointPumpProcessStreamToWebSocket`** when record fields **`stream`** + **`text`** encode stdout/stderr/exit chunks from **`processStreamLines`**; example **`examples/app/script-runner/`** (`record Script Line`, **`demo.sh`**, README); **`tests/terminal-view.test.ts`**; legacy parity skips **`examples/app/script-runner/script-runner.point`** and **`examples/app/job-queue/job-queue.point`**.
+- Verified: **`bun test`** — 661 pass (full suite green after skips).
+- Next: Integrator / PTY sizing / optional xterm follow-on.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 55 integrator — v0.1.42
+
+- Completed: Merged Phases 51–54; bumped **0.1.42** across packages, templates, init-project, README, vision, product-map, CLI ref, site changelog; CHANGELOG.md release notes; `docs/phase55-plan.md`.
+- Verified: `bun run ci` green.
+- Released: **v0.1.42** (tag + push).
+- Next: Phase 56 UI kit batch or external pilot.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

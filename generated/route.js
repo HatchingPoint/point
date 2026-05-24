@@ -78,11 +78,50 @@ function pointWrapStreamLine(line, fields) {
   return { line };
 }
 
+function pointIsProcessStreamChunkPayload(messageFields) {
+  return (
+    Array.isArray(messageFields) &&
+    messageFields.length === 2 &&
+    new Set(messageFields).has("stream") &&
+    new Set(messageFields).has("text")
+  );
+}
+
 const POINT_STREAM_BACKPRESSURE_LIMIT = 65536;
 
 async function pointPumpProcessStreamToWebSocket(ws, streamFactory, messageFields) {
   const stream = streamFactory();
   try {
+    if (pointIsProcessStreamChunkPayload(messageFields)) {
+      const iterator = stream[Symbol.asyncIterator]();
+      let iterResult = await iterator.next();
+      while (!iterResult.done) {
+        const line = iterResult.value;
+        if (ws.readyState !== 1) break;
+        if (ws.bufferedAmount <= POINT_STREAM_BACKPRESSURE_LIMIT) {
+          pointSendStreamPayload(ws, { stream: "stdout", text: String(line) });
+        }
+        iterResult = await iterator.next();
+      }
+      const ret = iterResult.value;
+      if (ret && typeof ret === "object" && !Array.isArray(ret)) {
+        if ("message" in ret && typeof ret.message === "string") {
+          pointSendStreamPayload(ws, { stream: "stderr", text: ret.message });
+        } else {
+          if ("stderr" in ret && ret.stderr != null && String(ret.stderr).length > 0) {
+            for (const errLine of String(ret.stderr).split(/\r?\n/)) {
+              if (!errLine) continue;
+              if (ws.readyState !== 1) break;
+              pointSendStreamPayload(ws, { stream: "stderr", text: errLine });
+            }
+          }
+          if ("exitCode" in ret && ret.exitCode != null) {
+            pointSendStreamPayload(ws, { stream: "exit", text: String(ret.exitCode) });
+          }
+        }
+      }
+      return;
+    }
     for await (const line of stream) {
       if (ws.readyState !== 1) break;
       if (ws.bufferedAmount > POINT_STREAM_BACKPRESSURE_LIMIT) continue;

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.42
+
+### Added
+
+- Phase 51: **Job queue pattern** — `examples/app/job-queue/` with SQL-backed jobs table, enqueue/list/detail HTTP routes, workflow drain, admin form + table.
+- Phase 52: **Live dashboard refresh** — `refresh every N seconds|minutes` on views/pages with `load data from action`; emit polls with `setInterval` cleanup.
+- Phase 52: **Live dashboard example** — `examples/app/live-dashboard/` with auto-refreshing metrics panel.
+- Phase 53: **`capabilities pty`** — `std.pty` spawn, write stdin, stream output lines (POSIX PTY with pipe fallback).
+- Phase 54: **Terminal view** — `terminal subscribe to stream <route>` emits monospace terminal panel over WebSocket.
+- Phase 54: **Script runner example** — `examples/app/script-runner/` streams subprocess stdout/stderr/exit to terminal view.
+
+### Changed
+
+- Phase 54: **Stream route runtime** — `pointPumpProcessStreamToWebSocket` encodes stdout/stderr/exit chunks when message record has `stream` + `text` fields.
+
 ## 0.1.41
 
 ### Added

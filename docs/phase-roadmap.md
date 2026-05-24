@@ -4,13 +4,14 @@
 
 ## Active execution
 
-**Phase 50** — Pilot + template sync. See [phase-roadmap.md](./phase-roadmap.md) backlog.
+**Phase 56** — UI kit batch (select, textarea, toast) or external pilot. See backlog.
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
-| **49** | v0.1.41 | Button sign-out, table primitive, login validation, Stripe example |
+| **55** | v0.1.42 | Integrator: job queue, live refresh, std.pty, terminal view |
+| **51–54** | (in v0.1.42) | Job queue pattern, live refresh, std.pty, terminal view + script runner |
 | **48** | v0.1.40 | Form submit POST, login/create-member UI, deploy smoke, theme toggle in saas-app |
 | **47** | v0.1.39 | POST member INSERT, env JWT secret, onboarding SQL smoke, render env vars |
 | **46** | v0.1.38 | SQL-backed saas members, build inlining, saas e2e integration |

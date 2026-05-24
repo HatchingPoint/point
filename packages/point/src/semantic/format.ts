@@ -149,6 +149,9 @@ function formatDeclaration(declaration: PointSemanticDeclaration): string[] {
 				...(declaration.layout ? [`  layout ${declaration.layout}`] : []),
 				...formatInputs(declaration.inputs),
 				...(declaration.loadData ? [`  load data from action ${declaration.loadData}`] : []),
+				...(declaration.refreshEvery
+					? [`  refresh every ${declaration.refreshEvery.count} ${declaration.refreshEvery.unit}`]
+					: []),
 				...(declaration.streamSubscribePath ? [`  subscribe to ${JSON.stringify(declaration.streamSubscribePath)}`] : []),
 				...(declaration.streamSubscribeRoute ? [`  subscribe to stream ${declaration.streamSubscribeRoute}`] : []),
 				...(declaration.onMessageCall ? [`  on message call ${declaration.onMessageCall}`] : []),
@@ -345,8 +348,14 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 		return `load data from fetch ${statement.method} "${statement.url}" field ${statement.field} type ${statement.itemType}`;
 	}
 	if (statement.kind === "onMountCall") return `on mount call ${statement.action}`;
+	if (statement.kind === "refreshEvery") return `refresh every ${statement.count} ${statement.unit}`;
 	if (statement.kind === "streamSubscribePath") return `subscribe to ${JSON.stringify(statement.path)}`;
 	if (statement.kind === "streamSubscribeRoute") return `subscribe to stream ${statement.routeName}`;
+	if (statement.kind === "terminal") {
+		return statement.routeName !== undefined
+			? `terminal subscribe to stream ${statement.routeName}`
+			: `terminal subscribe to ${JSON.stringify(statement.path ?? "")}`;
+	}
 	if (statement.kind === "onMessageCall") return `on message call ${statement.callback}`;
 	if (statement.kind === "whenConnectingRender") {
 		return `when connecting render ${formatStylePrefix(statement.style, statement.className)}${formatExpression(statement.value)}`;

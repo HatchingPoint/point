@@ -67,7 +67,7 @@ action http get
 
 Application modules import the std surface with `use std.http` (and similar) instead of repeating npm import paths. The repository includes a multi-module std usage example under `examples/` that wires text, JSON, HTTP, time, filesystem, and env helpers together.
 
-Available std modules today include `std.text`, `std.json`, `std.http`, `std.time`, `std.fs`, `std.env`, `std.path`, `std.process`, `std.crypto`, `std.yaml`, `std.stream`, `std.sql`, and `std.ai`. See the repository `std/README.md` for the full API list.
+Available std modules today include `std.text`, `std.json`, `std.http`, `std.time`, `std.fs`, `std.env`, `std.path`, `std.process`, `std.pty`, `std.crypto`, `std.yaml`, `std.stream`, `std.sql`, and `std.ai`. See the repository `std/README.md` for the full API list.
 
 ### Why two layers?
 

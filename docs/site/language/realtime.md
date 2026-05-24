@@ -8,6 +8,10 @@ quadrant: Reference
 
 Stream routes declare WebSocket servers with typed message handlers. Views subscribe with `subscribe to` for live updates.
 
+## Polling dashboards
+
+Simple live dashboards **without Convex or WebSockets** can use **`refresh every N seconds`** (or **`minutes`**) alongside **`load data from action`** (or fetch / `on mount call`). The compiler emits a `setInterval` refetch plus cleanup — see [UI — Data loading](/point/language/ui) and **`examples/app/live-dashboard/live-dashboard.point`**.
+
 ## stream route
 
 See `examples/api/stream-echo.point`:

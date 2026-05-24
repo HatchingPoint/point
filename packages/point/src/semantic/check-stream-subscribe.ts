@@ -7,6 +7,7 @@ import type {
 	PointSemanticViewDeclaration,
 	PointSemanticViewStatement,
 } from "./ast.ts";
+import { resolveViewStreamSubscribeStatements } from "./view-stream-subscribe-resolve.ts";
 
 export function checkSemanticStreamSubscribe(program: PointSemanticProgram): PointCoreDiagnostic[] {
 	const diagnostics: PointCoreDiagnostic[] = [];
@@ -38,11 +39,25 @@ function checkViewStreamSubscribe(
 	streamRoutes: Map<string, PointSemanticStreamRouteDeclaration>,
 	streamRoutesByPath: Map<string, PointSemanticStreamRouteDeclaration>,
 ): PointCoreDiagnostic[] {
-	const subscribePath = declaration.body.find((statement) => statement.kind === "streamSubscribePath");
-	const subscribeRoute = declaration.body.find((statement) => statement.kind === "streamSubscribeRoute");
+	const resolved = resolveViewStreamSubscribeStatements(declaration);
+	const { subscribePath, subscribeRoute } = resolved;
 	if (!subscribePath && !subscribeRoute) return [];
 
 	const diagnostics: PointCoreDiagnostic[] = [];
+	if (resolved.isTerminal && resolved.hasLegacySubscribe) {
+		diagnostics.push(
+			streamSubscribeDiagnostic(
+				"terminal-stream-subscribe-conflict",
+				`View ${declaration.name} cannot combine terminal subscribe with subscribe to …; use only one style`,
+				moduleName,
+				`view.${declaration.name}`,
+				declaration.name,
+				`Remove either the terminal subscribe line or the plain subscribe line.`,
+				subscribeRoute?.span ?? subscribePath?.span,
+			),
+		);
+		return diagnostics;
+	}
 	const onMessageCall = declaration.body.find((statement) => statement.kind === "onMessageCall");
 	diagnostics.push(
 		...validateSubscribeTarget(

@@ -45,6 +45,7 @@ import {
 import { resolveViewWrapperClassName, findThemeDeclaration, themePresetClassNames, themeToggleEnabled } from "./ui-style.ts";
 import { emitPointThemeModeHelpers, emitThemeShellOpen, emitThemeShellClose } from "./emit-theme-mode.ts";
 import { wrapBodyWithStreamSubscribe } from "./emit-stream-subscribe.ts";
+import { wrapBodyWithTerminalStreamSubscribe } from "./emit-terminal.ts";
 import {
 	emitPipelineStepEventTypes,
 	emitPointPipelineHelpers,
@@ -306,7 +307,9 @@ function emitFunction(
 	if (dataLoad) {
 		bodyLines = wrapBodyWithDataLoad(bodyLines, dataLoad, declaration.params.map((param) => param.name));
 	}
-	if (streamSubscribe) {
+	if (streamSubscribe?.terminal) {
+		bodyLines = wrapBodyWithTerminalStreamSubscribe(streamSubscribe, declaration.params.map((param) => param.name));
+	} else if (streamSubscribe) {
 		bodyLines = wrapBodyWithStreamSubscribe(bodyLines, streamSubscribe, declaration.params.map((param) => param.name));
 	}
 	if (viewControls?.submit) {

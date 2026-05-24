@@ -503,6 +503,38 @@ body {
   --point-radius: 0.25rem;
 }
 
+.point-terminal {
+  margin: 0;
+  padding: var(--point-space-md);
+  min-height: 12rem;
+  max-height: 24rem;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--point-color-emphasis);
+  background: var(--point-color-surface-muted);
+  border: 1px solid var(--point-color-border);
+  border-radius: var(--point-radius);
+  box-shadow: var(--point-shadow-sm) inset;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.point-terminal-line {
+  padding: 0 var(--point-space-xs);
+  border-radius: calc(var(--point-radius) * 0.5);
+}
+
+.point-terminal-stderr {
+  color: var(--point-color-danger);
+}
+
+.point-terminal-exit {
+  color: var(--point-color-accent);
+  font-weight: 600;
+}
+
 @media (max-width: 48rem) {
   .point-layout-body {
     grid-template-columns: 1fr;

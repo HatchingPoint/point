@@ -25,7 +25,12 @@ use json
 | `use std.http` | same module (explicit) |
 | `use Billing from "./billing.point"` | local file |
 
-Standard modules map to files under `std/`, such as `std/text.point`, `std/json.point`, `std/http.point`, `std/time.point`, `std/fs.point`, `std/env.point`, `std/path.point`, `std/crypto.point`, `std/process.point`, `std/yaml.point`, `std/stream.point`, `std/sql.point`, `std/ai.point`, and `std/money.point`.
+Standard modules map to files under `std/`, such as `std/text.point`, `std/json.point`, `std/http.point`, `std/time.point`, `std/fs.point`, `std/env.point`, `std/path.point`, `std/crypto.point`, `std/process.point`, `std/pty.point`, `std/yaml.point`, `std/stream.point`, `std/sql.point`, `std/ai.point`, and `std/money.point`.
+
+### std.process vs std.pty
+
+- **`std.process`** (`capabilities process`) runs a subprocess with buffered stdout/stderr and line streaming over plain pipes (`processSpawn`, `processStreamLines`).
+- **`std.pty`** (`capabilities pty`) keeps a pseudo-terminal spawn when Bun supports PTY (`Bun.spawn` `terminal`), with `ptyWrite` for interactive stdin and line streaming merged from the PTY. On unsupported hosts the runtime falls back to pipe-backed spawn (TTY detection in the child is off). Use **pty** when you care about PTY-backed behavior or future terminal integration; otherwise **process** stays the simpler buffered API.
 
 ### std.http
 

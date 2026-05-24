@@ -85,18 +85,21 @@ export function itemsListView(): JSX.Element {
   const [error, setError] = React.useState<unknown>(null);
   React.useEffect(() => {
     let cancelled = false;
-    (async () => {
-      setLoading(true);
-      setError(null);
+    const load = async (initial: boolean) => {
+      if (initial) {
+        setLoading(true);
+        setError(null);
+      }
       try {
         const result = await fetchItems();
         if (!cancelled) setData(result);
       } catch (err) {
         if (!cancelled) setError(err);
       } finally {
-        if (!cancelled) setLoading(false);
+        if (initial && !cancelled) setLoading(false);
       }
-    })();
+    };
+    void load(true);
     return () => { cancelled = true; };
   }, []);
   if (loading) { // @point 40

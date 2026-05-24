@@ -235,6 +235,7 @@ View modifiers:
 
 - `class "tailwind classes"` on `render` — emits `className` on a wrapper element
 - `load data from action <name>` or `on mount call <name>` — async data binding to `data`
+- `refresh every <N> seconds` or `refresh every <N> minutes` — optional polling refetch when a data-load binding is present (Phase 52)
 - `when loading render`, `when error render`, `when empty render` — loading states
 - `each item in data render ...` — list rendering
 - `link "Label" to "/path"` — client navigation links

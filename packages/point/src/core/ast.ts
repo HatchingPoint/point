@@ -224,6 +224,8 @@ export interface PointSemanticDataLoad {
 	loadingSpan?: PointSourceSpan;
 	errorSpan?: PointSourceSpan;
 	emptySpan?: PointSourceSpan;
+	/** When set, refetch on an interval (ms) after initial load; cleared on unmount. */
+	refreshIntervalMs?: number;
 }
 
 export interface PointSemanticStreamSubscribe {
@@ -231,6 +233,8 @@ export interface PointSemanticStreamSubscribe {
 	path: string;
 	messageTypeName: string;
 	bindingName: string;
+	/** When true, emit a terminal-style WebSocket log surface (`.point-terminal`). */
+	terminal?: boolean;
 	messageCallback?: string;
 	connecting?: PointCoreExpression;
 	connectingClassName?: string;

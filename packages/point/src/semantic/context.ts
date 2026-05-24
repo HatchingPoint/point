@@ -2,6 +2,7 @@ import type { PointCoreProgram, PointSourceSpan } from "../core/ast.ts";
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import { mapDiagnosticsToSemanticRefs } from "../core/context.ts";
 import { extractPromptPlaceholders } from "./check-prompts.ts";
+import { resolveViewStreamSubscribeStatements } from "./view-stream-subscribe-resolve.ts";
 import type {
 	PointSemanticBinding,
 	PointSemanticDeclaration,
@@ -416,9 +417,8 @@ function symbolsForDeclaration(moduleName: string, declaration: PointSemanticDec
 		const loadStatement = declaration.body.find(
 			(statement) => statement.kind === "loadData" || statement.kind === "onMountCall",
 		);
-		const subscribeStatement = declaration.body.find(
-			(statement) => statement.kind === "streamSubscribePath" || statement.kind === "streamSubscribeRoute",
-		);
+		const resolvedSubscribe = resolveViewStreamSubscribeStatements(declaration);
+		const subscribeStatement = resolvedSubscribe.subscribeRoute ?? resolvedSubscribe.subscribePath;
 		const base = [
 			{
 				ref: semanticRefFor(moduleName, viewPath),
@@ -449,6 +449,19 @@ function symbolsForDeclaration(moduleName: string, declaration: PointSemanticDec
 				module: moduleName,
 				type: "data load",
 				span: loadStatement.span ?? null,
+			});
+		}
+		const refreshStatement = declaration.body.find((statement) => statement.kind === "refreshEvery");
+		if (refreshStatement) {
+			base.push({
+				ref: semanticRefFor(moduleName, `${viewPath}.refresh`),
+				path: `${viewPath}.refresh`,
+				kind: "view" as const,
+				name: "refresh",
+				module: moduleName,
+				type: `${refreshStatement.count} ${refreshStatement.unit}`,
+				effects: ["timer"],
+				span: refreshStatement.span ?? null,
 			});
 		}
 		if (subscribeStatement && (subscribeStatement.kind === "streamSubscribePath" || subscribeStatement.kind === "streamSubscribeRoute")) {
@@ -491,6 +504,18 @@ function symbolsForDeclaration(moduleName: string, declaration: PointSemanticDec
 				name: declaration.loadData,
 				module: moduleName,
 				type: "data load",
+				span: declaration.span ?? null,
+			});
+		}
+		if (declaration.refreshEvery) {
+			base.push({
+				ref: semanticRefFor(moduleName, `${pagePath}.refresh`),
+				path: `${pagePath}.refresh`,
+				kind: "page" as const,
+				name: "refresh",
+				module: moduleName,
+				type: `${declaration.refreshEvery.count} ${declaration.refreshEvery.unit}`,
+				effects: ["timer"],
 				span: declaration.span ?? null,
 			});
 		}
@@ -723,6 +748,10 @@ function summaryFor(symbol: PointSemanticSymbol): string {
 	if (symbol.kind === "policy") return `Semantic policy ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "guard") return `Semantic guard ${symbol.name} protects ${symbol.type}.`;
 	if (symbol.kind === "view") {
+		if (symbol.path.endsWith(".refresh")) {
+			const viewTitle = symbol.path.replace(/\.refresh$/, "").replace(/^view\./, "");
+			return `View ${viewTitle} refetches mounted data every ${symbol.type ?? "interval"} (timer effect).`;
+		}
 		if (symbol.type === "data load") {
 			const viewName = ownerNameFromPath(symbol.path, "view") ?? symbol.name;
 			return `View ${viewName} loads data from action ${symbol.name} on mount.`;
@@ -734,6 +763,10 @@ function summaryFor(symbol: PointSemanticSymbol): string {
 	if (symbol.kind === "slot") return `Layout slot ${symbol.name}.`;
 	if (symbol.kind === "navigation") return `Semantic navigation ${symbol.name} registers client routes to pages.`;
 	if (symbol.kind === "page") {
+		if (symbol.path.endsWith(".refresh")) {
+			const pageTitle = symbol.path.replace(/\.refresh$/, "").replace(/^page\./, "");
+			return `Page ${pageTitle} refetches mounted data every ${symbol.type ?? "interval"} (timer effect).`;
+		}
 		if (symbol.type === "data load") {
 			const pageName = ownerNameFromPath(symbol.path, "page") ?? symbol.name;
 			return `Page ${pageName} loads data from action ${symbol.name} on mount.`;

@@ -121,6 +121,14 @@ view items list
 - `when loading render`, `when error render`, and `when empty render` are semantic state modifiers (optional).
 - Calling the load action directly in `render` without `await` is a `missing-await` diagnostic — use the `data` binding instead.
 
+### Periodic refresh (polling)
+
+After `load data from action …`, `on mount call …`, or `load data from fetch …`, add **`refresh every <N> seconds`** or **`refresh every <N> minutes`**. The compiler emits `setInterval` refetches and clears the timer on unmount. Background refreshes do not toggle the loading state (initial load still does).
+
+Multiple `refresh every` lines on one view are a `duplicate-refresh-interval` error; `refresh every` without a data-load binding is `refresh-without-load`.
+
+Example: **`examples/app/live-dashboard/live-dashboard.point`**.
+
 See `examples/app/dashboard/dashboard.point` for a list view that loads from `action fetch items`.
 
 ### Rich components and lists

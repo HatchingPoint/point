@@ -33,6 +33,10 @@ See `examples/tools/health-check-schedule.point`.
 
 For production cron, prefer the host scheduler and call a `command` or HTTP route — schedules emit `setInterval` for development and demos.
 
+## Job queue pattern
+
+Use durable SQL rows for queue entries, **`route`** for enqueue/list/detail HTTP, **`label`**/`pointJsonResponse` when routes need branching status codes (such as conditional 404s), **`workflow`** to execute multi-step state transitions (`pending` → `running` → `completed`), and **`command serve`** plus **`navigation`** for a runnable demo shell. Illustration: **`examples/app/job-queue/job-queue.point`**. Interval ticks are a separate pattern; see **`examples/tools/health-check-schedule.point`**.
+
 ## command
 
 CLI entrypoints for `point run`:

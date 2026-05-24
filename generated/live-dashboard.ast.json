@@ -1,0 +1,1192 @@
+{
+  "kind": "coreProgram",
+  "module": "LiveDashboardApp",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "timeNow",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "now",
+      "semantic": {
+        "kind": "external",
+        "name": "time now"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 49
+        },
+        "end": {
+          "line": 4,
+          "column": 63,
+          "offset": 111
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "Metric",
+      "fields": [
+        {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "label",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 127
+            },
+            "end": {
+              "line": 7,
+              "column": 14,
+              "offset": 140
+            }
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 141
+            },
+            "end": {
+              "line": 8,
+              "column": 14,
+              "offset": 154
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Metric"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 113
+        },
+        "end": {
+          "line": 6,
+          "column": 14,
+          "offset": 126
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "fetchLiveMetricsRows",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Metric",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "list",
+            "items": [
+              {
+                "kind": "record",
+                "fields": [
+                  {
+                    "name": "label",
+                    "value": {
+                      "kind": "literal",
+                      "value": "As of",
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 225
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 49,
+                          "offset": 273
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name": "value",
+                    "value": {
+                      "kind": "call",
+                      "callee": "timeNow",
+                      "args": [],
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 225
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 49,
+                          "offset": 273
+                        }
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 225
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 49,
+                    "offset": 273
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 225
+              },
+              "end": {
+                "line": 13,
+                "column": 49,
+                "offset": 273
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 225
+            },
+            "end": {
+              "line": 13,
+              "column": 49,
+              "offset": 273
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "fetch live metrics",
+        "outputName": "rows",
+        "effects": [
+          "time"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 156
+        },
+        "end": {
+          "line": 10,
+          "column": 26,
+          "offset": 181
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "liveMetricsGridView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [],
+      "semantic": {
+        "kind": "view",
+        "name": "live metrics grid",
+        "outputName": "view",
+        "effects": [],
+        "viewTable": {
+          "itemName": "row",
+          "itemIdentifier": "row",
+          "iterable": {
+            "kind": "identifier",
+            "name": "data",
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 462
+              },
+              "end": {
+                "line": 20,
+                "column": 41,
+                "offset": 502
+              }
+            }
+          },
+          "columns": [
+            "label",
+            "value"
+          ]
+        },
+        "viewDataLoad": {
+          "source": "action",
+          "actionName": "fetch live metrics",
+          "actionFunction": "fetchLiveMetricsRows",
+          "bindingName": "data",
+          "loading": {
+            "kind": "literal",
+            "value": "Refreshing…",
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 367
+              },
+              "end": {
+                "line": 18,
+                "column": 42,
+                "offset": 408
+              }
+            }
+          },
+          "loadingStyle": [
+            "muted"
+          ],
+          "error": {
+            "kind": "literal",
+            "value": "Could not reach metrics",
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 409
+              },
+              "end": {
+                "line": 19,
+                "column": 53,
+                "offset": 461
+              }
+            }
+          },
+          "errorStyle": [
+            "danger"
+          ],
+          "loadingSpan": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 367
+            },
+            "end": {
+              "line": 18,
+              "column": 42,
+              "offset": 408
+            }
+          },
+          "errorSpan": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 409
+            },
+            "end": {
+              "line": 19,
+              "column": 53,
+              "offset": 461
+            }
+          },
+          "refreshIntervalMs": 5000
+        }
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 275
+        },
+        "end": {
+          "line": 15,
+          "column": 23,
+          "offset": 297
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "appShellLayout",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 504
+              },
+              "end": {
+                "line": 22,
+                "column": 17,
+                "offset": 520
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 504
+            },
+            "end": {
+              "line": 22,
+              "column": 17,
+              "offset": 520
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "layout",
+        "name": "app shell",
+        "outputName": "layout",
+        "effects": [],
+        "layoutSpec": {
+          "name": "app shell",
+          "slots": [
+            {
+              "name": "sidebar",
+              "content": {
+                "kind": "literal",
+                "value": "Live",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 521
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 29,
+                    "offset": 549
+                  }
+                }
+              }
+            },
+            {
+              "name": "main",
+              "content": {
+                "kind": "literal",
+                "value": "Dashboard",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 550
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 31,
+                    "offset": 580
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 504
+        },
+        "end": {
+          "line": 22,
+          "column": 17,
+          "offset": 520
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "homePage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "liveMetricsGridView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 706
+              },
+              "end": {
+                "line": 30,
+                "column": 34,
+                "offset": 739
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 582
+            },
+            "end": {
+              "line": 26,
+              "column": 15,
+              "offset": 596
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "home page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "layoutName": "app shell",
+          "layoutFunction": "appShellLayout",
+          "title": {
+            "kind": "literal",
+            "value": "Live metrics",
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 616
+              },
+              "end": {
+                "line": 28,
+                "column": 23,
+                "offset": 638
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Polling example — values update every few seconds.",
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 639
+              },
+              "end": {
+                "line": 29,
+                "column": 67,
+                "offset": 705
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "liveMetricsGridView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 706
+              },
+              "end": {
+                "line": 30,
+                "column": 34,
+                "offset": 739
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 582
+        },
+        "end": {
+          "line": 26,
+          "column": 15,
+          "offset": 596
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 24,
+      "offset": 23
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "LiveDashboardApp",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std time",
+        "functions": [
+          {
+            "label": "time now",
+            "params": [],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "now",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 49
+              },
+              "end": {
+                "line": 4,
+                "column": 63,
+                "offset": 111
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 25
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 48
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Metric",
+        "fields": [
+          {
+            "label": "label",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 127
+              },
+              "end": {
+                "line": 7,
+                "column": 14,
+                "offset": 140
+              }
+            }
+          },
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 141
+              },
+              "end": {
+                "line": 8,
+                "column": 14,
+                "offset": 154
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 113
+          },
+          "end": {
+            "line": 6,
+            "column": 14,
+            "offset": 126
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "fetch live metrics",
+        "inputs": [],
+        "output": {
+          "name": "rows",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Metric",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "time"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "list",
+              "items": [
+                {
+                  "kind": "record",
+                  "fields": [
+                    {
+                      "label": "label",
+                      "value": {
+                        "kind": "literal",
+                        "value": "As of",
+                        "span": {
+                          "start": {
+                            "line": 13,
+                            "column": 1,
+                            "offset": 225
+                          },
+                          "end": {
+                            "line": 13,
+                            "column": 49,
+                            "offset": 273
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "label": "value",
+                      "value": {
+                        "kind": "call",
+                        "callee": "time now",
+                        "args": [],
+                        "span": {
+                          "start": {
+                            "line": 13,
+                            "column": 1,
+                            "offset": 225
+                          },
+                          "end": {
+                            "line": 13,
+                            "column": 49,
+                            "offset": 273
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 225
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 49,
+                      "offset": 273
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 225
+                },
+                "end": {
+                  "line": 13,
+                  "column": 49,
+                  "offset": 273
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 225
+              },
+              "end": {
+                "line": 13,
+                "column": 49,
+                "offset": 273
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 156
+          },
+          "end": {
+            "line": 10,
+            "column": 26,
+            "offset": 181
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "live metrics grid",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "loadData",
+            "action": "fetch live metrics",
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 298
+              },
+              "end": {
+                "line": 16,
+                "column": 43,
+                "offset": 340
+              }
+            }
+          },
+          {
+            "kind": "refreshEvery",
+            "count": 5,
+            "unit": "seconds",
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 341
+              },
+              "end": {
+                "line": 17,
+                "column": 26,
+                "offset": 366
+              }
+            }
+          },
+          {
+            "kind": "whenLoadingRender",
+            "value": {
+              "kind": "literal",
+              "value": "Refreshing…",
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 367
+                },
+                "end": {
+                  "line": 18,
+                  "column": 42,
+                  "offset": 408
+                }
+              }
+            },
+            "style": [
+              "muted"
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 367
+              },
+              "end": {
+                "line": 18,
+                "column": 42,
+                "offset": 408
+              }
+            }
+          },
+          {
+            "kind": "whenErrorRender",
+            "value": {
+              "kind": "literal",
+              "value": "Could not reach metrics",
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 409
+                },
+                "end": {
+                  "line": 19,
+                  "column": 53,
+                  "offset": 461
+                }
+              }
+            },
+            "style": [
+              "danger"
+            ],
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 409
+              },
+              "end": {
+                "line": 19,
+                "column": 53,
+                "offset": 461
+              }
+            }
+          },
+          {
+            "kind": "table",
+            "item": "row",
+            "iterable": {
+              "kind": "name",
+              "label": "data",
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 462
+                },
+                "end": {
+                  "line": 20,
+                  "column": 41,
+                  "offset": 502
+                }
+              }
+            },
+            "columns": [
+              "label",
+              "value"
+            ],
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 462
+              },
+              "end": {
+                "line": 20,
+                "column": 41,
+                "offset": 502
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 275
+          },
+          "end": {
+            "line": 15,
+            "column": 23,
+            "offset": 297
+          }
+        }
+      },
+      {
+        "kind": "layout",
+        "name": "app shell",
+        "slots": [
+          {
+            "name": "sidebar",
+            "content": {
+              "kind": "literal",
+              "value": "Live",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 521
+                },
+                "end": {
+                  "line": 23,
+                  "column": 29,
+                  "offset": 549
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 521
+              },
+              "end": {
+                "line": 23,
+                "column": 29,
+                "offset": 549
+              }
+            }
+          },
+          {
+            "name": "main",
+            "content": {
+              "kind": "literal",
+              "value": "Dashboard",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 550
+                },
+                "end": {
+                  "line": 24,
+                  "column": 31,
+                  "offset": 580
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 550
+              },
+              "end": {
+                "line": 24,
+                "column": 31,
+                "offset": 580
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 22,
+            "column": 1,
+            "offset": 504
+          },
+          "end": {
+            "line": 22,
+            "column": 17,
+            "offset": 520
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "home page",
+        "layout": "app shell",
+        "inputs": [],
+        "title": {
+          "kind": "literal",
+          "value": "Live metrics",
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 616
+            },
+            "end": {
+              "line": 28,
+              "column": 23,
+              "offset": 638
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Polling example — values update every few seconds.",
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 639
+            },
+            "end": {
+              "line": 29,
+              "column": 67,
+              "offset": 705
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "live metrics grid",
+          "args": [],
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 706
+            },
+            "end": {
+              "line": 30,
+              "column": 34,
+              "offset": 739
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 582
+          },
+          "end": {
+            "line": 26,
+            "column": 15,
+            "offset": 596
+          }
+        }
+      },
+      {
+        "kind": "navigation",
+        "name": "live dashboard app",
+        "routes": [
+          {
+            "path": "/",
+            "pageName": "home page",
+            "span": {
+              "start": {
+                "line": 33,
+                "column": 1,
+                "offset": 771
+              },
+              "end": {
+                "line": 33,
+                "column": 26,
+                "offset": 796
+              }
+            }
+          }
+        ],
+        "bootstrapRouter": true,
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 741
+          },
+          "end": {
+            "line": 32,
+            "column": 30,
+            "offset": 770
+          }
+        }
+      },
+      {
+        "kind": "theme",
+        "name": "live theme",
+        "accent": "indigo",
+        "span": {
+          "start": {
+            "line": 36,
+            "column": 1,
+            "offset": 817
+          },
+          "end": {
+            "line": 36,
+            "column": 17,
+            "offset": 833
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 24,
+        "offset": 23
+      }
+    }
+  },
+  "semanticCallables": [
+    "app shell",
+    "fetch live metrics",
+    "home page",
+    "live metrics grid",
+    "time now"
+  ]
+}

@@ -1,7 +1,7 @@
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import type { PointSourceSpan } from "../core/ast.ts";
 import { POINT_STYLE_MODIFIERS, isPointStyleModifier } from "../core/ui-style.ts";
-import type { PointSemanticProgram, PointSemanticViewDeclaration, PointSemanticViewStatement, PointSemanticViewBindStatement } from "./ast.ts";
+import { resolveViewStreamSubscribeStatements } from "./view-stream-subscribe-resolve.ts";
 
 export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiagnostic[] {
 	const diagnostics: PointCoreDiagnostic[] = [];
@@ -27,10 +27,9 @@ export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiag
 			(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadFetch" }> =>
 				statement.kind === "loadFetch",
 		);
-		const subscribeStatement = declaration.body.find(
-			(statement): statement is Extract<PointSemanticViewStatement, { kind: "streamSubscribePath" | "streamSubscribeRoute" }> =>
-				statement.kind === "streamSubscribePath" || statement.kind === "streamSubscribeRoute",
-		);
+		const resolvedSubscribe = resolveViewStreamSubscribeStatements(declaration);
+		const subscribeStatement =
+			resolvedSubscribe.subscribeRoute ?? resolvedSubscribe.subscribePath ?? undefined;
 		if (loadStatement) {
 			const outputType = actionOutputTypes.get(loadStatement.action);
 			if (outputType) paramTypes.set("data", outputType);

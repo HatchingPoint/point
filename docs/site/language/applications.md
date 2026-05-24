@@ -38,6 +38,7 @@ Application blocks share the same check and ref model as logic blocks. Views, ro
 - `examples/app/dashboard/` — layout, navigation, data loading, lists
 - `examples/app/notes/` — database actions in views
 - `examples/app/log-viewer/` — stream route + subprocess
+- `examples/app/job-queue/` — SQL-backed jobs queue, routes + workflow runner
 - `examples/full-stack-template/` — SaaS admin shell
 - `examples/adopters/hatchingpoint/` — dogfood readiness demo (not the default teaching path)
 

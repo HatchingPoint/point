@@ -1,0 +1,1323 @@
+{
+  "kind": "coreProgram",
+  "module": "ScriptRunnerTerminal",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "streamLinesRaw",
+      "params": [
+        {
+          "name": "command",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "command",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 14,
+              "offset": 13
+            }
+          }
+        },
+        {
+          "name": "args",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "args",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "env",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "env",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/process",
+      "importName": "processStreamLines",
+      "semantic": {
+        "kind": "external",
+        "name": "stream lines raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 56
+        },
+        "end": {
+          "line": 4,
+          "column": 137,
+          "offset": 192
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "ScriptLine",
+      "fields": [
+        {
+          "name": "stream",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "stream",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 213
+            },
+            "end": {
+              "line": 7,
+              "column": 15,
+              "offset": 227
+            }
+          }
+        },
+        {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "text",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 228
+            },
+            "end": {
+              "line": 8,
+              "column": 13,
+              "offset": 240
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Script Line"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 194
+        },
+        "end": {
+          "line": 6,
+          "column": 19,
+          "offset": 212
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "runDemoShellLine",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "yield",
+          "value": {
+            "kind": "call",
+            "callee": "streamLinesRaw",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "sh",
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 302
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 75,
+                    "offset": 376
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "kind": "literal",
+                    "value": "examples/app/script-runner/demo.sh",
+                    "span": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 302
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 75,
+                        "offset": 376
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 302
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 75,
+                    "offset": 376
+                  }
+                }
+              },
+              {
+                "kind": "list",
+                "items": [],
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 302
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 75,
+                    "offset": 376
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 302
+              },
+              "end": {
+                "line": 13,
+                "column": 75,
+                "offset": 376
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 302
+            },
+            "end": {
+              "line": 13,
+              "column": 75,
+              "offset": 376
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "run demo shell",
+        "outputName": "line",
+        "effects": [
+          "process"
+        ],
+        "isStreamAction": true
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 242
+        },
+        "end": {
+          "line": 10,
+          "column": 22,
+          "offset": 263
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "runnerStreamRouteConnect",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Void",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return"
+        }
+      ],
+      "semantic": {
+        "kind": "streamRoute",
+        "name": "runner",
+        "outputName": "connect",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 447
+        },
+        "end": {
+          "line": 18,
+          "column": 47,
+          "offset": 493
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "runnerStreamRouteDisconnect",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Void",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": null,
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 494
+              },
+              "end": {
+                "line": 19,
+                "column": 28,
+                "offset": 521
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 494
+            },
+            "end": {
+              "line": 19,
+              "column": 28,
+              "offset": 521
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "streamRoute",
+        "name": "runner",
+        "outputName": "disconnect",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 494
+        },
+        "end": {
+          "line": 19,
+          "column": 28,
+          "offset": 521
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "scriptTerminalPanelView",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [],
+      "semantic": {
+        "kind": "view",
+        "name": "script terminal panel",
+        "outputName": "view",
+        "effects": [],
+        "viewStreamSubscribe": {
+          "routeName": "runner",
+          "path": "/ws/script-runner",
+          "messageTypeName": "Script Line",
+          "bindingName": "messages",
+          "terminal": true,
+          "connecting": {
+            "kind": "literal",
+            "value": "Connecting to subprocess stream...",
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 588
+              },
+              "end": {
+                "line": 23,
+                "column": 62,
+                "offset": 649
+              }
+            }
+          },
+          "disconnected": {
+            "kind": "literal",
+            "value": "Disconnected from script runner",
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 650
+              },
+              "end": {
+                "line": 24,
+                "column": 61,
+                "offset": 710
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 523
+        },
+        "end": {
+          "line": 21,
+          "column": 27,
+          "offset": 549
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "scriptRunnerPage",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "scriptTerminalPanelView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 857
+              },
+              "end": {
+                "line": 29,
+                "column": 40,
+                "offset": 896
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 712
+            },
+            "end": {
+              "line": 26,
+              "column": 24,
+              "offset": 735
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "page",
+        "name": "script runner page",
+        "outputName": "page",
+        "effects": [],
+        "pageLayout": {
+          "title": {
+            "kind": "literal",
+            "value": "Script runner demo",
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 736
+              },
+              "end": {
+                "line": 27,
+                "column": 29,
+                "offset": 764
+              }
+            }
+          },
+          "description": {
+            "kind": "literal",
+            "value": "Stdout, stderr (after exit), and exit code streamed through a terminal view",
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 765
+              },
+              "end": {
+                "line": 28,
+                "column": 92,
+                "offset": 856
+              }
+            }
+          },
+          "main": {
+            "kind": "call",
+            "callee": "scriptTerminalPanelView",
+            "args": [],
+            "span": {
+              "start": {
+                "line": 29,
+                "column": 1,
+                "offset": 857
+              },
+              "end": {
+                "line": 29,
+                "column": 40,
+                "offset": 896
+              }
+            }
+          }
+        }
+      },
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 712
+        },
+        "end": {
+          "line": 26,
+          "column": 24,
+          "offset": 735
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "serveScriptRunnerCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Script runner — WebSocket at /ws/script-runner",
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 1032
+              },
+              "end": {
+                "line": 37,
+                "column": 58,
+                "offset": 1089
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 1032
+            },
+            "end": {
+              "line": 37,
+              "column": 58,
+              "offset": 1089
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "serve script runner",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 982
+        },
+        "end": {
+          "line": 35,
+          "column": 28,
+          "offset": 1009
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 28,
+      "offset": 27
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "ScriptRunnerTerminal",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "point std process",
+        "functions": [
+          {
+            "label": "stream lines raw",
+            "params": [
+              {
+                "label": "command",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              },
+              {
+                "label": "args",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              },
+              {
+                "label": "env",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "List",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/process",
+            "importAs": "processStreamLines",
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 56
+              },
+              "end": {
+                "line": 4,
+                "column": 137,
+                "offset": 192
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 29
+          },
+          "end": {
+            "line": 3,
+            "column": 27,
+            "offset": 55
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Script Line",
+        "fields": [
+          {
+            "label": "stream",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 213
+              },
+              "end": {
+                "line": 7,
+                "column": 15,
+                "offset": 227
+              }
+            }
+          },
+          {
+            "label": "text",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 228
+              },
+              "end": {
+                "line": 8,
+                "column": 13,
+                "offset": 240
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 194
+          },
+          "end": {
+            "line": 6,
+            "column": 19,
+            "offset": 212
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "run demo shell",
+        "inputs": [],
+        "output": {
+          "name": "line",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "touches": [
+          "process"
+        ],
+        "body": [
+          {
+            "kind": "yield",
+            "value": {
+              "kind": "call",
+              "callee": "stream lines raw",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "sh",
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 302
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 75,
+                      "offset": 376
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [
+                    {
+                      "kind": "literal",
+                      "value": "examples/app/script-runner/demo.sh",
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 302
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 75,
+                          "offset": 376
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 302
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 75,
+                      "offset": 376
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 302
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 75,
+                      "offset": 376
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 302
+                },
+                "end": {
+                  "line": 13,
+                  "column": 75,
+                  "offset": 376
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 302
+              },
+              "end": {
+                "line": 13,
+                "column": 75,
+                "offset": 376
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 242
+          },
+          "end": {
+            "line": 10,
+            "column": 22,
+            "offset": 263
+          }
+        }
+      },
+      {
+        "kind": "streamRoute",
+        "name": "runner",
+        "path": "/ws/script-runner",
+        "messageType": {
+          "kind": "typeRef",
+          "name": "Script Line",
+          "args": []
+        },
+        "handlers": [
+          {
+            "event": "connect",
+            "mode": "streamFromAction",
+            "actionName": "run demo shell",
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 447
+              },
+              "end": {
+                "line": 18,
+                "column": 47,
+                "offset": 493
+              }
+            }
+          },
+          {
+            "event": "disconnect",
+            "mode": "return",
+            "value": {
+              "kind": "literal",
+              "value": null,
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 494
+                },
+                "end": {
+                  "line": 19,
+                  "column": 28,
+                  "offset": 521
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 494
+              },
+              "end": {
+                "line": 19,
+                "column": 28,
+                "offset": 521
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 378
+          },
+          "end": {
+            "line": 15,
+            "column": 20,
+            "offset": 397
+          }
+        }
+      },
+      {
+        "kind": "view",
+        "name": "script terminal panel",
+        "inputs": [],
+        "output": {
+          "name": "page",
+          "type": {
+            "kind": "typeRef",
+            "name": "Page",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "terminal",
+            "routeName": "runner",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 550
+              },
+              "end": {
+                "line": 22,
+                "column": 38,
+                "offset": 587
+              }
+            }
+          },
+          {
+            "kind": "whenConnectingRender",
+            "value": {
+              "kind": "literal",
+              "value": "Connecting to subprocess stream...",
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 588
+                },
+                "end": {
+                  "line": 23,
+                  "column": 62,
+                  "offset": 649
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 588
+              },
+              "end": {
+                "line": 23,
+                "column": 62,
+                "offset": 649
+              }
+            }
+          },
+          {
+            "kind": "whenDisconnectedRender",
+            "value": {
+              "kind": "literal",
+              "value": "Disconnected from script runner",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 650
+                },
+                "end": {
+                  "line": 24,
+                  "column": 61,
+                  "offset": 710
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 650
+              },
+              "end": {
+                "line": 24,
+                "column": 61,
+                "offset": 710
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 21,
+            "column": 1,
+            "offset": 523
+          },
+          "end": {
+            "line": 21,
+            "column": 27,
+            "offset": 549
+          }
+        }
+      },
+      {
+        "kind": "page",
+        "name": "script runner page",
+        "inputs": [],
+        "title": {
+          "kind": "literal",
+          "value": "Script runner demo",
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 736
+            },
+            "end": {
+              "line": 27,
+              "column": 29,
+              "offset": 764
+            }
+          }
+        },
+        "description": {
+          "kind": "literal",
+          "value": "Stdout, stderr (after exit), and exit code streamed through a terminal view",
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 765
+            },
+            "end": {
+              "line": 28,
+              "column": 92,
+              "offset": 856
+            }
+          }
+        },
+        "main": {
+          "kind": "call",
+          "callee": "scriptTerminalPanelView",
+          "args": [],
+          "span": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 857
+            },
+            "end": {
+              "line": 29,
+              "column": 40,
+              "offset": 896
+            }
+          }
+        },
+        "span": {
+          "start": {
+            "line": 26,
+            "column": 1,
+            "offset": 712
+          },
+          "end": {
+            "line": 26,
+            "column": 24,
+            "offset": 735
+          }
+        }
+      },
+      {
+        "kind": "navigation",
+        "name": "script runner app",
+        "routes": [
+          {
+            "path": "/",
+            "pageName": "script runner page",
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 927
+              },
+              "end": {
+                "line": 32,
+                "column": 35,
+                "offset": 961
+              }
+            }
+          }
+        ],
+        "bootstrapRouter": true,
+        "span": {
+          "start": {
+            "line": 31,
+            "column": 1,
+            "offset": 898
+          },
+          "end": {
+            "line": 31,
+            "column": 29,
+            "offset": 926
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "serve script runner",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Script runner — WebSocket at /ws/script-runner",
+              "span": {
+                "start": {
+                  "line": 37,
+                  "column": 1,
+                  "offset": 1032
+                },
+                "end": {
+                  "line": 37,
+                  "column": 58,
+                  "offset": 1089
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 37,
+                "column": 1,
+                "offset": 1032
+              },
+              "end": {
+                "line": 37,
+                "column": 58,
+                "offset": 1089
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 35,
+            "column": 1,
+            "offset": 982
+          },
+          "end": {
+            "line": 35,
+            "column": 28,
+            "offset": 1009
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 28,
+        "offset": 27
+      }
+    }
+  },
+  "semanticCallables": [
+    "run demo shell",
+    "script runner page",
+    "script terminal panel",
+    "serve script runner",
+    "stream lines raw"
+  ]
+}

@@ -77,6 +77,58 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 	const diagnostics: PointCoreDiagnostic[] = [];
 	for (const declaration of program.declarations) {
 		if (declaration.kind === "view") {
+			const refreshStatements = declaration.body.filter(
+				(statement): statement is Extract<PointSemanticViewStatement, { kind: "refreshEvery" }> => statement.kind === "refreshEvery",
+			);
+			const hasActionOrMountLoad = declaration.body.some(
+				(statement) => statement.kind === "loadData" || statement.kind === "onMountCall",
+			);
+			const hasFetchLoad = declaration.body.some((statement) => statement.kind === "loadFetch");
+			const hasDataLoad = hasActionOrMountLoad || hasFetchLoad;
+			if (refreshStatements.length > 1) {
+				const path = `view.${declaration.name}`;
+				const ref = semanticRefFor(moduleName, path);
+				diagnostics.push({
+					code: "duplicate-refresh-interval",
+					message: `View ${declaration.name} declares more than one refresh interval; keep a single refresh every line`,
+					path,
+					ref,
+					severity: "error",
+					span: refreshStatements[1]?.span ?? declaration.span ?? null,
+					repair: `Remove extra refresh every lines so only one interval remains.`,
+					relatedRefs: [ref],
+				});
+			}
+			for (const refresh of refreshStatements) {
+				if (refresh.count < 1 || !Number.isFinite(refresh.count)) {
+					const path = `view.${declaration.name}`;
+					const ref = semanticRefFor(moduleName, path);
+					diagnostics.push({
+						code: "invalid-refresh-interval",
+						message: `View ${declaration.name} refresh interval must be a positive integer (1 or more)`,
+						path,
+						ref,
+						severity: "error",
+						span: refresh.span ?? declaration.span ?? null,
+						repair: `Use for example: refresh every 30 seconds or refresh every 1 minutes`,
+						relatedRefs: [ref],
+					});
+				}
+			}
+			if (refreshStatements.length > 0 && !hasDataLoad) {
+				const path = `view.${declaration.name}`;
+				const ref = semanticRefFor(moduleName, path);
+				diagnostics.push({
+					code: "refresh-without-load",
+					message: `View ${declaration.name} uses refresh every without load data from action, on mount call, or load data from fetch`,
+					path,
+					ref,
+					severity: "error",
+					span: refreshStatements[0]?.span ?? declaration.span ?? null,
+					repair: `Add load data from action <name> (or on mount call, or load data from fetch GET ...) before refresh every.`,
+					relatedRefs: [ref],
+				});
+			}
 			const loadStatement = declaration.body.find(
 				(statement): statement is Extract<PointSemanticViewStatement, { kind: "loadData" | "onMountCall" }> =>
 					statement.kind === "loadData" || statement.kind === "onMountCall",
@@ -176,6 +228,35 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 					actual: `${actionName}(...)`,
 					repair: `Pass data to main render instead of calling ${actionName}() directly. Data type is ${outputType}.`,
 					relatedRefs: [semanticRefFor(moduleName, `action.${actionName}`), ref],
+				});
+			}
+		}
+		if (declaration.kind === "page" && declaration.refreshEvery) {
+			const path = `page.${declaration.name}`;
+			const ref = semanticRefFor(moduleName, path);
+			const { count } = declaration.refreshEvery;
+			if (count < 1 || !Number.isFinite(count)) {
+				diagnostics.push({
+					code: "invalid-refresh-interval",
+					message: `Page ${declaration.name} refresh interval must be a positive integer (1 or more)`,
+					path,
+					ref,
+					severity: "error",
+					span: declaration.span ?? null,
+					repair: `Use for example: refresh every 30 seconds or refresh every 1 minutes`,
+					relatedRefs: [ref],
+				});
+			}
+			if (!declaration.loadData) {
+				diagnostics.push({
+					code: "refresh-without-load",
+					message: `Page ${declaration.name} uses refresh every without load data from action or on mount call`,
+					path,
+					ref,
+					severity: "error",
+					span: declaration.span ?? null,
+					repair: `Add load data from action <name> or on mount call <name> before refresh every.`,
+					relatedRefs: [ref],
 				});
 			}
 		}

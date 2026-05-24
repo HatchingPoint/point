@@ -1,0 +1,168 @@
+module JobQueueApp
+
+capabilities http
+
+theme app theme
+  accent emerald
+  density comfortable
+  radius medium
+
+record Job
+  id: Text
+  name: Text
+  status: Text
+  created_at: Text
+
+record Jobs Response
+  jobs: List<Job>
+
+record Create Job Body
+  name: Text
+
+external point std sql
+  sql query raw(sql: Text, params: List<Text>): Text or Error from "@hatchingpoint/point/std/sql" as sqlQueryRaw
+  sql json rows list(raw: Text or Error): List<Job> from "@hatchingpoint/point/std/sql" as sqlJsonRowsList
+  sql json member row(raw: Text or Error): Job from "@hatchingpoint/point/std/sql" as sqlJsonMemberRow
+
+action create jobs table
+  output result: Text or Error
+  touches database
+  return sql query raw("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL)", [])
+
+action query all job rows
+  output rows: Text or Error
+  touches database
+  return sql query raw("SELECT id, name, status, created_at FROM jobs ORDER BY datetime(created_at) DESC", [])
+
+action fetch all jobs
+  output jobs: List<Job>
+  touches database
+  return sql json rows list(await query all job rows())
+
+action enqueue job
+  input body: Create Job Body
+  output job: Job
+  touches database
+  return sql json member row(sql query raw("INSERT INTO jobs (id, name, status, created_at) VALUES (lower(hex(randomblob(8))), ?, 'pending', datetime('now')) RETURNING id, name, status, created_at", [body.name]))
+
+action query job union row
+  input id: Text
+  output rows: Text or Error
+  touches database
+  return sql query raw("SELECT id, name, status, created_at FROM jobs WHERE id = ? UNION ALL SELECT '__missing__', '', '', '' WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE id = ? LIMIT 1) LIMIT 1", [id, id])
+
+action decode union job
+  input id: Text
+  output job: Job
+  touches database
+  return sql json member row(await query job union row(id))
+
+label job api envelope
+  input job: Job
+  output envelope: Text
+  when job.id == "__missing__" return pointJsonResponse({ error: "not found" }, 404)
+  otherwise return pointJsonResponse({ job: job }, 200)
+
+action mark next pending running
+  output result: Text or Error
+  touches database
+  return sql query raw("UPDATE jobs SET status = 'running' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'pending' ORDER BY datetime(created_at) ASC LIMIT 1)", [])
+
+action complete oldest running job
+  output result: Text or Error
+  touches database
+  return sql query raw("UPDATE jobs SET status = 'completed' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'running' ORDER BY datetime(created_at) ASC LIMIT 1)", [])
+
+workflow init jobs db
+  output result: Text or Error
+  step schema is await create jobs table()
+  return schema
+
+workflow process next job
+  output result: Text or Error
+  step started is await mark next pending running()
+  step finalized is await complete oldest running job()
+  return finalized
+
+route post job
+  method POST
+  path "/api/jobs"
+  input body: Create Job Body
+  output response: Job
+  return json status 201 await enqueue job(body)
+
+route list jobs
+  method GET
+  path "/api/jobs"
+  output response: Jobs Response
+  return json { jobs: await fetch all jobs() }
+
+route get job
+  method GET
+  path "/api/jobs/:id"
+  input id: Text
+  output response: Text
+  return await job api envelope(await decode union job(id))
+
+view job queue nav
+  link "Job queue" to "/"
+  link "Enqueue" to "/jobs/new"
+  render "Queues"
+
+view jobs dashboard
+  load data from fetch GET "/api/jobs" field jobs type List<Job>
+  when loading render "Loading jobs..."
+  when error render "Could not load jobs"
+  when empty render "Queue is empty - enqueue a job."
+  table row in data columns name, status link name to "/jobs/" + row.id
+
+view enqueue job form
+  input draft: Create Job Body
+  input on draft change: Handler<Create Job Body>
+  on change call on draft change
+  form
+  bind field "Job name" to draft.name
+  submit "Enqueue job" POST "/api/jobs" body draft then navigate "/"
+
+layout job queue shell
+  slot sidebar render job queue nav()
+  slot main render "Queues"
+
+page job queue dashboard page
+  layout job queue shell
+  title "Job queue"
+  description "SQLite-backed enqueue + status dashboard"
+  main render jobs dashboard()
+
+page job enqueue page
+  layout job queue shell
+  input draft: Create Job Body
+  input on draft change: Handler<Create Job Body>
+  title "Enqueue"
+  description "Adds a pending row consumed by workflow process next job"
+  main render enqueue job form(draft, on draft change)
+
+page job detail page
+  layout job queue shell
+  input id: Text
+  title "Job"
+  description "Fetched from GET /api/jobs/:id"
+  main render "Job detail for " + id
+
+navigation job queue navigation
+  path "/" page job queue dashboard page
+  path "/jobs/new" page job enqueue page
+  path "/jobs/:id" page job detail page
+  bootstrap router
+
+command init jobs database
+  output result: Text or Error
+  return await init jobs db()
+
+command drain one job demo
+  output result: Text or Error
+  return await process next job()
+
+command serve job queue
+  output ready: Text
+  return "Job queue ready — enqueue at POST /api/jobs"
