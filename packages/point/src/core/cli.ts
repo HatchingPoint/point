@@ -1,4 +1,5 @@
 import { dirname, resolve } from "node:path";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import type { PointCoreDeclaration, PointCoreProgram } from "./ast.ts";
 import { checkPointCore } from "./check.ts";
@@ -19,8 +20,8 @@ import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, rea
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
 import { runPointBuildApp } from "./build-app.ts";
-import { emitPointSqlSchema } from "./emit-sql-schema.ts";
-import { checkSemanticSqlSchema } from "../semantic/check-sql-schema.ts";
+import { emitPointSqlSchema, migrationFileName, type SqlDialect } from "./emit-sql-schema.ts";
+import { checkSemanticSqlSchema, mergeSemanticProgramsForSchema } from "../semantic/check-sql-schema.ts";
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
@@ -41,6 +42,12 @@ export async function main() {
 	let output = tail[1] ?? DEFAULT_OUTPUT;
 	let runFlags: Record<string, boolean | undefined> | undefined;
 	let buildProduction = false;
+	let schemaFlags: ReturnType<typeof parseBuildSchemaCliFlags> | undefined;
+	if (command === "build-schema") {
+		schemaFlags = parseBuildSchemaCliFlags(tail);
+		input = schemaFlags.positional[0] ?? DEFAULT_INPUT;
+		output = schemaFlags.positional[1] ?? DEFAULT_SCHEMA_OUTPUT;
+	}
 	if (command === "run") {
 		const parsed = parseCliFlags(tail);
 		runFlags = parsed.flags;
@@ -136,6 +143,44 @@ export async function main() {
 		const { manifest, lock } = await addPointDependency(dependencyName, spec);
 		console.log(`Point add updated ${POINT_MANIFEST} and ${POINT_LOCK}: ${dependencyName} -> ${spec}`);
 		console.log(JSON.stringify({ name: manifest.name, dependencies: manifest.dependencies, lockPackages: Object.keys(lock.packages) }, null, 2));
+		return;
+	}
+
+	if (command === "build-schema") {
+		const flags = schemaFlags ?? parseBuildSchemaCliFlags(tail);
+		try {
+			const programs = await collectSchemaProgramsFromInput(flags.positional[0] ?? DEFAULT_INPUT);
+			if (programs.length === 0) {
+				console.error(JSON.stringify({ ok: false, error: "build-schema requires a semantic Point module with record blocks" }, null, 2));
+				process.exit(1);
+			}
+			const merged = mergeSemanticProgramsForSchema(programs);
+			const schemaDiagnostics = [...merged.diagnostics, ...checkSemanticSqlSchema(merged.program, flags.dialect)];
+			if (schemaDiagnostics.length > 0) {
+				console.error(JSON.stringify({ ok: false, diagnostics: schemaDiagnostics }, null, 2));
+				process.exit(1);
+			}
+			const migrationLabel = toMigrationLabel(merged.program.module ?? "schema");
+			const sql = emitPointSqlSchema(merged.program, {
+				dialect: flags.dialect,
+				moduleName: merged.program.module,
+				migration: flags.migrationsDir ? { sequence: flags.sequence, label: migrationLabel } : undefined,
+			});
+			if (flags.migrationsDir) {
+				const migrationPath = resolve(process.cwd(), flags.migrationsDir, migrationFileName(flags.sequence, migrationLabel));
+				await Bun.$`mkdir -p ${dirname(migrationPath)}`.quiet();
+				await Bun.write(migrationPath, sql);
+				console.log(`Point SQL migration wrote ${migrationPath.replaceAll("\\", "/")}`);
+				return;
+			}
+			const outputPath = resolve(process.cwd(), flags.positional[1] ?? DEFAULT_SCHEMA_OUTPUT);
+			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
+			await Bun.write(outputPath, sql);
+			console.log(`Point SQL schema wrote ${outputPath.replaceAll("\\", "/")}`);
+		} catch (error) {
+			console.error(JSON.stringify({ ok: false, error: error instanceof Error ? error.message : String(error) }, null, 2));
+			process.exit(1);
+		}
 		return;
 	}
 
@@ -282,27 +327,6 @@ export async function main() {
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 		await Bun.write(outputPath, emitPointCorePython(program));
 		console.log(`Point core Python build wrote ${outputPath.replaceAll("\\", "/")}`);
-		return;
-	}
-
-	if (command === "build-schema") {
-		if (diagnostics.length > 0) {
-			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
-			process.exit(1);
-		}
-		if (!program.semanticSource) {
-			console.error(JSON.stringify({ ok: false, error: "build-schema requires a semantic Point module" }, null, 2));
-			process.exit(1);
-		}
-		const schemaDiagnostics = checkSemanticSqlSchema(program.semanticSource);
-		if (schemaDiagnostics.length > 0) {
-			console.error(JSON.stringify({ ok: false, diagnostics: schemaDiagnostics }, null, 2));
-			process.exit(1);
-		}
-		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_SCHEMA_OUTPUT : output);
-		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-		await Bun.write(outputPath, emitPointSqlSchema(program.semanticSource));
-		console.log(`Point SQL schema stub wrote ${outputPath.replaceAll("\\", "/")}`);
 		return;
 	}
 
@@ -616,6 +640,89 @@ export function parseBuildCliFlags(args: string[]): { production: boolean; posit
 		else positional.push(arg);
 	}
 	return { production, positional };
+}
+
+export function parseBuildSchemaCliFlags(args: string[]): {
+	dialect: SqlDialect;
+	migrationsDir?: string;
+	sequence: number;
+	positional: string[];
+} {
+	let dialect: SqlDialect = "postgres";
+	let migrationsDir: string | undefined;
+	let sequence = 1;
+	const positional: string[] = [];
+	for (let index = 0; index < args.length; index += 1) {
+		const arg = args[index]!;
+		if (arg === "--dialect") {
+			const value = args[index + 1];
+			if (value !== "postgres" && value !== "sqlite") {
+				throw new Error(`Unknown build-schema dialect "${value ?? ""}". Use postgres or sqlite.`);
+			}
+			dialect = value;
+			index += 1;
+			continue;
+		}
+		if (arg.startsWith("--dialect=")) {
+			const value = arg.slice("--dialect=".length);
+			if (value !== "postgres" && value !== "sqlite") {
+				throw new Error(`Unknown build-schema dialect "${value}". Use postgres or sqlite.`);
+			}
+			dialect = value;
+			continue;
+		}
+		if (arg === "--migrations") {
+			migrationsDir = args[index + 1];
+			if (!migrationsDir) throw new Error("build-schema --migrations requires a directory path.");
+			index += 1;
+			continue;
+		}
+		if (arg.startsWith("--migrations=")) {
+			migrationsDir = arg.slice("--migrations=".length);
+			continue;
+		}
+		if (arg === "--sequence") {
+			const value = Number(args[index + 1]);
+			if (!Number.isInteger(value) || value < 1) throw new Error("build-schema --sequence requires a positive integer.");
+			sequence = value;
+			index += 1;
+			continue;
+		}
+		positional.push(arg);
+	}
+	return { dialect, migrationsDir, sequence, positional };
+}
+
+async function collectSchemaProgramsFromInput(input: string): Promise<import("../semantic/ast.ts").PointSemanticProgram[]> {
+	const lock = await readPointLock();
+	const absolute = resolve(process.cwd(), input);
+	const entryInputs = existsSync(absolute) && statSync(absolute).isDirectory()
+		? readdirSync(absolute)
+				.filter((name) => name.endsWith(".point"))
+				.sort()
+				.map((name) => resolve(input, name))
+		: [input];
+	const programs: import("../semantic/ast.ts").PointSemanticProgram[] = [];
+	const seen = new Set<string>();
+	for (const entry of entryInputs) {
+		const coreFile = await loadCoreFile(entry, lock);
+		const graph = await createModuleGraphForFile(coreFile, lock);
+		for (const { result } of graph.values()) {
+			const key = normalizeInput(result.input);
+			if (seen.has(key)) continue;
+			seen.add(key);
+			if (result.program.semanticSource) programs.push(result.program.semanticSource);
+		}
+	}
+	return programs;
+}
+
+function toMigrationLabel(moduleName: string): string {
+	return moduleName
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "_")
+		.replace(/^_+|_+$/g, "")
+		.concat("_init");
 }
 
 export function findRunEntryName(program: PointCoreProgram): string | null {

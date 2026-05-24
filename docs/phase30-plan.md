@@ -1,6 +1,6 @@
 # Phase 30 — Record → SQL productization
 
-**Status:** Draft — not started  
+**Status:** Active — Phase 30 execution complete (integrator release pending)  
 **Prerequisite:** Phase 27 complete (P27-4 `build-schema` spike shipped in v0.1.20); Phases 28/29 may still be active — run **after** 28/29 exit gates or in a dedicated chat with file ownership respected  
 **North star:** Authors define data with `record` blocks; `point build-schema` emits **production-ready DDL and migrations** — not a one-off spike with JSON blobs for every nested shape.
 
@@ -49,13 +49,13 @@ Same as [point-principles-gate.md](./point-principles-gate.md):
 
 ## Success criteria (Phase 30 exit gate)
 
-- [ ] **FK from nested records** — `user: User` emits `user_id TEXT REFERENCES user(id)` (or documented FK stub pattern) instead of JSON-only
-- [ ] **`Maybe<T>` nullable columns** — optional fields emit `NULL`-able SQL with correct base type
-- [ ] **`Instant` → TIMESTAMP** — typed instant fields map in postgres + sqlite dialects
-- [ ] **Dialect flag** — `point build-schema --dialect postgres|sqlite` with parity tests for both
-- [ ] **Migration files** — `--migrations <dir>` writes numbered SQL; idempotent re-run documented
-- [ ] **Multi-module schema** — build-schema over a module directory merges records from dependency graph
-- [ ] **General example** — notes or ecommerce module demonstrates full schema + `std.sql` action path in docs
+- [x] **FK from nested records** — `user: User` emits `user_id TEXT REFERENCES user(id)` (or documented FK stub pattern) instead of JSON-only
+- [x] **`Maybe<T>` nullable columns** — optional fields emit `NULL`-able SQL with correct base type
+- [x] **`Instant` → TIMESTAMP** — typed instant fields map in postgres + sqlite dialects
+- [x] **Dialect flag** — `point build-schema --dialect postgres|sqlite` with parity tests for both
+- [x] **Migration files** — `--migrations <dir>` writes numbered SQL; idempotent re-run documented
+- [x] **Multi-module schema** — build-schema over a module directory merges records from dependency graph
+- [x] **General example** — notes or ecommerce module demonstrates full schema + `std.sql` action path in docs
 - [ ] `bun run ci` passes; patch release **v0.1.22+** (integrator after 28/29)
 
 ---

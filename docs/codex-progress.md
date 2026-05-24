@@ -1275,3 +1275,21 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: Phase 30 (SQL productization) or expansion loop backlog reprioritization.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 30 P30-1 — Relational FK mapping
+
+- Completed: Nested record fields emit `field_id TEXT REFERENCES table(id)` instead of JSON blobs. Added `record-sql-fk-ambiguous` when target record lacks `id: Text`. `List<Record>` stays JSON with non-relational comment. Tests in `tests/sql-schema-fk.test.ts`.
+- Verified: `bun test tests/sql-schema-fk.test.ts` — 6 pass.
+- Example: `examples/data/schema-demo.point` — `Post.author: User` → `author_id TEXT REFERENCES user(id)`.
+- Next: P30-2 nullable + Instant mapping.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 30 P30-2/P30-3/P30-4 — Dialect, migrations, multi-module schema
+
+- Completed: `Maybe<T>` nullable columns and `Instant` → TIMESTAMP (postgres) / ISO TEXT (sqlite). CLI flags `--dialect`, `--migrations`, `--sequence`. Multi-module aggregation via dependency graph + directory input; `record-sql-duplicate-table` diagnostic. `docs/site/toolchain/build-schema.md` + notes app docs. Index/explain coverage for record-sql diagnostics in tests.
+- Verified: `bun test tests/sql-schema.test.ts tests/sql-schema-fk.test.ts` — 9 pass; `bun run ci` green (551 pass).
+- Example: `point build-schema --migrations migrations examples/data/schema-demo.point`.
+- Next: Phase 30 integrator — v0.1.22 release.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

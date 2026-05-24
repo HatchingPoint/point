@@ -1,0 +1,26 @@
+module SchemaDemo
+
+record User
+  id: Text
+  email: Text
+  created at: Instant
+
+record Post
+  id: Text
+  author: User
+  title: Text
+  published at: Maybe<Instant>
+
+record Comment
+  id: Text
+  post: Post
+  body: Text
+  edited at: Maybe<Instant>
+
+record Tag
+  id: Text
+  label: Text
+
+record Post Tags
+  post: Post
+  tags: List<Tag>

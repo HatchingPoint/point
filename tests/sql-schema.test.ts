@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { checkPointCore } from "../packages/point/src/core/check.ts";
-import { emitPointSqlSchema } from "../packages/point/src/core/emit-sql-schema.ts";
+import { emitPointSqlSchema, mapRecordFieldToSqlColumn } from "../packages/point/src/core/emit-sql-schema.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { checkSemanticSqlSchema } from "../packages/point/src/semantic/check-sql-schema.ts";
 
-describe("record-backed SQL schema stub", () => {
+describe("record-backed SQL schema", () => {
 	test("emits CREATE TABLE DDL from record blocks", () => {
 		const program = parsePointSource(`module NotesDb
 
@@ -27,6 +27,25 @@ record Tasks Response
 		expect(sql).toContain("Point List<Task>");
 	});
 
+	test("emits nullable Maybe and Instant columns", () => {
+		const program = parsePointSource(`module Events
+
+record Event
+  id: Text
+  name: Text
+  starts at: Instant
+  cancelled at: Maybe<Instant>
+`);
+		const sql = emitPointSqlSchema(program.semanticSource!, { dialect: "postgres" });
+		expect(sql).toContain("starts_at TIMESTAMP WITH TIME ZONE");
+		expect(sql).toContain("cancelled_at TIMESTAMP WITH TIME ZONE");
+		expect(sql).not.toContain("cancelled_at TIMESTAMP WITH TIME ZONE NOT NULL");
+
+		const sqlite = emitPointSqlSchema(program.semanticSource!, { dialect: "sqlite" });
+		expect(sqlite).toContain("starts_at TEXT");
+		expect(sqlite).toContain("Point Instant — store ISO-8601 text in sqlite");
+	});
+
 	test("rejects unsupported record field types for build-schema", () => {
 		const program = parsePointSource(`module Demo
 
@@ -36,6 +55,6 @@ record Broken
 `);
 		const diagnostics = checkSemanticSqlSchema(program.semanticSource!);
 		expect(diagnostics.some((diagnostic) => diagnostic.code === "record-sql-unsupported-type")).toBe(true);
-		expect(diagnostics[0]?.repair).toContain("Text, Bool, Int, Float");
+		expect(diagnostics[0]?.repair).toContain("Instant");
 	});
 });
