@@ -1,6 +1,6 @@
 ---
 title: Replaces TypeScript and Python
-description: Point is the authoring language for product logic; emitted TS, JS, and Python are build artifacts.
+description: Point is the authoring language for application logic; emitted TS, JS, and Python are build artifacts.
 quadrant: Explanation
 ---
 
@@ -37,7 +37,7 @@ Point is the language for **new application logic** you want checked in one plac
 
 ## Honest limits
 
-Point is not claiming to replace every TypeScript or Python file in a monorepo in one release. Config, framework glue, and third-party libraries may stay in their native languages. Client bundler setup for production React still flows through your frontend toolchain. The goal is that **product logic you care about** — the rules, models, routes, and commands agents should repair — lives in `.point`.
+Point is not claiming to replace every TypeScript or Python file in a monorepo in one release. Config, framework glue, and third-party libraries may stay in their native languages. Client bundler setup for production React still flows through your frontend toolchain. The goal is that **application logic you care about** — the rules, models, routes, and commands agents should repair — lives in `.point`.
 
 ## For coding agents
 

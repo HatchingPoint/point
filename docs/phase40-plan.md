@@ -1,8 +1,8 @@
-# Phase 40 — Presentation alignment (Apple surface / Aston Martin hood)
+# Phase 40 — Presentation alignment
 
 **Status:** Complete — v0.1.32
 
-Align showroom to engine: Apple-simple daily UX on the surface, elite agent/compiler power under the hood — without version drift, run-story oversell, or complexity leaks.
+Align public docs to Point's voice: simple daily UX on the surface, compiler depth documented without leaking complexity — no version drift or oversold run stories.
 
 ## Principles
 

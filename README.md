@@ -1,10 +1,10 @@
 # Point
 
-Point is a **general-purpose, AI-first language** for product logic — semantic blocks you write, JavaScript and Python the machine runs.
+Point is a **general-purpose, AI-first language** for application logic — semantic blocks you write, JavaScript and Python the machine runs.
 
 Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
 
-**Current release:** v0.1.33 · **607 tests** · npm: `@hatchingpoint/point`
+**Current release:** v0.1.34 · **607 tests** · npm: `@hatchingpoint/point`
 
 **Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md) · **Evaluator demo:** [Golden app demo](docs/site/guide/golden-app-demo.md)
 

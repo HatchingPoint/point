@@ -124,7 +124,7 @@ Avoid timezone logic in the language core — keep in actions.
 
 | Need | Point answer |
 |------|----------------|
-| Product logic | `record`, `calculation`, `rule`, `label`, `variant` |
+| Application logic | `record`, `calculation`, `rule`, `label`, `variant` |
 | HTTP | `route`, `middleware`, `stream route` |
 | UI | `view`, `page`, `layout`, `navigation` |
 | Async / jobs | `workflow`, `schedule`, `command` |

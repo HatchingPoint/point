@@ -10,7 +10,7 @@ If you use **Cursor Agent**, **Codex**, or **Claude Code**, you already run a re
 
 Live walkthrough with real code: [Agent repair tests](/point/ai/agent-repair-tests).
 
-## The bug (same product logic, two stacks)
+## The bug (same application logic, two stacks)
 
 A typo on launch readiness scoring — wrong field name on a record:
 

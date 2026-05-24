@@ -6,7 +6,7 @@ quadrant: Explanation
 
 ## Summary
 
-Point keeps product logic in semantic `.point` files. When that logic needs npm packages, Node built-ins, or (for pure modules) Python, the compiler emits explicit import boundaries — never hidden magic.
+Point keeps application logic in semantic `.point` files. When that logic needs npm packages, Node built-ins, or (for pure modules) Python, the compiler emits explicit import boundaries — never hidden magic.
 
 The **stdlib bridge** is the pattern where `std/*.point` modules declare typed `external` blocks that import runtime helpers from `@hatchingpoint/point/std/*`. Application code imports std with `use std.http` (and similar) instead of repeating raw externals.
 
@@ -132,7 +132,7 @@ See `docs/python-emit-research.md` in the repository for current limits and smok
 
 ## Production checklist
 
-1. **Author** product logic in `.point` — prefer `use std.*` over inline externals when a std module exists.
+1. **Author** application logic in `.point` — prefer `use std.*` over inline externals when a std module exists.
 2. **Check** with `point check` or `point check-all` before emit.
 3. **Emit** JavaScript by default (`point build`) for apps with actions, routes, or views; use `point build-py` only for pure modules.
 4. **Install runtime deps** — `@hatchingpoint/point` (CLI + std shims), plus any npm packages referenced in your externals.

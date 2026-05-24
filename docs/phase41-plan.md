@@ -1,10 +1,10 @@
-# Phase 41 — Showroom completion
+# Phase 41 — Doc graph completion
 
 **Status:** Complete — v0.1.33
 
 ## Goal
 
-Finish the Apple showroom: wire **Point in 60 seconds** as the default doc entry, add an **evaluator golden app walkthrough**, and sync every remaining page to launch-first UX.
+Wire **Point in 60 seconds** as the default doc entry, add the **golden app demo** walkthrough, and sync remaining pages to launch-first UX.
 
 ## Deliverables
 

@@ -13,7 +13,7 @@ Point ships on the public npm registry under the `@hatchingpoint` scope. **Insta
 | Package | Role | Install |
 |---------|------|---------|
 | `@hatchingpoint/point` | Compiler, CLI, LSP, core APIs, std runtime shims (`@hatchingpoint/point/std/*`) | `bun install -g @hatchingpoint/point` |
-| `@hatchingpoint/point-logic` | Pure product logic published from `.point` only (store listing readiness scoring) | `bun add @hatchingpoint/point-logic` |
+| `@hatchingpoint/point-logic` | Pure application logic published from `.point` only (store listing readiness scoring) | `bun add @hatchingpoint/point-logic` |
 
 Both packages are MIT licensed and published from the [Point repository](https://github.com/HatchingPoint/point).
 
@@ -166,7 +166,7 @@ my-point-lib/
 
 Rules:
 
-- **Only** `.point` under `src/` — no hand-written TypeScript product logic.
+- **Only** `.point` under `src/` — no hand-written TypeScript application logic.
 - **`files`** must include `point.json` and `src/*.point` so downstream projects can `point add … npm:…` and run `point check` against your source.
 - **`prepublishOnly`** runs `point build` so `dist/` is fresh before every publish.
 

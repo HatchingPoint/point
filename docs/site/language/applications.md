@@ -6,7 +6,7 @@ quadrant: Reference
 
 ## Summary
 
-Application blocks connect product logic to HTTP, UI, orchestration, agents, and CLI entrypoints. Each area has a dedicated guide page — this page is the index.
+Application blocks connect application logic to HTTP, UI, orchestration, agents, and CLI entrypoints. Each area has a dedicated guide page — this page is the index.
 
 ## Guide pages
 

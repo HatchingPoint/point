@@ -1,6 +1,6 @@
 ---
 title: Philosophy
-description: Why Point uses semantic product logic instead of cloning Python or TypeScript syntax.
+description: Why Point uses semantic application logic instead of cloning Python or TypeScript syntax.
 quadrant: Explanation
 ---
 
@@ -8,7 +8,7 @@ quadrant: Explanation
 
 Point is general-purpose in capability, but semantic in surface syntax. The language is shaped around the concepts people and agents need to inspect: data, derivations, rules, labels, effects, policies, workflows, routes, views, and commands.
 
-## Semantic product logic
+## Semantic application logic
 
 Most general-purpose languages ask authors to model product ideas through implementation forms first: classes, functions, variables, mutable state, and framework code. Point starts one level higher.
 

@@ -14,7 +14,7 @@ Bun and Node can run emitted JavaScript. TypeScript projects can import emitted 
 
 ## Frameworks
 
-Views target React-style components. Routes target handler-style server code. Surrounding framework setup can stay in Next.js, Hono, Vite, or another host while product logic moves into `.point` files.
+Views target React-style components. Routes target handler-style server code. Surrounding framework setup can stay in Next.js, Hono, Vite, or another host while application logic moves into `.point` files.
 
 ## Interop boundaries
 

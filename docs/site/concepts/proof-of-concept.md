@@ -1,12 +1,12 @@
 ---
 title: Proof of concept
-description: Concrete examples showing why Point is better for AI-assisted product logic — less guesswork, clearer intent, and tooling that ships in the box.
+description: Concrete examples showing why Point is better for AI-assisted application logic — less guesswork, clearer intent, and tooling that ships in the box.
 quadrant: Explanation
 ---
 
 ## Summary
 
-This page is the **proof of concept** for Point's vision: the same product logic you would write in TypeScript or Python, expressed in semantic blocks, checked by a compiler that speaks **agent language** (refs, repair hints, effect boundaries), and emitted to run on your existing stack.
+This page is the **proof of concept** for Point's vision: the same application logic you would write in TypeScript or Python, expressed in semantic blocks, checked by a compiler that speaks **agent language** (refs, repair hints, effect boundaries), and emitted to run on your existing stack.
 
 **Daily path:** [Point in 60 seconds](/point/guide/point-in-60-seconds). **Full app:** [Golden app demo](/point/guide/golden-app-demo).
 

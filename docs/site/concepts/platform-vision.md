@@ -12,7 +12,7 @@ See [How Point runs](/point/concepts/how-point-runs) for check, run, and optiona
 
 ## One sentence
 
-Point lets teams and coding agents author product logic, application UI, HTTP services, agent pipelines, and automation in one checked semantic layer.
+Point lets teams and coding agents author application logic, application UI, HTTP services, agent pipelines, and automation in one checked semantic layer.
 
 ## What Point owns
 

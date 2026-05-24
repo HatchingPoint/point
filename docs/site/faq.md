@@ -10,7 +10,7 @@ Yes. Point has general-purpose language capabilities, but its source syntax is s
 
 ## Does Point replace TypeScript?
 
-Point can replace hand-written TypeScript for product logic that belongs in `.point` files. Surrounding framework code, config, and existing libraries can still stay in TypeScript.
+Point can replace hand-written TypeScript for application logic that belongs in `.point` files. Surrounding framework code, config, and existing libraries can still stay in TypeScript.
 
 ## Does Point replace Python?
 
@@ -42,7 +42,7 @@ General-purpose languages were designed for humans reading source, not agents re
 
 ## Is Point only for AI, or also for human teams?
 
-Humans benefit from the same explicit `record` / `rule` / `label` syntax. The AI-first bet is that **most product logic will be co-authored by agents** — so the toolchain optimizes check-and-repair loops, not just syntax highlighting.
+Humans benefit from the same explicit `record` / `rule` / `label` syntax. The AI-first bet is that **most application logic will be co-authored by agents** — so the toolchain optimizes check-and-repair loops, not just syntax highlighting.
 
 ## See also
 

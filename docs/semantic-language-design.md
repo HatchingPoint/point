@@ -1,6 +1,6 @@
 # Point Semantic Language Design
 
-Point source is AI-first product logic. Users write semantic blocks; the compiler lowers those blocks into an internal typed core and then emits TypeScript or other targets.
+Point source is AI-first application logic. Users write semantic blocks; the compiler lowers those blocks into an internal typed core and then emits TypeScript or other targets.
 
 Programming-language-shaped forms such as function declarations, mutable bindings, braces, and direct assignment are compiler/core details. They are useful for implementation and debugging, but they are not the forward-facing Point language.
 

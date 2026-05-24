@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.34
+
+### Changed
+
+- Phase 42: **Application logic** terminology replaces "product logic" across README, site docs, and vision.
+- Phase 42: Removed external brand comparisons from plans and changelog; Point-native voice only.
+- Phase 42: Clarified **frontend is native App blocks** (`view`, `page`, `layout`) — not capability imports.
+
 ## 0.1.33
 
 ### Added

@@ -6,7 +6,7 @@ quadrant: Explanation
 
 ## Summary
 
-For **human-only** coding, staying on TypeScript or Python is often enough. For **LLM coding agents** that write, check, and repair product logic continuously, Point is designed as the bleeding-edge option: semantic source, stable refs, and compiler APIs that other languages do not ship as a cohesive package.
+For **human-only** coding, staying on TypeScript or Python is often enough. For **LLM coding agents** that write, check, and repair application logic continuously, Point is designed as the bleeding-edge option: semantic source, stable refs, and compiler APIs that other languages do not ship as a cohesive package.
 
 ## Comparison at a glance
 
@@ -27,7 +27,7 @@ For **human-only** coding, staying on TypeScript or Python is often enough. For 
 
 **Gap for agents:** Source is optimized for human readers of `function`, `class`, and `interface`. A scoring rule and a utility helper look the same. Diagnostics point at types and lines, not at “the `rule launch readiness` block.” Formatters and import organizers move line numbers; agents re-search by string match.
 
-**How Point relates:** Point **replaces hand-written TS for product logic** you want agents to own. Framework shells, config, and third-party `.ts` files can remain. Emit stays boring TypeScript or JavaScript for interop — see [Authoring vs runtime](/point/concepts/authoring-vs-runtime).
+**How Point relates:** Point **replaces hand-written TS for application logic** you want agents to own. Framework shells, config, and third-party `.ts` files can remain. Emit stays boring TypeScript or JavaScript for interop — see [Authoring vs runtime](/point/concepts/authoring-vs-runtime).
 
 **When TS alone wins:** Thin UI glue, mostly npm composition, no agent repair loop in CI.
 

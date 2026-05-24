@@ -1,6 +1,6 @@
 # {{APP_NAME}}
 
-A Point-native full-stack admin app — UI, API, and product logic in `.point` source.
+A Point-native full-stack admin app — UI, API, and application logic in `.point` source.
 
 ## Quick start
 

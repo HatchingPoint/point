@@ -286,7 +286,7 @@ POINT_INCREMENTAL=1 bun run check
 - Invent keywords that are not in the grammar/parser
 - Treat pricing/readiness examples as built-in language features
 - Publish packages without credentials (`NPM_TOKEN`, `VSCE_PAT`)
-- Hand-edit generated JS/TS/PY for product logic — repair `.point` source
+- Hand-edit generated JS/TS/PY for application logic — repair `.point` source
 
 ## Principles gate (Phases 14–21)
 

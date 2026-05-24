@@ -4,12 +4,13 @@
 
 ## Active execution
 
-**Phase 41** — Showroom completion. Plan: [phase41-plan.md](./phase41-plan.md). Goals: [codex-goal-phase41.md](./codex-goal-phase41.md).
+**Phase 42** — Application logic terminology. Plan: [phase42-plan.md](./phase42-plan.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **41** | v0.1.33 | Golden app demo, doc graph wired to 60-second guide |
 | **40** | v0.1.32 | Presentation alignment — 60-second guide, CLI rings, honest boundaries |
 | **39** | v0.1.31 | In-the-box launch: `capabilities` line, `point commands`/`box`/`launch` |
 | **38** | v0.1.30 | Emit import pruning, five-minute tour |

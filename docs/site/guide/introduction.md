@@ -6,7 +6,7 @@ quadrant: Tutorial
 
 ## Summary
 
-Point is a general-purpose language for product logic — semantic blocks that humans and agents read, check, and repair.
+Point is a general-purpose language for application logic — semantic blocks that humans and agents read, check, and repair.
 
 **New here?** Start with [Point in 60 seconds](/point/guide/point-in-60-seconds) — three moves, no block laundry list.
 
@@ -46,7 +46,7 @@ Point grows with you — start with Logic, add families when you need them:
 |--------|--------|------------|
 | **Logic** | `record`, `calculation`, `rule`, `label`, `variant` | ✅ Day one |
 | **Effects** | `action`, `external`, `policy` | Host boundaries |
-| **App** | `route`, `page`, `view`, `layout`, `navigation`, `middleware` | Full-stack apps |
+| **App** | `route`, `page`, `view`, `layout`, `navigation`, `middleware` | Full-stack apps — UI is native blocks, not `capabilities` |
 | **Agent** | `command`, `workflow`, `pipeline`, `prompt`, `schedule` | CLI + automation |
 | **Data** | records + `use sql` + `point build-schema` | Schema + queries |
 
@@ -56,7 +56,7 @@ Full block map: [Language overview](/point/language/overview).
 
 Point fits teams that want:
 
-- **Explicit product logic** — scoring, eligibility, workflows, and UI rules in one checked source
+- **Explicit application logic** — scoring, eligibility, workflows, UI, and API rules in one checked source
 - **Agent-native repair** — the compiler is the agent's IDE (`check-json`, stable refs, repair-plan)
 - **A full application surface** — routes, pages, pipelines, and commands in the same language
 

@@ -16,6 +16,8 @@ use time
 
 Each shorthand resolves to `use std.<name>`. Run `point capabilities` to list them.
 
+**Frontend is not a capability.** Views, pages, layouts, and navigation are native App blocks — you write them directly in `.point`, not via `capabilities`. Capabilities cover host I/O and std batteries (HTTP, SQL, crypto, AI, files, etc.).
+
 ## Syntax
 
 | Form | Meaning |

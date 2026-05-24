@@ -6,7 +6,7 @@ quadrant: Reference
 
 ## Summary
 
-UI blocks connect product logic to React-style components and multi-page app shells — still checked as Point source first.
+UI blocks connect application logic to React-style components and multi-page app shells — still checked as Point source first.
 
 ## view
 

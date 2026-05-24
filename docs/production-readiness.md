@@ -2,7 +2,7 @@
 
 Point is being built as a general-purpose, AI-first language that can be used inside existing JavaScript ecosystems before it owns a full app runtime.
 
-The forward-facing language is semantic product logic. Conventional programming-language-shaped syntax is internal compiler core, not the authoring surface.
+The forward-facing language is semantic application logic. Conventional programming-language-shaped syntax is internal compiler core, not the authoring surface.
 
 ## Shipped
 

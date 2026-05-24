@@ -6,7 +6,7 @@ quadrant: Explanation
 
 ## Summary
 
-Point exists because **coding agents became a primary author of software**, but general-purpose languages were never designed to be repaired by machines. Point is a general-purpose language whose surface syntax, compiler, and CLI are built so agents can check, explain, and patch product logic reliably — without replacing your existing JavaScript stack.
+Point exists because **coding agents became a primary author of software**, but general-purpose languages were never designed to be repaired by machines. Point is a general-purpose language whose surface syntax, compiler, and CLI are built so agents can check, explain, and patch application logic reliably — without replacing your existing JavaScript stack.
 
 ## The shift: agents write code continuously
 
@@ -23,7 +23,7 @@ Point was created to fix that interface gap, not to replace Bun, React, or npm.
 
 | Point is | Point is not |
 |----------|--------------|
-| A general-purpose authoring language for product logic | A new browser or server runtime you must deploy separately |
+| A general-purpose authoring language for application logic | A new browser or server runtime you must deploy separately |
 | Semantic blocks (`record`, `rule`, `label`, `action`, …) that preserve intent | A Python or TypeScript syntax clone with different keywords |
 | A compiler that emits JavaScript (default), TypeScript, or Python | A promise that every file in a monorepo becomes `.point` overnight |
 | Built-in agent commands (`check-json`, `index`, `explain`, `repair-plan`) | A chat wrapper around GPT with no ground truth |
@@ -68,14 +68,14 @@ The same logic in emitted TypeScript is correct but **opaque to repair tools** �
 | **Stay on TS + Copilot** | Faster autocomplete, same fragile repair story |
 | **Point** | General-purpose blocks + typed checker + agent-native CLI |
 
-Point is deliberately **wider than a rules engine** and **narrower than “rewrite everything in a new syntax”** — it covers the product logic layer teams already ask agents to change.
+Point is deliberately **wider than a rules engine** and **narrower than “rewrite everything in a new syntax”** — it covers the application logic layer teams already ask agents to change.
 
 ## Why it made sense to create a language
 
 Creating a language is a heavy bet. It was justified when these constraints stacked:
 
 1. **Agents need stable symbols**, not stable line numbers — refs must survive `point fmt`.
-2. **Product logic deserves its own grammar** — `record` / `rule` / `label` are cheaper to check and explain than inferring intent from `function` bodies.
+2. **Application logic deserves its own grammar** — `record` / `rule` / `label` are cheaper to check and explain than inferring intent from `function` bodies.
 3. **Repair must be loopable in CI** — `check-json` → patch → `check-json` with the same schema agents use locally.
 4. **Teams will not adopt a new VM first** — emit to JS/TS/PY keeps adoption incremental.
 5. **Effects must be visible** — `action` blocks declare `touches file`, `touches network`, and similar metadata so review tools and agents know boundaries.
@@ -89,7 +89,7 @@ Choose Point when:
 - Coding agents (Cursor, Codex, custom CI bots) **own** business rules, models, and app commands.
 - You want **one checked source** for logic that today sprawls across TS services and Python scripts.
 - You need **explainable patches** — diagnostics name the declaration and suggest repairs.
-- You are fine keeping framework shells (Next.js, Hono config) in TypeScript while **product logic** moves to `.point`.
+- You are fine keeping framework shells (Next.js, Hono config) in TypeScript while **application logic** moves to `.point`.
 
 Stay on TypeScript/Python alone when:
 

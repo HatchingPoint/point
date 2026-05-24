@@ -2,10 +2,10 @@
 
 Internal source of truth for README, site copy, and release notes. Sync when shipping packaging phases.
 
-## Presentation rings (Apple surface / Aston Martin hood)
+## Presentation rings (surface / compiler)
 
-| Ring | User sees | Powers it (hidden) |
-|------|-----------|-------------------|
+| Ring | Authors see | Compiler provides |
+|------|-------------|-------------------|
 | **Daily** | `capabilities`, `check`, `box`, `launch`, `dev` | Semantic lowering, use-merge, import prune |
 | **Build** | `build`, `build-app`, `build-schema` | Multi-emit, module graph, incremental cache |
 | **Agent** | `check-json`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 26-case benchmark |
@@ -19,7 +19,7 @@ Honest boundaries (reuse everywhere): You author `.point`. JS default runtime. F
 
 ## One sentence
 
-Point is a **general-purpose, AI-first language** for product logic — semantic blocks humans read, a compiler agents repair, JavaScript/Python the machine runs.
+Point is a **general-purpose, AI-first language** for application logic — semantic blocks humans read, a compiler agents repair, JavaScript/Python the machine runs.
 
 ## Five families (market language)
 
@@ -85,4 +85,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.33** — Phase 41 showroom completion (golden app demo, doc graph wiring).
+Update this line each release: **v0.1.34** — Phase 42 application logic terminology + Point-native voice.

@@ -1,12 +1,12 @@
 ---
 title: Point in 60 seconds
-description: Three moves — import, check, launch. Apple-simple daily workflow.
+description: Three moves — import, check, launch. Simple daily workflow.
 quadrant: Tutorial
 ---
 
 ## Summary
 
-Point is product logic in plain blocks. You do not need to learn every block type on day one — just three moves.
+Point is application logic in plain blocks — rules, routes, views, and commands in one source. Frontend is native syntax (`view`, `page`, `layout`, `navigation`), not a capability import. You do not need every block type on day one — just three moves.
 
 ## 1. Import (10 seconds)
 
