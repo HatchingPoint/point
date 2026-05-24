@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { cryptoJwtSign } from "@hatchingpoint/point/std/crypto";
+import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
 import {
 	pathBasename,
 	pathDirname,
@@ -23,6 +24,7 @@ const demoJwtToken = cryptoJwtSign(demoJwtPayload, demoJwtSecret);
 const PARITY_FIXTURES = [
 	"examples/math.point",
 	"examples/tools/path-demo.point",
+	"std/json.point",
 	"examples/api/middleware-demo.point",
 ] as const;
 
@@ -67,13 +69,14 @@ function baseName(fixture: string): string {
 }
 
 const PATH_DEMO_FIXTURE = "examples/tools/path-demo.point";
+const JSON_STD_FIXTURE = "std/json.point";
 
 async function ensureParityArtifacts(fixture: string): Promise<{ jsPath: string; pyPath: string }> {
 	const name = baseName(fixture);
 	const jsPath = join(repoRoot, "generated", `${name}.js`);
 	const pyPath = join(repoRoot, "generated", `${name}.py`);
 
-	if (fixture === PATH_DEMO_FIXTURE) {
+	if (fixture === PATH_DEMO_FIXTURE || fixture === JSON_STD_FIXTURE) {
 		if (!(await Bun.file(jsPath).exists()) || !(await Bun.file(pyPath).exists())) {
 			const jsBuild = await Bun.$`bun ${pointCli} build-all`.cwd(repoRoot).quiet();
 			const pyBuild = await Bun.$`bun ${pointCli} build-py-all`.cwd(repoRoot).quiet();
@@ -224,6 +227,55 @@ print(json.dumps(asyncio.run(collect())))
 		expect(pyResults.usesAbsolutePathPosix).toBe(jsResults.usesAbsolutePathPosix);
 		expect(pyResults.usesAbsolutePathRelative).toBe(jsResults.usesAbsolutePathRelative);
 		expect(pyResults.pathDemoConfigPath).toBe(jsResults.pathDemoConfigPath);
+	});
+});
+
+describe("std/json.point JS/Python parity", () => {
+	test("json parse and stringify outputs match", async () => {
+		const { pyPath } = await ensureParityArtifacts(JSON_STD_FIXTURE);
+		const input = '{"name":"Point","count":2}';
+
+		const jsResults = {
+			parseOk: jsonParse(input),
+			stringifyOk: jsonStringify(input),
+			parseError: jsonParse("{"),
+		};
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping std/json runtime parity");
+			expect(jsResults.parseOk).toBe('{"name":"Point","count":2}');
+			return;
+		}
+
+		const pyResults = await runPythonModule(
+			pythonPath,
+			pyPath,
+			`
+import asyncio
+import importlib.util
+import json
+import sys
+
+spec = importlib.util.spec_from_file_location("std_json", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+
+async def collect():
+    return {
+        "parseOk": await module.parseJsonResult('{"name":"Point","count":2}'),
+        "stringifyOk": module.stringifyJsonResult('{"name":"Point","count":2}'),
+        "parseError": await module.parseJsonResult("{"),
+    }
+
+print(json.dumps(asyncio.run(collect())))
+`,
+		);
+
+		expect(pyResults.parseOk).toBe(jsResults.parseOk);
+		expect(pyResults.stringifyOk).toBe(jsResults.stringifyOk);
+		expect(pyResults.parseError).toEqual({ message: expect.any(String) });
+		expect(jsResults.parseError).toEqual({ message: expect.any(String) });
 	});
 });
 

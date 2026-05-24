@@ -24,21 +24,104 @@ const BINARY_OPERATORS: Record<string, string> = {
 
 const UNSUPPORTED_SEMANTIC_KINDS = new Set(["view", "page", "pipeline"]);
 const POINT_STD_PREFIX = "@hatchingpoint/point/std/";
+const POINT_STD_MODULE_NAMES = new Set([
+	"ai",
+	"crypto",
+	"env",
+	"fs",
+	"http",
+	"json",
+	"path",
+	"process",
+	"sql",
+	"stream",
+	"text",
+	"time",
+	"yaml",
+]);
+const POINT_STD_SYMBOL_ALIASES: Record<string, Record<string, string>> = {
+	ai: {
+		openaiCompleteRaw: "openaiComplete",
+		openaiStreamRaw: "openaiStream",
+		anthropicCompleteRaw: "anthropicComplete",
+		anthropicStreamRaw: "anthropicStream",
+		envGetRaw: "envGet",
+	},
+	crypto: {
+		sha256Hash: "cryptoSha256",
+		hmacSha256: "cryptoHmacSha256",
+		jwtSign: "cryptoJwtSign",
+		jwtVerify: "cryptoJwtVerify",
+		checkJwtValid: "cryptoJwtIsValid",
+	},
+	env: { envGetRaw: "envGet" },
+	fs: { readFileRaw: "readFile", writeFileRaw: "writeFile" },
+	http: {
+		httpGetRaw: "httpGet",
+		httpPostRaw: "httpPost",
+		httpFetchRaw: "httpFetch",
+		httpAssertStatusRaw: "httpAssertStatus",
+		httpAssertJsonBodyRaw: "httpAssertJsonBody",
+	},
+	path: { joinPaths: "pathJoin", resolvePath: "pathResolve" },
+	process: { spawnRaw: "processSpawn", streamLinesRaw: "processStreamLines" },
+	stream: {
+		streamReadTextRaw: "streamReadText",
+		streamWriteTextRaw: "streamWriteText",
+		streamReadLinesRaw: "streamReadLines",
+		streamWriteLinesRaw: "streamWriteLines",
+		streamJoinLinesRaw: "streamJoinLines",
+	},
+	time: {
+		instantNowRaw: "instantNow",
+		parseInstantRaw: "parseInstant",
+		formatInstantRaw: "formatInstant",
+		timeNow: "now",
+		sleepMilliseconds: "sleep",
+	},
+};
 
 function isPointStdExternal(from: string): boolean {
 	return from.startsWith(POINT_STD_PREFIX);
 }
 
+function isPointStdModuleName(moduleName: string): boolean {
+	return POINT_STD_MODULE_NAMES.has(moduleName);
+}
+
+function buildPointStdSymbolLookup(program: PointCoreProgram): Map<string, string> {
+	const lookup = new Map<string, string>();
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "external" || !isPointStdExternal(declaration.from)) continue;
+		const moduleName = declaration.from.slice(POINT_STD_PREFIX.length);
+		lookup.set(`${moduleName}:${declaration.name}`, declaration.importName ?? declaration.name);
+	}
+	return lookup;
+}
+
+function resolvePointStdImportName(moduleName: string, publicName: string, lookup: Map<string, string>): string {
+	return lookup.get(`${moduleName}:${publicName}`) ?? POINT_STD_SYMBOL_ALIASES[moduleName]?.[publicName] ?? publicName;
+}
+
 function programUsesPointStd(program: PointCoreProgram): boolean {
-	return program.declarations.some((declaration) => declaration.kind === "external" && isPointStdExternal(declaration.from));
+	return program.declarations.some((declaration) => {
+		if (declaration.kind === "external") return isPointStdExternal(declaration.from);
+		if (declaration.kind !== "import") return false;
+		const moduleName = toPythonModuleName(declaration.from.replace(/^\.\//, "").replace(/-/g, "_"));
+		return isPointStdModuleName(moduleName);
+	});
 }
 
 function emitPointStdBootstrap(): string[] {
 	return [
 		"import sys",
 		"from pathlib import Path as _PointPath",
-		"_point_std_root = _PointPath(__file__).resolve().parents[1] / \"packages\" / \"point\" / \"python_std\"",
-		"if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:",
+		"_point_here = _PointPath(__file__).resolve()",
+		"_point_std_candidates = [_point_here.parents[1] / \"packages\" / \"point\" / \"python_std\"]",
+		"for _point_parent in _point_here.parents:",
+		"    _point_std_candidates.append(_point_parent / \"node_modules\" / \"@hatchingpoint\" / \"point\" / \"python_std\")",
+		"_point_std_root = next((candidate for candidate in _point_std_candidates if candidate.is_dir()), None)",
+		"if _point_std_root is not None and str(_point_std_root) not in sys.path:",
 		"    sys.path.insert(0, str(_point_std_root))",
 	];
 }
@@ -80,12 +163,13 @@ export function emitPointCorePython(program: PointCoreProgram): string {
 		lines.push("import re");
 	}
 	if (typingImports.length > 0 || routes.length > 0) lines.push("");
+	const pointStdLookup = buildPointStdSymbolLookup(program);
 	for (const declaration of program.declarations) {
 		if (declaration.kind === "function" && declaration.semantic?.kind === "command" && routes.length > 0 && isRouteServeCommand(declaration)) {
 			lines.push(...emitPythonRouteServeCommand(declaration.name, declaration.params.map(emitParam)), "");
 			continue;
 		}
-		const emitted = emitDeclaration(declaration, routes.length > 0);
+		const emitted = emitDeclaration(declaration, routes.length > 0, pointStdLookup);
 		if (emitted.length > 0) lines.push(...emitted, "");
 	}
 	if (routes.length > 0 && routeServeCommand) {
@@ -97,11 +181,8 @@ export function emitPointCorePython(program: PointCoreProgram): string {
 	return `${trimTrailingBlankLines(lines).join("\n")}\n`;
 }
 
-function emitDeclaration(declaration: PointCoreDeclaration, hasRoutes: boolean): string[] {
-	if (declaration.kind === "import") {
-		const moduleName = declaration.from.replace(/^\.\//, "").replace(/-/g, "_");
-		return [`from ${toPythonModuleName(moduleName)} import ${declaration.names.join(", ")}`];
-	}
+function emitDeclaration(declaration: PointCoreDeclaration, hasRoutes: boolean, pointStdLookup: Map<string, string>): string[] {
+	if (declaration.kind === "import") return emitImportDeclaration(declaration, pointStdLookup);
 	if (declaration.kind === "external") return emitExternal(declaration);
 	if (declaration.kind === "type") return emitType(declaration);
 	if (declaration.kind === "value") return [emitValue(declaration)];
@@ -112,6 +193,19 @@ function emitDeclaration(declaration: PointCoreDeclaration, hasRoutes: boolean):
 		return [];
 	}
 	return emitFunction(declaration);
+}
+
+function emitImportDeclaration(declaration: Extract<PointCoreDeclaration, { kind: "import" }>, pointStdLookup: Map<string, string>): string[] {
+	const moduleName = toPythonModuleName(declaration.from.replace(/^\.\//, "").replace(/-/g, "_"));
+	if (!isPointStdModuleName(moduleName)) {
+		return [`from ${moduleName} import ${declaration.names.join(", ")}`];
+	}
+	return declaration.names.map((name) => {
+		const imported = resolvePointStdImportName(moduleName, name, pointStdLookup);
+		return imported === name
+			? `from point_std.${moduleName} import ${imported}`
+			: `from point_std.${moduleName} import ${imported} as ${name}`;
+	});
 }
 
 function emitType(declaration: PointCoreTypeDeclaration): string[] {

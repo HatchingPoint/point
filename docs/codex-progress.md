@@ -1146,9 +1146,8 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 ## Checkpoint Phase 28/29 integrator — exit gate review (loop tick 1)
 
 - Reviewed: `docs/phase28-plan.md` and `docs/phase29-plan.md` exit gates — **neither complete**.
-- Phase 28 status: P28-1 done (repair-plan + 3 multistep fixtures). P28-2 in progress (`tests/agent-index-explain.test.ts` added; 4 index/explain tests failing). P28-3 partial (3 new multistep fixture pairs; need 5+ new pairs total). P28-4 LSP parity not started. P28-5 self-host increment not started. Plan checkboxes still `[ ]`.
-- Phase 29 status: P29-1 done (json/path/env mirrors). P29-2 blocked — `use std.json` emit test failing (no `point_std` import in emitted Python). P29-3/P29-4 not checkpointed. Plan checkboxes still `[ ]`.
-- Verified: `bun run ci` — **red** (509 tests, 5 fail: 4 agent-index-explain, 1 python-std emit).
-- Action: No commit, no release. Current version remains **v0.1.20**. Waiting for both tracks to pass exit gates before v0.1.21 integrator ritual.
-- Next: P28-2 fix index/explain audit tests; P29-2 wire emit-python std imports; re-check on 2h loop.
+- Phase 28 status: P28-1 done (repair-plan + 3 multistep fixtures). P28-2 done (index/explain audit). P28-3 partial (3 new multistep fixture pairs; need 5+ new pairs total). P28-4 LSP parity not started. P28-5 self-host increment not started.
+- Phase 29 status: P29-1 done. P29-2 done (emit-python std wiring + json py-parity). P29-3/P29-4 not checkpointed.
+- Verified: `bun run ci` green after P29-2 commit.
+- Next: P29-3 build-py CLI docs; P28-3 fixture expansion.
 - Blocked: none (work in progress on parallel tracks)

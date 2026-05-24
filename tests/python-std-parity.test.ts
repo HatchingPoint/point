@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { emitPointCorePython } from "../packages/point/src/core/emit-python.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { envGet } from "@hatchingpoint/point/std/env";
@@ -15,6 +16,7 @@ import {
 } from "@hatchingpoint/point/std/path";
 
 const repoRoot = join(import.meta.dir, "..");
+const pointCli = join(repoRoot, "packages/point/src/cli.ts");
 const pythonStdRoot = join(repoRoot, "packages/point/python_std");
 
 async function resolvePythonCommand(): Promise<string | null> {
@@ -54,6 +56,46 @@ describe("python std mirror", () => {
 			expect(emitted).toContain("from point_std.");
 			expect(emitted).not.toContain("@hatchingpoint/point/std");
 		}
+	});
+
+	test("use std.json resolves to point_std imports via build-py", async () => {
+		const source = `module JsonDemo
+
+use std.json
+
+calculation stringify demo
+  input value: Text
+  output result: Text
+  result is stringifyJsonResult(value)
+`;
+		const tempDir = mkdtempSync(join(tmpdir(), "point-json-demo-"));
+		const inputPath = join(tempDir, "json-demo.point");
+		const outputPath = join(tempDir, "json-demo.py");
+		writeFileSync(inputPath, source, "utf8");
+		try {
+			const build = await Bun.$`bun ${pointCli} build-py ${inputPath} ${outputPath}`.cwd(repoRoot).quiet();
+			expect(build.exitCode).toBe(0);
+			const emitted = readFileSync(outputPath, "utf8");
+			expect(emitted).toContain("_point_std_candidates");
+			expect(emitted).toContain("from point_std.json import jsonStringify as jsonStringify");
+			expect(emitted).toContain("def stringifyDemoResult(value: str) -> str:");
+			expect(emitted).not.toContain("@hatchingpoint/point/std");
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+	});
+
+	test("import declarations from std modules rewrite to point_std", () => {
+		const program = parsePointSource(readFileSync(join(repoRoot, "examples/tools/path-demo.point"), "utf8"));
+		program.declarations.unshift({
+			kind: "import",
+			from: "./path",
+			names: ["joinPaths", "pathBasename", "pathDirname", "pathExtname", "resolvePath", "pathIsAbsolute"],
+		});
+		const emitted = emitPointCorePython(program);
+		expect(emitted).toContain("from point_std.path import pathJoin as joinPaths");
+		expect(emitted).toContain("from point_std.path import pathResolve as resolvePath");
+		expect(emitted).not.toContain("from path import");
 	});
 
 	test("path shim parity between JS and Python", async () => {
