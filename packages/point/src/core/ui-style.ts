@@ -88,3 +88,7 @@ export function findThemeDeclaration(
 ): PointSemanticThemeDeclaration | undefined {
 	return declarations.find((declaration): declaration is PointSemanticThemeDeclaration => declaration.kind === "theme");
 }
+
+export function themeToggleEnabled(theme: PointSemanticThemeDeclaration | undefined): boolean {
+	return theme?.toggle === true;
+}

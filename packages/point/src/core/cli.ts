@@ -19,6 +19,8 @@ import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, rea
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
 import { runPointBuildApp } from "./build-app.ts";
+import { emitPointSqlSchema } from "./emit-sql-schema.ts";
+import { checkSemanticSqlSchema } from "../semantic/check-sql-schema.ts";
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 
@@ -27,6 +29,7 @@ const DEFAULT_OUTPUT = "generated/math.ast.json";
 const DEFAULT_JS_OUTPUT = "generated/math.js";
 const DEFAULT_TS_OUTPUT = "generated/math.ts";
 const DEFAULT_PY_OUTPUT = "generated/math.py";
+const DEFAULT_SCHEMA_OUTPUT = "generated/math.sql";
 const DEFAULT_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/*.point"];
 const GENERATED_DIR = "generated";
 
@@ -251,6 +254,27 @@ export async function main() {
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 		await Bun.write(outputPath, emitPointCorePython(program));
 		console.log(`Point core Python build wrote ${outputPath.replaceAll("\\", "/")}`);
+		return;
+	}
+
+	if (command === "build-schema") {
+		if (diagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+			process.exit(1);
+		}
+		if (!program.semanticSource) {
+			console.error(JSON.stringify({ ok: false, error: "build-schema requires a semantic Point module" }, null, 2));
+			process.exit(1);
+		}
+		const schemaDiagnostics = checkSemanticSqlSchema(program.semanticSource);
+		if (schemaDiagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics: schemaDiagnostics }, null, 2));
+			process.exit(1);
+		}
+		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_SCHEMA_OUTPUT : output);
+		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
+		await Bun.write(outputPath, emitPointSqlSchema(program.semanticSource));
+		console.log(`Point SQL schema stub wrote ${outputPath.replaceAll("\\", "/")}`);
 		return;
 	}
 

@@ -135,4 +135,46 @@ navigation main app
 		expect(emitted).toContain("point-link-active");
 		expect(emitted).toContain("NavLink");
 	});
+
+	test("parses theme toggle and emits shell plus toggle control", () => {
+		const program = parsePointSource(`module Demo
+
+theme app theme
+  accent indigo
+  toggle
+
+view nav
+  toggle theme
+  link "Home" to "/"
+
+view home
+  render "Home"
+
+page home page
+  title "Home"
+  main render home()
+
+navigation main app
+  path "/" page home page
+  bootstrap router
+`);
+		expect(checkPointCore(program)).toEqual([]);
+		const emitted = emitPointCoreTypeScript(program);
+		expect(emitted).toContain("PointThemeShell");
+		expect(emitted).toContain("data-point-theme");
+		expect(emitted).toContain("pointThemeToggle");
+	});
+
+	test("rejects toggle theme when theme block has no toggle setting", () => {
+		const program = parsePointSource(`module Demo
+
+theme app theme
+  accent indigo
+
+view nav
+  toggle theme
+`);
+		const diagnostics = checkPointCore(program);
+		expect(diagnostics.some((diagnostic) => diagnostic.code === "theme-toggle-disabled")).toBe(true);
+	});
 });

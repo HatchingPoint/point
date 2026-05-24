@@ -16,6 +16,7 @@ import type {
 	PointSemanticViewEachSpec,
 	PointSemanticViewModalSpec,
 	PointSemanticViewTabsSpec,
+	PointSemanticViewToggleTheme,
 	PointSemanticViewFieldBinding,
 	PointSemanticDataLoad,
 	PointSemanticStreamSubscribe,
@@ -700,6 +701,8 @@ function desugarView(
 	if (viewModal) metadata.viewModal = viewModal;
 	const viewTabs = buildViewTabs(declaration, ctx);
 	if (viewTabs) metadata.viewTabs = viewTabs;
+	const viewToggleTheme = buildViewToggleTheme(declaration);
+	if (viewToggleTheme) metadata.viewToggleTheme = viewToggleTheme;
 	if (viewDataLoad) metadata.viewDataLoad = viewDataLoad;
 	if (viewStreamSubscribe) metadata.viewStreamSubscribe = viewStreamSubscribe;
 	return {
@@ -815,6 +818,14 @@ function buildViewNavigation(declaration: PointSemanticViewDeclaration): PointSe
 	});
 	if (links.length === 0) return undefined;
 	return { links };
+}
+
+function buildViewToggleTheme(declaration: PointSemanticViewDeclaration): PointSemanticViewToggleTheme | undefined {
+	const toggleTheme = declaration.body.find(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "toggleTheme" }> => statement.kind === "toggleTheme",
+	);
+	if (!toggleTheme) return undefined;
+	return { ...(toggleTheme.style ? { style: toggleTheme.style } : {}) };
 }
 
 function desugarLayout(

@@ -89,12 +89,12 @@ export type NotesShellLayoutSlots = { header?: JSX.Element; sidebar?: JSX.Elemen
 
 export function notesShellLayout(slots: NotesShellLayoutSlots = {}): JSX.Element {
   return (
-    <div className="point-app point-layout point-layout-notesShell">
+    <PointThemeShell className="point-app point-layout point-layout-notesShell" enabled={false}>
       <div className="point-layout-body">
         <aside className="point-layout-sidebar">{slots.sidebar ?? <>{notesNavView()}</>}</aside>
         <section className="point-layout-main">{slots.main ?? <>Select a notes page</>}</section>
       </div>
-    </div>
+    </PointThemeShell>
   );
 }
 
@@ -149,5 +149,9 @@ export const NotesAppRouter = createBrowserRouter([
 ]);
 
 export function mountNotesApp(): JSX.Element {
-  return <div className="point-app"><RouterProvider router={NotesAppRouter} /></div>;
+  return (
+  <PointThemeShell className="point-app" enabled={false}>
+    <RouterProvider router={NotesAppRouter} />
+  </PointThemeShell>
+  );
 }

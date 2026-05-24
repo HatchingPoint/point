@@ -1089,6 +1089,36 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P27-3 theme toggle API.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
 
+## Checkpoint Phase 27 P27-3 — Theme toggle API
+
+- Completed: Theme blocks accept `toggle` to enable explicit light/dark mode. Views use `toggle theme` (optional style modifiers) for a semantic switch control. Emits `PointThemeShell` with `data-point-theme`, `pointThemeToggle`, and localStorage persistence. CSS tokens for `[data-point-theme="light|dark"]`.
+- Verified: `tests/semantic-theme.test.ts`; `bun run ci` green.
+- Next: P27-4 record-backed schema / SQL codegen spike.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 27 P27-4 — Record-backed SQL schema stub
+
+- Completed: `point build-schema` emits portable `CREATE TABLE` DDL from `record` blocks (Text/Bool/Int/Float, List as JSON text, nested records as JSON text). `checkSemanticSqlSchema` validates mappable fields before emit.
+- Verified: `tests/sql-schema.test.ts`; `bun run ci` green.
+- Next: Phase 27 integrator — v0.1.20 release.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 27 release — v0.1.20
+
+- Shipped: Phase 27 complete (middleware validation, view source maps, theme toggle, `point build-schema`).
+- Verified: `bun run ci` green before tag.
+- Next: Phase 28 integrator when P28 exit gate passes.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28 P28-1 — Repair-plan ordering and multistep benchmarks
+
+- Completed: Added `sortDiagnosticsForRepairPlan` so `point repair-plan` orders steps by source position; enriched empty `relatedRefs` from `point explain` on step refs. Extended `scripts/agent-repair-sufficiency.ts` with 3 new multistep fixtures (cart pricing, notes app, document pipeline) — 4 repair-plan loops total. Added `docs/site/ai/repair-plan.md` (when to use repair-plan vs check-json). Updated agent-repair tests, fixture README, and exported `benchmarks/agent-repair-cases.json` (17 cases).
+- Verified: `bun test tests/agent-repair-sufficiency.test.ts tests/agent-repair-multistep.test.ts` — 24 pass; `bun run ci` green.
+- Example: `tests/fixtures/agent-repair/feature-multistep-notes-broken.point` — load-action fix before nav page typo when ordered by line.
+- Next: P28-2 index/explain coverage audit.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
 ## Checkpoint Phase 29 P29-1 — python_std json, path, env mirrors
 
 - Completed: Verified `packages/point/python_std/point_std/{json,path,env}.py` mirror JS `@hatchingpoint/point/std/*` behavior. Extended `tests/python-std-parity.test.ts` with env runtime parity and emit coverage for `std/env.point` alongside existing path/json emit + parity tests.

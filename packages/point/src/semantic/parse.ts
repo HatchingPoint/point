@@ -313,7 +313,7 @@ function parseTheme(
 	const headerMatch = header.match(/^theme\s+(.+)$/);
 	if (!headerMatch) throw new Error(`Invalid theme declaration: ${header}`);
 	const name = headerMatch[1] ?? "";
-	const settings: Pick<PointSemanticThemeDeclaration, "accent" | "density" | "radius"> = {};
+	const settings: Pick<PointSemanticThemeDeclaration, "accent" | "density" | "radius" | "toggle"> = {};
 	let index = start + 1;
 	while (index < lines.length) {
 		const lineNumber = index + 1;
@@ -324,6 +324,11 @@ function parseTheme(
 		}
 		if (!line.startsWith("  ") && line.length > 0 && !/^\s/.test(lines[index] ?? "")) break;
 		const trimmed = line.trim();
+		if (trimmed === "toggle") {
+			settings.toggle = true;
+			index += 1;
+			continue;
+		}
 		const settingMatch = trimmed.match(/^(accent|density|radius)\s+([a-z]+)$/);
 		if (!settingMatch) throw new Error(`Unknown theme setting at ${lineNumber}: ${trimmed}`);
 		const key = settingMatch[1] as "accent" | "density" | "radius";
@@ -1305,6 +1310,15 @@ function parseView(
 			if (tabsBlock.tabs.length < 2) throw new Error(`tabs requires at least two tab lines`);
 			statements.push({ kind: "tabs", tabs: tabsBlock.tabs, span: lineSpan(source, lineNumber) });
 			lineIndex = tabsBlock.next - 1;
+			continue;
+		}
+		const toggleThemeLine = parseStylePrefix(line);
+		if (toggleThemeLine.remainder === "toggle theme") {
+			statements.push({
+				kind: "toggleTheme",
+				...(toggleThemeLine.style.length > 0 ? { style: toggleThemeLine.style } : {}),
+				span: lineSpan(source, lineNumber),
+			});
 			continue;
 		}
 		const eachLinkClass = line.match(/^each (.+) in (.+) render class "([^"]+)" link (.+) to (.+)$/);

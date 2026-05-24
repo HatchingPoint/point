@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.20
+
+### Added
+
+- Phase 27: middleware ↔ route validation (`middleware-input-unavailable`, `middleware-input-type-mismatch`).
+- Phase 27: view runtime source map tags for `when … render` and load-data guard branches.
+- Phase 27: theme toggle API (`toggle` in theme blocks, `toggle theme` in views, `PointThemeShell` + `data-point-theme`).
+- Phase 27: `point build-schema` — record-backed SQL DDL stub with `record-sql-unsupported-type` validation.
+
 ## 0.1.19
 
 ### Added

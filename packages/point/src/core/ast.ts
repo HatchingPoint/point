@@ -158,6 +158,10 @@ export interface PointSemanticViewTabsSpec {
 	tabs: PointSemanticViewTabSpec[];
 }
 
+export interface PointSemanticViewToggleTheme {
+	style?: string[];
+}
+
 export interface PointSemanticViewLink {
 	label: string;
 	path: string;
@@ -219,6 +223,7 @@ export interface PointSemanticDeclarationMetadata {
 	viewEach?: PointSemanticViewEachSpec[];
 	viewModal?: PointSemanticViewModalSpec;
 	viewTabs?: PointSemanticViewTabsSpec;
+	viewToggleTheme?: PointSemanticViewToggleTheme;
 	viewDataLoad?: PointSemanticDataLoad;
 	pageDataLoad?: PointSemanticDataLoad;
 	viewStreamSubscribe?: PointSemanticStreamSubscribe;

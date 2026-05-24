@@ -64,6 +64,23 @@ export function checkSemanticThemes(program: PointSemanticProgram): PointCoreDia
 			);
 		}
 	}
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "view") continue;
+		if (!declaration.body.some((statement) => statement.kind === "toggleTheme")) continue;
+		const theme = themes[0];
+		if (!theme?.toggle) {
+			diagnostics.push(
+				themeDiagnostic(
+					"theme-toggle-disabled",
+					`View ${declaration.name} uses toggle theme but the theme block has no toggle setting`,
+					program.module ?? "anonymous",
+					theme?.name ?? "theme",
+					'Add `toggle` under the theme block (for example `theme app theme` then `  toggle`).',
+					declaration.body.find((statement) => statement.kind === "toggleTheme")?.span,
+				),
+			);
+		}
+	}
 	return diagnostics;
 }
 

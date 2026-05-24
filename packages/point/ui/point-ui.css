@@ -38,6 +38,56 @@
   }
 }
 
+.point-app[data-point-theme="light"] {
+  color-scheme: light;
+  --point-color-text: #111827;
+  --point-color-muted: #6b7280;
+  --point-color-emphasis: #111827;
+  --point-color-danger: #b91c1c;
+  --point-color-success: #15803d;
+  --point-color-accent: #4f46e5;
+  --point-color-border: #d1d5db;
+  --point-color-surface: #ffffff;
+  --point-color-surface-muted: #f9fafb;
+  --point-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
+  --point-shadow-md: 0 10px 25px rgb(0 0 0 / 0.12);
+}
+
+.point-app[data-point-theme="dark"] {
+  color-scheme: dark;
+  --point-color-text: #f3f4f6;
+  --point-color-muted: #9ca3af;
+  --point-color-emphasis: #f9fafb;
+  --point-color-danger: #f87171;
+  --point-color-success: #4ade80;
+  --point-color-accent: #818cf8;
+  --point-color-border: #374151;
+  --point-color-surface: #111827;
+  --point-color-surface-muted: #1f2937;
+  --point-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+  --point-shadow-md: 0 10px 25px rgb(0 0 0 / 0.45);
+}
+
+.point-theme-toggle {
+  appearance: none;
+  border: 1px solid var(--point-color-border);
+  background: var(--point-color-surface-muted);
+  color: var(--point-color-text);
+  border-radius: var(--point-radius);
+  padding: var(--point-space-xs) var(--point-space-sm);
+  font: inherit;
+  cursor: pointer;
+}
+
+.point-theme-toggle:hover:not(:disabled) {
+  border-color: var(--point-color-accent);
+}
+
+.point-theme-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 *,
 *::before,
 *::after {

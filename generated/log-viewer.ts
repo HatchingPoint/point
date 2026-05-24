@@ -267,5 +267,9 @@ export const LogViewerAppRouter = createBrowserRouter([
 ]);
 
 export function mountLogViewerApp(): JSX.Element {
-  return <div className="point-app"><RouterProvider router={LogViewerAppRouter} /></div>;
+  return (
+  <PointThemeShell className="point-app" enabled={false}>
+    <RouterProvider router={LogViewerAppRouter} />
+  </PointThemeShell>
+  );
 }

@@ -7,6 +7,7 @@ import type {
 } from "../semantic/ast.ts";
 import { pathSegmentNames, toPathSegment } from "./emit-routes.ts";
 import { semanticFunctionName, toIdentifier, toPascalCase } from "../semantic/naming.ts";
+import { emitThemeShellOpen, emitThemeShellClose } from "./emit-theme-mode.ts";
 
 export interface ClientRouteSpec {
 	path: string;
@@ -107,6 +108,7 @@ export function emitClientNavigationRuntime(
 	pages: Map<string, PointSemanticPageDeclaration>,
 	records: Map<string, Map<string, string>>,
 	themeClassName = "point-app",
+	themeToggle = false,
 ): string[] {
 	const specs = navigation.routes.map((route) => {
 		const page = pages.get(route.pageName);
@@ -124,7 +126,11 @@ export function emitClientNavigationRuntime(
 	if (navigation.bootstrapRouter) {
 		lines.push(
 			`export function ${mountName}(): JSX.Element {`,
-			`  return <div className=${JSON.stringify(themeClassName)}><RouterProvider router={${routerName}} /></div>;`,
+			"  return (",
+			emitThemeShellOpen(themeClassName, themeToggle),
+			`    <RouterProvider router={${routerName}} />`,
+			emitThemeShellClose(),
+			"  );",
 			"}",
 		);
 	}

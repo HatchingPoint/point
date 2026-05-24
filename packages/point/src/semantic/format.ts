@@ -364,6 +364,9 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	if (statement.kind === "tabs") {
 		return ["tabs", ...statement.tabs.map((tab) => `  tab "${tab.label}" render ${formatStylePrefix(tab.style, tab.className)}${formatExpression(tab.value)}`)].join("\n");
 	}
+	if (statement.kind === "toggleTheme") {
+		return `${formatStylePrefix(statement.style)}toggle theme`.trim();
+	}
 	if (statement.kind === "onChangeCall") return `on change call ${statement.callback}`;
 	if (statement.className) return `render class "${statement.className}" ${formatExpression(statement.value)}`;
 	if (statement.style?.length) return `render ${statement.style.join(" ")} ${formatExpression(statement.value)}`;

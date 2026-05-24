@@ -129,12 +129,12 @@ export type AppShellLayoutSlots = { header?: JSX.Element; sidebar?: JSX.Element;
 
 export function appShellLayout(slots: AppShellLayoutSlots = {}): JSX.Element {
   return (
-    <div className="point-app point-layout point-layout-appShell">
+    <PointThemeShell className="point-app point-layout point-layout-appShell" enabled={false}>
       <div className="point-layout-body">
         <aside className="point-layout-sidebar">{slots.sidebar ?? <>{dashboardNavView()}</>}</aside>
         <section className="point-layout-main">{slots.main ?? <>Select a page from the sidebar</>}</section>
       </div>
-    </div>
+    </PointThemeShell>
   );
 }
 
@@ -210,5 +210,9 @@ export const DashboardAppRouter = createBrowserRouter([
 ]);
 
 export function mountDashboardApp(): JSX.Element {
-  return <div className="point-app"><RouterProvider router={DashboardAppRouter} /></div>;
+  return (
+  <PointThemeShell className="point-app" enabled={false}>
+    <RouterProvider router={DashboardAppRouter} />
+  </PointThemeShell>
+  );
 }

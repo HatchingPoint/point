@@ -71,6 +71,7 @@ export interface PointSemanticThemeDeclaration {
 	accent?: string;
 	density?: string;
 	radius?: string;
+	toggle?: boolean;
 	span?: PointSourceSpan;
 }
 
@@ -391,6 +392,7 @@ export type PointSemanticViewStatement =
 	| { kind: "eachRender"; item: string; iterable: PointSemanticExpression; value: PointSemanticExpression; className?: string; style?: string[]; linkPath?: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "modal"; title: string; when?: PointSemanticExpression; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "tabs"; tabs: PointSemanticViewTab[]; span?: PointSourceSpan }
+	| { kind: "toggleTheme"; style?: string[]; span?: PointSourceSpan }
 	| { kind: "onChangeCall"; callback: string; span?: PointSourceSpan };
 
 export type PointSemanticMiddlewareStatement = PointSemanticLabelStatement;
