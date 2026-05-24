@@ -634,6 +634,14 @@ calculation annual price
 		expect(payload.tests.find((test) => test.name === "test naming fixture suite")?.ok).toBe(true);
 	});
 
+	test("runs self-hosted diagnostic catalog pass", async () => {
+		const result = await Bun.$`bun packages/point/src/cli.ts test compiler/passes/diagnostic-catalog.point`.quiet();
+		expect(result.exitCode).toBe(0);
+		const payload = JSON.parse(result.stdout.toString()) as { ok: boolean; tests: Array<{ name: string; ok: boolean }> };
+		expect(payload.ok).toBe(true);
+		expect(payload.tests.find((test) => test.name === "test phase 26 27 agent catalog")?.ok).toBe(true);
+	});
+
 	test("ships language spec, agent quick reference, and adoption docs", async () => {
 		expect(await Bun.file("docs/language-spec.md").exists()).toBe(true);
 		expect(await Bun.file("docs/agent-quick-reference.md").exists()).toBe(true);

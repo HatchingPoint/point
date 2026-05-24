@@ -12,6 +12,8 @@ The first pass lives in `compiler/passes/naming-lint.point`. It encodes naming v
 
 Phase 21 extended the pass with fixture cases from `examples/cart-total.point` and `examples/math.point`, kind-specific validation calculations, and a suite test (`test naming fixture suite`). See [compiler/passes/README.md](../compiler/passes/README.md).
 
+Phase 28 added `compiler/passes/diagnostic-catalog.point` — a Point-authored catalog of agent-ready diagnostic codes shipped in Phases 26–27 (middleware inputs, pipeline step I/O, money lint, variant exhaustiveness, view bind targets, plus core `unknown-field` / `missing-await`). Run `point test compiler/passes/diagnostic-catalog.point` in CI via `tests/point-core.test.ts`.
+
 Run it with:
 
 ```bash

@@ -7,6 +7,7 @@ Self-hosted compiler policy lives here as ordinary `.point` modules. Each pass e
 | Pass | File | Purpose |
 |------|------|---------|
 | Naming lint | `naming-lint.point` | Validates lowering names for calculations, rules, and labels against the compiler naming contract |
+| Diagnostic catalog | `diagnostic-catalog.point` | Catalogs Phase 26–27 agent-loop diagnostic codes (middleware, pipeline, money lint, variants, view binds, core) |
 
 ## Naming contract (mirrors TypeScript emitter)
 

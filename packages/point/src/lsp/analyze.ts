@@ -1,6 +1,7 @@
 import type { PointSourceSpan } from "../core/ast.ts";
 import { checkPointCore } from "../core/check.ts";
 import type { PointCoreDiagnostic } from "../core/check.ts";
+import { sortDiagnosticsForRepairPlan } from "../core/context.ts";
 import { formatPointSource } from "../core/format.ts";
 import { parsePointSource } from "../core/parser.ts";
 import type { PointSemanticSymbol, PointSemanticSymbolKind } from "../semantic/context.ts";
@@ -17,6 +18,8 @@ export interface LspDiagnostic {
 	code: string;
 	source: string;
 	message: string;
+	ref?: string;
+	repair?: string;
 }
 
 export interface LspDocumentSymbol {
@@ -119,7 +122,9 @@ export function lspPositionToPoint(line: number, character: number): { line: num
 export function analyzePointSource(source: string): PointDocumentAnalysis {
 	try {
 		const program = parsePointSource(source);
-		const diagnostics = mapPublicDiagnostics(program, checkPointCore(program)).map(toLspDiagnostic);
+		const diagnostics = sortDiagnosticsForRepairPlan(mapPublicDiagnostics(program, checkPointCore(program))).map(
+			toLspDiagnostic,
+		);
 		const symbols = program.semanticSource ? createSemanticIndex(program.semanticSource).refs : [];
 		return { diagnostics, symbols };
 	} catch (error) {
@@ -260,12 +265,16 @@ function toLspDiagnostic(diagnostic: PointCoreDiagnostic): LspDiagnostic {
 	const range = diagnostic.span
 		? pointSpanToLspRange(diagnostic.span)
 		: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } };
+	const repair = diagnostic.repair?.trim();
+	const message = repair ? `${diagnostic.message} — ${repair}` : diagnostic.message;
 	return {
 		range,
 		severity: 1,
 		code: diagnostic.code,
-		source: diagnostic.ref,
-		message: diagnostic.message,
+		source: "point",
+		message,
+		ref: diagnostic.ref,
+		repair,
 	};
 }
 

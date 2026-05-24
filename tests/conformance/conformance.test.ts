@@ -198,6 +198,7 @@ describe("Point conformance fixtures", () => {
 		expect(fixtures).toContain("examples/adopters/starter-labs/subscription-tier.point");
 		expect(fixtures).toContain("examples/starter-template/src/app.point");
 		expect(fixtures).toContain("compiler/passes/naming-lint.point");
+		expect(fixtures).toContain("compiler/passes/diagnostic-catalog.point");
 	});
 
 	test("discovered fixtures include Phase 14-20 semantic blocks", async () => {

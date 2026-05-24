@@ -1,0 +1,76 @@
+module DiagnosticCatalog
+
+record Diagnostic Entry
+  code: Text
+  category: Text
+  agent ready: Bool
+
+calculation middleware input unavailable entry
+  output entry: Diagnostic Entry
+  entry is { code: "middleware-input-unavailable", category: "route", agent ready: true }
+
+calculation middleware input type mismatch entry
+  output entry: Diagnostic Entry
+  entry is { code: "middleware-input-type-mismatch", category: "route", agent ready: true }
+
+calculation pipeline step type mismatch entry
+  output entry: Diagnostic Entry
+  entry is { code: "pipeline-step-type-mismatch", category: "pipeline", agent ready: true }
+
+calculation float money field entry
+  output entry: Diagnostic Entry
+  entry is { code: "float-money-field", category: "record", agent ready: true }
+
+calculation missing variant case entry
+  output entry: Diagnostic Entry
+  entry is { code: "missing-variant-case", category: "label", agent ready: true }
+
+calculation invalid view bind target entry
+  output entry: Diagnostic Entry
+  entry is { code: "invalid-view-bind-target", category: "view", agent ready: true }
+
+calculation unknown field entry
+  output entry: Diagnostic Entry
+  entry is { code: "unknown-field", category: "core", agent ready: true }
+
+calculation missing await entry
+  output entry: Diagnostic Entry
+  entry is { code: "missing-await", category: "action", agent ready: true }
+
+calculation agent diagnostic valid
+  input entry: Diagnostic Entry
+  output valid: Bool
+  valid is entry.code != "" and entry.agent ready and entry.category != ""
+
+rule score agent diagnostic
+  input entry: Diagnostic Entry
+  output score: Int
+  score starts at 0
+  add 100 when agent diagnostic valid(entry)
+  return score
+
+label agent diagnostic status
+  input entry: Diagnostic Entry
+  output Text
+  when agent diagnostic valid(entry) return "cataloged"
+  otherwise return "incomplete"
+
+calculation test middleware diagnostics
+  output ok: Bool
+  ok is agent diagnostic valid(middleware input unavailable entry()) and agent diagnostic valid(middleware input type mismatch entry())
+
+calculation test pipeline and money diagnostics
+  output ok: Bool
+  ok is agent diagnostic valid(pipeline step type mismatch entry()) and agent diagnostic valid(float money field entry())
+
+calculation test variant and view diagnostics
+  output ok: Bool
+  ok is agent diagnostic valid(missing variant case entry()) and agent diagnostic valid(invalid view bind target entry())
+
+calculation test core agent diagnostics
+  output ok: Bool
+  ok is agent diagnostic valid(unknown field entry()) and agent diagnostic valid(missing await entry())
+
+calculation test phase 26 27 agent catalog
+  output ok: Bool
+  ok is test middleware diagnostics() and test pipeline and money diagnostics() and test variant and view diagnostics() and test core agent diagnostics()
