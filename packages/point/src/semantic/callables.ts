@@ -1,3 +1,4 @@
+import { normalizeUseModuleName } from "../core/capabilities.ts";
 import { resolveUseDependencyInputPath } from "../core/module-resolve.ts";
 
 const CALLABLE_KEYWORDS = [
@@ -79,7 +80,10 @@ export function scanUseDeclarations(source: string): Array<{ moduleName: string;
 	const uses: Array<{ moduleName: string; from?: string }> = [];
 	for (const line of source.split(/\r?\n/)) {
 		const match = line.trim().match(USE_DECLARATION);
-		if (match) uses.push({ moduleName: match[1] ?? "", from: match[2] });
+		if (!match) continue;
+		const from = match[2];
+		const moduleName = normalizeUseModuleName(match[1] ?? "", from);
+		uses.push({ moduleName, from });
 	}
 	return uses;
 }

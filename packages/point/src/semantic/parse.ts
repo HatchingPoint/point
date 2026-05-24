@@ -1,4 +1,5 @@
 import type { PointSourceSpan } from "../core/ast.ts";
+import { normalizeUseModuleName } from "../core/capabilities.ts";
 import { parseStylePrefix, isPointStyleModifier } from "../core/ui-style.ts";
 import type {
 	PointSemanticActionDeclaration,
@@ -303,10 +304,12 @@ export function parseSemanticSource(source: string, options?: ParseSemanticSourc
 function parseUseDeclaration(line: string, lineNumber: number): PointSemanticUseDeclaration {
 	const match = line.match(/^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/);
 	if (!match) throw new Error(`Invalid use declaration: ${line}`);
+	const rawName = match[1] ?? "";
+	const from = match[2];
 	return {
 		kind: "use",
-		moduleName: match[1] ?? "",
-		from: match[2],
+		moduleName: normalizeUseModuleName(rawName, from),
+		from,
 		span: lineSpanFromLine(lineNumber, line),
 	};
 }

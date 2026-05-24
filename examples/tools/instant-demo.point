@@ -1,6 +1,6 @@
 module InstantDemo
 
-use std.time
+use time
 
 record Event
   name: Text

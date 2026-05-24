@@ -4,12 +4,13 @@
 
 ## Active execution (parallel burst — paste codex goals)
 
-_None — expansion loop can draft Phase 36._
+_None — expansion loop can draft Phase 37._
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **36** | v0.1.28 | Capabilities shorthand (`use http`), README/product map, docs sync, release script |
 | **35** | v0.1.27 | Agent repair CI gate, timezone std pattern, LSP cross-module use |
 | **34** | v0.1.26 | Cross-module use resolution, money-demo linked std/money |
 | **33** | v0.1.25 | Money format helpers, Python pipeline emit, Phase 13 closed |
@@ -26,13 +27,13 @@ Older phases: see `docs/phase*-plan.md` and [codex-progress.md](./codex-progress
 
 ## Candidate backlog (expansion loop maintains)
 
-**Last analyze:** 2026-05-24 — Phases 33–34 complete.
+**Last analyze:** 2026-05-24 — Phase 36 packaging in progress.
 
 | Priority | Theme | Evidence | Notes |
 |----------|-------|----------|-------|
-| 1 | Generic Result / Decimal | Audit deferrals | Phase 35 candidate |
-| 2 | Agent repair CI gate | Phase 28 alternate | Optional hardening |
-| 3 | Timezone helpers | Audit partial defer | Actions/host only |
+| 1 | Smarter `use` merge | Phase 34 follow-up | Import only referenced symbols |
+| 2 | Result pattern docs | Audit deferrals | Variant-first + calc helpers |
+| 3 | Decimal spike | Audit deferrals | Money as Int pattern exists |
 
 The expansion loop may **reprioritize**, **merge**, or **split** rows when drafting a new phase.
 

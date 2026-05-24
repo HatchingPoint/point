@@ -1,0 +1,22 @@
+module CapabilitiesDemo
+
+use http
+
+use json
+
+calculation pass through
+  input value: Text
+  output result: Text
+  result is value
+
+action fetch snapshot
+  input url: Text
+  output response: Text or Error
+  touches network
+  return await httpGetResponse(url)
+
+action parse snapshot
+  input raw: Text
+  output result: Text or Error
+  touches none
+  return await parseJsonResult(raw)

@@ -1,19 +1,12 @@
 # Point
 
-Point is an AI-first general-purpose language for building software with coding agents.
+Point is a **general-purpose, AI-first language** for product logic — semantic blocks you write, JavaScript and Python the machine runs.
 
-People write semantic product logic. The compiler lowers that source into an internal typed core, then emits JavaScript by default so Bun and Node can run it without authors touching generated TypeScript. Use `point build-ts` when you need typed targets for React, Vue, or `tsc` pipelines.
+Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
 
-## What Exists Today
+**Current release:** v0.1.28 · **591 tests** · npm: `@hatchingpoint/point`
 
-- Point core language package: `@hatchingpoint/point`
-- Cursor/VS Code extension package: `point`
-- Formatter, checker, JavaScript and TypeScript emitters, AST emitter, and CLI
-- Stable `point://` refs, symbol indexing, explanations, and repair plans for coding agents
-- AI-first public syntax with `record`, `calculation`, `rule`, `label`, `add ... when`, and `otherwise`
-- Internal typed core IR (functions, types, loops, assignment) — compiler data structures only; authors do not write core syntax
-
-## Source Example
+## 30-second example
 
 ```point
 module Checkout
@@ -35,86 +28,107 @@ rule cart total
   for each item in items
   add item.unit price * item.quantity to total
   return total
-
-label order size
-  input total: Int
-  output Text
-  when total >= 10000 return "Large order"
-  otherwise return "Standard"
 ```
-
-## Install (users)
-
-1. Install [Bun](https://bun.sh).
-2. Install the compiler:
-   ```bash
-   bun install -g @hatchingpoint/point
-   ```
-   (Or `npm install -g @hatchingpoint/point` — same registry.)
-3. Install [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) in VS Code or Cursor **(optional)** — or use any editor with the CLI (see below).
-4. Open a `.point` file — diagnostics and symbols use the `point` CLI on PATH (VS Code extension) or `point check` from the terminal (any editor).
-
-### Any editor (no VS Code)
 
 ```bash
-point check myfile.point
-point fmt myfile.point
-point build myfile.point generated/myfile.js
-point run myfile.point
+point check checkout.point
+point run checkout.point
 ```
 
-Use `point build-ts` when you need TypeScript for typed imports in an existing TS project.
+## Five block families
 
-Use `point check-json`, `point index`, and `point explain` in CI or agent scripts. For editor integration in Neovim, Zed, or other LSP clients, run `point lsp` — see [docs/editor-setup.md](docs/editor-setup.md).
+| Family | What you write | Examples |
+|--------|----------------|----------|
+| **Logic** | Data + derivations | `record`, `calculation`, `rule`, `label` |
+| **App** | HTTP + UI | `route`, `page`, `view`, `middleware` |
+| **Agent** | Automation | `pipeline`, `prompt`, `command`, `workflow` |
+| **Data** | Schema + queries | records + `use sql` + `point build-schema` |
+| **Effects** | Host boundaries | `action`, `external`, `policy` |
 
-## Quick Start (repo development)
+Full reference: [docs site](docs/site/guide/introduction.md) · Internal map: [product-map.md](docs/product-map.md)
+
+## Built-in capabilities
+
+Import std modules with straight syntax:
+
+```point
+use http
+use json
+use time
+```
+
+Same as `use std.http`. List all built-ins:
+
+```bash
+point capabilities
+point capabilities --json
+```
+
+Local modules stay explicit: `use Billing from "./billing.point"`. Add packages with `point add`.
+
+## Install
+
+```bash
+bun install -g @hatchingpoint/point
+point create my-app
+cd my-app
+point dev src/app.point
+```
+
+Also: `npm install -g @hatchingpoint/point`. Optional: [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) for VS Code/Cursor, or any editor with `point lsp`.
+
+## CLI essentials
+
+| Group | Commands |
+|-------|----------|
+| **Quality** | `check`, `check-json`, `fmt` |
+| **Emit** | `build`, `build-ts`, `build-py`, `build-schema` |
+| **Run** | `run`, `test`, `dev`, `serve` |
+| **Agent** | `index`, `explain`, `repair-plan`, `capabilities` |
+| **Scaffold** | `create`, `init`, `add` |
+
+## AI-native toolchain
+
+Agents use stable refs and structured repairs — not line-number guessing:
+
+```bash
+point check-json myfile.point
+point index myfile.point
+point explain myfile.point point://semantic/Module/rule.cart total
+point repair-plan myfile.point
+```
+
+Benchmark: 26+ repair cases with CI gate at 100% sufficiency.
+
+## Emit targets
+
+- **JavaScript** (default) — `point build`, `point run`, `point dev`
+- **TypeScript** — `point build-ts` for React/Vite/tsc
+- **Python** — `point build-py` for logic, routes, workflows, pipelines
+- **SQL** — `point build-schema` for Postgres/SQLite migrations
+
+## Repo development
 
 ```bash
 bun install
-bun run fmt-check
-bun run check
-bun run build
+bun run ci
 ```
-
-Build output is written to `generated/` as JavaScript by default.
-
-```bash
-bun packages/point/src/cli.ts build examples/math.point generated/math.js
-bun packages/point/src/cli.ts build-ts examples/math.point generated/math.ts
-```
-
-## AI Context Commands
-
-```bash
-bun run index examples/math.point
-bun run explain examples/math.point point://core/Math/fn.scoreStatusLabel
-bun run repair-plan examples/math.point
-bun run check-json examples/math.point
-```
-
-These commands are the core of Point's AI engineering model: agents should navigate stable refs and repair structured diagnostics, not guess from raw source.
-
-## Roadmap
-
-Phases 0–12 complete. **Platform vision Phases 14–21 shipped in v0.1.0** — [platform-vision-plan.md](docs/platform-vision-plan.md) (339 tests).
-
-- [Vision — authoring vs runtime](docs/vision.md)
-- [Platform vision — Phases 14–21](docs/platform-vision-plan.md)
-- [Phase 14 plan](docs/phase14-plan.md) · [Phase 13 plan](docs/phase13-plan.md)
-- [Documentation site plan](docs/docs-site-plan.md)
 
 ## Packages
 
 ```text
-packages/point
-  Point language core and CLI
-
-packages/point-vscode
-  Cursor/VS Code language support and file icons
+packages/point       — compiler + CLI (@hatchingpoint/point)
+packages/point-vscode — VS Code/Cursor extension
 ```
 
-## Product Name vs Package Name
+## Product vs package name
 
-The product and repo are named **Point**.
+The product is **Point**. The npm package is **`@hatchingpoint/point`** for a collision-resistant public identity.
 
-The npm package uses `@hatchingpoint/point` so it has a collision-resistant public package identity owned by Hatching Point.
+## Docs
+
+- [Introduction](docs/site/guide/introduction.md)
+- [CLI reference](docs/site/reference/cli.md)
+- [Capabilities](docs/site/language/capabilities.md)
+- [Changelog](CHANGELOG.md)
+- [Phase roadmap](docs/phase-roadmap.md)

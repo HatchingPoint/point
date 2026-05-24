@@ -18,6 +18,7 @@ import { runCheckDocs } from "./check-docs.ts";
 import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
+import { normalizeUseModuleName } from "./capabilities.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
 import { runPointBuildApp } from "./build-app.ts";
@@ -26,6 +27,7 @@ import { checkSemanticSqlSchema, mergeSemanticProgramsForSchema } from "../seman
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
+import { formatPointCapabilitiesCatalog, listPointCapabilities } from "./capabilities.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -105,6 +107,17 @@ export async function main() {
 	if (command === "roadmap-analyze") {
 		const analysis = await analyzePointRoadmap(process.cwd());
 		console.log(formatPointRoadmapAnalysis(analysis).trimEnd());
+		return;
+	}
+
+	if (command === "capabilities") {
+		const json = tail.includes("--json");
+		const catalog = listPointCapabilities();
+		if (json) {
+			console.log(JSON.stringify(catalog, null, 2));
+		} else {
+			console.log(formatPointCapabilitiesCatalog(catalog));
+		}
 		return;
 	}
 
@@ -775,7 +788,12 @@ function parseUseDeclarations(source: string, input: string, lock: Awaited<Retur
 		.split(/\r?\n/)
 		.map((line) => line.trim().match(/^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/))
 		.filter((match): match is RegExpMatchArray => Boolean(match))
-		.map((match) => ({ moduleName: match[1]!, from: match[2] ?? modulePathFromLock(lock, match[1]!), input }));
+		.map((match) => {
+			const rawName = match[1]!;
+			const from = match[2];
+			const moduleName = normalizeUseModuleName(rawName, from);
+			return { moduleName, from: from ?? modulePathFromLock(lock, moduleName), input };
+		});
 }
 
 function createModuleGraph(results: CoreFile[], lock: Awaited<ReturnType<typeof readPointLock>>): ModuleGraph {

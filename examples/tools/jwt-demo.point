@@ -1,8 +1,8 @@
 module JwtDemo
 
-use std.crypto
+use crypto
 
-use std.env
+use env
 
 calculation signed demo token
   output token: Text

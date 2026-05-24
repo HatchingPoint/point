@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.24**
+Current release: **0.1.28**
 
 Check the published npm version:
 
@@ -22,6 +22,10 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.28** | Phase 36: README/product map, `use http` capabilities shorthand, `point capabilities`, docs sync. |
+| **0.1.27** | Phase 35: agent repair CI gate, timezone std, LSP cross-module use. |
+| **0.1.26** | Phase 34: cross-module use resolution, money-demo linked std/money. |
+| **0.1.25** | Phase 33: std/money format, Python pipeline emit, Phase 13 closed. |
 | **0.1.24** | Phase 32: Duration type, std.time duration helpers, audit sync. |
 | **0.1.23** | Phase 31: variant-first domain errors, calculation on failure return. |
 | **0.1.22** | Phase 30 SQL productization + roadmap-analyze CI fix. |

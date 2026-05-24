@@ -18,6 +18,7 @@ import type {
 	PointSemanticActionStatement,
 	PointSemanticServerDbStatement,
 } from "./ast.ts";
+import { formatUseModuleNameForSource } from "../core/capabilities.ts";
 
 function formatStylePrefix(style?: string[], className?: string): string {
 	if (className) return `class "${className}" `;
@@ -29,7 +30,8 @@ export function formatSemanticProgram(program: PointSemanticProgram): string {
 	const blocks: string[] = [];
 	if (program.module) blocks.push(`module ${program.module}`);
 	for (const use of program.uses) {
-		blocks.push(use.from ? `use ${use.moduleName} from ${JSON.stringify(use.from)}` : `use ${use.moduleName}`);
+		const moduleName = formatUseModuleNameForSource(use.moduleName);
+		blocks.push(use.from ? `use ${moduleName} from ${JSON.stringify(use.from)}` : `use ${moduleName}`);
 	}
 	for (const declaration of program.declarations) {
 		blocks.push(formatDeclaration(declaration).join("\n"));

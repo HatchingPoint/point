@@ -1,6 +1,6 @@
 module AiDemo
 
-use std.ai
+use ai
 
 policy can call openai
   input prompt: Text

@@ -16,11 +16,12 @@ module Billing
 record Invoice
   total: Int
 
-use std.http
+use http
 ```
 
 - `module Name` sets the module name for semantic refs
-- `use std.<module>` resolves standard library files under `std/`
+- `use http` imports a built-in capability (same as `use std.http`) — see [Capabilities](/point/language/capabilities)
+- `use std.<module>` explicit std import
 - `use Module from "./path.point"` links another file (see `examples/multi-file/order.point`)
 
 ## Semantics
@@ -45,8 +46,8 @@ calculation pass through
   output result: Text
   result is value
 
-use std.text
-use std.json
+use text
+use json
 ```
 
 Multi-file layout also lives under `examples/multi-file/` in the repository.
@@ -63,6 +64,7 @@ Multi-file layout also lives under `examples/multi-file/` in the repository.
 
 ## See also
 
+- [Capabilities](/point/language/capabilities)
 - [Effects](/point/language/effects)
 - [CLI reference](/point/reference/cli)
 - [Language overview](/point/language/overview)

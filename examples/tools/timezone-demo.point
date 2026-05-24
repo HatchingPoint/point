@@ -1,6 +1,6 @@
 module TimezoneDemo
 
-use std.time
+use time
 
 record Meeting
   title: Text

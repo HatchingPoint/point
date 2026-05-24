@@ -8,7 +8,7 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point@0.1.14` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.1.28` (see `npm view @hatchingpoint/point version`)
 
 ## Invocation
 
@@ -29,6 +29,7 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `index` | Symbol index JSON (semantic when available) | 0 |
 | `explain` | Explain a ref: `point explain <file> <ref>` | 0 |
 | `repair-plan` | Ordered repair steps from diagnostics | 1 if diagnostics |
+| `capabilities` | List built-in std modules (`use http` shorthand); `--json` for agents | 0 |
 | `print-ast` | Dump core program JSON | 0 |
 | `build` | Emit JavaScript (default `generated/<base>.js`); `--production` for deploy-oriented emit | 1 on diagnostics |
 | `build-ts` | Emit TypeScript (default `generated/<base>.ts`) | 1 on diagnostics |
@@ -95,7 +96,7 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 
 ## Agent-facing commands
 
-Prefer `check-json`, `index`, `explain`, and `repair-plan` for automation. See [AI overview](/point/ai/overview).
+Prefer `check-json`, `index`, `explain`, `repair-plan`, and `capabilities` for automation. See [AI overview](/point/ai/overview).
 
 ## Build flags
 

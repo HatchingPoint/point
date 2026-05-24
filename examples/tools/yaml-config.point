@@ -1,6 +1,6 @@
 module YamlConfigDemo
 
-use std.yaml
+use yaml
 
 calculation serialized config yaml
   input record: Text

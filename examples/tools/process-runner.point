@@ -1,6 +1,6 @@
 module ProcessRunner
 
-use std.process
+use process
 
 action run echo command
   input message: Text

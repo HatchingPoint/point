@@ -6,27 +6,30 @@
 - [Proof of concept](./site/concepts/proof-of-concept.md)
 - [Point vs other languages for AI engineering](./ai/vs-other-languages.md)
 - [Authoring vs runtime](./site/concepts/authoring-vs-runtime.md)
+- [Product map](./product-map.md)
 
 ## One sentence
 
 Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## True vision (Phases 14–21)
+## Platform status (v0.1.28)
 
-Point should author **entire applications** — not only business logic fragments embedded in hand-written TypeScript and React.
+Point authors **entire applications** — logic, routes, pages, pipelines, and commands in one semantic source.
 
-| Layer | Today (v0.0.15) | Platform vision |
-|-------|-------------------|-----------------|
-| Logic (records, rules, calculations) | ✅ | ✅ |
-| HTTP routes, CLI, workflows | ✅ Basic | Production depth + middleware |
-| UI | ✅ Widgets/pages | Full multi-page apps |
-| Realtime | ❌ | WebSockets, streaming processes |
-| Data | ❌ | Any DB via `external` + `std.sql` (emit, not replace) |
-| Agents | ✅ Repair Point source | Pipelines, sessions, prompts |
-| Python | ⚠️ Partial | Full parity for automation |
-| Dev experience | check/build/run | `point dev`, full-stack template |
+| Layer | Status |
+|-------|--------|
+| Logic (records, rules, calculations) | ✅ Shipped |
+| HTTP routes, middleware, CLI, workflows | ✅ Production depth |
+| UI (views, pages, layouts, navigation) | ✅ Full-stack template |
+| Realtime | ✅ Stream routes |
+| Data | ✅ `std.sql`, `build-schema`, migrations |
+| Agents | ✅ Pipelines, prompts, repair CI gate |
+| Python | ✅ Logic, routes, workflows, pipelines |
+| Dev experience | ✅ `point dev`, `point create`, capabilities shorthand |
+| Cross-module imports | ✅ CLI + LSP |
+| Built-in capabilities | ✅ `use http` → `std.http`, `point capabilities` |
 
-**Master roadmap:** [platform-vision-plan.md](./platform-vision-plan.md)
+**591 tests** in CI. **Master roadmap:** [phase-roadmap.md](./phase-roadmap.md)
 
 ## What we replace
 
@@ -42,8 +45,8 @@ Hand-written **TypeScript, React, Next.js glue, and Python** for product code:
 ## What stays outside Point
 
 - **Xcode, Swift, iOS apps** — Point invokes native tools, does not replace them
-- **Database engines** — PostgreSQL, SQLite, etc. — via `external` blocks and std shims, not reimplementation
-- **npm ecosystem** — via `external` blocks and std shims, not reimplementation
+- **Database engines** — PostgreSQL, SQLite, etc. — via `external` blocks and std shims
+- **npm ecosystem** — via `external` blocks, built-in capabilities, and `point add`
 
 ## Daily workflow
 
@@ -53,25 +56,11 @@ point fmt
 point build
 point run
 point test
-point dev          # Phase 20
+point dev
+point capabilities   # list built-in std modules
 ```
 
 You do **not** maintain `generated/*` in git or edit it by hand.
-
-## Shipped through Phase 12 (v0.0.15)
-
-| Milestone | Outcome |
-|-----------|---------|
-| JS-default run/build | ✅ |
-| Python emit (logic + actions) | ✅ |
-| Point-only npm packages | ✅ `@hatchingpoint/point-logic` |
-| Richer views and `page` block | ✅ |
-| `point add` + lockfile + npm: | ✅ |
-| Std runtime shims | ✅ json, http, fs, env, time, text |
-| LSP + Open VSX | ✅ |
-
-**Active:** [platform-vision-plan.md](./platform-vision-plan.md) — Phases 14–21  
-**Next execution:** [phase14-plan.md](./phase14-plan.md) + [codex-goal-phase14.md](./codex-goal-phase14.md)
 
 ## Self-hosting roadmap
 
@@ -79,21 +68,11 @@ The compiler stays in TypeScript today; compiler **policy** moves into Point inc
 
 | Milestone | Status | Location |
 |-----------|--------|----------|
-| Naming lint pass | ✅ Phase 21 | `compiler/passes/naming-lint.point` |
-| Effect-boundary lint | 📋 Next | `compiler/passes/` |
-| Formatter validation | 📋 Planned | `compiler/passes/` |
-| Conformance fixtures in Point | 📋 Planned | `compiler/passes/` |
-| Full formatter in Point | 📋 Long-term | after validation pass proves pattern |
-| Parser / desugar in Point | 📋 Long-term | sustained milestones |
+| Diagnostic catalog | ✅ | `compiler/passes/diagnostic-catalog.point` |
+| More passes | Planned | `compiler/passes/` |
 
-Details: [self-hosting.md](./self-hosting.md), pass guide: [compiler/passes/README.md](../compiler/passes/README.md).
+## See also
 
-## For coding agents
-
-- Write and repair `.point` only
-- Use `check-json`, `index`, `explain`, `repair-plan`
-- Prefer `point://semantic/` refs
-- Do not expose core syntax in public files
-- Do not add platform-specific keywords — keep features general-purpose
-
-See [phase12-plan.md](./phase12-plan.md) for Phase 12 exit gate.
+- [Platform vision plan](./platform-vision-plan.md)
+- [Phase roadmap](./phase-roadmap.md)
+- [Language primitive audit](./language-primitive-audit.md)

@@ -1,16 +1,16 @@
 module StdUsage
 
-use std.text
+use text
 
-use std.json
+use json
 
-use std.http
+use http
 
-use std.time
+use time
 
-use std.fs
+use fs
 
-use std.env
+use env
 
 calculation std text example
   input name: Text

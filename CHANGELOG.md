@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.28
+
+### Added
+
+- Phase 36: **Built-in capabilities** — `use http` shorthand for `use std.http`; `point capabilities` catalog (`--json` for agents).
+- Phase 36: **Product packaging** — README rewrite (five block families), `docs/product-map.md`, capabilities docs, vision/cli/changelog sync.
+- Phase 36: **`scripts/publish-github-releases.sh`** — create GitHub releases from CHANGELOG sections.
+
 ## 0.1.27
 
 ### Added

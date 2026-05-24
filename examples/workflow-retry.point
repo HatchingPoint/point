@@ -1,6 +1,6 @@
 module SignupRetry
 
-use std.time
+use time
 
 policy can signup
   input email: Text

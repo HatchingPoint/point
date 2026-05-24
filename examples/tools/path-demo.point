@@ -1,6 +1,6 @@
 module PathDemo
 
-use std.path
+use path
 
 calculation config file path
   input app root: Text

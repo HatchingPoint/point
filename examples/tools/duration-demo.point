@@ -1,6 +1,6 @@
 module DurationDemo
 
-use std.time
+use time
 
 record Window
   label: Text

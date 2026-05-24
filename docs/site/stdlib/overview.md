@@ -6,20 +6,26 @@ quadrant: Reference
 
 ## Summary
 
-Point standard library modules are ordinary semantic Point files exposed under `std.<name>` imports.
-
-## Import form
+Point standard library modules are ordinary semantic Point files. Import with straight syntax:
 
 ```text
 module App
 
-record App Config
-  name: Text
-
-use std.text
+use http
+use json
 ```
 
-Standard modules map to files under `std/`, such as `std/text.point`, `std/json.point`, `std/http.point`, `std/time.point`, `std/fs.point`, `std/env.point`, `std/path.point`, `std/crypto.point`, `std/process.point`, `std/yaml.point`, `std/stream.point`, `std/sql.point`, and `std/ai.point`.
+`use http` is shorthand for `use std.http`. Run `point capabilities` for the catalog.
+
+## Import forms
+
+| Syntax | Resolves to |
+|--------|-------------|
+| `use http` | `std/http.point` |
+| `use std.http` | same module (explicit) |
+| `use Billing from "./billing.point"` | local file |
+
+Standard modules map to files under `std/`, such as `std/text.point`, `std/json.point`, `std/http.point`, `std/time.point`, `std/fs.point`, `std/env.point`, `std/path.point`, `std/crypto.point`, `std/process.point`, `std/yaml.point`, `std/stream.point`, `std/sql.point`, `std/ai.point`, and `std/money.point`.
 
 ### std.http
 
@@ -70,6 +76,7 @@ The standard library stays narrow so agents choose known APIs instead of inventi
 
 ## See also
 
+- [Capabilities](/point/language/capabilities)
 - [Effects](/point/language/effects)
 - [Database interop](/point/ecosystem/database-interop)
 - [Modules](/point/language/modules)

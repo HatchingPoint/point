@@ -1,8 +1,8 @@
 module MiddlewareIntegration
 
-use std.http
+use http
 
-use std.crypto
+use crypto
 
 record Auth Headers
   authorization: Text
