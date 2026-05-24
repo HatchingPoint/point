@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { emitPointCorePython } from "../packages/point/src/core/emit-python.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
+import { envGet } from "@hatchingpoint/point/std/env";
 import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
 import {
 	pathBasename,
@@ -46,7 +47,7 @@ async function runPythonStdParity(
 
 describe("python std mirror", () => {
 	test("emit maps @hatchingpoint/point/std imports to point_std modules", () => {
-		for (const fixture of ["std/path.point", "std/json.point", "std/crypto.point"]) {
+		for (const fixture of ["std/path.point", "std/json.point", "std/env.point", "std/crypto.point"]) {
 			const program = parsePointSource(readFileSync(join(repoRoot, fixture), "utf8"));
 			const emitted = emitPointCorePython(program);
 			expect(emitted).toContain("_point_std_root");
@@ -137,5 +138,49 @@ print(json.dumps({
 		expect(pyResults.stringifyOk).toBe(jsResults.stringifyOk);
 		expect(pyResults.parseError).toEqual({ message: expect.any(String) });
 		expect(jsResults.parseError).toEqual({ message: expect.any(String) });
+	});
+
+	test("env shim parity between JS and Python", async () => {
+		const key = "POINT_PY_STD_ENV_PARITY";
+		const original = process.env[key];
+		process.env[key] = "ready";
+		try {
+			const jsResults = {
+				present: envGet(key),
+				missing: envGet(`${key}_MISSING`),
+			};
+
+			const pythonPath = await resolvePythonCommand();
+			if (!pythonPath) {
+				console.warn("Python not found — skipping env runtime parity test");
+				expect(jsResults.present).toBe("ready");
+				return;
+			}
+
+			const pyResults = await runPythonStdParity(
+				pythonPath,
+				`
+import json
+import os
+from point_std.env import envGet
+
+key = "POINT_PY_STD_ENV_PARITY"
+os.environ[key] = "ready"
+print(json.dumps({
+    "present": envGet(key),
+    "missing": envGet(key + "_MISSING"),
+}))
+`,
+			);
+
+			expect(pyResults.present).toBe(jsResults.present);
+			expect(pyResults.missing).toBe(jsResults.missing);
+		} finally {
+			if (original === undefined) {
+				delete process.env[key];
+			} else {
+				process.env[key] = original;
+			}
+		}
 	});
 });
