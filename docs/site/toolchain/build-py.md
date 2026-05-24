@@ -12,6 +12,31 @@ Use it for logic, actions, routes, workflows, and commands — not for views, la
 
 Do not hand-edit `generated/*.py`. Repair `.point` and rebuild.
 
+## Project manifest target (optional)
+
+Set a default emit target in `point.json`:
+
+```json
+{
+  "name": "my-automation",
+  "version": "0.1.0",
+  "emit": "python"
+}
+```
+
+Then `point build src/tools/runner.point` writes Python (default `generated/runner.py`) instead of JavaScript. Per-module overrides use `modules`:
+
+```json
+{
+  "emit": "python",
+  "modules": {
+    "src/ui/app.point": { "emit": "javascript" }
+  }
+}
+```
+
+`point build-py` remains explicit when you want Python regardless of manifest settings.
+
 ## Single-file build
 
 ```bash
@@ -98,7 +123,7 @@ Compares JS and Python outputs for math, path-demo, std/json, std/crypto, std/ya
 | Views / JSX / layouts | Not emitted |
 | Realtime WebSocket client | JS/TS only |
 | FastAPI | Not required — routes use stdlib `http.server` |
-| `point.json` `"emit": "python"` per module | Planned optional spike — use `build-py` today |
+| `point.json` `"emit": "python"` per module | Project default or per-module override — `point build` emits `.py` when set |
 
 ## See also
 

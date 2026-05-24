@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { emitPointCoreJavaScript } from "../packages/point/src/core/emit-javascript.ts";
 import { emitPointCorePython, isPureLogicProgram } from "../packages/point/src/core/emit-python.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
@@ -223,5 +224,29 @@ calculation double
 
 		const pyResults = await runPythonSmokeTest(pythonPath, pyPath);
 		expect(pyResults).toEqual(jsResults);
+	});
+});
+
+describe("point build emit target from point.json", () => {
+	test("point build emits Python when manifest emit is python", async () => {
+		const tempDir = mkdtempSync(join(tmpdir(), "point-py-build-"));
+		const sourcePath = join(tempDir, "src/math.point");
+		const outputPath = join(tempDir, "generated/math.py");
+		try {
+			mkdirSync(join(tempDir, "src"), { recursive: true });
+			mkdirSync(join(tempDir, "generated"), { recursive: true });
+			writeFileSync(
+				join(tempDir, "point.json"),
+				`${JSON.stringify({ name: "py-demo", version: "0.1.0", emit: "python" }, null, 2)}\n`,
+			);
+			writeFileSync(sourcePath, readFileSync(join(repoRoot, "examples/math.point"), "utf8"));
+			const build = await Bun.$`bun ${join(repoRoot, "packages/point/src/cli.ts")} build ${sourcePath} ${outputPath}`.cwd(tempDir).quiet();
+			expect(build.exitCode).toBe(0);
+			const emitted = readFileSync(outputPath, "utf8");
+			expect(emitted).toContain("def annualPrice");
+			expect(emitted).not.toContain("export function annualPrice");
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
 	});
 });

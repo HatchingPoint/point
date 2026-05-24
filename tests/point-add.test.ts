@@ -12,6 +12,7 @@ import {
 	readPointLock,
 	readPointManifest,
 	resolveDependencySpec,
+	resolveEmitTargetForInput,
 	resolveLockFromManifest,
 	resolveNpmPackagePath,
 } from "../packages/point/src/core/packages.ts";
@@ -144,5 +145,19 @@ describe("point add and lockfile resolution", () => {
 		const first = await ensureNpmPackage(projectDir, "@hatchingpoint/point-logic");
 		const second = await ensureNpmPackage(projectDir, "@hatchingpoint/point-logic");
 		expect(second).toBe(first);
+	});
+
+	test("resolveEmitTargetForInput prefers module override over project default", async () => {
+		const manifest = {
+			name: "demo",
+			version: "0.0.1",
+			emit: "python",
+			modules: {
+				"src/js-only.point": { emit: "javascript" },
+			},
+		};
+		expect(resolveEmitTargetForInput("src/app.point", manifest, projectDir)).toBe("python");
+		expect(resolveEmitTargetForInput("src/js-only.point", manifest, projectDir)).toBe("javascript");
+		expect(resolveEmitTargetForInput("src/app.point", { name: "demo", version: "0.0.1" }, projectDir)).toBe("javascript");
 	});
 });

@@ -1223,6 +1223,15 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
 
+## Checkpoint Phase 29 integrator — point.json emit target spike
+
+- Completed: `point.json` `"emit": "python"` project default and per-module `modules` overrides route `point build` to Python emit (same dependency merge as `build-py`). Documented in `docs/site/toolchain/build-py.md`. Tests in `tests/point-add.test.ts` and `tests/python-emit.test.ts`.
+- Verified: `bun run ci` green (544 pass).
+- Phase 29 exit gate: python_std mirror, std wiring, build-py docs, process-runner path, parity suite (crypto/yaml/http) — all checkpointed P29-1–P29-4 + manifest spike.
+- Next: release integrator (v0.1.21+) when product owner requests tag; Phase 30 SQL productization.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
 ## Checkpoint Phase 28 P28-3 — Agent repair fixture expansion
 
 - Completed: Added 5 Phase 26–27 single-shot fixture pairs — `middleware-input-unavailable`, `middleware-input-type-mismatch`, `pipeline-step-type-mismatch`, `float-money-field`, `missing-variant-case`. Registered in `scripts/agent-repair-sufficiency.ts`. Exported `benchmarks/agent-repair-cases.json` (23 cases: 18 single-shot + 4 repair-plan loops). Updated `docs/site/ai/agent-repair-tests.md` and fixture README.

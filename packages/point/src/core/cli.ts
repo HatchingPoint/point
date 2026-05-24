@@ -15,7 +15,7 @@ import { parsePointSource } from "./parser.ts";
 import { runCheckDocs } from "./check-docs.ts";
 import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
-import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock } from "./packages.ts";
+import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
 import { runPointBuildApp } from "./build-app.ts";
@@ -23,6 +23,7 @@ import { emitPointSqlSchema } from "./emit-sql-schema.ts";
 import { checkSemanticSqlSchema } from "../semantic/check-sql-schema.ts";
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
+import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -90,6 +91,12 @@ export async function main() {
 
 	if (command === "check-docs") {
 		await runCheckDocs();
+		return;
+	}
+
+	if (command === "roadmap-analyze") {
+		const analysis = await analyzePointRoadmap(process.cwd());
+		console.log(formatPointRoadmapAnalysis(analysis).trimEnd());
 		return;
 	}
 
@@ -203,6 +210,27 @@ export async function main() {
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
+		}
+		const emitTarget = await resolveEmitTargetForInputPath(input);
+		if (emitTarget === "python") {
+			const lock = await readPointLock();
+			const coreFile = await loadCoreFile(input, lock);
+			const graph = await createModuleGraphForFile(coreFile, lock);
+			const pyProgram = programWithDependencyDeclarations(coreFile, graph);
+			const pyDiagnostics = checkPointCore(pyProgram);
+			if (pyDiagnostics.length > 0) {
+				console.error(JSON.stringify({ ok: false, diagnostics: pyDiagnostics }, null, 2));
+				process.exit(1);
+			}
+			const defaultPyOutput = pyOutputFor(input);
+			const outputPath = resolve(
+				process.cwd(),
+				output === DEFAULT_OUTPUT || output === DEFAULT_JS_OUTPUT ? defaultPyOutput : output,
+			);
+			await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
+			await Bun.write(outputPath, emitPointCorePython(pyProgram));
+			console.log(`Point core Python build wrote ${outputPath.replaceAll("\\", "/")}`);
+			return;
 		}
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_JS_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();

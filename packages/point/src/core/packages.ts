@@ -1,15 +1,26 @@
 import { createRequire } from "node:module";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { join, relative, resolve, dirname } from "node:path";
+import { findPointProjectRoot } from "./resolve-cli.ts";
 
 export const POINT_MANIFEST = "point.json";
 export const POINT_LOCK = "point.lock";
 export const LOCK_SCHEMA = "point.lock.v1";
 
+export type PointEmitTarget = "javascript" | "python";
+
+export interface PointModuleEmitConfig {
+	emit?: PointEmitTarget;
+	target?: PointEmitTarget;
+}
+
 export interface PointManifest {
 	name: string;
 	version: string;
 	dependencies?: Record<string, string>;
+	emit?: PointEmitTarget;
+	target?: PointEmitTarget;
+	modules?: Record<string, PointModuleEmitConfig>;
 }
 
 export interface PointLock {
@@ -66,6 +77,42 @@ export async function readPointManifest(cwd = process.cwd()): Promise<PointManif
 	const path = join(cwd, POINT_MANIFEST);
 	if (!existsSync(path)) throw new Error(`Missing ${POINT_MANIFEST} in ${cwd}`);
 	return Bun.file(path).json() as Promise<PointManifest>;
+}
+
+export async function tryReadPointManifest(projectRoot: string): Promise<PointManifest | null> {
+	const path = join(projectRoot, POINT_MANIFEST);
+	if (!existsSync(path)) return null;
+	return Bun.file(path).json() as Promise<PointManifest>;
+}
+
+function normalizeManifestEmitTarget(value: string | undefined): PointEmitTarget | null {
+	if (value === "python") return "python";
+	if (value === "javascript" || value === "js") return "javascript";
+	return null;
+}
+
+export function resolveEmitTargetForInput(
+	inputPath: string,
+	manifest: PointManifest | null,
+	projectRoot: string | null,
+	cwd = process.cwd(),
+): PointEmitTarget {
+	if (!manifest || !projectRoot) return "javascript";
+	const normalizedInput = inputPath.replaceAll("\\", "/");
+	const absoluteInput = resolve(cwd, inputPath);
+	const relativeInput = relative(projectRoot, absoluteInput).replaceAll("\\", "/");
+	const moduleConfig = manifest.modules?.[relativeInput] ?? manifest.modules?.[normalizedInput];
+	const moduleTarget = normalizeManifestEmitTarget(moduleConfig?.emit ?? moduleConfig?.target);
+	if (moduleTarget) return moduleTarget;
+	const projectTarget = normalizeManifestEmitTarget(manifest.emit ?? manifest.target);
+	return projectTarget ?? "javascript";
+}
+
+export async function resolveEmitTargetForInputPath(inputPath: string, cwd = process.cwd()): Promise<PointEmitTarget> {
+	const absoluteInput = resolve(cwd, inputPath);
+	const projectRoot = findPointProjectRoot(dirname(absoluteInput));
+	const manifest = projectRoot ? await tryReadPointManifest(projectRoot) : null;
+	return resolveEmitTargetForInput(inputPath, manifest, projectRoot, cwd);
 }
 
 export async function writePointManifest(manifest: PointManifest, cwd = process.cwd()): Promise<void> {
