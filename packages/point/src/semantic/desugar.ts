@@ -724,11 +724,17 @@ function collectViewBindStatements(declaration: PointSemanticViewDeclaration): E
 	});
 }
 
+function isValidSemanticBindTarget(target: PointSemanticExpression): boolean {
+	return target.kind === "property" && target.target.kind === "name";
+}
+
 function buildViewControls(
 	declaration: PointSemanticViewDeclaration,
 	ctx: DesugarContext,
 ): PointSemanticViewControls | undefined {
-	const bindStatements = collectViewBindStatements(declaration);
+	const bindStatements = collectViewBindStatements(declaration).filter((statement) =>
+		isValidSemanticBindTarget(statement.target),
+	);
 	if (bindStatements.length === 0) return undefined;
 
 	const onChangeCall = declaration.body.find(

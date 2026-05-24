@@ -60,14 +60,18 @@ function checkViewDeclaration(
 
 	for (const statement of bindStatements) {
 		if (statement.target.kind !== "property" || statement.target.target.kind !== "name") {
+			const suggestedTarget = suggestBindTarget(declaration, statement);
 			diagnostics.push(
 				viewDiagnostic(
 					"invalid-view-bind-target",
 					`View ${declaration.name} bind target must be input.field`,
 					moduleName,
 					declaration.name,
-					`Use bind field "Label" to record.field or bind checkbox "Label" to record.field.`,
+					suggestedTarget
+						? `Use bind field "${statement.label}" to ${suggestedTarget}.`
+						: `Use bind field "Label" to record.field or bind checkbox "Label" to record.field.`,
 					statement.span,
+					suggestedTarget ? { expected: suggestedTarget } : undefined,
 				),
 			);
 		}
@@ -211,6 +215,15 @@ function resolveStreamMessageType(program: PointSemanticProgram, routeName?: str
 	return undefined;
 }
 
+function suggestBindTarget(
+	declaration: PointSemanticViewDeclaration,
+	statement: Extract<PointSemanticViewStatement, { kind: "bindField" | "bindCheckbox" }>,
+): string | undefined {
+	const recordInput = declaration.inputs.find((input) => input.type.name !== "Handler");
+	if (!recordInput) return undefined;
+	return `${recordInput.label}.${statement.label.toLowerCase()}`;
+}
+
 function viewDiagnostic(
 	code: string,
 	message: string,
@@ -218,6 +231,7 @@ function viewDiagnostic(
 	viewName: string,
 	repair: string,
 	span?: PointSourceSpan,
+	metadata?: Pick<PointCoreDiagnostic, "expected" | "actual" | "relatedRefs">,
 ): PointCoreDiagnostic {
 	return {
 		code,
@@ -227,5 +241,6 @@ function viewDiagnostic(
 		severity: "error",
 		span: span ?? null,
 		repair,
+		...metadata,
 	};
 }

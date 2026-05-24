@@ -1,0 +1,11 @@
+module Settings
+
+record Settings Form
+  workspace name: Text
+
+view settings form
+  input settings: Settings Form
+  input on settings change: Handler Settings Form
+  on change call on settings change
+  form compact
+    bind field "Workspace name" to settings

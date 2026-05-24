@@ -1213,3 +1213,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P28-4 LSP vs check-json parity spot-check.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28 P28-3 — invalid-view-bind-target fixture (completion)
+
+- Completed: Added `invalid-view-bind-target` broken/fixed pair (settings form bound to input record instead of `settings.workspace name`). Enabled parse + check path: `check-views` now emits `expected` bind target on `invalid-view-bind-target`; `desugar` skips invalid bind targets instead of aborting parse. All six Phase 26–27 candidate pairs now registered — middleware-input (unavailable + type mismatch), pipeline-step-type, float-money, missing-variant, invalid-view-bind.
+- Verified: `bun test tests/agent-repair-sufficiency.test.ts` — 24 pass; `bun scripts/export-agent-repair-cases.ts` (24 cases); `bun run ci` green.
+- Example: `tests/fixtures/agent-repair/invalid-view-bind-target-broken.point` — one-line fix appends `.workspace name` to bind target.
+- Next: P28-4 LSP vs check-json parity spot-check.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
