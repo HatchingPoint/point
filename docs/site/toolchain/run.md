@@ -71,7 +71,7 @@ Here line `9` is the failing expression inside the action or calculation body, n
 ### Current limits
 
 - **Calculations, rules, labels, actions, routes, workflows, commands:** statement-level mapping for emitted executable lines inside block bodies.
-- **Views and pages:** mapping stays at declaration level for now. Conditional `when ... render ...` clauses do not yet produce per-expression runtime stacks because views target React/JSX rather than direct execution via `point run`.
+- **Views and pages:** TypeScript emit tags `when … render` branches and load-data guard lines (`when loading render`, `when error render`, `when empty render`) with `// @point <line>`. JavaScript emit tags conditional `when … render` branches in view bodies. Full React/JSX view runtime stacks still depend on host tooling.
 - **Externals and imports:** stack frames may include host module paths before the mapped Point frame is found.
 - **In-memory bundle path:** mapping uses the bundled eval body; line offsets account for the `"use strict"` wrapper.
 - **TypeScript and Python emit:** statement-level tags are JavaScript-only today. `point build-ts` and `point build-py` do not yet emit equivalent maps.

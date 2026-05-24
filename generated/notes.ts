@@ -60,14 +60,14 @@ export function notesListView(): JSX.Element {
     })();
     return () => { cancelled = true; };
   }, []);
-  if (loading) {
-    return <>Loading notes...</>;
+  if (loading) { // @point 33
+    return <>Loading notes...</>; // @point 33
   }
-  if (error) {
-    return <>Could not load notes</>;
+  if (error) { // @point 34
+    return <>Could not load notes</>; // @point 34
   }
-  if (pointIsEmptyData(data)) {
-    return <>No notes yet</>;
+  if (pointIsEmptyData(data)) { // @point 35
+    return <>No notes yet</>; // @point 35
   }
   return (
     <>

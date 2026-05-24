@@ -185,6 +185,9 @@ export interface PointSemanticDataLoad {
 	empty?: PointCoreExpression;
 	emptyClassName?: string;
 	emptyStyle?: string[];
+	loadingSpan?: PointSourceSpan;
+	errorSpan?: PointSourceSpan;
+	emptySpan?: PointSourceSpan;
 }
 
 export interface PointSemanticStreamSubscribe {

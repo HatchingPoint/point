@@ -1,4 +1,5 @@
-import type { PointCoreExpression, PointCoreStatement, PointSemanticDataLoad } from "./ast.ts";
+import type { PointCoreExpression, PointCoreStatement, PointSemanticDataLoad, PointSourceSpan } from "./ast.ts";
+import { tagEmittedLine } from "./source-map.ts";
 import { resolveViewWrapperClassName } from "./ui-style.ts";
 
 function escapeJsxText(value: string): string {
@@ -44,9 +45,14 @@ export function emitViewRenderFragment(expression: PointCoreExpression, classNam
 	return `<div className="${escapeJsxAttribute(wrapperClassName)}">{${emitExpression(expression)}}</div>`;
 }
 
-function emitStateReturn(expression: PointCoreExpression | undefined, className?: string, style?: string[]): string[] | null {
+function emitStateReturn(
+	expression: PointCoreExpression | undefined,
+	className?: string,
+	style?: string[],
+	span?: PointSourceSpan,
+): string[] | null {
 	if (!expression) return null;
-	return [`return ${emitViewRenderFragment(expression, className, style)};`];
+	return [tagEmittedLine(`return ${emitViewRenderFragment(expression, className, style)};`, span)];
 }
 
 export function emitDataLoadHookLines(spec: PointSemanticDataLoad, paramNames: string[]): string[] {
@@ -105,13 +111,17 @@ export function emitDataLoadHookLines(spec: PointSemanticDataLoad, paramNames: s
 
 export function emitDataLoadGuardLines(spec: PointSemanticDataLoad): string[] {
 	const lines: string[] = [];
-	const loadingReturn = emitStateReturn(spec.loading, spec.loadingClassName, spec.loadingStyle);
-	if (loadingReturn) lines.push("if (loading) {", ...indent(loadingReturn), "}");
-	const errorReturn = emitStateReturn(spec.error, spec.errorClassName, spec.errorStyle);
-	if (errorReturn) lines.push("if (error) {", ...indent(errorReturn), "}");
-	const emptyReturn = emitStateReturn(spec.empty, spec.emptyClassName, spec.emptyStyle);
+	const loadingReturn = emitStateReturn(spec.loading, spec.loadingClassName, spec.loadingStyle, spec.loadingSpan);
+	if (loadingReturn) lines.push(tagEmittedLine("if (loading) {", spec.loadingSpan), ...indent(loadingReturn), "}");
+	const errorReturn = emitStateReturn(spec.error, spec.errorClassName, spec.errorStyle, spec.errorSpan);
+	if (errorReturn) lines.push(tagEmittedLine("if (error) {", spec.errorSpan), ...indent(errorReturn), "}");
+	const emptyReturn = emitStateReturn(spec.empty, spec.emptyClassName, spec.emptyStyle, spec.emptySpan);
 	if (emptyReturn) {
-		lines.push(`if (pointIsEmptyData(${spec.bindingName})) {`, ...indent(emptyReturn), "}");
+		lines.push(
+			tagEmittedLine(`if (pointIsEmptyData(${spec.bindingName})) {`, spec.emptySpan),
+			...indent(emptyReturn),
+			"}",
+		);
 	}
 	return lines;
 }

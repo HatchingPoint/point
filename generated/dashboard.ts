@@ -99,14 +99,14 @@ export function itemsListView(): JSX.Element {
     })();
     return () => { cancelled = true; };
   }, []);
-  if (loading) {
-    return <>Loading items...</>;
+  if (loading) { // @point 40
+    return <>Loading items...</>; // @point 40
   }
-  if (error) {
-    return <>Could not load items</>;
+  if (error) { // @point 41
+    return <>Could not load items</>; // @point 41
   }
-  if (pointIsEmptyData(data)) {
-    return <>No items yet</>;
+  if (pointIsEmptyData(data)) { // @point 42
+    return <>No items yet</>; // @point 42
   }
   return (
     <>

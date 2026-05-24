@@ -39,11 +39,11 @@ export function contactSummaryLabel(contact: Contact | null): string {
 }
 
 export function profileBannerView(contact: Contact | null): JSX.Element {
-  if (contact != null) {
-    return <>{contact.email}</>;
+  if (contact != null) { // @point 33
+    return <>{contact.email}</>; // @point 33
   }
-  if (contact == null) {
-    return <>Add a contact email</>;
+  if (contact == null) { // @point 34
+    return <>Add a contact email</>; // @point 34
   }
-  return <>Profile ready</>;
+  return <>Profile ready</>; // @point 35
 }

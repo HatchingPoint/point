@@ -18,6 +18,7 @@ import type {
 	PointSemanticViewModalSpec,
 	PointSemanticViewTabsSpec,
 	PointSemanticDataLoad,
+	PointSourceSpan,
 } from "./ast.ts";
 import type {
 	PointSemanticMiddlewareDeclaration,
@@ -55,6 +56,7 @@ import {
 import { emitPointWorkflowHelpers, emitPointWorkflowTimedStepCall, programHasOrchestrationExtensions } from "./emit-workflow.ts";
 import { emitPointGuardHelpers, programHasGuards, programUsesGuardChecks } from "./emit-guard.ts";
 import { toIdentifier, toPascalCase } from "../semantic/naming.ts";
+import { tagEmittedLine } from "./source-map.ts";
 
 const BINARY_OPERATORS: Record<string, string> = {
 	and: "&&",
@@ -326,6 +328,9 @@ function emitLayoutBody(functionName: string, spec: PointSemanticLayoutSpec, the
 }
 
 function emitViewDataLoadBody(body: PointCoreStatement[]): string[] {
+	if (body.some((statement) => statement.kind === "if")) {
+		return body.flatMap((statement) => emitStatement(statement, "view"));
+	}
 	const content = emitViewContentFromBody(body);
 	return [`return (`, `  <>`, `    {${content}}`, `  </>`, `);`];
 }
@@ -497,15 +502,16 @@ function emitStatement(statement: PointCoreStatement, semanticKind?: string): st
 	}
 	if (statement.kind === "return") {
 		if (semanticKind === "view" && statement.value) {
-			return [`return ${emitViewRenderFragment(statement.value, statement.className, statement.style)};`];
+			return [tagEmittedLine(`return ${emitViewRenderFragment(statement.value, statement.className, statement.style)};`, statementSpan(statement))];
 		}
 		return [statement.value ? `return ${emitExpression(statement.value)};` : "return;"];
 	}
 	if (statement.kind === "value") return [emitValue(statement, false)];
 	if (statement.kind === "assignment") return [`${statement.name} ${statement.operator} ${emitExpression(statement.value)};`];
 	if (statement.kind === "if") {
+		const openLine = `if (${emitCondition(statement.condition)}) {`;
 		const lines = [
-			`if (${emitCondition(statement.condition)}) {`,
+			semanticKind === "view" ? tagEmittedLine(openLine, statement.span) : openLine,
 			...indentLines(statement.thenBody.flatMap((child) => emitStatement(child, semanticKind))),
 			"}",
 		];
@@ -526,6 +532,12 @@ function emitStatement(statement: PointCoreStatement, semanticKind?: string): st
 		];
 	}
 	return [`${emitExpression(statement.value)};`];
+}
+
+function statementSpan(statement: PointCoreStatement): PointSourceSpan | undefined {
+	if (statement.kind === "return") return statement.span ?? statement.value?.span;
+	if (statement.kind === "expression") return statement.span ?? statement.value.span;
+	return statement.span;
 }
 
 function escapeJsxText(value: string): string {

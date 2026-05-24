@@ -2,8 +2,8 @@
 // Point module: Views
 
 export function counterView(count: number): JSX.Element {
-  if (count > 0) {
-    return <div className="point-style-emphasized point-style-large">Counter ready</div>;
+  if (count > 0) { // @point 5
+    return <div className="point-style-emphasized point-style-large">Counter ready</div>; // @point 5
   }
-  return <div className="point-style-muted">Counter empty</div>;
+  return <div className="point-style-muted">Counter empty</div>; // @point 6
 }

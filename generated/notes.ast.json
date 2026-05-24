@@ -714,6 +714,42 @@
                 "offset": 894
               }
             }
+          },
+          "loadingSpan": {
+            "start": {
+              "line": 33,
+              "column": 1,
+              "offset": 776
+            },
+            "end": {
+              "line": 33,
+              "column": 41,
+              "offset": 816
+            }
+          },
+          "errorSpan": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 817
+            },
+            "end": {
+              "line": 34,
+              "column": 43,
+              "offset": 859
+            }
+          },
+          "emptySpan": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 860
+            },
+            "end": {
+              "line": 35,
+              "column": 35,
+              "offset": 894
+            }
           }
         }
       },

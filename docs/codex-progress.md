@@ -1080,3 +1080,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Example: `examples/api/middleware-demo.point` (unchanged, still passes).
 - Next: P27-2 view runtime source maps.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 27 P27-2 — View runtime source maps
+
+- Completed: TypeScript emit tags `when loading/error/empty render` guard lines and view `when … render` branches with `// @point <line>`. JavaScript emit tags conditional view `when … render` if/return lines. Spans flow from semantic parse through `viewDataLoad` metadata.
+- Verified: `tests/view-source-map.test.ts`; `bun run ci` green.
+- Docs: updated `docs/site/toolchain/run.md` limits for views/pages mapping.
+- Next: P27-3 theme toggle API.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

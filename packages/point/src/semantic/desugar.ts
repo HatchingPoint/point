@@ -449,6 +449,9 @@ function buildDataLoad(
 	emptyClassName?: string,
 	emptyStyle?: string[],
 	ctx?: DesugarContext,
+	loadingSpan?: PointSourceSpan,
+	errorSpan?: PointSourceSpan,
+	emptySpan?: PointSourceSpan,
 ): PointSemanticDataLoad | undefined {
 	const outputType = actionOutputs.get(actionName);
 	const actionFunction = callables.get(actionName);
@@ -467,6 +470,9 @@ function buildDataLoad(
 		empty: empty && ctx ? desugarExpression(empty, ctx) : undefined,
 		emptyClassName,
 		emptyStyle,
+		loadingSpan,
+		errorSpan,
+		emptySpan,
 	};
 }
 
@@ -492,6 +498,9 @@ function buildFetchDataLoad(
 	emptyClassName?: string,
 	emptyStyle?: string[],
 	ctx?: DesugarContext,
+	loadingSpan?: PointSourceSpan,
+	errorSpan?: PointSourceSpan,
+	emptySpan?: PointSourceSpan,
 ): PointSemanticDataLoad {
 	return {
 		source: "fetch",
@@ -509,6 +518,9 @@ function buildFetchDataLoad(
 		empty: empty && ctx ? desugarExpression(empty, ctx) : undefined,
 		emptyClassName,
 		emptyStyle,
+		loadingSpan,
+		errorSpan,
+		emptySpan,
 	};
 }
 
@@ -537,6 +549,9 @@ function buildViewDataLoad(
 			empty?.className,
 			empty && "style" in empty ? empty.style : undefined,
 			ctx,
+			loading?.span,
+			error?.span,
+			empty?.span,
 		);
 	}
 	const loadStatement = declaration.body.find(
@@ -558,6 +573,9 @@ function buildViewDataLoad(
 		empty?.className,
 		empty && "style" in empty ? empty.style : undefined,
 		ctx,
+		loading?.span,
+		error?.span,
+		empty?.span,
 	);
 }
 
