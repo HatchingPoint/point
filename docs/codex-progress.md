@@ -1263,6 +1263,15 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 
 - Completed: Added `compiler/passes/diagnostic-catalog.point` — Point-authored catalog of nine agent-ready diagnostic codes (middleware, pipeline, money lint, variants, view binds, unknown-field, missing-await) with suite test `test phase 26 27 agent catalog`. Wired into `tests/point-core.test.ts` and conformance fixture discovery. Updated `compiler/passes/README.md` and `docs/self-hosting.md`.
 - Verified: `point test compiler/passes/diagnostic-catalog.point` — 5/5 pass; `bun test tests/point-core.test.ts -t self-hosted` — 2 pass.
-- Next: Phase 28 integrator — mark exit gate checkboxes, release when Phase 29 also complete.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28/29 integrator — v0.1.21 release
+
+- Reviewed: `docs/phase28-plan.md` and `docs/phase29-plan.md` exit gates — **both complete** (all checkboxes marked `[x]`).
+- Phase 28 shipped: repair-plan ordering, index/explain audit, 6 agent-repair fixture pairs (24 benchmark cases), LSP ↔ check-json parity matrix, `diagnostic-catalog.point` self-host pass.
+- Phase 29 shipped: `python_std/` mirrors, emit-python `use std.*` wiring, build-py docs + process-runner Python path, crypto/yaml/http parity, `point.json` emit target for `point build`.
+- Verified: `bun run ci` green (544 pass); `bun run test:py-parity` green (28 pass).
+- Released: **v0.1.21** — CHANGELOG, version bump, tag pushed.
+- Next: Phase 30 (SQL productization) or expansion loop backlog reprioritization.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

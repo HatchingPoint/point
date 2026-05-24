@@ -38,13 +38,13 @@ Every P28 deliverable must pass [point-principles-gate.md](./point-principles-ga
 
 ## Success criteria (Phase 28 exit gate)
 
-- [ ] **Repair-plan quality** — multi-step cases ordered correctly; `point repair-plan` docs match behavior
-- [ ] **Index/explain parity** — every public diagnostic code has index coverage or documented exception; explain returns useful summary for top 20 codes
-- [ ] **Agent repair expansion** — 5+ new broken/fixed fixture pairs + `benchmarks/agent-repair-cases.json` export
-- [ ] **LSP ↔ CLI parity** — VS Code extension surfaces same `code` + `repair` as `check-json` for new diagnostics (spot-check matrix in tests)
-- [ ] **Self-host increment** — one compiler pass authored or validated in `.point` under `compiler/` (naming, fmt rule, or diagnostic catalog)
-- [ ] General examples + `bun run ci` green
-- [ ] Patch release **v0.1.20+** (integrator with Phase 27 or immediately after)
+- [x] **Repair-plan quality** — multi-step cases ordered correctly; `point repair-plan` docs match behavior
+- [x] **Index/explain parity** — every public diagnostic code has index coverage or documented exception; explain returns useful summary for top 20 codes
+- [x] **Agent repair expansion** — 5+ new broken/fixed fixture pairs + `benchmarks/agent-repair-cases.json` export
+- [x] **LSP ↔ CLI parity** — VS Code extension surfaces same `code` + `repair` as `check-json` for new diagnostics (spot-check matrix in tests)
+- [x] **Self-host increment** — one compiler pass authored or validated in `.point` under `compiler/` (naming, fmt rule, or diagnostic catalog)
+- [x] General examples + `bun run ci` green
+- [x] Patch release **v0.1.20+** (integrator with Phase 27 or immediately after)
 
 ---
 

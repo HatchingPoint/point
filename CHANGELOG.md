@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.21
+
+### Added
+
+- Phase 28: repair-plan ordering (`sortDiagnosticsForRepairPlan`), multistep agent-repair benchmarks, and `docs/site/ai/repair-plan.md`.
+- Phase 28: index/explain audit for Phase 26–27 diagnostic codes (`tests/agent-index-explain.test.ts`).
+- Phase 28: six new agent-repair fixture pairs (middleware inputs, pipeline step I/O, money lint, variant exhaustiveness, invalid view bind) — 24 benchmark cases exported.
+- Phase 28: LSP ↔ `check-json` parity matrix (`tests/agent-lsp-check-json-parity.test.ts`); repair hints in editor diagnostics.
+- Phase 28: self-hosted `compiler/passes/diagnostic-catalog.point` for agent-ready diagnostic codes.
+- Phase 29: `packages/point/python_std/` mirrors for path, process, json, env, yaml, crypto, http, fs, time, text, and related std modules.
+- Phase 29: Python emit rewrites `use std.*` to `point_std.*` imports; `docs/site/toolchain/build-py.md`.
+- Phase 29: `examples/tools/process-runner.point` Python run path; crypto/yaml/http JS/Python parity tests.
+- Phase 29: `point.json` `"emit": "python"` / per-module target selection for `point build`.
+
 ## 0.1.20
 
 ### Added
