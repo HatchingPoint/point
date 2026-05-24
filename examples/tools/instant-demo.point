@@ -1,6 +1,6 @@
 module InstantDemo
 
-use time
+capabilities time
 
 record Event
   name: Text

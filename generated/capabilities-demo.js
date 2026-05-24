@@ -6,13 +6,13 @@ import { httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJ
 import { jsonParse, jsonStringify, parseJsonResult } from "./json";
 
 export function passThroughResult(value) {
-  return value; // @point 10
+  return value; // @point 8
 }
 
 export async function fetchSnapshotResponse(url) {
-  return await httpGetResponse(url); // @point 16
+  return await httpGetResponse(url); // @point 14
 }
 
 export async function parseSnapshotResult(raw) {
-  return await parseJsonResult(raw); // @point 22
+  return await parseJsonResult(raw); // @point 20
 }

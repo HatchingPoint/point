@@ -1,6 +1,6 @@
 module YamlConfigDemo
 
-use yaml
+capabilities yaml
 
 calculation serialized config yaml
   input record: Text

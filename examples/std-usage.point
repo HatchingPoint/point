@@ -1,16 +1,6 @@
 module StdUsage
 
-use text
-
-use json
-
-use http
-
-use time
-
-use fs
-
-use env
+capabilities text json http time fs env
 
 calculation std text example
   input name: Text

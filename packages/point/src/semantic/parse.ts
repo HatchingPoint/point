@@ -1,5 +1,5 @@
 import type { PointSourceSpan } from "../core/ast.ts";
-import { normalizeUseModuleName } from "../core/capabilities.ts";
+import { normalizeUseModuleName, parseCapabilityNamesFromLine, isCapabilitiesLine } from "../core/capabilities.ts";
 import { parseStylePrefix, isPointStyleModifier } from "../core/ui-style.ts";
 import type {
 	PointSemanticActionDeclaration,
@@ -148,6 +148,17 @@ export function parseSemanticSource(source: string, options?: ParseSemanticSourc
 		}
 		if (trimmed.startsWith("use ")) {
 			uses.push(parseUseDeclaration(trimmed, lineNumber));
+			index += 1;
+			continue;
+		}
+		if (trimmed.startsWith("capabilities")) {
+			for (const name of parseCapabilityNamesFromLine(trimmed)) {
+				uses.push({
+					kind: "use",
+					moduleName: normalizeUseModuleName(name),
+					span: lineSpanFromLine(lineNumber, trimmed),
+				});
+			}
 			index += 1;
 			continue;
 		}

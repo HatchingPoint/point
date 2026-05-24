@@ -78,10 +78,14 @@ function resolvePointFileReference(reference: string, markdownPath: string, cwd:
 	return null;
 }
 
+function sourceNeedsDependencyGraph(source: string): boolean {
+	return /^\s*use\s+/m.test(source) || /^\s*capabilities\s+/m.test(source);
+}
+
 async function checkPointFile(source: string, filePath: string, label: string, markdownSource: string): Promise<DocsCheckItemResult> {
 	try {
 		const cwd = process.cwd();
-		if (/^\s*use\s+/m.test(source)) {
+		if (sourceNeedsDependencyGraph(source)) {
 			const lock = await readPointLock(cwd);
 			const coreFile = await loadCoreFile(filePath, lock, cwd);
 			const graph = await createModuleGraphForFile(coreFile, lock, cwd);
@@ -122,7 +126,7 @@ async function checkPointSource(
 	line?: number,
 ): Promise<DocsCheckItemResult> {
 	try {
-		if (/^\s*use\s+/m.test(source)) {
+		if (sourceNeedsDependencyGraph(source)) {
 			const lock = await readPointLock(cwd);
 			const coreFile = buildCoreFileFromSource(`__docs__/${label.replace(/[^\w.-]+/g, "-")}.point`, source, lock, cwd);
 			const graph = await createModuleGraphForFile(coreFile, lock, cwd);

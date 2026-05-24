@@ -45,12 +45,18 @@ describe("built-in capabilities", () => {
 		expect(output).toContain("Point core check passed");
 	});
 
-	test("format preserves capability shorthand on round-trip", () => {
+	test("format groups builtin uses into capabilities line", () => {
 		const source = `module Demo\n\nuse http\n\nuse json\n\ncalculation noop\n  output value: Text\n  return "ok"\n`;
 		const program = parseSemanticSource(source);
-		expect(formatSemanticProgram(program)).toContain("use http");
-		expect(formatSemanticProgram(program)).toContain("use json");
+		expect(formatSemanticProgram(program)).toContain("capabilities http json");
 		expect(formatSemanticProgram(program)).not.toContain("use std.http");
+	});
+
+	test("parseSemanticSource expands capabilities line", () => {
+		const program = parseSemanticSource(
+			`module Demo\n\ncapabilities http json\n\ncalculation noop\n  output value: Text\n  return "ok"\n`,
+		);
+		expect(program.uses.map((use) => use.moduleName)).toEqual(["std.http", "std.json"]);
 	});
 
 	test("point capabilities --json lists catalog", () => {

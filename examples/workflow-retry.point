@@ -1,6 +1,6 @@
 module SignupRetry
 
-use time
+capabilities time
 
 policy can signup
   input email: Text

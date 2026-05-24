@@ -1,8 +1,6 @@
 module CapabilitiesDemo
 
-use http
-
-use json
+capabilities http json
 
 calculation pass through
   input value: Text

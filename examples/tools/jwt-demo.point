@@ -1,8 +1,6 @@
 module JwtDemo
 
-use crypto
-
-use env
+capabilities crypto env
 
 calculation signed demo token
   output token: Text

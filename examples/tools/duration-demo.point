@@ -1,6 +1,6 @@
 module DurationDemo
 
-use time
+capabilities time
 
 record Window
   label: Text

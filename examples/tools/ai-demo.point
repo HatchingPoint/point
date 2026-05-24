@@ -1,6 +1,6 @@
 module AiDemo
 
-use ai
+capabilities ai
 
 policy can call openai
   input prompt: Text

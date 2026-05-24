@@ -10,70 +10,70 @@ import { sha256Hash, hmacSha256, jwtSign, jwtVerify, checkJwtValid, signJwtToken
 
 
 export function demoJwtSecret() {
-  return "demo-jwt-secret"; // @point 22
+  return "demo-jwt-secret"; // @point 20
 }
 
 export function integrationDemoToken() {
-  return signJwtToken("{\"sub\":\"demo-user\"}", demoJwtSecret()); // @point 26
+  return signJwtToken("{\"sub\":\"demo-user\"}", demoJwtSecret()); // @point 24
 }
 
 export function requireAuthMiddleware(headers) {
-  if (jwtAuthOk(headers.authorization, demoJwtSecret()) == false) { // @point 31
-    return "{\"error\":\"unauthorized\"}"; // @point 31
+  if (jwtAuthOk(headers.authorization, demoJwtSecret()) == false) { // @point 29
+    return "{\"error\":\"unauthorized\"}"; // @point 29
   }
-  return null; // @point 32
+  return null; // @point 30
 }
 
 export function getItemRoute(headers, query) {
-  return pointJsonResponse({ item: query.limit, authenticated: true }, 200, {}); // @point 41
+  return pointJsonResponse({ item: query.limit, authenticated: true }, 200, {}); // @point 39
 }
 
 export function createItemRoute(headers, body) {
-  return pointJsonResponse({ item: body.name, authenticated: true }, 201, {}); // @point 50
+  return pointJsonResponse({ item: body.name, authenticated: true }, 201, {}); // @point 48
 }
 
 export function authorizedGetOptions(token) {
-  return (("{\"headers\":{\"authorization\":\"Bearer " + token) + "\"}}"); // @point 55
+  return (("{\"headers\":{\"authorization\":\"Bearer " + token) + "\"}}"); // @point 53
 }
 
 export function createItemOptions(token) {
-  return (("{\"method\":\"POST\",\"headers\":{\"authorization\":\"Bearer " + token) + "\",\"content-type\":\"application/json\"},\"body\":\"{\\\"name\\\":\\\"notebook\\\"}\"}"); // @point 60
+  return (("{\"method\":\"POST\",\"headers\":{\"authorization\":\"Bearer " + token) + "\",\"content-type\":\"application/json\"},\"body\":\"{\\\"name\\\":\\\"notebook\\\"}\"}"); // @point 58
 }
 
 export function assertMissingAuthResponsePassed(snapshot) {
-  return (httpAssertStatusRaw(snapshot, 401) && httpAssertJsonBodyRaw(snapshot, "{\"error\":\"unauthorized\"}")); // @point 65
+  return (httpAssertStatusRaw(snapshot, 401) && httpAssertJsonBodyRaw(snapshot, "{\"error\":\"unauthorized\"}")); // @point 63
 }
 
 export function assertValidGetItemResponsePassed(snapshot) {
-  return (httpAssertStatusRaw(snapshot, 200) && httpAssertJsonBodyRaw(snapshot, "{\"item\":\"book\",\"authenticated\":true}")); // @point 70
+  return (httpAssertStatusRaw(snapshot, 200) && httpAssertJsonBodyRaw(snapshot, "{\"item\":\"book\",\"authenticated\":true}")); // @point 68
 }
 
 export function assertCreateItemResponsePassed(snapshot) {
-  return (httpAssertStatusRaw(snapshot, 201) && httpAssertJsonBodyRaw(snapshot, "{\"item\":\"notebook\",\"authenticated\":true}")); // @point 75
+  return (httpAssertStatusRaw(snapshot, 201) && httpAssertJsonBodyRaw(snapshot, "{\"item\":\"notebook\",\"authenticated\":true}")); // @point 73
 }
 
 export async function fetchMissingAuthSnapshot(baseUrl) {
-  return await httpFetchSnapshot((baseUrl + "/items?limit=book"), "{}"); // @point 81
+  return await httpFetchSnapshot((baseUrl + "/items?limit=book"), "{}"); // @point 79
 }
 
 export async function fetchAuthorizedGetItemSnapshot(baseUrl, token) {
-  return await httpFetchSnapshot((baseUrl + "/items?limit=book"), authorizedGetOptions(token)); // @point 88
+  return await httpFetchSnapshot((baseUrl + "/items?limit=book"), authorizedGetOptions(token)); // @point 86
 }
 
 export async function fetchCreateItemSnapshot(baseUrl, token) {
-  return await httpFetchSnapshot((baseUrl + "/items"), createItemOptions(token)); // @point 95
+  return await httpFetchSnapshot((baseUrl + "/items"), createItemOptions(token)); // @point 93
 }
 
 export async function integrationTestMissingAuthPassed(baseUrl) {
-  return assertMissingAuthResponsePassed(await fetchMissingAuthSnapshot(baseUrl)); // @point 101
+  return assertMissingAuthResponsePassed(await fetchMissingAuthSnapshot(baseUrl)); // @point 99
 }
 
 export async function integrationTestValidGetItemPassed(baseUrl) {
-  return assertValidGetItemResponsePassed(await fetchAuthorizedGetItemSnapshot(baseUrl, integrationDemoToken())); // @point 107
+  return assertValidGetItemResponsePassed(await fetchAuthorizedGetItemSnapshot(baseUrl, integrationDemoToken())); // @point 105
 }
 
 export async function integrationTestCreateItemPassed(baseUrl) {
-  return assertCreateItemResponsePassed(await fetchCreateItemSnapshot(baseUrl, integrationDemoToken())); // @point 113
+  return assertCreateItemResponsePassed(await fetchCreateItemSnapshot(baseUrl, integrationDemoToken())); // @point 111
 }
 
 export async function serveMiddlewareIntegrationCommand() {

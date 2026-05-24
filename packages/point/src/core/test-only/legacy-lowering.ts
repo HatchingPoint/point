@@ -4,6 +4,7 @@ import type { PointCoreProgram, PointCoreStatement } from "../ast.ts";
 import { modulePathFromLock, readPointLockSync } from "../packages.ts";
 import { assertSemanticPointSource, isSemanticPointSyntax } from "../semantic-source.ts";
 import { scanUseDeclarations } from "../../semantic/callables.ts";
+import { isCapabilitiesLine } from "../capabilities.ts";
 import { desugarSemanticProgram } from "../../semantic/desugar.ts";
 import { parseSemanticSourceWithUses } from "../parser.ts";
 import { parsePointCore } from "./core-text-parser.ts";
@@ -112,7 +113,7 @@ function lowerSemanticPointSyntax(source: string, cwd?: string): string {
 			index += 1;
 			continue;
 		}
-		if (trimmed.startsWith("use ")) {
+		if (trimmed.startsWith("use ") || isCapabilitiesLine(trimmed)) {
 			index += 1;
 			continue;
 		}

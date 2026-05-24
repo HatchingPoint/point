@@ -1,8 +1,6 @@
 module MiddlewareIntegration
 
-use http
-
-use crypto
+capabilities http crypto
 
 record Auth Headers
   authorization: Text

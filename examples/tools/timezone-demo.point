@@ -1,6 +1,6 @@
 module TimezoneDemo
 
-use time
+capabilities time
 
 record Meeting
   title: Text

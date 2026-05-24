@@ -68,9 +68,32 @@ export function formatPointCapabilitiesCatalog(catalog: PointCapabilitiesCatalog
 		"",
 		...catalog.capabilities.map((entry) => `  use ${entry.name.padEnd(8)}  ${entry.summary}`),
 		"",
+		`One line:  capabilities http json`,
 		`Shorthand: ${catalog.shorthand}`,
 		`Explicit:  ${catalog.explicit}`,
 		"Local:     use Module from \"./file.point\"",
 	];
 	return lines.join("\n");
+}
+
+const CAPABILITIES_LINE = /^capabilities((?:\s+[a-z][a-z0-9]*)+)$/;
+
+export function parseCapabilityNamesFromLine(line: string): string[] {
+	const trimmed = line.trim();
+	const match = trimmed.match(CAPABILITIES_LINE);
+	if (!match) throw new Error(`Invalid capabilities declaration: ${line}`);
+	return (match[1] ?? "").trim().split(/\s+/);
+}
+
+export function isCapabilitiesLine(line: string): boolean {
+	return CAPABILITIES_LINE.test(line.trim());
+}
+
+export function expandCapabilityNamesToModuleNames(names: string[]): string[] {
+	return names.map((name) => {
+		if (!isBuiltinCapabilityName(name)) {
+			throw new Error(`Unknown capability "${name}". Run: point capabilities`);
+		}
+		return normalizeUseModuleName(name);
+	});
 }

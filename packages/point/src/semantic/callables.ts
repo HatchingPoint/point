@@ -1,4 +1,4 @@
-import { normalizeUseModuleName } from "../core/capabilities.ts";
+import { normalizeUseModuleName, parseCapabilityNamesFromLine, isCapabilitiesLine } from "../core/capabilities.ts";
 import { resolveUseDependencyInputPath } from "../core/module-resolve.ts";
 
 const CALLABLE_KEYWORDS = [
@@ -79,7 +79,14 @@ function collectSemanticCallablesFromSource(source: string): string[] {
 export function scanUseDeclarations(source: string): Array<{ moduleName: string; from?: string }> {
 	const uses: Array<{ moduleName: string; from?: string }> = [];
 	for (const line of source.split(/\r?\n/)) {
-		const match = line.trim().match(USE_DECLARATION);
+		const trimmed = line.trim();
+		if (isCapabilitiesLine(trimmed)) {
+			for (const name of parseCapabilityNamesFromLine(trimmed)) {
+				uses.push({ moduleName: normalizeUseModuleName(name) });
+			}
+			continue;
+		}
+		const match = trimmed.match(USE_DECLARATION);
 		if (!match) continue;
 		const from = match[2];
 		const moduleName = normalizeUseModuleName(match[1] ?? "", from);

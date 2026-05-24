@@ -18,7 +18,7 @@ import type {
 	PointSemanticActionStatement,
 	PointSemanticServerDbStatement,
 } from "./ast.ts";
-import { formatUseModuleNameForSource } from "../core/capabilities.ts";
+import { formatUseModuleNameForSource, isBuiltinCapabilityName } from "../core/capabilities.ts";
 
 function formatStylePrefix(style?: string[], className?: string): string {
 	if (className) return `class "${className}" `;
@@ -29,14 +29,30 @@ function formatStylePrefix(style?: string[], className?: string): string {
 export function formatSemanticProgram(program: PointSemanticProgram): string {
 	const blocks: string[] = [];
 	if (program.module) blocks.push(`module ${program.module}`);
-	for (const use of program.uses) {
-		const moduleName = formatUseModuleNameForSource(use.moduleName);
-		blocks.push(use.from ? `use ${moduleName} from ${JSON.stringify(use.from)}` : `use ${moduleName}`);
-	}
+	blocks.push(...formatUseBlocks(program.uses));
 	for (const declaration of program.declarations) {
 		blocks.push(formatDeclaration(declaration).join("\n"));
 	}
 	return `${blocks.join("\n\n")}\n`;
+}
+
+function formatUseBlocks(uses: PointSemanticProgram["uses"]): string[] {
+	const lines: string[] = [];
+	const capabilityNames: string[] = [];
+	for (const use of uses) {
+		const moduleName = formatUseModuleNameForSource(use.moduleName);
+		if (!use.from && isBuiltinCapabilityName(moduleName)) {
+			capabilityNames.push(moduleName);
+			continue;
+		}
+		if (capabilityNames.length > 0) {
+			lines.push(`capabilities ${capabilityNames.join(" ")}`);
+			capabilityNames.length = 0;
+		}
+		lines.push(use.from ? `use ${moduleName} from ${JSON.stringify(use.from)}` : `use ${moduleName}`);
+	}
+	if (capabilityNames.length > 0) lines.push(`capabilities ${capabilityNames.join(" ")}`);
+	return lines;
 }
 
 function formatDeclaration(declaration: PointSemanticDeclaration): string[] {

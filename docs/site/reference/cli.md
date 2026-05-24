@@ -8,7 +8,7 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point@0.1.28` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.1.31` (see `npm view @hatchingpoint/point version`)
 
 ## Invocation
 
@@ -30,13 +30,16 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `explain` | Explain a ref: `point explain <file> <ref>` | 0 |
 | `repair-plan` | Ordered repair steps from diagnostics | 1 if diagnostics |
 | `capabilities` | List built-in std modules (`use http` shorthand); `--json` for agents | 0 |
+| `commands` | List runnable `command` blocks in a file; `--json` for agents | 0 |
+| `box` | Capabilities + commands for one file in one screen; `--json` for agents | 0 |
 | `print-ast` | Dump core program JSON | 0 |
 | `build` | Emit JavaScript (default `generated/<base>.js`); `--production` for deploy-oriented emit | 1 on diagnostics |
 | `build-ts` | Emit TypeScript (default `generated/<base>.ts`) | 1 on diagnostics |
 | `build-js` | Alias for `build` (same flags) | 1 on diagnostics |
 | `build-py` | Emit Python (logic, actions, routes, workflows, commands where supported) | 1 on diagnostics |
 | `build-py-all` | Emit Python for all discovered files (skips unsupported blocks) | 1 on diagnostics |
-| `run` | Check, run zero-arg entrypoint (in-memory bundle for pure logic; else temp JS) | 1 on check/runtime error |
+| `run` | Check, run zero-arg entrypoint: `point run <file> [command name]` | 1 on check/runtime error |
+| `launch` | Alias for `point run` — requires command name: `point launch <file> <command name>` | 1 on check/runtime error |
 | `dev` | Watch module graph, incremental check/build, restart Bun server or re-run entry; auto-starts Vite when navigation + routes + `web/` exist | 1 on initial check failure |
 | `serve` | Production Path B server: static `dist/` + `/api/*` routes | 1 on check failure or missing `dist/` |
 | `build-app` | Emit JS + TS then run Vite build → `dist/` (requires `web/vite.config.*`) | 1 on check failure or vite error |
@@ -91,12 +94,14 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 
 ## Run and test conventions
 
-- **run:** prefers `command`, then function named `main`, then first zero-argument function
+- **run:** `point run <file> [command name]` — when omitted, picks default `command` (non-serve first), then `main`, then first zero-arg function
+- **launch:** same as run but command name is required
+- **commands / box:** discover entrypoints before running
 - **test:** zero-input `calculation` or `action` whose semantic name starts with `test` and returns `Bool`
 
 ## Agent-facing commands
 
-Prefer `check-json`, `index`, `explain`, `repair-plan`, and `capabilities` for automation. See [AI overview](/point/ai/overview).
+Prefer `check-json`, `index`, `explain`, `repair-plan`, `capabilities`, `commands`, and `box` for automation. See [AI overview](/point/ai/overview).
 
 ## Build flags
 

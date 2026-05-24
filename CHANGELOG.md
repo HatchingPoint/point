@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.31
+
+### Added
+
+- Phase 39: **`capabilities http json`** — one-line import sugar for built-in std modules (parse, format, scan).
+- Phase 39: **`point commands`** — catalog of runnable `command` blocks with copy-paste run lines.
+- Phase 39: **`point launch`** — alias for `point run` with required command name.
+- Phase 39: **`point box`** — capabilities + commands for one file in one screen (`--json` for agents).
+- Phase 39: **`point run <file> <command name>`** — run a named command entrypoint.
+- Phase 39: **In-the-box guide** — `docs/site/language/in-the-box.md`.
+
 ## 0.1.30
 
 ### Added

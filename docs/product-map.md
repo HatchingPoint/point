@@ -20,15 +20,13 @@ Point is a **general-purpose, AI-first language** for product logic — semantic
 
 ## Built-in capabilities (std shorthand)
 
-Authors import batteries with straight syntax:
+Authors import batteries with one line or one word:
 
 ```point
-use http
-use json
-use time
+capabilities http json time
 ```
 
-Same as `use std.http`. Run `point capabilities` for the full catalog (14 modules).
+Same as separate `use http` lines. Run `point capabilities` for the full catalog (14 modules). Run `point box <file>` for capabilities + commands together.
 
 Expand with:
 
@@ -59,9 +57,9 @@ index → explain point://… → check-json → repair-plan → patch → check
 |-------|----------|
 | Quality | `check`, `check-all`, `check-json`, `fmt`, `fmt-check` |
 | Emit | `build`, `build-ts`, `build-py`, `build-schema`, `build-ast` |
-| Run | `run`, `test`, `test integration`, `repl` |
+| Run | `run`, `launch`, `test`, `test integration`, `repl` |
 | App | `create`, `init`, `dev`, `serve`, `build-app` |
-| Discover | `capabilities`, `index`, `explain`, `repair-plan` |
+| Discover | `capabilities`, `commands`, `box`, `index`, `explain`, `repair-plan` |
 | Ecosystem | `add` |
 | Editor | `lsp` |
 
@@ -72,4 +70,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.28** — Phase 36 packaging + capabilities shorthand.
+Update this line each release: **v0.1.31** — Phase 39 in-the-box launch syntax.

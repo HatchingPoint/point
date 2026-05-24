@@ -14,29 +14,29 @@ import { readFileRaw, writeFileRaw, readFileContents } from "./fs";
 import { envGetRaw, getEnvVarValue } from "./env";
 
 export function stdTextExampleMessage(name) {
-  return concatTextValue("Hello ", name); // @point 18
+  return concatTextValue("Hello ", name); // @point 8
 }
 
 export async function stdJsonExampleResult(value) {
-  return await parseJsonResult(value); // @point 24
+  return await parseJsonResult(value); // @point 14
 }
 
 export async function stdHttpExampleResponse(url) {
-  return await httpGetResponse(url); // @point 30
+  return await httpGetResponse(url); // @point 20
 }
 
 export async function stdTimeExampleValue() {
-  return instantNowValue(); // @point 35
+  return instantNowValue(); // @point 25
 }
 
 export async function stdTimeTextExampleValue() {
-  return await currentTimeValue(); // @point 40
+  return await currentTimeValue(); // @point 30
 }
 
 export async function stdFsExampleContents(path) {
-  return await readFileContents(path); // @point 46
+  return await readFileContents(path); // @point 36
 }
 
 export async function stdEnvExampleValue(name) {
-  return await getEnvVarValue(name); // @point 52
+  return await getEnvVarValue(name); // @point 42
 }

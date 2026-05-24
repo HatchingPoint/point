@@ -49,19 +49,18 @@ Full reference: [docs site](docs/site/guide/introduction.md) · Internal map: [p
 
 ## Built-in capabilities
 
-Import std modules with straight syntax:
+Import std modules with one line or one word:
 
 ```point
-use http
-use json
-use time
+capabilities http json time
 ```
 
-Same as `use std.http`. List all built-ins:
+Same as separate `use http` / `use json` / `use time`. List all built-ins:
 
 ```bash
 point capabilities
 point capabilities --json
+point box src/app.point    # capabilities + commands together
 ```
 
 Local modules stay explicit: `use Billing from "./billing.point"`. Add packages with `point add`.
@@ -83,8 +82,9 @@ Also: `npm install -g @hatchingpoint/point`. Optional: [Point Language](https://
 |-------|----------|
 | **Quality** | `check`, `check-json`, `fmt` |
 | **Emit** | `build`, `build-ts`, `build-py`, `build-schema` |
-| **Run** | `run`, `test`, `dev`, `serve` |
-| **Agent** | `index`, `explain`, `repair-plan`, `capabilities` |
+| **Run** | `run`, `launch`, `commands`, `box`, `test`, `dev`, `serve` |
+| **Discover** | `capabilities`, `commands`, `box` |
+| **Agent** | `index`, `explain`, `repair-plan` |
 | **Scaffold** | `create`, `init`, `add` |
 
 ## AI-native toolchain

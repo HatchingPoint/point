@@ -1,6 +1,6 @@
 module PathDemo
 
-use path
+capabilities path
 
 calculation config file path
   input app root: Text

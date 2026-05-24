@@ -4,21 +4,21 @@
 import { sha256Hash, hmacSha256, jwtSign, jwtVerify, checkJwtValid, digestSha256Digest, digestHmacSha256Digest, signJwtToken, verifyJwtPayload, jwtAuthOk } from "./crypto";
 
 export function signedDemoToken() {
-  return signJwtToken("{\"sub\":\"demo-user\",\"role\":\"reader\"}", "demo-jwt-secret"); // @point 9
+  return signJwtToken("{\"sub\":\"demo-user\",\"role\":\"reader\"}", "demo-jwt-secret"); // @point 7
 }
 
 export function verifySignedTokenPayload(token) {
-  return verifyJwtPayload(token, "demo-jwt-secret"); // @point 14
+  return verifyJwtPayload(token, "demo-jwt-secret"); // @point 12
 }
 
 export function demoTokenValid(token) {
-  return jwtAuthOk(token, "demo-jwt-secret"); // @point 19
+  return jwtAuthOk(token, "demo-jwt-secret"); // @point 17
 }
 
 export function digestDemoDigest(value) {
-  return digestSha256Digest(value); // @point 24
+  return digestSha256Digest(value); // @point 22
 }
 
 export function hmacDemoDigest(value, secret) {
-  return digestHmacSha256Digest(value, secret); // @point 30
+  return digestHmacSha256Digest(value, secret); // @point 28
 }

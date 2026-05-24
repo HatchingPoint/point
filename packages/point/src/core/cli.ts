@@ -18,7 +18,7 @@ import { runCheckDocs } from "./check-docs.ts";
 import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
-import { normalizeUseModuleName } from "./capabilities.ts";
+import { isCapabilitiesLine, normalizeUseModuleName, parseCapabilityNamesFromLine } from "./capabilities.ts";
 import { dedupeCoreDeclarationsByName, filteredImportNamesForDependency, filteredPublicCoreDeclarations } from "./use-merge.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
@@ -28,7 +28,21 @@ import { checkSemanticSqlSchema, mergeSemanticProgramsForSchema } from "../seman
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
-import { formatPointCapabilitiesCatalog, listPointCapabilities } from "./capabilities.ts";
+import {
+	isCapabilitiesLine,
+	normalizeUseModuleName,
+	parseCapabilityNamesFromLine,
+	formatPointCapabilitiesCatalog,
+	listPointCapabilities,
+} from "./capabilities.ts";
+import {
+	availableCommandNames,
+	findRunEntryName,
+	formatPointCommandsCatalog,
+	listPointCommandsCatalog,
+	listPointCommandsFromProgram,
+	listPointCommandsFromSource,
+} from "./commands.ts";
 
 const DEFAULT_INPUT = "examples/math.point";
 const DEFAULT_OUTPUT = "generated/math.ast.json";
@@ -45,6 +59,7 @@ export async function main() {
 	let input = tail[0] ?? DEFAULT_INPUT;
 	let output = tail[1] ?? DEFAULT_OUTPUT;
 	let runFlags: Record<string, boolean | undefined> | undefined;
+	let runCommandName: string | undefined;
 	let buildProduction = false;
 	let schemaFlags: ReturnType<typeof parseBuildSchemaCliFlags> | undefined;
 	if (command === "build-schema") {
@@ -52,11 +67,15 @@ export async function main() {
 		input = schemaFlags.positional[0] ?? DEFAULT_INPUT;
 		output = schemaFlags.positional[1] ?? DEFAULT_SCHEMA_OUTPUT;
 	}
-	if (command === "run") {
-		const parsed = parseCliFlags(tail);
+	if (command === "run" || command === "launch") {
+		const parsed = parseRunArgs(tail);
 		runFlags = parsed.flags;
-		input = parsed.positional[0] ?? DEFAULT_INPUT;
-		output = parsed.positional[1] ?? DEFAULT_OUTPUT;
+		input = parsed.input;
+		runCommandName = parsed.commandName;
+		if (command === "launch" && !runCommandName) {
+			console.error("Usage: point launch <file> <command name>");
+			process.exit(1);
+		}
 	}
 	if (command === "build" || command === "build-js") {
 		const parsed = parseBuildCliFlags(tail);
@@ -118,6 +137,49 @@ export async function main() {
 			console.log(JSON.stringify(catalog, null, 2));
 		} else {
 			console.log(formatPointCapabilitiesCatalog(catalog));
+		}
+		return;
+	}
+
+	if (command === "commands") {
+		const json = tail.includes("--json");
+		const inputPath = tail.find((arg) => !arg.startsWith("--")) ?? DEFAULT_INPUT;
+		const source = await Bun.file(resolve(process.cwd(), inputPath)).text();
+		const program = parsePointSource(source, { cwd: process.cwd(), input: inputPath });
+		const entries = program.semanticSource
+			? listPointCommandsFromProgram(program.semanticSource, inputPath)
+			: listPointCommandsFromSource(source, inputPath, program.module);
+		const catalog = listPointCommandsCatalog(entries);
+		if (json) {
+			console.log(JSON.stringify(catalog, null, 2));
+		} else {
+			console.log(formatPointCommandsCatalog(catalog));
+		}
+		return;
+	}
+
+	if (command === "box") {
+		const json = tail.includes("--json");
+		const caps = listPointCapabilities();
+		const inputPath = tail.find((arg) => !arg.startsWith("--")) ?? DEFAULT_INPUT;
+		const source = await Bun.file(resolve(process.cwd(), inputPath)).text();
+		const program = parsePointSource(source, { cwd: process.cwd(), input: inputPath });
+		const commands = program.semanticSource
+			? listPointCommandsFromProgram(program.semanticSource, inputPath)
+			: listPointCommandsFromSource(source, inputPath, program.module);
+		const payload = {
+			capabilities: caps,
+			commands: listPointCommandsCatalog(commands),
+			run: "point run <file> <command name>",
+			launch: "point launch <file> <command name>",
+			import: "capabilities http json",
+		};
+		if (json) {
+			console.log(JSON.stringify(payload, null, 2));
+		} else {
+			console.log(formatPointCapabilitiesCatalog(caps));
+			console.log("");
+			console.log(formatPointCommandsCatalog(listPointCommandsCatalog(commands)));
 		}
 		return;
 	}
@@ -354,7 +416,7 @@ export async function main() {
 		return;
 	}
 
-	if (command === "run") {
+	if (command === "run" || command === "launch") {
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
@@ -364,8 +426,16 @@ export async function main() {
 		let runOutput: string | undefined;
 		let useBundle = false;
 		try {
-			entryName = findRunEntryName(program);
-			if (!entryName) throw new Error("No zero-argument entrypoint found. Define an action or calculation with no inputs.");
+			entryName = findRunEntryName(program, runCommandName);
+			if (!entryName) {
+				const available = availableCommandNames(program);
+				if (runCommandName) {
+					throw new Error(
+						`Unknown command "${runCommandName}".${available.length > 0 ? ` Available: ${available.join(", ")}` : ""} Run: point commands ${input}`,
+					);
+				}
+				throw new Error("No zero-argument entrypoint found. Define a command block or run: point commands <file>");
+			}
 			useBundle = runFlags?.bundle === true || (runFlags?.bundle !== false && canBundleRunInMemory(program));
 			if (runFlags?.bundle === true && !canBundleRunInMemory(program)) {
 				throw new Error("Cannot use --bundle: module has imports, externals, or non-pure logic (views, routes, workflows, commands).");
@@ -647,6 +717,17 @@ async function executeTempModuleRun(
 	return await entry();
 }
 
+function parseRunArgs(args: string[]): {
+	flags: Record<string, boolean | undefined>;
+	input: string;
+	commandName?: string;
+} {
+	const { flags, positional } = parseCliFlags(args);
+	const input = positional[0] ?? DEFAULT_INPUT;
+	if (positional.length <= 1) return { flags, input };
+	return { flags, input, commandName: positional.slice(1).join(" ") };
+}
+
 function parseCliFlags(args: string[]): { flags: Record<string, boolean | undefined>; positional: string[] } {
 	const flags: Record<string, boolean | undefined> = {};
 	const positional: string[] = [];
@@ -751,19 +832,7 @@ function toMigrationLabel(moduleName: string): string {
 		.concat("_init");
 }
 
-export function findRunEntryName(program: PointCoreProgram): string | null {
-	const zeroArgFunctions = program.declarations.filter((declaration) => declaration.kind === "function" && declaration.params.length === 0);
-	const isServeCommand = (declaration: (typeof zeroArgFunctions)[number]) => {
-		const name = declaration.semantic?.name ?? "";
-		return declaration.semantic?.kind === "command" && name.toLowerCase().startsWith("serve ");
-	};
-	const preferred =
-		zeroArgFunctions.find((declaration) => declaration.semantic?.kind === "command" && !isServeCommand(declaration)) ??
-		zeroArgFunctions.find((declaration) => declaration.semantic?.kind === "command") ??
-		zeroArgFunctions.find((declaration) => declaration.name === "main") ??
-		zeroArgFunctions[0];
-	return preferred?.name ?? null;
-}
+export { findRunEntryName } from "./commands.ts";
 
 export function buildCoreFileFromSource(
 	input: string,
@@ -789,16 +858,24 @@ interface UseDeclaration {
 }
 
 function parseUseDeclarations(source: string, input: string, lock: Awaited<ReturnType<typeof readPointLock>>): UseDeclaration[] {
-	return source
-		.split(/\r?\n/)
-		.map((line) => line.trim().match(/^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/))
-		.filter((match): match is RegExpMatchArray => Boolean(match))
-		.map((match) => {
-			const rawName = match[1]!;
-			const from = match[2];
-			const moduleName = normalizeUseModuleName(rawName, from);
-			return { moduleName, from: from ?? modulePathFromLock(lock, moduleName), input };
-		});
+	const uses: UseDeclaration[] = [];
+	for (const line of source.split(/\r?\n/)) {
+		const trimmed = line.trim();
+		if (isCapabilitiesLine(trimmed)) {
+			for (const name of parseCapabilityNamesFromLine(trimmed)) {
+				const moduleName = normalizeUseModuleName(name);
+				uses.push({ moduleName, from: modulePathFromLock(lock, moduleName), input });
+			}
+			continue;
+		}
+		const match = trimmed.match(/^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/);
+		if (!match) continue;
+		const rawName = match[1]!;
+		const from = match[2];
+		const moduleName = normalizeUseModuleName(rawName, from);
+		uses.push({ moduleName, from: from ?? modulePathFromLock(lock, moduleName), input });
+	}
+	return uses;
 }
 
 function createModuleGraph(results: CoreFile[], lock: Awaited<ReturnType<typeof readPointLock>>): ModuleGraph {

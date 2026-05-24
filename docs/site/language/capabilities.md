@@ -20,7 +20,8 @@ Each shorthand resolves to `use std.<name>`. Run `point capabilities` to list th
 
 | Form | Meaning |
 |------|---------|
-| `use http` | Built-in HTTP capability (`std/http.point`) |
+| `capabilities http json` | One-line import for multiple built-ins |
+| `use http` | Single built-in HTTP capability (`std/http.point`) |
 | `use std.http` | Explicit std import (same module) |
 | `use Billing from "./billing.point"` | Local file import |
 
@@ -86,4 +87,4 @@ See `examples/capabilities-demo.point` in the repository.
 
 - [Modules](/point/language/modules)
 - [Stdlib overview](/point/stdlib/overview)
-- [CLI reference](/point/reference/cli)
+- [In the box](/point/language/in-the-box)
