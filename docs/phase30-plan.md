@@ -1,6 +1,6 @@
 # Phase 30 — Record → SQL productization
 
-**Status:** Active — Phase 30 execution complete (integrator release pending)  
+**Status:** Complete — shipped in **v0.1.22**  
 **Prerequisite:** Phase 27 complete (P27-4 `build-schema` spike shipped in v0.1.20); Phases 28/29 may still be active — run **after** 28/29 exit gates or in a dedicated chat with file ownership respected  
 **North star:** Authors define data with `record` blocks; `point build-schema` emits **production-ready DDL and migrations** — not a one-off spike with JSON blobs for every nested shape.
 
@@ -56,7 +56,7 @@ Same as [point-principles-gate.md](./point-principles-gate.md):
 - [x] **Migration files** — `--migrations <dir>` writes numbered SQL; idempotent re-run documented
 - [x] **Multi-module schema** — build-schema over a module directory merges records from dependency graph
 - [x] **General example** — notes or ecommerce module demonstrates full schema + `std.sql` action path in docs
-- [ ] `bun run ci` passes; patch release **v0.1.22+** (integrator after 28/29)
+- [x] `bun run ci` passes; patch release **v0.1.22+** (integrator after 28/29)
 
 ---
 

@@ -2,6 +2,12 @@
 
 ## 0.1.22
 
+### Added
+
+- Phase 30: `point build-schema` productization — nested record FK columns (`author_id REFERENCES user(id)`), `Maybe<T>` nullable columns, `Instant` → TIMESTAMP mapping.
+- Phase 30: `--dialect postgres|sqlite`, `--migrations <dir>`, multi-module schema aggregation, `record-sql-fk-ambiguous` / `record-sql-duplicate-table` diagnostics.
+- Phase 30: `examples/data/schema-demo.point` and `docs/site/toolchain/build-schema.md`.
+
 ### Fixed
 
 - Ship `roadmap-analyze.ts` on the CLI module graph so `point fmt-check-all` and CI pass on clean checkout (`point roadmap-analyze`).

@@ -1293,3 +1293,13 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: Phase 30 integrator — v0.1.22 release.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 30 integrator — v0.1.22 release
+
+- Reviewed: `docs/phase30-plan.md` exit gate — **complete** (all checkboxes `[x]`).
+- Shipped: FK mapping, Maybe/Instant columns, postgres/sqlite dialects, migration output, multi-module aggregation, schema-demo example, build-schema docs.
+- Verified: `bun run ci` green (551 pass); tag **v0.1.22** already on origin (includes Phase 30 + roadmap-analyze CI fix).
+- Updated: CHANGELOG 0.1.22 entry with Phase 30 highlights.
+- Next: Phase 31 (typed domain errors) or expansion loop backlog.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
