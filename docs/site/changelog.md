@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.37**
+Current release: **0.1.38**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.38** | Phase 46: SQL-backed saas members, build inlining, saas e2e integration test. |
 | **0.1.37** | Phase 45: SaaS action wiring, auth-bearer repair case, saas integration test, pilot quickstart. |
 | **0.1.36** | Phase 44: saas-app template, onboarding smoke CI, std module resolution fix. |
 | **0.1.35** | Phase 43: std/auth capability, point demo, LSP repair enrichment, repair alias. |

@@ -23,6 +23,7 @@ bun run dev
 
 - [ ] UI loads at http://localhost:5173
 - [ ] API health at http://localhost:3456/api/health
+- [ ] `GET /api/members` returns seeded SQL members after `init:db` (default saas path — no `sample members()` swap)
 - [ ] `point launch src/app.point admin demo` prints success
 
 ## Day 2–3 — Customize
@@ -33,10 +34,10 @@ bun run dev
 
 ## Day 4–5 — Ship something
 
-Pick one:
+The **default saas-app path** already uses a real DB query — members load from SQLite after `init:db`. Pick one customization:
 
-- [ ] Add a real DB query (replace `sample members()`)
-- [ ] Add a protected API route with auth middleware
+- [ ] Extend the members model (new fields, filters, or a second table)
+- [ ] Add login UI and pass Bearer tokens to the protected `POST /api/members` route
 - [ ] Deploy to Render/Fly using bundled `render.yaml`
 
 ## Record back

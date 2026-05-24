@@ -2,9 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { mkdtemp, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { cryptoJwtSign } from "@hatchingpoint/point/std/crypto";
-import { createModuleGraphForFile, jsOutputFor, loadCoreFile, programWithDependencyDeclarations } from "../packages/point/src/core/cli.ts";
-import { emitPointCoreJavaScript } from "../packages/point/src/core/emit-javascript.ts";
-import { readPointLock } from "../packages/point/src/core/packages.ts";
+import { sqlQueryRaw, sqlJsonRowsList } from "@hatchingpoint/point/std/sql";
 
 const repoRoot = join(import.meta.dir, "..");
 const pointCli = join(repoRoot, "packages/point/src/cli.ts");
@@ -21,21 +19,24 @@ describe("saas-app HTTP service", () => {
 	let server: ReturnType<typeof Bun.serve> | null = null;
 	let baseUrl = "";
 	let outputRoot = "";
+	let dbPath = "";
+	const previousDatabaseUrl = process.env.DATABASE_URL;
 
 	beforeAll(async () => {
-		await Bun.$`bun ${pointCli} check ${source}`.cwd(repoRoot).quiet();
-		const lock = await readPointLock(repoRoot);
-		const coreFile = await loadCoreFile(source, lock, repoRoot);
-		const graph = await createModuleGraphForFile(coreFile, lock, repoRoot);
-		const program = programWithDependencyDeclarations(coreFile, graph, repoRoot);
 		outputRoot = await mkdtemp(resolve(repoRoot, "tests/tmp/saas-integration-"));
-		const jsOutput = resolve(outputRoot, jsOutputFor(source).split("/").pop()!);
-		await Bun.write(jsOutput, emitPointCoreJavaScript(program));
-		const generatedSource = await Bun.file(jsOutput).text();
+		dbPath = join(outputRoot, "members.db");
+		process.env.DATABASE_URL = `sqlite:${dbPath}`;
+
+		await Bun.$`bun ${pointCli} check ${source}`.cwd(repoRoot).quiet();
+		const buildOut = join(outputRoot, "saas-app.js");
+		await Bun.$`bun ${pointCli} build ${source} ${buildOut}`.cwd(repoRoot).quiet();
+		const generatedSource = await Bun.file(buildOut).text();
 		expect(generatedSource).toContain("createPointRouteFetchHandler");
 		expect(generatedSource).toContain("requireAuthMiddleware");
 		expect(generatedSource).not.toContain('from "./auth"');
-		const module = await import(pathToFileUrl(jsOutput));
+
+		const module = await import(pathToFileUrl(buildOut));
+		await module.initDatabaseCommand();
 		server = module.startRoutesServer();
 		baseUrl = `http://localhost:${server.port}`;
 	});
@@ -43,6 +44,17 @@ describe("saas-app HTTP service", () => {
 	afterAll(async () => {
 		server?.stop(true);
 		if (outputRoot) await rm(outputRoot, { recursive: true, force: true });
+		if (previousDatabaseUrl === undefined) delete process.env.DATABASE_URL;
+		else process.env.DATABASE_URL = previousDatabaseUrl;
+	});
+
+	test("sqlJsonRowsList decodes sqlQueryRaw member rows", () => {
+		process.env.DATABASE_URL = `sqlite:${dbPath}`;
+		const raw = sqlQueryRaw("SELECT id, name, role FROM members ORDER BY name", []);
+		expect(typeof raw).toBe("string");
+		const rows = sqlJsonRowsList(raw);
+		expect(Array.isArray(rows)).toBe(true);
+		expect((rows as Array<{ name: string }>).some((row) => row.name === "Alex Chen")).toBe(true);
 	});
 
 	test("GET /api/health returns ok", async () => {
@@ -51,12 +63,15 @@ describe("saas-app HTTP service", () => {
 		expect(await response.text()).toBe("ok");
 	});
 
-	test("GET /api/members returns seeded members", async () => {
+	test("GET /api/members returns DB-seeded members", async () => {
 		const response = await fetch(`${baseUrl}/api/members`);
 		expect(response.status).toBe(200);
-		const body = (await response.json()) as { members: Array<{ name: string }> };
-		expect(body.members.length).toBeGreaterThan(0);
-		expect(body.members.some((member) => member.name === "Alex Chen")).toBe(true);
+		const body = (await response.json()) as { members: Array<{ id: string; name: string; role: string }> };
+		expect(body.members).toEqual([
+			{ id: "u-1", name: "Alex Chen", role: "Owner" },
+			{ id: "u-2", name: "Jordan Lee", role: "Admin" },
+			{ id: "u-3", name: "Sam Rivera", role: "Member" },
+		]);
 	});
 
 	test("POST /api/members rejects missing auth via middleware", async () => {

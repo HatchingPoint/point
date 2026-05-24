@@ -367,7 +367,7 @@ export async function main() {
 			return;
 		}
 		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
-		const emitProgram = graph ? programWithTypeScriptImports(coreFile, graph) : program;
+		const emitProgram = graph ? programWithDependencyDeclarations(coreFile, graph) : program;
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_JS_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 		await Bun.write(outputPath, emitPointCoreJavaScript(emitProgram, { production: buildProduction }));

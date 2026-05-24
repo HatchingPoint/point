@@ -25,7 +25,7 @@ import {
 } from "@hatchingpoint/point/std/stream";
 import { textContains, textLength, textSplit, textTrim } from "@hatchingpoint/point/std/text";
 import { yamlParse, yamlStringify } from "@hatchingpoint/point/std/yaml";
-import { sqlQueryRaw } from "@hatchingpoint/point/std/sql";
+import { sqlJsonRowsList, sqlQueryRaw } from "@hatchingpoint/point/std/sql";
 
 describe("@hatchingpoint/point std runtime shims", () => {
 	test("jsonParse and jsonStringify round-trip JSON text", () => {
@@ -240,5 +240,12 @@ describe("@hatchingpoint/point std runtime shims", () => {
 				process.env.POINT_SQL_DATABASE = previous;
 			}
 		}
+	});
+
+	test("sqlJsonRowsList decodes JSON row arrays from sqlQueryRaw", () => {
+		const rows = sqlJsonRowsList('[{"id":"u-1","name":"Alex Chen","role":"Owner"}]');
+		expect(rows).toEqual([{ id: "u-1", name: "Alex Chen", role: "Owner" }]);
+		expect(sqlJsonRowsList({ message: "bad query" })).toEqual({ message: "bad query" });
+		expect(sqlJsonRowsList("{}")).toEqual({ message: "SQL rows JSON must be an array" });
 	});
 });

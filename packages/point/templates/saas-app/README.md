@@ -47,9 +47,9 @@ point launch src/app.point init database
 
 ## Next steps
 
-1. Replace `sample members()` in `GET /api/members` with a SQL-backed calculation when you add JSON parsing
-2. Add login UI and pass Bearer tokens to protected routes
-3. Swap SQLite for PostgreSQL — see [Database interop](https://hatchingpoint.com/point/ecosystem/database-interop)
+1. Add login UI and pass Bearer tokens to protected routes
+2. Swap SQLite for PostgreSQL — see [Database interop](https://hatchingpoint.com/point/ecosystem/database-interop)
+3. Extend `POST /api/members` to insert into the members table
 
 ## Deploy (Render)
 

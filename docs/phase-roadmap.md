@@ -4,12 +4,14 @@
 
 ## Active execution
 
-**Phase 45** — SaaS depth + repair gate (adoption burst). Plan: [phase45-plan.md](./phase45-plan.md).
+**Phase 46** — Real SaaS path (default SQL + deploy-ready build). Plan: [phase46-plan.md](./phase46-plan.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **46** | v0.1.38 | SQL-backed saas members, build inlining, saas e2e integration |
+| **45** | v0.1.37 | SQL action wiring, auth-bearer repair gate, saas integration test, pilot quickstart |
 | **44** | v0.1.36 | saas-app template, onboarding smoke CI, std module resolution, external pilot checklist |
 | **43** | v0.1.35 | std/auth capability, point demo, LSP repair enrichment, repair alias |
 | **42** | v0.1.34 | Application logic terminology, Point-native voice, frontend vs capabilities |

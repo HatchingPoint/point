@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.38
+
+### Added
+
+- Phase 46: **`sqlJsonRowsList`** — decode SQL JSON row text into runtime arrays for typed `List<Record>` externals.
+- Phase 46: **SQL-backed saas-app members** — `fetch members` reads seeded SQLite rows (no `sample members()`).
+- Phase 46: **SaaS build + integration tests** — `point build` inlines capabilities; init db → serve → GET members e2e.
+
+### Fixed
+
+- Phase 46: **`point build` / `build-js`** — emits self-contained JS for `capabilities` modules (no broken `./auth` imports).
+
 ## 0.1.37
 
 ### Added

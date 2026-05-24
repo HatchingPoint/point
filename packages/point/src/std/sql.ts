@@ -55,3 +55,19 @@ export function sqlQueryRaw(sql: string, params: string[]): string | PointStdErr
 		return { message: error instanceof Error ? error.message : String(error) };
 	}
 }
+
+/** Decode JSON row text from sqlQueryRaw into a runtime array (for typed List<Record> externals). */
+export function sqlJsonRowsList(raw: string | PointStdError): unknown[] | PointStdError {
+	if (typeof raw === "object" && raw !== null && "message" in raw) {
+		return raw;
+	}
+	try {
+		const parsed: unknown = JSON.parse(raw);
+		if (!Array.isArray(parsed)) {
+			return { message: "SQL rows JSON must be an array" };
+		}
+		return parsed;
+	} catch (error) {
+		return { message: error instanceof Error ? error.message : String(error) };
+	}
+}
