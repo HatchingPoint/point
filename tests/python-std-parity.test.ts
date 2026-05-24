@@ -5,8 +5,17 @@ import { tmpdir } from "node:os";
 import { emitPointCorePython } from "../packages/point/src/core/emit-python.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { envGet } from "@hatchingpoint/point/std/env";
+import {
+	cryptoHmacSha256,
+	cryptoJwtIsValid,
+	cryptoJwtSign,
+	cryptoJwtVerify,
+	cryptoSha256,
+} from "@hatchingpoint/point/std/crypto";
+import { httpGet, httpPost } from "@hatchingpoint/point/std/http";
 import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
 import { processSpawn } from "@hatchingpoint/point/std/process";
+import { yamlParse, yamlStringify } from "@hatchingpoint/point/std/yaml";
 import {
 	pathBasename,
 	pathDirname,
@@ -48,9 +57,33 @@ async function runPythonStdParity(
 	return JSON.parse(proc.stdout.toString()) as Record<string, unknown>;
 }
 
+async function runPythonStdParityAsync(
+	pythonPath: string,
+	script: string,
+): Promise<Record<string, unknown>> {
+	const proc = Bun.spawn([pythonPath, "-c", script], {
+		cwd: repoRoot,
+		env: { ...process.env, PYTHONPATH: pythonStdRoot },
+		stdout: "pipe",
+		stderr: "pipe",
+	});
+	const exitCode = await proc.exited;
+	const stdout = await new Response(proc.stdout).text();
+	const stderr = await new Response(proc.stderr).text();
+	if (exitCode !== 0) {
+		throw new Error(stderr || stdout || `Python parity failed with exit code ${exitCode}`);
+	}
+	return JSON.parse(stdout) as Record<string, unknown>;
+}
+
+function pythonHasPyYaml(pythonPath: string): boolean {
+	const proc = Bun.spawnSync([pythonPath, "-c", "import yaml"], { stdout: "pipe", stderr: "pipe" });
+	return proc.exitCode === 0;
+}
+
 describe("python std mirror", () => {
 	test("emit maps @hatchingpoint/point/std imports to point_std modules", () => {
-		for (const fixture of ["std/path.point", "std/json.point", "std/env.point", "std/crypto.point", "std/process.point"]) {
+		for (const fixture of ["std/path.point", "std/json.point", "std/env.point", "std/crypto.point", "std/process.point", "std/yaml.point", "std/http.point"]) {
 			const program = parsePointSource(readFileSync(join(repoRoot, fixture), "utf8"));
 			const emitted = emitPointCorePython(program);
 			expect(emitted).toContain("_point_std_root");
@@ -275,5 +308,160 @@ print(json.dumps(asyncio.run(run())))
 		expect(emitted).toContain("from point_std.process import processSpawn as spawnRaw");
 		expect(emitted).toContain("return await spawnRaw(command, args, env)");
 		expect(emitted).toContain("async for __point_line in streamLinesRaw(command, args, env):");
+	});
+
+	test("crypto shim parity between JS and Python", async () => {
+		const secret = "demo-jwt-secret";
+		const payload = '{"sub":"demo-user","role":"reader"}';
+		const token = cryptoJwtSign(payload, secret);
+		const jsResults = {
+			sha256: cryptoSha256("hello"),
+			hmac: cryptoHmacSha256("The quick brown fox jumps over the lazy dog", "key"),
+			jwtValid: cryptoJwtIsValid(`Bearer ${token}`, secret),
+			jwtPayload: cryptoJwtVerify(`Bearer ${token}`, secret),
+			jwtInvalid: cryptoJwtVerify("Bearer not-a-jwt", secret),
+		};
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping crypto runtime parity test");
+			expect(jsResults.sha256).toHaveLength(64);
+			return;
+		}
+
+		const pyResults = await runPythonStdParity(
+			pythonPath,
+			`
+import json
+from point_std.crypto import (
+    cryptoHmacSha256,
+    cryptoJwtIsValid,
+    cryptoJwtSign,
+    cryptoJwtVerify,
+    cryptoSha256,
+)
+
+secret = "demo-jwt-secret"
+payload = '{"sub":"demo-user","role":"reader"}'
+token = cryptoJwtSign(payload, secret)
+print(json.dumps({
+    "sha256": cryptoSha256("hello"),
+    "hmac": cryptoHmacSha256("The quick brown fox jumps over the lazy dog", "key"),
+    "jwtValid": cryptoJwtIsValid("Bearer " + token, secret),
+    "jwtPayload": cryptoJwtVerify("Bearer " + token, secret),
+    "jwtInvalid": cryptoJwtVerify("Bearer not-a-jwt", secret),
+}))
+`,
+		);
+
+		expect(pyResults.sha256).toBe(jsResults.sha256);
+		expect(pyResults.hmac).toBe(jsResults.hmac);
+		expect(pyResults.jwtValid).toBe(jsResults.jwtValid);
+		expect(pyResults.jwtPayload).toBe(jsResults.jwtPayload);
+		expect(pyResults.jwtInvalid).toEqual({ message: expect.any(String) });
+		expect(jsResults.jwtInvalid).toEqual({ message: expect.any(String) });
+	});
+
+	test("yaml shim parity between JS and Python", async () => {
+		const input = "service:\n  name: demo-api\n  port: 8080\n";
+		const invalid = "service: [\n";
+		const parsed = yamlParse(input);
+		expect(typeof parsed).toBe("string");
+		const jsResults = {
+			parseOk: parsed,
+			stringifyOk: yamlStringify(parsed as string),
+			parseError: yamlParse(invalid),
+		};
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping yaml runtime parity test");
+			return;
+		}
+		if (!pythonHasPyYaml(pythonPath)) {
+			console.warn("PyYAML not found — skipping yaml runtime parity test");
+			expect(jsResults.parseOk).toBe('{"service":{"name":"demo-api","port":8080}}');
+			return;
+		}
+
+		const pyResults = await runPythonStdParity(
+			pythonPath,
+			`
+import json
+from point_std.yaml import yamlParse, yamlStringify
+
+input_value = "service:\\n  name: demo-api\\n  port: 8080\\n"
+parsed = yamlParse(input_value)
+print(json.dumps({
+    "parseOk": parsed,
+    "stringifyOk": yamlStringify(parsed),
+    "parseError": yamlParse("service: [\\n"),
+}))
+`,
+		);
+
+		expect(pyResults.parseOk).toBe(jsResults.parseOk);
+		expect(pyResults.stringifyOk).toBe(jsResults.stringifyOk);
+		expect(pyResults.parseError).toEqual({ message: expect.any(String) });
+		expect(jsResults.parseError).toEqual({ message: expect.any(String) });
+	});
+
+	test("http shim parity between JS and Python", async () => {
+		const server = Bun.serve({
+			hostname: "127.0.0.1",
+			port: 0,
+			async fetch(request) {
+				const url = new URL(request.url);
+				if (request.method === "GET" && url.pathname === "/get") {
+					return new Response("get-ok");
+				}
+				if (request.method === "POST" && url.pathname === "/post") {
+					const body = await request.text();
+					return new Response(`post:${body}`);
+				}
+				return new Response("missing", { status: 404, statusText: "Not Found" });
+			},
+		});
+		const base = `http://127.0.0.1:${server.port}`;
+		try {
+			const jsResults = {
+				get: await httpGet(`${base}/get`),
+				post: await httpPost(`${base}/post`, "payload"),
+				missing: await httpGet(`${base}/missing`),
+			};
+
+			const pythonPath = await resolvePythonCommand();
+			if (!pythonPath) {
+				console.warn("Python not found — skipping http runtime parity test");
+				expect(jsResults.get).toBe("get-ok");
+				return;
+			}
+
+			const pyResults = await runPythonStdParityAsync(
+				pythonPath,
+				`
+import asyncio
+import json
+from point_std.http import httpGet, httpPost
+
+base = ${JSON.stringify(base)}
+
+async def collect():
+    return {
+        "get": await httpGet(base + "/get"),
+        "post": await httpPost(base + "/post", "payload"),
+        "missing": await httpGet(base + "/missing"),
+    }
+
+print(json.dumps(asyncio.run(collect())))
+`,
+			);
+
+			expect(pyResults.get).toBe(jsResults.get);
+			expect(pyResults.post).toBe(jsResults.post);
+			expect(pyResults.missing).toEqual(jsResults.missing);
+		} finally {
+			server.stop(true);
+		}
 	});
 });

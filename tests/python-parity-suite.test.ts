@@ -1,9 +1,10 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { cryptoJwtSign } from "@hatchingpoint/point/std/crypto";
+import { cryptoJwtSign, cryptoJwtVerify } from "@hatchingpoint/point/std/crypto";
 import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
 import { processSpawn } from "@hatchingpoint/point/std/process";
+import { yamlParse, yamlStringify } from "@hatchingpoint/point/std/yaml";
 import {
 	pathBasename,
 	pathDirname,
@@ -26,6 +27,8 @@ const PARITY_FIXTURES = [
 	"examples/math.point",
 	"examples/tools/path-demo.point",
 	"std/json.point",
+	"std/crypto.point",
+	"std/yaml.point",
 	"examples/tools/process-runner.point",
 	"examples/api/middleware-demo.point",
 ] as const;
@@ -72,6 +75,8 @@ function baseName(fixture: string): string {
 
 const PATH_DEMO_FIXTURE = "examples/tools/path-demo.point";
 const JSON_STD_FIXTURE = "std/json.point";
+const CRYPTO_STD_FIXTURE = "std/crypto.point";
+const YAML_STD_FIXTURE = "std/yaml.point";
 const PROCESS_RUNNER_FIXTURE = "examples/tools/process-runner.point";
 
 async function ensureParityArtifacts(fixture: string): Promise<{ jsPath: string; pyPath: string }> {
@@ -79,7 +84,13 @@ async function ensureParityArtifacts(fixture: string): Promise<{ jsPath: string;
 	const jsPath = join(repoRoot, "generated", `${name}.js`);
 	const pyPath = join(repoRoot, "generated", `${name}.py`);
 
-	if (fixture === PATH_DEMO_FIXTURE || fixture === JSON_STD_FIXTURE || fixture === PROCESS_RUNNER_FIXTURE) {
+	if (
+		fixture === PATH_DEMO_FIXTURE ||
+		fixture === JSON_STD_FIXTURE ||
+		fixture === CRYPTO_STD_FIXTURE ||
+		fixture === YAML_STD_FIXTURE ||
+		fixture === PROCESS_RUNNER_FIXTURE
+	) {
 		if (!(await Bun.file(jsPath).exists()) || !(await Bun.file(pyPath).exists())) {
 			const jsBuild = await Bun.$`bun ${pointCli} build-all`.cwd(repoRoot).quiet();
 			const pyBuild = await Bun.$`bun ${pointCli} build-py-all`.cwd(repoRoot).quiet();
@@ -279,6 +290,97 @@ print(json.dumps(asyncio.run(collect())))
 		expect(pyResults.stringifyOk).toBe(jsResults.stringifyOk);
 		expect(pyResults.parseError).toEqual({ message: expect.any(String) });
 		expect(jsResults.parseError).toEqual({ message: expect.any(String) });
+	});
+});
+
+describe("std/crypto.point JS/Python parity", () => {
+	test("jwt sign and verify outputs match", async () => {
+		const { pyPath } = await ensureParityArtifacts(CRYPTO_STD_FIXTURE);
+		const jsResults = {
+			token: cryptoJwtSign(demoJwtPayload, demoJwtSecret),
+			payload: cryptoJwtVerify(demoJwtToken, demoJwtSecret),
+		};
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping std/crypto runtime parity");
+			expect(jsResults.payload).toBe(demoJwtPayload);
+			return;
+		}
+
+		const pyResults = await runPythonModule(
+			pythonPath,
+			pyPath,
+			`
+import importlib.util
+import json
+import sys
+
+spec = importlib.util.spec_from_file_location("std_crypto", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+
+print(json.dumps({
+    "token": module.signJwtToken(${JSON.stringify(demoJwtPayload)}, ${JSON.stringify(demoJwtSecret)}),
+    "payload": module.verifyJwtPayload(${JSON.stringify(demoJwtToken)}, ${JSON.stringify(demoJwtSecret)}),
+}))
+`,
+		);
+
+		expect(pyResults.token).toBe(jsResults.token);
+		expect(pyResults.payload).toBe(jsResults.payload);
+	});
+});
+
+describe("std/yaml.point JS/Python parity", () => {
+	test("yaml parse and stringify outputs match", async () => {
+		const { pyPath } = await ensureParityArtifacts(YAML_STD_FIXTURE);
+		const input = "service:\n  name: demo-api\n  port: 8080\n";
+		const parsed = yamlParse(input);
+		expect(typeof parsed).toBe("string");
+		const jsResults = {
+			parseOk: parsed,
+			stringifyOk: yamlStringify(parsed as string),
+		};
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping std/yaml runtime parity");
+			return;
+		}
+		const pyyamlProbe = Bun.spawnSync([pythonPath, "-c", "import yaml"], { stdout: "pipe", stderr: "pipe" });
+		if (pyyamlProbe.exitCode !== 0) {
+			console.warn("PyYAML not found — skipping std/yaml runtime parity");
+			expect(jsResults.parseOk).toBe('{"service":{"name":"demo-api","port":8080}}');
+			return;
+		}
+
+		const pyResults = await runPythonModule(
+			pythonPath,
+			pyPath,
+			`
+import asyncio
+import importlib.util
+import json
+import sys
+
+spec = importlib.util.spec_from_file_location("std_yaml", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+
+async def collect():
+    parsed = await module.parseYamlResult("service:\\n  name: demo-api\\n  port: 8080\\n")
+    return {
+        "parseOk": parsed,
+        "stringifyOk": module.stringifyYamlResult(parsed),
+    }
+
+print(json.dumps(asyncio.run(collect())))
+`,
+		);
+
+		expect(pyResults.parseOk).toBe(jsResults.parseOk);
+		expect(pyResults.stringifyOk).toBe(jsResults.stringifyOk);
 	});
 });
 

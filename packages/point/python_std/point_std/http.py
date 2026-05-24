@@ -15,7 +15,7 @@ def _read_response(response: urllib.response.addinfourl) -> str | dict[str, str]
 
 def _http_get_sync(url: str) -> str | dict[str, str]:
 	try:
-		with urllib.request.urlopen(url) as response:
+		with urllib.request.urlopen(url, timeout=10) as response:
 			return _read_response(response)
 	except urllib.error.HTTPError as error:
 		return {"message": f"HTTP {error.code}: {error.reason}"}
@@ -31,7 +31,7 @@ def _http_post_sync(url: str, body: str) -> str | dict[str, str]:
 		headers={"Content-Type": "text/plain; charset=utf-8"},
 	)
 	try:
-		with urllib.request.urlopen(request) as response:
+		with urllib.request.urlopen(request, timeout=10) as response:
 			return _read_response(response)
 	except urllib.error.HTTPError as error:
 		return {"message": f"HTTP {error.code}: {error.reason}"}

@@ -1214,6 +1214,15 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
 
+## Checkpoint Phase 29 P29-4 — http, yaml, crypto parity extension
+
+- Completed: Extended `tests/python-std-parity.test.ts` with runtime parity for `point_std.crypto`, `point_std.yaml` (PyYAML-gated), and `point_std.http` (async spawn against local server). Added `std/crypto.point` and `std/yaml.point` to `tests/python-parity-suite.test.ts` and `scripts/py-parity.ts`. Added urllib timeouts in `point_std/http.py`.
+- Verified: `bun test tests/python-std-parity.test.ts tests/python-parity-suite.test.ts` — 28 pass; `bun run ci` green (527 pass).
+- Example: crypto JWT sign/verify and yaml round-trip match JS `@hatchingpoint/point/std/*` outputs under `python3`.
+- Next: Phase 29 integrator — optional `point.json` `"target": "python"` spike; release with 28 exit gate.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
 ## Checkpoint Phase 28 P28-3 — Agent repair fixture expansion
 
 - Completed: Added 5 Phase 26–27 single-shot fixture pairs — `middleware-input-unavailable`, `middleware-input-type-mismatch`, `pipeline-step-type-mismatch`, `float-money-field`, `missing-variant-case`. Registered in `scripts/agent-repair-sufficiency.ts`. Exported `benchmarks/agent-repair-cases.json` (23 cases: 18 single-shot + 4 repair-plan loops). Updated `docs/site/ai/agent-repair-tests.md` and fixture README.

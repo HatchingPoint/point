@@ -11,6 +11,9 @@ const parityFixtures = [
 	{ source: "examples/math.point", out: "generated/math" },
 	{ source: "examples/tools/path-demo.point", out: "generated/path-demo" },
 	{ source: "std/json.point", out: "generated/json" },
+	{ source: "std/crypto.point", out: "generated/crypto" },
+	{ source: "std/yaml.point", out: "generated/yaml" },
+	{ source: "examples/tools/process-runner.point", out: "generated/process-runner" },
 	{ source: "examples/api/middleware-demo.point", out: "generated/middleware-demo" },
 ];
 
@@ -27,8 +30,16 @@ async function resolvePythonCommand(): Promise<string | null> {
 }
 
 console.log("Point Python parity — building paired examples…");
-for (const fixture of parityFixtures) {
-	if (fixture.source === "examples/tools/path-demo.point" || fixture.source === "std/json.point") continue;
+	for (const fixture of parityFixtures) {
+	if (
+		fixture.source === "examples/tools/path-demo.point" ||
+		fixture.source === "std/json.point" ||
+		fixture.source === "std/crypto.point" ||
+		fixture.source === "std/yaml.point" ||
+		fixture.source === "examples/tools/process-runner.point"
+	) {
+		continue;
+	}
 	const jsBuild = await Bun.$`bun ${pointCli} build ${fixture.source} ${fixture.out}.js`.cwd(repoRoot).quiet();
 	if (jsBuild.exitCode !== 0) {
 		console.error(jsBuild.stderr.toString() || jsBuild.stdout.toString());
@@ -54,8 +65,8 @@ if (!pythonPath) {
 	console.log(`Python runtime: ${pythonPath}`);
 }
 
-console.log("Running tests/python-parity-suite.test.ts…");
-const testRun = await Bun.$`bun test tests/python-parity-suite.test.ts`.cwd(repoRoot).nothrow();
+console.log("Running tests/python-parity-suite.test.ts and tests/python-std-parity.test.ts…");
+const testRun = await Bun.$`bun test tests/python-parity-suite.test.ts tests/python-std-parity.test.ts`.cwd(repoRoot).nothrow();
 if (testRun.exitCode !== 0) {
 	console.error(testRun.stderr.toString() || testRun.stdout.toString());
 }

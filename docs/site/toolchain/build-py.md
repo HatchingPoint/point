@@ -89,7 +89,7 @@ bun run test:py-parity
 bun test tests/python-parity-suite.test.ts tests/python-std-parity.test.ts
 ```
 
-Compares JS and Python outputs for math, path-demo, std/json, process-runner, and middleware-demo when `python3` is available.
+Compares JS and Python outputs for math, path-demo, std/json, std/crypto, std/yaml, process-runner, and middleware-demo when `python3` is available.
 
 ## Limits
 
