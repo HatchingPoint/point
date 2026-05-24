@@ -1088,3 +1088,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Docs: updated `docs/site/toolchain/run.md` limits for views/pages mapping.
 - Next: P27-3 theme toggle API.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 29 P29-1 — python_std json, path, env mirrors
+
+- Completed: Verified `packages/point/python_std/point_std/{json,path,env}.py` mirror JS `@hatchingpoint/point/std/*` behavior. Extended `tests/python-std-parity.test.ts` with env runtime parity and emit coverage for `std/env.point` alongside existing path/json emit + parity tests.
+- Verified: `bun test tests/python-std-parity.test.ts` — 4 pass; `bun run ci` green.
+- Next: P29-2 wire `use std.*` imports in emit-python.ts and extend py-parity for one module.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
