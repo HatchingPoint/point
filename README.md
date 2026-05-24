@@ -4,7 +4,7 @@ Point is a **general-purpose, AI-first language** for application logic — sema
 
 Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
 
-**Current release:** v0.1.34 · **607 tests** · npm: `@hatchingpoint/point`
+**Current release:** v0.1.35 · **616 tests** · npm: `@hatchingpoint/point`
 
 **Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md) · **Evaluator demo:** [Golden app demo](docs/site/guide/golden-app-demo.md)
 
@@ -84,10 +84,10 @@ Also: `npm install -g @hatchingpoint/point`. Optional: [Point Language](https://
 
 | Group | Commands |
 |-------|----------|
-| **Daily** | `check`, `box`, `launch`, `dev` |
+| **Daily** | `check`, `box`, `launch`, `demo`, `dev` |
 | **Quality** | `fmt`, `check-json`, `test` |
 | **Build** | `build`, `build-app`, `build-schema` |
-| **Agent** | `repair-plan`, `index`, `explain` |
+| **Agent** | `repair`, `repair-plan`, `index`, `explain` |
 | **Scaffold** | `create`, `init`, `add` |
 
 Advanced emit and project commands: [CLI reference](docs/site/reference/cli.md).

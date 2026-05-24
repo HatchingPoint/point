@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.34**
+Current release: **0.1.35**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.35** | Phase 43: std/auth capability, point demo, LSP repair enrichment, repair alias. |
 | **0.1.34** | Phase 42: application logic terminology, Point-native voice, frontend vs capabilities. |
 | **0.1.33** | Phase 41: golden app demo walkthrough, doc graph wiring to 60-second guide. |
 | **0.1.32** | Phase 40: presentation alignment — Point in 60 seconds, CLI rings, honest boundaries, version sync. |

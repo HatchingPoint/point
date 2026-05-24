@@ -4,13 +4,14 @@
 
 ## Active execution
 
-**Phase 42** — Application logic terminology. Plan: [phase42-plan.md](./phase42-plan.md).
+**Phase 43** — Capability depth burst. Plan: [phase43-plan.md](./phase43-plan.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
-| **41** | v0.1.33 | Golden app demo, doc graph wired to 60-second guide |
+| **43** | v0.1.35 | std/auth capability, point demo, LSP repair enrichment, repair alias |
+| **42** | v0.1.34 | Application logic terminology, Point-native voice, frontend vs capabilities |
 | **40** | v0.1.32 | Presentation alignment — 60-second guide, CLI rings, honest boundaries |
 | **39** | v0.1.31 | In-the-box launch: `capabilities` line, `point commands`/`box`/`launch` |
 | **38** | v0.1.30 | Emit import pruning, five-minute tour |

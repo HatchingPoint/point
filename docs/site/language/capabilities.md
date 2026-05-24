@@ -51,6 +51,7 @@ JSON output uses schema `point.capabilities.v1` for agent scripts.
 | `path` | Path join and basename helpers |
 | `process` | Spawn and run host processes |
 | `crypto` | Hashing, HMAC, and JWT helpers |
+| `auth` | Bearer tokens, JWT auth checks, unauthorized responses |
 | `yaml` | YAML parse and stringify |
 | `stream` | Stream route helpers |
 | `sql` | SQLite query actions and schema helpers |

@@ -25,6 +25,7 @@ export interface LspDiagnostic {
 	message: string;
 	ref?: string;
 	repair?: string;
+	relatedInformation?: Array<{ location: LspRange; message: string }>;
 }
 
 export interface LspDocumentSymbol {
@@ -172,9 +173,8 @@ export async function analyzePointSource(
 	try {
 		const parseContext = resolveAnalyzeParseContext(options);
 		const program = await programForAnalyze(source, options);
-		const diagnostics = sortDiagnosticsForRepairPlan(mapPublicDiagnostics(program, checkPointCore(program))).map(
-			toLspDiagnostic,
-		);
+		const sorted = sortDiagnosticsForRepairPlan(mapPublicDiagnostics(program, checkPointCore(program)));
+		const diagnostics = sorted.map((diagnostic, index) => toLspDiagnostic(diagnostic, index + 1, sorted.length));
 		const indexProgram = parsePointSource(source, parseContext);
 		const symbols = indexProgram.semanticSource ? createSemanticIndex(indexProgram.semanticSource).refs : [];
 		return { diagnostics, symbols };
@@ -324,12 +324,19 @@ function fullDocumentRange(text: string): LspRange {
 	};
 }
 
-function toLspDiagnostic(diagnostic: PointCoreDiagnostic): LspDiagnostic {
+function toLspDiagnostic(diagnostic: PointCoreDiagnostic, step = 1, total = 1): LspDiagnostic {
 	const range = diagnostic.span
 		? pointSpanToLspRange(diagnostic.span)
 		: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } };
 	const repair = diagnostic.repair?.trim();
-	const message = repair ? `${diagnostic.message} — ${repair}` : diagnostic.message;
+	const stepLabel = total > 1 ? `[repair ${step}/${total}] ` : "";
+	const related = (diagnostic.relatedRefs ?? [])
+		.filter((ref) => ref !== diagnostic.ref)
+		.map((ref) => ({ location: range, message: ref }));
+	const relatedSuffix = related.length > 0 ? ` Related: ${related.map((entry) => entry.message).join(", ")}` : "";
+	const message = repair
+		? `${stepLabel}${diagnostic.message} — ${repair}${relatedSuffix}`
+		: `${stepLabel}${diagnostic.message}${relatedSuffix}`;
 	return {
 		range,
 		severity: 1,
@@ -338,6 +345,7 @@ function toLspDiagnostic(diagnostic: PointCoreDiagnostic): LspDiagnostic {
 		message,
 		ref: diagnostic.ref,
 		repair,
+		relatedInformation: related.length > 0 ? related : undefined,
 	};
 }
 

@@ -1,0 +1,16 @@
+module AuthRepairFixed
+
+capabilities auth
+
+record Auth Headers
+  authorization: Text
+
+calculation demo secret
+  output secret: Text
+  secret is "demo-secret"
+
+middleware require auth
+  input headers: Auth Headers
+  output response: Maybe Text
+  when auth ok(headers.authorization, demoSecret()) == false return auth unauthorized body()
+  otherwise return none

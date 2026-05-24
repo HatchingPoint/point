@@ -1,6 +1,6 @@
 module MiddlewareIntegration
 
-capabilities http crypto
+capabilities auth http
 
 record Auth Headers
   authorization: Text
@@ -21,12 +21,12 @@ calculation demo jwt secret
 
 calculation integration demo token
   output token: Text
-  token is signJwtToken("{\"sub\":\"demo-user\"}", demoJwtSecret())
+  token is sign auth jwt("{\"sub\":\"demo-user\"}", demoJwtSecret())
 
 middleware require auth
   input headers: Auth Headers
   output response: Maybe Text
-  when jwtAuthOk(headers.authorization, demoJwtSecret()) == false return "{\"error\":\"unauthorized\"}"
+  when auth ok(headers.authorization, demoJwtSecret()) == false return auth unauthorized body()
   otherwise return none
 
 route get item

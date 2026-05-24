@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point",
-  "version": "0.1.34",
+  "version": "0.1.35",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",
@@ -37,6 +37,7 @@
     "./std/path": "./src/std/path.ts",
     "./std/process": "./src/std/process.ts",
     "./std/crypto": "./src/std/crypto.ts",
+    "./std/auth": "./src/std/auth.ts",
     "./std/yaml": "./src/std/yaml.ts",
     "./std/stream": "./src/std/stream.ts",
     "./std/sql": "./src/std/sql.ts",

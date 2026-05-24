@@ -28,6 +28,7 @@ import { checkSemanticSqlSchema, mergeSemanticProgramsForSchema } from "../seman
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
+import { runPointDemo } from "./demo.ts";
 import {
 	isCapabilitiesLine,
 	normalizeUseModuleName,
@@ -127,6 +128,12 @@ export async function main() {
 	if (command === "roadmap-analyze") {
 		const analysis = await analyzePointRoadmap(process.cwd());
 		console.log(formatPointRoadmapAnalysis(analysis).trimEnd());
+		return;
+	}
+
+	if (command === "demo") {
+		const code = await runPointDemo(tail.find((arg) => !arg.startsWith("--")));
+		if (code !== 0) process.exit(code);
 		return;
 	}
 
@@ -321,7 +328,7 @@ export async function main() {
 		return;
 	}
 
-	if (command === "repair-plan") {
+	if (command === "repair" || command === "repair-plan") {
 		const outputDiagnostics = mapPublicDiagnostics(program, diagnostics);
 		console.log(JSON.stringify(createPointCoreRepairPlan(outputDiagnostics), null, 2));
 		if (diagnostics.length > 0) process.exit(1);

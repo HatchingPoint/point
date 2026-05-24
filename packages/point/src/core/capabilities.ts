@@ -17,6 +17,7 @@ export const BUILTIN_CAPABILITIES: readonly PointCapability[] = [
 	{ name: "path", module: "std.path", summary: "Path join and basename helpers" },
 	{ name: "process", module: "std.process", summary: "Spawn and run host processes" },
 	{ name: "crypto", module: "std.crypto", summary: "Hashing, HMAC, and JWT helpers" },
+	{ name: "auth", module: "std.auth", summary: "Bearer tokens, JWT auth checks, unauthorized responses" },
 	{ name: "yaml", module: "std.yaml", summary: "YAML parse and stringify" },
 	{ name: "stream", module: "std.stream", summary: "Stream route helpers" },
 	{ name: "sql", module: "std.sql", summary: "SQLite query actions and schema helpers" },

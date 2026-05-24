@@ -1,6 +1,6 @@
 # Point
 
-Point is an AI-first general-purpose language for product logic — semantic blocks you write, JavaScript the machine runs.
+Point is an AI-first general-purpose language for application logic — semantic blocks you write, JavaScript the machine runs.
 
 **Start:** [Point in 60 seconds](https://github.com/HatchingPoint/point/blob/main/docs/site/guide/point-in-60-seconds.md) (in repo docs)
 

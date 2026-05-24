@@ -6,9 +6,9 @@ Internal source of truth for README, site copy, and release notes. Sync when shi
 
 | Ring | Authors see | Compiler provides |
 |------|-------------|-------------------|
-| **Daily** | `capabilities`, `check`, `box`, `launch`, `dev` | Semantic lowering, use-merge, import prune |
+| **Daily** | `capabilities`, `check`, `box`, `launch`, `demo`, `dev` | Semantic lowering, use-merge, import prune |
 | **Build** | `build`, `build-app`, `build-schema` | Multi-emit, module graph, incremental cache |
-| **Agent** | `check-json`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 26-case benchmark |
+| **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 26-case benchmark |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `point add` | Lockfile packages, AST tooling, Python subset |
 
 Public front door: **Point in 60 seconds** → **Golden app demo** (evaluators).
@@ -41,7 +41,7 @@ Authors import batteries with one line or one word:
 capabilities http json time
 ```
 
-Same as separate `use http` lines. Run `point capabilities` for the full catalog (14 modules). Run `point box <file>` for capabilities + commands together.
+Same as separate `use http` lines. Run `point capabilities` for the full catalog (15 modules). Run `point box <file>` for capabilities + commands together.
 
 Expand with:
 
@@ -85,4 +85,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.34** — Phase 42 application logic terminology + Point-native voice.
+Update this line each release: **v0.1.35** — Phase 43 auth capability, point demo, LSP repair enrichment.

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.35
+
+### Added
+
+- Phase 43: **`std/auth` capability** — bearer tokens, JWT auth checks, unauthorized responses (15th built-in capability).
+- Phase 43: **`point demo [file]`** — golden path: check, box, capabilities, commands, next steps for dev/launch/repair.
+- Phase 43: **`point repair`** — alias for `repair-plan`.
+- Phase 43: **LSP repair enrichment** — ordered repair steps with `[repair N/M]` prefix and related refs in diagnostics.
+- Phase 43: **Agent repair fixtures** — `auth-bearer-broken` / `auth-bearer-fixed`.
+- Phase 43: **`examples/tools/auth-demo.point`** — auth capability demo with middleware.
+
+### Changed
+
+- Phase 43: `middleware-integration.point` uses `capabilities auth http` instead of manual crypto externals.
+- Phase 43: Legacy lowering supports `middleware` declarations and `Maybe Text` type normalization.
+
 ## 0.1.34
 
 ### Changed

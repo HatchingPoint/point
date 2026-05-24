@@ -1,0 +1,1081 @@
+{
+  "kind": "coreProgram",
+  "module": "AuthDemo",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "AuthHeaders",
+      "fields": [
+        {
+          "name": "authorization",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "authorization",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 56
+            },
+            "end": {
+              "line": 6,
+              "column": 22,
+              "offset": 77
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Auth Headers"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 36
+        },
+        "end": {
+          "line": 5,
+          "column": 20,
+          "offset": 55
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "demoSecret",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "demo-auth-secret",
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 125
+              },
+              "end": {
+                "line": 10,
+                "column": 31,
+                "offset": 155
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 125
+            },
+            "end": {
+              "line": 10,
+              "column": 31,
+              "offset": 155
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "demo secret",
+        "outputName": "secret",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 79
+        },
+        "end": {
+          "line": 8,
+          "column": 24,
+          "offset": 102
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "demoToken",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "signAuthJwtToken",
+            "args": [
+              {
+                "kind": "literal",
+                "value": "{\"sub\":\"demo-user\"}",
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 201
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 66,
+                    "offset": 266
+                  }
+                }
+              },
+              {
+                "kind": "call",
+                "callee": "demoSecret",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 14,
+                    "column": 1,
+                    "offset": 201
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 66,
+                    "offset": 266
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 201
+              },
+              "end": {
+                "line": 14,
+                "column": 66,
+                "offset": 266
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 201
+            },
+            "end": {
+              "line": 14,
+              "column": 66,
+              "offset": 266
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "demo token",
+        "outputName": "token",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 157
+        },
+        "end": {
+          "line": 12,
+          "column": 23,
+          "offset": 179
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "requireAuthMiddleware",
+      "params": [
+        {
+          "name": "headers",
+          "type": {
+            "kind": "typeRef",
+            "name": "AuthHeaders",
+            "args": []
+          },
+          "semanticName": "headers",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 17,
+              "column": 22,
+              "offset": 21
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Maybe",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "==",
+            "left": {
+              "kind": "call",
+              "callee": "authOk",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "headers",
+                    "span": {
+                      "start": {
+                        "line": 19,
+                        "column": 1,
+                        "offset": 352
+                      },
+                      "end": {
+                        "line": 19,
+                        "column": 93,
+                        "offset": 444
+                      }
+                    }
+                  },
+                  "name": "authorization",
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 352
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 93,
+                      "offset": 444
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "demoSecret",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 19,
+                      "column": 1,
+                      "offset": 352
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 93,
+                      "offset": 444
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 352
+                },
+                "end": {
+                  "line": 19,
+                  "column": 93,
+                  "offset": 444
+                }
+              }
+            },
+            "right": {
+              "kind": "literal",
+              "value": false,
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 352
+                },
+                "end": {
+                  "line": 19,
+                  "column": 93,
+                  "offset": 444
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 352
+              },
+              "end": {
+                "line": 19,
+                "column": 93,
+                "offset": 444
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "call",
+                "callee": "authUnauthorizedBody",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 352
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 93,
+                    "offset": 444
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 352
+                },
+                "end": {
+                  "line": 19,
+                  "column": 93,
+                  "offset": 444
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 352
+            },
+            "end": {
+              "line": 19,
+              "column": 93,
+              "offset": 444
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": null,
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 445
+              },
+              "end": {
+                "line": 20,
+                "column": 24,
+                "offset": 468
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 445
+            },
+            "end": {
+              "line": 20,
+              "column": 24,
+              "offset": 468
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "middleware",
+        "name": "require auth",
+        "outputName": "response",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 268
+        },
+        "end": {
+          "line": 16,
+          "column": 24,
+          "offset": 291
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "authDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "literal",
+              "value": "token=",
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 511
+                },
+                "end": {
+                  "line": 24,
+                  "column": 32,
+                  "offset": 542
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "demoToken",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 511
+                },
+                "end": {
+                  "line": 24,
+                  "column": 32,
+                  "offset": 542
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 511
+              },
+              "end": {
+                "line": 24,
+                "column": 32,
+                "offset": 542
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 511
+            },
+            "end": {
+              "line": 24,
+              "column": 32,
+              "offset": 542
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "auth demo",
+        "outputName": "summary",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 470
+        },
+        "end": {
+          "line": 22,
+          "column": 18,
+          "offset": 487
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 16,
+      "offset": 15
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "AuthDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.auth",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 18,
+            "offset": 17
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Auth Headers",
+        "fields": [
+          {
+            "label": "authorization",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 56
+              },
+              "end": {
+                "line": 6,
+                "column": 22,
+                "offset": 77
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 36
+          },
+          "end": {
+            "line": 5,
+            "column": 20,
+            "offset": 55
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "demo secret",
+        "inputs": [],
+        "output": {
+          "name": "secret",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "secret",
+            "value": {
+              "kind": "literal",
+              "value": "demo-auth-secret",
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 125
+                },
+                "end": {
+                  "line": 10,
+                  "column": 31,
+                  "offset": 155
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 125
+              },
+              "end": {
+                "line": 10,
+                "column": 31,
+                "offset": 155
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 79
+          },
+          "end": {
+            "line": 8,
+            "column": 24,
+            "offset": 102
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "demo token",
+        "inputs": [],
+        "output": {
+          "name": "token",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "token",
+            "value": {
+              "kind": "call",
+              "callee": "sign auth jwt",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "{\"sub\":\"demo-user\"}",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 201
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 66,
+                      "offset": 266
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "demoSecret",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 201
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 66,
+                      "offset": 266
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 201
+                },
+                "end": {
+                  "line": 14,
+                  "column": 66,
+                  "offset": 266
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 201
+              },
+              "end": {
+                "line": 14,
+                "column": 66,
+                "offset": 266
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 12,
+            "column": 1,
+            "offset": 157
+          },
+          "end": {
+            "line": 12,
+            "column": 23,
+            "offset": 179
+          }
+        }
+      },
+      {
+        "kind": "middleware",
+        "name": "require auth",
+        "inputs": [
+          {
+            "label": "headers",
+            "type": {
+              "kind": "typeRef",
+              "name": "Auth Headers",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "response",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "binary",
+              "operator": "==",
+              "left": {
+                "kind": "call",
+                "callee": "auth ok",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "headers",
+                      "span": {
+                        "start": {
+                          "line": 19,
+                          "column": 1,
+                          "offset": 352
+                        },
+                        "end": {
+                          "line": 19,
+                          "column": 93,
+                          "offset": 444
+                        }
+                      }
+                    },
+                    "label": "authorization",
+                    "span": {
+                      "start": {
+                        "line": 19,
+                        "column": 1,
+                        "offset": 352
+                      },
+                      "end": {
+                        "line": 19,
+                        "column": 93,
+                        "offset": 444
+                      }
+                    }
+                  },
+                  {
+                    "kind": "call",
+                    "callee": "demoSecret",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 19,
+                        "column": 1,
+                        "offset": 352
+                      },
+                      "end": {
+                        "line": 19,
+                        "column": 93,
+                        "offset": 444
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 352
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 93,
+                    "offset": 444
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": false,
+                "span": {
+                  "start": {
+                    "line": 19,
+                    "column": 1,
+                    "offset": 352
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 93,
+                    "offset": 444
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 352
+                },
+                "end": {
+                  "line": 19,
+                  "column": 93,
+                  "offset": 444
+                }
+              }
+            },
+            "value": {
+              "kind": "call",
+              "callee": "auth unauthorized body",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 19,
+                  "column": 1,
+                  "offset": 352
+                },
+                "end": {
+                  "line": 19,
+                  "column": 93,
+                  "offset": 444
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 19,
+                "column": 1,
+                "offset": 352
+              },
+              "end": {
+                "line": 19,
+                "column": 93,
+                "offset": 444
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": null,
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 445
+                },
+                "end": {
+                  "line": 20,
+                  "column": 24,
+                  "offset": 468
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 445
+              },
+              "end": {
+                "line": 20,
+                "column": 24,
+                "offset": 468
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 16,
+            "column": 1,
+            "offset": 268
+          },
+          "end": {
+            "line": 16,
+            "column": 24,
+            "offset": 291
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "auth demo",
+        "inputs": [],
+        "output": {
+          "name": "summary",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "literal",
+                "value": "token=",
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 511
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 32,
+                    "offset": 542
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "demoToken",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 24,
+                    "column": 1,
+                    "offset": 511
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 32,
+                    "offset": 542
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 24,
+                  "column": 1,
+                  "offset": 511
+                },
+                "end": {
+                  "line": 24,
+                  "column": 32,
+                  "offset": 542
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 511
+              },
+              "end": {
+                "line": 24,
+                "column": 32,
+                "offset": 542
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 22,
+            "column": 1,
+            "offset": 470
+          },
+          "end": {
+            "line": 22,
+            "column": 18,
+            "offset": 487
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 16,
+        "offset": 15
+      }
+    }
+  }
+}

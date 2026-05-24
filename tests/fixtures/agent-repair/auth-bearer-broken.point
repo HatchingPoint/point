@@ -1,0 +1,16 @@
+module AuthRepairBroken
+
+capabilities auth
+
+record Auth Headers
+  authorization: Text
+
+calculation demo secret
+  output secret: Text
+  secret is "demo-secret"
+
+middleware require auth
+  input headers: Auth Headers
+  output response: Maybe Text
+  when legacyJwtCheck(headers.authorization, demoSecret()) == false return "{\"error\":\"unauthorized\"}"
+  otherwise return none

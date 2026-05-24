@@ -177,6 +177,12 @@ function lowerSemanticPointSyntax(source: string, cwd?: string): string {
 			index = lowered.next;
 			continue;
 		}
+		if (trimmed.startsWith("middleware ")) {
+			const lowered = lowerMiddleware(lines, index, records, externalBindings);
+			output.push(...lowered.lines);
+			index = lowered.next;
+			continue;
+		}
 		if (trimmed.startsWith("stream route ")) {
 			const lowered = lowerStreamRoute(lines, index, records, externalBindings);
 			output.push(...lowered.lines);
@@ -221,7 +227,7 @@ function assertSemanticPointSource(source: string) {
 	for (const [index, line] of lines.entries()) {
 		const trimmed = line.trim();
 		if (!trimmed || trimmed.startsWith("//")) continue;
-		if (/^(record|calculation|rule|label|external|action|policy|view|layout|page|stream route|route|workflow|pipeline|session|command)\s+/.test(trimmed)) hasSemanticDeclaration = true;
+		if (/^(record|calculation|rule|label|external|action|policy|view|layout|page|middleware|stream route|route|workflow|pipeline|session|command)\s+/.test(trimmed)) hasSemanticDeclaration = true;
 		if (oldStyleTopLevel.test(trimmed)) {
 			throw new Error(
 				`Point source uses internal core syntax at ${index + 1}:1. Use record, calculation, rule, or label instead.`,
@@ -786,6 +792,57 @@ function lowerStreamRoute(
 	return { lines: output, next: body.next };
 }
 
+function lowerMiddleware(
+	lines: string[],
+	start: number,
+	records: Map<string, Map<string, string>>,
+	externalBindings: Map<string, string> = new Map(),
+): { lines: string[]; next: number } {
+	const label = (lines[start] ?? "").trim().slice("middleware ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	const params: string[] = [];
+	const paramTypes = new Map<string, string>();
+	const bindings = new Map<string, string>(externalBindings);
+	let outputName = "response";
+	let outputType = "Maybe Text";
+	const statements: string[] = [];
+
+	for (const line of body.lines) {
+		if (line.startsWith("input ")) {
+			const param = parseTypedBinding(line.slice("input ".length));
+			const paramName = toIdentifier(param.name);
+			params.push(`${paramName}: ${param.type}`);
+			paramTypes.set(paramName, param.type);
+			bindings.set(param.name, paramName);
+			continue;
+		}
+		if (line.startsWith("output ")) {
+			const output = parseOutputBinding(line.slice("output ".length));
+			outputName = toIdentifier(output.name);
+			outputType = output.type;
+			bindings.set(output.name, outputName);
+			continue;
+		}
+		const whenReturn = line.match(/^when (.+) return (.+)$/);
+		if (whenReturn) {
+			statements.push(`if ${lowerExpression(whenReturn[1] ?? "", paramTypes, records, bindings)} {`);
+			statements.push(`  return ${lowerExpression(whenReturn[2] ?? "", paramTypes, records, bindings)}`);
+			statements.push("}");
+			continue;
+		}
+		if (line.startsWith("otherwise return ")) {
+			statements.push(`return ${lowerExpression(line.slice("otherwise return ".length), paramTypes, records, bindings)}`);
+			continue;
+		}
+		throw new Error(`Unknown middleware statement: ${line}`);
+	}
+
+	return {
+		lines: [`fn ${semanticFunctionName(label, outputName, "middleware")}(${params.join(", ")}): ${outputType} {`, ...indentRaw(statements), "}", ""],
+		next: body.next,
+	};
+}
+
 function lowerRoute(
 	lines: string[],
 	start: number,
@@ -802,7 +859,7 @@ function lowerRoute(
 	const statements: string[] = [];
 
 	for (const line of body.lines) {
-		if (line.startsWith("method ") || line.startsWith("path ")) continue;
+		if (line.startsWith("method ") || line.startsWith("path ") || line.startsWith("before ")) continue;
 		if (line.startsWith("input ")) {
 			const param = parseTypedBinding(line.slice("input ".length));
 			const paramName = toIdentifier(param.name);
@@ -999,6 +1056,7 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 			trimmed.startsWith("view ") ||
 			trimmed.startsWith("layout ") ||
 			trimmed.startsWith("page ") ||
+			trimmed.startsWith("middleware ") ||
 			trimmed.startsWith("route ") ||
 			trimmed.startsWith("workflow ") ||
 			trimmed.startsWith("command ")
@@ -1019,6 +1077,8 @@ function collectSemanticDeclarationInfo(source: string): SemanticDeclarationInfo
 										? "layout"
 									: trimmed.startsWith("page ")
 										? "page"
+										: trimmed.startsWith("middleware ")
+											? "middleware"
 										: trimmed.startsWith("route ")
 										? "route"
 										: trimmed.startsWith("workflow ")
@@ -1130,6 +1190,7 @@ function collectCallableBindings(source: string): Map<string, string> {
 			declaration.kind === "view" ||
 			declaration.kind === "layout" ||
 			declaration.kind === "page" ||
+			declaration.kind === "middleware" ||
 			declaration.kind === "route" ||
 			declaration.kind === "workflow" ||
 			declaration.kind === "command"
@@ -1282,7 +1343,7 @@ function toIdentifier(label: string): string {
 function semanticFunctionName(
 	label: string,
 	outputName: string,
-	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "layout" | "page" | "route" | "streamRoute" | "workflow" | "command",
+	kind: "calculation" | "rule" | "label" | "action" | "policy" | "view" | "layout" | "page" | "middleware" | "route" | "streamRoute" | "workflow" | "command",
 ): string {
 	const base = toIdentifier(label);
 	const suffix =
@@ -1300,7 +1361,9 @@ function semanticFunctionName(
 						? "Route"
 						: kind === "streamRoute"
 							? "StreamRoute"
-						: kind === "workflow"
+							: kind === "middleware"
+								? "Middleware"
+							: kind === "workflow"
 							? "Workflow"
 							: kind === "command"
 								? "Command"
@@ -1322,6 +1385,10 @@ function normalizeTypeExpressionSource(source: string): string {
 	if (maybeMatch) return `Maybe<${normalizeTypeExpressionSource(maybeMatch[1] ?? "")}>`;
 	const orParts = splitTopLevelOr(trimmed);
 	if (orParts.length > 1) return `Or<${orParts.map(normalizeTypeExpressionSource).join(", ")}>`;
+	const maybeSpaceMatch = trimmed.match(/^Maybe\s+(.+)$/);
+	if (maybeSpaceMatch) return `Maybe<${normalizeTypeExpressionSource(maybeSpaceMatch[1] ?? "")}>`;
+	const listSpaceMatch = trimmed.match(/^List\s+(.+)$/);
+	if (listSpaceMatch) return `List<${normalizeTypeExpressionSource(listSpaceMatch[1] ?? "")}>`;
 	if (
 		trimmed === "Text" ||
 		trimmed === "Int" ||

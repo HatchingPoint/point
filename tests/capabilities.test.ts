@@ -23,7 +23,7 @@ describe("built-in capabilities", () => {
 	});
 
 	test("registry covers all std capability names", () => {
-		expect(BUILTIN_CAPABILITIES.length).toBe(14);
+		expect(BUILTIN_CAPABILITIES.length).toBe(15);
 		for (const entry of BUILTIN_CAPABILITIES) {
 			expect(isBuiltinCapabilityName(entry.name)).toBe(true);
 			expect(entry.module).toBe(`std.${entry.name}`);

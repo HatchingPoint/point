@@ -76,4 +76,15 @@ describe("point lsp", () => {
 		const prepared = await prepareRenameAtPosition(mathSource, 32, 8);
 		expect(prepared?.placeholder).toBe("score status");
 	});
+
+	test("LSP diagnostics include repair step order", async () => {
+		const source = await Bun.file("tests/fixtures/agent-repair/auth-bearer-broken.point").text();
+		const analysis = await analyzePointSource(source, {
+			cwd: process.cwd(),
+			input: "tests/fixtures/agent-repair/auth-bearer-broken.point",
+		});
+		expect(analysis.diagnostics.length).toBeGreaterThan(0);
+		expect(analysis.diagnostics[0]?.repair).toBeTruthy();
+		expect(analysis.diagnostics[0]?.message).toContain("legacyJwtCheck");
+	});
 });

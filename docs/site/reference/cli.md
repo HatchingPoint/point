@@ -8,7 +8,7 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point@0.1.34` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.1.35` (see `npm view @hatchingpoint/point version`)
 
 ## CLI rings (start here)
 
@@ -16,9 +16,9 @@ Most users need only these:
 
 | Ring | Commands | Purpose |
 |------|----------|---------|
-| **Daily** | `check`, `box`, `launch`, `dev` | Validate, discover, run, app dev |
+| **Daily** | `check`, `box`, `launch`, `demo`, `dev` | Validate, discover, run, app dev |
 | **Build** | `build`, `build-app`, `build-schema` | Emit for hosts and deploy |
-| **Agent** | `check-json`, `repair-plan`, `index`, `explain` | Compiler as agent IDE |
+| **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Compiler as agent IDE |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `*-all`, `repl` | Alternate emit, batch, tooling |
 
 See [Point in 60 seconds](/point/guide/point-in-60-seconds) and [Build and emit](/point/toolchain/build-emit) decision tree.
@@ -42,6 +42,8 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `index` | Symbol index JSON (semantic when available) | 0 |
 | `explain` | Explain a ref: `point explain <file> <ref>` | 0 |
 | `repair-plan` | Ordered repair steps from diagnostics | 1 if diagnostics |
+| `repair` | Alias for `repair-plan` | 1 if diagnostics |
+| `demo` | Golden demo path: check, box, print dev/launch/repair next steps | 1 on check failure |
 | `capabilities` | List built-in std modules (`use http` shorthand); `--json` for agents | 0 |
 | `commands` | List runnable `command` blocks in a file; `--json` for agents | 0 |
 | `box` | Capabilities + commands for one file in one screen; `--json` for agents | 0 |

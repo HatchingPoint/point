@@ -13,11 +13,11 @@ This is the **golden demo** for evaluators: scaffold a real admin app, discover 
 ## 1. Scaffold (2 minutes)
 
 ```bash
-bun install -g @hatchingpoint/point
 point create eval-demo
 cd eval-demo
 bun install
-point check src/app.point
+point demo src/app.point
+point dev src/app.point
 ```
 
 You get a full-stack template: one `src/app.point`, Vite host in `web/`, API + UI from the same source.
