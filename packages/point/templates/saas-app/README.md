@@ -13,7 +13,7 @@ bun run dev
 
 Open **http://localhost:5173** for the UI. API on **http://localhost:3456**.
 
-Set `JWT_SECRET` in production and replace `jwt secret` with an env-backed calculation — see README.
+Set `JWT_SECRET` in production (Render generates one in `render.yaml`). Local dev uses a demo fallback when unset.
 
 ## Discover and launch
 

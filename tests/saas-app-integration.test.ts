@@ -84,7 +84,7 @@ describe("saas-app HTTP service", () => {
 		expect(await response.json()).toEqual({ error: "unauthorized" });
 	});
 
-	test("POST /api/members accepts JSON body after auth", async () => {
+	test("POST /api/members persists member and GET lists it", async () => {
 		const response = await fetch(`${baseUrl}/api/members`, {
 			method: "POST",
 			headers: {
@@ -94,6 +94,16 @@ describe("saas-app HTTP service", () => {
 			body: JSON.stringify({ name: "New Member", role: "Member" }),
 		});
 		expect(response.status).toBe(201);
-		expect(await response.json()).toEqual({ id: "new", name: "New Member", role: "Member" });
+		const created = (await response.json()) as { id: string; name: string; role: string };
+		expect(created.name).toBe("New Member");
+		expect(created.role).toBe("Member");
+		expect(created.id.length).toBeGreaterThan(0);
+		expect(created.id).not.toBe("new");
+
+		const list = await fetch(`${baseUrl}/api/members`);
+		expect(list.status).toBe(200);
+		const body = (await list.json()) as { members: Array<{ name: string }> };
+		expect(body.members.length).toBe(4);
+		expect(body.members.some((member) => member.name === "New Member")).toBe(true);
 	});
 });

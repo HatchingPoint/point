@@ -4,12 +4,13 @@
 
 ## Active execution
 
-**Phase 46** — Real SaaS path (default SQL + deploy-ready build). Plan: [phase46-plan.md](./phase46-plan.md).
+**Phase 47** — Credible SaaS CRUD. Plan: [phase47-plan.md](./phase47-plan.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **47** | v0.1.39 | POST member INSERT, env JWT secret, onboarding SQL smoke, render env vars |
 | **46** | v0.1.38 | SQL-backed saas members, build inlining, saas e2e integration |
 | **45** | v0.1.37 | SQL action wiring, auth-bearer repair gate, saas integration test, pilot quickstart |
 | **44** | v0.1.36 | saas-app template, onboarding smoke CI, std module resolution, external pilot checklist |

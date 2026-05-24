@@ -46,10 +46,11 @@ view settings form
 
 calculation jwt secret
   output secret: Text
-  secret is "demo-jwt-secret-change-me"
+  secret is env with default(env get raw("JWT_SECRET"), "demo-jwt-secret-change-me")
 
 external point std sql
   sql json rows list(raw: Text or Error): List<Member> from "@hatchingpoint/point/std/sql" as sqlJsonRowsList
+  sql json member row(raw: Text or Error): Member from "@hatchingpoint/point/std/sql" as sqlJsonMemberRow
 
 action query member rows
   output rows: Text or Error
@@ -126,6 +127,12 @@ workflow init members db
   step seeded is await seed members table()
   return seeded
 
+action insert member
+  output member: Member
+  input body: Create Member Body
+  touches database
+  return sql json member row(sql query raw("INSERT INTO members (id, name, role) VALUES (lower(hex(randomblob(8))), ?, ?) RETURNING id, name, role", [body.name, body.role]))
+
 route health check
   method GET
   path "/api/health"
@@ -145,7 +152,7 @@ route create member
   input headers: Auth Headers
   input body: Create Member Body
   output response: Member
-  return json status 201 { id: "new", name: body.name, role: body.role }
+  return json status 201 await insert member(body)
 
 command serve saas app
   output status: Text

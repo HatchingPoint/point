@@ -504,6 +504,9 @@ class CoreChecker {
 				});
 				return null;
 			}
+			if (entry.type.name === "Maybe" && entry.type.args.length === 1 && isMaybePathNarrowed(expression, scope)) {
+				return entry.type.args[0]!;
+			}
 			return entry.type;
 		}
 		if (expression.kind === "binary") {

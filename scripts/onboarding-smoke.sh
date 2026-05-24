@@ -44,7 +44,9 @@ echo "$RESULT" | grep -q "ready"
 if [[ "$TEMPLATE" == "saas-app" ]]; then
   echo "[onboarding-smoke] init database"
   mkdir -p data
-  DATABASE_URL=sqlite:./data/members.db $CLI launch src/app.point init database
+  DATABASE_URL=sqlite:./data/members.db JWT_SECRET=onboarding-smoke-secret $CLI launch src/app.point init database
+  export DATABASE_URL=sqlite:./data/members.db
+  export JWT_SECRET=onboarding-smoke-secret
 fi
 
 echo "[onboarding-smoke] point build-app"
@@ -65,9 +67,9 @@ if [[ "$HEALTH" != "ok" ]]; then
 fi
 
 MEMBERS="$(curl -sf "http://127.0.0.1:$PORT/api/members" || true)"
-if [[ "$MEMBERS" != *"members"* ]]; then
+	if [[ "$MEMBERS" != *"members"* ]] || [[ "$MEMBERS" != *"Alex Chen"* ]]; then
   kill "$SERVE_PID" 2>/dev/null || true
-  echo "[onboarding-smoke] FAIL: /api/members missing members field"
+  echo "[onboarding-smoke] FAIL: /api/members missing seeded SQL members (expected Alex Chen)"
   exit 1
 fi
 

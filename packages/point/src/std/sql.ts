@@ -71,3 +71,19 @@ export function sqlJsonRowsList(raw: string | PointStdError): unknown[] | PointS
 		return { message: error instanceof Error ? error.message : String(error) };
 	}
 }
+
+/** Decode the first SQL row from sqlQueryRaw JSON (for INSERT ... RETURNING). */
+export function sqlJsonMemberRow(raw: string | PointStdError): Record<string, string> | PointStdError {
+	const rows = sqlJsonRowsList(raw);
+	if (typeof rows === "object" && rows !== null && "message" in rows) {
+		return rows;
+	}
+	if (rows.length === 0) {
+		return { message: "SQL query returned no rows" };
+	}
+	const row = rows[0];
+	if (row === null || typeof row !== "object" || Array.isArray(row)) {
+		return { message: "SQL row must be an object" };
+	}
+	return row as Record<string, string>;
+}

@@ -136,4 +136,25 @@ Point is ready for **pilot full-stack SaaS admin apps** authored entirely in `.p
 
 ### Recommendation (v3)
 
-Point is ready for **opinionated SaaS pilots** — one template path with DB + auth wired. Next: push v0.1.36, run [external pilot checklist](./external-pilot-checklist.md) with a real team.
+Point is ready for **opinionated SaaS pilots** — one template path with DB + auth wired. Next: run [external pilot checklist](./external-pilot-checklist.md) with a real team.
+
+---
+
+## V4 — Real SQL CRUD + env JWT (Phase 47)
+
+**Date:** 2026-05-24  
+**Artifacts:** `sqlJsonMemberRow`, env-backed `JWT_SECRET`, POST `/api/members` INSERT, onboarding smoke SQL assertion
+
+### What it proves
+
+- **GET and POST members** both touch SQLite — no stub `{ id: "new" }` response
+- **`JWT_SECRET` env** with demo fallback via fixed `env with default`
+- **Onboarding smoke** asserts seeded member name in `/api/members` JSON after `init:db`
+
+### Pending (real pilot)
+
+| Item | Status |
+|------|--------|
+| External team runs pilot checklist | Not started |
+| Blockers logged | — |
+| Agent repair case from pilot friction | — |

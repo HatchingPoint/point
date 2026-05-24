@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { describe, expect, test } from "bun:test";
-import { envGet } from "@hatchingpoint/point/std/env";
+import { envGet, envGetOrDefault } from "@hatchingpoint/point/std/env";
 import { readFile, writeFile } from "@hatchingpoint/point/std/fs";
 import { httpAssertJsonBody, httpAssertStatus, httpFetch, httpGet, httpPost } from "@hatchingpoint/point/std/http";
 import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
@@ -25,7 +25,7 @@ import {
 } from "@hatchingpoint/point/std/stream";
 import { textContains, textLength, textSplit, textTrim } from "@hatchingpoint/point/std/text";
 import { yamlParse, yamlStringify } from "@hatchingpoint/point/std/yaml";
-import { sqlJsonRowsList, sqlQueryRaw } from "@hatchingpoint/point/std/sql";
+import { sqlJsonMemberRow, sqlJsonRowsList, sqlQueryRaw } from "@hatchingpoint/point/std/sql";
 
 describe("@hatchingpoint/point std runtime shims", () => {
 	test("jsonParse and jsonStringify round-trip JSON text", () => {
@@ -242,10 +242,33 @@ describe("@hatchingpoint/point std runtime shims", () => {
 		}
 	});
 
+	test("envGetOrDefault returns env value or fallback", () => {
+		const key = "POINT_STD_ENV_DEFAULT_TEST";
+		const original = process.env[key];
+		process.env[key] = "from-env";
+		try {
+			expect(envGetOrDefault(key, "fallback")).toBe("from-env");
+			delete process.env[key];
+			expect(envGetOrDefault(key, "fallback")).toBe("fallback");
+		} finally {
+			if (original === undefined) delete process.env[key];
+			else process.env[key] = original;
+		}
+	});
+
 	test("sqlJsonRowsList decodes JSON row arrays from sqlQueryRaw", () => {
 		const rows = sqlJsonRowsList('[{"id":"u-1","name":"Alex Chen","role":"Owner"}]');
 		expect(rows).toEqual([{ id: "u-1", name: "Alex Chen", role: "Owner" }]);
 		expect(sqlJsonRowsList({ message: "bad query" })).toEqual({ message: "bad query" });
 		expect(sqlJsonRowsList("{}")).toEqual({ message: "SQL rows JSON must be an array" });
+	});
+
+	test("sqlJsonMemberRow returns first decoded SQL row", () => {
+		expect(sqlJsonMemberRow('[{"id":"m-1","name":"New","role":"Member"}]')).toEqual({
+			id: "m-1",
+			name: "New",
+			role: "Member",
+		});
+		expect(sqlJsonMemberRow("[]")).toEqual({ message: "SQL query returned no rows" });
 	});
 });

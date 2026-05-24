@@ -57,4 +57,17 @@ calculation bad contact access
 		const diagnostics = checkPointCore(parsePointSource(source));
 		expect(diagnostics.some((diagnostic) => diagnostic.code === "nullable-field-access")).toBe(true);
 	});
+
+	test("narrows Maybe<Text> to Text in present branches", () => {
+		const source = `module MaybeTextNarrow
+
+calculation pick env value
+  input value: Maybe<Text>
+  input default value: Text
+  output result: Text
+  when value != none return value
+  otherwise return default value
+`;
+		expect(checkPointCore(parsePointSource(source))).toEqual([]);
+	});
 });

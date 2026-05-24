@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.39
+
+### Added
+
+- Phase 47: **POST member INSERT** — saas-app `insert member` action persists to SQLite via RETURNING.
+- Phase 47: **`sqlJsonMemberRow`** — decode first SQL row for typed `Member` externals.
+- Phase 47: **Env JWT secret** — `JWT_SECRET` with demo fallback via fixed `env with default`.
+
+### Fixed
+
+- Phase 47: **`Maybe<Text>` narrowing** — present-branch returns unwrap to Text in checker.
+- Phase 47: **`env with default`** std calculation — returns env value when set, not always default.
+- Phase 47: **Onboarding smoke** — asserts seeded SQL member in `/api/members`; passes `DATABASE_URL`/`JWT_SECRET` to serve.
+
 ## 0.1.38
 
 ### Added
