@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.20**
+Current release: **0.1.22**
 
 Check the published npm version:
 
@@ -22,6 +22,8 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.22** | Fix CI: ship `roadmap-analyze` module for `point roadmap-analyze` CLI command. |
+| **0.1.21** | Phase 28 agent loop hardening + Phase 29 Python std mirror. |
 | **0.1.20** | Phase 27: middleware validation, view source maps, theme toggle, `build-schema` SQL stub. |
 | **0.1.19** | Phase 26 Wave 2: pipeline step I/O, money lint, load-data repair hints. |
 | **0.1.18** | Phase 26 Wave 1: field aliases, variant exhaustiveness, Maybe narrowing, tab/slot style modifiers. |

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.22
+
+### Fixed
+
+- Ship `roadmap-analyze.ts` on the CLI module graph so `point fmt-check-all` and CI pass on clean checkout (`point roadmap-analyze`).
+
 ## 0.1.21
 
 ### Added
