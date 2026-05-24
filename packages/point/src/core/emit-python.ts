@@ -96,10 +96,12 @@ const POINT_STD_SYMBOL_ALIASES: Record<string, Record<string, string>> = {
 		instantNowRaw: "instantNow",
 		parseInstantRaw: "parseInstant",
 		formatInstantRaw: "formatInstant",
+		formatInstantInTimezoneRaw: "formatInstantInTimezone",
 		timeNow: "now",
 		sleepMilliseconds: "sleep",
 		durationFromSecondsRaw: "durationFromSeconds",
 		durationToSecondsRaw: "durationToSeconds",
+		durationFromMinutesRaw: "durationFromMinutes",
 	},
 };
 

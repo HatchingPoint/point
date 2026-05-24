@@ -143,6 +143,77 @@
     },
     {
       "kind": "external",
+      "name": "formatInstantInTimezoneRaw",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "timezone",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "timezone",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/time",
+      "importName": "formatInstantInTimezone",
+      "semantic": {
+        "kind": "external",
+        "name": "format instant in timezone raw"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 321
+        },
+        "end": {
+          "line": 7,
+          "column": 135,
+          "offset": 455
+        }
+      }
+    },
+    {
+      "kind": "external",
       "name": "timeNow",
       "params": [],
       "returnType": {
@@ -158,14 +229,14 @@
       },
       "span": {
         "start": {
-          "line": 7,
+          "line": 8,
           "column": 1,
-          "offset": 321
+          "offset": 456
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "column": 63,
-          "offset": 383
+          "offset": 518
         }
       }
     },
@@ -183,12 +254,12 @@
           "semanticName": "ms",
           "span": {
             "start": {
-              "line": 8,
+              "line": 9,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 8,
+              "line": 9,
               "column": 8,
               "offset": 7
             }
@@ -208,14 +279,14 @@
       },
       "span": {
         "start": {
-          "line": 8,
+          "line": 9,
           "column": 1,
-          "offset": 384
+          "offset": 519
         },
         "end": {
-          "line": 8,
+          "line": 9,
           "column": 82,
-          "offset": 465
+          "offset": 600
         }
       }
     },
@@ -233,12 +304,12 @@
           "semanticName": "value",
           "span": {
             "start": {
-              "line": 9,
+              "line": 10,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 9,
+              "line": 10,
               "column": 12,
               "offset": 11
             }
@@ -258,14 +329,14 @@
       },
       "span": {
         "start": {
-          "line": 9,
+          "line": 10,
           "column": 1,
-          "offset": 466
+          "offset": 601
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "column": 84,
-          "offset": 549
+          "offset": 684
         }
       }
     },
@@ -283,12 +354,12 @@
           "semanticName": "seconds",
           "span": {
             "start": {
-              "line": 10,
+              "line": 11,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 10,
+              "line": 11,
               "column": 13,
               "offset": 12
             }
@@ -308,14 +379,14 @@
       },
       "span": {
         "start": {
-          "line": 10,
+          "line": 11,
           "column": 1,
-          "offset": 550
+          "offset": 685
         },
         "end": {
-          "line": 10,
+          "line": 11,
           "column": 112,
-          "offset": 661
+          "offset": 796
         }
       }
     },
@@ -333,12 +404,12 @@
           "semanticName": "elapsed",
           "span": {
             "start": {
-              "line": 11,
+              "line": 12,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 11,
+              "line": 12,
               "column": 18,
               "offset": 17
             }
@@ -358,14 +429,14 @@
       },
       "span": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 1,
-          "offset": 662
+          "offset": 797
         },
         "end": {
-          "line": 11,
+          "line": 12,
           "column": 108,
-          "offset": 769
+          "offset": 904
         }
       }
     },
@@ -383,12 +454,12 @@
           "semanticName": "minutes",
           "span": {
             "start": {
-              "line": 12,
+              "line": 13,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 12,
+              "line": 13,
               "column": 13,
               "offset": 12
             }
@@ -408,14 +479,14 @@
       },
       "span": {
         "start": {
-          "line": 12,
+          "line": 13,
           "column": 1,
-          "offset": 770
+          "offset": 905
         },
         "end": {
-          "line": 12,
+          "line": 13,
           "column": 112,
-          "offset": 881
+          "offset": 1016
         }
       }
     },
@@ -437,27 +508,27 @@
             "args": [],
             "span": {
               "start": {
-                "line": 16,
+                "line": 17,
                 "column": 1,
-                "offset": 931
+                "offset": 1066
               },
               "end": {
-                "line": 16,
+                "line": 17,
                 "column": 29,
-                "offset": 959
+                "offset": 1094
               }
             }
           },
           "span": {
             "start": {
-              "line": 16,
+              "line": 17,
               "column": 1,
-              "offset": 931
+              "offset": 1066
             },
             "end": {
-              "line": 16,
+              "line": 17,
               "column": 29,
-              "offset": 959
+              "offset": 1094
             }
           }
         }
@@ -470,14 +541,14 @@
       },
       "span": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 1,
-          "offset": 883
+          "offset": 1018
         },
         "end": {
-          "line": 14,
+          "line": 15,
           "column": 24,
-          "offset": 906
+          "offset": 1041
         }
       }
     },
@@ -495,12 +566,12 @@
           "semanticName": "value",
           "span": {
             "start": {
-              "line": 19,
+              "line": 20,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 19,
+              "line": 20,
               "column": 15,
               "offset": 14
             }
@@ -524,41 +595,41 @@
                 "name": "value",
                 "span": {
                   "start": {
-                    "line": 21,
+                    "line": 22,
                     "column": 1,
-                    "offset": 1032
+                    "offset": 1167
                   },
                   "end": {
-                    "line": 21,
+                    "line": 22,
                     "column": 37,
-                    "offset": 1068
+                    "offset": 1203
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 21,
+                "line": 22,
                 "column": 1,
-                "offset": 1032
+                "offset": 1167
               },
               "end": {
-                "line": 21,
+                "line": 22,
                 "column": 37,
-                "offset": 1068
+                "offset": 1203
               }
             }
           },
           "span": {
             "start": {
-              "line": 21,
+              "line": 22,
               "column": 1,
-              "offset": 1032
+              "offset": 1167
             },
             "end": {
-              "line": 21,
+              "line": 22,
               "column": 37,
-              "offset": 1068
+              "offset": 1203
             }
           }
         }
@@ -571,14 +642,152 @@
       },
       "span": {
         "start": {
-          "line": 18,
+          "line": 19,
           "column": 1,
-          "offset": 961
+          "offset": 1096
         },
         "end": {
-          "line": 18,
+          "line": 19,
           "column": 27,
-          "offset": 987
+          "offset": 1122
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "formatInstantInTimezoneLabel",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        },
+        {
+          "name": "timezone",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "timezone",
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 26,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "formatInstantInTimezoneRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 1311
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 59,
+                    "offset": 1369
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "timezone",
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 1311
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 59,
+                    "offset": 1369
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 1311
+              },
+              "end": {
+                "line": 28,
+                "column": 59,
+                "offset": 1369
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 1311
+            },
+            "end": {
+              "line": 28,
+              "column": 59,
+              "offset": 1369
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "format instant in timezone",
+        "outputName": "label",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 1205
+        },
+        "end": {
+          "line": 24,
+          "column": 39,
+          "offset": 1243
         }
       }
     },
@@ -596,12 +805,12 @@
           "semanticName": "value",
           "span": {
             "start": {
-              "line": 24,
+              "line": 31,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 24,
+              "line": 31,
               "column": 12,
               "offset": 11
             }
@@ -636,41 +845,41 @@
                 "name": "value",
                 "span": {
                   "start": {
-                    "line": 27,
+                    "line": 34,
                     "column": 1,
-                    "offset": 1160
+                    "offset": 1461
                   },
                   "end": {
-                    "line": 27,
+                    "line": 34,
                     "column": 34,
-                    "offset": 1193
+                    "offset": 1494
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 27,
+                "line": 34,
                 "column": 1,
-                "offset": 1160
+                "offset": 1461
               },
               "end": {
-                "line": 27,
+                "line": 34,
                 "column": 34,
-                "offset": 1193
+                "offset": 1494
               }
             }
           },
           "span": {
             "start": {
-              "line": 27,
+              "line": 34,
               "column": 1,
-              "offset": 1160
+              "offset": 1461
             },
             "end": {
-              "line": 27,
+              "line": 34,
               "column": 34,
-              "offset": 1193
+              "offset": 1494
             }
           }
         }
@@ -685,14 +894,14 @@
       },
       "span": {
         "start": {
-          "line": 23,
+          "line": 30,
           "column": 1,
-          "offset": 1070
+          "offset": 1371
         },
         "end": {
-          "line": 23,
+          "line": 30,
           "column": 21,
-          "offset": 1090
+          "offset": 1391
         }
       }
     },
@@ -714,27 +923,27 @@
             "args": [],
             "span": {
               "start": {
-                "line": 32,
+                "line": 39,
                 "column": 1,
-                "offset": 1251
+                "offset": 1552
               },
               "end": {
-                "line": 32,
+                "line": 39,
                 "column": 20,
-                "offset": 1270
+                "offset": 1571
               }
             }
           },
           "span": {
             "start": {
-              "line": 32,
+              "line": 39,
               "column": 1,
-              "offset": 1251
+              "offset": 1552
             },
             "end": {
-              "line": 32,
+              "line": 39,
               "column": 20,
-              "offset": 1270
+              "offset": 1571
             }
           }
         }
@@ -749,14 +958,14 @@
       },
       "span": {
         "start": {
-          "line": 29,
+          "line": 36,
           "column": 1,
-          "offset": 1195
+          "offset": 1496
         },
         "end": {
-          "line": 29,
+          "line": 36,
           "column": 20,
-          "offset": 1214
+          "offset": 1515
         }
       }
     },
@@ -774,12 +983,12 @@
           "semanticName": "ms",
           "span": {
             "start": {
-              "line": 35,
+              "line": 42,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 35,
+              "line": 42,
               "column": 8,
               "offset": 7
             }
@@ -803,41 +1012,41 @@
                 "name": "ms",
                 "span": {
                   "start": {
-                    "line": 38,
+                    "line": 45,
                     "column": 1,
-                    "offset": 1342
+                    "offset": 1643
                   },
                   "end": {
-                    "line": 38,
+                    "line": 45,
                     "column": 32,
-                    "offset": 1373
+                    "offset": 1674
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 38,
+                "line": 45,
                 "column": 1,
-                "offset": 1342
+                "offset": 1643
               },
               "end": {
-                "line": 38,
+                "line": 45,
                 "column": 32,
-                "offset": 1373
+                "offset": 1674
               }
             }
           },
           "span": {
             "start": {
-              "line": 38,
+              "line": 45,
               "column": 1,
-              "offset": 1342
+              "offset": 1643
             },
             "end": {
-              "line": 38,
+              "line": 45,
               "column": 32,
-              "offset": 1373
+              "offset": 1674
             }
           }
         }
@@ -852,14 +1061,14 @@
       },
       "span": {
         "start": {
-          "line": 34,
+          "line": 41,
           "column": 1,
-          "offset": 1272
+          "offset": 1573
         },
         "end": {
-          "line": 34,
+          "line": 41,
           "column": 25,
-          "offset": 1296
+          "offset": 1597
         }
       }
     },
@@ -877,12 +1086,12 @@
           "semanticName": "seconds",
           "span": {
             "start": {
-              "line": 41,
+              "line": 48,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 41,
+              "line": 48,
               "column": 13,
               "offset": 12
             }
@@ -906,41 +1115,41 @@
                 "name": "seconds",
                 "span": {
                   "start": {
-                    "line": 43,
+                    "line": 50,
                     "column": 1,
-                    "offset": 1458
+                    "offset": 1759
                   },
                   "end": {
-                    "line": 43,
+                    "line": 50,
                     "column": 49,
-                    "offset": 1506
+                    "offset": 1807
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 43,
+                "line": 50,
                 "column": 1,
-                "offset": 1458
+                "offset": 1759
               },
               "end": {
-                "line": 43,
+                "line": 50,
                 "column": 49,
-                "offset": 1506
+                "offset": 1807
               }
             }
           },
           "span": {
             "start": {
-              "line": 43,
+              "line": 50,
               "column": 1,
-              "offset": 1458
+              "offset": 1759
             },
             "end": {
-              "line": 43,
+              "line": 50,
               "column": 49,
-              "offset": 1506
+              "offset": 1807
             }
           }
         }
@@ -953,14 +1162,14 @@
       },
       "span": {
         "start": {
-          "line": 40,
+          "line": 47,
           "column": 1,
-          "offset": 1375
+          "offset": 1676
         },
         "end": {
-          "line": 40,
+          "line": 47,
           "column": 34,
-          "offset": 1408
+          "offset": 1709
         }
       }
     },
@@ -978,12 +1187,12 @@
           "semanticName": "elapsed",
           "span": {
             "start": {
-              "line": 46,
+              "line": 53,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 46,
+              "line": 53,
               "column": 18,
               "offset": 17
             }
@@ -1007,41 +1216,41 @@
                 "name": "elapsed",
                 "span": {
                   "start": {
-                    "line": 48,
+                    "line": 55,
                     "column": 1,
-                    "offset": 1588
+                    "offset": 1889
                   },
                   "end": {
-                    "line": 48,
+                    "line": 55,
                     "column": 46,
-                    "offset": 1633
+                    "offset": 1934
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 48,
+                "line": 55,
                 "column": 1,
-                "offset": 1588
+                "offset": 1889
               },
               "end": {
-                "line": 48,
+                "line": 55,
                 "column": 46,
-                "offset": 1633
+                "offset": 1934
               }
             }
           },
           "span": {
             "start": {
-              "line": 48,
+              "line": 55,
               "column": 1,
-              "offset": 1588
+              "offset": 1889
             },
             "end": {
-              "line": 48,
+              "line": 55,
               "column": 46,
-              "offset": 1633
+              "offset": 1934
             }
           }
         }
@@ -1054,14 +1263,14 @@
       },
       "span": {
         "start": {
-          "line": 45,
+          "line": 52,
           "column": 1,
-          "offset": 1508
+          "offset": 1809
         },
         "end": {
-          "line": 45,
+          "line": 52,
           "column": 32,
-          "offset": 1539
+          "offset": 1840
         }
       }
     },
@@ -1079,12 +1288,12 @@
           "semanticName": "minutes",
           "span": {
             "start": {
-              "line": 51,
+              "line": 58,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 51,
+              "line": 58,
               "column": 13,
               "offset": 12
             }
@@ -1108,41 +1317,41 @@
                 "name": "minutes",
                 "span": {
                   "start": {
-                    "line": 53,
+                    "line": 60,
                     "column": 1,
-                    "offset": 1718
+                    "offset": 2019
                   },
                   "end": {
-                    "line": 53,
+                    "line": 60,
                     "column": 49,
-                    "offset": 1766
+                    "offset": 2067
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 53,
+                "line": 60,
                 "column": 1,
-                "offset": 1718
+                "offset": 2019
               },
               "end": {
-                "line": 53,
+                "line": 60,
                 "column": 49,
-                "offset": 1766
+                "offset": 2067
               }
             }
           },
           "span": {
             "start": {
-              "line": 53,
+              "line": 60,
               "column": 1,
-              "offset": 1718
+              "offset": 2019
             },
             "end": {
-              "line": 53,
+              "line": 60,
               "column": 49,
-              "offset": 1766
+              "offset": 2067
             }
           }
         }
@@ -1155,14 +1364,14 @@
       },
       "span": {
         "start": {
-          "line": 50,
+          "line": 57,
           "column": 1,
-          "offset": 1635
+          "offset": 1936
         },
         "end": {
-          "line": 50,
+          "line": 57,
           "column": 34,
-          "offset": 1668
+          "offset": 1969
         }
       }
     }
@@ -1314,6 +1523,70 @@
             }
           },
           {
+            "label": "format instant in timezone raw",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Instant",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              },
+              {
+                "label": "timezone",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/time",
+            "importAs": "formatInstantInTimezone",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 321
+              },
+              "end": {
+                "line": 7,
+                "column": 135,
+                "offset": 455
+              }
+            }
+          },
+          {
             "label": "time now",
             "params": [],
             "returnType": {
@@ -1325,14 +1598,14 @@
             "importAs": "now",
             "span": {
               "start": {
-                "line": 7,
+                "line": 8,
                 "column": 1,
-                "offset": 321
+                "offset": 456
               },
               "end": {
-                "line": 7,
+                "line": 8,
                 "column": 63,
-                "offset": 383
+                "offset": 518
               }
             }
           },
@@ -1348,12 +1621,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 8,
+                    "line": 9,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 8,
+                    "line": 9,
                     "column": 8,
                     "offset": 7
                   }
@@ -1369,14 +1642,14 @@
             "importAs": "sleep",
             "span": {
               "start": {
-                "line": 8,
+                "line": 9,
                 "column": 1,
-                "offset": 384
+                "offset": 519
               },
               "end": {
-                "line": 8,
+                "line": 9,
                 "column": 82,
-                "offset": 465
+                "offset": 600
               }
             }
           },
@@ -1392,12 +1665,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 9,
+                    "line": 10,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 9,
+                    "line": 10,
                     "column": 12,
                     "offset": 11
                   }
@@ -1413,14 +1686,14 @@
             "importAs": "formatTime",
             "span": {
               "start": {
-                "line": 9,
+                "line": 10,
                 "column": 1,
-                "offset": 466
+                "offset": 601
               },
               "end": {
-                "line": 9,
+                "line": 10,
                 "column": 84,
-                "offset": 549
+                "offset": 684
               }
             }
           },
@@ -1436,12 +1709,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 10,
+                    "line": 11,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 10,
+                    "line": 11,
                     "column": 13,
                     "offset": 12
                   }
@@ -1457,14 +1730,14 @@
             "importAs": "durationFromSeconds",
             "span": {
               "start": {
-                "line": 10,
+                "line": 11,
                 "column": 1,
-                "offset": 550
+                "offset": 685
               },
               "end": {
-                "line": 10,
+                "line": 11,
                 "column": 112,
-                "offset": 661
+                "offset": 796
               }
             }
           },
@@ -1480,12 +1753,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 11,
+                    "line": 12,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 11,
+                    "line": 12,
                     "column": 18,
                     "offset": 17
                   }
@@ -1501,14 +1774,14 @@
             "importAs": "durationToSeconds",
             "span": {
               "start": {
-                "line": 11,
+                "line": 12,
                 "column": 1,
-                "offset": 662
+                "offset": 797
               },
               "end": {
-                "line": 11,
+                "line": 12,
                 "column": 108,
-                "offset": 769
+                "offset": 904
               }
             }
           },
@@ -1524,12 +1797,12 @@
                 },
                 "span": {
                   "start": {
-                    "line": 12,
+                    "line": 13,
                     "column": 1,
                     "offset": 0
                   },
                   "end": {
-                    "line": 12,
+                    "line": 13,
                     "column": 13,
                     "offset": 12
                   }
@@ -1545,14 +1818,14 @@
             "importAs": "durationFromMinutes",
             "span": {
               "start": {
-                "line": 12,
+                "line": 13,
                 "column": 1,
-                "offset": 770
+                "offset": 905
               },
               "end": {
-                "line": 12,
+                "line": 13,
                 "column": 112,
-                "offset": 881
+                "offset": 1016
               }
             }
           }
@@ -1592,41 +1865,41 @@
               "args": [],
               "span": {
                 "start": {
-                  "line": 16,
+                  "line": 17,
                   "column": 1,
-                  "offset": 931
+                  "offset": 1066
                 },
                 "end": {
-                  "line": 16,
+                  "line": 17,
                   "column": 29,
-                  "offset": 959
+                  "offset": 1094
                 }
               }
             },
             "span": {
               "start": {
-                "line": 16,
+                "line": 17,
                 "column": 1,
-                "offset": 931
+                "offset": 1066
               },
               "end": {
-                "line": 16,
+                "line": 17,
                 "column": 29,
-                "offset": 959
+                "offset": 1094
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 14,
+            "line": 15,
             "column": 1,
-            "offset": 883
+            "offset": 1018
           },
           "end": {
-            "line": 14,
+            "line": 15,
             "column": 24,
-            "offset": 906
+            "offset": 1041
           }
         }
       },
@@ -1643,12 +1916,12 @@
             },
             "span": {
               "start": {
-                "line": 19,
+                "line": 20,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 19,
+                "line": 20,
                 "column": 15,
                 "offset": 14
               }
@@ -1676,55 +1949,189 @@
                   "label": "value",
                   "span": {
                     "start": {
-                      "line": 21,
+                      "line": 22,
                       "column": 1,
-                      "offset": 1032
+                      "offset": 1167
                     },
                     "end": {
-                      "line": 21,
+                      "line": 22,
                       "column": 37,
-                      "offset": 1068
+                      "offset": 1203
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 21,
+                  "line": 22,
                   "column": 1,
-                  "offset": 1032
+                  "offset": 1167
                 },
                 "end": {
-                  "line": 21,
+                  "line": 22,
                   "column": 37,
-                  "offset": 1068
+                  "offset": 1203
                 }
               }
             },
             "span": {
               "start": {
-                "line": 21,
+                "line": 22,
                 "column": 1,
-                "offset": 1032
+                "offset": 1167
               },
               "end": {
-                "line": 21,
+                "line": 22,
                 "column": 37,
-                "offset": 1068
+                "offset": 1203
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 18,
+            "line": 19,
             "column": 1,
-            "offset": 961
+            "offset": 1096
           },
           "end": {
-            "line": 18,
+            "line": 19,
             "column": 27,
-            "offset": 987
+            "offset": 1122
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "format instant in timezone",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Instant",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "label": "timezone",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 26,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "label",
+            "value": {
+              "kind": "call",
+              "callee": "format instant in timezone raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 28,
+                      "column": 1,
+                      "offset": 1311
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 59,
+                      "offset": 1369
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "timezone",
+                  "span": {
+                    "start": {
+                      "line": 28,
+                      "column": 1,
+                      "offset": 1311
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 59,
+                      "offset": 1369
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 28,
+                  "column": 1,
+                  "offset": 1311
+                },
+                "end": {
+                  "line": 28,
+                  "column": 59,
+                  "offset": 1369
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 1311
+              },
+              "end": {
+                "line": 28,
+                "column": 59,
+                "offset": 1369
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 24,
+            "column": 1,
+            "offset": 1205
+          },
+          "end": {
+            "line": 24,
+            "column": 39,
+            "offset": 1243
           }
         }
       },
@@ -1741,12 +2148,12 @@
             },
             "span": {
               "start": {
-                "line": 24,
+                "line": 31,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 24,
+                "line": 31,
                 "column": 12,
                 "offset": 11
               }
@@ -1787,55 +2194,55 @@
                   "label": "value",
                   "span": {
                     "start": {
-                      "line": 27,
+                      "line": 34,
                       "column": 1,
-                      "offset": 1160
+                      "offset": 1461
                     },
                     "end": {
-                      "line": 27,
+                      "line": 34,
                       "column": 34,
-                      "offset": 1193
+                      "offset": 1494
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 27,
+                  "line": 34,
                   "column": 1,
-                  "offset": 1160
+                  "offset": 1461
                 },
                 "end": {
-                  "line": 27,
+                  "line": 34,
                   "column": 34,
-                  "offset": 1193
+                  "offset": 1494
                 }
               }
             },
             "span": {
               "start": {
-                "line": 27,
+                "line": 34,
                 "column": 1,
-                "offset": 1160
+                "offset": 1461
               },
               "end": {
-                "line": 27,
+                "line": 34,
                 "column": 34,
-                "offset": 1193
+                "offset": 1494
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 23,
+            "line": 30,
             "column": 1,
-            "offset": 1070
+            "offset": 1371
           },
           "end": {
-            "line": 23,
+            "line": 30,
             "column": 21,
-            "offset": 1090
+            "offset": 1391
           }
         }
       },
@@ -1863,41 +2270,41 @@
               "args": [],
               "span": {
                 "start": {
-                  "line": 32,
+                  "line": 39,
                   "column": 1,
-                  "offset": 1251
+                  "offset": 1552
                 },
                 "end": {
-                  "line": 32,
+                  "line": 39,
                   "column": 20,
-                  "offset": 1270
+                  "offset": 1571
                 }
               }
             },
             "span": {
               "start": {
-                "line": 32,
+                "line": 39,
                 "column": 1,
-                "offset": 1251
+                "offset": 1552
               },
               "end": {
-                "line": 32,
+                "line": 39,
                 "column": 20,
-                "offset": 1270
+                "offset": 1571
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 29,
+            "line": 36,
             "column": 1,
-            "offset": 1195
+            "offset": 1496
           },
           "end": {
-            "line": 29,
+            "line": 36,
             "column": 20,
-            "offset": 1214
+            "offset": 1515
           }
         }
       },
@@ -1914,12 +2321,12 @@
             },
             "span": {
               "start": {
-                "line": 35,
+                "line": 42,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 35,
+                "line": 42,
                 "column": 8,
                 "offset": 7
               }
@@ -1949,55 +2356,55 @@
                   "label": "ms",
                   "span": {
                     "start": {
-                      "line": 38,
+                      "line": 45,
                       "column": 1,
-                      "offset": 1342
+                      "offset": 1643
                     },
                     "end": {
-                      "line": 38,
+                      "line": 45,
                       "column": 32,
-                      "offset": 1373
+                      "offset": 1674
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 38,
+                  "line": 45,
                   "column": 1,
-                  "offset": 1342
+                  "offset": 1643
                 },
                 "end": {
-                  "line": 38,
+                  "line": 45,
                   "column": 32,
-                  "offset": 1373
+                  "offset": 1674
                 }
               }
             },
             "span": {
               "start": {
-                "line": 38,
+                "line": 45,
                 "column": 1,
-                "offset": 1342
+                "offset": 1643
               },
               "end": {
-                "line": 38,
+                "line": 45,
                 "column": 32,
-                "offset": 1373
+                "offset": 1674
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 34,
+            "line": 41,
             "column": 1,
-            "offset": 1272
+            "offset": 1573
           },
           "end": {
-            "line": 34,
+            "line": 41,
             "column": 25,
-            "offset": 1296
+            "offset": 1597
           }
         }
       },
@@ -2014,12 +2421,12 @@
             },
             "span": {
               "start": {
-                "line": 41,
+                "line": 48,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 41,
+                "line": 48,
                 "column": 13,
                 "offset": 12
               }
@@ -2047,55 +2454,55 @@
                   "label": "seconds",
                   "span": {
                     "start": {
-                      "line": 43,
+                      "line": 50,
                       "column": 1,
-                      "offset": 1458
+                      "offset": 1759
                     },
                     "end": {
-                      "line": 43,
+                      "line": 50,
                       "column": 49,
-                      "offset": 1506
+                      "offset": 1807
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 43,
+                  "line": 50,
                   "column": 1,
-                  "offset": 1458
+                  "offset": 1759
                 },
                 "end": {
-                  "line": 43,
+                  "line": 50,
                   "column": 49,
-                  "offset": 1506
+                  "offset": 1807
                 }
               }
             },
             "span": {
               "start": {
-                "line": 43,
+                "line": 50,
                 "column": 1,
-                "offset": 1458
+                "offset": 1759
               },
               "end": {
-                "line": 43,
+                "line": 50,
                 "column": 49,
-                "offset": 1506
+                "offset": 1807
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 40,
+            "line": 47,
             "column": 1,
-            "offset": 1375
+            "offset": 1676
           },
           "end": {
-            "line": 40,
+            "line": 47,
             "column": 34,
-            "offset": 1408
+            "offset": 1709
           }
         }
       },
@@ -2112,12 +2519,12 @@
             },
             "span": {
               "start": {
-                "line": 46,
+                "line": 53,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 46,
+                "line": 53,
                 "column": 18,
                 "offset": 17
               }
@@ -2145,55 +2552,55 @@
                   "label": "elapsed",
                   "span": {
                     "start": {
-                      "line": 48,
+                      "line": 55,
                       "column": 1,
-                      "offset": 1588
+                      "offset": 1889
                     },
                     "end": {
-                      "line": 48,
+                      "line": 55,
                       "column": 46,
-                      "offset": 1633
+                      "offset": 1934
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 48,
+                  "line": 55,
                   "column": 1,
-                  "offset": 1588
+                  "offset": 1889
                 },
                 "end": {
-                  "line": 48,
+                  "line": 55,
                   "column": 46,
-                  "offset": 1633
+                  "offset": 1934
                 }
               }
             },
             "span": {
               "start": {
-                "line": 48,
+                "line": 55,
                 "column": 1,
-                "offset": 1588
+                "offset": 1889
               },
               "end": {
-                "line": 48,
+                "line": 55,
                 "column": 46,
-                "offset": 1633
+                "offset": 1934
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 45,
+            "line": 52,
             "column": 1,
-            "offset": 1508
+            "offset": 1809
           },
           "end": {
-            "line": 45,
+            "line": 52,
             "column": 32,
-            "offset": 1539
+            "offset": 1840
           }
         }
       },
@@ -2210,12 +2617,12 @@
             },
             "span": {
               "start": {
-                "line": 51,
+                "line": 58,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 51,
+                "line": 58,
                 "column": 13,
                 "offset": 12
               }
@@ -2243,55 +2650,55 @@
                   "label": "minutes",
                   "span": {
                     "start": {
-                      "line": 53,
+                      "line": 60,
                       "column": 1,
-                      "offset": 1718
+                      "offset": 2019
                     },
                     "end": {
-                      "line": 53,
+                      "line": 60,
                       "column": 49,
-                      "offset": 1766
+                      "offset": 2067
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 53,
+                  "line": 60,
                   "column": 1,
-                  "offset": 1718
+                  "offset": 2019
                 },
                 "end": {
-                  "line": 53,
+                  "line": 60,
                   "column": 49,
-                  "offset": 1766
+                  "offset": 2067
                 }
               }
             },
             "span": {
               "start": {
-                "line": 53,
+                "line": 60,
                 "column": 1,
-                "offset": 1718
+                "offset": 2019
               },
               "end": {
-                "line": 53,
+                "line": 60,
                 "column": 49,
-                "offset": 1766
+                "offset": 2067
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 50,
+            "line": 57,
             "column": 1,
-            "offset": 1635
+            "offset": 1936
           },
           "end": {
-            "line": 50,
+            "line": 57,
             "column": 34,
-            "offset": 1668
+            "offset": 1969
           }
         }
       }

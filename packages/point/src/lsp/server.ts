@@ -93,7 +93,7 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 			respond(message.id, []);
 			return;
 		}
-		const analysis = analyzePointSource(document.text);
+		const analysis = await analyzePointSource(document.text, { documentUri: params.textDocument.uri });
 		respond(message.id, outlineSymbols(analysis.symbols));
 		return;
 	}
@@ -106,7 +106,7 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 			return;
 		}
 		const point = lspPositionToPoint(params.position.line, params.position.character);
-		const analysis = analyzePointSource(document.text);
+		const analysis = await analyzePointSource(document.text, { documentUri: params.textDocument.uri });
 		const range = definitionForPosition(analysis.symbols, point.line, point.column);
 		respond(message.id, range ? { uri: params.textDocument.uri, range } : null);
 		return;
@@ -120,7 +120,9 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 			return;
 		}
 		const point = lspPositionToPoint(params.position.line, params.position.character);
-		const hover = hoverForPosition(document.text, point.line, point.column);
+		const hover = await hoverForPosition(document.text, point.line, point.column, {
+			documentUri: params.textDocument.uri,
+		});
 		respond(message.id, hover ? { contents: { kind: "markdown", value: hover.contents } } : null);
 		return;
 	}
@@ -157,7 +159,9 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 			return;
 		}
 		const point = lspPositionToPoint(params.position.line, params.position.character);
-		const items = completionsForPosition(document.text, point.line, point.column);
+		const items = await completionsForPosition(document.text, point.line, point.column, {
+			documentUri: params.textDocument.uri,
+		});
 		respond(message.id, { isIncomplete: false, items });
 		return;
 	}
@@ -173,7 +177,9 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 			return;
 		}
 		const point = lspPositionToPoint(params.position.line, params.position.character);
-		const prepared = prepareRenameAtPosition(document.text, point.line, point.column);
+		const prepared = await prepareRenameAtPosition(document.text, point.line, point.column, {
+			documentUri: params.textDocument.uri,
+		});
 		respond(message.id, prepared);
 		return;
 	}
@@ -190,7 +196,9 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 			return;
 		}
 		const point = lspPositionToPoint(params.position.line, params.position.character);
-		const edit = renameSymbolInDocument(document.text, point.line, point.column, params.newName);
+		const edit = await renameSymbolInDocument(document.text, point.line, point.column, params.newName, {
+			documentUri: params.textDocument.uri,
+		});
 		if (!edit) {
 			respond(message.id, null);
 			return;
@@ -213,8 +221,9 @@ async function handleMessage(message: JsonRpcMessage): Promise<void> {
 function publishDiagnostics(uri: string): void {
 	const document = documents.get(uri);
 	if (!document) return;
-	const analysis = analyzePointSource(document.text);
-	notify("textDocument/publishDiagnostics", { uri, diagnostics: analysis.diagnostics });
+	void analyzePointSource(document.text, { documentUri: uri }).then((analysis) => {
+		notify("textDocument/publishDiagnostics", { uri, diagnostics: analysis.diagnostics });
+	});
 }
 
 function fullDocumentRange(text: string): LspRange {

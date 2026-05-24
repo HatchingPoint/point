@@ -1,0 +1,872 @@
+{
+  "kind": "coreProgram",
+  "module": "TimezoneDemo",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "Meeting",
+      "fields": [
+        {
+          "name": "title",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "title",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 50
+            },
+            "end": {
+              "line": 6,
+              "column": 14,
+              "offset": 63
+            }
+          }
+        },
+        {
+          "name": "at",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "at",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 64
+            },
+            "end": {
+              "line": 7,
+              "column": 14,
+              "offset": 77
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Meeting"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 35
+        },
+        "end": {
+          "line": 5,
+          "column": 15,
+          "offset": 49
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "launchMeeting",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Meeting",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "title",
+                "value": {
+                  "kind": "literal",
+                  "value": "Product launch",
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 132
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 60,
+                      "offset": 191
+                    }
+                  }
+                }
+              },
+              {
+                "name": "at",
+                "value": {
+                  "kind": "call",
+                  "callee": "instantNowValue",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 11,
+                      "column": 1,
+                      "offset": 132
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 60,
+                      "offset": 191
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 11,
+                "column": 60,
+                "offset": 191
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 132
+            },
+            "end": {
+              "line": 11,
+              "column": 60,
+              "offset": 191
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "launch meeting",
+        "outputName": "meeting",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 79
+        },
+        "end": {
+          "line": 9,
+          "column": 27,
+          "offset": 105
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "meetingInTimezoneLabel",
+      "params": [
+        {
+          "name": "meeting",
+          "type": {
+            "kind": "typeRef",
+            "name": "Meeting",
+            "args": []
+          },
+          "semanticName": "meeting",
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 17,
+              "offset": 16
+            }
+          }
+        },
+        {
+          "name": "timezone",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "timezone",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 15,
+              "offset": 14
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "formatInstantInTimezoneLabel",
+            "args": [
+              {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "meeting",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 294
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 60,
+                      "offset": 353
+                    }
+                  }
+                },
+                "name": "at",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 294
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 60,
+                    "offset": 353
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "timezone",
+                "span": {
+                  "start": {
+                    "line": 17,
+                    "column": 1,
+                    "offset": 294
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 60,
+                    "offset": 353
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 294
+              },
+              "end": {
+                "line": 17,
+                "column": 60,
+                "offset": 353
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 294
+            },
+            "end": {
+              "line": 17,
+              "column": 60,
+              "offset": 353
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "meeting in timezone",
+        "outputName": "label",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 193
+        },
+        "end": {
+          "line": 13,
+          "column": 32,
+          "offset": 224
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "timezoneDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "meetingInTimezoneLabel",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "launchMeeting",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 404
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 61,
+                    "offset": 464
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "Asia/Tokyo",
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 404
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 61,
+                    "offset": 464
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 404
+              },
+              "end": {
+                "line": 21,
+                "column": 61,
+                "offset": 464
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 404
+            },
+            "end": {
+              "line": 21,
+              "column": 61,
+              "offset": 464
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "timezone demo",
+        "outputName": "tokyo label",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 355
+        },
+        "end": {
+          "line": 19,
+          "column": 22,
+          "offset": 376
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 20,
+      "offset": 19
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "TimezoneDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.time",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 13,
+            "offset": 12
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Meeting",
+        "fields": [
+          {
+            "label": "title",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 50
+              },
+              "end": {
+                "line": 6,
+                "column": 14,
+                "offset": 63
+              }
+            }
+          },
+          {
+            "label": "at",
+            "type": {
+              "kind": "typeRef",
+              "name": "Instant",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 64
+              },
+              "end": {
+                "line": 7,
+                "column": 14,
+                "offset": 77
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 35
+          },
+          "end": {
+            "line": 5,
+            "column": 15,
+            "offset": 49
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "launch meeting",
+        "inputs": [],
+        "output": {
+          "name": "meeting",
+          "type": {
+            "kind": "typeRef",
+            "name": "Meeting",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "meeting",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "title",
+                  "value": {
+                    "kind": "literal",
+                    "value": "Product launch",
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 132
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 60,
+                        "offset": 191
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "at",
+                  "value": {
+                    "kind": "call",
+                    "callee": "instant now",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 11,
+                        "column": 1,
+                        "offset": 132
+                      },
+                      "end": {
+                        "line": 11,
+                        "column": 60,
+                        "offset": 191
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 11,
+                  "column": 1,
+                  "offset": 132
+                },
+                "end": {
+                  "line": 11,
+                  "column": 60,
+                  "offset": 191
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 132
+              },
+              "end": {
+                "line": 11,
+                "column": 60,
+                "offset": 191
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 79
+          },
+          "end": {
+            "line": 9,
+            "column": 27,
+            "offset": 105
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "meeting in timezone",
+        "inputs": [
+          {
+            "label": "meeting",
+            "type": {
+              "kind": "typeRef",
+              "name": "Meeting",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 17,
+                "offset": 16
+              }
+            }
+          },
+          {
+            "label": "timezone",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "label",
+            "value": {
+              "kind": "call",
+              "callee": "format instant in timezone",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "meeting",
+                    "span": {
+                      "start": {
+                        "line": 17,
+                        "column": 1,
+                        "offset": 294
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 60,
+                        "offset": 353
+                      }
+                    }
+                  },
+                  "label": "at",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 294
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 60,
+                      "offset": 353
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "timezone",
+                  "span": {
+                    "start": {
+                      "line": 17,
+                      "column": 1,
+                      "offset": 294
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 60,
+                      "offset": 353
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 294
+                },
+                "end": {
+                  "line": 17,
+                  "column": 60,
+                  "offset": 353
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 294
+              },
+              "end": {
+                "line": 17,
+                "column": 60,
+                "offset": 353
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 193
+          },
+          "end": {
+            "line": 13,
+            "column": 32,
+            "offset": 224
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "timezone demo",
+        "inputs": [],
+        "output": {
+          "name": "tokyo label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "meeting in timezone",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "launch meeting",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 404
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 61,
+                      "offset": 464
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "Asia/Tokyo",
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 404
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 61,
+                      "offset": 464
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 404
+                },
+                "end": {
+                  "line": 21,
+                  "column": 61,
+                  "offset": 464
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 404
+              },
+              "end": {
+                "line": 21,
+                "column": 61,
+                "offset": 464
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 355
+          },
+          "end": {
+            "line": 19,
+            "column": 22,
+            "offset": 376
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 20,
+        "offset": 19
+      }
+    }
+  }
+}

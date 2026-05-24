@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.27
+
+### Added
+
+- Phase 35: **Agent repair CI gate** — `benchmark:agent-repair:gate` enforces 100% sufficiency (22 single-shot + 4 multistep cases).
+- Phase 35: **Timezone std pattern** — `format instant in timezone` via `std/time` (Intl/zoneinfo); `timezone-demo.point`.
+- Phase 35: **LSP cross-module `use`** — document URI resolves imports like CLI; `money-demo` diagnostics clean in editor.
+
+### Fixed
+
+- Removed unused `use std.time` from `todo.point` (prevented pulling entire std/time surface into unrelated apps).
+
 ## 0.1.26
 
 ### Added

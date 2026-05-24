@@ -15,7 +15,7 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 | `Map<K,V>` / dict | **Shipped** (Phase 23) | **`Map<Text, T>` shipped** |
 | Money / decimal | `Int` only | **`Pattern shipped (format helpers)`** — cents-as-Int + `std/money` + `float-money-field` lint |
 | Rich errors / `Result` | Pattern shipped (variant-first) | **`Pattern shipped (variant-first)`** — generic `Result` still deferred |
-| Author-facing dates | **`Instant`** + **`Duration`** (whole seconds); timezones deferred | **`Instant + Duration`** (partial timezone defer) — use `std.time`; host/actions for TZ |
+| Author-facing dates | **`Instant`** + **`Duration`** + timezone **pattern** (std.time) | **`Instant + Duration + std.time TZ pattern`** — IANA via `format instant in timezone`; no TZ rules in core |
 
 ---
 

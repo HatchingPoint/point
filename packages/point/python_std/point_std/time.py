@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 from datetime import datetime, timezone
 from email.utils import format_datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 def now() -> str:
@@ -24,6 +25,20 @@ def parseInstant(value: str) -> str | dict[str, str]:
 
 def formatInstant(value: str) -> str:
 	return formatTime(value)
+
+
+def formatInstantInTimezone(value: str, timezone_name: str) -> str | dict[str, str]:
+	try:
+		normalized = value.replace("Z", "+00:00") if value.endswith("Z") else value
+		parsed = datetime.fromisoformat(normalized)
+	except ValueError:
+		return {"message": f"Invalid instant: {value}"}
+	try:
+		tz = ZoneInfo(timezone_name)
+	except ZoneInfoNotFoundError:
+		return {"message": f"Invalid timezone: {timezone_name}"}
+	localized = parsed.astimezone(tz)
+	return localized.strftime("%b %d, %Y, %I:%M %p %Z")
 
 
 async def sleep(ms: int) -> None:

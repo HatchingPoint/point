@@ -129,10 +129,13 @@ label event summary
 
 - `instant now()` — current UTC instant
 - `format instant(value)` — human-readable label
+- `format instant in timezone(value, iana)` — local wall-clock label via IANA zone (e.g. `"America/New_York"`, `"Asia/Tokyo"`)
 - `parse instant(text)` — `Instant or Error` from ISO text
 - `current time()` remains for plain `Text` ISO strings (legacy)
 
-See `examples/tools/instant-demo.point`. Avoid `Float` or raw `Text` when you mean a typed timestamp.
+Timezone rules live in **`std.time`** externals (host `Intl` / Python `zoneinfo`), not in the language core — no timezone operators or types in expressions.
+
+See `examples/tools/instant-demo.point` and `examples/tools/timezone-demo.point`. Avoid `Float` or raw `Text` when you mean a typed timestamp.
 
 ### Duration (elapsed seconds)
 
@@ -160,8 +163,6 @@ calculation window ttl seconds
 - `duration from minutes(m)` — convenience for `m * 60` seconds
 
 `build-schema` maps `Duration` fields to **`BIGINT`** on PostgreSQL and **`INTEGER`** on SQLite — same scaling as workflow `timeout after … seconds` and schedule intervals (whole seconds).
-
-Timezones remain out of scope for the language core; defer to actions and hosts.
 
 See `examples/tools/duration-demo.point`.
 

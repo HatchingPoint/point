@@ -1,11 +1,16 @@
-import type { PointSourceSpan } from "../core/ast.ts";
+import type { PointCoreProgram, PointSourceSpan } from "../core/ast.ts";
+import { buildCoreFileFromSource, createModuleGraphForFile, programWithDependencyDeclarations } from "../core/cli.ts";
 import { checkPointCore } from "../core/check.ts";
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import { sortDiagnosticsForRepairPlan } from "../core/context.ts";
 import { formatPointSource } from "../core/format.ts";
-import { parsePointSource } from "../core/parser.ts";
+import { parsePointSource, type ParsePointSourceOptions } from "../core/parser.ts";
+import { readPointLock } from "../core/packages.ts";
+import { findPointProjectRoot } from "../core/resolve-cli.ts";
 import type { PointSemanticSymbol, PointSemanticSymbolKind } from "../semantic/context.ts";
 import { createSemanticIndex, explainSemanticRef, mapPublicDiagnostics } from "../semantic/context.ts";
+import { dirname, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 export interface LspRange {
 	start: { line: number; character: number };
@@ -94,6 +99,12 @@ export interface PointDocumentAnalysis {
 	symbols: PointSemanticSymbol[];
 }
 
+export interface AnalyzePointSourceOptions {
+	documentUri?: string;
+	input?: string;
+	cwd?: string;
+}
+
 const OUTLINE_KINDS = new Set<PointSemanticSymbolKind>([
 	"record",
 	"calculation",
@@ -119,13 +130,53 @@ export function lspPositionToPoint(line: number, character: number): { line: num
 	return { line: line + 1, column: character + 1 };
 }
 
-export function analyzePointSource(source: string): PointDocumentAnalysis {
+export function resolveAnalyzeParseContext(options?: AnalyzePointSourceOptions): Required<ParsePointSourceOptions> {
+	if (options?.input && options.cwd) {
+		return { cwd: options.cwd, input: options.input.replaceAll("\\", "/") };
+	}
+	const absolutePath = options?.documentUri
+		? options.documentUri.startsWith("file:")
+			? fileURLToPath(options.documentUri)
+			: resolve(options.documentUri)
+		: options?.input
+			? resolve(options.cwd ?? process.cwd(), options.input)
+			: null;
+	if (!absolutePath) {
+		return { cwd: options?.cwd ?? process.cwd(), input: "" };
+	}
+	const projectRoot = options?.cwd ?? findPointProjectRoot(dirname(absolutePath)) ?? process.cwd();
+	return {
+		cwd: projectRoot,
+		input: relative(projectRoot, absolutePath).replaceAll("\\", "/"),
+	};
+}
+
+async function programForAnalyze(source: string, options?: AnalyzePointSourceOptions): Promise<PointCoreProgram> {
+	const parseContext = resolveAnalyzeParseContext(options);
+	if (!parseContext.input) {
+		return parsePointSource(source, parseContext);
+	}
+	const lock = await readPointLock(parseContext.cwd);
+	const coreFile = buildCoreFileFromSource(parseContext.input, source, lock, parseContext.cwd);
+	if (coreFile.uses.length === 0) {
+		return coreFile.program;
+	}
+	const graph = await createModuleGraphForFile(coreFile, lock, parseContext.cwd);
+	return programWithDependencyDeclarations(coreFile, graph);
+}
+
+export async function analyzePointSource(
+	source: string,
+	options?: AnalyzePointSourceOptions,
+): Promise<PointDocumentAnalysis> {
 	try {
-		const program = parsePointSource(source);
+		const parseContext = resolveAnalyzeParseContext(options);
+		const program = await programForAnalyze(source, options);
 		const diagnostics = sortDiagnosticsForRepairPlan(mapPublicDiagnostics(program, checkPointCore(program))).map(
 			toLspDiagnostic,
 		);
-		const symbols = program.semanticSource ? createSemanticIndex(program.semanticSource).refs : [];
+		const indexProgram = parsePointSource(source, parseContext);
+		const symbols = indexProgram.semanticSource ? createSemanticIndex(indexProgram.semanticSource).refs : [];
 		return { diagnostics, symbols };
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
@@ -156,12 +207,17 @@ export function symbolAtPoint(symbols: PointSemanticSymbol[], line: number, colu
 	return matches.sort((left, right) => spanSize(left.span) - spanSize(right.span))[0];
 }
 
-export function hoverForPosition(source: string, line: number, column: number): LspHover | null {
-	const analysis = analyzePointSource(source);
+export async function hoverForPosition(
+	source: string,
+	line: number,
+	column: number,
+	options?: AnalyzePointSourceOptions,
+): Promise<LspHover | null> {
+	const analysis = await analyzePointSource(source, options);
 	const symbol = symbolAtPoint(analysis.symbols, line, column);
 	if (!symbol?.span) return null;
 	try {
-		const program = parsePointSource(source);
+		const program = parsePointSource(source, resolveAnalyzeParseContext(options));
 		if (!program.semanticSource) return { contents: symbol.ref };
 		const explanation = explainSemanticRef(program.semanticSource, symbol.ref);
 		return { contents: explanation.summary };
@@ -188,8 +244,13 @@ export function formatPointDocument(source: string): string {
 	}
 }
 
-export function completionsForPosition(source: string, line: number, column: number): LspCompletionItem[] {
-	const analysis = analyzePointSource(source);
+export async function completionsForPosition(
+	source: string,
+	line: number,
+	column: number,
+	options?: AnalyzePointSourceOptions,
+): Promise<LspCompletionItem[]> {
+	const analysis = await analyzePointSource(source, options);
 	const lines = source.split(/\r?\n/);
 	const lineText = lines[line - 1] ?? "";
 	const before = lineText.slice(0, Math.max(0, column - 1));
@@ -215,13 +276,14 @@ export function completionsForPosition(source: string, line: number, column: num
 	return items;
 }
 
-export function renameSymbolInDocument(
+export async function renameSymbolInDocument(
 	source: string,
 	line: number,
 	column: number,
 	newName: string,
-): { range: LspRange; newText: string } | null {
-	const analysis = analyzePointSource(source);
+	options?: AnalyzePointSourceOptions,
+): Promise<{ range: LspRange; newText: string } | null> {
+	const analysis = await analyzePointSource(source, options);
 	const symbol = symbolAtPoint(analysis.symbols, line, column);
 	if (!symbol?.span || !newName.trim()) return null;
 	const oldName = symbol.name;
@@ -237,12 +299,13 @@ export function renameSymbolInDocument(
 	};
 }
 
-export function prepareRenameAtPosition(
+export async function prepareRenameAtPosition(
 	source: string,
 	line: number,
 	column: number,
-): { range: LspRange; placeholder: string } | null {
-	const analysis = analyzePointSource(source);
+	options?: AnalyzePointSourceOptions,
+): Promise<{ range: LspRange; placeholder: string } | null> {
+	const analysis = await analyzePointSource(source, options);
 	const symbol = symbolAtPoint(analysis.symbols, line, column);
 	if (!symbol?.span) return null;
 	return {

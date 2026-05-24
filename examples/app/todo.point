@@ -1,7 +1,5 @@
 module TodoApp
 
-use std.time
-
 record Todo
   title: Text
   done: Bool

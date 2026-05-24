@@ -7,6 +7,8 @@ import { parseInstant as parseInstantRaw } from "@hatchingpoint/point/std/time";
 
 import { formatInstant as formatInstantRaw } from "@hatchingpoint/point/std/time";
 
+import { formatInstantInTimezone as formatInstantInTimezoneRaw } from "@hatchingpoint/point/std/time";
+
 import { now as timeNow } from "@hatchingpoint/point/std/time";
 
 import { sleep as sleepMilliseconds } from "@hatchingpoint/point/std/time";
@@ -25,6 +27,10 @@ export function instantNowValue(): string {
 
 export function formatInstantLabel(value: string): string {
   return formatInstantRaw(value);
+}
+
+export function formatInstantInTimezoneLabel(value: string, timezone: string): string {
+  return formatInstantInTimezoneRaw(value, timezone);
 }
 
 export async function parseInstantResult(value: string): Promise<string | { message: string }> {

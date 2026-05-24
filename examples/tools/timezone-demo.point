@@ -1,0 +1,21 @@
+module TimezoneDemo
+
+use std.time
+
+record Meeting
+  title: Text
+  at: Instant
+
+calculation launch meeting
+  output meeting: Meeting
+  meeting is { title: "Product launch", at: instant now() }
+
+calculation meeting in timezone
+  input meeting: Meeting
+  input timezone: Text
+  output label: Text
+  label is format instant in timezone(meeting.at, timezone)
+
+command timezone demo
+  output tokyo label: Text
+  return meeting in timezone(launch meeting(), "Asia/Tokyo")

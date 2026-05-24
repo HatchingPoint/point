@@ -17,14 +17,14 @@ import {
 const mathSource = readFileSync(join(import.meta.dir, "../examples/math.point"), "utf8");
 
 describe("point lsp", () => {
-	test("maps diagnostics and outline symbols for valid source", () => {
-		const analysis = analyzePointSource(mathSource);
+	test("maps diagnostics and outline symbols for valid source", async () => {
+		const analysis = await analyzePointSource(mathSource);
 		expect(analysis.diagnostics).toEqual([]);
 		expect(outlineSymbols(analysis.symbols).map((symbol) => symbol.name)).toContain("score status");
 	});
 
-	test("reports parse errors as diagnostics", () => {
-		const analysis = analyzePointSource("module Broken\n\nnot valid syntax here\n");
+	test("reports parse errors as diagnostics", async () => {
+		const analysis = await analyzePointSource("module Broken\n\nnot valid syntax here\n");
 		expect(analysis.diagnostics.length).toBeGreaterThan(0);
 		expect(analysis.diagnostics[0]?.code).toBe("parse-error");
 	});
@@ -34,19 +34,19 @@ describe("point lsp", () => {
 		expect(range).toEqual({ start: { line: 2, character: 0 }, end: { line: 2, character: 9 } });
 	});
 
-	test("finds definition and hover at a semantic symbol", () => {
-		const analysis = analyzePointSource(mathSource);
+	test("finds definition and hover at a semantic symbol", async () => {
+		const analysis = await analyzePointSource(mathSource);
 		const scoreStatus = analysis.symbols.find((symbol) => symbol.name === "score status");
 		expect(scoreStatus?.span).toBeTruthy();
 		const point = { line: scoreStatus!.span!.start.line, column: scoreStatus!.span!.start.column };
 		const definition = definitionForPosition(analysis.symbols, point.line, point.column);
 		expect(definition).toEqual(pointSpanToLspRange(scoreStatus!.span!));
-		const hover = hoverForPosition(mathSource, point.line, point.column);
+		const hover = await hoverForPosition(mathSource, point.line, point.column);
 		expect(hover?.contents).toContain("score status");
 	});
 
-	test("selects the smallest symbol span at a position", () => {
-		const analysis = analyzePointSource(mathSource);
+	test("selects the smallest symbol span at a position", async () => {
+		const analysis = await analyzePointSource(mathSource);
 		const scoreStatus = analysis.symbols.find((symbol) => symbol.name === "score status");
 		const point = { line: scoreStatus!.span!.start.line, column: scoreStatus!.span!.start.column + 2 };
 		const symbol = symbolAtPoint(analysis.symbols, point.line, point.column);
@@ -60,20 +60,20 @@ describe("point lsp", () => {
 		expect(formatted).not.toBe(messy);
 	});
 
-	test("suggests keywords and symbols for completion", () => {
-		const items = completionsForPosition(mathSource, 1, 1);
+	test("suggests keywords and symbols for completion", async () => {
+		const items = await completionsForPosition(mathSource, 1, 1);
 		expect(items.some((item) => item.label === "module")).toBe(true);
 		expect(items.some((item) => item.label === "score status")).toBe(true);
 	});
 
-	test("renames a symbol across the document", () => {
-		const renamed = renameSymbolInDocument(mathSource, 32, 8, "readiness label");
+	test("renames a symbol across the document", async () => {
+		const renamed = await renameSymbolInDocument(mathSource, 32, 8, "readiness label");
 		expect(renamed?.newText).toContain("label readiness label");
 		expect(renamed?.newText).not.toContain("label score status");
 	});
 
-	test("prepares rename range for symbol at cursor", () => {
-		const prepared = prepareRenameAtPosition(mathSource, 32, 8);
+	test("prepares rename range for symbol at cursor", async () => {
+		const prepared = await prepareRenameAtPosition(mathSource, 32, 8);
 		expect(prepared?.placeholder).toBe("score status");
 	});
 });

@@ -7,6 +7,8 @@ import { parseInstant as parseInstantRaw } from "@hatchingpoint/point/std/time";
 
 import { formatInstant as formatInstantRaw } from "@hatchingpoint/point/std/time";
 
+import { formatInstantInTimezone as formatInstantInTimezoneRaw } from "@hatchingpoint/point/std/time";
+
 import { now as timeNow } from "@hatchingpoint/point/std/time";
 
 import { sleep as sleepMilliseconds } from "@hatchingpoint/point/std/time";
@@ -20,33 +22,37 @@ import { durationToSeconds as durationToSecondsRaw } from "@hatchingpoint/point/
 import { durationFromMinutes as durationFromMinutesRaw } from "@hatchingpoint/point/std/time";
 
 export function instantNowValue() {
-  return instantNowRaw(); // @point 16
+  return instantNowRaw(); // @point 17
 }
 
 export function formatInstantLabel(value) {
-  return formatInstantRaw(value); // @point 21
+  return formatInstantRaw(value); // @point 22
+}
+
+export function formatInstantInTimezoneLabel(value, timezone) {
+  return formatInstantInTimezoneRaw(value, timezone); // @point 28
 }
 
 export async function parseInstantResult(value) {
-  return parseInstantRaw(value); // @point 27
+  return parseInstantRaw(value); // @point 34
 }
 
 export async function currentTimeValue() {
-  return timeNow(); // @point 32
+  return timeNow(); // @point 39
 }
 
 export async function waitMillisecondsResult(ms) {
-  return sleepMilliseconds(ms); // @point 38
+  return sleepMilliseconds(ms); // @point 45
 }
 
 export function durationFromSecondsDuration(seconds) {
-  return durationFromSecondsRaw(seconds); // @point 43
+  return durationFromSecondsRaw(seconds); // @point 50
 }
 
 export function durationToSeconds(elapsed) {
-  return durationToSecondsRaw(elapsed); // @point 48
+  return durationToSecondsRaw(elapsed); // @point 55
 }
 
 export function durationFromMinutesDuration(minutes) {
-  return durationFromMinutesRaw(minutes); // @point 53
+  return durationFromMinutesRaw(minutes); // @point 60
 }

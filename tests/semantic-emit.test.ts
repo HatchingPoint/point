@@ -38,6 +38,7 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/tools/instant-demo.point",
 	"examples/tools/duration-demo.point",
 	"examples/tools/money-demo.point",
+	"examples/tools/timezone-demo.point",
 	"examples/tools/maybe-narrow.point",
 	"examples/view.point",
 	"std/process.point",

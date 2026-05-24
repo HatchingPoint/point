@@ -75,6 +75,27 @@ When a diagnostic omits `relatedRefs`, `repair-plan` enriches them from `point e
 
 For single-error files, skip straight to `check-json` — fewer tokens, same outcome.
 
+## CI gate
+
+`bun run benchmark:agent-repair:gate` runs after `benchmark:agent-repair` in `bun run ci`. It enforces agent-repair sufficiency without an LLM:
+
+| Threshold | Value |
+|-----------|-------|
+| Single-shot fixtures | ≥ 22 |
+| Multistep (repair-plan) fixtures | ≥ 4 |
+| Pass rate | **100%** — every case must reach a passing `point check` |
+
+Single-shot cases prove one `check-json` diagnostic plus golden line repair is sufficient. Multistep cases prove the repair-plan loop reaches a passing check in the expected number of steps. If any case fails or fixture counts drop below the minimum, CI exits non-zero.
+
+Reproduce locally:
+
+```bash
+bun run benchmark:agent-repair:gate
+bun test tests/agent-repair-gate.test.ts
+```
+
+When adding fixtures, register them in `scripts/agent-repair-sufficiency.ts` and bump the minimum counts in `scripts/agent-repair-gate.ts` if the registry grows.
+
 ## See also
 
 - [check-json](/point/ai/check-json)

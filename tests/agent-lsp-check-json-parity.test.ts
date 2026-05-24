@@ -20,10 +20,10 @@ const parityCases = AGENT_REPAIR_CASES.filter((testCase) => LSP_PARITY_CASE_IDS.
 
 describe("LSP vs check-json diagnostic parity", () => {
 	for (const testCase of parityCases) {
-		test(`${testCase.id}: code and repair match CLI check-json`, () => {
+		test(`${testCase.id}: code and repair match CLI check-json`, async () => {
 			const source = loadFixture(testCase.brokenFile);
 			const checkJson = runCheckJson(source);
-			const lsp = analyzePointSource(source);
+			const lsp = await analyzePointSource(source);
 
 			expect(checkJson.ok).toBe(false);
 			expect(lsp.diagnostics.length).toBeGreaterThan(0);

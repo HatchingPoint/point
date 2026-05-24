@@ -1,6 +1,6 @@
 # Phase 35 — Agent gate, timezone std, LSP imports
 
-**Status:** Draft — ready for parallel burst  
+**Status:** Complete — v0.1.27  
 **Prerequisite:** Phase 34 complete (v0.1.26)  
 **North star:** Harden the agent loop in CI, close the timezone audit gap at the std boundary, and make cross-module `use` work in the editor — without new language syntax.
 
@@ -20,10 +20,10 @@ Generic `Result<T,E>` and `Decimal` primitive remain **deferred** (principles ga
 
 ## Success criteria (Phase 35 exit gate)
 
-- [ ] **P35-1 Agent repair CI gate** — `benchmark:agent-repair:gate` fails CI when sufficiency drops; documented threshold
-- [ ] **P35-2 Timezone std pattern** — `format instant in timezone` via `std/time` external; `examples/tools/timezone-demo.point`; types guide note
-- [ ] **P35-3 LSP cross-module use** — LSP passes document URI to parser; hover/check works on `money-demo.point` imports
-- [ ] `bun run ci` passes; patch release **v0.1.27**
+- [x] **P35-1 Agent repair CI gate** — `benchmark:agent-repair:gate` fails CI when sufficiency drops; documented threshold
+- [x] **P35-2 Timezone std pattern** — `format instant in timezone` via `std/time` external; `examples/tools/timezone-demo.point`; types guide note
+- [x] **P35-3 LSP cross-module use** — LSP passes document URI to parser; hover/check works on `money-demo.point` imports
+- [x] `bun run ci` passes; patch release **v0.1.27**
 
 ---
 

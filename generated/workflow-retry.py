@@ -29,6 +29,8 @@ from point_std.time import parseInstant as parseInstantRaw
 
 from point_std.time import formatInstant as formatInstantRaw
 
+from point_std.time import formatInstantInTimezone as formatInstantInTimezoneRaw
+
 from point_std.time import now as timeNow
 
 from point_std.time import sleep as sleepMilliseconds
@@ -46,6 +48,9 @@ def instantNowValue() -> str:
 
 def formatInstantLabel(value: str) -> str:
     return formatInstantRaw(value)
+
+def formatInstantInTimezoneLabel(value: str, timezone: str) -> str:
+    return formatInstantInTimezoneRaw(value, timezone)
 
 async def parseInstantResult(value: str) -> str | dict[str, str]:
     return parseInstantRaw(value)

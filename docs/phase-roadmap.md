@@ -4,24 +4,13 @@
 
 ## Active execution (parallel burst — paste codex goals)
 
-| Track | Chat goal | Plan section |
-|-------|-----------|--------------|
-| **A** | Agent repair CI gate | [codex-goal-phase35.md](./codex-goal-phase35.md) Track A |
-| **B** | Timezone std pattern | Track B |
-| **C** | LSP cross-module use | Track C |
-
-Integrator after waves: Wave 2 in [codex-goal-phase35.md](./codex-goal-phase35.md).
-
-## Draft (ready for promotion)
-
-| Phase | Theme | Notes |
-|-------|-------|-------|
-| **36** | Result pattern / Decimal spike | Audit deferrals — after 35 |
+_None — expansion loop can draft Phase 36._
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **35** | v0.1.27 | Agent repair CI gate, timezone std pattern, LSP cross-module use |
 | **34** | v0.1.26 | Cross-module use resolution, money-demo linked std/money |
 | **33** | v0.1.25 | Money format helpers, Python pipeline emit, Phase 13 closed |
 | **32** | v0.1.24 | Duration type, std.time helpers, audit sync (Map/Money/errors) |

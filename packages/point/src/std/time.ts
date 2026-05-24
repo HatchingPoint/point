@@ -18,6 +18,29 @@ export function formatInstant(value: string): string {
 	return formatTime(value);
 }
 
+export function formatInstantInTimezone(
+	value: string,
+	timezone: string,
+): string | { message: string } {
+	const date = new Date(value);
+	if (Number.isNaN(date.getTime())) {
+		return { message: `Invalid instant: ${value}` };
+	}
+	try {
+		return new Intl.DateTimeFormat("en-US", {
+			timeZone: timezone,
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+			hour: "numeric",
+			minute: "2-digit",
+			timeZoneName: "short",
+		}).format(date);
+	} catch {
+		return { message: `Invalid timezone: ${timezone}` };
+	}
+}
+
 export async function sleep(ms: number): Promise<void> {
 	await Bun.sleep(ms);
 }

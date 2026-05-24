@@ -4,6 +4,7 @@ external point std time
   instant now raw(): Instant from "@hatchingpoint/point/std/time" as instantNow
   parse instant raw(value: Text): Instant or Error from "@hatchingpoint/point/std/time" as parseInstant
   format instant raw(value: Instant): Text from "@hatchingpoint/point/std/time" as formatInstant
+  format instant in timezone raw(value: Instant, timezone: Text): Text from "@hatchingpoint/point/std/time" as formatInstantInTimezone
   time now(): Text from "@hatchingpoint/point/std/time" as now
   sleep milliseconds(ms: Int): Void from "@hatchingpoint/point/std/time" as sleep
   format time(value: Text): Text from "@hatchingpoint/point/std/time" as formatTime
@@ -19,6 +20,12 @@ calculation format instant
   input value: Instant
   output label: Text
   label is format instant raw(value)
+
+calculation format instant in timezone
+  input value: Instant
+  input timezone: Text
+  output label: Text
+  label is format instant in timezone raw(value, timezone)
 
 action parse instant
   input value: Text
