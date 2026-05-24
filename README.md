@@ -4,7 +4,23 @@ Point is a **general-purpose, AI-first language** for product logic — semantic
 
 Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
 
-**Current release:** v0.1.30 · **602 tests** · npm: `@hatchingpoint/point`
+**Current release:** v0.1.32 · **607 tests** · npm: `@hatchingpoint/point`
+
+**Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md)
+
+## Three daily moves
+
+```bash
+point check myfile.point                              # trust
+point box src/app.point                               # discover
+point launch src/app.point admin demo                 # run
+```
+
+Import batteries in one line:
+
+```point
+capabilities http json time
+```
 
 ## 30-second example
 
@@ -32,7 +48,13 @@ rule cart total
 
 ```bash
 point check checkout.point
-point run checkout.point
+```
+
+Logic-only files validate with `point check`. To execute something, add a `command` block and use `point launch`:
+
+```bash
+point commands examples/command.point
+point launch examples/command.point hello cli
 ```
 
 ## Five block families
@@ -45,25 +67,7 @@ point run checkout.point
 | **Data** | Schema + queries | records + `use sql` + `point build-schema` |
 | **Effects** | Host boundaries | `action`, `external`, `policy` |
 
-Full reference: [docs site](docs/site/guide/introduction.md) · Internal map: [product-map.md](docs/product-map.md)
-
-## Built-in capabilities
-
-Import std modules with one line or one word:
-
-```point
-capabilities http json time
-```
-
-Same as separate `use http` / `use json` / `use time`. List all built-ins:
-
-```bash
-point capabilities
-point capabilities --json
-point box src/app.point    # capabilities + commands together
-```
-
-Local modules stay explicit: `use Billing from "./billing.point"`. Add packages with `point add`.
+Full reference: [docs site](docs/site/guide/point-in-60-seconds.md) · Block map: [language overview](docs/site/language/overview.md)
 
 ## Install
 
@@ -80,32 +84,37 @@ Also: `npm install -g @hatchingpoint/point`. Optional: [Point Language](https://
 
 | Group | Commands |
 |-------|----------|
-| **Quality** | `check`, `check-json`, `fmt` |
-| **Emit** | `build`, `build-ts`, `build-py`, `build-schema` |
-| **Run** | `run`, `launch`, `commands`, `box`, `test`, `dev`, `serve` |
-| **Discover** | `capabilities`, `commands`, `box` |
-| **Agent** | `index`, `explain`, `repair-plan` |
+| **Daily** | `check`, `box`, `launch`, `dev` |
+| **Quality** | `fmt`, `check-json`, `test` |
+| **Build** | `build`, `build-app`, `build-schema` |
+| **Agent** | `repair-plan`, `index`, `explain` |
 | **Scaffold** | `create`, `init`, `add` |
 
-## AI-native toolchain
+Advanced emit and project commands: [CLI reference](docs/site/reference/cli.md).
+
+## The compiler is the agent's IDE
 
 Agents use stable refs and structured repairs — not line-number guessing:
 
 ```bash
 point check-json myfile.point
-point index myfile.point
-point explain myfile.point point://semantic/Module/rule.cart total
 point repair-plan myfile.point
+point explain myfile.point point://semantic/Checkout/rule.cart total
 ```
 
-Benchmark: 26+ repair cases with CI gate at 100% sufficiency.
+Benchmark: 26+ repair cases with CI gate at 100% sufficiency. See [AI overview](docs/site/ai/overview.md).
 
-## Emit targets
+## What you write vs what runs
 
-- **JavaScript** (default) — `point build`, `point run`, `point dev`
-- **TypeScript** — `point build-ts` for React/Vite/tsc
-- **Python** — `point build-py` for logic, routes, workflows, pipelines
-- **SQL** — `point build-schema` for Postgres/SQLite migrations
+You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS.
+
+| Need | Command |
+|------|---------|
+| Logic / API JS | `point build` |
+| Full-stack deploy | `point build-app` |
+| SQL migrations | `point build-schema` |
+| TypeScript host | `point build-ts` (advanced) |
+| Python automation | `point build-py` (advanced) |
 
 ## Repo development
 
@@ -127,9 +136,8 @@ The product is **Point**. The npm package is **`@hatchingpoint/point`** for a co
 
 ## Docs
 
-- [Introduction](docs/site/guide/introduction.md)
+- [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md)
 - [Five-minute tour](docs/site/guide/five-minute-tour.md)
 - [CLI reference](docs/site/reference/cli.md)
-- [Capabilities](docs/site/language/capabilities.md)
+- [In the box](docs/site/language/in-the-box.md)
 - [Changelog](CHANGELOG.md)
-- [Phase roadmap](docs/phase-roadmap.md)

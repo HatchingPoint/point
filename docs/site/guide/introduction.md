@@ -6,17 +6,11 @@ quadrant: Tutorial
 
 ## Summary
 
-Point is a general-purpose language for product logic — expressed as semantic blocks that humans and coding agents can read, check, and repair.
+Point is a general-purpose language for product logic — semantic blocks that humans and agents read, check, and repair.
 
-Start with [Quick start](/point/guide/quick-start), [Language overview](/point/language/overview), or [Proof of concept](/point/concepts/proof-of-concept) for worked examples.
+**New here?** Start with [Point in 60 seconds](/point/guide/point-in-60-seconds) — three moves, no block laundry list.
 
 ## What Point is
-
-Point programs are built from named blocks:
-
-`record`, `calculation`, `rule`, `label`, `action`, `policy`, `workflow`, `view`, `page`, `layout`, `navigation`, `route`, `stream route`, `pipeline`, `session`, `prompt`, `guard`, `schedule`, and `command`.
-
-Import built-in capabilities with one word: `use http`, `use json`, `use time` (see [Capabilities](/point/language/capabilities)). Model success and failure with [domain outcomes](/point/language/domain-outcomes) — variants, not generic `Result`.
 
 Each block states intent directly — a rule accumulates score from conditions; a label classifies a value — instead of hiding that meaning inside generic functions.
 
@@ -38,35 +32,57 @@ rule launch readiness
   return score
 ```
 
-Run `point check` on any `.point` file to validate types and effects before you integrate with a host app.
+```bash
+point check readiness.point
+```
+
+Import built-in std modules in one line: `capabilities http json time` (see [Capabilities](/point/language/capabilities)). Model success and failure with [domain outcomes](/point/language/domain-outcomes) — variants, not generic `Result`.
+
+## Five block families
+
+Point grows with you — start with Logic, add families when you need them:
+
+| Family | Blocks | Start with |
+|--------|--------|------------|
+| **Logic** | `record`, `calculation`, `rule`, `label`, `variant` | ✅ Day one |
+| **Effects** | `action`, `external`, `policy` | Host boundaries |
+| **App** | `route`, `page`, `view`, `layout`, `navigation`, `middleware` | Full-stack apps |
+| **Agent** | `command`, `workflow`, `pipeline`, `prompt`, `schedule` | CLI + automation |
+| **Data** | records + `use sql` + `point build-schema` | Schema + queries |
+
+Full block map: [Language overview](/point/language/overview).
 
 ## Who Point is for
 
 Point fits teams that want:
 
 - **Explicit product logic** — scoring, eligibility, workflows, and UI rules in one checked source
-- **Agent-friendly repair** — `check-json`, stable refs, and repair hints instead of line-number guesses
-- **A full application surface** — routes, pages, pipelines, and commands in the same language (v0.1.0)
+- **Agent-native repair** — the compiler is the agent's IDE (`check-json`, stable refs, repair-plan)
+- **A full application surface** — routes, pages, pipelines, and commands in the same language
 
-You do not need to migrate an entire monorepo on day one. Start with one module, check it, and grow from there.
+You do not need to migrate an entire monorepo on day one. Start with one module, `point check` it, and grow from there.
 
-## How it fits
-
-Install the CLI, write `.point`, and use the toolchain:
+## First commands
 
 ```bash
 bun install -g @hatchingpoint/point
-point check examples/math.point
-point run examples/hello.point
+point check examples/math.point          # logic
+point box examples/command.point         # discover
+point launch examples/command.point hello cli   # run
 ```
 
-When a surrounding app needs compiled modules, run `point build`. Optional build targets are covered in [Build and emit](/point/toolchain/build-emit). See [How Point runs](/point/concepts/how-point-runs) for the full picture.
+Logic-only files use `point check`. Runnable tools need a `command` block — list them with `point commands`, then `point launch`.
+
+When a host app imports compiled output: `point build`. See [Build and emit](/point/toolchain/build-emit) for the decision tree.
+
+## What you write vs what runs
+
+You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS.
 
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
 - [Quick start](/point/guide/quick-start)
+- [Five-minute tour](/point/guide/five-minute-tour)
 - [How Point runs](/point/concepts/how-point-runs)
-- [Language overview](/point/language/overview)
-- [Proof of concept](/point/concepts/proof-of-concept)
-- [Platform vision](/point/concepts/platform-vision)
 - [AI overview](/point/ai/overview)

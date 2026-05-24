@@ -6,7 +6,9 @@ quadrant: Tutorial
 
 ## Summary
 
-This tour shows Point's three daily moves: **logic blocks**, **app blocks**, and **built-in capabilities** — in under five minutes.
+This tour shows Point's daily moves: **logic**, **capabilities**, **app**, and **agent repair** — in under five minutes.
+
+Start with [Point in 60 seconds](/point/guide/point-in-60-seconds) if you want the shortest path.
 
 ## 1. Logic (30 seconds)
 
@@ -25,24 +27,30 @@ calculation line total
 
 ```bash
 point check tour.point
-point run tour.point
 ```
+
+Logic-only modules validate with `point check`. No command block needed yet.
 
 ## 2. Capabilities (30 seconds)
 
-Import batteries with one word:
+Import batteries in one line:
 
-```text
-use http
-use json
-use time
+```point
+module Demo
+
+capabilities http json time
+
+calculation noop
+  output value: Text
+  return "ok"
 ```
 
 ```bash
 point capabilities
+point box src/app.point
 ```
 
-Same as `use std.http`. The compiler merges **only symbols you reference**.
+Same as separate `use http` lines. The compiler merges **only symbols you reference**.
 
 ## 3. App surface (2 minutes)
 
@@ -54,7 +62,13 @@ cd my-app
 point dev src/app.point
 ```
 
-Open **http://localhost:5173** — pages, routes, and API from one `src/app.point` file.
+Open **http://localhost:5173** (UI). API on **http://localhost:3456** — pages, routes, and API from one `src/app.point` file.
+
+Run a CLI command from the template:
+
+```bash
+point launch src/app.point admin demo
+```
 
 ## 4. Domain outcomes (1 minute)
 
@@ -76,17 +90,19 @@ See [Domain outcomes](/point/language/domain-outcomes).
 
 ## 5. Agent loop (1 minute)
 
+The compiler is the agent's IDE:
+
 ```bash
 point check-json src/app.point
 point repair-plan src/app.point
 point index src/app.point
 ```
 
-Stable refs and repair hints — agents patch semantic source, not line numbers.
+Stable refs and repair hints — agents patch semantic source, not line numbers. See [AI overview](/point/ai/overview).
 
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
 - [Quick start](/point/guide/quick-start)
 - [Introduction](/point/guide/introduction)
-- [Capabilities](/point/language/capabilities)
-- [Product map](https://github.com/HatchingPoint/point/blob/main/docs/product-map.md)
+- [In the box](/point/language/in-the-box)

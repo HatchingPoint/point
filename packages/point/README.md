@@ -1,6 +1,8 @@
 # Point
 
-Point is an AI-first general-purpose language core for coding-agent-native software engineering.
+Point is an AI-first general-purpose language for product logic — semantic blocks you write, JavaScript the machine runs.
+
+**Start:** [Point in 60 seconds](https://github.com/HatchingPoint/point/blob/main/docs/site/guide/point-in-60-seconds.md) (in repo docs)
 
 ## Install
 
@@ -16,17 +18,22 @@ point dev src/app.point
 
 Also works: `npm install -g @hatchingpoint/point`.
 
-List templates with `point create --list-templates`. List built-in std modules with `point capabilities`.
+```bash
+point box src/app.point          # discover capabilities + commands
+point launch src/app.point admin demo
+point capabilities               # list built-in std modules
+```
 
 Pair with the [Point Language](https://marketplace.visualstudio.com/items?itemName=hatchingpoint.point) extension in VS Code or Cursor.
 
-Point's public source language is semantic product logic. The compiler lowers that source into an internal typed core and emits JavaScript by default for Bun and Node. Use `point build-ts` for TypeScript and `point build-py` for Python.
+## What you write vs what runs
 
-Built-in capabilities import with straight syntax:
+You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue.
+
+Built-in import:
 
 ```point
-use http
-use json
+capabilities http json
 ```
 
 This package exposes:
@@ -42,5 +49,3 @@ bun run fmt-check
 bun run check
 bun run ci
 ```
-
-When Point is extracted, this package can move into a standalone repo with the same package name and public entrypoints.

@@ -8,7 +8,11 @@ quadrant: Explanation
 
 Point is designed for a workflow where coding agents write, check, explain, and repair software continuously.
 
+**The compiler is the agent's IDE** — stable semantic refs, structured diagnostics, and ordered repair plans beat line-number guessing on raw TypeScript.
+
 For the full comparison to TypeScript, Python, and prompt-only workflows, see [Point vs other languages for AI engineering](/point/ai/vs-other-languages). For worked examples and benchmarks, see [Proof of concept](/point/concepts/proof-of-concept) and [Agent repair tests](/point/ai/agent-repair-tests).
+
+**Benchmark:** 26+ repair cases with CI gate at 100% sufficiency; narrow `.point` context vs whole-file TS/React paste.
 
 ## The problem with raw text
 

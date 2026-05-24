@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.32
+
+### Added
+
+- Phase 40: **Point in 60 seconds** — `docs/site/guide/point-in-60-seconds.md` (three daily moves).
+- Phase 40: **Presentation rings** — daily / build / agent / advanced CLI grouping.
+- Phase 40: **Build decision tree** — logic / app / SQL paths in build-emit guide.
+- Phase 40: **Honest boundaries** — canonical what-you-write vs what-runs paragraph across README, vision, introduction.
+
+### Changed
+
+- Phase 40: README, introduction, five-minute tour — fix run story (`check` for logic, `launch` for commands).
+- Phase 40: AI overview — "compiler is the agent's IDE" tagline elevated.
+- Phase 40: Full-stack template README — `point box`, `point launch`, what's already wired.
+- Phase 40: Version/test sync — v0.1.32, 607 tests across vision, README, site changelog, CLI ref.
+
 ## 0.1.31
 
 ### Added

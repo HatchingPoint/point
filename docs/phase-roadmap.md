@@ -4,12 +4,13 @@
 
 ## Active execution
 
-_None — expansion loop can draft Phase 39._
+**Phase 40** — Presentation alignment (Apple surface / Aston Martin hood). Plan: [phase40-plan.md](./phase40-plan.md). Goals: [codex-goal-phase40.md](./codex-goal-phase40.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **39** | v0.1.31 | In-the-box launch: `capabilities` line, `point commands`/`box`/`launch` |
 | **38** | v0.1.30 | Emit import pruning, five-minute tour |
 | **37** | v0.1.29 | Selective use merge, domain outcomes guide |
 | **36** | v0.1.28 | Capabilities shorthand (`use http`), README/product map, docs sync, release script |

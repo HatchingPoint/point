@@ -6,16 +6,28 @@ quadrant: Reference
 
 ## Summary
 
-`point run` checks a `.point` file and executes a zero-input command, action, or calculation entrypoint. Runtime failures are reported against the original semantic source file.
+Discover commands with `point box`, then launch by name. `point run` checks a `.point` file and executes a zero-input entrypoint. **`point launch`** is the simple path — it requires a command name.
+
+Runtime failures are reported against the original semantic source file.
 
 `point dev` watches the entry module graph, incrementally rechecks and rebuilds JavaScript emit on save, and restarts the Bun dev server (routes, schedules) or re-runs the entry command. `.point` remains the source of truth — no hand-written dev bootstrap.
+
+## Discover and launch
+
+```bash
+point box src/app.point
+point commands src/app.point
+point launch src/app.point admin demo
+```
+
+List commands first, copy the run line, launch. Logic-only files without a `command` block validate with `point check` only.
 
 ## Usage
 
 ```bash
-point run examples/hello.point
+point launch examples/command.point hello cli
+point run examples/command.point hello cli    # same, command name optional when one default exists
 point run --bundle examples/pure/math-only.point
-point run --no-bundle examples/hello.point
 point dev examples/api/middleware-demo.point
 point dev examples/api/middleware-demo.point --port 4000
 ```

@@ -8,7 +8,20 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point@0.1.31` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.1.32` (see `npm view @hatchingpoint/point version`)
+
+## CLI rings (start here)
+
+Most users need only these:
+
+| Ring | Commands | Purpose |
+|------|----------|---------|
+| **Daily** | `check`, `box`, `launch`, `dev` | Validate, discover, run, app dev |
+| **Build** | `build`, `build-app`, `build-schema` | Emit for hosts and deploy |
+| **Agent** | `check-json`, `repair-plan`, `index`, `explain` | Compiler as agent IDE |
+| **Advanced** | `build-ts`, `build-py`, `build-ast`, `*-all`, `repl` | Alternate emit, batch, tooling |
+
+See [Point in 60 seconds](/point/guide/point-in-60-seconds) and [Build and emit](/point/toolchain/build-emit) decision tree.
 
 ## Invocation
 

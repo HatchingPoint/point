@@ -6,9 +6,24 @@ quadrant: Reference
 
 ## Summary
 
-Most workflows stay on `.point` source plus `point check` and `point run`. Use the commands on this page when something outside Point imports compiled files from `generated/`.
+Most workflows stay on `.point` source plus `point check` and `point launch`. Use the commands on this page when something outside Point imports compiled files from `generated/`.
 
 Do not hand-edit build output. Repair `.point` and rebuild.
+
+## Build decision tree
+
+Pick one path — do not memorize every emit command:
+
+| You have… | Command | Output |
+|-----------|---------|--------|
+| Logic, actions, routes (JS host) | `point build` | `generated/*.js` |
+| Full-stack app (UI + API + dist) | `point build-app` | `generated/` + `dist/` |
+| Records → database schema | `point build-schema` | SQL migrations |
+| React/Vite host wants `.ts` | `point build-ts` | `generated/*.ts` (advanced) |
+| Python automation scripts | `point build-py` | `generated/*.py` (advanced, no UI/views) |
+| Compiler tooling / debugging | `point build-ast` | AST JSON (internal) |
+
+**Default:** JavaScript. You author `.point`; the host runs generated JS unless you opt into TS or Python.
 
 ## Default build
 
