@@ -407,6 +407,25 @@ export type PointSemanticViewStatement =
 	| { kind: "modal"; title: string; when?: PointSemanticExpression; value: PointSemanticExpression; className?: string; style?: string[]; span?: PointSourceSpan }
 	| { kind: "tabs"; tabs: PointSemanticViewTab[]; span?: PointSourceSpan }
 	| { kind: "toggleTheme"; style?: string[]; span?: PointSourceSpan }
+	| {
+			kind: "button";
+			label: string;
+			clearAuth?: boolean;
+			navigateTo?: string;
+			style?: string[];
+			span?: PointSourceSpan;
+	  }
+	| {
+			kind: "table";
+			item: string;
+			iterable: PointSemanticExpression;
+			columns: string[];
+			linkColumn?: string;
+			linkPath?: PointSemanticExpression;
+			className?: string;
+			style?: string[];
+			span?: PointSourceSpan;
+	  }
 	| { kind: "onChangeCall"; callback: string; span?: PointSourceSpan };
 
 export type PointSemanticMiddlewareStatement = PointSemanticLabelStatement;

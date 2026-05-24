@@ -1,0 +1,20 @@
+module StripeBillingDemo
+
+capabilities env
+
+external stripe client
+  create customer raw(email: Text, secretkey: Text): Text or Error from "stripe" as stripeCreateCustomer
+
+calculation stripe secret key
+  output key: Text
+  key is env with default(env get raw("STRIPE_SECRET_KEY"), "")
+
+action create stripe customer
+  input email: Text
+  output customer id: Text or Error
+  touches network
+  return create customer raw(email, stripe secret key())
+
+command stripe demo
+  output status: Text
+  return "Stripe billing demo ready — install stripe npm package and set STRIPE_SECRET_KEY"

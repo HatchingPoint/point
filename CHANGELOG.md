@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.41
+
+### Added
+
+- Phase 49: **Button primitive** — `button "Label" clear auth navigate "/path"` with `pointAuthClearToken()`.
+- Phase 49: **Table primitive** — `table item in data columns name, role link name to "/path"` for admin list pages.
+- Phase 49: **Login validation** — saas-app middleware rejects invalid password on `POST /api/login` with 401.
+- Phase 49: **Stripe example** — `examples/billing/stripe-demo.point` shows external + action billing interop.
+
+### Changed
+
+- Phase 49: **saas-app members list** — uses semantic table instead of linked list rows; nav includes sign-out button.
+
 ## 0.1.40
 
 ### Added

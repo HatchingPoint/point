@@ -96,6 +96,16 @@ describe("saas-app HTTP service", () => {
 		expect(body.token.length).toBeGreaterThan(10);
 	});
 
+	test("POST /api/login rejects invalid password", async () => {
+		const response = await fetch(`${baseUrl}/api/login`, {
+			method: "POST",
+			headers: { "content-type": "application/json" },
+			body: JSON.stringify({ email: "pilot@example.com", password: "wrong" }),
+		});
+		expect(response.status).toBe(401);
+		expect(await response.json()).toEqual({ error: "invalid credentials" });
+	});
+
 	test("POST /api/members persists member and GET lists it", async () => {
 		const response = await fetch(`${baseUrl}/api/members`, {
 			method: "POST",

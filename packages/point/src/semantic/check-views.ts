@@ -111,6 +111,34 @@ function checkViewDeclaration(
 			}
 			paramTypes.set(statement.item, iterableType.slice("List<".length, -1));
 		}
+		if (statement.kind === "table") {
+			const iterableType = resolveExpressionType(statement.iterable, paramTypes);
+			if (!iterableType.startsWith("List<")) {
+				diagnostics.push(
+					viewDiagnostic(
+						"invalid-table-iterable",
+						`View ${declaration.name} table ${statement.item} in ... requires a List input`,
+						moduleName,
+						declaration.name,
+						`Pass a List input to table, e.g. table item in data columns name, title.`,
+						statement.span,
+					),
+				);
+			}
+			if (statement.linkColumn && !statement.columns.includes(statement.linkColumn)) {
+				diagnostics.push(
+					viewDiagnostic(
+						"invalid-table-link-column",
+						`View ${declaration.name} table link column must appear in columns list`,
+						moduleName,
+						declaration.name,
+						`Add ${statement.linkColumn} to the columns list.`,
+						statement.span,
+					),
+				);
+			}
+			paramTypes.set(statement.item, iterableType.startsWith("List<") ? iterableType.slice("List<".length, -1) : "Unknown");
+		}
 		if (statement.kind === "modal" && statement.when?.kind === "name") {
 			const whenType = resolveExpressionType(statement.when, paramTypes);
 			if (whenType !== "Unknown" && whenType !== "Bool") {

@@ -14,6 +14,8 @@ import type {
 	PointSemanticViewControls,
 	PointSemanticViewNavigation,
 	PointSemanticViewEachSpec,
+	PointSemanticViewButtonSpec,
+	PointSemanticViewTableSpec,
 	PointSemanticViewModalSpec,
 	PointSemanticViewTabsSpec,
 	PointSemanticViewToggleTheme,
@@ -733,6 +735,10 @@ function desugarView(
 	if (viewNavigation) metadata.viewNavigation = viewNavigation;
 	const viewEach = buildViewEach(declaration, ctx);
 	if (viewEach.length > 0) metadata.viewEach = viewEach;
+	const viewButtons = buildViewButtons(declaration);
+	if (viewButtons.length > 0) metadata.viewButtons = viewButtons;
+	const viewTable = buildViewTable(declaration, ctx);
+	if (viewTable) metadata.viewTable = viewTable;
 	const viewModal = buildViewModal(declaration, ctx);
 	if (viewModal) metadata.viewModal = viewModal;
 	const viewTabs = buildViewTabs(declaration, ctx);
@@ -862,6 +868,32 @@ function buildViewEach(declaration: PointSemanticViewDeclaration, ctx: DesugarCo
 			style: statement.style,
 			linkPath: statement.linkPath ? desugarExpression(statement.linkPath, ctx) : undefined,
 		}));
+}
+
+function buildViewButtons(declaration: PointSemanticViewDeclaration): PointSemanticViewButtonSpec[] {
+	return declaration.body
+		.filter((statement): statement is Extract<PointSemanticViewStatement, { kind: "button" }> => statement.kind === "button")
+		.map((statement) => ({
+			label: statement.label,
+			...(statement.clearAuth ? { clearAuth: true } : {}),
+			...(statement.navigateTo ? { navigateTo: statement.navigateTo } : {}),
+			...(statement.style ? { style: statement.style } : {}),
+		}));
+}
+
+function buildViewTable(declaration: PointSemanticViewDeclaration, ctx: DesugarContext): PointSemanticViewTableSpec | undefined {
+	const table = declaration.body.find((statement): statement is Extract<PointSemanticViewStatement, { kind: "table" }> => statement.kind === "table");
+	if (!table) return undefined;
+	return {
+		itemName: table.item,
+		itemIdentifier: toIdentifier(table.item),
+		iterable: desugarExpression(table.iterable, ctx),
+		columns: table.columns.map((column) => toIdentifier(column)),
+		...(table.linkColumn ? { linkColumn: toIdentifier(table.linkColumn) } : {}),
+		...(table.linkPath ? { linkPath: desugarExpression(table.linkPath, ctx) } : {}),
+		className: table.className,
+		style: table.style,
+	};
 }
 
 function buildViewModal(declaration: PointSemanticViewDeclaration, ctx: DesugarContext): PointSemanticViewModalSpec | undefined {

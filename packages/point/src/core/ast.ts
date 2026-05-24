@@ -176,6 +176,24 @@ export interface PointSemanticViewToggleTheme {
 	style?: string[];
 }
 
+export interface PointSemanticViewButtonSpec {
+	label: string;
+	clearAuth?: boolean;
+	navigateTo?: string;
+	style?: string[];
+}
+
+export interface PointSemanticViewTableSpec {
+	itemName: string;
+	itemIdentifier: string;
+	iterable: PointCoreExpression;
+	columns: string[];
+	linkColumn?: string;
+	linkPath?: PointCoreExpression;
+	className?: string;
+	style?: string[];
+}
+
 export interface PointSemanticViewLink {
 	label: string;
 	path: string;
@@ -235,6 +253,8 @@ export interface PointSemanticDeclarationMetadata {
 	viewControls?: PointSemanticViewControls;
 	viewNavigation?: PointSemanticViewNavigation;
 	viewEach?: PointSemanticViewEachSpec[];
+	viewButtons?: PointSemanticViewButtonSpec[];
+	viewTable?: PointSemanticViewTableSpec;
 	viewModal?: PointSemanticViewModalSpec;
 	viewTabs?: PointSemanticViewTabsSpec;
 	viewToggleTheme?: PointSemanticViewToggleTheme;

@@ -1354,6 +1354,51 @@ function parseView(
 			});
 			continue;
 		}
+		const buttonMatch = toggleThemeLine.remainder.match(/^button "([^"]+)"(?: clear auth)?(?: navigate "([^"]+)")?\s*$/);
+		if (buttonMatch) {
+			statements.push({
+				kind: "button",
+				label: buttonMatch[1] ?? "",
+				...(line.includes("clear auth") ? { clearAuth: true } : {}),
+				...(buttonMatch[2] ? { navigateTo: buttonMatch[2] } : {}),
+				...(toggleThemeLine.style.length > 0 ? { style: toggleThemeLine.style } : {}),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const tableLinkMatch = line.match(/^table (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) link ([a-z][a-z0-9 ]*) to (.+)$/i);
+		if (tableLinkMatch) {
+			const tableContext = eachItemContext(
+				bindings,
+				paramTypes,
+				records,
+				variants,
+				callables,
+				tableLinkMatch[1] ?? "",
+				tableLinkMatch[2] ?? "",
+			);
+			statements.push({
+				kind: "table",
+				item: tableLinkMatch[1] ?? "",
+				iterable: parseLineExpression(tableLinkMatch[2] ?? "", context, source, lineNumber),
+				columns: tableLinkMatch[3]!.split(",").map((column) => column.trim()),
+				linkColumn: tableLinkMatch[4] ?? "",
+				linkPath: parseLineExpression(tableLinkMatch[5] ?? "", tableContext, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const tableMatch = line.match(/^table (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*)$/i);
+		if (tableMatch) {
+			statements.push({
+				kind: "table",
+				item: tableMatch[1] ?? "",
+				iterable: parseLineExpression(tableMatch[2] ?? "", context, source, lineNumber),
+				columns: tableMatch[3]!.split(",").map((column) => column.trim()),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
 		const eachLinkClass = line.match(/^each (.+) in (.+) render class "([^"]+)" link (.+) to (.+)$/);
 		if (eachLinkClass) {
 			const eachContext = eachItemContext(bindings, paramTypes, records, variants, callables, eachLinkClass[1] ?? "", eachLinkClass[2] ?? "");

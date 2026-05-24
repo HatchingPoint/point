@@ -399,6 +399,17 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	if (statement.kind === "toggleTheme") {
 		return `${formatStylePrefix(statement.style)}toggle theme`.trim();
 	}
+	if (statement.kind === "button") {
+		const parts = [`button "${statement.label}"`, statement.clearAuth ? "clear auth" : "", statement.navigateTo ? `navigate "${statement.navigateTo}"` : ""].filter(Boolean);
+		return `${formatStylePrefix(statement.style)}${parts.join(" ")}`.trim();
+	}
+	if (statement.kind === "table") {
+		const columns = statement.columns.join(", ");
+		if (statement.linkColumn && statement.linkPath) {
+			return `table ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} link ${statement.linkColumn} to ${formatExpression(statement.linkPath)}`;
+		}
+		return `table ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns}`;
+	}
 	if (statement.kind === "onChangeCall") return `on change call ${statement.callback}`;
 	if (statement.className) return `render class "${statement.className}" ${formatExpression(statement.value)}`;
 	if (statement.style?.length) return `render ${statement.style.join(" ")} ${formatExpression(statement.value)}`;

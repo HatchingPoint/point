@@ -263,6 +263,39 @@ body {
   font-size: 0.9rem;
 }
 
+.point-view-button {
+  background: var(--point-color-surface-muted);
+  color: var(--point-color-text);
+  border-color: var(--point-color-border);
+}
+
+.point-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--point-color-surface);
+  border: 1px solid var(--point-color-border);
+  border-radius: var(--point-radius);
+  overflow: hidden;
+  box-shadow: var(--point-shadow-sm);
+}
+
+.point-table th,
+.point-table td {
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--point-color-border);
+}
+
+.point-table th {
+  background: var(--point-color-surface-muted);
+  font-weight: 600;
+  color: var(--point-color-emphasis);
+}
+
+.point-table tbody tr:hover {
+  background: var(--point-color-surface-muted);
+}
+
 .point-tabs {
   display: grid;
   gap: var(--point-space-md);

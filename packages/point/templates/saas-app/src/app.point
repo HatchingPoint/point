@@ -40,6 +40,7 @@ view admin nav
   link "Members" to "/members"
   link "New member" to "/members/new"
   link "Login" to "/login"
+  button "Sign out" clear auth navigate "/login"
   toggle theme
   render "SaaS Admin"
 
@@ -98,7 +99,7 @@ view members list
   when loading render "Loading members..."
   when error render "Could not load members"
   when empty render "No members yet"
-  each member in data render link member.name to "/members/" + member.id
+  table member in data columns name, role link name to "/members/" + member.id
 
 view member detail
   input id: Text
@@ -160,6 +161,12 @@ middleware require auth
   when auth ok(headers.authorization, jwtSecret()) == false return auth unauthorized body()
   otherwise return none
 
+middleware reject invalid login
+  input body: Login Body
+  output response: Maybe Text
+  when body.password != "demo" return "{\"error\":\"invalid credentials\"}"
+  otherwise return none
+
 action create members table
   output result: Text or Error
   touches database
@@ -191,6 +198,7 @@ route health check
 route login
   method POST
   path "/api/login"
+  before reject invalid login
   input body: Login Body
   output response: Login Response
   return json { token: sign auth jwt("{\"sub\":\"" + body.email + "\"}", jwtSecret()) }
