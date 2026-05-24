@@ -1,0 +1,11 @@
+module Orders
+
+variant Order Status
+  Pending
+  Shipped
+
+label status message
+  input status: Order Status
+  output Text
+  on Refund return "wrong"
+  on Shipped return "shipped"

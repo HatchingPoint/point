@@ -19,9 +19,9 @@ This page is the hub for those tests, the interactive comparison demo, and optio
 | Token gap | same test file | Point context is 79–91% smaller than illustrative TS paste heuristics |
 | Benchmark summary | `bun run benchmark:agent-repair` | Prints token counts and pass/fail for all fixtures |
 
-**Fixtures:** `tests/fixtures/agent-repair/` — **17 exported cases** (13 single-shot + 4 repair-plan loops):
+**Fixtures:** `tests/fixtures/agent-repair/` — **22 exported cases** (18 single-shot + 4 repair-plan loops):
 
-- **8 typo-fix cases** — wrong field, missing await, arity, operator types
+- **13 typo-fix cases** — wrong field, missing await, arity, operator types, middleware inputs, pipeline step I/O, money lint, variant exhaustiveness
 - **5 feature-build cases** — AI agent scaffolds dashboard, pipeline, notes app, routing, or guarded write with one wiring bug
 - **4 repair-plan loops** — launch, cart, notes, and pipeline fixtures with two bugs; CI simulates check → fix → check again in source order
 

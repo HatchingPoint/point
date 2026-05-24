@@ -245,6 +245,147 @@ export function ItemsList() {
 		},
 	},
 	{
+		id: "middleware-input-unavailable",
+		title: "Route — middleware input unavailable",
+		category: "typo-fix",
+		agentTask: "Fix middleware wired on a GET items route — agent declared body middleware but the route only exposes query params.",
+		repairMode: "single-shot",
+		brokenFile: "middleware-input-unavailable-broken.point",
+		fixedFile: "middleware-input-unavailable-fixed.point",
+		expectedCode: "middleware-input-unavailable",
+		chosenField: "query",
+		typescriptContext: {
+			excerpt: `// routes/items.ts — excerpt
+app.get("/items", requireBody, (req, res) => {
+  const limit = req.query.limit;
+  return res.send("ok");
+});
+
+function requireBody(req, res, next) {
+  if (!req.body) return res.status(400).end();
+  next();
+}`,
+			totalChars: 6400,
+			tscError: `error TS2339: Property 'body' does not exist on type 'IncomingMessage & { query: ItemQuery }'.
+  at requireBody (routes/items.ts:8:12)`,
+		},
+	},
+	{
+		id: "middleware-input-type-mismatch",
+		title: "Middleware — header record mismatch",
+		category: "typo-fix",
+		agentTask: "Fix auth middleware on an items route — agent typed middleware headers differently from the route input record.",
+		repairMode: "single-shot",
+		brokenFile: "middleware-input-type-mismatch-broken.point",
+		fixedFile: "middleware-input-type-mismatch-fixed.point",
+		expectedCode: "middleware-input-type-mismatch",
+		chosenField: "Auth Headers",
+		typescriptContext: {
+			excerpt: `// middleware/auth.ts — excerpt
+type RouteHeaders = { authorization: string };
+type MiddlewareHeaders = { token: string };
+
+export function requireAuth(headers: MiddlewareHeaders, routeHeaders: RouteHeaders) {
+  return headers.token.length > 0;
+}`,
+			totalChars: 5200,
+			tscError: `error TS2322: Type 'MiddlewareHeaders' is not assignable to type 'RouteHeaders'.
+  at requireAuth (middleware/auth.ts:5:60)`,
+		},
+	},
+	{
+		id: "pipeline-step-type-mismatch",
+		title: "Pipeline — step output type mismatch",
+		category: "typo-fix",
+		agentTask: "Fix document ingest pipeline wiring — agent passed fetched Text body into a parse step that expects an Int page count.",
+		repairMode: "single-shot",
+		brokenFile: "pipeline-step-type-mismatch-broken.point",
+		fixedFile: "pipeline-step-type-mismatch-fixed.point",
+		expectedCode: "pipeline-step-type-mismatch",
+		chosenField: "Int",
+		typescriptContext: {
+			excerpt: `// pipeline/documentIngest.ts — excerpt
+async function documentIngest(url: string) {
+  const fetched = await fetchDocumentBody(url);
+  const parsed = await parseDocumentBody(fetched); // fetched is string, parser expects number
+  return parsed;
+}`,
+			totalChars: 7800,
+			tscError: `error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+  at documentIngest (pipeline/documentIngest.ts:4:42)`,
+		},
+	},
+	{
+		id: "float-money-field",
+		title: "Record — float money field lint",
+		category: "typo-fix",
+		agentTask: "Fix cart line item pricing record — agent used Float for a money-like unit price field.",
+		repairMode: "single-shot",
+		brokenFile: "float-money-field-broken.point",
+		fixedFile: "float-money-field-fixed.point",
+		expectedCode: "float-money-field",
+		chosenField: "Int",
+		typescriptContext: {
+			excerpt: `// pricing/lineItem.ts — excerpt
+export type LineItem = {
+  label: string;
+  unitPrice: number; // should be integer cents
+};`,
+			totalChars: 4100,
+			tscError: `error TS2367: Money-like field 'unitPrice' should use integer cents, not floating point.`,
+		},
+	},
+	{
+		id: "missing-variant-case",
+		title: "Label — missing variant case",
+		category: "typo-fix",
+		agentTask: "Fix order status label dispatch — agent typo'd a variant branch name and left Pending uncovered.",
+		repairMode: "single-shot",
+		brokenFile: "missing-variant-case-broken.point",
+		fixedFile: "missing-variant-case-fixed.point",
+		expectedCode: "missing-variant-case",
+		chosenField: "Pending",
+		typescriptContext: {
+			excerpt: `// orders/statusLabel.ts — excerpt
+type OrderStatus = { kind: "Pending" } | { kind: "Shipped" };
+
+export function statusMessage(status: OrderStatus): string {
+  switch (status.kind) {
+    case "Refund": return "wrong";
+    case "Shipped": return "shipped";
+    default: return "unknown";
+  }
+}`,
+			totalChars: 5600,
+			tscError: `error TS2678: Type '"Refund"' is not comparable to type '"Pending" | "Shipped"'.`,
+		},
+	},
+	{
+		id: "invalid-view-bind-target",
+		title: "View — invalid bind target",
+		category: "typo-fix",
+		agentTask: "Fix settings form bindings — agent bound the field label to the input record instead of input.field.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-view-bind-target-broken.point",
+		fixedFile: "invalid-view-bind-target-fixed.point",
+		expectedCode: "invalid-view-bind-target",
+		chosenField: "settings.workspace name",
+		typescriptContext: {
+			excerpt: `// SettingsForm.tsx — excerpt
+export function SettingsForm({ settings, onSettingsChange }: Props) {
+  return (
+    <input
+      value={settings}
+      onChange={(event) => onSettingsChange({ ...settings, workspaceName: event.target.value })}
+    />
+  );
+}`,
+			totalChars: 4800,
+			tscError: `error TS2322: Type 'SettingsForm' is not assignable to type 'string | number | readonly string[] | undefined'.
+  at SettingsForm (SettingsForm.tsx:4:7)`,
+		},
+	},
+	{
 		id: "arity-mismatch",
 		title: "Calculation — arity mismatch",
 		category: "typo-fix",

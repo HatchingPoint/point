@@ -1,0 +1,20 @@
+module Api
+
+record Item Query
+  limit: Text
+
+record Create Item Body
+  name: Text
+
+middleware require inputs
+  input body: Create Item Body
+  output response: Maybe Text
+  otherwise return none
+
+route list items
+  method GET
+  path "/items"
+  before require inputs
+  input query: Item Query
+  output response: Text
+  return "ok"

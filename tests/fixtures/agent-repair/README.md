@@ -15,9 +15,11 @@ bun run benchmark:agent-repair-models   # needs OPENAI / ANTHROPIC / GEMINI keys
 
 ## Scenario types
 
-### Typo fix (8 cases)
+### Typo fix (14 cases)
 
-Single-line mistakes in rules, labels, calculations, actions.
+Single-line mistakes in rules, labels, calculations, actions, routes, pipelines, records, variants, and view bindings.
+
+Phase 26–27 diagnostic coverage: `middleware-input-unavailable`, `middleware-input-type-mismatch`, `pipeline-step-type-mismatch`, `float-money-field`, `missing-variant-case`, `invalid-view-bind-target`.
 
 ### Feature build (5 single-shot + 4 multi-step)
 

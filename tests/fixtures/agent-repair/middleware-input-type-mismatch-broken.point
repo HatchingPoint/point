@@ -1,0 +1,20 @@
+module Api
+
+record Auth Headers
+  authorization: Text
+
+record Other Headers
+  token: Text
+
+middleware require auth
+  input headers: Other Headers
+  output response: Maybe Text
+  otherwise return none
+
+route get item
+  method GET
+  path "/items"
+  before require auth
+  input headers: Auth Headers
+  output response: Text
+  return "ok"

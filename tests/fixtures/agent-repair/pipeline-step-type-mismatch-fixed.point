@@ -1,0 +1,20 @@
+module Ingest
+
+action fetch doc
+  input url: Text
+  output body: Text
+  touches none
+  return url
+
+action parse doc
+  input body: Int
+  output parsed: Text
+  touches none
+  return "ok"
+
+pipeline document ingest
+  input url: Text
+  output result: Text
+  step fetched is await fetch doc(url)
+  step parsed is await parse doc(0)
+  return parsed
