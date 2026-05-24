@@ -8,7 +8,7 @@
 
 ## Summary
 
-Point’s semantic blocks cover most product logic. Gaps appear when authors need **associative data**, **money**, **typed failures**, or **first-class dates** without dropping to `external` shims. None of these block general-purpose use — they add friction compared to TypeScript or Python.
+Point’s semantic blocks cover most application logic. Gaps appear when authors need **associative data**, **money**, **typed failures**, or **first-class dates** without dropping to `external` shims. None of these block general-purpose use — they add friction compared to TypeScript or Python.
 
 | Primitive | Status | Phase 22 decision |
 |-----------|--------|-------------------|
