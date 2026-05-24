@@ -19,7 +19,7 @@ import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
 import { normalizeUseModuleName } from "./capabilities.ts";
-import { dedupeCoreDeclarationsByName, filteredPublicCoreDeclarations } from "./use-merge.ts";
+import { dedupeCoreDeclarationsByName, filteredImportNamesForDependency, filteredPublicCoreDeclarations } from "./use-merge.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
 import { runPointBuildApp } from "./build-app.ts";
@@ -297,9 +297,11 @@ export async function main() {
 			console.log(`Point core Python build wrote ${outputPath.replaceAll("\\", "/")}`);
 			return;
 		}
+		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
+		const emitProgram = graph ? programWithTypeScriptImports(coreFile, graph) : program;
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_JS_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-		await Bun.write(outputPath, emitPointCoreJavaScript(program, { production: buildProduction }));
+		await Bun.write(outputPath, emitPointCoreJavaScript(emitProgram, { production: buildProduction }));
 		const outputLabel = outputPath.replaceAll("\\", "/");
 		console.log(
 			buildProduction
@@ -326,9 +328,11 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
+		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
+		const emitProgram = graph ? programWithTypeScriptImports(coreFile, graph) : program;
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_TS_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
-		await Bun.write(outputPath, emitPointCoreTypeScript(program, input));
+		await Bun.write(outputPath, emitPointCoreTypeScript(emitProgram, input));
 		console.log(`Point core TypeScript build wrote ${outputPath.replaceAll("\\", "/")}`);
 		return;
 	}
@@ -865,14 +869,20 @@ export function programWithDependencyDeclarations(result: CoreFile, graph: Modul
 	};
 }
 
-export function programWithTypeScriptImports(result: CoreFile, graph: ModuleGraph): PointCoreProgram {
+export function programWithTypeScriptImports(result: CoreFile, graph: ModuleGraph, cwd = process.cwd()): PointCoreProgram {
 	const dependencies = graph.get(normalizeInput(result.input))?.dependencies ?? [];
-	const imports: PointCoreDeclaration[] = dependencies.map((dependency) => ({
-		kind: "import",
-		names: publicDeclarations(dependency.program).map((declaration) => declaration.name).filter(Boolean),
-		from: `./${outputBaseName(dependency.input)}`,
-	}));
-	return { ...result.program, declarations: [...imports.filter((declaration) => declaration.kind !== "import" || declaration.names.length > 0), ...result.program.declarations] };
+	const imports: PointCoreDeclaration[] = dependencies.flatMap((dependency) => {
+		const names = filteredImportNamesForDependency(result.source, dependency.source, dependency.input, cwd);
+		if (names.length === 0) return [];
+		return [
+			{
+				kind: "import" as const,
+				names,
+				from: `./${outputBaseName(dependency.input)}`,
+			},
+		];
+	});
+	return { ...result.program, declarations: [...imports, ...result.program.declarations] };
 }
 
 function publicDeclarations(program: PointCoreProgram): Array<Extract<PointCoreDeclaration, { kind: "type" | "function" | "value" | "external" }>> {

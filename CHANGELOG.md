@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.30
+
+### Added
+
+- Phase 38: **Emit import pruning** — JS/TS/Python emit imports only referenced dependency symbols (matches selective use merge).
+- Phase 38: **Five-minute tour** — `docs/site/guide/five-minute-tour.md` for evaluators; template README link.
+
+### Fixed
+
+- Single-file `point build` / `build-ts` use pruned cross-module imports when `use` is present.
+
 ## 0.1.29
 
 ### Added

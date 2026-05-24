@@ -27,10 +27,6 @@ from point_std.process import processStreamLines as streamLinesRaw
 async def spawnCommandResult(command: str, args: list[str], env: list[str]) -> ProcessResult | dict[str, str]:
     return await spawnRaw(command, args, env)
 
-async def streamLinesFromProcessLine(command: str, args: list[str], env: list[str]) -> str:
-    async for __point_line in streamLinesRaw(command, args, env):
-        yield __point_line
-
 def processStdout(result: ProcessResult) -> str:
     return result["stdout"]
 

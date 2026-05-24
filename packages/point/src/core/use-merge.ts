@@ -154,6 +154,17 @@ export function dedupeSemanticDeclarations(declarations: PointSemanticDeclaratio
 	return deduped;
 }
 
+export function filteredImportNamesForDependency(
+	importerSource: string,
+	dependencySource: string,
+	dependencyInput?: string,
+	cwd = process.cwd(),
+): string[] {
+	return filteredPublicCoreDeclarations(importerSource, dependencySource, dependencyInput, cwd)
+		.map((declaration) => declaration.name)
+		.filter(Boolean);
+}
+
 export function dedupeCoreDeclarationsByName(
 	declarations: Array<Extract<PointCoreDeclaration, { kind: "type" | "function" | "value" | "external" }>>,
 ): Array<Extract<PointCoreDeclaration, { kind: "type" | "function" | "value" | "external" }>> {

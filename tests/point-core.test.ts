@@ -175,7 +175,8 @@ calculation known user
 		await Bun.$`bun packages/point/src/cli.ts check-all`.quiet();
 		await Bun.$`bun packages/point/src/cli.ts build-all`.quiet();
 		const generated = await Bun.file("generated/order.js").text();
-		expect(generated).toContain('import { Product, productLineTotal } from "./catalog";');
+		expect(generated).toContain('import { Product } from "./catalog";');
+		expect(generated).not.toContain("productLineTotal");
 		expect(generated).toContain("export function orderTotal(products) {");
 		expect(generated).toContain("for (const product of products) {");
 		expect(generated).not.toContain(": number");

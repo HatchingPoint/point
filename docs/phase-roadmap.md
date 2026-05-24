@@ -2,15 +2,16 @@
 
 **Purpose:** Single queue for language expansion. The **phase expansion loop** reads this file, runs `point roadmap-analyze`, and drafts the next `docs/phaseNN-plan.md`.
 
-## Active execution (parallel burst — paste codex goals)
+## Active execution
 
-_None — expansion loop can draft Phase 38._
+_None — expansion loop can draft Phase 39._
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
-| **37** | v0.1.29 | Selective use merge, domain outcomes guide, template capabilities |
+| **38** | v0.1.30 | Emit import pruning, five-minute tour |
+| **37** | v0.1.29 | Selective use merge, domain outcomes guide |
 | **36** | v0.1.28 | Capabilities shorthand (`use http`), README/product map, docs sync, release script |
 | **35** | v0.1.27 | Agent repair CI gate, timezone std pattern, LSP cross-module use |
 | **34** | v0.1.26 | Cross-module use resolution, money-demo linked std/money |

@@ -18,8 +18,6 @@ if _point_std_root is not None and str(_point_std_root) not in sys.path:
 
 from crypto import sha256Hash, hmacSha256, jwtSign, jwtVerify, checkJwtValid, digestSha256Digest, digestHmacSha256Digest, signJwtToken, verifyJwtPayload, jwtAuthOk
 
-from env import envGetRaw, getEnvVarValue, envWithDefaultResult
-
 def signedDemoToken() -> str:
     return signJwtToken("{\"sub\":\"demo-user\",\"role\":\"reader\"}", "demo-jwt-secret")
 

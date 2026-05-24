@@ -3,8 +3,6 @@
 
 import { sha256Hash, hmacSha256, jwtSign, jwtVerify, checkJwtValid, digestSha256Digest, digestHmacSha256Digest, signJwtToken, verifyJwtPayload, jwtAuthOk } from "./crypto";
 
-import { envGetRaw, getEnvVarValue, envWithDefaultResult } from "./env";
-
 export function signedDemoToken(): string {
   return signJwtToken("{\"sub\":\"demo-user\",\"role\":\"reader\"}", "demo-jwt-secret");
 }

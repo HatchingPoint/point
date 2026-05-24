@@ -16,17 +16,17 @@ _point_std_root = next((candidate for candidate in _point_std_candidates if cand
 if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
-from text import textLength, textContains, textSplit, textTrim, textFromIntRaw, textPadStartRaw, concatTextValue, textFromIntText, textPadStartPadded
+from text import concatTextValue
 
-from json import jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult
+from json import jsonParse, jsonStringify, parseJsonResult
 
-from http import httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed
+from http import httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse
 
-from time import instantNowRaw, parseInstantRaw, formatInstantRaw, formatInstantInTimezoneRaw, timeNow, sleepMilliseconds, formatTime, durationFromSecondsRaw, durationToSecondsRaw, durationFromMinutesRaw, instantNowValue, formatInstantLabel, formatInstantInTimezoneLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult, durationFromSecondsDuration, durationToSeconds, durationFromMinutesDuration
+from time import instantNowRaw, parseInstantRaw, formatInstantRaw, formatInstantInTimezoneRaw, timeNow, sleepMilliseconds, formatTime, durationFromSecondsRaw, durationToSecondsRaw, durationFromMinutesRaw, instantNowValue, currentTimeValue
 
-from fs import readFileRaw, writeFileRaw, readFileContents, writeFileResult
+from fs import readFileRaw, writeFileRaw, readFileContents
 
-from env import envGetRaw, getEnvVarValue, envWithDefaultResult
+from env import envGetRaw, getEnvVarValue
 
 def stdTextExampleMessage(name: str) -> str:
     return concatTextValue("Hello ", name)

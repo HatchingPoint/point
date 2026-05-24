@@ -16,7 +16,7 @@ _point_std_root = next((candidate for candidate in _point_std_candidates if cand
 if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
-from money import formatCentsUsdRaw, textFromIntRaw, Money, moneyFromCentsMoney, addMoneyTotal, moneyDisplay
+from money import formatCentsUsdRaw, textFromIntRaw, Money, moneyFromCentsMoney, moneyDisplay
 
 def demoTotal(unitPrice: int, quantity: int) -> Money:
     return moneyFromCentsMoney((unitPrice * quantity), "USD")

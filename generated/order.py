@@ -10,7 +10,7 @@ _point_module_dir = _point_here.parent
 if str(_point_module_dir) not in sys.path:
     sys.path.insert(0, str(_point_module_dir))
 
-from catalog import Product, productLineTotal
+from catalog import Product
 
 def orderTotal(products: list[Product]) -> int:
     total: int = 0

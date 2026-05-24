@@ -73,5 +73,6 @@ The platform sets `PORT`; `point serve` picks it up automatically.
 
 ## Docs
 
+- [Five-minute tour](https://hatchingpoint.com/point/guide/five-minute-tour)
 - [Quick start](https://hatchingpoint.com/point/guide/quick-start)
 - [Deploy Path B](https://hatchingpoint.com/point/toolchain/deploy)
