@@ -4,7 +4,7 @@
 
 ## Active execution
 
-**Phase 49** — UI kit depth + billing example. Plan: [phase49-plan.md](./phase49-plan.md).
+**Phase 50** — Pilot + template sync. See [phase-roadmap.md](./phase-roadmap.md) backlog.
 
 ## Completed (integrator shipped)
 

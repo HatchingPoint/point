@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.39** — Phase 47 POST INSERT, env JWT, onboarding SQL smoke.
+Update this line each release: **v0.1.41** — Phase 49 button/table UI, login validation, Stripe example.

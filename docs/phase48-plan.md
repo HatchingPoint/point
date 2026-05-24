@@ -25,11 +25,7 @@ Close the saas-app UI loop: login form saves Bearer token, create-member form PO
 
 ### P48-4 Docs + ship
 - [x] phase48-plan, codex-goal-phase48, roadmap
-- [ ] CI green, bump v0.1.40, tag, push
-
-## Ship
-
-Version **0.1.40**
+- [x] CI green, bump v0.1.40, tag, push
 
 ## Ship
 
