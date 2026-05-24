@@ -46,9 +46,10 @@ Humans benefit from the same explicit `record` / `rule` / `label` syntax. The AI
 
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Why Point exists](/point/concepts/why-point-exists)
 - [Proof of concept](/point/concepts/proof-of-concept)
 - [Point vs other languages for AI engineering](/point/ai/vs-other-languages)
-- [Introduction](/point/guide/introduction)
 - [Stable refs](/point/ai/stable-refs)
 - [Authoring vs runtime](/point/concepts/authoring-vs-runtime)

@@ -11,7 +11,7 @@ Internal source of truth for README, site copy, and release notes. Sync when shi
 | **Agent** | `check-json`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 26-case benchmark |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `point add` | Lockfile packages, AST tooling, Python subset |
 
-Public front door: **Point in 60 seconds** (`docs/site/guide/point-in-60-seconds.md`).
+Public front door: **Point in 60 seconds** → **Golden app demo** (evaluators).
 
 Tagline for agents: **The compiler is the agent's IDE.**
 
@@ -85,4 +85,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.32** — Phase 40 presentation alignment.
+Update this line each release: **v0.1.33** — Phase 41 showroom completion (golden app demo, doc graph wiring).

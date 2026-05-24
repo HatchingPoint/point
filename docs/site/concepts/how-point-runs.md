@@ -6,7 +6,9 @@ quadrant: Explanation
 
 ## Summary
 
-Point is the language you **write**. The toolchain **checks** semantic source, then **builds** runnable output when you need it. Most day-to-day work is `point check`, `point fmt`, and `point run` on `.point` files — not editing generated files.
+Point is the language you **write**. The toolchain **checks** semantic source, then **builds** runnable output when you need it. Most day-to-day work is `point check`, `point box`, and `point launch` on `.point` files — not editing generated files.
+
+**Start:** [Point in 60 seconds](/point/guide/point-in-60-seconds).
 
 ## What you work in
 
@@ -21,12 +23,12 @@ Daily workflow:
 
 ```bash
 point check myfile.point
-point fmt myfile.point
-point run myfile.point
-point test myfile.point
+point box myfile.point
+point launch myfile.point my command
+point dev src/app.point
 ```
 
-Use `point build` when a host app imports compiled modules. Use `point dev` for watch mode on apps. Repair product behavior in `.point`, then re-check — not by hand-editing build output.
+Logic-only files stop at `point check`. Use `point launch` when the file has `command` blocks.
 
 ## Check path
 
@@ -48,15 +50,16 @@ Interop (React, npm packages, SQL drivers, HTTP) happens at the edges through `e
 
 ## For coding agents
 
+The compiler is the agent's IDE:
+
 - Write and repair `.point` only
 - Use `check-json`, `index`, `explain`, and `repair-plan` with semantic refs
 - Do not treat generated files as source of truth
 
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Language overview](/point/language/overview)
-- [Build and emit](/point/toolchain/build-emit) — optional build targets
+- [Build and emit](/point/toolchain/build-emit)
 - [Platform vision](/point/concepts/platform-vision)
-- [Introduction](/point/guide/introduction)
-- [Authoring vs runtime](/point/concepts/authoring-vs-runtime) — legacy note (redirects here)
-- [Point vs other languages](/point/ai/vs-other-languages) — evaluation only

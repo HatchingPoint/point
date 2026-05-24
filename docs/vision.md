@@ -13,7 +13,7 @@
 
 Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## Platform status (v0.1.32)
+## Platform status (v0.1.33)
 
 Point authors product logic, HTTP, automation, and full-stack apps in one semantic source — with Apple-simple daily commands and an agent-native compiler under the hood.
 

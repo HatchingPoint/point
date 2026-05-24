@@ -4,9 +4,9 @@ Point is a **general-purpose, AI-first language** for product logic — semantic
 
 Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
 
-**Current release:** v0.1.32 · **607 tests** · npm: `@hatchingpoint/point`
+**Current release:** v0.1.33 · **607 tests** · npm: `@hatchingpoint/point`
 
-**Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md)
+**Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md) · **Evaluator demo:** [Golden app demo](docs/site/guide/golden-app-demo.md)
 
 ## Three daily moves
 
@@ -137,6 +137,7 @@ The product is **Point**. The npm package is **`@hatchingpoint/point`** for a co
 ## Docs
 
 - [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md)
+- [Golden app demo](docs/site/guide/golden-app-demo.md)
 - [Five-minute tour](docs/site/guide/five-minute-tour.md)
 - [CLI reference](docs/site/reference/cli.md)
 - [In the box](docs/site/language/in-the-box.md)

@@ -6,7 +6,9 @@ quadrant: Explanation
 
 ## Summary
 
-This page is the **proof of concept** for Point’s vision: the same product logic you would write in TypeScript or Python, expressed in semantic blocks, checked by a compiler that speaks **agent language** (refs, repair hints, effect boundaries), and emitted to run on your existing stack.
+This page is the **proof of concept** for Point's vision: the same product logic you would write in TypeScript or Python, expressed in semantic blocks, checked by a compiler that speaks **agent language** (refs, repair hints, effect boundaries), and emitted to run on your existing stack.
+
+**Daily path:** [Point in 60 seconds](/point/guide/point-in-60-seconds). **Full app:** [Golden app demo](/point/guide/golden-app-demo).
 
 ## PoC 1 — Cart total (intent vs implementation)
 

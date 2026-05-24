@@ -14,4 +14,5 @@ Point is the language authors and agents maintain in `.point` files. Build outpu
 
 - [How Point runs](/point/concepts/how-point-runs)
 - [Build and emit](/point/toolchain/build-emit)
-- [Introduction](/point/guide/introduction)
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [How Point runs](/point/concepts/how-point-runs)

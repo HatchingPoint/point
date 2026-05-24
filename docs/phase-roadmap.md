@@ -4,12 +4,13 @@
 
 ## Active execution
 
-**Phase 40** — Presentation alignment (Apple surface / Aston Martin hood). Plan: [phase40-plan.md](./phase40-plan.md). Goals: [codex-goal-phase40.md](./codex-goal-phase40.md).
+**Phase 41** — Showroom completion. Plan: [phase41-plan.md](./phase41-plan.md). Goals: [codex-goal-phase41.md](./codex-goal-phase41.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **40** | v0.1.32 | Presentation alignment — 60-second guide, CLI rings, honest boundaries |
 | **39** | v0.1.31 | In-the-box launch: `capabilities` line, `point commands`/`box`/`launch` |
 | **38** | v0.1.30 | Emit import pruning, five-minute tour |
 | **37** | v0.1.29 | Selective use merge, domain outcomes guide |
@@ -36,7 +37,7 @@ Older phases: see `docs/phase*-plan.md` and [codex-progress.md](./codex-progress
 |----------|-------|----------|-------|
 | 1 | Decimal / Money primitive spike | Audit deferrals | Int-cents pattern exists |
 | 2 | Emit import pruning | use merge at check | JS emit still imports whole dep modules |
-| 3 | Golden app demo polish | Product map | Evaluator-first full-stack walkthrough |
+| 3 | Golden app demo polish | Product map | ✅ Phase 41 golden-app-demo guide |
 
 The expansion loop may **reprioritize**, **merge**, or **split** rows when drafting a new phase.
 

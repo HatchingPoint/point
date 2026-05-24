@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.33
+
+### Added
+
+- Phase 41: **Golden app demo** — evaluator walkthrough (`docs/site/guide/golden-app-demo.md`).
+- Phase 41: **Doc graph wiring** — Point in 60 seconds + golden demo as default entry across tutorials, FAQ, concepts, examples.
+
+### Changed
+
+- Phase 41: quick-start, installation, run-test-repl, in-the-box — launch-first UX.
+- Phase 41: examples.md — golden path table with `point launch` commands.
+
 ## 0.1.32
 
 ### Added

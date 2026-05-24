@@ -8,32 +8,41 @@ quadrant: Tutorial
 
 Examples in the Point repo are working fixtures used by checks and tests. They are the best source for small, runnable patterns across domains.
 
-## Start here
+**Start here:** [Point in 60 seconds](/point/guide/point-in-60-seconds) → [Golden app demo](/point/guide/golden-app-demo).
 
-Pick any domain — all paths use the same check and agent commands:
+## Golden path (evaluators)
 
-| Domain | Example | What it shows |
-|--------|---------|---------------|
-| CLI | `examples/hello.point` | Minimal `command` + `point run` |
-| Pure logic | `examples/cart-total.point` | Records, calculations, rules, loops |
-| HTTP | `examples/route.point` | `route` with path params |
-| UI | `examples/view.point` | Styled `view` blocks |
-| Orchestration | `examples/workflow.point` | Async `workflow` steps |
-| Agents | `examples/agents/support-chat.point` | `session` + streaming |
-| Full app | `examples/app/dashboard/dashboard.point` | Layout, navigation, data loading |
-| Stdlib | `examples/std-usage.point` | `use std.*` imports |
-| Tests | `examples/point-tests.point` | Test conventions |
+| Step | Command / doc |
+|------|----------------|
+| 1 | [Golden app demo](/point/guide/golden-app-demo) — `point create`, `point dev`, `point launch` |
+| 2 | `point box src/app.point` — discover capabilities + commands |
+| 3 | `point check-json src/app.point` — agent repair loop |
+
+## By domain
+
+| Domain | Example | Launch |
+|--------|---------|--------|
+| CLI | `examples/command.point` | `point launch examples/command.point hello cli` |
+| Pure logic | `examples/cart-total.point` | `point check` (no command) |
+| Capabilities | `examples/capabilities-demo.point` | `point check` |
+| HTTP | `examples/route.point` | `point check` |
+| UI | `examples/view.point` | `point check` |
+| Orchestration | `examples/workflow.point` | `point check` |
+| Agents | `examples/agents/support-chat.point` | `point check` |
+| Full app | `examples/app/dashboard/dashboard.point` | `point commands` then launch |
+| Stdlib | `examples/std-usage.point` | `point check` |
+| Tests | `examples/point-tests.point` | `point test examples/point-tests.point` |
 
 Also useful: `examples/math.point` (mixed logic + labels), `examples/variants/order-status.point` (tagged unions).
 
 ## Adopters (dogfood demos)
 
-Real product shapes live under `examples/adopters/` — optional, not the default learning path:
+Real product shapes under `examples/adopters/` — optional, not the default learning path:
 
 - `examples/adopters/starter-labs/subscription-tier.point` — pricing tiers and labels
 - `examples/adopters/hatchingpoint/readiness-widget.point` — interactive checklist ([live demo](https://hatchingpoint.com/point/examples#live-demo))
 
-## Application platform (v0.1.0)
+## Application platform
 
 | Area | Example |
 |------|---------|
@@ -57,22 +66,20 @@ point create my-app
 
 ## Live demo
 
-The App Store listing readiness widget on the public docs site uses the same controlled-input patterns as any interactive `view` — it is one adopter demo, not the language default:
+The App Store listing readiness widget on the public docs site uses the same controlled-input patterns as any interactive `view`:
 
 [Open live demo →](https://hatchingpoint.com/point/examples#live-demo)
 
 ## Agent workflow
 
-When copying an example, keep the semantic block structure and run:
-
 ```bash
 point check your-file.point
-point fmt your-file.point
+point check-json your-file.point
+point repair-plan your-file.point
 ```
 
 ## See also
 
+- [Golden app demo](/point/guide/golden-app-demo)
+- [In the box](/point/language/in-the-box)
 - [Language overview](/point/language/overview)
-- [Applications index](/point/language/applications)
-- [Platform vision](/point/concepts/platform-vision)
-- [Run, test, REPL](/point/toolchain/run-test-repl)

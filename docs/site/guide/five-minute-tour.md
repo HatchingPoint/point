@@ -64,6 +64,8 @@ point dev src/app.point
 
 Open **http://localhost:5173** (UI). API on **http://localhost:3456** — pages, routes, and API from one `src/app.point` file.
 
+Full walkthrough: [Golden app demo](/point/guide/golden-app-demo).
+
 Run a CLI command from the template:
 
 ```bash
@@ -103,6 +105,6 @@ Stable refs and repair hints — agents patch semantic source, not line numbers.
 ## See also
 
 - [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Quick start](/point/guide/quick-start)
-- [Introduction](/point/guide/introduction)
 - [In the box](/point/language/in-the-box)

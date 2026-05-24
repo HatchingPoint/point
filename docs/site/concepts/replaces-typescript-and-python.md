@@ -6,7 +6,7 @@ quadrant: Explanation
 
 ## Summary
 
-**Evaluation page** — when comparing Point to other stacks. For daily docs, start with [Introduction](/point/guide/introduction) and [How Point runs](/point/concepts/how-point-runs).
+**Evaluation page** — when comparing Point to other stacks. For daily docs, start with [Point in 60 seconds](/point/guide/point-in-60-seconds) and [How Point runs](/point/concepts/how-point-runs).
 
 Point is the language for **new application logic** you want checked in one place. Authors maintain `.point` files; optional build commands produce host modules when needed.
 
@@ -51,6 +51,7 @@ Point is not claiming to replace every TypeScript or Python file in a monorepo i
 - [Platform vision](/point/concepts/platform-vision)
 - [Database interop](/point/ecosystem/database-interop)
 - [Philosophy](/point/concepts/philosophy)
-- [Introduction](/point/guide/introduction)
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [CLI reference](/point/reference/cli)
 - [Language overview](/point/language/overview)

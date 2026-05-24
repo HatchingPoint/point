@@ -49,17 +49,18 @@ calculation noop
 ## Run (commands)
 
 ```bash
-point run examples/tools/instant-demo.point instant demo
-point launch examples/tools/instant-demo.point instant demo   # alias
+point launch examples/command.point hello cli
+point run examples/command.point hello cli   # same; default when one command
 ```
 
-`launch` requires a command name. `run` picks the default command when omitted.
-
-List commands first:
+**`launch` requires a command name** — the simple path. List commands first:
 
 ```bash
 point commands src/app.point
+point box src/app.point
 ```
+
+Logic-only files use `point check` only.
 
 ## Agent toolchain
 
@@ -71,6 +72,7 @@ point index myfile.point
 
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Capabilities](/point/language/capabilities)
-- [Five-minute tour](/point/guide/five-minute-tour)
 - [CLI reference](/point/reference/cli)

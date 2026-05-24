@@ -75,6 +75,8 @@ You author **`.point`**. JavaScript is the default runtime (`point build`, `poin
 
 | Step | Page |
 |------|------|
+| 60 seconds | [Point in 60 seconds](/point/guide/point-in-60-seconds) (you are here) |
+| Full app eval | [Golden app demo](/point/guide/golden-app-demo) |
 | Five families | [Introduction](/point/guide/introduction) |
 | Full walkthrough | [Five-minute tour](/point/guide/five-minute-tour) |
 | All blocks | [Language overview](/point/language/overview) |
@@ -82,6 +84,7 @@ You author **`.point`**. JavaScript is the default runtime (`point build`, `poin
 
 ## See also
 
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Quick start](/point/guide/quick-start)
 - [In the box](/point/language/in-the-box)
 - [Capabilities](/point/language/capabilities)

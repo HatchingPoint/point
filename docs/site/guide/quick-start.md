@@ -6,7 +6,9 @@ quadrant: Tutorial
 
 ## Summary
 
-Install the CLI, write a small `.point` file, check it, format it, and run it.
+Install the CLI, write a small `.point` file, check it, format it, and launch a command.
+
+**Fastest path:** [Point in 60 seconds](/point/guide/point-in-60-seconds). **Full app eval:** [Golden app demo](/point/guide/golden-app-demo).
 
 ## Install the compiler
 
@@ -50,15 +52,19 @@ label order size
   otherwise return "Standard"
 ```
 
-## Check and run
+## Check and launch
 
 ```bash
 point check checkout.point
 point fmt checkout.point
-point run examples/hello.point
 ```
 
-`point run` needs a zero-argument `command` — use `examples/hello.point` for your first run. Logic-only files like `checkout.point` are validated with `point check` and built when a host app imports them.
+Logic-only files validate with `point check`. To execute something, use a file with a `command` block:
+
+```bash
+point box examples/command.point
+point launch examples/command.point hello cli
+```
 
 When a host project imports compiled files:
 
@@ -66,44 +72,45 @@ When a host project imports compiled files:
 point build checkout.point generated/checkout.js
 ```
 
-See [Build and emit](/point/toolchain/build-emit) for typed or alternate build targets.
+See [Build and emit](/point/toolchain/build-emit) for the decision tree.
 
 ## Agent commands
 
+The compiler is the agent's IDE:
+
 ```bash
-point index examples/cart-total.point
-point explain examples/cart-total.point point://semantic/Checkout/rule.cart total
 point check-json examples/cart-total.point
 point repair-plan examples/cart-total.point
+point index examples/cart-total.point
+point explain examples/cart-total.point point://semantic/Checkout/rule.cart total
 ```
 
-Prefer semantic refs such as `point://semantic/Checkout/rule.cart total` over line numbers or generated names.
+Prefer semantic refs over line numbers or generated names.
 
 ## Scaffold an app
 
 Create a Point-native full-stack admin app (UI + API in `.point`, Vite host included):
 
 ```bash
-bun install -g @hatchingpoint/point
 point create my-app
 cd my-app
 bun install
 point check src/app.point
-bun run dev
+point dev src/app.point
 ```
 
-Open **http://localhost:5173** for the UI. The Bun API runs on **http://localhost:3456** (`/api/health`, `/api/members`).
+Open **http://localhost:5173** for the UI. The Bun API runs on **http://localhost:3456**.
+
+Walkthrough: [Golden app demo](/point/guide/golden-app-demo).
 
 Production: `bun run build` then `bun run serve`. See [Deploy](/point/toolchain/deploy).
 
 Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.
 
-Legacy alias: `point app new my-app`.
-
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Installation](/point/guide/installation)
 - [How Point runs](/point/concepts/how-point-runs)
-- [Language overview](/point/language/overview)
 - [Stable refs](/point/ai/stable-refs)
-- [Repair loops](/point/ai/repair-loops)

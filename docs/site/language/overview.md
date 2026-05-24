@@ -8,6 +8,8 @@ quadrant: Reference
 
 Point source is organized as semantic blocks. Each block has a dedicated page in this guide with syntax, semantics, and examples from the `examples/` directory.
 
+**New here?** [Point in 60 seconds](/point/guide/point-in-60-seconds) → [Golden app demo](/point/guide/golden-app-demo).
+
 ## Block map
 
 | Block | Purpose | Guide page |
@@ -30,8 +32,9 @@ Point source is organized as semantic blocks. Each block has a dedicated page in
 
 ```bash
 point check examples/math.point
+point box examples/command.point
+point launch examples/command.point hello cli
 point index examples/math.point
-point fmt examples/math.point
 ```
 
 ## Agent note
@@ -40,7 +43,8 @@ Run `point index <file>` to list every declaration with a `point://semantic/` re
 
 ## See also
 
-- [Quick start](/point/guide/quick-start)
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [How Point runs](/point/concepts/how-point-runs)
 - [Grammar](/point/reference/grammar)
 - [Examples](/point/examples)

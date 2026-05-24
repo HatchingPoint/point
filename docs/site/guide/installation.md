@@ -8,7 +8,9 @@ quadrant: Tutorial
 
 Point projects work best with **Bun + a local `@hatchingpoint/point` devDependency**. After `bun install`, the CLI and LSP resolve from `node_modules` — no global install required for team members cloning your repo.
 
-For greenfield work, `point create` scaffolds a project with editor configs. For an existing repo (Surgetn Marketing, a monorepo folder, etc.), run **`point init`**.
+**New here?** [Point in 60 seconds](/point/guide/point-in-60-seconds) → [Golden app demo](/point/guide/golden-app-demo).
+
+For greenfield work, `point create` scaffolds a project with editor configs. For an existing repo, run **`point init`**.
 
 ## Clone an existing Point project
 
@@ -22,7 +24,7 @@ If the repo includes `.vscode/` and `.point/` (from `point init` or `point creat
 
 - **VS Code / Cursor** — install the recommended **Point Language** extension when prompted; LSP uses the local package automatically.
 - **Neovim / Zed / any LSP editor** — read `.point/editor.json` for the project-local launcher (`bun .point/lsp.mjs lsp`).
-- **Terminal only** (GitKraken, basic editors, CI) — `bun run check`, `point fmt`, `point run`.
+- **Terminal only** — `bun run check`, `point fmt`, `point box`, `point launch`.
 
 No global CLI required when `@hatchingpoint/point` is in `package.json` and you use the bundled editor configs.
 
@@ -43,26 +45,24 @@ Useful for `point create`, ad-hoc checks outside a Node project, or editors with
 
 ```bash
 bun install -g @hatchingpoint/point
-point --help
+point box src/app.point
 ```
 
 ## Terminal-only workflow
 
-You can use Point without an editor extension:
-
 ```bash
 point check myfile.point
 point fmt myfile.point
-point build myfile.point generated/myfile.js
-point run myfile.point
+point launch myfile.point my command    # when file has command blocks
+point dev src/app.point                 # full-stack app
 ```
 
-For CI or agent scripts, prefer structured commands:
+For CI or agent scripts:
 
 ```bash
 point check-json myfile.point
-point index myfile.point
 point repair-plan myfile.point
+point index myfile.point
 ```
 
 ## LSP for any editor
@@ -73,7 +73,7 @@ The package includes a stdio language server:
 point lsp
 ```
 
-Editors start this command automatically. It provides diagnostics, document outline, go to definition, hover, and document formatting. Neovim and Zed can both use the same server.
+Editors start this command automatically. It provides diagnostics, document outline, go to definition, hover, and document formatting.
 
 ## VS Code and Cursor
 
@@ -85,10 +85,9 @@ The extension auto-detects, in order:
 2. `node_modules/@hatchingpoint/point` in the workspace
 3. Global `point` on PATH
 
-Syntax highlighting works once the extension is installed. Hover, diagnostics, and completion require the CLI resolve step above — satisfied automatically after `bun install` in a configured project.
-
 ## See also
 
+- [Point in 60 seconds](/point/guide/point-in-60-seconds)
+- [Golden app demo](/point/guide/golden-app-demo)
 - [Toolchain: LSP](/point/toolchain/lsp)
 - [CLI reference](/point/reference/cli)
-- [AI overview](/point/ai/overview)
