@@ -16,8 +16,9 @@ Run **at most one implementation phase per chat** to avoid file conflicts. Use f
 | Phase | Status | Plan | Codex goals |
 |-------|--------|------|-------------|
 | **30** | Draft — not started | [phase30-plan.md](./phase30-plan.md) | [codex-goal-phase30.md](./codex-goal-phase30.md) |
+| **31** | Draft — not started | [phase31-plan.md](./phase31-plan.md) | [codex-goal-phase31.md](./codex-goal-phase31.md) |
 
-Promote to **Active** when Phase 28/29 exit gates pass or user starts a dedicated Phase 30 execution chat.
+Promote to **Active** when Phase 28/29 exit gates pass or user starts a dedicated execution chat.
 
 ## Completed (integrator shipped)
 
@@ -31,15 +32,18 @@ Older phases: see `docs/phase*-plan.md` and [codex-progress.md](./codex-progress
 
 ## Candidate backlog (expansion loop maintains)
 
-Evidence-driven themes not yet assigned to a numbered phase file:
+Evidence-driven themes not yet assigned to a numbered phase file.  
+**Last analyze:** 2026-05-24 — active 28/29 (7+8 open criteria), drafts Phase 30 + 31, 18+ agent-repair cases.
 
 | Priority | Theme | Evidence | Notes |
 |----------|-------|----------|-------|
-| 1 | ~~SQL codegen productization~~ | P27-4 spike shipped v0.1.20 | **Drafted → [phase30-plan.md](./phase30-plan.md)** |
-| 2 | Typed errors / `Result` | [language-primitive-audit.md](./language-primitive-audit.md) | Candidate Phase 31 — variants + labels today |
-| 3 | Python std completion | phase29-plan, P19 leftovers | **Active in Phase 29** |
-| 4 | Self-host compiler passes | phase28 P28-5, phase21 | More `.point`-authored passes under `compiler/` |
-| 5 | LSP ↔ CLI parity matrix | phase28 P28-4 | Automated diagnostic parity tests |
+| 1 | ~~SQL codegen productization~~ | [phase30-plan.md](./phase30-plan.md) draft | Promote after 28/29 exit |
+| 2 | ~~Typed errors / Result~~ | Audit gap; `order-status.point`, `process.point` `or Error` | **Drafted → [phase31-plan.md](./phase31-plan.md)** (variant-first, not try/catch) |
+| 3 | Python std completion | Phase 29 active | **Execution track** — do not duplicate |
+| 4 | Agent loop maturity | 18 repair cases; Phase 28 has 7 open (P28-3 partial, P28-4/P28-5 not started) | **Hold Phase 31-alt** until P28 exit; may merge into 28 integrator instead |
+| 5 | Self-host compiler passes | P28-5 not started; phase21 prior art | Stays on Phase 28 execution chat |
+| 6 | LSP ↔ CLI parity matrix | P28-4 not started | Stays on Phase 28 execution chat |
+| — | Map / Money / dates | Audit deferrals unchanged | No phase until author friction measured post-30 |
 
 The expansion loop may **reprioritize**, **merge**, or **split** rows when drafting a new phase.
 

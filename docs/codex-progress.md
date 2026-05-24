@@ -1196,6 +1196,15 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
 
+## Checkpoint Phase expansion — 2026-05-24 tick 3 (slice D)
+
+- Analyzed: audit gap "Rich errors / Result" — generic primitive deferred; existing patterns in `order-status.point`, `std/process.point` (`or Error`), workflow `on failure return`
+- Decision: **D — Close audit gap** (draft phase scope, no compiler changes)
+- Output: `docs/phase31-plan.md`, `docs/codex-goal-phase31.md`, `docs/phase-roadmap.md` (draft row + backlog item 2 marked drafted)
+- Scope: Variant-first outcomes (`variant` + `label` + action outputs); calculation `on failure return`; **non-goals:** try/catch, `Result<T,E>`
+- Next expansion tick: **A** — reprioritize after 28/29 exit; or promote Phase 30/31 to execution chats
+- Principles gate: N/A (planning only) — extends variant/label/action block families; no host exception syntax proposed
+
 ## Checkpoint Phase 29 P29-3 — build-py CLI docs + process-runner run path
 
 - Completed: Added `docs/site/toolchain/build-py.md` (single/batch emit, std bridge, run examples). Linked from `docs/site/toolchain/build-emit.md` and `docs/site/reference/cli.md`. Extended `emit-python.ts` with sibling-import bootstrap (`sys.path` for `./process` batch emit without shadowing stdlib `http`/`math`). Added process-runner `python3` runtime smoke test in `tests/python-workflow-emit.test.ts`.
