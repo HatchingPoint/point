@@ -110,6 +110,7 @@ Prefer `check-json`, `index`, `explain`, and `repair-plan` for automation. See [
 
 - [Dev and serve](/point/toolchain/dev)
 - [Deploy](/point/toolchain/deploy)
+- [Python build (build-py)](/point/toolchain/build-py)
 - [LSP](/point/toolchain/lsp)
 - [Diagnostics](/point/reference/diagnostics)
 - [Installation](/point/guide/installation)

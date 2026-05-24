@@ -1195,3 +1195,21 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P29-4 extend parity tests (http, yaml, crypto shims as ready).
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 29 P29-3 — build-py CLI docs + process-runner run path
+
+- Completed: Added `docs/site/toolchain/build-py.md` (single/batch emit, std bridge, run examples). Linked from `docs/site/toolchain/build-emit.md` and `docs/site/reference/cli.md`. Extended `emit-python.ts` with sibling-import bootstrap (`sys.path` for `./process` batch emit without shadowing stdlib `http`/`math`). Added process-runner `python3` runtime smoke test in `tests/python-workflow-emit.test.ts`.
+- Verified: `point build-py examples/tools/process-runner.point generated/process-runner.py` then `python3 -c "…processRunnerDemoResult('hello')…"` returns `{stdout, stderr, exitCode}`; `bun run ci` green (522 pass).
+- Example: `examples/tools/process-runner.point` — documented end-to-end in build-py page.
+- Next: P29-4 extend parity tests (http, yaml, crypto shims).
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28 P28-3 — Agent repair fixture expansion
+
+- Completed: Added 5 Phase 26–27 single-shot fixture pairs — `middleware-input-unavailable`, `middleware-input-type-mismatch`, `pipeline-step-type-mismatch`, `float-money-field`, `missing-variant-case`. Registered in `scripts/agent-repair-sufficiency.ts`. Exported `benchmarks/agent-repair-cases.json` (23 cases: 18 single-shot + 4 repair-plan loops). Updated `docs/site/ai/agent-repair-tests.md` and fixture README.
+- Verified: `bun test tests/agent-repair-sufficiency.test.ts tests/agent-repair-multistep.test.ts` — 29 pass; `bun run ci` green.
+- Example: `tests/fixtures/agent-repair/middleware-input-unavailable-broken.point` — middleware expects body but route only exposes query; one-line fix swaps middleware input to query.
+- Next: P28-4 LSP vs check-json parity spot-check.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

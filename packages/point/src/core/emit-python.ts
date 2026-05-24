@@ -139,18 +139,36 @@ function programUsesPointStd(program: PointCoreProgram): boolean {
 	});
 }
 
-function emitPointStdBootstrap(): string[] {
-	return [
-		"import sys",
-		"from pathlib import Path as _PointPath",
-		"_point_here = _PointPath(__file__).resolve()",
-		"_point_std_candidates = [_point_here.parents[1] / \"packages\" / \"point\" / \"python_std\"]",
-		"for _point_parent in _point_here.parents:",
-		"    _point_std_candidates.append(_point_parent / \"node_modules\" / \"@hatchingpoint\" / \"point\" / \"python_std\")",
-		"_point_std_root = next((candidate for candidate in _point_std_candidates if candidate.is_dir()), None)",
-		"if _point_std_root is not None and str(_point_std_root) not in sys.path:",
-		"    sys.path.insert(0, str(_point_std_root))",
-	];
+function programUsesRelativeSiblingImports(program: PointCoreProgram): boolean {
+	return program.declarations.some(
+		(declaration) =>
+			declaration.kind === "import" && (declaration.from.startsWith("./") || declaration.from.startsWith("../")),
+	);
+}
+
+function emitPythonRuntimeBootstrap(program: PointCoreProgram): string[] {
+	const useStd = programUsesPointStd(program);
+	const useSiblingImports = programUsesRelativeSiblingImports(program);
+	if (!useStd && !useSiblingImports) return [];
+	const lines = ["import sys", "from pathlib import Path as _PointPath", "_point_here = _PointPath(__file__).resolve()"];
+	if (useSiblingImports) {
+		lines.push(
+			"_point_module_dir = _point_here.parent",
+			"if str(_point_module_dir) not in sys.path:",
+			"    sys.path.insert(0, str(_point_module_dir))",
+		);
+	}
+	if (useStd) {
+		lines.push(
+			"_point_std_candidates = [_point_here.parents[1] / \"packages\" / \"point\" / \"python_std\"]",
+			"for _point_parent in _point_here.parents:",
+			"    _point_std_candidates.append(_point_parent / \"node_modules\" / \"@hatchingpoint\" / \"point\" / \"python_std\")",
+			"_point_std_root = next((candidate for candidate in _point_std_candidates if candidate.is_dir()), None)",
+			"if _point_std_root is not None and str(_point_std_root) not in sys.path:",
+			"    sys.path.insert(0, str(_point_std_root))",
+		);
+	}
+	return lines;
 }
 
 /** True when every declaration is emit-able as Python batch emit (no views, routes, workflows, commands, or variants). */
@@ -175,8 +193,9 @@ export function emitPointCorePython(program: PointCoreProgram): string {
 	lines.push("");
 	lines.push("from __future__ import annotations");
 	lines.push("");
-	if (programUsesPointStd(program)) {
-		lines.push(...emitPointStdBootstrap(), "");
+	const bootstrap = emitPythonRuntimeBootstrap(program);
+	if (bootstrap.length > 0) {
+		lines.push(...bootstrap, "");
 	}
 	if (programHasOrchestrationExtensions(program)) {
 		lines.push(...emitPythonWorkflowHelpers(program));

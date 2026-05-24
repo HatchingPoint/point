@@ -3,6 +3,13 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _PointPath
+_point_here = _PointPath(__file__).resolve()
+_point_module_dir = _point_here.parent
+if str(_point_module_dir) not in sys.path:
+    sys.path.insert(0, str(_point_module_dir))
+
 from catalog import Product, productLineTotal
 
 def orderTotal(products: list[Product]) -> int:

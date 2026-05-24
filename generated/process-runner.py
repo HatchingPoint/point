@@ -6,6 +6,9 @@ from __future__ import annotations
 import sys
 from pathlib import Path as _PointPath
 _point_here = _PointPath(__file__).resolve()
+_point_module_dir = _point_here.parent
+if str(_point_module_dir) not in sys.path:
+    sys.path.insert(0, str(_point_module_dir))
 _point_std_candidates = [_point_here.parents[1] / "packages" / "point" / "python_std"]
 for _point_parent in _point_here.parents:
     _point_std_candidates.append(_point_parent / "node_modules" / "@hatchingpoint" / "point" / "python_std")
@@ -13,29 +16,7 @@ _point_std_root = next((candidate for candidate in _point_std_candidates if cand
 if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
-from typing import TypedDict
-
-class ProcessResult(TypedDict):
-    stdout: str
-    stderr: str
-    exitCode: int
-
-from point_std.process import processSpawn as spawnRaw
-
-from point_std.process import processStreamLines as streamLinesRaw
-
-async def spawnCommandResult(command: str, args: list[str], env: list[str]) -> ProcessResult | dict[str, str]:
-    return await spawnRaw(command, args, env)
-
-async def streamLinesFromProcessLine(command: str, args: list[str], env: list[str]) -> str:
-    async for __point_line in streamLinesRaw(command, args, env):
-        yield __point_line
-
-def processStdout(result: ProcessResult) -> str:
-    return result["stdout"]
-
-def processExitCode(result: ProcessResult) -> int:
-    return result["exitCode"]
+from process import ProcessResult, spawnRaw, streamLinesRaw, spawnCommandResult, streamLinesFromProcessLine, processStdout, processExitCode
 
 async def runEchoCommandResult(message: str) -> ProcessResult | dict[str, str]:
     return await spawnCommandResult("echo", [message], [])

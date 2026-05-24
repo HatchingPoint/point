@@ -41,7 +41,7 @@ point build-py examples/math.point generated/math.py
 point build-py-all
 ```
 
-Covers logic-heavy modules where a Python runtime consumes output. Application UI, views, and most std IO still use the default build. See `docs/python-emit-registry.md` in the repository for limits.
+Covers logic, actions, routes, workflows, and commands where a Python runtime consumes output. Application UI, views, and most client code still use the default JavaScript build. See [Python build (build-py)](/point/toolchain/build-py) for run examples (including `examples/tools/process-runner.point`) and std bridge details.
 
 ## AST output (tooling)
 
@@ -56,5 +56,6 @@ For debugging and tooling — not normal app execution.
 - [Dev and serve](/point/toolchain/dev)
 - [How Point runs](/point/concepts/how-point-runs)
 - [Run, test, REPL](/point/toolchain/run-test-repl)
+- [Python build (build-py)](/point/toolchain/build-py)
 - [Deploy](/point/toolchain/deploy)
 - [CLI reference](/point/reference/cli)

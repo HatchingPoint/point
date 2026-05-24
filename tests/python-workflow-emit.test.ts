@@ -127,6 +127,29 @@ workflow timed flow
 		expect(output).toContain("from point_std.process import processSpawn");
 		expect(output).toContain("return await spawnRaw(");
 		expect(output).not.toContain("not supported in Python emit yet");
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping process-runner runtime smoke test");
+			return;
+		}
+		const proc = Bun.spawnSync(
+			[
+				pythonPath,
+				"-c",
+				`import asyncio, importlib.util, json, sys
+spec = importlib.util.spec_from_file_location("runner", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+print(json.dumps(asyncio.run(module.processRunnerDemoResult("hello"))))`,
+				generated,
+			],
+			{ cwd: repoRoot, stdout: "pipe", stderr: "pipe" },
+		);
+		expect(proc.exitCode).toBe(0);
+		const result = JSON.parse(proc.stdout.toString()) as { stdout: string; exitCode: number };
+		expect(result.exitCode).toBe(0);
+		expect(result.stdout.trim()).toBe("hello");
 	});
 });
 
