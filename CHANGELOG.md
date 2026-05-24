@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.36
+
+### Added
+
+- Phase 44: **`saas-app` template** — `point create --template saas-app` with auth, SQL, DB init workflow, protected POST route.
+- Phase 44: **Onboarding smoke** — `scripts/onboarding-smoke.sh` + `tests/onboarding-smoke.test.ts` (scaffold, check, launch, serve).
+- Phase 44: **External pilot checklist** — `docs/external-pilot-checklist.md`.
+- Phase 44: **Bundled std modules** — `packages/point/std/*.point` synced on publish for npm `capabilities` resolution.
+
+### Fixed
+
+- Phase 44: **Std module resolution** — absolute paths from `modulePathFromLock`; `capabilities` work from scaffolded project directories.
+- Phase 44: **`point run` / `point launch`** — emit cache under project `.point-cache/` so `node_modules` resolves for std imports.
+
 ## 0.1.35
 
 ### Added

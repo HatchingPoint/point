@@ -31,6 +31,12 @@ export const APP_TEMPLATES: AppTemplateSpec[] = [
 		description: "Point UI + API routes with Vite host, Edge adapter, and theme tokens — deploy to Vercel",
 		resolveDir: () => bundledTemplateDir("vercel-app"),
 	},
+	{
+		id: "saas-app",
+		title: "SaaS starter",
+		description: "Full-stack admin with auth middleware, SQLite via std.sql, and DB init command — opinionated SaaS path",
+		resolveDir: () => bundledTemplateDir("saas-app"),
+	},
 ];
 
 export function validateAppName(name: string): void {

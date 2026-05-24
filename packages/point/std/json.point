@@ -1,0 +1,16 @@
+module StdJson
+
+external point std json
+  json parse(value: Text): Text or Error from "@hatchingpoint/point/std/json" as jsonParse
+  json stringify(value: Text): Text from "@hatchingpoint/point/std/json" as jsonStringify
+
+action parse json
+  input value: Text
+  output result: Text or Error
+  touches none
+  return json parse(value)
+
+calculation stringify json
+  input value: Text
+  output result: Text
+  result is json stringify(value)

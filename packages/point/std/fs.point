@@ -1,0 +1,18 @@
+module StdFs
+
+external point std fs
+  read file raw(path: Text): Text or Error from "@hatchingpoint/point/std/fs" as readFile
+  write file raw(path: Text, contents: Text): Void or Error from "@hatchingpoint/point/std/fs" as writeFile
+
+action read file
+  input path: Text
+  output contents: Text or Error
+  touches file
+  return read file raw(path)
+
+action write file
+  input path: Text
+  input contents: Text
+  output result: Void or Error
+  touches file
+  return write file raw(path, contents)

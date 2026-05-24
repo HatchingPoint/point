@@ -1,6 +1,6 @@
 import { dirname, resolve } from "node:path";
 import { existsSync, readdirSync, statSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { mkdir } from "node:fs/promises";
 import type { PointCoreDeclaration, PointCoreProgram } from "./ast.ts";
 import { checkPointCore } from "./check.ts";
 import { createPointCoreIndex, createPointCoreRepairPlan, explainPointCoreRef } from "./context.ts";
@@ -449,7 +449,7 @@ export async function main() {
 			}
 			const value = useBundle
 				? await executeBundledEntry(program, entryName)
-				: await executeTempModuleRun(program, entryName, emittedJavaScript, (path) => {
+				: await executeTempModuleRun(program, entryName, emittedJavaScript, process.cwd(), (path) => {
 						runOutput = path;
 					});
 			if (value !== undefined) console.log(typeof value === "string" ? value : JSON.stringify(value));
@@ -713,9 +713,12 @@ async function executeTempModuleRun(
 	_program: PointCoreProgram,
 	entryName: string,
 	emittedJavaScript: string,
+	cwd = process.cwd(),
 	onWrite?: (path: string) => void,
 ): Promise<unknown> {
-	const runOutput = resolve(tmpdir(), `point-run-${Date.now()}.js`);
+	const cacheDir = resolve(cwd, ".point-cache");
+	await mkdir(cacheDir, { recursive: true });
+	const runOutput = resolve(cacheDir, `point-run-${Date.now()}.js`);
 	onWrite?.(runOutput);
 	await Bun.write(runOutput, emittedJavaScript);
 	const mod = await import(pathToFileUrl(runOutput));

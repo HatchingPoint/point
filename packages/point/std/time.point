@@ -1,0 +1,60 @@
+module StdTime
+
+external point std time
+  instant now raw(): Instant from "@hatchingpoint/point/std/time" as instantNow
+  parse instant raw(value: Text): Instant or Error from "@hatchingpoint/point/std/time" as parseInstant
+  format instant raw(value: Instant): Text from "@hatchingpoint/point/std/time" as formatInstant
+  format instant in timezone raw(value: Instant, timezone: Text): Text from "@hatchingpoint/point/std/time" as formatInstantInTimezone
+  time now(): Text from "@hatchingpoint/point/std/time" as now
+  sleep milliseconds(ms: Int): Void from "@hatchingpoint/point/std/time" as sleep
+  format time(value: Text): Text from "@hatchingpoint/point/std/time" as formatTime
+  duration from seconds raw(seconds: Int): Duration from "@hatchingpoint/point/std/time" as durationFromSeconds
+  duration to seconds raw(elapsed: Duration): Int from "@hatchingpoint/point/std/time" as durationToSeconds
+  duration from minutes raw(minutes: Int): Duration from "@hatchingpoint/point/std/time" as durationFromMinutes
+
+calculation instant now
+  output value: Instant
+  value is instant now raw()
+
+calculation format instant
+  input value: Instant
+  output label: Text
+  label is format instant raw(value)
+
+calculation format instant in timezone
+  input value: Instant
+  input timezone: Text
+  output label: Text
+  label is format instant in timezone raw(value, timezone)
+
+action parse instant
+  input value: Text
+  output result: Instant or Error
+  touches none
+  return parse instant raw(value)
+
+action current time
+  output value: Text
+  touches time
+  return time now()
+
+action wait milliseconds
+  input ms: Int
+  output Void
+  touches time
+  return sleep milliseconds(ms)
+
+calculation duration from seconds
+  input seconds: Int
+  output duration: Duration
+  duration is duration from seconds raw(seconds)
+
+calculation duration to seconds
+  input elapsed: Duration
+  output seconds: Int
+  seconds is duration to seconds raw(elapsed)
+
+calculation duration from minutes
+  input minutes: Int
+  output duration: Duration
+  duration is duration from minutes raw(minutes)

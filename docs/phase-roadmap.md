@@ -4,12 +4,13 @@
 
 ## Active execution
 
-**Phase 43** — Capability depth burst. Plan: [phase43-plan.md](./phase43-plan.md).
+**Phase 44** — Stranger succeeds (adoption burst). Plan: [phase44-plan.md](./phase44-plan.md).
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **44** | v0.1.36 | saas-app template, onboarding smoke CI, std module resolution, external pilot checklist |
 | **43** | v0.1.35 | std/auth capability, point demo, LSP repair enrichment, repair alias |
 | **42** | v0.1.34 | Application logic terminology, Point-native voice, frontend vs capabilities |
 | **40** | v0.1.32 | Presentation alignment — 60-second guide, CLI rings, honest boundaries |

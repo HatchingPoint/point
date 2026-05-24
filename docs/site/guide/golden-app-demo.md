@@ -12,10 +12,23 @@ This is the **golden demo** for evaluators: scaffold a real admin app, discover 
 
 ## 1. Scaffold (2 minutes)
 
+**Default admin shell:**
+
 ```bash
 point create eval-demo
 cd eval-demo
 bun install
+point demo src/app.point
+point dev src/app.point
+```
+
+**SaaS starter** (auth + SQLite + DB init):
+
+```bash
+point create eval-demo --template saas-app
+cd eval-demo
+bun install
+bun run init:db
 point demo src/app.point
 point dev src/app.point
 ```

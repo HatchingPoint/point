@@ -1,6 +1,7 @@
 import { createRequire } from "node:module";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { findPointProjectRoot } from "./resolve-cli.ts";
 
 export const POINT_MANIFEST = "point.json";
@@ -258,10 +259,31 @@ export async function addPointDependency(name: string, spec: string, cwd = proce
 	return { manifest, lock };
 }
 
-export function packageRootFromLock(lock: PointLock | null, packageName: string): string | null {
+export function packageRootFromLock(lock: PointLock | null, packageName: string, cwd = process.cwd()): string | null {
 	const entry = lock?.packages[packageName];
 	if (entry?.path) return entry.path;
-	if (!lock && packageName === "std") return "std";
+	if (packageName === "std") {
+		return resolveStdModuleRoot(cwd);
+	}
+	return null;
+}
+
+function resolveStdModuleRoot(cwd: string): string | null {
+	const projectRoot = findPointProjectRoot(cwd) ?? cwd;
+	const coreDir = dirname(fileURLToPath(import.meta.url));
+	const candidates = [
+		join(projectRoot, "node_modules/@hatchingpoint/point/std"),
+		resolve(coreDir, "../../../std"),
+		resolve(cwd, "std"),
+		resolve(projectRoot, "std"),
+		resolve(coreDir, "../../../../std"),
+	];
+	for (const candidate of candidates) {
+		if (existsSync(join(candidate, "http.point")) || existsSync(join(candidate, "auth.point"))) {
+			const rel = relative(cwd, candidate).replaceAll("\\", "/");
+			return rel.length > 0 ? rel : ".";
+		}
+	}
 	return null;
 }
 
@@ -277,12 +299,12 @@ export function modulePathFromLock(lock: PointLock | null, moduleName: string, c
 	}
 	const packageName = moduleName.slice(0, dot);
 	const modulePath = moduleName.slice(dot + 1);
-	const root = packageRootFromLock(lock, packageName);
+	const root = packageRootFromLock(lock, packageName, cwd);
 	if (!root) {
 		throw new Error(`Unknown package "${packageName}" in ${moduleName}. Add it with: point add ${packageName} <spec>`);
 	}
 	for (const candidate of modulePathCandidates(root, modulePath)) {
-		if (existsSync(join(cwd, candidate))) return candidate;
+		if (existsSync(resolve(cwd, candidate))) return candidate;
 	}
 	return modulePathCandidates(root, modulePath)[0]!;
 }

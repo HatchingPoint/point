@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "point.editor.v1",
+  "lsp": {
+    "command": "bun",
+    "args": [
+      ".point/lsp.mjs",
+      "lsp"
+    ],
+    "description": "Project-local LSP launcher — uses node_modules/@hatchingpoint/point after bun install"
+  },
+  "vscode": {
+    "extensionId": "hatchingpoint.point",
+    "settingsFile": ".vscode/settings.json"
+  },
+  "neovim": {
+    "configFile": ".point/editors/neovim.lua",
+    "notes": "Load .point/editors/neovim.lua from init.lua for project-local LSP"
+  },
+  "zed": {
+    "configFile": ".point/editors/zed.json",
+    "notes": "Merge .point/editors/zed.json into Zed settings for this workspace"
+  },
+  "terminal": {
+    "check": "bun run check",
+    "format": "point fmt <file.point>",
+    "notes": "Works in any terminal after bun install — no editor required"
+  },
+  "projectRoot": "C:/Users/mcarr/Documents/clones/point-1/examples/full-stack-template"
+}

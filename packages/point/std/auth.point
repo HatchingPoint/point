@@ -1,0 +1,35 @@
+module StdAuth
+
+external point std auth
+  bearer token from authorization(authorization: Text): Text from "@hatchingpoint/point/std/auth" as authBearerToken
+  jwt auth ok(authorization: Text, secret: Text): Bool from "@hatchingpoint/point/std/auth" as authJwtOk
+  sign auth jwt raw(payload: Text, secret: Text): Text from "@hatchingpoint/point/std/auth" as authSignJwt
+  verify jwt from authorization(authorization: Text, secret: Text): Text or Error from "@hatchingpoint/point/std/auth" as authVerifyJwt
+  unauthorized response raw(): Text from "@hatchingpoint/point/std/auth" as authUnauthorizedJson
+
+calculation bearer token
+  input authorization: Text
+  output token: Text
+  token is bearer token from authorization(authorization)
+
+calculation auth ok
+  input authorization: Text
+  input secret: Text
+  output ok: Bool
+  ok is jwt auth ok(authorization, secret)
+
+calculation sign auth jwt
+  input payload: Text
+  input secret: Text
+  output token: Text
+  token is sign auth jwt raw(payload, secret)
+
+calculation verify auth jwt
+  input authorization: Text
+  input secret: Text
+  output payload: Text or Error
+  payload is verify jwt from authorization(authorization, secret)
+
+calculation auth unauthorized body
+  output body: Text
+  body is unauthorized response raw()

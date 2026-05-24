@@ -16,7 +16,16 @@ import {
 
 const repoRoot = join(import.meta.dir, "..");
 const cli = join(repoRoot, "packages/point/src/cli.ts");
+const localPointPackage = join(repoRoot, "packages/point");
 const templateApp = join(repoRoot, REPO_TEMPLATE_REL, "src/app.point");
+
+async function installLocalPoint(appDir: string): Promise<void> {
+	const packagePath = join(appDir, "package.json");
+	const pkg = JSON.parse(await Bun.file(packagePath).text()) as { devDependencies?: Record<string, string> };
+	pkg.devDependencies = { ...(pkg.devDependencies ?? {}), "@hatchingpoint/point": `file:${localPointPackage}` };
+	await Bun.write(packagePath, `${JSON.stringify(pkg, null, 2)}\n`);
+	await Bun.$`bun install`.cwd(appDir).quiet();
+}
 
 describe("full-stack template and point create", () => {
 	let projectDir = "";
@@ -138,6 +147,25 @@ describe("full-stack template and point create", () => {
 		expect(
 			Bun.$`bun ${cli} create blocked-app ${target}`.cwd(projectDir).quiet().then(() => ({ ok: true })).catch(() => ({ ok: false })),
 		).resolves.toEqual({ ok: false });
+	});
+
+	test("saas-app template is bundled with auth and sql", async () => {
+		const bundled = bundledTemplateDir("saas-app");
+		expect(existsSync(bundled)).toBe(true);
+		expect(existsSync(join(bundled, "src/app.point"))).toBe(true);
+		const appPoint = join(bundled, "src/app.point");
+		const source = readFileSync(appPoint, "utf8");
+		expect(source).toContain("capabilities auth");
+		expect(source).toContain("middleware require auth");
+		await Bun.$`bun ${cli} check ${appPoint}`.quiet();
+		const result = await scaffoldAppFromTemplate("saas-demo", {
+			cwd: projectDir,
+			templateId: "saas-app",
+		});
+		expect(result.templateId).toBe("saas-app");
+		const appDir = join(projectDir, "saas-demo");
+		await installLocalPoint(appDir);
+		await Bun.$`bun ${cli} launch src/app.point admin demo`.cwd(appDir).quiet();
 	});
 
 	test("vercel-app template is bundled and scaffolds", async () => {

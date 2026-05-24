@@ -80,9 +80,10 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Templates
 
-- `full-stack-app` — Vite + routes + pages
+- `full-stack-app` — Vite + routes + pages (default)
+- `saas-app` — auth + SQLite + DB init + protected POST route
 - `vercel-app` — deploy-oriented variant
 
 ## Version anchor
 
-Update this line each release: **v0.1.35** — Phase 43 auth capability, point demo, LSP repair enrichment.
+Update this line each release: **v0.1.36** — Phase 44 saas-app template, onboarding smoke, std resolution fix.

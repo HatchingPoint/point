@@ -5,6 +5,10 @@ import { modulePathFromLock, readPointLockSync } from "./packages.ts";
 export function resolveUseDependencyInput(input: string, from: string, cwd = process.cwd()): string {
 	const normalized = from.replaceAll("\\", "/");
 	if (normalized.startsWith("./") || normalized.startsWith("../")) {
+		const fromProjectRoot = resolve(cwd, normalized);
+		if (existsSync(fromProjectRoot)) {
+			return normalized;
+		}
 		const base = dirname(resolve(cwd, input));
 		return resolve(base, from).replace(resolve(cwd), "").replace(/^[/\\]/, "");
 	}
@@ -28,8 +32,14 @@ export function createUseSourceResolver(cwd: string, inputPath?: string) {
 			const importerInput = fromInputPath ?? inputPath;
 			let dependencyPath = use.from ?? modulePathFromLock(lock, use.moduleName, cwd);
 			if (dependencyPath.startsWith("./") || dependencyPath.startsWith("../")) {
-				if (!importerInput) return null;
-				dependencyPath = resolveUseDependencyPath(importerInput, dependencyPath, cwd);
+				const fromProjectRoot = resolve(cwd, dependencyPath);
+				if (existsSync(fromProjectRoot)) {
+					dependencyPath = fromProjectRoot;
+				} else if (importerInput) {
+					dependencyPath = resolveUseDependencyPath(importerInput, dependencyPath, cwd);
+				} else {
+					return null;
+				}
 			} else {
 				dependencyPath = resolve(cwd, dependencyPath);
 			}

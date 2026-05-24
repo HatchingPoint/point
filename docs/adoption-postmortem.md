@@ -120,3 +120,20 @@ When a team outside core Point ships on the full-stack template:
 Point is ready for **pilot full-stack SaaS admin apps** authored entirely in `.point`, scaffolded via **`point app new`**, with layout/navigation/rich views and client data loading proven at template scale.
 
 **Next for adoption:** Run the v2 checklist with one **real** external team; capture blockers in a v2.1 addendum; consider a template variant with `route` + `point dev` for API-first teams.
+
+---
+
+## V3 — SaaS starter + onboarding smoke (Phase 44)
+
+**Date:** 2026-05-24  
+**Artifacts:** `packages/point/templates/saas-app/`, `scripts/onboarding-smoke.sh`, `docs/external-pilot-checklist.md`
+
+### What it proves
+
+- **`point create --template saas-app`** — auth capability, SQLite init workflow, protected POST route, same admin UI shell
+- **Onboarding smoke in CI** — scaffold → check → launch → serve `/api/health` without monorepo checkout tricks
+- **Std module resolution fix** — `capabilities auth` works from scaffolded project cwd (absolute std paths + bundled `packages/point/std/*.point`)
+
+### Recommendation (v3)
+
+Point is ready for **opinionated SaaS pilots** — one template path with DB + auth wired. Next: push v0.1.36, run [external pilot checklist](./external-pilot-checklist.md) with a real team.
