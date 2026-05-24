@@ -5,8 +5,12 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path as _PointPath
-_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
-if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+_point_here = _PointPath(__file__).resolve()
+_point_std_candidates = [_point_here.parents[1] / "packages" / "point" / "python_std"]
+for _point_parent in _point_here.parents:
+    _point_std_candidates.append(_point_parent / "node_modules" / "@hatchingpoint" / "point" / "python_std")
+_point_std_root = next((candidate for candidate in _point_std_candidates if candidate.is_dir()), None)
+if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
 from point_std.stream import streamReadText as streamReadTextRaw
@@ -20,16 +24,16 @@ from point_std.stream import streamWriteLines as streamWriteLinesRaw
 from point_std.stream import streamJoinLines as streamJoinLinesRaw
 
 async def streamReadTextContents(source: str) -> str | dict[str, str]:
-    return streamReadTextRaw(source)
+    return await streamReadTextRaw(source)
 
 async def streamWriteTextResult(sink: str, contents: str) -> None | dict[str, str]:
-    return streamWriteTextRaw(sink, contents)
+    return await streamWriteTextRaw(sink, contents)
 
 async def streamReadLines(source: str) -> list[str] | dict[str, str]:
-    return streamReadLinesRaw(source)
+    return await streamReadLinesRaw(source)
 
 async def streamWriteLinesResult(sink: str, lines: list[str]) -> None | dict[str, str]:
-    return streamWriteLinesRaw(sink, lines)
+    return await streamWriteLinesRaw(sink, lines)
 
 def joinStreamLinesText(lines: list[str]) -> str:
     return streamJoinLinesRaw(lines)

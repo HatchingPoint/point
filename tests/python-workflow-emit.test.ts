@@ -125,6 +125,7 @@ workflow timed flow
 		const output = await Bun.file(generated).text();
 		expect(output).toContain("async def processRunnerDemoResult");
 		expect(output).toContain("from point_std.process import processSpawn");
+		expect(output).toContain("return await spawnRaw(");
 		expect(output).not.toContain("not supported in Python emit yet");
 	});
 });

@@ -1159,3 +1159,39 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Output: `docs/phase30-plan.md`, `docs/codex-goal-phase30.md`, `docs/phase-roadmap.md` (draft row + backlog reprioritized)
 - Next expansion tick: **A** — reprioritize backlog after 28/29 exit gates; or **D** — draft Phase 31 for typed errors / Result audit gap if 28 agent-loop gaps remain
 - Principles gate: N/A (planning only) — draft scoped to record block family + boring SQL emit; no ORM or product DSL
+
+## Checkpoint Phase expansion — 2026-05-24 tick 2
+
+- Analyzed: `point roadmap-analyze` — active 28/29/30 (7+8+8 open criteria), `nextSuggestedPhaseNumber: 31`, audit gaps unchanged, 18 agent-repair cases, 47 example `.point` files
+- Decision: **A — Reprioritize backlog** (skipped B: Phase 30 draft already on disk)
+- Output: `docs/phase-roadmap.md` — refreshed evidence table, analyze snapshot, deferred Phase 31-alt agent-loop split until P28 exit
+- Next expansion tick: **D** — draft Phase 31 scope for typed domain errors / Result audit gap; or **B** if user promotes Phase 30 to execution first
+- Principles gate: N/A (planning only)
+
+## Checkpoint Phase 28/29 integrator — exit gate review (loop tick 2)
+
+- Reviewed: exit gates still **neither complete** — all plan checkboxes remain `[ ]`.
+- Phase 28: P28-1/P28-2 committed (`3805a2a`). P28-3 partial, P28-4/P28-5 not started.
+- Phase 29: P29-1/P29-2 committed (`0be9963`). P29-3/P29-4 not checkpointed. Uncommitted `generated/*.py` + `cli.ts` edits in working tree.
+- Verified: `bun run ci` green (509 pass).
+- Action: No commit, no release. Still on **v0.1.20**.
+- Note: Integrator loop shell aborted again (~2.5s); tick emitted before exit. P28/P29 worker loops continue on 45m cadence.
+
+## Checkpoint Phase 28/29 integrator — exit gate review (loop tick 3)
+
+- Reviewed: `docs/phase28-plan.md` and `docs/phase29-plan.md` exit gates — **neither complete** (all plan checkboxes still `[ ]`).
+- Phase 28 gaps: P28-1/P28-2 done. P28-3 partial — 18 broken fixtures / 18 benchmark cases but candidate pairs (middleware-input, pipeline-step-type, float-money, missing-variant, invalid-view-bind) not yet added; need 5+ new pairs per gate. P28-4 LSP ↔ CLI parity matrix not started. P28-5 self-host increment (`compiler/passes/diagnostic-catalog.point` or equivalent) not started.
+- Phase 29 gaps: P29-1/P29-2 done (`python_std/` has 10+ shims; emit-python rewrites `use std.*`). P29-3/P29-4 not checkpointed — `build-py` docs predate Phase 29; `point.json` `"target": "python"` spike not landed; `examples/tools/process-runner.point` Python path not verified end-to-end. Parity green for math, path-demo, std/json, middleware-demo (10 pass) but not full std surface.
+- Verified: `bun run ci` green (512 pass); `bun run test:py-parity` green (10 pass).
+- Action: **No commit, no release.** Still on **v0.1.20**.
+- Next: P28-3 fixture expansion + P28-4 LSP spot-check; P29-3 build-py/process-runner docs + P29-4 std parity extension.
+- Blocked: none (parallel worker loops continue)
+
+## Checkpoint Phase 29 P29-3 — process std mirror + process-runner Python path
+
+- Completed: Fixed `point_std/process.py` async generator syntax (invalid `return` with value). Extended `emit-python.ts` to auto-`await` async std calls in async actions, emit stream-action `yield` via `async for`, distinguish relative sibling imports (`./process`) from `std/*` → `point_std.*` bridge imports. Added process shim parity, std/process emit coverage, and `examples/tools/process-runner.point` JS/Python echo parity in `tests/python-parity-suite.test.ts`.
+- Verified: `bun test tests/python-std-parity.test.ts tests/python-parity-suite.test.ts tests/python-workflow-emit.test.ts` — 30 pass; `bun run ci` green (517 pass).
+- Example: `python3 generated/process-runner.py` path via `processRunnerDemoResult("hello")` returns `{stdout, stderr, exitCode}` matching JS `processSpawn`.
+- Next: P29-4 extend parity tests (http, yaml, crypto shims as ready).
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

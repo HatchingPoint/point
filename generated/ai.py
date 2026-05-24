@@ -5,8 +5,12 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path as _PointPath
-_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
-if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+_point_here = _PointPath(__file__).resolve()
+_point_std_candidates = [_point_here.parents[1] / "packages" / "point" / "python_std"]
+for _point_parent in _point_here.parents:
+    _point_std_candidates.append(_point_parent / "node_modules" / "@hatchingpoint" / "point" / "python_std")
+_point_std_root = next((candidate for candidate in _point_std_candidates if candidate.is_dir()), None)
+if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
 from point_std.ai import openaiComplete as openaiCompleteRaw
@@ -20,13 +24,13 @@ from point_std.ai import anthropicStream as anthropicStreamRaw
 from point_std.env import envGet as envGetRaw
 
 async def completeTextWithOpenaiText(prompt: str, model: str) -> str | dict[str, str]:
-    return openaiCompleteRaw(envGetRaw("OPENAI_API_KEY"), prompt, model)
+    return await openaiCompleteRaw(envGetRaw("OPENAI_API_KEY"), prompt, model)
 
 async def streamTextWithOpenaiText(prompt: str, model: str) -> str | dict[str, str]:
-    return openaiStreamRaw(envGetRaw("OPENAI_API_KEY"), prompt, model)
+    return await openaiStreamRaw(envGetRaw("OPENAI_API_KEY"), prompt, model)
 
 async def completeTextWithAnthropicText(prompt: str, model: str) -> str | dict[str, str]:
-    return anthropicCompleteRaw(envGetRaw("ANTHROPIC_API_KEY"), prompt, model)
+    return await anthropicCompleteRaw(envGetRaw("ANTHROPIC_API_KEY"), prompt, model)
 
 async def streamTextWithAnthropicText(prompt: str, model: str) -> str | dict[str, str]:
-    return anthropicStreamRaw(envGetRaw("ANTHROPIC_API_KEY"), prompt, model)
+    return await anthropicStreamRaw(envGetRaw("ANTHROPIC_API_KEY"), prompt, model)

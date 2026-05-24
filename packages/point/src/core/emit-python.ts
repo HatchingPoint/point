@@ -39,6 +39,23 @@ const POINT_STD_MODULE_NAMES = new Set([
 	"time",
 	"yaml",
 ]);
+const ASYNC_POINT_STD_SYMBOLS = new Set([
+	"processSpawn",
+	"processStreamLines",
+	"httpGet",
+	"httpPost",
+	"httpFetch",
+	"streamReadText",
+	"streamWriteText",
+	"streamReadLines",
+	"streamWriteLines",
+	"openaiComplete",
+	"openaiStream",
+	"anthropicComplete",
+	"anthropicStream",
+	"sleep",
+]);
+
 const POINT_STD_SYMBOL_ALIASES: Record<string, Record<string, string>> = {
 	ai: {
 		openaiCompleteRaw: "openaiComplete",
@@ -103,6 +120,16 @@ function resolvePointStdImportName(moduleName: string, publicName: string, looku
 	return lookup.get(`${moduleName}:${publicName}`) ?? POINT_STD_SYMBOL_ALIASES[moduleName]?.[publicName] ?? publicName;
 }
 
+function buildAsyncStdCallSet(program: PointCoreProgram): Set<string> {
+	const symbols = new Set(ASYNC_POINT_STD_SYMBOLS);
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "external" || !isPointStdExternal(declaration.from)) continue;
+		const imported = declaration.importName ?? declaration.name;
+		if (ASYNC_POINT_STD_SYMBOLS.has(imported)) symbols.add(declaration.name);
+	}
+	return symbols;
+}
+
 function programUsesPointStd(program: PointCoreProgram): boolean {
 	return program.declarations.some((declaration) => {
 		if (declaration.kind === "external") return isPointStdExternal(declaration.from);
@@ -164,12 +191,13 @@ export function emitPointCorePython(program: PointCoreProgram): string {
 	}
 	if (typingImports.length > 0 || routes.length > 0) lines.push("");
 	const pointStdLookup = buildPointStdSymbolLookup(program);
+	const asyncStdCalls = buildAsyncStdCallSet(program);
 	for (const declaration of program.declarations) {
 		if (declaration.kind === "function" && declaration.semantic?.kind === "command" && routes.length > 0 && isRouteServeCommand(declaration)) {
 			lines.push(...emitPythonRouteServeCommand(declaration.name, declaration.params.map(emitParam)), "");
 			continue;
 		}
-		const emitted = emitDeclaration(declaration, routes.length > 0, pointStdLookup);
+		const emitted = emitDeclaration(declaration, routes.length > 0, pointStdLookup, asyncStdCalls);
 		if (emitted.length > 0) lines.push(...emitted, "");
 	}
 	if (routes.length > 0 && routeServeCommand) {
@@ -181,23 +209,31 @@ export function emitPointCorePython(program: PointCoreProgram): string {
 	return `${trimTrailingBlankLines(lines).join("\n")}\n`;
 }
 
-function emitDeclaration(declaration: PointCoreDeclaration, hasRoutes: boolean, pointStdLookup: Map<string, string>): string[] {
+function emitDeclaration(
+	declaration: PointCoreDeclaration,
+	hasRoutes: boolean,
+	pointStdLookup: Map<string, string>,
+	asyncStdCalls: Set<string>,
+): string[] {
 	if (declaration.kind === "import") return emitImportDeclaration(declaration, pointStdLookup);
 	if (declaration.kind === "external") return emitExternal(declaration);
 	if (declaration.kind === "type") return emitType(declaration);
-	if (declaration.kind === "value") return [emitValue(declaration)];
+	if (declaration.kind === "value") return [emitValue(declaration, false, asyncStdCalls)];
 	if (declaration.semantic && UNSUPPORTED_SEMANTIC_KINDS.has(declaration.semantic.kind)) {
 		return [`# Point: ${declaration.semantic.kind} blocks are not supported in Python emit yet`];
 	}
 	if (declaration.kind === "function" && declaration.semantic?.kind === "command" && hasRoutes && isRouteServeCommand(declaration)) {
 		return [];
 	}
-	return emitFunction(declaration);
+	return emitFunction(declaration, asyncStdCalls);
 }
 
 function emitImportDeclaration(declaration: Extract<PointCoreDeclaration, { kind: "import" }>, pointStdLookup: Map<string, string>): string[] {
-	const moduleName = toPythonModuleName(declaration.from.replace(/^\.\//, "").replace(/-/g, "_"));
-	if (!isPointStdModuleName(moduleName)) {
+	const from = declaration.from.replaceAll("\\", "/");
+	const isRelativeImport = from.startsWith("./") || from.startsWith("../");
+	const stdModuleMatch = from.match(/^std\/(.+)$/);
+	const moduleName = toPythonModuleName((stdModuleMatch?.[1] ?? from.replace(/^\.\//, "")).replace(/-/g, "_"));
+	if (isRelativeImport || !isPointStdModuleName(moduleName)) {
 		return [`from ${moduleName} import ${declaration.names.join(", ")}`];
 	}
 	return declaration.names.map((name) => {
@@ -233,11 +269,16 @@ function emitExternal(declaration: PointCoreExternalDeclaration): string[] {
 	return [`from ${toPythonModuleName(moduleName)} import ${imported} as ${declaration.name}`];
 }
 
-function emitFunction(declaration: PointCoreFunctionDeclaration): string[] {
-	const asyncPrefix = declaration.semantic?.kind === "action" || declaration.semantic?.kind === "workflow" || declaration.semantic?.kind === "command" ? "async " : "";
+function emitFunction(declaration: PointCoreFunctionDeclaration, asyncStdCalls: Set<string>): string[] {
+	const isStreamAction = declaration.semantic?.isStreamAction === true;
+	const isAsync =
+		isStreamAction ||
+		declaration.semantic?.kind === "action" ||
+		declaration.semantic?.kind === "workflow" ||
+		declaration.semantic?.kind === "command";
 	return [
-		`${asyncPrefix}def ${declaration.name}(${declaration.params.map(emitParam).join(", ")}) -> ${emitReturnType(declaration)}:`,
-		...indentLines(declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind))),
+		`${isAsync ? "async " : ""}def ${declaration.name}(${declaration.params.map(emitParam).join(", ")}) -> ${emitReturnType(declaration)}:`,
+		...indentLines(declaration.body.flatMap((statement) => emitStatement(statement, declaration.semantic?.kind, isAsync, asyncStdCalls))),
 	];
 }
 
@@ -248,28 +289,49 @@ function emitReturnType(declaration: PointCoreFunctionDeclaration): string {
 	return emitTypeExpression(declaration.returnType);
 }
 
-function emitStatement(statement: PointCoreStatement, semanticKind?: string): string[] {
+function emitStatement(
+	statement: PointCoreStatement,
+	semanticKind: string | undefined,
+	inAsyncFunction: boolean,
+	asyncStdCalls: Set<string>,
+): string[] {
+	if (statement.kind === "yield") {
+		if (!statement.value) return ["yield"];
+		if (statement.value.kind === "call") {
+			const iterable = `${statement.value.callee}(${statement.value.args.map((arg) => emitExpression(arg, inAsyncFunction, asyncStdCalls)).join(", ")})`;
+			return [`async for __point_line in ${iterable}:`, "    yield __point_line"];
+		}
+		return [`async for __point_line in ${emitExpression(statement.value, inAsyncFunction, asyncStdCalls)}:`, "    yield __point_line"];
+	}
 	if (statement.kind === "return") {
 		if (semanticKind === "view" || semanticKind === "page") return ["# Point: view/page return values are not supported in Python emit yet", "return \"\""];
-		return [statement.value ? `return ${emitExpression(statement.value)}` : "return"];
+		return [statement.value ? `return ${emitExpression(statement.value, inAsyncFunction, asyncStdCalls)}` : "return"];
 	}
-	if (statement.kind === "value") return [emitValue(statement)];
-	if (statement.kind === "assignment") return [`${statement.name} ${statement.operator} ${emitExpression(statement.value)}`];
+	if (statement.kind === "value") return [emitValue(statement, false, asyncStdCalls)];
+	if (statement.kind === "assignment") {
+		return [`${statement.name} ${statement.operator} ${emitExpression(statement.value, inAsyncFunction, asyncStdCalls)}`];
+	}
 	if (statement.kind === "if") {
-		const lines = [`if ${emitCondition(statement.condition)}:`, ...indentLines(statement.thenBody.flatMap((child) => emitStatement(child, semanticKind)))];
+		const lines = [
+			`if ${emitCondition(statement.condition, inAsyncFunction, asyncStdCalls)}:`,
+			...indentLines(statement.thenBody.flatMap((child) => emitStatement(child, semanticKind, inAsyncFunction, asyncStdCalls))),
+		];
 		if (statement.elseBody.length > 0) {
-			lines.push("else:", ...indentLines(statement.elseBody.flatMap((child) => emitStatement(child, semanticKind))));
+			lines.push("else:", ...indentLines(statement.elseBody.flatMap((child) => emitStatement(child, semanticKind, inAsyncFunction, asyncStdCalls))));
 		}
 		return lines;
 	}
 	if (statement.kind === "for") {
-		return [`for ${statement.itemName} in ${emitExpression(statement.iterable)}:`, ...indentLines(statement.body.flatMap((child) => emitStatement(child, semanticKind)))];
+		return [
+			`for ${statement.itemName} in ${emitExpression(statement.iterable, inAsyncFunction, asyncStdCalls)}:`,
+			...indentLines(statement.body.flatMap((child) => emitStatement(child, semanticKind, inAsyncFunction, asyncStdCalls))),
+		];
 	}
-	return [emitExpression(statement.value)];
+	return [emitExpression(statement.value, inAsyncFunction, asyncStdCalls)];
 }
 
-function emitValue(declaration: PointCoreValueDeclaration): string {
-	return `${declaration.name}: ${emitTypeExpression(declaration.type)} = ${emitExpression(declaration.value)}`;
+function emitValue(declaration: PointCoreValueDeclaration, inAsyncFunction: boolean, asyncStdCalls: Set<string>): string {
+	return `${declaration.name}: ${emitTypeExpression(declaration.type)} = ${emitExpression(declaration.value, inAsyncFunction, asyncStdCalls)}`;
 }
 
 function emitParam(param: PointCoreParameter): string {
@@ -294,29 +356,29 @@ function emitPrimitiveType(type: PointCorePrimitiveType): string {
 	return "None";
 }
 
-function emitExpression(expression: PointCoreExpression): string {
+function emitExpression(expression: PointCoreExpression, inAsyncFunction = false, asyncStdCalls: Set<string> = new Set()): string {
 	if (expression.kind === "literal") return emitLiteral(expression.value);
 	if (expression.kind === "identifier") return expression.name;
-	if (expression.kind === "list") return `[${expression.items.map(emitExpression).join(", ")}]`;
+	if (expression.kind === "list") return `[${expression.items.map((item) => emitExpression(item, inAsyncFunction, asyncStdCalls)).join(", ")}]`;
 	if (expression.kind === "record") {
-		return `{${expression.fields.map((field) => `"${field.name}": ${emitExpression(field.value)}`).join(", ")}}`;
+		return `{${expression.fields.map((field) => `"${field.name}": ${emitExpression(field.value, inAsyncFunction, asyncStdCalls)}`).join(", ")}}`;
 	}
 	if (expression.kind === "variant") {
-		const payload = expression.fields.map((field) => `"${field.name}": ${emitExpression(field.value)}`).join(", ");
+		const payload = expression.fields.map((field) => `"${field.name}": ${emitExpression(field.value, inAsyncFunction, asyncStdCalls)}`).join(", ");
 		return payload.length > 0
 			? `{"kind": ${JSON.stringify(expression.caseName)}, ${payload}}`
 			: `{"kind": ${JSON.stringify(expression.caseName)}}`;
 	}
-	if (expression.kind === "await") return `await ${emitExpression(expression.value)}`;
-	if (expression.kind === "property") return `${emitExpression(expression.target)}[${JSON.stringify(expression.name)}]`;
+	if (expression.kind === "await") return `await ${emitExpression(expression.value, inAsyncFunction, asyncStdCalls)}`;
+	if (expression.kind === "property") return `${emitExpression(expression.target, inAsyncFunction, asyncStdCalls)}[${JSON.stringify(expression.name)}]`;
 	if (expression.kind === "call") {
 		if (expression.callee === "Error") {
-			const message = expression.args[0] ? emitExpression(expression.args[0]) : '""';
+			const message = expression.args[0] ? emitExpression(expression.args[0], inAsyncFunction, asyncStdCalls) : '""';
 			return `{"message": ${message}}`;
 		}
 		if (expression.callee === "pointMapLookup") {
-			const mapExpr = expression.args[0] ? emitExpression(expression.args[0]) : "{}";
-			const keyExpr = expression.args[1] ? emitExpression(expression.args[1]) : '""';
+			const mapExpr = expression.args[0] ? emitExpression(expression.args[0], inAsyncFunction, asyncStdCalls) : "{}";
+			const keyExpr = expression.args[1] ? emitExpression(expression.args[1], inAsyncFunction, asyncStdCalls) : '""';
 			return `(${mapExpr}.get(str(${keyExpr})))`;
 		}
 		if (expression.callee === "pointMapLiteral") {
@@ -325,21 +387,23 @@ function emitExpression(expression: PointCoreExpression): string {
 				const keyArg = expression.args[index];
 				const valueArg = expression.args[index + 1];
 				const key = keyArg?.kind === "literal" && typeof keyArg.value === "string" ? JSON.stringify(keyArg.value) : '""';
-				pairs.push(`${key}: ${valueArg ? emitExpression(valueArg) : "None"}`);
+				pairs.push(`${key}: ${valueArg ? emitExpression(valueArg, inAsyncFunction, asyncStdCalls) : "None"}`);
 			}
 			return `{${pairs.join(", ")}}`;
 		}
 		if (expression.callee === "pointJsonResponse") {
-			const body = expression.args[0] ? emitExpression(expression.args[0]) : "{}";
-			const status = expression.args[1] ? emitExpression(expression.args[1]) : "200";
-			const headers = expression.args[2] ? emitExpression(expression.args[2]) : "None";
+			const body = expression.args[0] ? emitExpression(expression.args[0], inAsyncFunction, asyncStdCalls) : "{}";
+			const status = expression.args[1] ? emitExpression(expression.args[1], inAsyncFunction, asyncStdCalls) : "200";
+			const headers = expression.args[2] ? emitExpression(expression.args[2], inAsyncFunction, asyncStdCalls) : "None";
 			return `point_json_response(${body}, ${status}, ${headers})`;
 		}
 		if (expression.callee === "pointWorkflowTimedStep") return emitPythonWorkflowTimedStepCall(expression);
-		return `${expression.callee}(${expression.args.map(emitExpression).join(", ")})`;
+		const call = `${expression.callee}(${expression.args.map((arg) => emitExpression(arg, inAsyncFunction, asyncStdCalls)).join(", ")})`;
+		if (inAsyncFunction && asyncStdCalls.has(expression.callee)) return `await ${call}`;
+		return call;
 	}
 	const operator = BINARY_OPERATORS[expression.operator] ?? expression.operator;
-	return `(${emitExpression(expression.left)} ${operator} ${emitExpression(expression.right)})`;
+	return `(${emitExpression(expression.left, inAsyncFunction, asyncStdCalls)} ${operator} ${emitExpression(expression.right, inAsyncFunction, asyncStdCalls)})`;
 }
 
 function emitLiteral(value: unknown): string {
@@ -350,8 +414,8 @@ function emitLiteral(value: unknown): string {
 	return String(value);
 }
 
-function emitCondition(expression: PointCoreExpression): string {
-	const emitted = emitExpression(expression);
+function emitCondition(expression: PointCoreExpression, inAsyncFunction: boolean, asyncStdCalls: Set<string>): string {
+	const emitted = emitExpression(expression, inAsyncFunction, asyncStdCalls);
 	return emitted.startsWith("(") && emitted.endsWith(")") ? emitted.slice(1, -1) : emitted;
 }
 

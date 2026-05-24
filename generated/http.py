@@ -5,8 +5,12 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path as _PointPath
-_point_std_root = _PointPath(__file__).resolve().parents[1] / "packages" / "point" / "python_std"
-if _point_std_root.is_dir() and str(_point_std_root) not in sys.path:
+_point_here = _PointPath(__file__).resolve()
+_point_std_candidates = [_point_here.parents[1] / "packages" / "point" / "python_std"]
+for _point_parent in _point_here.parents:
+    _point_std_candidates.append(_point_parent / "node_modules" / "@hatchingpoint" / "point" / "python_std")
+_point_std_root = next((candidate for candidate in _point_std_candidates if candidate.is_dir()), None)
+if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
 from point_std.http import httpGet as httpGetRaw
@@ -20,13 +24,13 @@ from point_std.http import httpAssertStatus as httpAssertStatusRaw
 from point_std.http import httpAssertJsonBody as httpAssertJsonBodyRaw
 
 async def httpGetResponse(url: str) -> str | dict[str, str]:
-    return httpGetRaw(url)
+    return await httpGetRaw(url)
 
 async def httpPostResponse(url: str, body: str) -> str | dict[str, str]:
-    return httpPostRaw(url, body)
+    return await httpPostRaw(url, body)
 
 async def httpFetchSnapshot(url: str, options: str) -> str:
-    return httpFetchRaw(url, options)
+    return await httpFetchRaw(url, options)
 
 def httpAssertStatusPassed(response: str, expectedStatus: int) -> bool:
     return httpAssertStatusRaw(response, expectedStatus)

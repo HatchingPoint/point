@@ -70,11 +70,11 @@ async def processStreamLines(
 				yield line
 		if remainder:
 			yield remainder.rstrip("\r")
-		stderr = await asyncio.to_thread(proc.stderr.read if proc.stderr else lambda: "")
-		exit_code = await asyncio.to_thread(proc.wait)
-		return {"stdout": "", "stderr": stderr, "exitCode": exit_code}
-	except Exception as error:
-		return {"message": str(error)}
+		if proc.stderr is not None:
+			await asyncio.to_thread(proc.stderr.read)
+		await asyncio.to_thread(proc.wait)
+	except Exception:
+		return
 	finally:
 		if proc is not None and proc.poll() is None:
 			proc.kill()

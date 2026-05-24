@@ -6,6 +6,7 @@ import { emitPointCorePython } from "../packages/point/src/core/emit-python.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { envGet } from "@hatchingpoint/point/std/env";
 import { jsonParse, jsonStringify } from "@hatchingpoint/point/std/json";
+import { processSpawn } from "@hatchingpoint/point/std/process";
 import {
 	pathBasename,
 	pathDirname,
@@ -49,7 +50,7 @@ async function runPythonStdParity(
 
 describe("python std mirror", () => {
 	test("emit maps @hatchingpoint/point/std imports to point_std modules", () => {
-		for (const fixture of ["std/path.point", "std/json.point", "std/env.point", "std/crypto.point"]) {
+		for (const fixture of ["std/path.point", "std/json.point", "std/env.point", "std/crypto.point", "std/process.point"]) {
 			const program = parsePointSource(readFileSync(join(repoRoot, fixture), "utf8"));
 			const emitted = emitPointCorePython(program);
 			expect(emitted).toContain("_point_std_root");
@@ -89,13 +90,25 @@ calculation stringify demo
 		const program = parsePointSource(readFileSync(join(repoRoot, "examples/tools/path-demo.point"), "utf8"));
 		program.declarations.unshift({
 			kind: "import",
-			from: "./path",
+			from: "std/path",
 			names: ["joinPaths", "pathBasename", "pathDirname", "pathExtname", "resolvePath", "pathIsAbsolute"],
 		});
 		const emitted = emitPointCorePython(program);
 		expect(emitted).toContain("from point_std.path import pathJoin as joinPaths");
 		expect(emitted).toContain("from point_std.path import pathResolve as resolvePath");
 		expect(emitted).not.toContain("from path import");
+	});
+
+	test("relative std sibling imports stay on generated modules", () => {
+		const program = parsePointSource(readFileSync(join(repoRoot, "examples/tools/process-runner.point"), "utf8"));
+		program.declarations.unshift({
+			kind: "import",
+			from: "./process",
+			names: ["ProcessResult", "spawnCommandResult", "processStdout", "processExitCode"],
+		});
+		const emitted = emitPointCorePython(program);
+		expect(emitted).toContain("from process import ProcessResult, spawnCommandResult, processStdout, processExitCode");
+		expect(emitted).not.toContain("from point_std.process import ProcessResult");
 	});
 
 	test("path shim parity between JS and Python", async () => {
@@ -224,5 +237,43 @@ print(json.dumps({
 				process.env[key] = original;
 			}
 		}
+	});
+
+	test("process shim parity between JS and Python", async () => {
+		const message = "point-process-parity";
+		const jsResult = await processSpawn("echo", [message], []);
+		expect(jsResult).toEqual(expect.objectContaining({ exitCode: 0 }));
+
+		const pythonPath = await resolvePythonCommand();
+		if (!pythonPath) {
+			console.warn("Python not found — skipping process runtime parity test");
+			expect((jsResult as { stdout: string }).stdout.trim()).toBe(message);
+			return;
+		}
+
+		const pyResult = await runPythonStdParity(
+			pythonPath,
+			`
+import asyncio
+import json
+from point_std.process import processSpawn
+
+async def run():
+    return await processSpawn("echo", [${JSON.stringify(message)}], [])
+
+print(json.dumps(asyncio.run(run())))
+`,
+		);
+
+		expect(pyResult).toEqual(jsResult);
+	});
+
+	test("use std.process build-py emits await for spawn raw", async () => {
+		const source = readFileSync(join(repoRoot, "std/process.point"), "utf8");
+		const program = parsePointSource(source);
+		const emitted = emitPointCorePython(program);
+		expect(emitted).toContain("from point_std.process import processSpawn as spawnRaw");
+		expect(emitted).toContain("return await spawnRaw(command, args, env)");
+		expect(emitted).toContain("async for __point_line in streamLinesRaw(command, args, env):");
 	});
 });
