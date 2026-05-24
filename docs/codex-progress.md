@@ -1151,3 +1151,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Verified: `bun run ci` green after P29-2 commit.
 - Next: P29-3 build-py CLI docs; P28-3 fixture expansion.
 - Blocked: none (work in progress on parallel tracks)
+
+## Checkpoint Phase expansion — 2026-05-24 tick 1
+
+- Analyzed: `point roadmap-analyze` — active phases 28/29 (7+8 open criteria), P27 spike complete, `nextSuggestedPhaseNumber: 30`, audit gaps unchanged (Map/Money/Result/dates deferred), 18 agent-repair cases
+- Decision: **B — Draft new phase**
+- Output: `docs/phase30-plan.md`, `docs/codex-goal-phase30.md`, `docs/phase-roadmap.md` (draft row + backlog reprioritized)
+- Next expansion tick: **A** — reprioritize backlog after 28/29 exit gates; or **D** — draft Phase 31 for typed errors / Result audit gap if 28 agent-loop gaps remain
+- Principles gate: N/A (planning only) — draft scoped to record block family + boring SQL emit; no ORM or product DSL
