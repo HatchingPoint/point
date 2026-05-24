@@ -13,7 +13,7 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 | Primitive | Status | Phase 22 decision |
 |-----------|--------|-------------------|
 | `Map<K,V>` / dict | **Shipped** (Phase 23) | **`Map<Text, T>` shipped** |
-| Money / decimal | `Int` only | **`Pattern shipped`** — cents-as-Int + `float-money-field` lint |
+| Money / decimal | `Int` only | **`Pattern shipped (format helpers)`** — cents-as-Int + `std/money` + `float-money-field` lint |
 | Rich errors / `Result` | Pattern shipped (variant-first) | **`Pattern shipped (variant-first)`** — generic `Result` still deferred |
 | Author-facing dates | **`Instant`** + **`Duration`** (whole seconds); timezones deferred | **`Instant + Duration`** (partial timezone defer) — use `std.time`; host/actions for TZ |
 
@@ -65,7 +65,7 @@ Point’s semantic blocks cover most product logic. Gaps appear when authors nee
 
 ### Recommendation
 
-**Pattern shipped.** Use integer minor units + **`std/money`** helpers; the checker flags `float-money-field` when money-shaped labels use `Float`. A real `Decimal`/`Money` primitive remains deferred.
+**Pattern shipped (format helpers).** Use integer minor units + **`std/money`** helpers (`format money display`, `format cents usd raw`); the checker flags `float-money-field` when money-shaped labels use `Float`. A real `Decimal`/`Money` primitive remains deferred.
 
 ---
 

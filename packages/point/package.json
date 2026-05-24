@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point",
-  "version": "0.1.24",
+  "version": "0.1.26",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",
@@ -41,6 +41,7 @@
     "./std/stream": "./src/std/stream.ts",
     "./std/sql": "./src/std/sql.ts",
     "./std/ai": "./src/std/ai.ts",
+    "./std/money": "./src/std/money.ts",
     "./ui/point-ui.css": "./ui/point-ui.css"
   },
   "dependencies": {

@@ -1,5 +1,11 @@
 module Money
 
+external point std money
+  format cents usd raw(amount cents: Int): Text from "@hatchingpoint/point/std/money" as formatCentsUsd
+
+external point std text
+  text from int raw(value: Int): Text from "@hatchingpoint/point/std/text" as textFromInt
+
 record Money
   amount cents: Int
   currency: Text
@@ -16,8 +22,8 @@ calculation add money
   output total: Money
   total is { amount cents: left.amount cents + right.amount cents, currency: left.currency }
 
-label money display
+calculation money display
   input money: Money
-  output Text
-  when money.currency == "USD" return "USD"
-  otherwise return money.currency
+  output display: Text
+  when money.currency == "USD" return format cents usd raw(money.amount cents)
+  return text from int raw(money.amount cents) + " " + money.currency

@@ -9,6 +9,18 @@ import { textSplit as textSplit } from "@hatchingpoint/point/std/text";
 
 import { textTrim as textTrim } from "@hatchingpoint/point/std/text";
 
+import { textFromInt as textFromIntRaw } from "@hatchingpoint/point/std/text";
+
+import { textPadStart as textPadStartRaw } from "@hatchingpoint/point/std/text";
+
 export function concatTextValue(left, right) {
-  return (left + right); // @point 13
+  return (left + right); // @point 15
+}
+
+export function textFromIntText(value) {
+  return textFromIntRaw(value); // @point 20
+}
+
+export function textPadStartPadded(value, length, fill) {
+  return textPadStartRaw(value, length, fill); // @point 27
 }

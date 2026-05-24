@@ -9,6 +9,10 @@ import { parsePointSource } from "../packages/point/src/core/parser.ts";
 const repoRoot = join(import.meta.dir, "..");
 const FIXTURE_PATTERNS = ["examples/**/*.point", "std/**/*.point", "compiler/**/*.point"];
 
+function parseFixture(fixture: string) {
+	return parsePointSource(readFileSync(join(repoRoot, fixture), "utf8"), { cwd: repoRoot, input: fixture });
+}
+
 async function discoverFixtures(): Promise<string[]> {
 	const fixtures = new Set<string>();
 	for (const pattern of FIXTURE_PATTERNS) {
@@ -155,16 +159,14 @@ calculation double
 	});
 
 	test("isPureLogicProgram skips view fixtures but allows actions", () => {
-		expect(isPureLogicProgram(parsePointSource(readFileSync(join(repoRoot, "examples/math.point"), "utf8")))).toBe(true);
-		expect(isPureLogicProgram(parsePointSource(readFileSync(join(repoRoot, "examples/view.point"), "utf8")))).toBe(false);
-		expect(isPureLogicProgram(parsePointSource(readFileSync(join(repoRoot, "examples/action.point"), "utf8")))).toBe(true);
+		expect(isPureLogicProgram(parseFixture("examples/math.point"))).toBe(true);
+		expect(isPureLogicProgram(parseFixture("examples/view.point"))).toBe(false);
+		expect(isPureLogicProgram(parseFixture("examples/action.point"))).toBe(true);
 	});
 
 	test("build-py-all emits pure-logic and action fixtures and skips UI files", async () => {
 		const fixtures = await discoverFixtures();
-		const pureLogicFixtures = fixtures.filter((fixture) =>
-			isPureLogicProgram(parsePointSource(readFileSync(join(repoRoot, fixture), "utf8"))),
-		);
+		const pureLogicFixtures = fixtures.filter((fixture) => isPureLogicProgram(parseFixture(fixture)));
 		expect(pureLogicFixtures.length).toBeGreaterThan(5);
 		expect(pureLogicFixtures).toContain("examples/math.point");
 		expect(pureLogicFixtures).toContain("examples/cart-total.point");

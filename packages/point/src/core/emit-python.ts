@@ -14,15 +14,17 @@ import type {
 import type { PointSemanticMiddlewareDeclaration, PointSemanticRouteDeclaration } from "../semantic/ast.ts";
 import { toIdentifier, toPascalCase } from "../semantic/naming.ts";
 import { programHasOrchestrationExtensions } from "./emit-workflow.ts";
+import { programHasPipelines } from "./emit-pipeline.ts";
 import { emitPythonRouteServeCommand, emitPythonRouteServerRuntime } from "./emit-python-routes.ts";
 import { emitPythonWorkflowHelpers, emitPythonWorkflowTimedStepCall } from "./emit-python-workflow.ts";
+import { emitPythonPipelineHelpers } from "./emit-python-pipeline.ts";
 
 const BINARY_OPERATORS: Record<string, string> = {
 	and: "and",
 	or: "or",
 };
 
-const UNSUPPORTED_SEMANTIC_KINDS = new Set(["view", "page", "pipeline"]);
+const UNSUPPORTED_SEMANTIC_KINDS = new Set(["view", "page"]);
 const POINT_STD_PREFIX = "@hatchingpoint/point/std/";
 const POINT_STD_MODULE_NAMES = new Set([
 	"ai",
@@ -31,6 +33,7 @@ const POINT_STD_MODULE_NAMES = new Set([
 	"fs",
 	"http",
 	"json",
+	"money",
 	"path",
 	"process",
 	"sql",
@@ -199,11 +202,15 @@ export function emitPointCorePython(program: PointCoreProgram): string {
 	if (bootstrap.length > 0) {
 		lines.push(...bootstrap, "");
 	}
-	if (programHasOrchestrationExtensions(program)) {
+	if (programHasOrchestrationExtensions(program) || programHasPipelines(program)) {
 		lines.push(...emitPythonWorkflowHelpers(program));
+	}
+	if (programHasPipelines(program)) {
+		lines.push(...emitPythonPipelineHelpers());
 	}
 	const typingImports: string[] = [];
 	if (program.declarations.some((declaration) => declaration.kind === "type")) typingImports.push("TypedDict");
+	if (programHasPipelines(program)) typingImports.push("Callable");
 	if (typingImports.length > 0) lines.push(`from typing import ${typingImports.join(", ")}`);
 	if (routes.length > 0) {
 		lines.push("import json");
@@ -297,6 +304,7 @@ function emitFunction(declaration: PointCoreFunctionDeclaration, asyncStdCalls: 
 		isStreamAction ||
 		declaration.semantic?.kind === "action" ||
 		declaration.semantic?.kind === "workflow" ||
+		declaration.semantic?.kind === "pipeline" ||
 		declaration.semantic?.kind === "command";
 	return [
 		`${isAsync ? "async " : ""}def ${declaration.name}(${declaration.params.map(emitParam).join(", ")}) -> ${emitReturnType(declaration)}:`,
@@ -305,7 +313,7 @@ function emitFunction(declaration: PointCoreFunctionDeclaration, asyncStdCalls: 
 }
 
 function emitReturnType(declaration: PointCoreFunctionDeclaration): string {
-	if (declaration.semantic?.kind === "action" || declaration.semantic?.kind === "workflow" || declaration.semantic?.kind === "command") {
+	if (declaration.semantic?.kind === "action" || declaration.semantic?.kind === "workflow" || declaration.semantic?.kind === "pipeline" || declaration.semantic?.kind === "command") {
 		return emitTypeExpression(declaration.returnType);
 	}
 	return emitTypeExpression(declaration.returnType);
@@ -349,7 +357,10 @@ function emitStatement(
 			...indentLines(statement.body.flatMap((child) => emitStatement(child, semanticKind, inAsyncFunction, asyncStdCalls))),
 		];
 	}
-	return [emitExpression(statement.value, inAsyncFunction, asyncStdCalls)];
+	if (statement.kind === "expression") {
+		return [emitExpression(statement.value, inAsyncFunction, asyncStdCalls)];
+	}
+	return [];
 }
 
 function emitValue(declaration: PointCoreValueDeclaration, inAsyncFunction: boolean, asyncStdCalls: Set<string>): string {
@@ -357,10 +368,16 @@ function emitValue(declaration: PointCoreValueDeclaration, inAsyncFunction: bool
 }
 
 function emitParam(param: PointCoreParameter): string {
+	if (param.name === "__pointPipelineLog") {
+		return `${param.name}: Callable[[dict[str, object]], None] | None = None`;
+	}
 	return `${param.name}: ${emitTypeExpression(param.type)}`;
 }
 
 function emitTypeExpression(type: PointCoreTypeExpression): string {
+	if (type.name === "Handler" && type.args.length === 1) {
+		return `Callable[[${emitTypeExpression(type.args[0]!)}], None]`;
+	}
 	if (type.name === "List") return `list[${type.args[0] ? emitTypeExpression(type.args[0]) : "object"}]`;
 	if (type.name === "Maybe") return `${type.args[0] ? emitTypeExpression(type.args[0]) : "object"} | None`;
 	if (type.name === "Or") return type.args.map(emitTypeExpression).join(" | ");
@@ -424,6 +441,12 @@ function emitExpression(expression: PointCoreExpression, inAsyncFunction = false
 			return `point_json_response(${body}, ${status}, ${headers})`;
 		}
 		if (expression.callee === "pointWorkflowTimedStep") return emitPythonWorkflowTimedStepCall(expression);
+		if (expression.callee === "pointPipelineEmitLog") {
+			return `point_pipeline_emit_log(${expression.args.map((arg) => emitExpression(arg, inAsyncFunction, asyncStdCalls)).join(", ")})`;
+		}
+		if (expression.callee === "pointIsError") {
+			return `pointIsError(${expression.args.map((arg) => emitExpression(arg, inAsyncFunction, asyncStdCalls)).join(", ")})`;
+		}
 		const call = `${expression.callee}(${expression.args.map((arg) => emitExpression(arg, inAsyncFunction, asyncStdCalls)).join(", ")})`;
 		if (inAsyncFunction && asyncStdCalls.has(expression.callee)) return `await ${call}`;
 		return call;

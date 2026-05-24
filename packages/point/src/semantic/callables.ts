@@ -1,3 +1,5 @@
+import { resolveUseDependencyInputPath } from "../core/module-resolve.ts";
+
 const CALLABLE_KEYWORDS = [
 	"calculation",
 	"rule",
@@ -16,7 +18,9 @@ const CALLABLE_KEYWORDS = [
 const USE_DECLARATION = /^use\s+([A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*)(?:\s+from\s+"([^"]+)")?$/;
 
 export interface CollectSemanticCallablesOptions {
-	resolveUseSource?: (use: { moduleName: string; from?: string }) => string | null | undefined;
+	resolveUseSource?: (use: { moduleName: string; from?: string }, fromInputPath?: string) => string | null | undefined;
+	inputPath?: string;
+	cwd?: string;
 	visited?: Set<string>;
 }
 
@@ -25,13 +29,21 @@ export function collectSemanticCallables(source: string, options?: CollectSemant
 	const resolveUseSource = options?.resolveUseSource;
 	if (!resolveUseSource) return [...callables];
 	const visited = options?.visited ?? new Set<string>();
+	const inputPath = options?.inputPath;
+	const cwd = options?.cwd ?? process.cwd();
 	for (const use of scanUseDeclarations(source)) {
-		const key = use.from ?? use.moduleName;
+		const dependencyInputPath = resolveUseDependencyInputPath(use, inputPath, cwd);
+		const key = dependencyInputPath ?? `${inputPath ?? ""}:${use.from ?? use.moduleName}`;
 		if (visited.has(key)) continue;
 		visited.add(key);
-		const dependencySource = resolveUseSource(use);
+		const dependencySource = resolveUseSource(use, inputPath);
 		if (!dependencySource) continue;
-		for (const callable of collectSemanticCallables(dependencySource, { resolveUseSource, visited })) {
+		for (const callable of collectSemanticCallables(dependencySource, {
+			resolveUseSource,
+			visited,
+			inputPath: dependencyInputPath,
+			cwd,
+		})) {
 			callables.add(callable);
 		}
 	}

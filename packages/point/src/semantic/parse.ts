@@ -60,9 +60,12 @@ import {
 	parseSemanticTypeExpression,
 } from "./expressions.ts";
 import { collectSemanticCallables, type CollectSemanticCallablesOptions } from "./callables.ts";
+import { resolveUseDependencyInputPath } from "../core/module-resolve.ts";
 
 export interface ParseSemanticSourceOptions {
 	resolveUseSource?: CollectSemanticCallablesOptions["resolveUseSource"];
+	inputPath?: string;
+	cwd?: string;
 }
 import { toIdentifier } from "./naming.ts";
 
@@ -120,7 +123,11 @@ export function parseSemanticSource(source: string, options?: ParseSemanticSourc
 	const lines = source.split(/\r?\n/);
 	const records = new Map<string, Map<string, string>>();
 	const variants = new Map<string, Map<string, Map<string, string>>>();
-	const callables = collectSemanticCallables(source, { resolveUseSource: options?.resolveUseSource });
+	const callables = collectSemanticCallables(source, {
+		resolveUseSource: options?.resolveUseSource,
+		inputPath: options?.inputPath,
+		cwd: options?.cwd,
+	});
 	const uses: PointSemanticUseDeclaration[] = [];
 	const declarations: PointSemanticDeclaration[] = [];
 	let moduleName: string | undefined;

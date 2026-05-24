@@ -21,5 +21,15 @@ from point_std.text import textSplit as textSplit
 
 from point_std.text import textTrim as textTrim
 
+from point_std.text import textFromInt as textFromIntRaw
+
+from point_std.text import textPadStart as textPadStartRaw
+
 def concatTextValue(left: str, right: str) -> str:
     return (left + right)
+
+def textFromIntText(value: int) -> str:
+    return textFromIntRaw(value)
+
+def textPadStartPadded(value: str, length: int, fill: str) -> str:
+    return textPadStartRaw(value, length, fill)

@@ -16,13 +16,13 @@ _point_std_root = next((candidate for candidate in _point_std_candidates if cand
 if _point_std_root is not None and str(_point_std_root) not in sys.path:
     sys.path.insert(0, str(_point_std_root))
 
-from text import textLength, textContains, textSplit, textTrim, concatTextValue
+from text import textLength, textContains, textSplit, textTrim, textFromIntRaw, textPadStartRaw, concatTextValue, textFromIntText, textPadStartPadded
 
 from json import jsonParse, jsonStringify, parseJsonResult, stringifyJsonResult
 
 from http import httpGetRaw, httpPostRaw, httpFetchRaw, httpAssertStatusRaw, httpAssertJsonBodyRaw, httpGetResponse, httpPostResponse, httpFetchSnapshot, httpAssertStatusPassed, httpAssertJsonBodyPassed
 
-from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult
+from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, durationFromSecondsRaw, durationToSecondsRaw, durationFromMinutesRaw, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult, durationFromSecondsDuration, durationToSeconds, durationFromMinutesDuration
 
 from fs import readFileRaw, writeFileRaw, readFileContents, writeFileResult
 

@@ -37,11 +37,13 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/std-usage.point",
 	"examples/tools/instant-demo.point",
 	"examples/tools/duration-demo.point",
+	"examples/tools/money-demo.point",
 	"examples/tools/maybe-narrow.point",
 	"examples/view.point",
 	"std/process.point",
 	"std/http.point",
 	"std/time.point",
+	"std/money.point",
 ]);
 
 async function discoverFixtures(): Promise<string[]> {

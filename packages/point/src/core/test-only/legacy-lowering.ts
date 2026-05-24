@@ -428,6 +428,17 @@ function lowerCalculation(
 			statements.push(`return ${lowerExpression(line.slice("return ".length), paramTypes, records, bindings)}`);
 			continue;
 		}
+		const whenReturn = line.match(/^when (.+) return (.+)$/);
+		if (whenReturn) {
+			statements.push(`if ${lowerExpression(whenReturn[1] ?? "", paramTypes, records, bindings)} {`);
+			statements.push(`  return ${lowerExpression(whenReturn[2] ?? "", paramTypes, records, bindings)}`);
+			statements.push("}");
+			continue;
+		}
+		if (line.startsWith("otherwise return ")) {
+			statements.push(`return ${lowerExpression(line.slice("otherwise return ".length), paramTypes, records, bindings)}`);
+			continue;
+		}
 		throw new Error(`Unknown calculation statement: ${line}`);
 	}
 

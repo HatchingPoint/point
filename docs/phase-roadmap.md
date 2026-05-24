@@ -2,20 +2,28 @@
 
 **Purpose:** Single queue for language expansion. The **phase expansion loop** reads this file, runs `point roadmap-analyze`, and drafts the next `docs/phaseNN-plan.md`.
 
-## Active execution (implement in Agent `/loop` chats)
+## Active execution (parallel burst — paste codex goals)
 
-_None — pick a draft below or run expansion loop for Phase 32._
+| Track | Chat goal | Plan section |
+|-------|-----------|--------------|
+| **A** | Agent repair CI gate | [codex-goal-phase35.md](./codex-goal-phase35.md) Track A |
+| **B** | Timezone std pattern | Track B |
+| **C** | LSP cross-module use | Track C |
+
+Integrator after waves: Wave 2 in [codex-goal-phase35.md](./codex-goal-phase35.md).
 
 ## Draft (ready for promotion)
 
-| Phase | Status | Plan | Codex goals |
-|-------|--------|------|-------------|
-| **32** | Candidate | expansion backlog | Map/dict or Money type (see audit) |
+| Phase | Theme | Notes |
+|-------|-------|-------|
+| **36** | Result pattern / Decimal spike | Audit deferrals — after 35 |
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **34** | v0.1.26 | Cross-module use resolution, money-demo linked std/money |
+| **33** | v0.1.25 | Money format helpers, Python pipeline emit, Phase 13 closed |
 | **32** | v0.1.24 | Duration type, std.time helpers, audit sync (Map/Money/errors) |
 | **31** | v0.1.23 | Variant-first domain errors, calculation `on failure return`, Python outcome emit |
 | **30** | v0.1.22 | SQL productization — FK, dialects, migrations, multi-module schema |
@@ -29,13 +37,13 @@ Older phases: see `docs/phase*-plan.md` and [codex-progress.md](./codex-progress
 
 ## Candidate backlog (expansion loop maintains)
 
-**Last analyze:** 2026-05-24 — Phases 28–31 complete; next `nextSuggestedPhaseNumber: 32`.
+**Last analyze:** 2026-05-24 — Phases 33–34 complete.
 
 | Priority | Theme | Evidence | Notes |
 |----------|-------|----------|-------|
-| 1 | Map / dict primitive | [language-primitive-audit.md](./language-primitive-audit.md) | Author friction post-outcomes |
-| 2 | Money type productization | Audit deferral; cents-as-Int today | Optional Phase 32 alternate |
-| 3 | Author-facing dates | `Instant` shipped; Duration follow-up | Low priority |
+| 1 | Generic Result / Decimal | Audit deferrals | Phase 35 candidate |
+| 2 | Agent repair CI gate | Phase 28 alternate | Optional hardening |
+| 3 | Timezone helpers | Audit partial defer | Actions/host only |
 
 The expansion loop may **reprioritize**, **merge**, or **split** rows when drafting a new phase.
 

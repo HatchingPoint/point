@@ -1,0 +1,18 @@
+module MoneyDemo
+
+use Money from "../../std/money.point"
+
+calculation demo total
+  input unit price: Int
+  input quantity: Int
+  output total: Money
+  total is money from cents(unit price * quantity, "USD")
+
+calculation demo receipt
+  input total: Money
+  output receipt: Text
+  receipt is money display(total)
+
+calculation test format usd money
+  output ok: Bool
+  ok is money display(money from cents(1005, "USD")) == "$10.05"

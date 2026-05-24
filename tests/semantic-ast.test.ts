@@ -70,7 +70,8 @@ describe("semantic parse coverage", () => {
 	for (const file of discoverPointFiles(join(repoRoot, "examples"))) {
 		test(`parses ${file.replace(`${repoRoot}\\`, "").replace(`${repoRoot}/`, "")}`, () => {
 			const source = readFileSync(file, "utf8");
-			const program = parseSemanticSourceWithUses(source, repoRoot);
+			const input = file.replace(`${repoRoot}/`, "").replace(`${repoRoot}\\`, "");
+			const program = parseSemanticSourceWithUses(source, repoRoot, input);
 			expect(program.kind).toBe("semanticProgram");
 			expect(program.declarations.length + program.uses.length).toBeGreaterThan(0);
 		});

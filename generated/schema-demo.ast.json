@@ -1,0 +1,891 @@
+{
+  "kind": "coreProgram",
+  "module": "SchemaDemo",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "User",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 31
+            },
+            "end": {
+              "line": 4,
+              "column": 11,
+              "offset": 41
+            }
+          }
+        },
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 42
+            },
+            "end": {
+              "line": 5,
+              "column": 14,
+              "offset": 55
+            }
+          }
+        },
+        {
+          "name": "createdAt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Instant",
+            "args": []
+          },
+          "semanticName": "created at",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 56
+            },
+            "end": {
+              "line": 6,
+              "column": 22,
+              "offset": 77
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "User"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 19
+        },
+        "end": {
+          "line": 3,
+          "column": 12,
+          "offset": 30
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "Post",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 91
+            },
+            "end": {
+              "line": 9,
+              "column": 11,
+              "offset": 101
+            }
+          }
+        },
+        {
+          "name": "author",
+          "type": {
+            "kind": "typeRef",
+            "name": "User",
+            "args": []
+          },
+          "semanticName": "author",
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 102
+            },
+            "end": {
+              "line": 10,
+              "column": 15,
+              "offset": 116
+            }
+          }
+        },
+        {
+          "name": "title",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "title",
+          "span": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 117
+            },
+            "end": {
+              "line": 11,
+              "column": 14,
+              "offset": 130
+            }
+          }
+        },
+        {
+          "name": "publishedAt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Instant",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "published at",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 131
+            },
+            "end": {
+              "line": 12,
+              "column": 31,
+              "offset": 161
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Post"
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 79
+        },
+        "end": {
+          "line": 8,
+          "column": 12,
+          "offset": 90
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "Comment",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 178
+            },
+            "end": {
+              "line": 15,
+              "column": 11,
+              "offset": 188
+            }
+          }
+        },
+        {
+          "name": "post",
+          "type": {
+            "kind": "typeRef",
+            "name": "Post",
+            "args": []
+          },
+          "semanticName": "post",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 189
+            },
+            "end": {
+              "line": 16,
+              "column": 13,
+              "offset": 201
+            }
+          }
+        },
+        {
+          "name": "body",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "body",
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 202
+            },
+            "end": {
+              "line": 17,
+              "column": 13,
+              "offset": 214
+            }
+          }
+        },
+        {
+          "name": "editedAt",
+          "type": {
+            "kind": "typeRef",
+            "name": "Maybe",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Instant",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "edited at",
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 215
+            },
+            "end": {
+              "line": 18,
+              "column": 28,
+              "offset": 242
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Comment"
+      },
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 1,
+          "offset": 163
+        },
+        "end": {
+          "line": 14,
+          "column": 15,
+          "offset": 177
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "Tag",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "id",
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 255
+            },
+            "end": {
+              "line": 21,
+              "column": 11,
+              "offset": 265
+            }
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "label",
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 266
+            },
+            "end": {
+              "line": 22,
+              "column": 14,
+              "offset": 279
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Tag"
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 244
+        },
+        "end": {
+          "line": 20,
+          "column": 11,
+          "offset": 254
+        }
+      }
+    },
+    {
+      "kind": "type",
+      "name": "PostTags",
+      "fields": [
+        {
+          "name": "post",
+          "type": {
+            "kind": "typeRef",
+            "name": "Post",
+            "args": []
+          },
+          "semanticName": "post",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 298
+            },
+            "end": {
+              "line": 25,
+              "column": 13,
+              "offset": 310
+            }
+          }
+        },
+        {
+          "name": "tags",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Tag",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "tags",
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 311
+            },
+            "end": {
+              "line": 26,
+              "column": 18,
+              "offset": 328
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Post Tags"
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 281
+        },
+        "end": {
+          "line": 24,
+          "column": 17,
+          "offset": 297
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 18,
+      "offset": 17
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "SchemaDemo",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "User",
+        "fields": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 31
+              },
+              "end": {
+                "line": 4,
+                "column": 11,
+                "offset": 41
+              }
+            }
+          },
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 42
+              },
+              "end": {
+                "line": 5,
+                "column": 14,
+                "offset": 55
+              }
+            }
+          },
+          {
+            "label": "created at",
+            "type": {
+              "kind": "typeRef",
+              "name": "Instant",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 56
+              },
+              "end": {
+                "line": 6,
+                "column": 22,
+                "offset": 77
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 30
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Post",
+        "fields": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 91
+              },
+              "end": {
+                "line": 9,
+                "column": 11,
+                "offset": 101
+              }
+            }
+          },
+          {
+            "label": "author",
+            "type": {
+              "kind": "typeRef",
+              "name": "User",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 102
+              },
+              "end": {
+                "line": 10,
+                "column": 15,
+                "offset": 116
+              }
+            }
+          },
+          {
+            "label": "title",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 117
+              },
+              "end": {
+                "line": 11,
+                "column": 14,
+                "offset": 130
+              }
+            }
+          },
+          {
+            "label": "published at",
+            "type": {
+              "kind": "typeRef",
+              "name": "Maybe",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Instant",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 131
+              },
+              "end": {
+                "line": 12,
+                "column": 31,
+                "offset": 161
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 79
+          },
+          "end": {
+            "line": 8,
+            "column": 12,
+            "offset": 90
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Comment",
+        "fields": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 178
+              },
+              "end": {
+                "line": 15,
+                "column": 11,
+                "offset": 188
+              }
+            }
+          },
+          {
+            "label": "post",
+            "type": {
+              "kind": "typeRef",
+              "name": "Post",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 189
+              },
+              "end": {
+                "line": 16,
+                "column": 13,
+                "offset": 201
+              }
+            }
+          },
+          {
+            "label": "body",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 202
+              },
+              "end": {
+                "line": 17,
+                "column": 13,
+                "offset": 214
+              }
+            }
+          },
+          {
+            "label": "edited at",
+            "type": {
+              "kind": "typeRef",
+              "name": "Maybe",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Instant",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 215
+              },
+              "end": {
+                "line": 18,
+                "column": 28,
+                "offset": 242
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 14,
+            "column": 1,
+            "offset": 163
+          },
+          "end": {
+            "line": 14,
+            "column": 15,
+            "offset": 177
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Tag",
+        "fields": [
+          {
+            "label": "id",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 255
+              },
+              "end": {
+                "line": 21,
+                "column": 11,
+                "offset": 265
+              }
+            }
+          },
+          {
+            "label": "label",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 266
+              },
+              "end": {
+                "line": 22,
+                "column": 14,
+                "offset": 279
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 244
+          },
+          "end": {
+            "line": 20,
+            "column": 11,
+            "offset": 254
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Post Tags",
+        "fields": [
+          {
+            "label": "post",
+            "type": {
+              "kind": "typeRef",
+              "name": "Post",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 298
+              },
+              "end": {
+                "line": 25,
+                "column": 13,
+                "offset": 310
+              }
+            }
+          },
+          {
+            "label": "tags",
+            "type": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Tag",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 311
+              },
+              "end": {
+                "line": 26,
+                "column": 18,
+                "offset": 328
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 24,
+            "column": 1,
+            "offset": 281
+          },
+          "end": {
+            "line": 24,
+            "column": 17,
+            "offset": 297
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 18,
+        "offset": 17
+      }
+    }
+  }
+}

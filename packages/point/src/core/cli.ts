@@ -13,6 +13,7 @@ import { runtimeSourceLocation } from "./source-map.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
+import { resolveUseDependencyInput } from "./module-resolve.ts";
 import { runCheckDocs } from "./check-docs.ts";
 import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
@@ -186,17 +187,22 @@ export async function main() {
 
 	const inputPath = resolve(process.cwd(), input);
 	const source = await Bun.file(inputPath).text();
-	const program = parsePointSource(source);
+	const lock = await readPointLock();
+	const coreFile = buildCoreFileFromSource(input, source, lock);
+	const program =
+		coreFile.uses.length > 0
+			? programWithDependencyDeclarations(coreFile, await createModuleGraphForFile(coreFile, lock))
+			: coreFile.program;
 	const diagnostics = checkPointCore(program);
 
 	if (command === "fmt") {
-		await Bun.write(inputPath, formatPointSource(source));
+		await Bun.write(inputPath, formatPointSource(source, process.cwd(), input));
 		console.log(`Point fmt wrote ${input}`);
 		return;
 	}
 
 	if (command === "fmt-check") {
-		if (source !== formatPointSource(source)) {
+		if (source !== formatPointSource(source, process.cwd(), input)) {
 			console.error(`Point fmt check failed: ${input}`);
 			process.exit(1);
 		}
@@ -387,13 +393,13 @@ async function runProjectCommand(command: string) {
 	const orderedResults = orderByDependencies(results, graph);
 
 	if (command === "fmt-all") {
-		await Promise.all(results.map((result) => Bun.write(resolve(process.cwd(), result.input), formatPointSource(result.source))));
+		await Promise.all(results.map((result) => Bun.write(resolve(process.cwd(), result.input), formatPointSource(result.source, process.cwd(), result.input))));
 		console.log(`Point fmt wrote ${results.length} files`);
 		return;
 	}
 
 	if (command === "fmt-check-all") {
-		const unformatted = results.filter((result) => result.source !== formatPointSource(result.source));
+		const unformatted = results.filter((result) => result.source !== formatPointSource(result.source, process.cwd(), result.input));
 		if (unformatted.length > 0) {
 			console.error(JSON.stringify({ ok: false, unformatted: unformatted.map((result) => result.input) }, null, 2));
 			process.exit(1);
@@ -518,7 +524,7 @@ async function runProjectCommand(command: string) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		const results = await Promise.all(orderedResults.map((result) => runPointTests(programWithTypeScriptImports(result, graph), result.input)));
+		const results = await Promise.all(orderedResults.map((result) => runPointTests(programWithDependencyDeclarations(result, graph), result.input)));
 		const failed = results.filter((result) => !result.ok);
 		if (failed.length > 0) {
 			console.error(JSON.stringify({ ok: false, files: failed }, null, 2));
@@ -585,7 +591,9 @@ async function runPointTests(program: PointCoreProgram, input: string): Promise<
 			(declaration.semantic?.name.startsWith("test") || declaration.name.startsWith("test")),
 	);
 	if (tests.length === 0) return { file: input, ok: true, tests: [] };
-	const testOutput = resolve(tmpdir(), `point-test-${Date.now()}-${Math.random().toString(16).slice(2)}.js`);
+	const testDir = resolve(process.cwd(), GENERATED_DIR, ".point-tests");
+	await Bun.$`mkdir -p ${testDir}`.quiet();
+	const testOutput = resolve(testDir, `point-test-${Date.now()}-${Math.random().toString(16).slice(2)}.js`);
 	await Bun.write(testOutput, emitPointCoreJavaScript(program));
 	const mod = await import(pathToFileUrl(testOutput));
 	const results = [];
@@ -745,7 +753,7 @@ export function buildCoreFileFromSource(
 	lock: Awaited<ReturnType<typeof readPointLock>>,
 	cwd = process.cwd(),
 ): CoreFile {
-	return { input, source, program: parsePointSource(source, cwd), uses: parseUseDeclarations(source, input, lock) };
+	return { input, source, program: parsePointSource(source, { cwd, input }), uses: parseUseDeclarations(source, input, lock) };
 }
 
 export async function loadCoreFile(input: string, lock: Awaited<ReturnType<typeof readPointLock>>, cwd = process.cwd()) {
@@ -851,12 +859,7 @@ function publicDeclarations(program: PointCoreProgram): Array<Extract<PointCoreD
 }
 
 function resolveDependencyInput(input: string, from: string, cwd = process.cwd()): string {
-	const normalized = from.replaceAll("\\", "/");
-	if (normalized.startsWith("./") || normalized.startsWith("../")) {
-		const base = dirname(resolve(cwd, input));
-		return resolve(base, from).replace(resolve(cwd), "").replace(/^[/\\]/, "");
-	}
-	return normalized;
+	return resolveUseDependencyInput(input, from, cwd);
 }
 
 function normalizeInput(input: string): string {

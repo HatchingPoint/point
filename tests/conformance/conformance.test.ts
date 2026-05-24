@@ -98,7 +98,7 @@ const MINIMAL_FIXTURE_EMIT_EXPECTATIONS: Record<
 	"tests/conformance/fixtures/pipeline.point": {
 		js: ["textIngestPipeline", "pointPipelineEmitLog"],
 		ts: ["textIngestPipeline", "pointPipelineEmitLog"],
-		py: ["fetchTextBody", "pipeline blocks are not supported"],
+		py: ["textIngestPipeline", "point_pipeline_emit_log"],
 	},
 	"tests/conformance/fixtures/prompt.point": {
 		ts: ["SupportContext"],

@@ -6,9 +6,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path as _PointPath
 _point_here = _PointPath(__file__).resolve()
-_point_module_dir = _point_here.parent
-if str(_point_module_dir) not in sys.path:
-    sys.path.insert(0, str(_point_module_dir))
 _point_std_candidates = [_point_here.parents[1] / "packages" / "point" / "python_std"]
 for _point_parent in _point_here.parents:
     _point_std_candidates.append(_point_parent / "node_modules" / "@hatchingpoint" / "point" / "python_std")
@@ -26,7 +23,47 @@ async def pointWorkflowTimedStep(run, ms: int):
     except asyncio.TimeoutError:
         return {"message": "Workflow step timed out"}
 
-from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult
+from point_std.time import instantNow as instantNowRaw
+
+from point_std.time import parseInstant as parseInstantRaw
+
+from point_std.time import formatInstant as formatInstantRaw
+
+from point_std.time import now as timeNow
+
+from point_std.time import sleep as sleepMilliseconds
+
+from point_std.time import formatTime as formatTime
+
+from point_std.time import durationFromSeconds as durationFromSecondsRaw
+
+from point_std.time import durationToSeconds as durationToSecondsRaw
+
+from point_std.time import durationFromMinutes as durationFromMinutesRaw
+
+def instantNowValue() -> str:
+    return instantNowRaw()
+
+def formatInstantLabel(value: str) -> str:
+    return formatInstantRaw(value)
+
+async def parseInstantResult(value: str) -> str | dict[str, str]:
+    return parseInstantRaw(value)
+
+async def currentTimeValue() -> str:
+    return timeNow()
+
+async def waitMillisecondsResult(ms: int) -> None:
+    return await sleepMilliseconds(ms)
+
+def durationFromSecondsDuration(seconds: int) -> int:
+    return durationFromSecondsRaw(seconds)
+
+def durationToSeconds(elapsed: int) -> int:
+    return durationToSecondsRaw(elapsed)
+
+def durationFromMinutesDuration(minutes: int) -> int:
+    return durationFromMinutesRaw(minutes)
 
 def canSignupPolicy(email: str) -> bool:
     return (email != "")

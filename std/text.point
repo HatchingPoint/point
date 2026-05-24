@@ -5,9 +5,23 @@ external point std text
   text contains(value: Text, search: Text): Bool from "@hatchingpoint/point/std/text" as textContains
   text split(value: Text, separator: Text): List<Text> from "@hatchingpoint/point/std/text" as textSplit
   text trim(value: Text): Text from "@hatchingpoint/point/std/text" as textTrim
+  text from int raw(value: Int): Text from "@hatchingpoint/point/std/text" as textFromInt
+  text pad start raw(value: Text, length: Int, fill: Text): Text from "@hatchingpoint/point/std/text" as textPadStart
 
 calculation concat text
   input left: Text
   input right: Text
   output value: Text
   value is left + right
+
+calculation text from int
+  input value: Int
+  output text: Text
+  text is text from int raw(value)
+
+calculation text pad start
+  input value: Text
+  input length: Int
+  input fill: Text
+  output padded: Text
+  padded is text pad start raw(value, length, fill)

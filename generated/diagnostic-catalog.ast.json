@@ -1,0 +1,4658 @@
+{
+  "kind": "coreProgram",
+  "module": "DiagnosticCatalog",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "DiagnosticEntry",
+      "fields": [
+        {
+          "name": "code",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "code",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 50
+            },
+            "end": {
+              "line": 4,
+              "column": 13,
+              "offset": 62
+            }
+          }
+        },
+        {
+          "name": "category",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "category",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 63
+            },
+            "end": {
+              "line": 5,
+              "column": 17,
+              "offset": 79
+            }
+          }
+        },
+        {
+          "name": "agentReady",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          },
+          "semanticName": "agent ready",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 80
+            },
+            "end": {
+              "line": 6,
+              "column": 20,
+              "offset": 99
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Diagnostic Entry"
+      },
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 26
+        },
+        "end": {
+          "line": 3,
+          "column": 24,
+          "offset": 49
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "middlewareInputUnavailableEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "middleware-input-unavailable",
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 181
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 90,
+                      "offset": 270
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "route",
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 181
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 90,
+                      "offset": 270
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 181
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 90,
+                      "offset": 270
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 181
+              },
+              "end": {
+                "line": 10,
+                "column": 90,
+                "offset": 270
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 181
+            },
+            "end": {
+              "line": 10,
+              "column": 90,
+              "offset": 270
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "middleware input unavailable entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 101
+        },
+        "end": {
+          "line": 8,
+          "column": 47,
+          "offset": 147
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "middlewareInputTypeMismatchEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "middleware-input-type-mismatch",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 354
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 92,
+                      "offset": 445
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "route",
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 354
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 92,
+                      "offset": 445
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 14,
+                      "column": 1,
+                      "offset": 354
+                    },
+                    "end": {
+                      "line": 14,
+                      "column": 92,
+                      "offset": 445
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 354
+              },
+              "end": {
+                "line": 14,
+                "column": 92,
+                "offset": 445
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 1,
+              "offset": 354
+            },
+            "end": {
+              "line": 14,
+              "column": 92,
+              "offset": 445
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "middleware input type mismatch entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 272
+        },
+        "end": {
+          "line": 12,
+          "column": 49,
+          "offset": 320
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "pipelineStepTypeMismatchEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "pipeline-step-type-mismatch",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 526
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 92,
+                      "offset": 617
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "pipeline",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 526
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 92,
+                      "offset": 617
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 526
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 92,
+                      "offset": 617
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 526
+              },
+              "end": {
+                "line": 18,
+                "column": 92,
+                "offset": 617
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 526
+            },
+            "end": {
+              "line": 18,
+              "column": 92,
+              "offset": 617
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "pipeline step type mismatch entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 447
+        },
+        "end": {
+          "line": 16,
+          "column": 46,
+          "offset": 492
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "floatMoneyFieldEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "float-money-field",
+                  "span": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 688
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 80,
+                      "offset": 767
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "record",
+                  "span": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 688
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 80,
+                      "offset": 767
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 22,
+                      "column": 1,
+                      "offset": 688
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 80,
+                      "offset": 767
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 688
+              },
+              "end": {
+                "line": 22,
+                "column": 80,
+                "offset": 767
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 688
+            },
+            "end": {
+              "line": 22,
+              "column": 80,
+              "offset": 767
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "float money field entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 619
+        },
+        "end": {
+          "line": 20,
+          "column": 36,
+          "offset": 654
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "missingVariantCaseEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "missing-variant-case",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 841
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 82,
+                      "offset": 922
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "label",
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 841
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 82,
+                      "offset": 922
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 26,
+                      "column": 1,
+                      "offset": 841
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 82,
+                      "offset": 922
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 841
+              },
+              "end": {
+                "line": 26,
+                "column": 82,
+                "offset": 922
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 841
+            },
+            "end": {
+              "line": 26,
+              "column": 82,
+              "offset": 922
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "missing variant case entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 1,
+          "offset": 769
+        },
+        "end": {
+          "line": 24,
+          "column": 39,
+          "offset": 807
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "invalidViewBindTargetEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "invalid-view-bind-target",
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 1000
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 85,
+                      "offset": 1084
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "view",
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 1000
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 85,
+                      "offset": 1084
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 30,
+                      "column": 1,
+                      "offset": 1000
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 85,
+                      "offset": 1084
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 1000
+              },
+              "end": {
+                "line": 30,
+                "column": 85,
+                "offset": 1084
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 1000
+            },
+            "end": {
+              "line": 30,
+              "column": 85,
+              "offset": 1084
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "invalid view bind target entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 924
+        },
+        "end": {
+          "line": 28,
+          "column": 43,
+          "offset": 966
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "unknownFieldEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "unknown-field",
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 1151
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 74,
+                      "offset": 1224
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "core",
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 1151
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 74,
+                      "offset": 1224
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 34,
+                      "column": 1,
+                      "offset": 1151
+                    },
+                    "end": {
+                      "line": 34,
+                      "column": 74,
+                      "offset": 1224
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 1151
+              },
+              "end": {
+                "line": 34,
+                "column": 74,
+                "offset": 1224
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 1151
+            },
+            "end": {
+              "line": 34,
+              "column": 74,
+              "offset": 1224
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "unknown field entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 1086
+        },
+        "end": {
+          "line": 32,
+          "column": 32,
+          "offset": 1117
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "missingAwaitEntry",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "DiagnosticEntry",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "record",
+            "fields": [
+              {
+                "name": "code",
+                "value": {
+                  "kind": "literal",
+                  "value": "missing-await",
+                  "span": {
+                    "start": {
+                      "line": 38,
+                      "column": 1,
+                      "offset": 1291
+                    },
+                    "end": {
+                      "line": 38,
+                      "column": 76,
+                      "offset": 1366
+                    }
+                  }
+                }
+              },
+              {
+                "name": "category",
+                "value": {
+                  "kind": "literal",
+                  "value": "action",
+                  "span": {
+                    "start": {
+                      "line": 38,
+                      "column": 1,
+                      "offset": 1291
+                    },
+                    "end": {
+                      "line": 38,
+                      "column": 76,
+                      "offset": 1366
+                    }
+                  }
+                }
+              },
+              {
+                "name": "agentReady",
+                "value": {
+                  "kind": "literal",
+                  "value": true,
+                  "span": {
+                    "start": {
+                      "line": 38,
+                      "column": 1,
+                      "offset": 1291
+                    },
+                    "end": {
+                      "line": 38,
+                      "column": 76,
+                      "offset": 1366
+                    }
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 1291
+              },
+              "end": {
+                "line": 38,
+                "column": 76,
+                "offset": 1366
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 1291
+            },
+            "end": {
+              "line": 38,
+              "column": 76,
+              "offset": 1366
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "missing await entry",
+        "outputName": "entry",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 36,
+          "column": 1,
+          "offset": 1226
+        },
+        "end": {
+          "line": 36,
+          "column": 32,
+          "offset": 1257
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "agentDiagnosticValid",
+      "params": [
+        {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "DiagnosticEntry",
+            "args": []
+          },
+          "semanticName": "entry",
+          "span": {
+            "start": {
+              "line": 41,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 41,
+              "column": 24,
+              "offset": 23
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "!=",
+                "left": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "entry",
+                    "span": {
+                      "start": {
+                        "line": 43,
+                        "column": 1,
+                        "offset": 1456
+                      },
+                      "end": {
+                        "line": 43,
+                        "column": 75,
+                        "offset": 1530
+                      }
+                    }
+                  },
+                  "name": "code",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": "",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1456
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 75,
+                    "offset": 1530
+                  }
+                }
+              },
+              "right": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "entry",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "name": "agentReady",
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1456
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 75,
+                    "offset": 1530
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1456
+                },
+                "end": {
+                  "line": 43,
+                  "column": 75,
+                  "offset": 1530
+                }
+              }
+            },
+            "right": {
+              "kind": "binary",
+              "operator": "!=",
+              "left": {
+                "kind": "property",
+                "target": {
+                  "kind": "identifier",
+                  "name": "entry",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "name": "category",
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1456
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 75,
+                    "offset": 1530
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1456
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 75,
+                    "offset": 1530
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1456
+                },
+                "end": {
+                  "line": 43,
+                  "column": 75,
+                  "offset": 1530
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1456
+              },
+              "end": {
+                "line": 43,
+                "column": 75,
+                "offset": 1530
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 43,
+              "column": 1,
+              "offset": 1456
+            },
+            "end": {
+              "line": 43,
+              "column": 75,
+              "offset": 1530
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "agent diagnostic valid",
+        "outputName": "valid",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 40,
+          "column": 1,
+          "offset": 1368
+        },
+        "end": {
+          "line": 40,
+          "column": 35,
+          "offset": 1402
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "scoreAgentDiagnosticScore",
+      "params": [
+        {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "DiagnosticEntry",
+            "args": []
+          },
+          "semanticName": "entry",
+          "span": {
+            "start": {
+              "line": 46,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 46,
+              "column": 24,
+              "offset": 23
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Int",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "value",
+          "mutable": true,
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "value": {
+            "kind": "literal",
+            "value": 0,
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1,
+                "offset": 1612
+              },
+              "end": {
+                "line": 48,
+                "column": 20,
+                "offset": 1631
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 48,
+              "column": 1,
+              "offset": 1612
+            },
+            "end": {
+              "line": 48,
+              "column": 20,
+              "offset": 1631
+            }
+          }
+        },
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "agentDiagnosticValid",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "entry",
+                "span": {
+                  "start": {
+                    "line": 49,
+                    "column": 1,
+                    "offset": 1632
+                  },
+                  "end": {
+                    "line": 49,
+                    "column": 45,
+                    "offset": 1676
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 49,
+                "column": 1,
+                "offset": 1632
+              },
+              "end": {
+                "line": 49,
+                "column": 45,
+                "offset": 1676
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "assignment",
+              "name": "score",
+              "operator": "+=",
+              "value": {
+                "kind": "literal",
+                "value": 100,
+                "span": {
+                  "start": {
+                    "line": 49,
+                    "column": 1,
+                    "offset": 1632
+                  },
+                  "end": {
+                    "line": 49,
+                    "column": 45,
+                    "offset": 1676
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 49,
+                  "column": 1,
+                  "offset": 1632
+                },
+                "end": {
+                  "line": 49,
+                  "column": 45,
+                  "offset": 1676
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 49,
+              "column": 1,
+              "offset": 1632
+            },
+            "end": {
+              "line": 49,
+              "column": 45,
+              "offset": 1676
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "identifier",
+            "name": "score",
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1677
+              },
+              "end": {
+                "line": 50,
+                "column": 15,
+                "offset": 1691
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 50,
+              "column": 1,
+              "offset": 1677
+            },
+            "end": {
+              "line": 50,
+              "column": 15,
+              "offset": 1691
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "rule",
+        "name": "score agent diagnostic",
+        "outputName": "score",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 45,
+          "column": 1,
+          "offset": 1532
+        },
+        "end": {
+          "line": 45,
+          "column": 28,
+          "offset": 1559
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "agentDiagnosticStatusLabel",
+      "params": [
+        {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "DiagnosticEntry",
+            "args": []
+          },
+          "semanticName": "entry",
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 53,
+              "column": 24,
+              "offset": 23
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "if",
+          "condition": {
+            "kind": "call",
+            "callee": "agentDiagnosticValid",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "entry",
+                "span": {
+                  "start": {
+                    "line": 55,
+                    "column": 1,
+                    "offset": 1769
+                  },
+                  "end": {
+                    "line": 55,
+                    "column": 56,
+                    "offset": 1824
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 1,
+                "offset": 1769
+              },
+              "end": {
+                "line": 55,
+                "column": 56,
+                "offset": 1824
+              }
+            }
+          },
+          "thenBody": [
+            {
+              "kind": "return",
+              "value": {
+                "kind": "literal",
+                "value": "cataloged",
+                "span": {
+                  "start": {
+                    "line": 55,
+                    "column": 1,
+                    "offset": 1769
+                  },
+                  "end": {
+                    "line": 55,
+                    "column": 56,
+                    "offset": 1824
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 55,
+                  "column": 1,
+                  "offset": 1769
+                },
+                "end": {
+                  "line": 55,
+                  "column": 56,
+                  "offset": 1824
+                }
+              }
+            }
+          ],
+          "elseBody": [],
+          "span": {
+            "start": {
+              "line": 55,
+              "column": 1,
+              "offset": 1769
+            },
+            "end": {
+              "line": 55,
+              "column": 56,
+              "offset": 1824
+            }
+          }
+        },
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "incomplete",
+            "span": {
+              "start": {
+                "line": 56,
+                "column": 1,
+                "offset": 1825
+              },
+              "end": {
+                "line": 56,
+                "column": 32,
+                "offset": 1856
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 56,
+              "column": 1,
+              "offset": 1825
+            },
+            "end": {
+              "line": 56,
+              "column": 32,
+              "offset": 1856
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "label",
+        "name": "agent diagnostic status",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 52,
+          "column": 1,
+          "offset": 1693
+        },
+        "end": {
+          "line": 52,
+          "column": 30,
+          "offset": 1722
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testMiddlewareDiagnosticsOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "middlewareInputUnavailableEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 60,
+                      "column": 1,
+                      "offset": 1916
+                    },
+                    "end": {
+                      "line": 60,
+                      "column": 136,
+                      "offset": 2051
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 60,
+                  "column": 1,
+                  "offset": 1916
+                },
+                "end": {
+                  "line": 60,
+                  "column": 136,
+                  "offset": 2051
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "middlewareInputTypeMismatchEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 60,
+                      "column": 1,
+                      "offset": 1916
+                    },
+                    "end": {
+                      "line": 60,
+                      "column": 136,
+                      "offset": 2051
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 60,
+                  "column": 1,
+                  "offset": 1916
+                },
+                "end": {
+                  "line": 60,
+                  "column": 136,
+                  "offset": 2051
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 60,
+                "column": 1,
+                "offset": 1916
+              },
+              "end": {
+                "line": 60,
+                "column": 136,
+                "offset": 2051
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 60,
+              "column": 1,
+              "offset": 1916
+            },
+            "end": {
+              "line": 60,
+              "column": 136,
+              "offset": 2051
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test middleware diagnostics",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 58,
+          "column": 1,
+          "offset": 1858
+        },
+        "end": {
+          "line": 58,
+          "column": 40,
+          "offset": 1897
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testPipelineAndMoneyDiagnosticsOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "pipelineStepTypeMismatchEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 64,
+                      "column": 1,
+                      "offset": 2119
+                    },
+                    "end": {
+                      "line": 64,
+                      "column": 122,
+                      "offset": 2240
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 64,
+                  "column": 1,
+                  "offset": 2119
+                },
+                "end": {
+                  "line": 64,
+                  "column": 122,
+                  "offset": 2240
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "floatMoneyFieldEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 64,
+                      "column": 1,
+                      "offset": 2119
+                    },
+                    "end": {
+                      "line": 64,
+                      "column": 122,
+                      "offset": 2240
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 64,
+                  "column": 1,
+                  "offset": 2119
+                },
+                "end": {
+                  "line": 64,
+                  "column": 122,
+                  "offset": 2240
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 1,
+                "offset": 2119
+              },
+              "end": {
+                "line": 64,
+                "column": 122,
+                "offset": 2240
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 64,
+              "column": 1,
+              "offset": 2119
+            },
+            "end": {
+              "line": 64,
+              "column": 122,
+              "offset": 2240
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test pipeline and money diagnostics",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 62,
+          "column": 1,
+          "offset": 2053
+        },
+        "end": {
+          "line": 62,
+          "column": 48,
+          "offset": 2100
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testVariantAndViewDiagnosticsOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "missingVariantCaseEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 68,
+                      "column": 1,
+                      "offset": 2306
+                    },
+                    "end": {
+                      "line": 68,
+                      "column": 122,
+                      "offset": 2427
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 68,
+                  "column": 1,
+                  "offset": 2306
+                },
+                "end": {
+                  "line": 68,
+                  "column": 122,
+                  "offset": 2427
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "invalidViewBindTargetEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 68,
+                      "column": 1,
+                      "offset": 2306
+                    },
+                    "end": {
+                      "line": 68,
+                      "column": 122,
+                      "offset": 2427
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 68,
+                  "column": 1,
+                  "offset": 2306
+                },
+                "end": {
+                  "line": 68,
+                  "column": 122,
+                  "offset": 2427
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 68,
+                "column": 1,
+                "offset": 2306
+              },
+              "end": {
+                "line": 68,
+                "column": 122,
+                "offset": 2427
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 68,
+              "column": 1,
+              "offset": 2306
+            },
+            "end": {
+              "line": 68,
+              "column": 122,
+              "offset": 2427
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test variant and view diagnostics",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 66,
+          "column": 1,
+          "offset": 2242
+        },
+        "end": {
+          "line": 66,
+          "column": 46,
+          "offset": 2287
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testCoreAgentDiagnosticsOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "unknownFieldEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 72,
+                      "column": 1,
+                      "offset": 2487
+                    },
+                    "end": {
+                      "line": 72,
+                      "column": 104,
+                      "offset": 2590
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 72,
+                  "column": 1,
+                  "offset": 2487
+                },
+                "end": {
+                  "line": 72,
+                  "column": 104,
+                  "offset": 2590
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "agentDiagnosticValid",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "missingAwaitEntry",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 72,
+                      "column": 1,
+                      "offset": 2487
+                    },
+                    "end": {
+                      "line": 72,
+                      "column": 104,
+                      "offset": 2590
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 72,
+                  "column": 1,
+                  "offset": 2487
+                },
+                "end": {
+                  "line": 72,
+                  "column": 104,
+                  "offset": 2590
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 72,
+                "column": 1,
+                "offset": 2487
+              },
+              "end": {
+                "line": 72,
+                "column": 104,
+                "offset": 2590
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 72,
+              "column": 1,
+              "offset": 2487
+            },
+            "end": {
+              "line": 72,
+              "column": 104,
+              "offset": 2590
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test core agent diagnostics",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 70,
+          "column": 1,
+          "offset": 2429
+        },
+        "end": {
+          "line": 70,
+          "column": 40,
+          "offset": 2468
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "testPhase2627AgentCatalogOk",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Bool",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "call",
+                  "callee": "testMiddlewareDiagnosticsOk",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 76,
+                      "column": 1,
+                      "offset": 2653
+                    },
+                    "end": {
+                      "line": 76,
+                      "column": 154,
+                      "offset": 2806
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "call",
+                  "callee": "testPipelineAndMoneyDiagnosticsOk",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 76,
+                      "column": 1,
+                      "offset": 2653
+                    },
+                    "end": {
+                      "line": 76,
+                      "column": 154,
+                      "offset": 2806
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 76,
+                    "column": 1,
+                    "offset": 2653
+                  },
+                  "end": {
+                    "line": 76,
+                    "column": 154,
+                    "offset": 2806
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "testVariantAndViewDiagnosticsOk",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 76,
+                    "column": 1,
+                    "offset": 2653
+                  },
+                  "end": {
+                    "line": 76,
+                    "column": 154,
+                    "offset": 2806
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 76,
+                  "column": 1,
+                  "offset": 2653
+                },
+                "end": {
+                  "line": 76,
+                  "column": 154,
+                  "offset": 2806
+                }
+              }
+            },
+            "right": {
+              "kind": "call",
+              "callee": "testCoreAgentDiagnosticsOk",
+              "args": [],
+              "span": {
+                "start": {
+                  "line": 76,
+                  "column": 1,
+                  "offset": 2653
+                },
+                "end": {
+                  "line": 76,
+                  "column": 154,
+                  "offset": 2806
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1,
+                "offset": 2653
+              },
+              "end": {
+                "line": 76,
+                "column": 154,
+                "offset": 2806
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 76,
+              "column": 1,
+              "offset": 2653
+            },
+            "end": {
+              "line": 76,
+              "column": 154,
+              "offset": 2806
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "test phase 26 27 agent catalog",
+        "outputName": "ok",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 74,
+          "column": 1,
+          "offset": 2592
+        },
+        "end": {
+          "line": 74,
+          "column": 43,
+          "offset": 2634
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 25,
+      "offset": 24
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "DiagnosticCatalog",
+    "uses": [],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Diagnostic Entry",
+        "fields": [
+          {
+            "label": "code",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 50
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 62
+              }
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 63
+              },
+              "end": {
+                "line": 5,
+                "column": 17,
+                "offset": 79
+              }
+            }
+          },
+          {
+            "label": "agent ready",
+            "type": {
+              "kind": "typeRef",
+              "name": "Bool",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 80
+              },
+              "end": {
+                "line": 6,
+                "column": 20,
+                "offset": 99
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 26
+          },
+          "end": {
+            "line": 3,
+            "column": 24,
+            "offset": 49
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "middleware input unavailable entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "middleware-input-unavailable",
+                    "span": {
+                      "start": {
+                        "line": 10,
+                        "column": 1,
+                        "offset": 181
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 90,
+                        "offset": 270
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "route",
+                    "span": {
+                      "start": {
+                        "line": 10,
+                        "column": 1,
+                        "offset": 181
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 90,
+                        "offset": 270
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 10,
+                        "column": 1,
+                        "offset": 181
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 90,
+                        "offset": 270
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 181
+                },
+                "end": {
+                  "line": 10,
+                  "column": 90,
+                  "offset": 270
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 181
+              },
+              "end": {
+                "line": 10,
+                "column": 90,
+                "offset": 270
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 101
+          },
+          "end": {
+            "line": 8,
+            "column": 47,
+            "offset": 147
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "middleware input type mismatch entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "middleware-input-type-mismatch",
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 354
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 92,
+                        "offset": 445
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "route",
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 354
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 92,
+                        "offset": 445
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 14,
+                        "column": 1,
+                        "offset": 354
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 92,
+                        "offset": 445
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 14,
+                  "column": 1,
+                  "offset": 354
+                },
+                "end": {
+                  "line": 14,
+                  "column": 92,
+                  "offset": 445
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 1,
+                "offset": 354
+              },
+              "end": {
+                "line": 14,
+                "column": 92,
+                "offset": 445
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 12,
+            "column": 1,
+            "offset": 272
+          },
+          "end": {
+            "line": 12,
+            "column": 49,
+            "offset": 320
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "pipeline step type mismatch entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "pipeline-step-type-mismatch",
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 526
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 92,
+                        "offset": 617
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "pipeline",
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 526
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 92,
+                        "offset": 617
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 18,
+                        "column": 1,
+                        "offset": 526
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 92,
+                        "offset": 617
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 526
+                },
+                "end": {
+                  "line": 18,
+                  "column": 92,
+                  "offset": 617
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 526
+              },
+              "end": {
+                "line": 18,
+                "column": 92,
+                "offset": 617
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 16,
+            "column": 1,
+            "offset": 447
+          },
+          "end": {
+            "line": 16,
+            "column": 46,
+            "offset": 492
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "float money field entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "float-money-field",
+                    "span": {
+                      "start": {
+                        "line": 22,
+                        "column": 1,
+                        "offset": 688
+                      },
+                      "end": {
+                        "line": 22,
+                        "column": 80,
+                        "offset": 767
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "record",
+                    "span": {
+                      "start": {
+                        "line": 22,
+                        "column": 1,
+                        "offset": 688
+                      },
+                      "end": {
+                        "line": 22,
+                        "column": 80,
+                        "offset": 767
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 22,
+                        "column": 1,
+                        "offset": 688
+                      },
+                      "end": {
+                        "line": 22,
+                        "column": 80,
+                        "offset": 767
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 22,
+                  "column": 1,
+                  "offset": 688
+                },
+                "end": {
+                  "line": 22,
+                  "column": 80,
+                  "offset": 767
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1,
+                "offset": 688
+              },
+              "end": {
+                "line": 22,
+                "column": 80,
+                "offset": 767
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 619
+          },
+          "end": {
+            "line": 20,
+            "column": 36,
+            "offset": 654
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "missing variant case entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "missing-variant-case",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 841
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 82,
+                        "offset": 922
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "label",
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 841
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 82,
+                        "offset": 922
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 26,
+                        "column": 1,
+                        "offset": 841
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 82,
+                        "offset": 922
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 26,
+                  "column": 1,
+                  "offset": 841
+                },
+                "end": {
+                  "line": 26,
+                  "column": 82,
+                  "offset": 922
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 26,
+                "column": 1,
+                "offset": 841
+              },
+              "end": {
+                "line": 26,
+                "column": 82,
+                "offset": 922
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 24,
+            "column": 1,
+            "offset": 769
+          },
+          "end": {
+            "line": 24,
+            "column": 39,
+            "offset": 807
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "invalid view bind target entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "invalid-view-bind-target",
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 1000
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 85,
+                        "offset": 1084
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "view",
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 1000
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 85,
+                        "offset": 1084
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 30,
+                        "column": 1,
+                        "offset": 1000
+                      },
+                      "end": {
+                        "line": 30,
+                        "column": 85,
+                        "offset": 1084
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 30,
+                  "column": 1,
+                  "offset": 1000
+                },
+                "end": {
+                  "line": 30,
+                  "column": 85,
+                  "offset": 1084
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 1000
+              },
+              "end": {
+                "line": 30,
+                "column": 85,
+                "offset": 1084
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 28,
+            "column": 1,
+            "offset": 924
+          },
+          "end": {
+            "line": 28,
+            "column": 43,
+            "offset": 966
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "unknown field entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "unknown-field",
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 1151
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 74,
+                        "offset": 1224
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "core",
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 1151
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 74,
+                        "offset": 1224
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 34,
+                        "column": 1,
+                        "offset": 1151
+                      },
+                      "end": {
+                        "line": 34,
+                        "column": 74,
+                        "offset": 1224
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 34,
+                  "column": 1,
+                  "offset": 1151
+                },
+                "end": {
+                  "line": 34,
+                  "column": 74,
+                  "offset": 1224
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 34,
+                "column": 1,
+                "offset": 1151
+              },
+              "end": {
+                "line": 34,
+                "column": 74,
+                "offset": 1224
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 32,
+            "column": 1,
+            "offset": 1086
+          },
+          "end": {
+            "line": 32,
+            "column": 32,
+            "offset": 1117
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "missing await entry",
+        "inputs": [],
+        "output": {
+          "name": "entry",
+          "type": {
+            "kind": "typeRef",
+            "name": "Diagnostic Entry",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "entry",
+            "value": {
+              "kind": "record",
+              "fields": [
+                {
+                  "label": "code",
+                  "value": {
+                    "kind": "literal",
+                    "value": "missing-await",
+                    "span": {
+                      "start": {
+                        "line": 38,
+                        "column": 1,
+                        "offset": 1291
+                      },
+                      "end": {
+                        "line": 38,
+                        "column": 76,
+                        "offset": 1366
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "category",
+                  "value": {
+                    "kind": "literal",
+                    "value": "action",
+                    "span": {
+                      "start": {
+                        "line": 38,
+                        "column": 1,
+                        "offset": 1291
+                      },
+                      "end": {
+                        "line": 38,
+                        "column": 76,
+                        "offset": 1366
+                      }
+                    }
+                  }
+                },
+                {
+                  "label": "agent ready",
+                  "value": {
+                    "kind": "literal",
+                    "value": true,
+                    "span": {
+                      "start": {
+                        "line": 38,
+                        "column": 1,
+                        "offset": 1291
+                      },
+                      "end": {
+                        "line": 38,
+                        "column": 76,
+                        "offset": 1366
+                      }
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 38,
+                  "column": 1,
+                  "offset": 1291
+                },
+                "end": {
+                  "line": 38,
+                  "column": 76,
+                  "offset": 1366
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 38,
+                "column": 1,
+                "offset": 1291
+              },
+              "end": {
+                "line": 38,
+                "column": 76,
+                "offset": 1366
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 36,
+            "column": 1,
+            "offset": 1226
+          },
+          "end": {
+            "line": 36,
+            "column": 32,
+            "offset": 1257
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "agent diagnostic valid",
+        "inputs": [
+          {
+            "label": "entry",
+            "type": {
+              "kind": "typeRef",
+              "name": "Diagnostic Entry",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 41,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 41,
+                "column": 24,
+                "offset": 23
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "valid",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "valid",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "!=",
+                  "left": {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "entry",
+                      "span": {
+                        "start": {
+                          "line": 43,
+                          "column": 1,
+                          "offset": 1456
+                        },
+                        "end": {
+                          "line": 43,
+                          "column": 75,
+                          "offset": 1530
+                        }
+                      }
+                    },
+                    "label": "code",
+                    "span": {
+                      "start": {
+                        "line": 43,
+                        "column": 1,
+                        "offset": 1456
+                      },
+                      "end": {
+                        "line": 43,
+                        "column": 75,
+                        "offset": 1530
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "literal",
+                    "value": "",
+                    "span": {
+                      "start": {
+                        "line": 43,
+                        "column": 1,
+                        "offset": 1456
+                      },
+                      "end": {
+                        "line": 43,
+                        "column": 75,
+                        "offset": 1530
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "entry",
+                    "span": {
+                      "start": {
+                        "line": 43,
+                        "column": 1,
+                        "offset": 1456
+                      },
+                      "end": {
+                        "line": 43,
+                        "column": 75,
+                        "offset": 1530
+                      }
+                    }
+                  },
+                  "label": "agent ready",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1456
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 75,
+                    "offset": 1530
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "!=",
+                "left": {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "entry",
+                    "span": {
+                      "start": {
+                        "line": 43,
+                        "column": 1,
+                        "offset": 1456
+                      },
+                      "end": {
+                        "line": 43,
+                        "column": 75,
+                        "offset": 1530
+                      }
+                    }
+                  },
+                  "label": "category",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": "",
+                  "span": {
+                    "start": {
+                      "line": 43,
+                      "column": 1,
+                      "offset": 1456
+                    },
+                    "end": {
+                      "line": 43,
+                      "column": 75,
+                      "offset": 1530
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 43,
+                    "column": 1,
+                    "offset": 1456
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 75,
+                    "offset": 1530
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 43,
+                  "column": 1,
+                  "offset": 1456
+                },
+                "end": {
+                  "line": 43,
+                  "column": 75,
+                  "offset": 1530
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 1,
+                "offset": 1456
+              },
+              "end": {
+                "line": 43,
+                "column": 75,
+                "offset": 1530
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 40,
+            "column": 1,
+            "offset": 1368
+          },
+          "end": {
+            "line": 40,
+            "column": 35,
+            "offset": 1402
+          }
+        }
+      },
+      {
+        "kind": "rule",
+        "name": "score agent diagnostic",
+        "inputs": [
+          {
+            "label": "entry",
+            "type": {
+              "kind": "typeRef",
+              "name": "Diagnostic Entry",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 46,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 24,
+                "offset": 23
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "score",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "startsAt",
+            "name": "score",
+            "value": {
+              "kind": "literal",
+              "value": 0,
+              "span": {
+                "start": {
+                  "line": 48,
+                  "column": 1,
+                  "offset": 1612
+                },
+                "end": {
+                  "line": 48,
+                  "column": 20,
+                  "offset": 1631
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1,
+                "offset": 1612
+              },
+              "end": {
+                "line": 48,
+                "column": 20,
+                "offset": 1631
+              }
+            }
+          },
+          {
+            "kind": "addWhen",
+            "amount": {
+              "kind": "literal",
+              "value": 100,
+              "span": {
+                "start": {
+                  "line": 49,
+                  "column": 1,
+                  "offset": 1632
+                },
+                "end": {
+                  "line": 49,
+                  "column": 45,
+                  "offset": 1676
+                }
+              }
+            },
+            "condition": {
+              "kind": "call",
+              "callee": "agent diagnostic valid",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "entry",
+                  "span": {
+                    "start": {
+                      "line": 49,
+                      "column": 1,
+                      "offset": 1632
+                    },
+                    "end": {
+                      "line": 49,
+                      "column": 45,
+                      "offset": 1676
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 49,
+                  "column": 1,
+                  "offset": 1632
+                },
+                "end": {
+                  "line": 49,
+                  "column": 45,
+                  "offset": 1676
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 49,
+                "column": 1,
+                "offset": 1632
+              },
+              "end": {
+                "line": 49,
+                "column": 45,
+                "offset": 1676
+              }
+            }
+          },
+          {
+            "kind": "return",
+            "value": {
+              "kind": "name",
+              "label": "score",
+              "span": {
+                "start": {
+                  "line": 50,
+                  "column": 1,
+                  "offset": 1677
+                },
+                "end": {
+                  "line": 50,
+                  "column": 15,
+                  "offset": 1691
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1,
+                "offset": 1677
+              },
+              "end": {
+                "line": 50,
+                "column": 15,
+                "offset": 1691
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 45,
+            "column": 1,
+            "offset": 1532
+          },
+          "end": {
+            "line": 45,
+            "column": 28,
+            "offset": 1559
+          }
+        }
+      },
+      {
+        "kind": "label",
+        "name": "agent diagnostic status",
+        "inputs": [
+          {
+            "label": "entry",
+            "type": {
+              "kind": "typeRef",
+              "name": "Diagnostic Entry",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 53,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 53,
+                "column": 24,
+                "offset": 23
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "whenReturn",
+            "condition": {
+              "kind": "call",
+              "callee": "agent diagnostic valid",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "entry",
+                  "span": {
+                    "start": {
+                      "line": 55,
+                      "column": 1,
+                      "offset": 1769
+                    },
+                    "end": {
+                      "line": 55,
+                      "column": 56,
+                      "offset": 1824
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 55,
+                  "column": 1,
+                  "offset": 1769
+                },
+                "end": {
+                  "line": 55,
+                  "column": 56,
+                  "offset": 1824
+                }
+              }
+            },
+            "value": {
+              "kind": "literal",
+              "value": "cataloged",
+              "span": {
+                "start": {
+                  "line": 55,
+                  "column": 1,
+                  "offset": 1769
+                },
+                "end": {
+                  "line": 55,
+                  "column": 56,
+                  "offset": 1824
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 1,
+                "offset": 1769
+              },
+              "end": {
+                "line": 55,
+                "column": 56,
+                "offset": 1824
+              }
+            }
+          },
+          {
+            "kind": "otherwiseReturn",
+            "value": {
+              "kind": "literal",
+              "value": "incomplete",
+              "span": {
+                "start": {
+                  "line": 56,
+                  "column": 1,
+                  "offset": 1825
+                },
+                "end": {
+                  "line": 56,
+                  "column": 32,
+                  "offset": 1856
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 56,
+                "column": 1,
+                "offset": 1825
+              },
+              "end": {
+                "line": 56,
+                "column": 32,
+                "offset": 1856
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 52,
+            "column": 1,
+            "offset": 1693
+          },
+          "end": {
+            "line": 52,
+            "column": 30,
+            "offset": 1722
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test middleware diagnostics",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "middleware input unavailable entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 60,
+                        "column": 1,
+                        "offset": 1916
+                      },
+                      "end": {
+                        "line": 60,
+                        "column": 136,
+                        "offset": 2051
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 60,
+                    "column": 1,
+                    "offset": 1916
+                  },
+                  "end": {
+                    "line": 60,
+                    "column": 136,
+                    "offset": 2051
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "middleware input type mismatch entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 60,
+                        "column": 1,
+                        "offset": 1916
+                      },
+                      "end": {
+                        "line": 60,
+                        "column": 136,
+                        "offset": 2051
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 60,
+                    "column": 1,
+                    "offset": 1916
+                  },
+                  "end": {
+                    "line": 60,
+                    "column": 136,
+                    "offset": 2051
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 60,
+                  "column": 1,
+                  "offset": 1916
+                },
+                "end": {
+                  "line": 60,
+                  "column": 136,
+                  "offset": 2051
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 60,
+                "column": 1,
+                "offset": 1916
+              },
+              "end": {
+                "line": 60,
+                "column": 136,
+                "offset": 2051
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 58,
+            "column": 1,
+            "offset": 1858
+          },
+          "end": {
+            "line": 58,
+            "column": 40,
+            "offset": 1897
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test pipeline and money diagnostics",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "pipeline step type mismatch entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 64,
+                        "column": 1,
+                        "offset": 2119
+                      },
+                      "end": {
+                        "line": 64,
+                        "column": 122,
+                        "offset": 2240
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 64,
+                    "column": 1,
+                    "offset": 2119
+                  },
+                  "end": {
+                    "line": 64,
+                    "column": 122,
+                    "offset": 2240
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "float money field entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 64,
+                        "column": 1,
+                        "offset": 2119
+                      },
+                      "end": {
+                        "line": 64,
+                        "column": 122,
+                        "offset": 2240
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 64,
+                    "column": 1,
+                    "offset": 2119
+                  },
+                  "end": {
+                    "line": 64,
+                    "column": 122,
+                    "offset": 2240
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 64,
+                  "column": 1,
+                  "offset": 2119
+                },
+                "end": {
+                  "line": 64,
+                  "column": 122,
+                  "offset": 2240
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 1,
+                "offset": 2119
+              },
+              "end": {
+                "line": 64,
+                "column": 122,
+                "offset": 2240
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 62,
+            "column": 1,
+            "offset": 2053
+          },
+          "end": {
+            "line": 62,
+            "column": 48,
+            "offset": 2100
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test variant and view diagnostics",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "missing variant case entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 68,
+                        "column": 1,
+                        "offset": 2306
+                      },
+                      "end": {
+                        "line": 68,
+                        "column": 122,
+                        "offset": 2427
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 68,
+                    "column": 1,
+                    "offset": 2306
+                  },
+                  "end": {
+                    "line": 68,
+                    "column": 122,
+                    "offset": 2427
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "invalid view bind target entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 68,
+                        "column": 1,
+                        "offset": 2306
+                      },
+                      "end": {
+                        "line": 68,
+                        "column": 122,
+                        "offset": 2427
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 68,
+                    "column": 1,
+                    "offset": 2306
+                  },
+                  "end": {
+                    "line": 68,
+                    "column": 122,
+                    "offset": 2427
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 68,
+                  "column": 1,
+                  "offset": 2306
+                },
+                "end": {
+                  "line": 68,
+                  "column": 122,
+                  "offset": 2427
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 68,
+                "column": 1,
+                "offset": 2306
+              },
+              "end": {
+                "line": 68,
+                "column": 122,
+                "offset": 2427
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 66,
+            "column": 1,
+            "offset": 2242
+          },
+          "end": {
+            "line": 66,
+            "column": 46,
+            "offset": 2287
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test core agent diagnostics",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "unknown field entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 72,
+                        "column": 1,
+                        "offset": 2487
+                      },
+                      "end": {
+                        "line": 72,
+                        "column": 104,
+                        "offset": 2590
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 72,
+                    "column": 1,
+                    "offset": 2487
+                  },
+                  "end": {
+                    "line": 72,
+                    "column": 104,
+                    "offset": 2590
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "agent diagnostic valid",
+                "args": [
+                  {
+                    "kind": "call",
+                    "callee": "missing await entry",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 72,
+                        "column": 1,
+                        "offset": 2487
+                      },
+                      "end": {
+                        "line": 72,
+                        "column": 104,
+                        "offset": 2590
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 72,
+                    "column": 1,
+                    "offset": 2487
+                  },
+                  "end": {
+                    "line": 72,
+                    "column": 104,
+                    "offset": 2590
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 72,
+                  "column": 1,
+                  "offset": 2487
+                },
+                "end": {
+                  "line": 72,
+                  "column": 104,
+                  "offset": 2590
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 72,
+                "column": 1,
+                "offset": 2487
+              },
+              "end": {
+                "line": 72,
+                "column": 104,
+                "offset": 2590
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 70,
+            "column": 1,
+            "offset": 2429
+          },
+          "end": {
+            "line": 70,
+            "column": 40,
+            "offset": 2468
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "test phase 26 27 agent catalog",
+        "inputs": [],
+        "output": {
+          "name": "ok",
+          "type": {
+            "kind": "typeRef",
+            "name": "Bool",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "ok",
+            "value": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "call",
+                    "callee": "test middleware diagnostics",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 76,
+                        "column": 1,
+                        "offset": 2653
+                      },
+                      "end": {
+                        "line": 76,
+                        "column": 154,
+                        "offset": 2806
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "call",
+                    "callee": "test pipeline and money diagnostics",
+                    "args": [],
+                    "span": {
+                      "start": {
+                        "line": 76,
+                        "column": 1,
+                        "offset": 2653
+                      },
+                      "end": {
+                        "line": 76,
+                        "column": 154,
+                        "offset": 2806
+                      }
+                    }
+                  },
+                  "span": {
+                    "start": {
+                      "line": 76,
+                      "column": 1,
+                      "offset": 2653
+                    },
+                    "end": {
+                      "line": 76,
+                      "column": 154,
+                      "offset": 2806
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "call",
+                  "callee": "test variant and view diagnostics",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 76,
+                      "column": 1,
+                      "offset": 2653
+                    },
+                    "end": {
+                      "line": 76,
+                      "column": 154,
+                      "offset": 2806
+                    }
+                  }
+                },
+                "span": {
+                  "start": {
+                    "line": 76,
+                    "column": 1,
+                    "offset": 2653
+                  },
+                  "end": {
+                    "line": 76,
+                    "column": 154,
+                    "offset": 2806
+                  }
+                }
+              },
+              "right": {
+                "kind": "call",
+                "callee": "test core agent diagnostics",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 76,
+                    "column": 1,
+                    "offset": 2653
+                  },
+                  "end": {
+                    "line": 76,
+                    "column": 154,
+                    "offset": 2806
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 76,
+                  "column": 1,
+                  "offset": 2653
+                },
+                "end": {
+                  "line": 76,
+                  "column": 154,
+                  "offset": 2806
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1,
+                "offset": 2653
+              },
+              "end": {
+                "line": 76,
+                "column": 154,
+                "offset": 2806
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 74,
+            "column": 1,
+            "offset": 2592
+          },
+          "end": {
+            "line": 74,
+            "column": 43,
+            "offset": 2634
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 25,
+        "offset": 24
+      }
+    }
+  }
+}

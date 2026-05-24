@@ -34,6 +34,7 @@ Semantic source lives in `std/*.point`. JavaScript emit imports `@hatchingpoint/
 | `std/yaml` | npm `yaml` | `point_std.yaml` | **PyYAML** (`pip install pyyaml`) |
 | `std/stream` | `node:fs` / streams | `point_std.stream` | stdlib |
 | `std/sql` | `node:sqlite` / driver | `point_std.sql` (`sqlite3`) | stdlib |
+| `std/money` | format helpers | `point_std.money` | stdlib |
 | `std/ai` | global `fetch` to provider APIs | `point_std.ai` (`urllib.request`) | stdlib |
 
 **Examples:** `std/path.point`, `std/crypto.point`, `examples/tools/yaml-config.point`, `examples/tools/ai-demo.point`.

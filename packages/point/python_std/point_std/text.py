@@ -15,3 +15,12 @@ def textSplit(value: str, separator: str) -> list[str]:
 
 def textTrim(value: str) -> str:
 	return value.strip()
+
+
+def textFromInt(value: int) -> str:
+	return str(value)
+
+
+def textPadStart(value: str, length: int, fill: str) -> str:
+	pad_char = fill[:1] if fill else " "
+	return value.rjust(length, pad_char)

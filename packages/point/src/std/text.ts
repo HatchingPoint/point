@@ -13,3 +13,12 @@ export function textSplit(value: string, separator: string): string[] {
 export function textTrim(value: string): string {
 	return value.trim();
 }
+
+export function textFromInt(value: number): string {
+	return String(value);
+}
+
+export function textPadStart(value: string, length: number, fill: string): string {
+	const padChar = fill.length > 0 ? fill.slice(0, 1) : " ";
+	return value.padStart(length, padChar);
+}

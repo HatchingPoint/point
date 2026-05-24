@@ -18,7 +18,7 @@ if _point_std_root is not None and str(_point_std_root) not in sys.path:
 
 from typing import TypedDict
 
-from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult
+from time import instantNowRaw, parseInstantRaw, formatInstantRaw, timeNow, sleepMilliseconds, formatTime, durationFromSecondsRaw, durationToSecondsRaw, durationFromMinutesRaw, instantNowValue, formatInstantLabel, parseInstantResult, currentTimeValue, waitMillisecondsResult, durationFromSecondsDuration, durationToSeconds, durationFromMinutesDuration
 
 class Event(TypedDict):
     name: str

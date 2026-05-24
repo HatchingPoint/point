@@ -3,6 +3,106 @@
   "module": "Money",
   "declarations": [
     {
+      "kind": "external",
+      "name": "formatCentsUsdRaw",
+      "params": [
+        {
+          "name": "amountCents",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "amount cents",
+          "span": {
+            "start": {
+              "line": 4,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/money",
+      "importName": "formatCentsUsd",
+      "semantic": {
+        "kind": "external",
+        "name": "format cents usd raw"
+      },
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 1,
+          "offset": 39
+        },
+        "end": {
+          "line": 4,
+          "column": 104,
+          "offset": 142
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "textFromIntRaw",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 7,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textFromInt",
+      "semantic": {
+        "kind": "external",
+        "name": "text from int raw"
+      },
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 168
+        },
+        "end": {
+          "line": 7,
+          "column": 90,
+          "offset": 257
+        }
+      }
+    },
+    {
       "kind": "type",
       "name": "Money",
       "fields": [
@@ -16,14 +116,14 @@
           "semanticName": "amount cents",
           "span": {
             "start": {
-              "line": 4,
+              "line": 10,
               "column": 1,
-              "offset": 27
+              "offset": 272
             },
             "end": {
-              "line": 4,
+              "line": 10,
               "column": 20,
-              "offset": 46
+              "offset": 291
             }
           }
         },
@@ -37,14 +137,14 @@
           "semanticName": "currency",
           "span": {
             "start": {
-              "line": 5,
+              "line": 11,
               "column": 1,
-              "offset": 47
+              "offset": 292
             },
             "end": {
-              "line": 5,
+              "line": 11,
               "column": 17,
-              "offset": 63
+              "offset": 308
             }
           }
         }
@@ -55,14 +155,14 @@
       },
       "span": {
         "start": {
-          "line": 3,
+          "line": 9,
           "column": 1,
-          "offset": 14
+          "offset": 259
         },
         "end": {
-          "line": 3,
+          "line": 9,
           "column": 13,
-          "offset": 26
+          "offset": 271
         }
       }
     },
@@ -80,12 +180,12 @@
           "semanticName": "amount cents",
           "span": {
             "start": {
-              "line": 8,
+              "line": 14,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 8,
+              "line": 14,
               "column": 18,
               "offset": 17
             }
@@ -101,12 +201,12 @@
           "semanticName": "currency",
           "span": {
             "start": {
-              "line": 9,
+              "line": 15,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 9,
+              "line": 15,
               "column": 15,
               "offset": 14
             }
@@ -131,14 +231,14 @@
                   "name": "amountCents",
                   "span": {
                     "start": {
-                      "line": 11,
+                      "line": 17,
                       "column": 1,
-                      "offset": 165
+                      "offset": 410
                     },
                     "end": {
-                      "line": 11,
+                      "line": 17,
                       "column": 62,
-                      "offset": 226
+                      "offset": 471
                     }
                   }
                 }
@@ -150,14 +250,14 @@
                   "name": "currency",
                   "span": {
                     "start": {
-                      "line": 11,
+                      "line": 17,
                       "column": 1,
-                      "offset": 165
+                      "offset": 410
                     },
                     "end": {
-                      "line": 11,
+                      "line": 17,
                       "column": 62,
-                      "offset": 226
+                      "offset": 471
                     }
                   }
                 }
@@ -165,27 +265,27 @@
             ],
             "span": {
               "start": {
-                "line": 11,
+                "line": 17,
                 "column": 1,
-                "offset": 165
+                "offset": 410
               },
               "end": {
-                "line": 11,
+                "line": 17,
                 "column": 62,
-                "offset": 226
+                "offset": 471
               }
             }
           },
           "span": {
             "start": {
-              "line": 11,
+              "line": 17,
               "column": 1,
-              "offset": 165
+              "offset": 410
             },
             "end": {
-              "line": 11,
+              "line": 17,
               "column": 62,
-              "offset": 226
+              "offset": 471
             }
           }
         }
@@ -198,14 +298,14 @@
       },
       "span": {
         "start": {
-          "line": 7,
+          "line": 13,
           "column": 1,
-          "offset": 65
+          "offset": 310
         },
         "end": {
-          "line": 7,
+          "line": 13,
           "column": 29,
-          "offset": 93
+          "offset": 338
         }
       }
     },
@@ -223,12 +323,12 @@
           "semanticName": "left",
           "span": {
             "start": {
-              "line": 14,
+              "line": 20,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 14,
+              "line": 20,
               "column": 12,
               "offset": 11
             }
@@ -244,12 +344,12 @@
           "semanticName": "right",
           "span": {
             "start": {
-              "line": 15,
+              "line": 21,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 15,
+              "line": 21,
               "column": 13,
               "offset": 12
             }
@@ -279,28 +379,28 @@
                       "name": "left",
                       "span": {
                         "start": {
-                          "line": 17,
+                          "line": 23,
                           "column": 1,
-                          "offset": 313
+                          "offset": 558
                         },
                         "end": {
-                          "line": 17,
+                          "line": 23,
                           "column": 93,
-                          "offset": 405
+                          "offset": 650
                         }
                       }
                     },
                     "name": "amountCents",
                     "span": {
                       "start": {
-                        "line": 17,
+                        "line": 23,
                         "column": 1,
-                        "offset": 313
+                        "offset": 558
                       },
                       "end": {
-                        "line": 17,
+                        "line": 23,
                         "column": 93,
-                        "offset": 405
+                        "offset": 650
                       }
                     }
                   },
@@ -311,41 +411,41 @@
                       "name": "right",
                       "span": {
                         "start": {
-                          "line": 17,
+                          "line": 23,
                           "column": 1,
-                          "offset": 313
+                          "offset": 558
                         },
                         "end": {
-                          "line": 17,
+                          "line": 23,
                           "column": 93,
-                          "offset": 405
+                          "offset": 650
                         }
                       }
                     },
                     "name": "amountCents",
                     "span": {
                       "start": {
-                        "line": 17,
+                        "line": 23,
                         "column": 1,
-                        "offset": 313
+                        "offset": 558
                       },
                       "end": {
-                        "line": 17,
+                        "line": 23,
                         "column": 93,
-                        "offset": 405
+                        "offset": 650
                       }
                     }
                   },
                   "span": {
                     "start": {
-                      "line": 17,
+                      "line": 23,
                       "column": 1,
-                      "offset": 313
+                      "offset": 558
                     },
                     "end": {
-                      "line": 17,
+                      "line": 23,
                       "column": 93,
-                      "offset": 405
+                      "offset": 650
                     }
                   }
                 }
@@ -359,28 +459,28 @@
                     "name": "left",
                     "span": {
                       "start": {
-                        "line": 17,
+                        "line": 23,
                         "column": 1,
-                        "offset": 313
+                        "offset": 558
                       },
                       "end": {
-                        "line": 17,
+                        "line": 23,
                         "column": 93,
-                        "offset": 405
+                        "offset": 650
                       }
                     }
                   },
                   "name": "currency",
                   "span": {
                     "start": {
-                      "line": 17,
+                      "line": 23,
                       "column": 1,
-                      "offset": 313
+                      "offset": 558
                     },
                     "end": {
-                      "line": 17,
+                      "line": 23,
                       "column": 93,
-                      "offset": 405
+                      "offset": 650
                     }
                   }
                 }
@@ -388,27 +488,27 @@
             ],
             "span": {
               "start": {
-                "line": 17,
+                "line": 23,
                 "column": 1,
-                "offset": 313
+                "offset": 558
               },
               "end": {
-                "line": 17,
+                "line": 23,
                 "column": 93,
-                "offset": 405
+                "offset": 650
               }
             }
           },
           "span": {
             "start": {
-              "line": 17,
+              "line": 23,
               "column": 1,
-              "offset": 313
+              "offset": 558
             },
             "end": {
-              "line": 17,
+              "line": 23,
               "column": 93,
-              "offset": 405
+              "offset": 650
             }
           }
         }
@@ -421,20 +521,20 @@
       },
       "span": {
         "start": {
-          "line": 13,
+          "line": 19,
           "column": 1,
-          "offset": 228
+          "offset": 473
         },
         "end": {
-          "line": 13,
+          "line": 19,
           "column": 22,
-          "offset": 249
+          "offset": 494
         }
       }
     },
     {
       "kind": "function",
-      "name": "moneyDisplayLabel",
+      "name": "moneyDisplay",
       "params": [
         {
           "name": "money",
@@ -446,12 +546,12 @@
           "semanticName": "money",
           "span": {
             "start": {
-              "line": 20,
+              "line": 26,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 20,
+              "line": 26,
               "column": 13,
               "offset": 12
             }
@@ -476,28 +576,28 @@
                 "name": "money",
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 28,
                     "column": 1,
-                    "offset": 462
+                    "offset": 722
                   },
                   "end": {
-                    "line": 22,
-                    "column": 44,
-                    "offset": 505
+                    "line": 28,
+                    "column": 79,
+                    "offset": 800
                   }
                 }
               },
               "name": "currency",
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 28,
                   "column": 1,
-                  "offset": 462
+                  "offset": 722
                 },
                 "end": {
-                  "line": 22,
-                  "column": 44,
-                  "offset": 505
+                  "line": 28,
+                  "column": 79,
+                  "offset": 800
                 }
               }
             },
@@ -506,27 +606,27 @@
               "value": "USD",
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 28,
                   "column": 1,
-                  "offset": 462
+                  "offset": 722
                 },
                 "end": {
-                  "line": 22,
-                  "column": 44,
-                  "offset": 505
+                  "line": 28,
+                  "column": 79,
+                  "offset": 800
                 }
               }
             },
             "span": {
               "start": {
-                "line": 22,
+                "line": 28,
                 "column": 1,
-                "offset": 462
+                "offset": 722
               },
               "end": {
-                "line": 22,
-                "column": 44,
-                "offset": 505
+                "line": 28,
+                "column": 79,
+                "offset": 800
               }
             }
           },
@@ -534,31 +634,65 @@
             {
               "kind": "return",
               "value": {
-                "kind": "literal",
-                "value": "USD",
+                "kind": "call",
+                "callee": "formatCentsUsdRaw",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "identifier",
+                      "name": "money",
+                      "span": {
+                        "start": {
+                          "line": 28,
+                          "column": 1,
+                          "offset": 722
+                        },
+                        "end": {
+                          "line": 28,
+                          "column": 79,
+                          "offset": 800
+                        }
+                      }
+                    },
+                    "name": "amountCents",
+                    "span": {
+                      "start": {
+                        "line": 28,
+                        "column": 1,
+                        "offset": 722
+                      },
+                      "end": {
+                        "line": 28,
+                        "column": 79,
+                        "offset": 800
+                      }
+                    }
+                  }
+                ],
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 28,
                     "column": 1,
-                    "offset": 462
+                    "offset": 722
                   },
                   "end": {
-                    "line": 22,
-                    "column": 44,
-                    "offset": 505
+                    "line": 28,
+                    "column": 79,
+                    "offset": 800
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 28,
                   "column": 1,
-                  "offset": 462
+                  "offset": 722
                 },
                 "end": {
-                  "line": 22,
-                  "column": 44,
-                  "offset": 505
+                  "line": 28,
+                  "column": 79,
+                  "offset": 800
                 }
               }
             }
@@ -566,81 +700,179 @@
           "elseBody": [],
           "span": {
             "start": {
-              "line": 22,
+              "line": 28,
               "column": 1,
-              "offset": 462
+              "offset": 722
             },
             "end": {
-              "line": 22,
-              "column": 44,
-              "offset": 505
+              "line": 28,
+              "column": 79,
+              "offset": 800
             }
           }
         },
         {
           "kind": "return",
           "value": {
-            "kind": "property",
-            "target": {
-              "kind": "identifier",
-              "name": "money",
+            "kind": "binary",
+            "operator": "+",
+            "left": {
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "call",
+                "callee": "textFromIntRaw",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "identifier",
+                      "name": "money",
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 801
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 70,
+                          "offset": 870
+                        }
+                      }
+                    },
+                    "name": "amountCents",
+                    "span": {
+                      "start": {
+                        "line": 29,
+                        "column": 1,
+                        "offset": 801
+                      },
+                      "end": {
+                        "line": 29,
+                        "column": 70,
+                        "offset": 870
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 801
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 70,
+                    "offset": 870
+                  }
+                }
+              },
+              "right": {
+                "kind": "literal",
+                "value": " ",
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 801
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 70,
+                    "offset": 870
+                  }
+                }
+              },
               "span": {
                 "start": {
-                  "line": 23,
+                  "line": 29,
                   "column": 1,
-                  "offset": 506
+                  "offset": 801
                 },
                 "end": {
-                  "line": 23,
-                  "column": 34,
-                  "offset": 539
+                  "line": 29,
+                  "column": 70,
+                  "offset": 870
                 }
               }
             },
-            "name": "currency",
+            "right": {
+              "kind": "property",
+              "target": {
+                "kind": "identifier",
+                "name": "money",
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 801
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 70,
+                    "offset": 870
+                  }
+                }
+              },
+              "name": "currency",
+              "span": {
+                "start": {
+                  "line": 29,
+                  "column": 1,
+                  "offset": 801
+                },
+                "end": {
+                  "line": 29,
+                  "column": 70,
+                  "offset": 870
+                }
+              }
+            },
             "span": {
               "start": {
-                "line": 23,
+                "line": 29,
                 "column": 1,
-                "offset": 506
+                "offset": 801
               },
               "end": {
-                "line": 23,
-                "column": 34,
-                "offset": 539
+                "line": 29,
+                "column": 70,
+                "offset": 870
               }
             }
           },
           "span": {
             "start": {
-              "line": 23,
+              "line": 29,
               "column": 1,
-              "offset": 506
+              "offset": 801
             },
             "end": {
-              "line": 23,
-              "column": 34,
-              "offset": 539
+              "line": 29,
+              "column": 70,
+              "offset": 870
             }
           }
         }
       ],
       "semantic": {
-        "kind": "label",
+        "kind": "calculation",
         "name": "money display",
-        "outputName": "result",
+        "outputName": "display",
         "effects": []
       },
       "span": {
         "start": {
-          "line": 19,
+          "line": 25,
           "column": 1,
-          "offset": 407
+          "offset": 652
         },
         "end": {
-          "line": 19,
-          "column": 20,
-          "offset": 426
+          "line": 25,
+          "column": 26,
+          "offset": 677
         }
       }
     }
@@ -666,46 +898,50 @@
     "uses": [],
     "declarations": [
       {
-        "kind": "record",
-        "name": "Money",
-        "fields": [
+        "kind": "external",
+        "name": "point std money",
+        "functions": [
           {
-            "label": "amount cents",
-            "type": {
-              "kind": "typeRef",
-              "name": "Int",
-              "args": []
-            },
-            "span": {
-              "start": {
-                "line": 4,
-                "column": 1,
-                "offset": 27
-              },
-              "end": {
-                "line": 4,
-                "column": 20,
-                "offset": 46
+            "label": "format cents usd raw",
+            "params": [
+              {
+                "label": "amount cents",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 18,
+                    "offset": 17
+                  }
+                }
               }
-            }
-          },
-          {
-            "label": "currency",
-            "type": {
+            ],
+            "returnType": {
               "kind": "typeRef",
               "name": "Text",
               "args": []
             },
+            "from": "@hatchingpoint/point/std/money",
+            "importAs": "formatCentsUsd",
             "span": {
               "start": {
-                "line": 5,
+                "line": 4,
                 "column": 1,
-                "offset": 47
+                "offset": 39
               },
               "end": {
-                "line": 5,
-                "column": 17,
-                "offset": 63
+                "line": 4,
+                "column": 104,
+                "offset": 142
               }
             }
           }
@@ -718,8 +954,128 @@
           },
           "end": {
             "line": 3,
+            "column": 25,
+            "offset": 38
+          }
+        }
+      },
+      {
+        "kind": "external",
+        "name": "point std text",
+        "functions": [
+          {
+            "label": "text from int raw",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textFromInt",
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 168
+              },
+              "end": {
+                "line": 7,
+                "column": 90,
+                "offset": 257
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 6,
+            "column": 1,
+            "offset": 144
+          },
+          "end": {
+            "line": 6,
+            "column": 24,
+            "offset": 167
+          }
+        }
+      },
+      {
+        "kind": "record",
+        "name": "Money",
+        "fields": [
+          {
+            "label": "amount cents",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 272
+              },
+              "end": {
+                "line": 10,
+                "column": 20,
+                "offset": 291
+              }
+            }
+          },
+          {
+            "label": "currency",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 11,
+                "column": 1,
+                "offset": 292
+              },
+              "end": {
+                "line": 11,
+                "column": 17,
+                "offset": 308
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 9,
+            "column": 1,
+            "offset": 259
+          },
+          "end": {
+            "line": 9,
             "column": 13,
-            "offset": 26
+            "offset": 271
           }
         }
       },
@@ -736,12 +1092,12 @@
             },
             "span": {
               "start": {
-                "line": 8,
+                "line": 14,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 8,
+                "line": 14,
                 "column": 18,
                 "offset": 17
               }
@@ -756,12 +1112,12 @@
             },
             "span": {
               "start": {
-                "line": 9,
+                "line": 15,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 9,
+                "line": 15,
                 "column": 15,
                 "offset": 14
               }
@@ -790,14 +1146,14 @@
                     "label": "amount cents",
                     "span": {
                       "start": {
-                        "line": 11,
+                        "line": 17,
                         "column": 1,
-                        "offset": 165
+                        "offset": 410
                       },
                       "end": {
-                        "line": 11,
+                        "line": 17,
                         "column": 62,
-                        "offset": 226
+                        "offset": 471
                       }
                     }
                   }
@@ -809,14 +1165,14 @@
                     "label": "currency",
                     "span": {
                       "start": {
-                        "line": 11,
+                        "line": 17,
                         "column": 1,
-                        "offset": 165
+                        "offset": 410
                       },
                       "end": {
-                        "line": 11,
+                        "line": 17,
                         "column": 62,
-                        "offset": 226
+                        "offset": 471
                       }
                     }
                   }
@@ -824,41 +1180,41 @@
               ],
               "span": {
                 "start": {
-                  "line": 11,
+                  "line": 17,
                   "column": 1,
-                  "offset": 165
+                  "offset": 410
                 },
                 "end": {
-                  "line": 11,
+                  "line": 17,
                   "column": 62,
-                  "offset": 226
+                  "offset": 471
                 }
               }
             },
             "span": {
               "start": {
-                "line": 11,
+                "line": 17,
                 "column": 1,
-                "offset": 165
+                "offset": 410
               },
               "end": {
-                "line": 11,
+                "line": 17,
                 "column": 62,
-                "offset": 226
+                "offset": 471
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 7,
+            "line": 13,
             "column": 1,
-            "offset": 65
+            "offset": 310
           },
           "end": {
-            "line": 7,
+            "line": 13,
             "column": 29,
-            "offset": 93
+            "offset": 338
           }
         }
       },
@@ -875,12 +1231,12 @@
             },
             "span": {
               "start": {
-                "line": 14,
+                "line": 20,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 14,
+                "line": 20,
                 "column": 12,
                 "offset": 11
               }
@@ -895,12 +1251,12 @@
             },
             "span": {
               "start": {
-                "line": 15,
+                "line": 21,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 15,
+                "line": 21,
                 "column": 13,
                 "offset": 12
               }
@@ -934,28 +1290,28 @@
                         "label": "left",
                         "span": {
                           "start": {
-                            "line": 17,
+                            "line": 23,
                             "column": 1,
-                            "offset": 313
+                            "offset": 558
                           },
                           "end": {
-                            "line": 17,
+                            "line": 23,
                             "column": 93,
-                            "offset": 405
+                            "offset": 650
                           }
                         }
                       },
                       "label": "amount cents",
                       "span": {
                         "start": {
-                          "line": 17,
+                          "line": 23,
                           "column": 1,
-                          "offset": 313
+                          "offset": 558
                         },
                         "end": {
-                          "line": 17,
+                          "line": 23,
                           "column": 93,
-                          "offset": 405
+                          "offset": 650
                         }
                       }
                     },
@@ -966,41 +1322,41 @@
                         "label": "right",
                         "span": {
                           "start": {
-                            "line": 17,
+                            "line": 23,
                             "column": 1,
-                            "offset": 313
+                            "offset": 558
                           },
                           "end": {
-                            "line": 17,
+                            "line": 23,
                             "column": 93,
-                            "offset": 405
+                            "offset": 650
                           }
                         }
                       },
                       "label": "amount cents",
                       "span": {
                         "start": {
-                          "line": 17,
+                          "line": 23,
                           "column": 1,
-                          "offset": 313
+                          "offset": 558
                         },
                         "end": {
-                          "line": 17,
+                          "line": 23,
                           "column": 93,
-                          "offset": 405
+                          "offset": 650
                         }
                       }
                     },
                     "span": {
                       "start": {
-                        "line": 17,
+                        "line": 23,
                         "column": 1,
-                        "offset": 313
+                        "offset": 558
                       },
                       "end": {
-                        "line": 17,
+                        "line": 23,
                         "column": 93,
-                        "offset": 405
+                        "offset": 650
                       }
                     }
                   }
@@ -1014,28 +1370,28 @@
                       "label": "left",
                       "span": {
                         "start": {
-                          "line": 17,
+                          "line": 23,
                           "column": 1,
-                          "offset": 313
+                          "offset": 558
                         },
                         "end": {
-                          "line": 17,
+                          "line": 23,
                           "column": 93,
-                          "offset": 405
+                          "offset": 650
                         }
                       }
                     },
                     "label": "currency",
                     "span": {
                       "start": {
-                        "line": 17,
+                        "line": 23,
                         "column": 1,
-                        "offset": 313
+                        "offset": 558
                       },
                       "end": {
-                        "line": 17,
+                        "line": 23,
                         "column": 93,
-                        "offset": 405
+                        "offset": 650
                       }
                     }
                   }
@@ -1043,46 +1399,46 @@
               ],
               "span": {
                 "start": {
-                  "line": 17,
+                  "line": 23,
                   "column": 1,
-                  "offset": 313
+                  "offset": 558
                 },
                 "end": {
-                  "line": 17,
+                  "line": 23,
                   "column": 93,
-                  "offset": 405
+                  "offset": 650
                 }
               }
             },
             "span": {
               "start": {
-                "line": 17,
+                "line": 23,
                 "column": 1,
-                "offset": 313
+                "offset": 558
               },
               "end": {
-                "line": 17,
+                "line": 23,
                 "column": 93,
-                "offset": 405
+                "offset": 650
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 13,
+            "line": 19,
             "column": 1,
-            "offset": 228
+            "offset": 473
           },
           "end": {
-            "line": 13,
+            "line": 19,
             "column": 22,
-            "offset": 249
+            "offset": 494
           }
         }
       },
       {
-        "kind": "label",
+        "kind": "calculation",
         "name": "money display",
         "inputs": [
           {
@@ -1094,12 +1450,12 @@
             },
             "span": {
               "start": {
-                "line": 20,
+                "line": 26,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 20,
+                "line": 26,
                 "column": 13,
                 "offset": 12
               }
@@ -1107,7 +1463,7 @@
           }
         ],
         "output": {
-          "name": "result",
+          "name": "display",
           "type": {
             "kind": "typeRef",
             "name": "Text",
@@ -1127,28 +1483,28 @@
                   "label": "money",
                   "span": {
                     "start": {
-                      "line": 22,
+                      "line": 28,
                       "column": 1,
-                      "offset": 462
+                      "offset": 722
                     },
                     "end": {
-                      "line": 22,
-                      "column": 44,
-                      "offset": 505
+                      "line": 28,
+                      "column": 79,
+                      "offset": 800
                     }
                   }
                 },
                 "label": "currency",
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 28,
                     "column": 1,
-                    "offset": 462
+                    "offset": 722
                   },
                   "end": {
-                    "line": 22,
-                    "column": 44,
-                    "offset": 505
+                    "line": 28,
+                    "column": 79,
+                    "offset": 800
                   }
                 }
               },
@@ -1157,117 +1513,249 @@
                 "value": "USD",
                 "span": {
                   "start": {
-                    "line": 22,
+                    "line": 28,
                     "column": 1,
-                    "offset": 462
+                    "offset": 722
                   },
                   "end": {
-                    "line": 22,
-                    "column": 44,
-                    "offset": 505
+                    "line": 28,
+                    "column": 79,
+                    "offset": 800
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 28,
                   "column": 1,
-                  "offset": 462
+                  "offset": 722
                 },
                 "end": {
-                  "line": 22,
-                  "column": 44,
-                  "offset": 505
+                  "line": 28,
+                  "column": 79,
+                  "offset": 800
                 }
               }
             },
             "value": {
-              "kind": "literal",
-              "value": "USD",
+              "kind": "call",
+              "callee": "format cents usd raw",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "name",
+                    "label": "money",
+                    "span": {
+                      "start": {
+                        "line": 28,
+                        "column": 1,
+                        "offset": 722
+                      },
+                      "end": {
+                        "line": 28,
+                        "column": 79,
+                        "offset": 800
+                      }
+                    }
+                  },
+                  "label": "amount cents",
+                  "span": {
+                    "start": {
+                      "line": 28,
+                      "column": 1,
+                      "offset": 722
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 79,
+                      "offset": 800
+                    }
+                  }
+                }
+              ],
               "span": {
                 "start": {
-                  "line": 22,
+                  "line": 28,
                   "column": 1,
-                  "offset": 462
+                  "offset": 722
                 },
                 "end": {
-                  "line": 22,
-                  "column": 44,
-                  "offset": 505
+                  "line": 28,
+                  "column": 79,
+                  "offset": 800
                 }
               }
             },
             "span": {
               "start": {
-                "line": 22,
+                "line": 28,
                 "column": 1,
-                "offset": 462
+                "offset": 722
               },
               "end": {
-                "line": 22,
-                "column": 44,
-                "offset": 505
+                "line": 28,
+                "column": 79,
+                "offset": 800
               }
             }
           },
           {
-            "kind": "otherwiseReturn",
+            "kind": "return",
             "value": {
-              "kind": "property",
-              "target": {
-                "kind": "name",
-                "label": "money",
+              "kind": "binary",
+              "operator": "+",
+              "left": {
+                "kind": "binary",
+                "operator": "+",
+                "left": {
+                  "kind": "call",
+                  "callee": "text from int raw",
+                  "args": [
+                    {
+                      "kind": "property",
+                      "target": {
+                        "kind": "name",
+                        "label": "money",
+                        "span": {
+                          "start": {
+                            "line": 29,
+                            "column": 1,
+                            "offset": 801
+                          },
+                          "end": {
+                            "line": 29,
+                            "column": 70,
+                            "offset": 870
+                          }
+                        }
+                      },
+                      "label": "amount cents",
+                      "span": {
+                        "start": {
+                          "line": 29,
+                          "column": 1,
+                          "offset": 801
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 70,
+                          "offset": 870
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 801
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 70,
+                      "offset": 870
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": " ",
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 801
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 70,
+                      "offset": 870
+                    }
+                  }
+                },
                 "span": {
                   "start": {
-                    "line": 23,
+                    "line": 29,
                     "column": 1,
-                    "offset": 506
+                    "offset": 801
                   },
                   "end": {
-                    "line": 23,
-                    "column": 34,
-                    "offset": 539
+                    "line": 29,
+                    "column": 70,
+                    "offset": 870
                   }
                 }
               },
-              "label": "currency",
+              "right": {
+                "kind": "property",
+                "target": {
+                  "kind": "name",
+                  "label": "money",
+                  "span": {
+                    "start": {
+                      "line": 29,
+                      "column": 1,
+                      "offset": 801
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 70,
+                      "offset": 870
+                    }
+                  }
+                },
+                "label": "currency",
+                "span": {
+                  "start": {
+                    "line": 29,
+                    "column": 1,
+                    "offset": 801
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 70,
+                    "offset": 870
+                  }
+                }
+              },
               "span": {
                 "start": {
-                  "line": 23,
+                  "line": 29,
                   "column": 1,
-                  "offset": 506
+                  "offset": 801
                 },
                 "end": {
-                  "line": 23,
-                  "column": 34,
-                  "offset": 539
+                  "line": 29,
+                  "column": 70,
+                  "offset": 870
                 }
               }
             },
             "span": {
               "start": {
-                "line": 23,
+                "line": 29,
                 "column": 1,
-                "offset": 506
+                "offset": 801
               },
               "end": {
-                "line": 23,
-                "column": 34,
-                "offset": 539
+                "line": 29,
+                "column": 70,
+                "offset": 870
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 19,
+            "line": 25,
             "column": 1,
-            "offset": 407
+            "offset": 652
           },
           "end": {
-            "line": 19,
-            "column": 20,
-            "offset": 426
+            "line": 25,
+            "column": 26,
+            "offset": 677
           }
         }
       }

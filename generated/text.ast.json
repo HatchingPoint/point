@@ -251,6 +251,148 @@
       }
     },
     {
+      "kind": "external",
+      "name": "textFromIntRaw",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textFromInt",
+      "semantic": {
+        "kind": "external",
+        "name": "text from int raw"
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 410
+        },
+        "end": {
+          "line": 8,
+          "column": 90,
+          "offset": 499
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "textPadStartRaw",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "length",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "length",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "fill",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "fill",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "from": "@hatchingpoint/point/std/text",
+      "importName": "textPadStart",
+      "semantic": {
+        "kind": "external",
+        "name": "text pad start raw"
+      },
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 500
+        },
+        "end": {
+          "line": 9,
+          "column": 118,
+          "offset": 617
+        }
+      }
+    },
+    {
       "kind": "function",
       "name": "concatTextValue",
       "params": [
@@ -264,12 +406,12 @@
           "semanticName": "left",
           "span": {
             "start": {
-              "line": 10,
+              "line": 12,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 10,
+              "line": 12,
               "column": 11,
               "offset": 10
             }
@@ -285,12 +427,12 @@
           "semanticName": "right",
           "span": {
             "start": {
-              "line": 11,
+              "line": 13,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 11,
+              "line": 13,
               "column": 12,
               "offset": 11
             }
@@ -313,14 +455,14 @@
               "name": "left",
               "span": {
                 "start": {
-                  "line": 13,
+                  "line": 15,
                   "column": 1,
-                  "offset": 495
+                  "offset": 703
                 },
                 "end": {
-                  "line": 13,
+                  "line": 15,
                   "column": 24,
-                  "offset": 518
+                  "offset": 726
                 }
               }
             },
@@ -329,40 +471,40 @@
               "name": "right",
               "span": {
                 "start": {
-                  "line": 13,
+                  "line": 15,
                   "column": 1,
-                  "offset": 495
+                  "offset": 703
                 },
                 "end": {
-                  "line": 13,
+                  "line": 15,
                   "column": 24,
-                  "offset": 518
+                  "offset": 726
                 }
               }
             },
             "span": {
               "start": {
-                "line": 13,
+                "line": 15,
                 "column": 1,
-                "offset": 495
+                "offset": 703
               },
               "end": {
-                "line": 13,
+                "line": 15,
                 "column": 24,
-                "offset": 518
+                "offset": 726
               }
             }
           },
           "span": {
             "start": {
-              "line": 13,
+              "line": 15,
               "column": 1,
-              "offset": 495
+              "offset": 703
             },
             "end": {
-              "line": 13,
+              "line": 15,
               "column": 24,
-              "offset": 518
+              "offset": 726
             }
           }
         }
@@ -375,14 +517,290 @@
       },
       "span": {
         "start": {
-          "line": 9,
+          "line": 11,
           "column": 1,
-          "offset": 411
+          "offset": 619
         },
         "end": {
-          "line": 9,
+          "line": 11,
           "column": 24,
-          "offset": 434
+          "offset": 642
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "textFromIntText",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 18,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "textFromIntRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 20,
+                    "column": 1,
+                    "offset": 793
+                  },
+                  "end": {
+                    "line": 20,
+                    "column": 35,
+                    "offset": 827
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 793
+              },
+              "end": {
+                "line": 20,
+                "column": 35,
+                "offset": 827
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 793
+            },
+            "end": {
+              "line": 20,
+              "column": 35,
+              "offset": 827
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "text from int",
+        "outputName": "text",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 728
+        },
+        "end": {
+          "line": 17,
+          "column": 26,
+          "offset": 753
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "textPadStartPadded",
+      "params": [
+        {
+          "name": "value",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "value",
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 23,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "length",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "length",
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 24,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "fill",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "fill",
+          "span": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "textPadStartRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "value",
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 937
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 52,
+                    "offset": 988
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "length",
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 937
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 52,
+                    "offset": 988
+                  }
+                }
+              },
+              {
+                "kind": "identifier",
+                "name": "fill",
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 937
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 52,
+                    "offset": 988
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 937
+              },
+              "end": {
+                "line": 27,
+                "column": 52,
+                "offset": 988
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 937
+            },
+            "end": {
+              "line": 27,
+              "column": 52,
+              "offset": 988
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "text pad start",
+        "outputName": "padded",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 829
+        },
+        "end": {
+          "line": 22,
+          "column": 27,
+          "offset": 855
         }
       }
     }
@@ -632,6 +1050,134 @@
                 "offset": 409
               }
             }
+          },
+          {
+            "label": "text from int raw",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textFromInt",
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 410
+              },
+              "end": {
+                "line": 8,
+                "column": 90,
+                "offset": 499
+              }
+            }
+          },
+          {
+            "label": "text pad start raw",
+            "params": [
+              {
+                "label": "value",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "length",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Int",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "fill",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "from": "@hatchingpoint/point/std/text",
+            "importAs": "textPadStart",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 500
+              },
+              "end": {
+                "line": 9,
+                "column": 118,
+                "offset": 617
+              }
+            }
           }
         ],
         "span": {
@@ -660,12 +1206,12 @@
             },
             "span": {
               "start": {
-                "line": 10,
+                "line": 12,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 10,
+                "line": 12,
                 "column": 11,
                 "offset": 10
               }
@@ -680,12 +1226,12 @@
             },
             "span": {
               "start": {
-                "line": 11,
+                "line": 13,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 11,
+                "line": 13,
                 "column": 12,
                 "offset": 11
               }
@@ -712,14 +1258,14 @@
                 "label": "left",
                 "span": {
                   "start": {
-                    "line": 13,
+                    "line": 15,
                     "column": 1,
-                    "offset": 495
+                    "offset": 703
                   },
                   "end": {
-                    "line": 13,
+                    "line": 15,
                     "column": 24,
-                    "offset": 518
+                    "offset": 726
                   }
                 }
               },
@@ -728,54 +1274,322 @@
                 "label": "right",
                 "span": {
                   "start": {
-                    "line": 13,
+                    "line": 15,
                     "column": 1,
-                    "offset": 495
+                    "offset": 703
                   },
                   "end": {
-                    "line": 13,
+                    "line": 15,
                     "column": 24,
-                    "offset": 518
+                    "offset": 726
                   }
                 }
               },
               "span": {
                 "start": {
-                  "line": 13,
+                  "line": 15,
                   "column": 1,
-                  "offset": 495
+                  "offset": 703
                 },
                 "end": {
-                  "line": 13,
+                  "line": 15,
                   "column": 24,
-                  "offset": 518
+                  "offset": 726
                 }
               }
             },
             "span": {
               "start": {
-                "line": 13,
+                "line": 15,
                 "column": 1,
-                "offset": 495
+                "offset": 703
               },
               "end": {
-                "line": 13,
+                "line": 15,
                 "column": 24,
-                "offset": 518
+                "offset": 726
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 9,
+            "line": 11,
             "column": 1,
-            "offset": 411
+            "offset": 619
           },
           "end": {
-            "line": 9,
+            "line": 11,
             "column": 24,
-            "offset": 434
+            "offset": 642
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "text from int",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 18,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "text",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "text",
+            "value": {
+              "kind": "call",
+              "callee": "text from int raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 20,
+                      "column": 1,
+                      "offset": 793
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 35,
+                      "offset": 827
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 793
+                },
+                "end": {
+                  "line": 20,
+                  "column": 35,
+                  "offset": 827
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 793
+              },
+              "end": {
+                "line": 20,
+                "column": 35,
+                "offset": 827
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 17,
+            "column": 1,
+            "offset": 728
+          },
+          "end": {
+            "line": 17,
+            "column": 26,
+            "offset": 753
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "text pad start",
+        "inputs": [
+          {
+            "label": "value",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 23,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "length",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 24,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "label": "fill",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 25,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "padded",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "padded",
+            "value": {
+              "kind": "call",
+              "callee": "text pad start raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "value",
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 937
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 52,
+                      "offset": 988
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "length",
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 937
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 52,
+                      "offset": 988
+                    }
+                  }
+                },
+                {
+                  "kind": "name",
+                  "label": "fill",
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 937
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 52,
+                      "offset": 988
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 937
+                },
+                "end": {
+                  "line": 27,
+                  "column": 52,
+                  "offset": 988
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 937
+              },
+              "end": {
+                "line": 27,
+                "column": 52,
+                "offset": 988
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 22,
+            "column": 1,
+            "offset": 829
+          },
+          "end": {
+            "line": 22,
+            "column": 27,
+            "offset": 855
           }
         }
       }

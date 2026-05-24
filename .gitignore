@@ -8,8 +8,10 @@ dist
 coverage
 .tmp
 tests/tmp/
+logs/loops/
 __pycache__
 *.pyc
 generated/math-parity.*
 generated/math-parity-suite.*
 generated/action-smoke.*
+generated/.point-tests/

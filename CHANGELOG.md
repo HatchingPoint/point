@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.26
+
+### Added
+
+- Phase 34: **Cross-module `use` resolution** — relative imports resolve from the importing file; single-file `point check`/`test` merge dependency symbols.
+- Phase 34: `examples/tools/money-demo.point` links `std/money` with working `money from cents` / `money display` calls.
+- Phase 34: `point test` runs from `generated/.point-tests/` so workspace std imports resolve.
+
+## 0.1.25
+
+### Added
+
+- Phase 33: **`std/money`** format helpers — `formatCentsUsd` JS/Python shims, `money display` calculation (`$10.05` from cents).
+- Phase 33: **`std/text`** — `text from int`, `text pad start` for general formatting.
+- Phase 33: Python **pipeline** emit — step event logging, retry/policy/timeout parity with workflows.
+- Phase 33: Phase 13 closed — Python routes marked shipped; [standalone template](./docs/site/ecosystem/standalone-template.md) docs.
+
 ## 0.1.24
 
 ### Added
