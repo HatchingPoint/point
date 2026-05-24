@@ -1,0 +1,24 @@
+module NotesApp
+
+record Note
+  id: Text
+  title: Text
+  body: Text
+
+action list notes
+  output notes: List<Note>
+  touches none
+  return [{ id: "1", title: "Hello", body: "World" }]
+
+view notes list
+  load data from action list notes
+  when loading render "Loading..."
+  render "Notes"
+
+page notes list page
+  title "Notes"
+  main render notes list()
+
+navigation notes app
+  path "/notes" page notes list page
+  bootstrap router

@@ -121,11 +121,25 @@ export function explainPointCoreRef(program: PointCoreProgram, ref: string): Poi
 	};
 }
 
+/** Stable repair order: source position first, then code tie-break for deterministic plans. */
+export function sortDiagnosticsForRepairPlan(diagnostics: PointCoreDiagnostic[]): PointCoreDiagnostic[] {
+	return [...diagnostics].sort((left, right) => {
+		const leftLine = left.span?.start.line ?? Number.MAX_SAFE_INTEGER;
+		const rightLine = right.span?.start.line ?? Number.MAX_SAFE_INTEGER;
+		if (leftLine !== rightLine) return leftLine - rightLine;
+		const leftColumn = left.span?.start.column ?? Number.MAX_SAFE_INTEGER;
+		const rightColumn = right.span?.start.column ?? Number.MAX_SAFE_INTEGER;
+		if (leftColumn !== rightColumn) return leftColumn - rightColumn;
+		return left.code.localeCompare(right.code);
+	});
+}
+
 export function createPointCoreRepairPlan(diagnostics: PointCoreDiagnostic[]): PointCoreRepairPlan {
+	const ordered = sortDiagnosticsForRepairPlan(diagnostics);
 	return {
 		schemaVersion: "point.core.repair-plan.v1",
-		ok: diagnostics.length === 0,
-		steps: diagnostics.map((diagnostic) => ({
+		ok: ordered.length === 0,
+		steps: ordered.map((diagnostic) => ({
 			ref: diagnostic.ref,
 			code: diagnostic.code,
 			message: diagnostic.message,

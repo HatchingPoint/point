@@ -8,7 +8,9 @@ import {
 	runMultistepRepairBenchmark,
 } from "../scripts/agent-repair-sufficiency.ts";
 import { checkPointCore } from "../packages/point/src/core/check.ts";
+import { createPointCoreRepairPlan, sortDiagnosticsForRepairPlan } from "../packages/point/src/core/context.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
+import { mapPublicDiagnostics } from "../packages/point/src/semantic/context.ts";
 
 describe("agent repair multistep (repair-plan loop)", () => {
 	for (const testCase of AGENT_REPAIR_MULTISTEP_CASES) {
@@ -34,5 +36,14 @@ describe("agent repair multistep (repair-plan loop)", () => {
 	test("multistep benchmark reports all cases passing", () => {
 		const results = runMultistepRepairBenchmark();
 		expect(results.every((result) => result.passed)).toBe(true);
+	});
+
+	test("repair-plan orders steps by source position (notes: load before nav)", () => {
+		const brokenSource = loadFixture("feature-multistep-notes-broken.point");
+		const program = parsePointSource(brokenSource);
+		const raw = mapPublicDiagnostics(program, checkPointCore(program));
+		const plan = createPointCoreRepairPlan(raw);
+		expect(plan.steps.map((step) => step.code)).toEqual(["unknown-load-action", "unknown-nav-page"]);
+		expect(sortDiagnosticsForRepairPlan(raw)[0]?.code).toBe("unknown-load-action");
 	});
 });

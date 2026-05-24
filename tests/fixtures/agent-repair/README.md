@@ -19,9 +19,9 @@ bun run benchmark:agent-repair-models   # needs OPENAI / ANTHROPIC / GEMINI keys
 
 Single-line mistakes in rules, labels, calculations, actions.
 
-### Feature build (5 single-shot + 1 multi-step)
+### Feature build (5 single-shot + 4 multi-step)
 
-Simulates **AI auto-coding**: the agent scaffolded a multi-block feature and made one wiring mistake (or two for the repair-plan case).
+Simulates **AI auto-coding**: the agent scaffolded a multi-block feature and made one wiring mistake (or two for repair-plan cases).
 
 | ID | What the agent built | Bug |
 |----|----------------------|-----|
@@ -30,6 +30,9 @@ Simulates **AI auto-coding**: the agent scaffolded a multi-block feature and mad
 | `feature-notes-crud` | Notes list app shell | Wrong action in `load data from action` |
 | `feature-nav-routes` | Settings app routing | Typo'd page name in navigation |
 | `feature-guard-policy` | Guarded file-write pipeline | Wrong policy name on pipeline step |
-| `feature-multistep-launch` | Launch app (rule + label + calc) | **2 bugs** — CI loops check-json → fix → check |
+| `feature-multistep-launch` | Launch app (rule + label + calc) | **2 bugs** — field typo + string compare |
+| `feature-multistep-cart` | Cart pricing rule + discount label | **2 bugs** — field typo + string compare |
+| `feature-multistep-notes` | Notes list + navigation | **2 bugs** — wrong load action + page typo |
+| `feature-multistep-pipeline` | Document ingest pipeline | **2 bugs** — missing await + policy typo |
 
 Token reduction vs illustrative TS paste: **79–93%** (avg **87%**).

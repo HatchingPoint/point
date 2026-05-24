@@ -54,7 +54,7 @@ function orchestrationStepGuardDiagnostic(
 		code,
 		message,
 		path: `${orchestration.kind}.${orchestration.name}.step.${step.name}`,
-		ref: `point://semantic/${moduleName}/${orchestration.kind}.${orchestration.name}/step.${step.name}`,
+		ref: `point://semantic/${moduleName}/${orchestration.kind}.${orchestration.name}.step.${step.name}`,
 		severity: "error",
 		span: span ?? step.span ?? orchestration.span ?? null,
 		repair,

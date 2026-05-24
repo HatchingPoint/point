@@ -44,6 +44,8 @@ Then pass a ref to:
 point explain examples/math.point point://semantic/Math/rule.launch readiness
 ```
 
+Diagnostic refs from `check-json` resolve the same way: each public error includes a `point://semantic/...` ref that `point index` lists and `point explain` summarizes (pipeline steps, load-data bindings, middleware routes, money fields, and variant dispatch included).
+
 ## Semantic vs core refs
 
 Use semantic refs for public documentation, editor actions, and agent repair loops. Core refs are still useful inside compiler internals and generated target explanations, but they are not the primary author-facing contract.

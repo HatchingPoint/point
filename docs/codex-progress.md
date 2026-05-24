@@ -1119,6 +1119,14 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
 
+## Checkpoint Phase 28 P28-2 — Index and explain coverage audit
+
+- Completed: Added `tests/agent-index-explain.test.ts` audit table for Phase 26–27 codes (variant exhaustiveness, pipeline step I/O, money lint, middleware inputs, load-data) plus top core codes (unknown-field, arity, operator, nullable). Improved `explainSemanticRef` summaries for pipeline steps, load-data bindings, routes, and middleware. Aligned pipeline/workflow/guard step diagnostic refs with index path convention (`.step.` not `/step.`). Documented diagnostic ref explain parity in `docs/site/ai/stable-refs.md`.
+- Verified: `bun test tests/agent-index-explain.test.ts` — 13 pass; `bun run ci` green.
+- Next: P28-3 agent repair fixture expansion.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
 ## Checkpoint Phase 29 P29-1 — python_std json, path, env mirrors
 
 - Completed: Verified `packages/point/python_std/point_std/{json,path,env}.py` mirror JS `@hatchingpoint/point/std/*` behavior. Extended `tests/python-std-parity.test.ts` with env runtime parity and emit coverage for `std/env.point` alongside existing path/json emit + parity tests.
@@ -1126,3 +1134,21 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Next: P29-2 wire `use std.*` imports in emit-python.ts and extend py-parity for one module.
 - Blocked: none
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 29 P29-2 — Wire Python emit to python_std
+
+- Completed: Improved `emit-python.ts` std bootstrap to resolve `python_std` from monorepo layout or installed `@hatchingpoint/point` npm package. Rewrote `use std.*` import declarations to `point_std.*` imports with alias map (path joinPaths→pathJoin, etc.). Extended `tests/python-std-parity.test.ts` with `use std.json` build-py wiring and import-rewrite coverage. Added `std/json.point` to `tests/python-parity-suite.test.ts` and `scripts/py-parity.ts` for JS/Python json parity.
+- Verified: `bun test tests/python-std-parity.test.ts tests/python-parity-suite.test.ts` — 16 pass; `bun run ci` green.
+- Next: P29-3 `point build-py` CLI docs + process-runner Python run path.
+- Blocked: none
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 28/29 integrator — exit gate review (loop tick 1)
+
+- Reviewed: `docs/phase28-plan.md` and `docs/phase29-plan.md` exit gates — **neither complete**.
+- Phase 28 status: P28-1 done (repair-plan + 3 multistep fixtures). P28-2 in progress (`tests/agent-index-explain.test.ts` added; 4 index/explain tests failing). P28-3 partial (3 new multistep fixture pairs; need 5+ new pairs total). P28-4 LSP parity not started. P28-5 self-host increment not started. Plan checkboxes still `[ ]`.
+- Phase 29 status: P29-1 done (json/path/env mirrors). P29-2 blocked — `use std.json` emit test failing (no `point_std` import in emitted Python). P29-3/P29-4 not checkpointed. Plan checkboxes still `[ ]`.
+- Verified: `bun run ci` — **red** (509 tests, 5 fail: 4 agent-index-explain, 1 python-std emit).
+- Action: No commit, no release. Current version remains **v0.1.20**. Waiting for both tracks to pass exit gates before v0.1.21 integrator ritual.
+- Next: P28-2 fix index/explain audit tests; P29-2 wire emit-python std imports; re-check on 2h loop.
+- Blocked: none (work in progress on parallel tracks)

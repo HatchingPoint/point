@@ -1,0 +1,18 @@
+module CartPricing
+
+record Cart Item
+  unit price: Int
+  quantity: Int
+
+rule line total
+  input item: Cart Item
+  output total: Int
+  total starts at 0
+  add item.unit amount * item.quantity to total
+  return total
+
+label discount band
+  input total: Int
+  output Text
+  when total >= "fifty" return "Bulk"
+  otherwise return "Standard"

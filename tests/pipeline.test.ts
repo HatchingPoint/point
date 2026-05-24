@@ -134,7 +134,7 @@ action fetch doc
 	const diagnostics = mapPublicDiagnostics(program, checkPointCore(program));
 	expect(diagnostics.some((diagnostic) => diagnostic.code === "unknown-policy")).toBe(true);
 	expect(diagnostics.find((diagnostic) => diagnostic.code === "unknown-policy")?.ref).toContain(
-		"pipeline.bad ingest/step.fetched",
+		"pipeline.bad ingest.step.fetched",
 	);
 });
 

@@ -718,7 +718,10 @@ function summaryFor(symbol: PointSemanticSymbol): string {
 	if (symbol.kind === "policy") return `Semantic policy ${symbol.name} returns ${symbol.type}.`;
 	if (symbol.kind === "guard") return `Semantic guard ${symbol.name} protects ${symbol.type}.`;
 	if (symbol.kind === "view") {
-		if (symbol.type === "data load") return `View ${symbol.name} loads data from action ${symbol.name} on mount.`;
+		if (symbol.type === "data load") {
+			const viewName = ownerNameFromPath(symbol.path, "view") ?? symbol.name;
+			return `View ${viewName} loads data from action ${symbol.name} on mount.`;
+		}
 		if (symbol.type === "stream subscribe") return `View subscribes to stream channel ${symbol.name} with network effects.`;
 		return `Semantic view ${symbol.name} returns ${symbol.type}.`;
 	}
@@ -726,15 +729,27 @@ function summaryFor(symbol: PointSemanticSymbol): string {
 	if (symbol.kind === "slot") return `Layout slot ${symbol.name}.`;
 	if (symbol.kind === "navigation") return `Semantic navigation ${symbol.name} registers client routes to pages.`;
 	if (symbol.kind === "page") {
-		if (symbol.type === "data load") return `Page loads data from action ${symbol.name} on mount.`;
+		if (symbol.type === "data load") {
+			const pageName = ownerNameFromPath(symbol.path, "page") ?? symbol.name;
+			return `Page ${pageName} loads data from action ${symbol.name} on mount.`;
+		}
 		if (symbol.type === "stream subscribe") return `Page subscribes to stream channel ${symbol.name} with network effects.`;
 		return `Semantic page ${symbol.name} returns a Next.js page shell (${symbol.type}).`;
 	}
-	if (symbol.kind === "middleware") return `Semantic middleware ${symbol.name} returns ${symbol.type}.`;
-	if (symbol.kind === "route") return `Semantic route ${symbol.name} returns ${symbol.type}.`;
+	if (symbol.kind === "middleware") {
+		return `Semantic middleware ${symbol.name} returns ${symbol.type}; route before chains pass shared inputs by label.`;
+	}
+	if (symbol.kind === "route") {
+		return `Semantic route ${symbol.name} returns ${symbol.type}; declares HTTP inputs for middleware before chains.`;
+	}
 	if (symbol.kind === "streamRoute") return `Semantic stream route ${symbol.name} handles WebSocket events with network effects.`;
 	if (symbol.kind === "workflow") return `Semantic workflow ${symbol.name} returns ${symbol.type}.`;
-	if (symbol.kind === "pipeline") return `Semantic pipeline ${symbol.name} returns ${symbol.type} with typed step events.`;
+	if (symbol.kind === "pipeline") {
+		if (symbol.type === "step") {
+			return `Pipeline step ${symbol.name} binds an awaited action call for downstream steps.`;
+		}
+		return `Semantic pipeline ${symbol.name} returns ${symbol.type} with typed step events.`;
+	}
 	if (symbol.kind === "session") {
 		if (symbol.type === "stream action") return `Session ${symbol.name} streams responses from action ${symbol.name}.`;
 		if (symbol.type === "record") return `Session message record ${symbol.name}.`;
@@ -753,6 +768,11 @@ function summaryFor(symbol: PointSemanticSymbol): string {
 		return `Semantic prompt ${symbol.name} for record ${symbol.type}.`;
 	}
 	return `Point symbol ${symbol.name}.`;
+}
+
+function ownerNameFromPath(path: string, kind: "view" | "page"): string | null {
+	const match = path.match(new RegExp(`^${kind}\\.([^.]+)\\.`));
+	return match?.[1] ?? null;
 }
 
 function semanticRefFor(moduleName: string, path: string): string {

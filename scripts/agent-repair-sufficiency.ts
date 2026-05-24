@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { PointCoreDiagnostic } from "../packages/point/src/core/check.ts";
 import { checkPointCore } from "../packages/point/src/core/check.ts";
+import { sortDiagnosticsForRepairPlan } from "../packages/point/src/core/context.ts";
 import { parsePointSource } from "../packages/point/src/core/parser.ts";
 import { mapPublicDiagnostics } from "../packages/point/src/semantic/context.ts";
 
@@ -423,6 +424,73 @@ export function launchSummary(signals: LaunchSignals): string {
   at launchReadinessScore (rules.ts:8:15)`,
 		},
 	},
+	{
+		id: "feature-multistep-cart",
+		title: "Feature — cart pricing (2-step repair plan)",
+		agentTask:
+			"Build a cart line-total rule and discount band label — agent left a field typo and a string comparison bug.",
+		brokenFile: "feature-multistep-cart-broken.point",
+		fixedFile: "feature-multistep-cart-fixed.point",
+		expectedSteps: 2,
+		expectedCodes: ["unknown-field", "operator-type-mismatch"],
+		typescriptContext: {
+			excerpt: `// Agent pasted cart pricing module (~180 lines)
+export function lineTotal(item: CartItem): number {
+  return item.unitAmount * item.quantity; // field typo
+}
+
+export function discountBand(total: number): string {
+  if (total >= "fifty") return "Bulk"; // string compare bug
+  return "Standard";
+}`,
+			totalChars: 7200,
+			tscError: `error TS2339: Property 'unitAmount' does not exist on type 'CartItem'.
+  at lineTotal (cart.ts:3:15)`,
+		},
+	},
+	{
+		id: "feature-multistep-notes",
+		title: "Feature — notes list app (2-step repair plan)",
+		agentTask:
+			"Build a notes list view with client routing — agent wired the wrong action name and typo'd the page in navigation.",
+		brokenFile: "feature-multistep-notes-broken.point",
+		fixedFile: "feature-multistep-notes-fixed.point",
+		expectedSteps: 2,
+		expectedCodes: ["unknown-load-action", "unknown-nav-page"],
+		typescriptContext: {
+			excerpt: `// Agent pasted notes shell (~320 lines)
+export function NotesList() {
+  const { data } = useLoadAction("fetchNotes"); // should be listNotes
+  return data.map(note => <div key={note.id}>{note.title}</div>);
+}
+
+const routes = [{ path: "/notes", page: "notesPages" }]; // typo vs notesListPage`,
+			totalChars: 9800,
+			tscError: `error TS2304: Cannot find name 'fetchNotes'.
+  at notesApi.ts:8:10)`,
+		},
+	},
+	{
+		id: "feature-multistep-pipeline",
+		title: "Feature — document ingest pipeline (2-step repair plan)",
+		agentTask:
+			"Build a document ingest pipeline with URL policy — agent forgot await on fetch and typo'd the policy name.",
+		brokenFile: "feature-multistep-pipeline-broken.point",
+		fixedFile: "feature-multistep-pipeline-fixed.point",
+		expectedSteps: 2,
+		expectedCodes: ["missing-await", "unknown-policy"],
+		typescriptContext: {
+			excerpt: `// Agent pasted pipeline orchestrator (~240 lines)
+async function documentIngest(url: string) {
+  const fetched = fetchDocumentBody(url); // forgot await
+  await assertPolicy("allowedUrls", url); // typo: allowed url
+  return await parseDocumentBody(fetched);
+}`,
+			totalChars: 8600,
+			tscError: `error TS2345: Argument of type 'Promise<string | Error>' is not assignable to parameter of type 'string | Error'.
+  at documentIngest (pipeline.ts:3:42)`,
+		},
+	},
 ];
 
 export function estimateTokens(text: string): number {
@@ -435,7 +503,7 @@ export function loadFixture(name: string): string {
 
 export function runCheckJson(source: string): CheckJsonPayload {
 	const program = parsePointSource(source);
-	const diagnostics = mapPublicDiagnostics(program, checkPointCore(program));
+	const diagnostics = sortDiagnosticsForRepairPlan(mapPublicDiagnostics(program, checkPointCore(program)));
 	return {
 		schemaVersion: "point.core.check.v1",
 		ok: diagnostics.length === 0,

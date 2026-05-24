@@ -1,0 +1,25 @@
+module DocumentIngest
+
+policy allowed url
+  input url: Text
+  require url != ""
+
+action fetch document
+  input url: Text
+  output body: Text or Error
+  touches network
+  return url
+
+action parse document
+  input body: Text or Error
+  output parsed: Text or Error
+  touches none
+  return body
+
+pipeline document ingest
+  input url: Text
+  output result: Text or Error
+  step fetched is fetch document(url)
+    require policy allowed urls
+  step parsed is await parse document(fetched)
+  return parsed

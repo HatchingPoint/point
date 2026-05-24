@@ -113,7 +113,7 @@ action resolve path
 	const diagnostics = mapPublicDiagnostics(program, checkPointCore(program));
 	expect(diagnostics.some((diagnostic) => diagnostic.code === "unknown-guard")).toBe(true);
 	expect(diagnostics.find((diagnostic) => diagnostic.code === "unknown-guard")?.ref).toContain(
-		"pipeline.bad ingest/step.written",
+		"pipeline.bad ingest.step.written",
 	);
 });
 
@@ -137,7 +137,7 @@ action resolve path
 	const diagnostics = mapPublicDiagnostics(program, checkPointCore(program));
 	expect(diagnostics.some((diagnostic) => diagnostic.code === "unknown-guard")).toBe(true);
 	expect(diagnostics.find((diagnostic) => diagnostic.code === "unknown-guard")?.ref).toContain(
-		"workflow.bad save/step.written",
+		"workflow.bad save.step.written",
 	);
 });
 

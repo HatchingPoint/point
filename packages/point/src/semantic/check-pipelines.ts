@@ -203,7 +203,7 @@ function pipelineStepDiagnostic(
 		code,
 		message,
 		path: `pipeline.${pipeline.name}.step.${step.name}`,
-		ref: `point://semantic/${moduleName}/pipeline.${pipeline.name}/step.${step.name}`,
+		ref: `point://semantic/${moduleName}/pipeline.${pipeline.name}.step.${step.name}`,
 		severity: "error",
 		span: span ?? step.span ?? pipeline.span ?? null,
 		repair,

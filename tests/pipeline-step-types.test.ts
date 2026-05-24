@@ -59,7 +59,7 @@ pipeline document ingest
 	expect(diagnostic?.message).toContain("body");
 	expect(diagnostic?.expected).toBe("Int");
 	expect(diagnostic?.actual).toBe("Text");
-	expect(diagnostic?.ref).toContain("pipeline.document ingest/step.parsed");
+	expect(diagnostic?.ref).toContain("pipeline.document ingest.step.parsed");
 });
 
 test("reports pipeline return type mismatch against declared output", () => {

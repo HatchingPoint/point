@@ -52,7 +52,7 @@ function workflowStepDiagnostic(
 		code,
 		message,
 		path: `workflow.${workflow.name}.step.${step.name}`,
-		ref: `point://semantic/${moduleName}/workflow.${workflow.name}/step.${step.name}`,
+		ref: `point://semantic/${moduleName}/workflow.${workflow.name}.step.${step.name}`,
 		severity: "error",
 		span: span ?? step.span ?? workflow.span ?? null,
 		repair,
