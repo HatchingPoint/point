@@ -16,7 +16,7 @@ Point programs are built from named blocks:
 
 `record`, `calculation`, `rule`, `label`, `action`, `policy`, `workflow`, `view`, `page`, `layout`, `navigation`, `route`, `stream route`, `pipeline`, `session`, `prompt`, `guard`, `schedule`, and `command`.
 
-Import built-in capabilities with one word: `use http`, `use json`, `use time` (see [Capabilities](/point/language/capabilities)).
+Import built-in capabilities with one word: `use http`, `use json`, `use time` (see [Capabilities](/point/language/capabilities)). Model success and failure with [domain outcomes](/point/language/domain-outcomes) — variants, not generic `Result`.
 
 Each block states intent directly — a rule accumulates score from conditions; a label classifies a value — instead of hiding that meaning inside generic functions.
 

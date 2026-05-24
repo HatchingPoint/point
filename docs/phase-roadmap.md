@@ -4,12 +4,13 @@
 
 ## Active execution (parallel burst — paste codex goals)
 
-_None — expansion loop can draft Phase 37._
+_None — expansion loop can draft Phase 38._
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **37** | v0.1.29 | Selective use merge, domain outcomes guide, template capabilities |
 | **36** | v0.1.28 | Capabilities shorthand (`use http`), README/product map, docs sync, release script |
 | **35** | v0.1.27 | Agent repair CI gate, timezone std pattern, LSP cross-module use |
 | **34** | v0.1.26 | Cross-module use resolution, money-demo linked std/money |
@@ -27,13 +28,13 @@ Older phases: see `docs/phase*-plan.md` and [codex-progress.md](./codex-progress
 
 ## Candidate backlog (expansion loop maintains)
 
-**Last analyze:** 2026-05-24 — Phase 36 packaging in progress.
+**Last analyze:** 2026-05-24 — Phase 37 complete.
 
 | Priority | Theme | Evidence | Notes |
 |----------|-------|----------|-------|
-| 1 | Smarter `use` merge | Phase 34 follow-up | Import only referenced symbols |
-| 2 | Result pattern docs | Audit deferrals | Variant-first + calc helpers |
-| 3 | Decimal spike | Audit deferrals | Money as Int pattern exists |
+| 1 | Decimal / Money primitive spike | Audit deferrals | Int-cents pattern exists |
+| 2 | Emit import pruning | use merge at check | JS emit still imports whole dep modules |
+| 3 | Golden app demo polish | Product map | Evaluator-first full-stack walkthrough |
 
 The expansion loop may **reprioritize**, **merge**, or **split** rows when drafting a new phase.
 

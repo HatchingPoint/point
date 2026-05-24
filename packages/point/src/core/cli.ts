@@ -19,6 +19,7 @@ import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
 import { normalizeUseModuleName } from "./capabilities.ts";
+import { dedupeCoreDeclarationsByName, filteredPublicCoreDeclarations } from "./use-merge.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
 import { runPointBuildApp } from "./build-app.ts";
@@ -851,11 +852,16 @@ export function orderByDependencies(results: CoreFile[], graph: ModuleGraph): Co
 	return ordered;
 }
 
-export function programWithDependencyDeclarations(result: CoreFile, graph: ModuleGraph): PointCoreProgram {
+export function programWithDependencyDeclarations(result: CoreFile, graph: ModuleGraph, cwd = process.cwd()): PointCoreProgram {
 	const dependencies = graph.get(normalizeInput(result.input))?.dependencies ?? [];
+	const dependencyDeclarations = dedupeCoreDeclarationsByName(
+		dependencies.flatMap((dependency) =>
+			filteredPublicCoreDeclarations(result.source, dependency.source, dependency.input, cwd),
+		),
+	);
 	return {
 		...result.program,
-		declarations: [...dependencies.flatMap((dependency) => publicDeclarations(dependency.program)), ...result.program.declarations],
+		declarations: [...dependencyDeclarations, ...result.program.declarations],
 	};
 }
 

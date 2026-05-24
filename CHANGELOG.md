@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.29
+
+### Added
+
+- Phase 37: **Selective use merge** — `use time` / capability imports merge only referenced declarations (+ type/external closure); fixes bloated std graphs.
+- Phase 37: **Domain outcomes guide** — `docs/site/language/domain-outcomes.md` (variant-first success/failure pattern).
+- Phase 37: **Template capabilities** — full-stack template README documents `use http` / `point capabilities`.
+
 ## 0.1.28
 
 ### Added

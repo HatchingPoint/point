@@ -74,7 +74,7 @@ label outcome message
   on Failed with message return message
 ```
 
-See `examples/variants/payment-outcome.point`. A generic `Result<T, E>` primitive remains deferred; domain-specific variants keep checker and emit precise.
+See [Domain outcomes](/point/language/domain-outcomes) and `examples/variants/payment-outcome.point`. A generic `Result<T, E>` primitive remains deferred; domain-specific variants keep checker and emit precise.
 
 ### Maps
 

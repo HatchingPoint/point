@@ -41,10 +41,21 @@ Open **http://localhost:5173** for the React UI. The Bun API listens on **http:/
 - **pages** — settings form, members list with data load, member detail
 - **command** `admin demo` — CLI smoke test for `point run`
 
+## Built-in capabilities
+
+Import std modules with straight syntax in `src/app.point`:
+
+```point
+use json
+use http
+```
+
+Run `point capabilities` for the full catalog. See [Capabilities](https://hatchingpoint.com/point/language/capabilities).
+
 ## Next steps
 
 1. Edit `src/app.point` — add rules, DB actions, more routes
-2. Point actions can call your API or stay in-process for v1
+2. Add `use sql` or `use crypto` when you need data or auth helpers
 3. Deploy: `bun run build` then `bun run serve` on any Bun host (Render, Railway, Fly, a VPS). No Docker required.
 
 Optional: use `render.yaml` in the project root for one-click Render setup.

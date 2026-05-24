@@ -11,6 +11,7 @@ import {
 	resolveUseDependencyInputPath,
 	type UseReference,
 } from "./module-resolve.ts";
+import { dedupeSemanticDeclarations, filterDeclarationsReferencedIn } from "./use-merge.ts";
 
 export { isSemanticPointSyntax } from "./semantic-source.ts";
 export { createUseSourceResolver } from "./module-resolve.ts";
@@ -50,10 +51,12 @@ function collectDependencyDeclarations(
 		const dependencySource = resolveUseSource(use, fromInputPath ?? input);
 		if (!dependencySource) continue;
 		const dependencyInputPath = resolveUseDependencyInputPath(use, fromInputPath ?? input, cwd);
-		collected.push(...collectDependencyDeclarations(dependencySource, cwd, dependencyInputPath, resolveUseSource, visited, dependencyInputPath));
-		collected.push(...parseSemanticSource(dependencySource, { resolveUseSource, inputPath: dependencyInputPath, cwd }).declarations);
+		const nested = collectDependencyDeclarations(dependencySource, cwd, dependencyInputPath, resolveUseSource, visited, dependencyInputPath);
+		const dependencyProgram = parseSemanticSource(dependencySource, { resolveUseSource, inputPath: dependencyInputPath, cwd });
+		const availableForThisDep = [...nested, ...dependencyProgram.declarations];
+		collected.push(...filterDeclarationsReferencedIn(source, availableForThisDep));
 	}
-	return collected;
+	return dedupeSemanticDeclarations(collected);
 }
 
 export function parsePointSource(source: string, cwdOrOptions: string | ParsePointSourceOptions = process.cwd()): PointCoreProgram {
