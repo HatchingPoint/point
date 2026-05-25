@@ -1,10 +1,19 @@
 # Changelog
 
+## 0.1.52
+
+### Added
+
+- Phase 74: **`ops-dashboard-sort-wiring`** — full-app app-repair for wrong datagrid sort column on ops dashboard.
+- Phase 74: **Agent-app gate 8**.
+
 ## 0.1.51
 
 ### Added
 
-- Phase 73: ops chart app-repair, invalid-bind-textarea-target, repair gate 35, agent-app gate 7.
+- Phase 73: **`ops-dashboard-chart-wiring`** — full-app app-repair for wrong chart label field on ops dashboard.
+- Phase 73: **`invalid-bind-textarea-target`** — single-shot repair fixture mirroring bind select coverage.
+- Phase 73: **Agent repair gate 35** + **agent-app gate 7**.
 
 ## 0.1.50
 

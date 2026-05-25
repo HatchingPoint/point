@@ -109,6 +109,10 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 		return `error TS2339: Property 'title' does not exist on type 'JobMetric'.
   at components/OpsDashboard.tsx:14:32`;
 	}
+	if (testCase.id === "ops-dashboard-sort-wiring") {
+		return `error TS2322: Type '"title"' is not assignable to type '"name" | "status" | "score"'.
+  at components/OpsDashboard.tsx:18:11`;
+	}
 	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
   at components/SearchPanel.tsx:1:10`;
 }
@@ -334,6 +338,14 @@ export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdi
 					kind: "replaceLine",
 					line: 40,
 					text: "  chart bar from data.metrics label field label value field value",
+				},
+			];
+		case "ops-dashboard-sort-wiring":
+			return [
+				{
+					kind: "replaceLine",
+					line: 41,
+					text: "  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6",
 				},
 			];
 		default:

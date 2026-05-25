@@ -86,7 +86,7 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.51** — Phase 73 ops chart app-repair, bind textarea repair gate 35, agent-app gate 7.
+Update this line each release: **v0.1.52** — Phase 74 ops datagrid sort app-repair, agent-app gate 8.
 
 ## Open source (public messaging)
 
