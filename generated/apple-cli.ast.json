@@ -1,0 +1,903 @@
+{
+  "kind": "coreProgram",
+  "module": "AppleCliToolkit",
+  "declarations": [
+    {
+      "kind": "function",
+      "name": "checkXcodebuildResult",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "ProcessResult",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "spawnCommandResult",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "xcodebuild",
+                  "span": {
+                    "start": {
+                      "line": 8,
+                      "column": 1,
+                      "offset": 129
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 61,
+                      "offset": 189
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [
+                    {
+                      "kind": "literal",
+                      "value": "-version",
+                      "span": {
+                        "start": {
+                          "line": 8,
+                          "column": 1,
+                          "offset": 129
+                        },
+                        "end": {
+                          "line": 8,
+                          "column": 61,
+                          "offset": 189
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 8,
+                      "column": 1,
+                      "offset": 129
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 61,
+                      "offset": 189
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 8,
+                      "column": 1,
+                      "offset": 129
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 61,
+                      "offset": 189
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 8,
+                  "column": 1,
+                  "offset": 129
+                },
+                "end": {
+                  "line": 8,
+                  "column": 61,
+                  "offset": 189
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 129
+              },
+              "end": {
+                "line": 8,
+                "column": 61,
+                "offset": 189
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 129
+            },
+            "end": {
+              "line": 8,
+              "column": 61,
+              "offset": 189
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "check xcodebuild",
+        "outputName": "result",
+        "effects": [
+          "process"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 46
+        },
+        "end": {
+          "line": 5,
+          "column": 24,
+          "offset": 69
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "listSimulatorsResult",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "ProcessResult",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "spawnCommandResult",
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "xcrun",
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 273
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 86,
+                      "offset": 358
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [
+                    {
+                      "kind": "literal",
+                      "value": "simctl",
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 273
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 86,
+                          "offset": 358
+                        }
+                      }
+                    },
+                    {
+                      "kind": "literal",
+                      "value": "list",
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 273
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 86,
+                          "offset": 358
+                        }
+                      }
+                    },
+                    {
+                      "kind": "literal",
+                      "value": "devices",
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 273
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 86,
+                          "offset": 358
+                        }
+                      }
+                    },
+                    {
+                      "kind": "literal",
+                      "value": "available",
+                      "span": {
+                        "start": {
+                          "line": 13,
+                          "column": 1,
+                          "offset": 273
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 86,
+                          "offset": 358
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 273
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 86,
+                      "offset": 358
+                    }
+                  }
+                },
+                {
+                  "kind": "list",
+                  "items": [],
+                  "span": {
+                    "start": {
+                      "line": 13,
+                      "column": 1,
+                      "offset": 273
+                    },
+                    "end": {
+                      "line": 13,
+                      "column": 86,
+                      "offset": 358
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 273
+                },
+                "end": {
+                  "line": 13,
+                  "column": 86,
+                  "offset": 358
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 273
+              },
+              "end": {
+                "line": 13,
+                "column": 86,
+                "offset": 358
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 273
+            },
+            "end": {
+              "line": 13,
+              "column": 86,
+              "offset": 358
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "list simulators",
+        "outputName": "result",
+        "effects": [
+          "process"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 1,
+          "offset": 191
+        },
+        "end": {
+          "line": 10,
+          "column": 23,
+          "offset": 213
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "appleCliDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Invoke check xcodebuild or list simulators on macOS with Xcode installed",
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 405
+              },
+              "end": {
+                "line": 17,
+                "column": 84,
+                "offset": 488
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 405
+            },
+            "end": {
+              "line": 17,
+              "column": 84,
+              "offset": 488
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "apple cli demo",
+        "outputName": "status",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 360
+        },
+        "end": {
+          "line": 15,
+          "column": 23,
+          "offset": 382
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 23,
+      "offset": 22
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "AppleCliToolkit",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.process",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 21,
+            "offset": 20
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "action",
+        "name": "check xcodebuild",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Process Result",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "process"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "spawn command",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "xcodebuild",
+                    "span": {
+                      "start": {
+                        "line": 8,
+                        "column": 1,
+                        "offset": 129
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 61,
+                        "offset": 189
+                      }
+                    }
+                  },
+                  {
+                    "kind": "list",
+                    "items": [
+                      {
+                        "kind": "literal",
+                        "value": "-version",
+                        "span": {
+                          "start": {
+                            "line": 8,
+                            "column": 1,
+                            "offset": 129
+                          },
+                          "end": {
+                            "line": 8,
+                            "column": 61,
+                            "offset": 189
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 8,
+                        "column": 1,
+                        "offset": 129
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 61,
+                        "offset": 189
+                      }
+                    }
+                  },
+                  {
+                    "kind": "list",
+                    "items": [],
+                    "span": {
+                      "start": {
+                        "line": 8,
+                        "column": 1,
+                        "offset": 129
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 61,
+                        "offset": 189
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 129
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 61,
+                    "offset": 189
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 8,
+                  "column": 1,
+                  "offset": 129
+                },
+                "end": {
+                  "line": 8,
+                  "column": 61,
+                  "offset": 189
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 129
+              },
+              "end": {
+                "line": 8,
+                "column": 61,
+                "offset": 189
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 46
+          },
+          "end": {
+            "line": 5,
+            "column": 24,
+            "offset": 69
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "list simulators",
+        "inputs": [],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Process Result",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "process"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "spawn command",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "xcrun",
+                    "span": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 273
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 86,
+                        "offset": 358
+                      }
+                    }
+                  },
+                  {
+                    "kind": "list",
+                    "items": [
+                      {
+                        "kind": "literal",
+                        "value": "simctl",
+                        "span": {
+                          "start": {
+                            "line": 13,
+                            "column": 1,
+                            "offset": 273
+                          },
+                          "end": {
+                            "line": 13,
+                            "column": 86,
+                            "offset": 358
+                          }
+                        }
+                      },
+                      {
+                        "kind": "literal",
+                        "value": "list",
+                        "span": {
+                          "start": {
+                            "line": 13,
+                            "column": 1,
+                            "offset": 273
+                          },
+                          "end": {
+                            "line": 13,
+                            "column": 86,
+                            "offset": 358
+                          }
+                        }
+                      },
+                      {
+                        "kind": "literal",
+                        "value": "devices",
+                        "span": {
+                          "start": {
+                            "line": 13,
+                            "column": 1,
+                            "offset": 273
+                          },
+                          "end": {
+                            "line": 13,
+                            "column": 86,
+                            "offset": 358
+                          }
+                        }
+                      },
+                      {
+                        "kind": "literal",
+                        "value": "available",
+                        "span": {
+                          "start": {
+                            "line": 13,
+                            "column": 1,
+                            "offset": 273
+                          },
+                          "end": {
+                            "line": 13,
+                            "column": 86,
+                            "offset": 358
+                          }
+                        }
+                      }
+                    ],
+                    "span": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 273
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 86,
+                        "offset": 358
+                      }
+                    }
+                  },
+                  {
+                    "kind": "list",
+                    "items": [],
+                    "span": {
+                      "start": {
+                        "line": 13,
+                        "column": 1,
+                        "offset": 273
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 86,
+                        "offset": 358
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 13,
+                    "column": 1,
+                    "offset": 273
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 86,
+                    "offset": 358
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 13,
+                  "column": 1,
+                  "offset": 273
+                },
+                "end": {
+                  "line": 13,
+                  "column": 86,
+                  "offset": 358
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 273
+              },
+              "end": {
+                "line": 13,
+                "column": 86,
+                "offset": 358
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 10,
+            "column": 1,
+            "offset": 191
+          },
+          "end": {
+            "line": 10,
+            "column": 23,
+            "offset": 213
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "apple cli demo",
+        "inputs": [],
+        "output": {
+          "name": "status",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Invoke check xcodebuild or list simulators on macOS with Xcode installed",
+              "span": {
+                "start": {
+                  "line": 17,
+                  "column": 1,
+                  "offset": 405
+                },
+                "end": {
+                  "line": 17,
+                  "column": 84,
+                  "offset": 488
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 17,
+                "column": 1,
+                "offset": 405
+              },
+              "end": {
+                "line": 17,
+                "column": 84,
+                "offset": 488
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 360
+          },
+          "end": {
+            "line": 15,
+            "column": 23,
+            "offset": 382
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 23,
+        "offset": 22
+      }
+    }
+  },
+  "semanticCallables": [
+    "apple cli demo",
+    "check xcodebuild",
+    "list simulators",
+    "process exit code",
+    "process stdout",
+    "spawn command",
+    "spawn raw",
+    "stream lines from process",
+    "stream lines raw"
+  ]
+}

@@ -122,7 +122,8 @@ export interface PointSemanticViewFieldBinding {
 	target: PointCoreExpression;
 	recordParam: string;
 	fieldName: string;
-	inputKind: "text" | "checkbox";
+	inputKind: "text" | "checkbox" | "select" | "textarea";
+	options?: PointCoreExpression;
 }
 
 export interface PointSemanticFormSubmitSpec {
@@ -141,6 +142,8 @@ export interface PointSemanticViewControls {
 	fields: PointSemanticViewFieldBinding[];
 	style?: string[];
 	submit?: PointSemanticFormSubmitSpec;
+	successToast?: string;
+	errorToast?: string;
 }
 
 export interface PointSemanticViewEachSpec {
@@ -190,6 +193,16 @@ export interface PointSemanticViewTableSpec {
 	columns: string[];
 	linkColumn?: string;
 	linkPath?: PointCoreExpression;
+	sortBy?: string;
+	className?: string;
+	style?: string[];
+}
+
+export interface PointSemanticViewChartSpec {
+	variant: "bar";
+	iterable: PointCoreExpression;
+	labelField: string;
+	valueField: string;
 	className?: string;
 	style?: string[];
 }
@@ -259,6 +272,7 @@ export interface PointSemanticDeclarationMetadata {
 	viewEach?: PointSemanticViewEachSpec[];
 	viewButtons?: PointSemanticViewButtonSpec[];
 	viewTable?: PointSemanticViewTableSpec;
+	viewChart?: PointSemanticViewChartSpec;
 	viewModal?: PointSemanticViewModalSpec;
 	viewTabs?: PointSemanticViewTabsSpec;
 	viewToggleTheme?: PointSemanticViewToggleTheme;

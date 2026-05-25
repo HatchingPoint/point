@@ -95,6 +95,7 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 					ref,
 					severity: "error",
 					span: refreshStatements[1]?.span ?? declaration.span ?? null,
+					expected: ["one refresh every line"],
 					repair: `Remove extra refresh every lines so only one interval remains.`,
 					relatedRefs: [ref],
 				});
@@ -110,6 +111,7 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 						ref,
 						severity: "error",
 						span: refresh.span ?? declaration.span ?? null,
+						expected: ["refresh every 30 seconds", "refresh every 1 minutes"],
 						repair: `Use for example: refresh every 30 seconds or refresh every 1 minutes`,
 						relatedRefs: [ref],
 					});
@@ -118,6 +120,7 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 			if (refreshStatements.length > 0 && !hasDataLoad) {
 				const path = `view.${declaration.name}`;
 				const ref = semanticRefFor(moduleName, path);
+				const actionNames = [...actions.keys()].sort();
 				diagnostics.push({
 					code: "refresh-without-load",
 					message: `View ${declaration.name} uses refresh every without load data from action, on mount call, or load data from fetch`,
@@ -125,6 +128,10 @@ export function checkSemanticDataLoad(program: PointSemanticProgram): PointCoreD
 					ref,
 					severity: "error",
 					span: refreshStatements[0]?.span ?? declaration.span ?? null,
+					expected:
+						actionNames.length > 0
+							? actionNames.map((name) => `load data from action ${name}`)
+							: ["load data from action <name>"],
 					repair: `Add load data from action <name> (or on mount call, or load data from fetch GET ...) before refresh every.`,
 					relatedRefs: [ref],
 				});

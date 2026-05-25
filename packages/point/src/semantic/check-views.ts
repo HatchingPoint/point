@@ -110,7 +110,7 @@ function checkViewDeclaration(
 			}
 			paramTypes.set(statement.item, iterableType.slice("List<".length, -1));
 		}
-		if (statement.kind === "table") {
+		if (statement.kind === "table" || statement.kind === "datagrid") {
 			const iterableType = resolveExpressionType(statement.iterable, paramTypes);
 			if (!iterableType.startsWith("List<")) {
 				diagnostics.push(
@@ -128,11 +128,25 @@ function checkViewDeclaration(
 				diagnostics.push(
 					viewDiagnostic(
 						"invalid-table-link-column",
-						`View ${declaration.name} table link column must appear in columns list`,
+						`View ${declaration.name} ${statement.kind} link column must appear in columns list`,
 						moduleName,
 						declaration.name,
 						`Add ${statement.linkColumn} to the columns list.`,
 						statement.span,
+						{ expected: [...statement.columns, statement.linkColumn] },
+					),
+				);
+			}
+			if (statement.kind === "datagrid" && !statement.columns.includes(statement.sortBy)) {
+				diagnostics.push(
+					viewDiagnostic(
+						"invalid-datagrid-sort-column",
+						`View ${declaration.name} datagrid sort by column must appear in columns list`,
+						moduleName,
+						declaration.name,
+						`Add ${statement.sortBy} to the columns list or fix sort by.`,
+						statement.span,
+						{ expected: statement.columns },
 					),
 				);
 			}

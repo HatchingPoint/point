@@ -4,12 +4,20 @@
 
 ## Active execution
 
-**Phase 56** — UI kit batch (select, textarea, toast) or external pilot. See backlog.
+**Next:** Phase 62+ (roadmap-analyze drafts next batch)
+
+**Wave 2 shipped (v0.1.43):** 57 chart + datagrid, 58 std.image, 60 emit pruning
+
+**Wave 1 shipped (v0.1.43):** 56 UI kit (select/textarea/toast), 56b agent repair (27 cases), 59 apple toolkit
+
+See [codex-goal-phase56-60.md](./codex-goal-phase56-60.md)
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **61** | v0.1.43 | Integrator: UI kit, chart/datagrid, std.image, agent repair 27, apple toolkit |
+| **56–60** | (in v0.1.43) | Form controls, chart/datagrid, std.image, agent repair gate 27, apple toolkit, emit pruning |
 | **55** | v0.1.42 | Integrator: job queue, live refresh, std.pty, terminal view |
 | **51–54** | (in v0.1.42) | Job queue pattern, live refresh, std.pty, terminal view + script runner |
 | **48** | v0.1.40 | Form submit POST, login/create-member UI, deploy smoke, theme toggle in saas-app |

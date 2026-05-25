@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.42** — Phase 51–54 job queue, live refresh, std.pty, terminal view.
+Update this line each release: **v0.1.43** — Phase 56–60 UI kit, chart/datagrid, std.image, agent repair 27, apple toolkit.

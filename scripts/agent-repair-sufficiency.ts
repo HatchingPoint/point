@@ -619,6 +619,77 @@ async function guardedWrite(target: string) {
   at guardedWrite (pipeline.ts:3:22)`,
 		},
 	},
+	{
+		id: "refresh-without-load",
+		title: "View — unknown load action with refresh",
+		category: "typo-fix",
+		agentTask: "Fix a view load data action name typo while keeping refresh every.",
+		repairMode: "single-shot",
+		brokenFile: "refresh-without-load-broken.point",
+		fixedFile: "refresh-without-load-fixed.point",
+		expectedCode: "unknown-load-action",
+		chosenField: "fetchmetrics",
+		typescriptContext: {
+			excerpt: `// LiveMetrics.tsx — excerpt
+export function MetricsPanel() {
+  useEffect(() => { const id = setInterval(() => refetch(), 30000); return () => clearInterval(id); }, []);
+  return <p>metrics</p>; // forgot useQuery / load hook
+}`,
+			totalChars: 7200,
+			tscError: `error TS2304: Cannot find name 'refetch'.
+  at MetricsPanel (LiveMetrics.tsx:3:51)`,
+		},
+	},
+	{
+		id: "invalid-refresh-interval",
+		title: "View — invalid refresh interval",
+		category: "typo-fix",
+		agentTask: "Fix a refresh every interval that must be a positive integer.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-refresh-interval-broken.point",
+		fixedFile: "invalid-refresh-interval-fixed.point",
+		expectedCode: "invalid-refresh-interval",
+		typescriptContext: {
+			excerpt: `// Dashboard.tsx — excerpt
+useEffect(() => { refetch(); const a = setInterval(refetch, 30000); const b = setInterval(refetch, 60000); return () => { clearInterval(a); clearInterval(b); }; }, []);`,
+			totalChars: 6400,
+			tscError: `error TS2451: Cannot redeclare block-scoped variable 'intervalId'.`,
+		},
+	},
+	{
+		id: "invalid-table-link-column",
+		title: "View — table link column missing from columns",
+		category: "typo-fix",
+		agentTask: "Fix a table where link column is not listed in columns.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-table-link-column-broken.point",
+		fixedFile: "invalid-table-link-column-fixed.point",
+		expectedCode: "invalid-table-link-column",
+		chosenField: "title",
+		typescriptContext: {
+			excerpt: `// MembersTable.tsx — excerpt
+columns={["name", "role"]} linkColumn="title" // title not in columns`,
+			totalChars: 5800,
+			tscError: `error TS2322: Type '"title"' is not assignable to type '"name" | "role"'.`,
+		},
+	},
+	{
+		id: "terminal-unknown-stream",
+		title: "View — terminal unknown stream route",
+		category: "typo-fix",
+		agentTask: "Fix terminal subscribe to stream name typo.",
+		repairMode: "single-shot",
+		brokenFile: "terminal-unknown-stream-broken.point",
+		fixedFile: "terminal-unknown-stream-fixed.point",
+		expectedCode: "unknown-stream-subscribe-route",
+		chosenField: "buildlogs",
+		typescriptContext: {
+			excerpt: `// BuildTerminal.tsx — excerpt
+useWebSocket("/ws/build", { subscribe: "buildLog" }); // route registered as buildLogs`,
+			totalChars: 6100,
+			tscError: `error TS2820: Type '"buildLog"' is not assignable to type '"buildLogs"'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

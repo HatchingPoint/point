@@ -1,0 +1,25 @@
+module StdImage
+
+record Image Info
+  width: Int
+  height: Int
+  format: Text
+
+external point std image
+  image metadata raw(path: Text): Image Info or Error from "@hatchingpoint/point/std/image" as imageMetadata
+  image resize raw(path: Text, width: Int, height: Int, format: Text): Text or Error from "@hatchingpoint/point/std/image" as imageResize
+
+action read image metadata
+  input path: Text
+  output info: Image Info or Error
+  touches filesystem
+  return image metadata raw(path)
+
+action resize image file
+  input path: Text
+  input width: Int
+  input height: Int
+  input format: Text
+  output output path: Text or Error
+  touches filesystem
+  return image resize raw(path, width, height, format)

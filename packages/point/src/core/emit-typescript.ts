@@ -18,6 +18,7 @@ import type {
 	PointSemanticViewEachSpec,
 	PointSemanticViewButtonSpec,
 	PointSemanticViewTableSpec,
+	PointSemanticViewChartSpec,
 	PointSemanticViewModalSpec,
 	PointSemanticViewTabsSpec,
 	PointSemanticViewToggleTheme,
@@ -264,6 +265,7 @@ function emitFunction(
 	const viewEach = declaration.semantic?.viewEach;
 	const viewButtons = declaration.semantic?.viewButtons;
 	const viewTable = declaration.semantic?.viewTable;
+	const viewChart = declaration.semantic?.viewChart;
 	const viewModal = declaration.semantic?.viewModal;
 	const viewTabs = declaration.semantic?.viewTabs;
 	const viewToggleTheme = declaration.semantic?.viewToggleTheme;
@@ -275,7 +277,7 @@ function emitFunction(
 	const dataLoad = viewDataLoad ?? pageDataLoad;
 	const streamSubscribe = viewStreamSubscribe ?? pageStreamSubscribe;
 	const viewHasExtras = Boolean(
-		viewControls || viewNavigation || viewEach?.length || viewButtons?.length || viewTable || viewModal || viewTabs || viewToggleTheme,
+		viewControls || viewNavigation || viewEach?.length || viewButtons?.length || viewTable || viewChart || viewModal || viewTabs || viewToggleTheme,
 	);
 	let bodyLines =
 		declaration.semantic?.kind === "layout" && layoutSpec
@@ -289,6 +291,7 @@ function emitFunction(
 						each: viewEach,
 						buttons: viewButtons,
 						table: viewTable,
+						chart: viewChart,
 						modal: viewModal,
 						tabs: viewTabs,
 						toggleTheme: viewToggleTheme,
@@ -313,9 +316,16 @@ function emitFunction(
 		bodyLines = wrapBodyWithStreamSubscribe(bodyLines, streamSubscribe, declaration.params.map((param) => param.name));
 	}
 	if (viewControls?.submit) {
-		bodyLines = [...emitFormSubmitPreamble(viewControls.submit), ...bodyLines];
+		bodyLines = [...emitFormSubmitPreamble(viewControls), ...bodyLines];
 	} else if (viewButtons?.some((button) => button.navigateTo)) {
 		bodyLines = ["const navigate = useNavigate();", ...bodyLines];
+	}
+	if (viewTable?.sortBy) {
+		bodyLines = [
+			`const [sortColumn, setSortColumn] = React.useState(${JSON.stringify(viewTable.sortBy)});`,
+			'const [sortDirection, setSortDirection] = React.useState<"asc" | "desc">("asc");',
+			...bodyLines,
+		];
 	}
 	return [
 		...(declaration.semantic?.kind === "layout" && layoutSpec ? emitLayoutType(layoutSpec) : []),
@@ -385,6 +395,7 @@ interface ViewExtrasSpec {
 	each?: PointSemanticViewEachSpec[];
 	buttons?: PointSemanticViewButtonSpec[];
 	table?: PointSemanticViewTableSpec;
+	chart?: PointSemanticViewChartSpec;
 	modal?: PointSemanticViewModalSpec;
 	tabs?: PointSemanticViewTabsSpec;
 	toggleTheme?: PointSemanticViewToggleTheme;
@@ -400,11 +411,12 @@ function emitViewWithExtrasBody(body: PointCoreStatement[], extras: ViewExtrasSp
 	const eachLines = extras.each?.map((spec) => emitEachList(spec)) ?? [];
 	const buttonLines = extras.buttons?.map((spec) => emitViewButton(spec)) ?? [];
 	const tableLine = extras.table ? [emitViewTable(extras.table)] : [];
+	const chartLine = extras.chart ? [emitViewChart(extras.chart)] : [];
 	const tabsLine = extras.tabs ? [emitViewTabs(extras.tabs)] : [];
 	const modalLine = extras.modal ? [emitModal(extras.modal)] : [];
 	const toggleLine = extras.toggleTheme ? [emitThemeToggle(extras.toggleTheme)] : [];
 	const contentJsx = emitViewContentExpression(body);
-	const children = [...navLine, ...toggleLine, ...buttonLines, ...formLines, ...tableLine, ...eachLines, ...tabsLine, ...modalLine, contentJsx];
+	const children = [...navLine, ...toggleLine, ...buttonLines, ...formLines, ...tableLine, ...chartLine, ...eachLines, ...tabsLine, ...modalLine, contentJsx];
 	if (children.length === 1) {
 		return [`return (`, `  <>`, `    ${children[0]}`, `  </>`, `);`];
 	}
@@ -428,9 +440,20 @@ function emitViewButton(spec: PointSemanticViewButtonSpec): string {
 function emitViewTable(spec: PointSemanticViewTableSpec): string {
 	const item = spec.itemIdentifier;
 	const tableClassName = resolveViewWrapperClassName(undefined, spec.style);
-	const className = tableClassName ? `point-table ${tableClassName}` : "point-table";
+	const className = tableClassName
+		? spec.sortBy
+			? `point-table point-datagrid ${tableClassName}`
+			: `point-table ${tableClassName}`
+		: spec.sortBy
+			? "point-table point-datagrid"
+			: "point-table";
 	const headers = spec.columns
-		.map((column) => `<th scope="col">${escapeJsxText(column.charAt(0).toUpperCase() + column.slice(1))}</th>`)
+		.map((column) => {
+			if (spec.sortBy) {
+				return `<th scope="col"><button type="button" className="point-datagrid-sort" onClick={() => { if (sortColumn === ${JSON.stringify(column)}) setSortDirection(sortDirection === "asc" ? "desc" : "asc"); else { setSortColumn(${JSON.stringify(column)}); setSortDirection("asc"); } }}>${escapeJsxText(column.charAt(0).toUpperCase() + column.slice(1))}</button></th>`;
+			}
+			return `<th scope="col">${escapeJsxText(column.charAt(0).toUpperCase() + column.slice(1))}</th>`;
+		})
 		.join("");
 	const rowCells = spec.columns
 		.map((column) => {
@@ -441,7 +464,19 @@ function emitViewTable(spec: PointSemanticViewTableSpec): string {
 			return `<td>{String(${valueExpr})}</td>`;
 		})
 		.join("");
-	return `<table className="${escapeJsxAttribute(className)}"><thead><tr>${headers}</tr></thead><tbody>{(${emitExpression(spec.iterable)} ?? []).map((${item}, index) => (<tr key={String(index)}>${rowCells}</tr>))}</tbody></table>`;
+	const iterableExpr = spec.sortBy
+		? `[...(${emitExpression(spec.iterable)} ?? [])].sort((left, right) => { const a = String(left[sortColumn] ?? ""); const b = String(right[sortColumn] ?? ""); const cmp = a.localeCompare(b); return sortDirection === "asc" ? cmp : -cmp; })`
+		: `(${emitExpression(spec.iterable)} ?? [])`;
+	return `<table className="${escapeJsxAttribute(className)}"><thead><tr>${headers}</tr></thead><tbody>{${iterableExpr}.map((${item}, index) => (<tr key={String(index)}>${rowCells}</tr>))}</tbody></table>`;
+}
+
+function emitViewChart(spec: PointSemanticViewChartSpec): string {
+	const chartClassName = resolveViewWrapperClassName(undefined, spec.style);
+	const className = chartClassName ? `point-chart point-chart-bar ${chartClassName}` : "point-chart point-chart-bar";
+	const dataExpr = emitExpression(spec.iterable);
+	const labelField = spec.labelField;
+	const valueField = spec.valueField;
+	return `<div className="${escapeJsxAttribute(className)}" role="img" aria-label="Bar chart">{(${dataExpr} ?? []).map((row, index) => { const value = Number(row.${valueField} ?? 0); const height = Math.max(4, Math.min(100, value)); return (<div key={String(index)} className="point-chart-bar-item"><div className="point-chart-bar-value" style={{ height: \`\${height}%\` }} title={String(row.${labelField})} /><span className="point-chart-bar-label">{String(row.${labelField})}</span></div>); })}</div>`;
 }
 
 function emitFormControls(controls: PointSemanticViewControls): string {
@@ -452,22 +487,33 @@ function emitFormControls(controls: PointSemanticViewControls): string {
 		? `<button type="submit" className="point-button point-form-submit" disabled={submitting}>{submitting ? "Submitting..." : ${JSON.stringify(controls.submit.label)}}</button>`
 		: "";
 	const errorBlock = controls.submit ? `{submitError ? <p className="point-form-error" role="alert">{submitError}</p> : null}` : "";
-	const onSubmit = controls.submit ? emitFormSubmitHandler(controls.submit) : "(event) => event.preventDefault()";
-	return `<form className="${escapeJsxAttribute(formClassName)}" onSubmit={${onSubmit}}>${fields}${errorBlock}${submitButton}</form>`;
+	const toastBlock =
+		controls.successToast || controls.errorToast
+			? `{toast ? <p className={\`point-toast \${toastKind === "success" ? "point-toast-success" : "point-toast-error"}\`} role="status">{toast}</p> : null}`
+			: "";
+	const onSubmit = controls.submit ? emitFormSubmitHandler(controls) : "(event) => event.preventDefault()";
+	return `<form className="${escapeJsxAttribute(formClassName)}" onSubmit={${onSubmit}}>${fields}${errorBlock}${submitButton}${toastBlock}</form>`;
 }
 
-function emitFormSubmitPreamble(submit: PointSemanticFormSubmitSpec): string[] {
+function emitFormSubmitPreamble(controls: PointSemanticViewControls): string[] {
+	const submit = controls.submit;
+	if (!submit) return [];
 	const lines = [
 		"const [submitting, setSubmitting] = React.useState(false);",
 		"const [submitError, setSubmitError] = React.useState<string | null>(null);",
 	];
+	if (controls.successToast || controls.errorToast) {
+		lines.push('const [toast, setToast] = React.useState<string | null>(null);');
+		lines.push('const [toastKind, setToastKind] = React.useState<"success" | "error">("success");');
+	}
 	if (submit.navigateTo) {
 		lines.push("const navigate = useNavigate();");
 	}
 	return lines;
 }
 
-function emitFormSubmitHandler(submit: PointSemanticFormSubmitSpec): string {
+function emitFormSubmitHandler(controls: PointSemanticViewControls): string {
+	const submit = controls.submit!;
 	const bodyParam = submit.bodyParam;
 	const url = JSON.stringify(submit.url);
 	const authHeader = submit.withAuth
@@ -477,10 +523,17 @@ function emitFormSubmitHandler(submit: PointSemanticFormSubmitSpec): string {
 		? `pointAuthSetToken(String((body as Record<string, unknown>).${submit.saveTokenField} ?? ""));`
 		: "";
 	const navigate = submit.navigateTo ? `navigate(${JSON.stringify(submit.navigateTo)});` : "";
+	const successToast = controls.successToast ? JSON.stringify(controls.successToast) : "";
+	const errorToast = controls.errorToast ? JSON.stringify(controls.errorToast) : "";
+	const toastSuccess = successToast ? `setToastKind("success"); setToast(${successToast});` : "";
+	const toastFailure = errorToast
+		? `setToastKind("error"); setToast(${errorToast});`
+		: 'setToastKind("error"); setToast(err instanceof Error ? err.message : "Submit failed");';
 	return `async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
     setSubmitError(null);
+    ${controls.successToast || controls.errorToast ? "setToast(null);" : ""}
     try {
       const response = await fetch(${url}, {
         method: "POST",
@@ -490,9 +543,11 @@ function emitFormSubmitHandler(submit: PointSemanticFormSubmitSpec): string {
       if (!response.ok) throw new Error(\`HTTP \${response.status}\`);
       const body = await response.json();
       ${saveToken}
+      ${toastSuccess}
       ${navigate}
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Submit failed");
+      ${toastFailure}
     } finally {
       setSubmitting(false);
     }
@@ -521,6 +576,13 @@ function emitFormField(binding: PointSemanticViewFieldBinding, changeCallback: s
 	const label = escapeJsxText(binding.label);
 	if (binding.inputKind === "checkbox") {
 		return `<label className="point-form-field"><input type="checkbox" checked={${value}} onChange={(event) => ${changeCallback}({ ...${binding.recordParam}, ${binding.fieldName}: event.target.checked })} aria-label="${escapeJsxAttribute(binding.label)}" />${label}</label>`;
+	}
+	if (binding.inputKind === "textarea") {
+		return `<label className="point-form-field"><span>${label}</span><textarea className="point-textarea" value={${value}} onChange={(event) => ${changeCallback}({ ...${binding.recordParam}, ${binding.fieldName}: event.target.value })} /></label>`;
+	}
+	if (binding.inputKind === "select" && binding.options) {
+		const optionsExpr = emitExpression(binding.options);
+		return `<label className="point-form-field"><span>${label}</span><select className="point-select" value={${value}} onChange={(event) => ${changeCallback}({ ...${binding.recordParam}, ${binding.fieldName}: event.target.value })}>{(${optionsExpr} ?? []).map((option, index) => (<option key={String(index)} value={String(option)}>{String(option)}</option>))}</select></label>`;
 	}
 	return `<label className="point-form-field"><span>${label}</span><input type="text" value={${value}} onChange={(event) => ${changeCallback}({ ...${binding.recordParam}, ${binding.fieldName}: event.target.value })} /></label>`;
 }

@@ -1,0 +1,17 @@
+module AppleCliToolkit
+
+capabilities process
+
+action check xcodebuild
+  output result: Process Result or Error
+  touches process
+  return await spawn command("xcodebuild", ["-version"], [])
+
+action list simulators
+  output result: Process Result or Error
+  touches process
+  return await spawn command("xcrun", ["simctl", "list", "devices", "available"], [])
+
+command apple cli demo
+  output status: Text
+  return "Invoke check xcodebuild or list simulators on macOS with Xcode installed"

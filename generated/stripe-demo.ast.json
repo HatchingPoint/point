@@ -1,0 +1,843 @@
+{
+  "kind": "coreProgram",
+  "module": "StripeBillingDemo",
+  "declarations": [
+    {
+      "kind": "external",
+      "name": "createCustomerRaw",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        },
+        {
+          "name": "secretkey",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "secretkey",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 16,
+              "offset": 15
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "from": "stripe",
+      "importName": "stripeCreateCustomer",
+      "semantic": {
+        "kind": "external",
+        "name": "create customer raw"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 67
+        },
+        "end": {
+          "line": 6,
+          "column": 105,
+          "offset": 171
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stripeSecretKey",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "envWithDefaultResult",
+            "args": [
+              {
+                "kind": "call",
+                "callee": "envGetRaw",
+                "args": [
+                  {
+                    "kind": "literal",
+                    "value": "STRIPE_SECRET_KEY",
+                    "span": {
+                      "start": {
+                        "line": 10,
+                        "column": 1,
+                        "offset": 222
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 64,
+                        "offset": 285
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 64,
+                    "offset": 285
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "value": "",
+                "span": {
+                  "start": {
+                    "line": 10,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 64,
+                    "offset": 285
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 222
+              },
+              "end": {
+                "line": 10,
+                "column": 64,
+                "offset": 285
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 222
+            },
+            "end": {
+              "line": 10,
+              "column": 64,
+              "offset": 285
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "stripe secret key",
+        "outputName": "key",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 173
+        },
+        "end": {
+          "line": 8,
+          "column": 30,
+          "offset": 202
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "createStripeCustomerCustomerId",
+      "params": [
+        {
+          "name": "email",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "email",
+          "span": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 13,
+              "column": 12,
+              "offset": 11
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "createCustomerRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "email",
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 391
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 57,
+                    "offset": 447
+                  }
+                }
+              },
+              {
+                "kind": "call",
+                "callee": "stripeSecretKey",
+                "args": [],
+                "span": {
+                  "start": {
+                    "line": 16,
+                    "column": 1,
+                    "offset": 391
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 57,
+                    "offset": 447
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 391
+              },
+              "end": {
+                "line": 16,
+                "column": 57,
+                "offset": 447
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 391
+            },
+            "end": {
+              "line": 16,
+              "column": 57,
+              "offset": 447
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "create stripe customer",
+        "outputName": "customer id",
+        "effects": [
+          "network"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 287
+        },
+        "end": {
+          "line": 12,
+          "column": 30,
+          "offset": 316
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "stripeDemoCommand",
+      "params": [],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Text",
+        "args": []
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "literal",
+            "value": "Stripe billing demo ready — install stripe npm package and set STRIPE_SECRET_KEY",
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 491
+              },
+              "end": {
+                "line": 20,
+                "column": 92,
+                "offset": 582
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 491
+            },
+            "end": {
+              "line": 20,
+              "column": 92,
+              "offset": 582
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "stripe demo",
+        "outputName": "status",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 449
+        },
+        "end": {
+          "line": 18,
+          "column": 20,
+          "offset": 468
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 25,
+      "offset": 24
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "StripeBillingDemo",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.env",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 16
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "external",
+        "name": "stripe client",
+        "functions": [
+          {
+            "label": "create customer raw",
+            "params": [
+              {
+                "label": "email",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              },
+              {
+                "label": "secretkey",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "from": "stripe",
+            "importAs": "stripeCreateCustomer",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 67
+              },
+              "end": {
+                "line": 6,
+                "column": 105,
+                "offset": 171
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 44
+          },
+          "end": {
+            "line": 5,
+            "column": 23,
+            "offset": 66
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "stripe secret key",
+        "inputs": [],
+        "output": {
+          "name": "key",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "assignIs",
+            "name": "key",
+            "value": {
+              "kind": "call",
+              "callee": "env with default",
+              "args": [
+                {
+                  "kind": "call",
+                  "callee": "env get raw",
+                  "args": [
+                    {
+                      "kind": "literal",
+                      "value": "STRIPE_SECRET_KEY",
+                      "span": {
+                        "start": {
+                          "line": 10,
+                          "column": 1,
+                          "offset": 222
+                        },
+                        "end": {
+                          "line": 10,
+                          "column": 64,
+                          "offset": 285
+                        }
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 222
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 64,
+                      "offset": 285
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "",
+                  "span": {
+                    "start": {
+                      "line": 10,
+                      "column": 1,
+                      "offset": 222
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 64,
+                      "offset": 285
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 10,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 10,
+                  "column": 64,
+                  "offset": 285
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 10,
+                "column": 1,
+                "offset": 222
+              },
+              "end": {
+                "line": 10,
+                "column": 64,
+                "offset": 285
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 8,
+            "column": 1,
+            "offset": 173
+          },
+          "end": {
+            "line": 8,
+            "column": 30,
+            "offset": 202
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "create stripe customer",
+        "inputs": [
+          {
+            "label": "email",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 13,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "customer id",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "network"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "create customer raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "email",
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 391
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 57,
+                      "offset": 447
+                    }
+                  }
+                },
+                {
+                  "kind": "call",
+                  "callee": "stripe secret key",
+                  "args": [],
+                  "span": {
+                    "start": {
+                      "line": 16,
+                      "column": 1,
+                      "offset": 391
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 57,
+                      "offset": 447
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 16,
+                  "column": 1,
+                  "offset": 391
+                },
+                "end": {
+                  "line": 16,
+                  "column": 57,
+                  "offset": 447
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 391
+              },
+              "end": {
+                "line": 16,
+                "column": 57,
+                "offset": 447
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 12,
+            "column": 1,
+            "offset": 287
+          },
+          "end": {
+            "line": 12,
+            "column": 30,
+            "offset": 316
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "stripe demo",
+        "inputs": [],
+        "output": {
+          "name": "status",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "literal",
+              "value": "Stripe billing demo ready — install stripe npm package and set STRIPE_SECRET_KEY",
+              "span": {
+                "start": {
+                  "line": 20,
+                  "column": 1,
+                  "offset": 491
+                },
+                "end": {
+                  "line": 20,
+                  "column": 92,
+                  "offset": 582
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 20,
+                "column": 1,
+                "offset": 491
+              },
+              "end": {
+                "line": 20,
+                "column": 92,
+                "offset": 582
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 18,
+            "column": 1,
+            "offset": 449
+          },
+          "end": {
+            "line": 18,
+            "column": 20,
+            "offset": 468
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 25,
+        "offset": 24
+      }
+    }
+  },
+  "semanticCallables": [
+    "create customer raw",
+    "create stripe customer",
+    "env get raw",
+    "env with default",
+    "get env var",
+    "stripe demo",
+    "stripe secret key"
+  ]
+}

@@ -1,0 +1,27 @@
+module OperatorDashboard
+
+record Metric
+  label: Text
+  value: Int
+
+record Job Row
+  name: Text
+  status: Text
+  score: Int
+
+view operator panel
+  input metrics: List<Metric>
+  input jobs: List<Job Row>
+  chart bar from metrics label field label value field value
+  datagrid row in jobs columns name, status, score sort by score
+
+page operator dashboard page
+  title "Operator dashboard"
+  main render operator panel([{ label: "Jobs", value: 12 }, { label: "Errors", value: 3 }], [{ name: "sync", status: "ok", score: 95 }, { name: "import", status: "warn", score: 72 }])
+
+navigation operator dashboard app
+  path "/" page operator dashboard page
+  bootstrap router
+
+theme operator theme
+  accent indigo

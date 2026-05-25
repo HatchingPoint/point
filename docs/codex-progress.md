@@ -1359,3 +1359,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Released: **v0.1.42** (tag + push).
 - Next: Phase 56 UI kit batch or external pilot.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 61 integrator — v0.1.43
+
+- Completed: Merged Phases 56–60; bumped **0.1.43** across packages, templates, init-project, README, vision, product-map, CLI ref, site changelog; CHANGELOG.md release notes; `docs/phase61-plan.md`.
+- Verified: `bun run ci` green (679 tests).
+- Released: **v0.1.43** (tag + push).
+- Next: Phase 62+ via roadmap-analyze.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅

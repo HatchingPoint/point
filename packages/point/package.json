@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point",
-  "version": "0.1.42",
+  "version": "0.1.43",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",
@@ -45,10 +45,14 @@
     "./std/sql": "./src/std/sql.ts",
     "./std/ai": "./src/std/ai.ts",
     "./std/money": "./src/std/money.ts",
+    "./std/image": "./src/std/image.ts",
     "./ui/point-ui.css": "./ui/point-ui.css"
   },
   "dependencies": {
     "yaml": "^2.8.0"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.34.2"
   },
   "publishConfig": {
     "access": "public",

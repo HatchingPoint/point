@@ -1,0 +1,9 @@
+module TableRepair
+
+record Item
+  name: Text
+  role: Text
+
+view items table
+  input items: List<Item>
+  table item in items columns name, role link title to "/items/" + item.name

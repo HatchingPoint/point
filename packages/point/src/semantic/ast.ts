@@ -374,6 +374,10 @@ export interface PointSemanticViewTab {
 export type PointSemanticViewBindStatement =
 	| { kind: "bindCheckbox"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
 	| { kind: "bindField"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "bindSelect"; label: string; target: PointSemanticExpression; options: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "bindTextarea"; label: string; target: PointSemanticExpression; span?: PointSourceSpan }
+	| { kind: "toastSuccess"; message: string; span?: PointSourceSpan }
+	| { kind: "toastError"; message: string; span?: PointSourceSpan }
 	| {
 			kind: "submit";
 			label: string;
@@ -426,6 +430,28 @@ export type PointSemanticViewStatement =
 			columns: string[];
 			linkColumn?: string;
 			linkPath?: PointSemanticExpression;
+			className?: string;
+			style?: string[];
+			span?: PointSourceSpan;
+	  }
+	| {
+			kind: "datagrid";
+			item: string;
+			iterable: PointSemanticExpression;
+			columns: string[];
+			sortBy: string;
+			linkColumn?: string;
+			linkPath?: PointSemanticExpression;
+			className?: string;
+			style?: string[];
+			span?: PointSourceSpan;
+	  }
+	| {
+			kind: "chart";
+			variant: "bar";
+			iterable: PointSemanticExpression;
+			labelField: string;
+			valueField: string;
 			className?: string;
 			style?: string[];
 			span?: PointSourceSpan;

@@ -1,0 +1,16 @@
+module TerminalRepair
+
+record Log Line
+  stream: Text
+  text: Text
+
+stream route build logs
+  path "/ws/build"
+  message Log Line
+  on connect return "ready"
+  on message message return { stream: message.stream, text: message.text }
+  on disconnect return none
+
+view build log
+  terminal subscribe to stream build logs
+  when connecting render "Connecting..."

@@ -124,6 +124,7 @@ function validateSubscribeTarget(
 				name,
 				`Declare stream route ${subscribeRoute.routeName} or fix the subscribe to stream name.`,
 				subscribeRoute.span,
+				[...streamRoutes.keys()].sort(),
 			),
 		];
 	}
@@ -212,6 +213,7 @@ function streamSubscribeDiagnostic(
 	name: string,
 	repair: string,
 	span?: PointSourceSpan,
+	expected?: string[],
 ): PointCoreDiagnostic {
 	return {
 		code,
@@ -221,5 +223,6 @@ function streamSubscribeDiagnostic(
 		severity: "error",
 		span: span ?? null,
 		repair,
+		...(expected ? { expected } : {}),
 	};
 }

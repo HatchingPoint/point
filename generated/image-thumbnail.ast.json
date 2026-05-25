@@ -1,0 +1,1606 @@
+{
+  "kind": "coreProgram",
+  "module": "ImageThumbnail",
+  "declarations": [
+    {
+      "kind": "type",
+      "name": "ThumbnailRequest",
+      "fields": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 68
+            },
+            "end": {
+              "line": 6,
+              "column": 13,
+              "offset": 80
+            }
+          }
+        },
+        {
+          "name": "width",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "width",
+          "span": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 81
+            },
+            "end": {
+              "line": 7,
+              "column": 13,
+              "offset": 93
+            }
+          }
+        },
+        {
+          "name": "height",
+          "type": {
+            "kind": "typeRef",
+            "name": "Int",
+            "args": []
+          },
+          "semanticName": "height",
+          "span": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 94
+            },
+            "end": {
+              "line": 8,
+              "column": 14,
+              "offset": 107
+            }
+          }
+        },
+        {
+          "name": "format",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "format",
+          "span": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 108
+            },
+            "end": {
+              "line": 9,
+              "column": 15,
+              "offset": 122
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "record",
+        "name": "Thumbnail Request"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 43
+        },
+        "end": {
+          "line": 5,
+          "column": 25,
+          "offset": 67
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "readImageInfo",
+      "params": [
+        {
+          "name": "path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "path",
+          "span": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "ImageInfo",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "readImageMetadataInfo",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "path",
+                  "span": {
+                    "start": {
+                      "line": 15,
+                      "column": 1,
+                      "offset": 222
+                    },
+                    "end": {
+                      "line": 15,
+                      "column": 41,
+                      "offset": 262
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 15,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 15,
+                  "column": 41,
+                  "offset": 262
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 222
+              },
+              "end": {
+                "line": 15,
+                "column": 41,
+                "offset": 262
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 222
+            },
+            "end": {
+              "line": 15,
+              "column": 41,
+              "offset": 262
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "read image info",
+        "outputName": "info",
+        "effects": [
+          "filesystem"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 124
+        },
+        "end": {
+          "line": 11,
+          "column": 23,
+          "offset": 146
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "makeThumbnailOutputPath",
+      "params": [
+        {
+          "name": "request",
+          "type": {
+            "kind": "typeRef",
+            "name": "ThumbnailRequest",
+            "args": []
+          },
+          "semanticName": "request",
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 18,
+              "column": 27,
+              "offset": 26
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "resizeImageFileOutputPath",
+              "args": [
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "request",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  "name": "path",
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 378
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 94,
+                      "offset": 471
+                    }
+                  }
+                },
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "request",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  "name": "width",
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 378
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 94,
+                      "offset": 471
+                    }
+                  }
+                },
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "request",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  "name": "height",
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 378
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 94,
+                      "offset": 471
+                    }
+                  }
+                },
+                {
+                  "kind": "property",
+                  "target": {
+                    "kind": "identifier",
+                    "name": "request",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  "name": "format",
+                  "span": {
+                    "start": {
+                      "line": 21,
+                      "column": 1,
+                      "offset": 378
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 94,
+                      "offset": 471
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 378
+                },
+                "end": {
+                  "line": 21,
+                  "column": 94,
+                  "offset": 471
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 378
+              },
+              "end": {
+                "line": 21,
+                "column": 94,
+                "offset": 471
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 378
+            },
+            "end": {
+              "line": 21,
+              "column": 94,
+              "offset": 471
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "make thumbnail",
+        "outputName": "output path",
+        "effects": [
+          "filesystem"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 264
+        },
+        "end": {
+          "line": 17,
+          "column": 22,
+          "offset": 285
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "makeThumbnailForPathOutputPath",
+      "params": [
+        {
+          "name": "sourcePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "source path",
+          "span": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 24,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "resizeImageFileOutputPath",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "sourcePath",
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 587
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 64,
+                      "offset": 650
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 128,
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 587
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 64,
+                      "offset": 650
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": 128,
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 587
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 64,
+                      "offset": 650
+                    }
+                  }
+                },
+                {
+                  "kind": "literal",
+                  "value": "webp",
+                  "span": {
+                    "start": {
+                      "line": 27,
+                      "column": 1,
+                      "offset": 587
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 64,
+                      "offset": 650
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 587
+                },
+                "end": {
+                  "line": 27,
+                  "column": 64,
+                  "offset": 650
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 587
+              },
+              "end": {
+                "line": 27,
+                "column": 64,
+                "offset": 650
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 587
+            },
+            "end": {
+              "line": 27,
+              "column": 64,
+              "offset": 650
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "action",
+        "name": "make thumbnail for path",
+        "outputName": "output path",
+        "effects": [
+          "filesystem"
+        ]
+      },
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 1,
+          "offset": 473
+        },
+        "end": {
+          "line": 23,
+          "column": 31,
+          "offset": 503
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "resizeSampleImageCommand",
+      "params": [
+        {
+          "name": "sourcePath",
+          "type": {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          "semanticName": "source path",
+          "span": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 30,
+              "column": 18,
+              "offset": 17
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Or",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Error",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "await",
+            "value": {
+              "kind": "call",
+              "callee": "makeThumbnailForPathOutputPath",
+              "args": [
+                {
+                  "kind": "identifier",
+                  "name": "sourcePath",
+                  "span": {
+                    "start": {
+                      "line": 32,
+                      "column": 1,
+                      "offset": 737
+                    },
+                    "end": {
+                      "line": 32,
+                      "column": 52,
+                      "offset": 788
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 32,
+                  "column": 1,
+                  "offset": 737
+                },
+                "end": {
+                  "line": 32,
+                  "column": 52,
+                  "offset": 788
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 737
+              },
+              "end": {
+                "line": 32,
+                "column": 52,
+                "offset": 788
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 1,
+              "offset": 737
+            },
+            "end": {
+              "line": 32,
+              "column": 52,
+              "offset": 788
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "command",
+        "name": "resize sample image",
+        "outputName": "result",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 652
+        },
+        "end": {
+          "line": 29,
+          "column": 28,
+          "offset": 679
+        }
+      }
+    }
+  ],
+  "span": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 22,
+      "offset": 21
+    }
+  },
+  "semantic": {
+    "source": "semantic"
+  },
+  "semanticSource": {
+    "kind": "semanticProgram",
+    "module": "ImageThumbnail",
+    "uses": [
+      {
+        "kind": "use",
+        "moduleName": "std.image",
+        "span": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 19,
+            "offset": 18
+          }
+        }
+      }
+    ],
+    "declarations": [
+      {
+        "kind": "record",
+        "name": "Thumbnail Request",
+        "fields": [
+          {
+            "label": "path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 68
+              },
+              "end": {
+                "line": 6,
+                "column": 13,
+                "offset": 80
+              }
+            }
+          },
+          {
+            "label": "width",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 81
+              },
+              "end": {
+                "line": 7,
+                "column": 13,
+                "offset": 93
+              }
+            }
+          },
+          {
+            "label": "height",
+            "type": {
+              "kind": "typeRef",
+              "name": "Int",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 8,
+                "column": 1,
+                "offset": 94
+              },
+              "end": {
+                "line": 8,
+                "column": 14,
+                "offset": 107
+              }
+            }
+          },
+          {
+            "label": "format",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 108
+              },
+              "end": {
+                "line": 9,
+                "column": 15,
+                "offset": 122
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 43
+          },
+          "end": {
+            "line": 5,
+            "column": 25,
+            "offset": 67
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "read image info",
+        "inputs": [
+          {
+            "label": "path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 12,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 11,
+                "offset": 10
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "info",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Image Info",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "filesystem"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "read image metadata",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "path",
+                    "span": {
+                      "start": {
+                        "line": 15,
+                        "column": 1,
+                        "offset": 222
+                      },
+                      "end": {
+                        "line": 15,
+                        "column": 41,
+                        "offset": 262
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 15,
+                    "column": 1,
+                    "offset": 222
+                  },
+                  "end": {
+                    "line": 15,
+                    "column": 41,
+                    "offset": 262
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 15,
+                  "column": 1,
+                  "offset": 222
+                },
+                "end": {
+                  "line": 15,
+                  "column": 41,
+                  "offset": 262
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 15,
+                "column": 1,
+                "offset": 222
+              },
+              "end": {
+                "line": 15,
+                "column": 41,
+                "offset": 262
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 124
+          },
+          "end": {
+            "line": 11,
+            "column": 23,
+            "offset": 146
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "make thumbnail",
+        "inputs": [
+          {
+            "label": "request",
+            "type": {
+              "kind": "typeRef",
+              "name": "Thumbnail Request",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 18,
+                "column": 27,
+                "offset": 26
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "output path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "filesystem"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "resize image file",
+                "args": [
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "request",
+                      "span": {
+                        "start": {
+                          "line": 21,
+                          "column": 1,
+                          "offset": 378
+                        },
+                        "end": {
+                          "line": 21,
+                          "column": 94,
+                          "offset": 471
+                        }
+                      }
+                    },
+                    "label": "path",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "request",
+                      "span": {
+                        "start": {
+                          "line": 21,
+                          "column": 1,
+                          "offset": 378
+                        },
+                        "end": {
+                          "line": 21,
+                          "column": 94,
+                          "offset": 471
+                        }
+                      }
+                    },
+                    "label": "width",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "request",
+                      "span": {
+                        "start": {
+                          "line": 21,
+                          "column": 1,
+                          "offset": 378
+                        },
+                        "end": {
+                          "line": 21,
+                          "column": 94,
+                          "offset": 471
+                        }
+                      }
+                    },
+                    "label": "height",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  },
+                  {
+                    "kind": "property",
+                    "target": {
+                      "kind": "name",
+                      "label": "request",
+                      "span": {
+                        "start": {
+                          "line": 21,
+                          "column": 1,
+                          "offset": 378
+                        },
+                        "end": {
+                          "line": 21,
+                          "column": 94,
+                          "offset": 471
+                        }
+                      }
+                    },
+                    "label": "format",
+                    "span": {
+                      "start": {
+                        "line": 21,
+                        "column": 1,
+                        "offset": 378
+                      },
+                      "end": {
+                        "line": 21,
+                        "column": 94,
+                        "offset": 471
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 21,
+                    "column": 1,
+                    "offset": 378
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 94,
+                    "offset": 471
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 21,
+                  "column": 1,
+                  "offset": 378
+                },
+                "end": {
+                  "line": 21,
+                  "column": 94,
+                  "offset": 471
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 378
+              },
+              "end": {
+                "line": 21,
+                "column": 94,
+                "offset": 471
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 17,
+            "column": 1,
+            "offset": 264
+          },
+          "end": {
+            "line": 17,
+            "column": 22,
+            "offset": 285
+          }
+        }
+      },
+      {
+        "kind": "action",
+        "name": "make thumbnail for path",
+        "inputs": [
+          {
+            "label": "source path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 24,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 24,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "output path",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "touches": [
+          "filesystem"
+        ],
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "resize image file",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "source path",
+                    "span": {
+                      "start": {
+                        "line": 27,
+                        "column": 1,
+                        "offset": 587
+                      },
+                      "end": {
+                        "line": 27,
+                        "column": 64,
+                        "offset": 650
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": 128,
+                    "span": {
+                      "start": {
+                        "line": 27,
+                        "column": 1,
+                        "offset": 587
+                      },
+                      "end": {
+                        "line": 27,
+                        "column": 64,
+                        "offset": 650
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": 128,
+                    "span": {
+                      "start": {
+                        "line": 27,
+                        "column": 1,
+                        "offset": 587
+                      },
+                      "end": {
+                        "line": 27,
+                        "column": 64,
+                        "offset": 650
+                      }
+                    }
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "webp",
+                    "span": {
+                      "start": {
+                        "line": 27,
+                        "column": 1,
+                        "offset": 587
+                      },
+                      "end": {
+                        "line": 27,
+                        "column": 64,
+                        "offset": 650
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 587
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 64,
+                    "offset": 650
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 27,
+                  "column": 1,
+                  "offset": 587
+                },
+                "end": {
+                  "line": 27,
+                  "column": 64,
+                  "offset": 650
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 27,
+                "column": 1,
+                "offset": 587
+              },
+              "end": {
+                "line": 27,
+                "column": 64,
+                "offset": 650
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 23,
+            "column": 1,
+            "offset": 473
+          },
+          "end": {
+            "line": 23,
+            "column": 31,
+            "offset": 503
+          }
+        }
+      },
+      {
+        "kind": "command",
+        "name": "resize sample image",
+        "inputs": [
+          {
+            "label": "source path",
+            "type": {
+              "kind": "typeRef",
+              "name": "Text",
+              "args": []
+            },
+            "span": {
+              "start": {
+                "line": 30,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 30,
+                "column": 18,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "result",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "await",
+              "value": {
+                "kind": "call",
+                "callee": "make thumbnail for path",
+                "args": [
+                  {
+                    "kind": "name",
+                    "label": "source path",
+                    "span": {
+                      "start": {
+                        "line": 32,
+                        "column": 1,
+                        "offset": 737
+                      },
+                      "end": {
+                        "line": 32,
+                        "column": 52,
+                        "offset": 788
+                      }
+                    }
+                  }
+                ],
+                "span": {
+                  "start": {
+                    "line": 32,
+                    "column": 1,
+                    "offset": 737
+                  },
+                  "end": {
+                    "line": 32,
+                    "column": 52,
+                    "offset": 788
+                  }
+                }
+              },
+              "span": {
+                "start": {
+                  "line": 32,
+                  "column": 1,
+                  "offset": 737
+                },
+                "end": {
+                  "line": 32,
+                  "column": 52,
+                  "offset": 788
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 32,
+                "column": 1,
+                "offset": 737
+              },
+              "end": {
+                "line": 32,
+                "column": 52,
+                "offset": 788
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 29,
+            "column": 1,
+            "offset": 652
+          },
+          "end": {
+            "line": 29,
+            "column": 28,
+            "offset": 679
+          }
+        }
+      }
+    ],
+    "span": {
+      "start": {
+        "line": 1,
+        "column": 1,
+        "offset": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 22,
+        "offset": 21
+      }
+    }
+  },
+  "semanticCallables": [
+    "image metadata raw",
+    "image resize raw",
+    "make thumbnail",
+    "make thumbnail for path",
+    "read image info",
+    "read image metadata",
+    "resize image file",
+    "resize sample image"
+  ]
+}

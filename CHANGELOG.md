@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.43
+
+### Added
+
+- Phase 56: **Form controls** — `bind select "Label" to field options <list>`, `bind textarea "Label" to field`, `toast on success/error "..."` on forms with submit.
+- Phase 56b: **Agent repair gate 27** — fixtures for refresh interval, table link column, terminal stream route, unknown load action; enriched diagnostics with `expected`.
+- Phase 57: **Chart + datagrid** — `chart bar from data label field name value field count`; `datagrid item in data columns a, b sort by name` with sortable headers.
+- Phase 57: **Operator dashboard example** — `examples/app/operator-dashboard/` with bar chart and sortable jobs grid.
+- Phase 58: **`capabilities image`** — `std.image` metadata and resize via optional `sharp` dependency; `examples/tools/image-thumbnail.point`.
+- Phase 59: **Apple toolkit example** — `examples/toolkit/apple-cli.point` for xcodebuild/simctl via `capabilities process`.
+
+### Changed
+
+- Phase 60: **Emit import pruning** — verified multi-module build emits minimal std imports (existing Phase 38 behavior; regression tests retained).
+
 ## 0.1.42
 
 ### Added

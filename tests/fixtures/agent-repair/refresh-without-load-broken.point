@@ -1,0 +1,10 @@
+module RefreshRepair
+
+action fetch metrics
+  output value: Text
+  return "ok"
+
+view metrics panel
+  load data from action fetch metric
+  refresh every 30 seconds
+  render "metrics"

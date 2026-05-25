@@ -1,0 +1,32 @@
+module ImageThumbnail
+
+capabilities image
+
+record Thumbnail Request
+  path: Text
+  width: Int
+  height: Int
+  format: Text
+
+action read image info
+  input path: Text
+  output info: Image Info or Error
+  touches filesystem
+  return await read image metadata(path)
+
+action make thumbnail
+  input request: Thumbnail Request
+  output output path: Text or Error
+  touches filesystem
+  return await resize image file(request.path, request.width, request.height, request.format)
+
+action make thumbnail for path
+  input source path: Text
+  output output path: Text or Error
+  touches filesystem
+  return await resize image file(source path, 128, 128, "webp")
+
+command resize sample image
+  input source path: Text
+  output result: Text or Error
+  return await make thumbnail for path(source path)

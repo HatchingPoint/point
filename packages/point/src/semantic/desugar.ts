@@ -16,6 +16,7 @@ import type {
 	PointSemanticViewEachSpec,
 	PointSemanticViewButtonSpec,
 	PointSemanticViewTableSpec,
+	PointSemanticViewChartSpec,
 	PointSemanticViewModalSpec,
 	PointSemanticViewTabsSpec,
 	PointSemanticViewToggleTheme,
@@ -752,6 +753,8 @@ function desugarView(
 	if (viewButtons.length > 0) metadata.viewButtons = viewButtons;
 	const viewTable = buildViewTable(declaration, ctx);
 	if (viewTable) metadata.viewTable = viewTable;
+	const viewChart = buildViewChart(declaration, ctx);
+	if (viewChart) metadata.viewChart = viewChart;
 	const viewModal = buildViewModal(declaration, ctx);
 	if (viewModal) metadata.viewModal = viewModal;
 	const viewTabs = buildViewTabs(declaration, ctx);
@@ -771,17 +774,47 @@ function desugarView(
 	};
 }
 
-function collectViewBindStatements(declaration: PointSemanticViewDeclaration): Extract<PointSemanticViewStatement, { kind: "bindCheckbox" | "bindField" }>[] {
+function collectViewBindStatements(
+	declaration: PointSemanticViewDeclaration,
+): Extract<PointSemanticViewStatement, { kind: "bindCheckbox" | "bindField" | "bindSelect" | "bindTextarea" }>[] {
 	return declaration.body.flatMap((statement) => {
-		if (statement.kind === "bindCheckbox" || statement.kind === "bindField") return [statement];
+		if (
+			statement.kind === "bindCheckbox" ||
+			statement.kind === "bindField" ||
+			statement.kind === "bindSelect" ||
+			statement.kind === "bindTextarea"
+		) {
+			return [statement];
+		}
 		if (statement.kind === "form") {
 			return statement.bindings.filter(
-				(binding): binding is Extract<PointSemanticViewBindStatement, { kind: "bindCheckbox" | "bindField" }> =>
-					binding.kind === "bindCheckbox" || binding.kind === "bindField",
+				(
+					binding,
+				): binding is Extract<PointSemanticViewBindStatement, { kind: "bindCheckbox" | "bindField" | "bindSelect" | "bindTextarea" }> =>
+					binding.kind === "bindCheckbox" ||
+					binding.kind === "bindField" ||
+					binding.kind === "bindSelect" ||
+					binding.kind === "bindTextarea",
 			);
 		}
 		return [];
 	});
+}
+
+function collectViewToastMessages(declaration: PointSemanticViewDeclaration): { success?: string; error?: string } {
+	let success: string | undefined;
+	let error: string | undefined;
+	const collect = (statement: { kind: string; message?: string }) => {
+		if (statement.kind === "toastSuccess") success = statement.message;
+		if (statement.kind === "toastError") error = statement.message;
+	};
+	for (const statement of declaration.body) {
+		collect(statement);
+		if (statement.kind === "form") {
+			for (const binding of statement.bindings) collect(binding);
+		}
+	}
+	return { success, error };
 }
 
 function findViewFormSubmit(declaration: PointSemanticViewDeclaration): Extract<PointSemanticViewBindStatement, { kind: "submit" }> | undefined {
@@ -820,12 +853,15 @@ function buildViewControls(
 	const changeCallback = toIdentifier(callbackLabel);
 	const submitStatement = findViewFormSubmit(declaration);
 	const submit = submitStatement ? desugarViewFormSubmit(submitStatement, ctx) : undefined;
+	const toastMessages = collectViewToastMessages(declaration);
 
 	return {
 		changeCallback,
 		fields: bindStatements.map((statement) => desugarViewFieldBinding(statement, ctx)),
 		...(formStatement?.style ? { style: formStatement.style } : {}),
 		...(submit ? { submit } : {}),
+		...(toastMessages.success ? { successToast: toastMessages.success } : {}),
+		...(toastMessages.error ? { errorToast: toastMessages.error } : {}),
 	};
 }
 
@@ -850,22 +886,42 @@ function desugarViewFormSubmit(
 }
 
 function desugarViewFieldBinding(
-	statement: Extract<PointSemanticViewStatement, { kind: "bindCheckbox" | "bindField" }>,
+	statement: Extract<
+		PointSemanticViewStatement,
+		{ kind: "bindCheckbox" | "bindField" | "bindSelect" | "bindTextarea" }
+	>,
 	ctx: DesugarContext,
 ): PointSemanticViewFieldBinding {
 	const target = desugarExpression(statement.target, ctx);
+	const bindLabel =
+		statement.kind === "bindField"
+			? "field"
+			: statement.kind === "bindCheckbox"
+				? "checkbox"
+				: statement.kind === "bindSelect"
+					? "select"
+					: "textarea";
 	if (target.kind !== "property") {
-		throw new Error(`bind ${statement.kind === "bindField" ? "field" : "checkbox"} target must be a record field access`);
+		throw new Error(`bind ${bindLabel} target must be a record field access`);
 	}
 	if (target.target.kind !== "identifier") {
-		throw new Error(`bind ${statement.kind === "bindField" ? "field" : "checkbox"} target must start with an input record`);
+		throw new Error(`bind ${bindLabel} target must start with an input record`);
 	}
+	const inputKind =
+		statement.kind === "bindField"
+			? "text"
+			: statement.kind === "bindCheckbox"
+				? "checkbox"
+				: statement.kind === "bindSelect"
+					? "select"
+					: "textarea";
 	return {
 		label: statement.label,
 		target,
 		recordParam: target.target.name,
 		fieldName: target.name,
-		inputKind: statement.kind === "bindField" ? "text" : "checkbox",
+		inputKind,
+		...(statement.kind === "bindSelect" ? { options: desugarExpression(statement.options, ctx) } : {}),
 	};
 }
 
@@ -895,17 +951,33 @@ function buildViewButtons(declaration: PointSemanticViewDeclaration): PointSeman
 }
 
 function buildViewTable(declaration: PointSemanticViewDeclaration, ctx: DesugarContext): PointSemanticViewTableSpec | undefined {
+	const datagrid = declaration.body.find((statement): statement is Extract<PointSemanticViewStatement, { kind: "datagrid" }> => statement.kind === "datagrid");
 	const table = declaration.body.find((statement): statement is Extract<PointSemanticViewStatement, { kind: "table" }> => statement.kind === "table");
-	if (!table) return undefined;
+	const source = datagrid ?? table;
+	if (!source) return undefined;
 	return {
-		itemName: table.item,
-		itemIdentifier: toIdentifier(table.item),
-		iterable: desugarExpression(table.iterable, ctx),
-		columns: table.columns.map((column) => toIdentifier(column)),
-		...(table.linkColumn ? { linkColumn: toIdentifier(table.linkColumn) } : {}),
-		...(table.linkPath ? { linkPath: desugarExpression(table.linkPath, ctx) } : {}),
-		className: table.className,
-		style: table.style,
+		itemName: source.item,
+		itemIdentifier: toIdentifier(source.item),
+		iterable: desugarExpression(source.iterable, ctx),
+		columns: source.columns.map((column) => toIdentifier(column)),
+		...(source.linkColumn ? { linkColumn: toIdentifier(source.linkColumn) } : {}),
+		...(source.linkPath ? { linkPath: desugarExpression(source.linkPath, ctx) } : {}),
+		...(datagrid ? { sortBy: toIdentifier(datagrid.sortBy) } : {}),
+		className: source.className,
+		style: source.style,
+	};
+}
+
+function buildViewChart(declaration: PointSemanticViewDeclaration, ctx: DesugarContext): PointSemanticViewChartSpec | undefined {
+	const chart = declaration.body.find((statement): statement is Extract<PointSemanticViewStatement, { kind: "chart" }> => statement.kind === "chart");
+	if (!chart) return undefined;
+	return {
+		variant: chart.variant,
+		iterable: desugarExpression(chart.iterable, ctx),
+		labelField: toIdentifier(chart.labelField),
+		valueField: toIdentifier(chart.valueField),
+		className: chart.className,
+		style: chart.style,
 	};
 }
 

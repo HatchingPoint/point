@@ -25,6 +25,8 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/app/log-viewer/log-viewer.point",
 	"examples/app/job-queue/job-queue.point",
 	"examples/app/script-runner/script-runner.point",
+	"examples/app/operator-dashboard/operator-dashboard.point",
+	"examples/toolkit/apple-cli.point",
 	"examples/app/notes/notes.point",
 	"examples/app/todo.point",
 	"examples/pure/math-only.point",
@@ -50,12 +52,14 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/tools/jwt-demo.point",
 	"examples/tools/path-demo.point",
 	"examples/tools/process-runner.point",
+	"examples/tools/image-thumbnail.point",
 	"examples/tools/yaml-config.point",
 	"std/process.point",
 	"std/pty.point",
 	"std/http.point",
 	"std/time.point",
 	"std/money.point",
+	"std/image.point",
 ]);
 
 async function discoverFixtures(): Promise<string[]> {

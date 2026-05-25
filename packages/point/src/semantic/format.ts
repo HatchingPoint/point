@@ -379,6 +379,12 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	}
 	if (statement.kind === "bindCheckbox") return `bind checkbox "${statement.label}" to ${formatExpression(statement.target)}`;
 	if (statement.kind === "bindField") return `bind field "${statement.label}" to ${formatExpression(statement.target)}`;
+	if (statement.kind === "bindSelect") {
+		return `bind select "${statement.label}" to ${formatExpression(statement.target)} options ${formatExpression(statement.options)}`;
+	}
+	if (statement.kind === "bindTextarea") return `bind textarea "${statement.label}" to ${formatExpression(statement.target)}`;
+	if (statement.kind === "toastSuccess") return `toast on success "${statement.message}"`;
+	if (statement.kind === "toastError") return `toast on error "${statement.message}"`;
 	if (statement.kind === "submit") {
 		const parts = [
 			`submit "${statement.label}" POST "${statement.url}" body ${formatExpression(statement.body)}`,
@@ -418,6 +424,16 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 			return `table ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} link ${statement.linkColumn} to ${formatExpression(statement.linkPath)}`;
 		}
 		return `table ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns}`;
+	}
+	if (statement.kind === "datagrid") {
+		const columns = statement.columns.join(", ");
+		if (statement.linkColumn && statement.linkPath) {
+			return `datagrid ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} sort by ${statement.sortBy} link ${statement.linkColumn} to ${formatExpression(statement.linkPath)}`;
+		}
+		return `datagrid ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} sort by ${statement.sortBy}`;
+	}
+	if (statement.kind === "chart") {
+		return `chart ${statement.variant} from ${formatExpression(statement.iterable)} label field ${statement.labelField} value field ${statement.valueField}`;
 	}
 	if (statement.kind === "onChangeCall") return `on change call ${statement.callback}`;
 	if (statement.className) return `render class "${statement.className}" ${formatExpression(statement.value)}`;

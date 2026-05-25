@@ -155,6 +155,7 @@ export function enqueueJobFormView(draft: CreateJobBody, onDraftChange: (value: 
     event.preventDefault();
     setSubmitting(true);
     setSubmitError(null);
+    
     try {
       const response = await fetch("/api/jobs", {
         method: "POST",
@@ -164,9 +165,11 @@ export function enqueueJobFormView(draft: CreateJobBody, onDraftChange: (value: 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const body = await response.json();
       
+      
       navigate("/");
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Submit failed");
+      setToastKind("error"); setToast(err instanceof Error ? err.message : "Submit failed");
     } finally {
       setSubmitting(false);
     }

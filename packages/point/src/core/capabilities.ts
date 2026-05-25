@@ -24,6 +24,7 @@ export const BUILTIN_CAPABILITIES: readonly PointCapability[] = [
 	{ name: "sql", module: "std.sql", summary: "SQLite query actions and schema helpers" },
 	{ name: "ai", module: "std.ai", summary: "OpenAI and Anthropic complete/stream actions" },
 	{ name: "money", module: "std.money", summary: "Cents-based money formatting" },
+	{ name: "image", module: "std.image", summary: "Image metadata and resize via sharp" },
 ] as const;
 
 const capabilityByName = new Map(BUILTIN_CAPABILITIES.map((entry) => [entry.name, entry]));

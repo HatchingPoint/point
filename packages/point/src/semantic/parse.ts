@@ -1368,6 +1368,37 @@ function parseView(
 			});
 			continue;
 		}
+		const bindSelect = line.match(/^bind select "(.+)" to (.+?) options (.+)$/);
+		if (bindSelect) {
+			statements.push({
+				kind: "bindSelect",
+				label: bindSelect[1] ?? "",
+				target: parseLineExpression(bindSelect[2] ?? "", context, source, lineNumber),
+				options: parseLineExpression(bindSelect[3] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const bindTextarea = line.match(/^bind textarea "(.+)" to (.+)$/);
+		if (bindTextarea) {
+			statements.push({
+				kind: "bindTextarea",
+				label: bindTextarea[1] ?? "",
+				target: parseLineExpression(bindTextarea[2] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const toastSuccess = line.match(/^toast on success "(.+)"$/);
+		if (toastSuccess) {
+			statements.push({ kind: "toastSuccess", message: toastSuccess[1] ?? "", span: lineSpan(source, lineNumber) });
+			continue;
+		}
+		const toastError = line.match(/^toast on error "(.+)"$/);
+		if (toastError) {
+			statements.push({ kind: "toastError", message: toastError[1] ?? "", span: lineSpan(source, lineNumber) });
+			continue;
+		}
 		const formLine = line.match(/^form(?: (.+))?$/);
 		if (formLine) {
 			const bindings = parseViewBindBlock(body, lineIndex + 1, context, source);
@@ -1439,6 +1470,53 @@ function parseView(
 				item: tableMatch[1] ?? "",
 				iterable: parseLineExpression(tableMatch[2] ?? "", context, source, lineNumber),
 				columns: tableMatch[3]!.split(",").map((column) => column.trim()),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const datagridLinkMatch = line.match(/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*) link ([a-z][a-z0-9 ]*) to (.+)$/i);
+		if (datagridLinkMatch) {
+			const gridContext = eachItemContext(
+				bindings,
+				paramTypes,
+				records,
+				variants,
+				callables,
+				datagridLinkMatch[1] ?? "",
+				datagridLinkMatch[2] ?? "",
+			);
+			statements.push({
+				kind: "datagrid",
+				item: datagridLinkMatch[1] ?? "",
+				iterable: parseLineExpression(datagridLinkMatch[2] ?? "", context, source, lineNumber),
+				columns: datagridLinkMatch[3]!.split(",").map((column) => column.trim()),
+				sortBy: datagridLinkMatch[4] ?? "",
+				linkColumn: datagridLinkMatch[5] ?? "",
+				linkPath: parseLineExpression(datagridLinkMatch[6] ?? "", gridContext, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const datagridMatch = line.match(/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*)$/i);
+		if (datagridMatch) {
+			statements.push({
+				kind: "datagrid",
+				item: datagridMatch[1] ?? "",
+				iterable: parseLineExpression(datagridMatch[2] ?? "", context, source, lineNumber),
+				columns: datagridMatch[3]!.split(",").map((column) => column.trim()),
+				sortBy: datagridMatch[4] ?? "",
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const chartMatch = line.match(/^chart bar from (.+) label field ([a-z][a-z0-9 ]*) value field ([a-z][a-z0-9 ]*)$/i);
+		if (chartMatch) {
+			statements.push({
+				kind: "chart",
+				variant: "bar",
+				iterable: parseLineExpression(chartMatch[1] ?? "", context, source, lineNumber),
+				labelField: chartMatch[2] ?? "",
+				valueField: chartMatch[3] ?? "",
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
@@ -2689,6 +2767,37 @@ function parseViewBindBlock(
 				target: parseLineExpression(bindCheckbox[2] ?? "", context, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});
+			continue;
+		}
+		const bindSelect = line.match(/^bind select "(.+)" to (.+?) options (.+)$/);
+		if (bindSelect) {
+			bindings.push({
+				kind: "bindSelect",
+				label: bindSelect[1] ?? "",
+				target: parseLineExpression(bindSelect[2] ?? "", context, source, lineNumber),
+				options: parseLineExpression(bindSelect[3] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const bindTextarea = line.match(/^bind textarea "(.+)" to (.+)$/);
+		if (bindTextarea) {
+			bindings.push({
+				kind: "bindTextarea",
+				label: bindTextarea[1] ?? "",
+				target: parseLineExpression(bindTextarea[2] ?? "", context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const toastSuccess = line.match(/^toast on success "(.+)"$/);
+		if (toastSuccess) {
+			bindings.push({ kind: "toastSuccess", message: toastSuccess[1] ?? "", span: lineSpan(source, lineNumber) });
+			continue;
+		}
+		const toastError = line.match(/^toast on error "(.+)"$/);
+		if (toastError) {
+			bindings.push({ kind: "toastError", message: toastError[1] ?? "", span: lineSpan(source, lineNumber) });
 			continue;
 		}
 		const submitLine = line.match(
