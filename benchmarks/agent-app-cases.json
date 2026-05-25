@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-app-cases.v1",
-  "generatedAt": "2026-05-25T15:28:10.737Z",
+  "generatedAt": "2026-05-25T15:38:48.275Z",
   "cases": [
     {
       "id": "dashboard-add-search",
@@ -216,10 +216,45 @@
       "nextDashboardFilesMissing": [],
       "tokenReductionPercent": 96,
       "ciPass": true
+    },
+    {
+      "id": "ops-dashboard-chart-wiring",
+      "title": "Ops — fix chart label field on dashboard",
+      "category": "app-repair",
+      "agentTask": "Fix the ops dashboard chart wiring — the bar chart uses label field title but Job Metric records expose label and value.",
+      "sourceExample": "examples/app/job-queue/job-queue.point",
+      "baseLines": 79,
+      "goldenLines": 79,
+      "deltaLines": 0,
+      "baseSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "brokenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field title value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "goldenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"invalid-chart-field\",\n      \"message\": \"View ops dashboard chart label field \\\"title\\\" is not on JobMetric\",\n      \"path\": \"view.ops dashboard\",\n      \"ref\": \"point://semantic/OpsApp/view.ops dashboard\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 40,\n          \"column\": 1,\n          \"offset\": 871\n        },\n        \"end\": {\n          \"line\": 40,\n          \"column\": 66,\n          \"offset\": 936\n        }\n      },\n      \"repair\": \"Use label field label.\",\n      \"expected\": [\n        \"label\",\n        \"value\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "invalid-chart-field",
+      "requiredDeclarations": [
+        "view ops dashboard",
+        "action fetch ops dashboard"
+      ],
+      "requiredNavPaths": [
+        "/",
+        "/enqueue"
+      ],
+      "contextTokens": 166,
+      "contextChars": 665,
+      "tsContextTokens": 6000,
+      "tsContextSource": "heuristic",
+      "tsHeuristicTokens": 6000,
+      "tsTaskDescription": "Fix MetricsChart dataKey in a Next.js ops dashboard — chart expects label field but component passes title from Metric type.",
+      "typescriptExcerpt": "",
+      "nextDashboardCaseId": null,
+      "nextNotesCaseId": null,
+      "nextDashboardFilesMissing": [],
+      "tokenReductionPercent": 97,
+      "ciPass": true
     }
   ],
   "summary": {
-    "caseCount": 6,
+    "caseCount": 7,
     "categories": [
       "feature-add",
       "app-repair",
@@ -228,7 +263,7 @@
     "tokenReductionPercent": {
       "minReductionPercent": 58,
       "maxReductionPercent": 97,
-      "avgReductionPercent": 78
+      "avgReductionPercent": 80
     }
   }
 }

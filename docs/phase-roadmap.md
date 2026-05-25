@@ -4,7 +4,9 @@
 
 ## Active execution
 
-**Next:** Phase 73+ (ops app-repair, bind textarea repair gate 35)
+**Next:** Phase 74+ (datagrid app-repair, LandingPage sync)
+
+**Wave shipped (v0.1.51):** 73 ops chart app-repair, bind textarea repair gate 35, agent-app gate 7
 
 **Wave shipped (v0.1.50):** 72 agent-app expansion — multistep UI + SSE cases, agent-app gate 6
 
@@ -14,6 +16,7 @@
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **73** | v0.1.51 | Ops chart app-repair, invalid-bind-textarea-target, repair gate 35, agent-app gate 7 |
 | **72** | v0.1.50 | Agent-app gate 6: ops chart/datagrid/form, SSE live feed feature-add |
 | **71–71b** | v0.1.49 | SSE route, subscribe to sse, sse-dashboard example, repair gate 34 |
 | **70–70b** | v0.1.48 | Agent plateau: bind select/textarea, toast-without-submit, LSP parity, repair gate 33 |

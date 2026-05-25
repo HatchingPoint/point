@@ -1,0 +1,78 @@
+module OpsApp
+
+record Job Row
+  name: Text
+  status: Text
+  score: Int
+
+record Job Metric
+  label: Text
+  value: Int
+
+record Ops Dashboard
+  jobs: List<Job Row>
+  metrics: List<Job Metric>
+
+record Enqueue Body
+  name: Text
+
+view ops nav
+  link "Dashboard" to "/"
+  link "Enqueue" to "/enqueue"
+  render "Ops"
+
+action list jobs
+  output jobs: List<Job Row>
+  touches none
+  return [{ name: "sync", status: "ok", score: 95 }, { name: "import", status: "warn", score: 72 }]
+
+action fetch ops dashboard
+  output dashboard: Ops Dashboard
+  touches none
+  return { jobs: await list jobs(), metrics: [{ label: "Jobs", value: 12 }, { label: "Errors", value: 3 }] }
+
+view ops dashboard
+  load data from action fetch ops dashboard
+  refresh every 15 seconds
+  when loading render "Loading dashboard..."
+  when error render "Dashboard failed"
+  when empty render "No jobs in queue"
+  chart bar from data.metrics label field title value field value
+  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6
+
+view enqueue job form
+  input draft: Enqueue Body
+  input on draft change: Handler<Enqueue Body>
+  on change call on draft change
+  form
+  bind field "Job name" to draft.name
+  toast on success "Job enqueued"
+  toast on error "Enqueue failed"
+  submit "Enqueue" POST "/api/jobs" body draft then navigate "/"
+
+layout ops shell
+  slot sidebar render ops nav()
+  slot main render "Ops console"
+
+page dashboard page
+  layout ops shell
+  title "Ops dashboard"
+  description "Chart + datagrid overview"
+  main render ops dashboard()
+
+page enqueue page
+  layout ops shell
+  input draft: Enqueue Body
+  input on draft change: Handler<Enqueue Body>
+  title "Enqueue"
+  description "Add a job to the queue"
+  main render enqueue job form(draft, on draft change)
+
+navigation ops app
+  path "/" page dashboard page
+  path "/enqueue" page enqueue page
+  bootstrap router
+
+command ops demo
+  output result: Text
+  return "Ops dashboard ready"

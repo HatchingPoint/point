@@ -12,7 +12,7 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | **app-repair** | Agent wired a full app but left one mistake | check-json → line fix → `point check` (full app graph) |
 | **refactor** | Rename/move blocks across app (partial agent rename) | Golden structure + check |
 
-## Cases (6)
+## Cases (7)
 
 | ID | Category | Source example |
 |----|----------|----------------|
@@ -22,6 +22,7 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | `dashboard-rename-products` | refactor | dashboard items → products |
 | `ops-add-dashboard` | feature-add | `examples/app/job-queue/` — chart + datagrid + form |
 | `sse-add-live-feed` | feature-add | `examples/app/sse-dashboard/` — SSE push feed |
+| `ops-dashboard-chart-wiring` | app-repair | ops golden — wrong chart label field |
 
 ## Paired Next.js scaffolds
 

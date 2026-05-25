@@ -86,7 +86,7 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.50** — Phase 72 agent-app gate 6, multistep UI + SSE feature-add cases.
+Update this line each release: **v0.1.51** — Phase 73 ops chart app-repair, bind textarea repair gate 35, agent-app gate 7.
 
 ## Open source (public messaging)
 

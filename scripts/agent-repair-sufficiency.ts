@@ -807,6 +807,23 @@ const source = new EventSource("/sse/metrics"); // route registered as metricPul
 			tscError: `error TS2820: Type '"metricPulse"' is not assignable to type '"metricPulses"'.`,
 		},
 	},
+	{
+		id: "invalid-bind-textarea-target",
+		title: "View — bind textarea target must be record.field",
+		category: "typo-fix",
+		agentTask: "Fix bind textarea target to draft.field.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-bind-textarea-target-broken.point",
+		fixedFile: "invalid-bind-textarea-target-fixed.point",
+		expectedCode: "invalid-view-bind-target",
+		chosenField: "draft.notes",
+		typescriptContext: {
+			excerpt: `// NoteCreateForm.tsx — excerpt
+<textarea value={draft} onChange={...} /> // bind value must be draft.notes`,
+			totalChars: 5600,
+			tscError: `error TS2322: Type 'Draft' is not assignable to type 'string'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

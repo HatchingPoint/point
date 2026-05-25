@@ -194,6 +194,26 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "ops-dashboard-chart-wiring",
+		title: "Ops — fix chart label field on dashboard",
+		category: "app-repair",
+		agentTask:
+			"Fix the ops dashboard chart wiring — the bar chart uses label field title but Job Metric records expose label and value.",
+		baseFile: "ops-add-dashboard/golden.point",
+		brokenFile: "ops-dashboard-chart-wiring/broken.point",
+		goldenFile: "ops-add-dashboard/golden.point",
+		expectedCode: "invalid-chart-field",
+		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
+		requiredNavPaths: ["/", "/enqueue"],
+		sourceExample: "examples/app/job-queue/job-queue.point",
+		typescriptContext: {
+			taskDescription:
+				"Fix MetricsChart dataKey in a Next.js ops dashboard — chart expects label field but component passes title from Metric type.",
+			totalChars: 24000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {

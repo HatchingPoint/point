@@ -19,7 +19,7 @@ bun run benchmark:agent-repair-models   # needs OPENAI / ANTHROPIC / GEMINI keys
 
 Single-line mistakes in rules, labels, calculations, actions, routes, pipelines, records, variants, and view bindings.
 
-Phase 26–27 + platform UI coverage: `middleware-input-unavailable`, `middleware-input-type-mismatch`, `pipeline-step-type-mismatch`, `float-money-field`, `missing-variant-case`, `invalid-view-bind-target`, `invalid-bind-select-target`, `toast-without-submit`, `invalid-chart-field`, datagrid/refresh codes.
+Phase 26–27 + platform UI coverage: `middleware-input-unavailable`, `middleware-input-type-mismatch`, `pipeline-step-type-mismatch`, `float-money-field`, `missing-variant-case`, `invalid-view-bind-target`, `invalid-bind-select-target`, `invalid-bind-textarea-target`, `toast-without-submit`, `invalid-chart-field`, datagrid/refresh codes.
 
 ### Feature build (5 single-shot + 4 multi-step)
 

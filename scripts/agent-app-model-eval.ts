@@ -105,6 +105,10 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 		return `error TS2552: Cannot find name 'metricTicks'. Did you mean 'metricPulses'?
   at components/LivePulseFeed.tsx:8:28`;
 	}
+	if (testCase.id === "ops-dashboard-chart-wiring") {
+		return `error TS2339: Property 'title' does not exist on type 'JobMetric'.
+  at components/OpsDashboard.tsx:14:32`;
+	}
 	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
   at components/SearchPanel.tsx:1:10`;
 }
@@ -324,6 +328,14 @@ export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdi
 			return [{ kind: "replaceLine", line: 42, text: "  load data from action fetch ops dashboard" }];
 		case "sse-add-live-feed":
 			return [{ kind: "replaceLine", line: 21, text: "  subscribe to sse metric pulses" }];
+		case "ops-dashboard-chart-wiring":
+			return [
+				{
+					kind: "replaceLine",
+					line: 40,
+					text: "  chart bar from data.metrics label field label value field value",
+				},
+			];
 		default:
 			return [
 				{

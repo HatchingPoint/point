@@ -1,0 +1,11 @@
+module TextareaRepair
+
+record Draft
+  notes: Text
+
+view create form
+  input draft: Draft
+  input on draft change: Handler<Draft>
+  on change call on draft change
+  form
+  bind textarea "Notes" to draft options notes

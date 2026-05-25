@@ -34,7 +34,7 @@ Parity matrix covers platform UI repair codes, not only Phase 26–27 middleware
 
 1. **Agent-app benchmarks** — end-to-end feature builds scored on repair steps + token context.
 2. **Multistep UI builds** — form + datagrid + chart in one repair-plan loop.
-3. **Bind textarea repair fixture** — mirror select coverage.
+3. **Bind textarea repair fixture** — mirror select coverage. ✅ Phase 73 `invalid-bind-textarea-target`
 
 ## Agent loop (unchanged contract)
 

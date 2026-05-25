@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.51
+
+### Added
+
+- Phase 73: ops chart app-repair, invalid-bind-textarea-target, repair gate 35, agent-app gate 7.
+
 ## 0.1.50
 
 ### Added

@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.50**
+Current release: **0.1.51**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.51** | Phase 73: Ops chart app-repair, `invalid-bind-textarea-target`, repair gate 35, agent-app gate 7. |
 | **0.1.50** | Phase 72: Agent-app gate 6 — ops chart/datagrid/form + SSE live feed feature-add benchmarks. |
 | **0.1.49** | Phase 71–71b: SSE route, subscribe to sse, push dashboard example, repair gate 34. |
 | **0.1.48** | Phase 70–70b: Agent plateau — bind select/toast validation, repair gate 33, LSP parity. |

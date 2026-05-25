@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-25T14:39:58.310Z",
+  "generatedAt": "2026-05-25T15:38:48.190Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -982,6 +982,34 @@
       "ciPass": true
     },
     {
+      "id": "invalid-bind-textarea-target",
+      "title": "View — bind textarea target must be record.field",
+      "category": "typo-fix",
+      "agentTask": "Fix bind textarea target to draft.field.",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/invalid-bind-textarea-target-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/invalid-bind-textarea-target-broken.point",
+      "brokenSource": "module TextareaRepair\n\nrecord Draft\n  notes: Text\n\nview create form\n  input draft: Draft\n  input on draft change: Handler<Draft>\n  on change call on draft change\n  form\n  bind textarea \"Notes\" to draft options notes\n",
+      "fixedSource": "module TextareaRepair\n\nrecord Draft\n  notes: Text\n\nview create form\n  input draft: Draft\n  input on draft change: Handler<Draft>\n  on change call on draft change\n  form\n  bind textarea \"Notes\" to draft.notes\n",
+      "errorLine": 11,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"invalid-view-bind-target\",\n      \"message\": \"View create form bind textarea target must be input.field\",\n      \"path\": \"view.create form\",\n      \"ref\": \"point://semantic/TextareaRepair/view.create form\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 11,\n          \"column\": 1,\n          \"offset\": 169\n        },\n        \"end\": {\n          \"line\": 11,\n          \"column\": 47,\n          \"offset\": 215\n        }\n      },\n      \"repair\": \"Use bind textarea \\\"Notes\\\" to draft.notes.\",\n      \"expected\": \"draft.notes\"\n    }\n  ]\n}",
+      "diagnosticCode": "invalid-view-bind-target",
+      "typescriptExcerpt": "// NoteCreateForm.tsx — excerpt\n<textarea value={draft} onChange={...} /> // bind value must be draft.notes",
+      "typescriptNote": "Illustrative ~5,600-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 5600,
+      "tscError": "error TS2322: Type 'Draft' is not assignable to type 'string'.",
+      "ref": "point://semantic/TextareaRepair/view.create form",
+      "repairHint": "Use bind textarea \"Notes\" to draft.notes.",
+      "expectedFields": [
+        "draft.notes"
+      ],
+      "contextChars": 657,
+      "contextTokens": 164,
+      "tsContextTokens": 1400,
+      "tokenReductionPercent": 88,
+      "ciPass": true
+    },
+    {
       "id": "feature-multistep-launch",
       "title": "Feature — launch app (2-step repair plan)",
       "category": "feature-build",
@@ -1111,7 +1139,7 @@
     }
   ],
   "summary": {
-    "caseCount": 38,
+    "caseCount": 39,
     "diagnosticCodes": [
       "unknown-field",
       "missing-await",

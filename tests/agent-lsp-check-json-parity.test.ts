@@ -11,6 +11,7 @@ const LSP_PARITY_CASE_IDS = new Set([
 	"missing-variant-case",
 	"invalid-view-bind-target",
 	"invalid-bind-select-target",
+	"invalid-bind-textarea-target",
 	"toast-without-submit",
 	"unknown-sse-subscribe-route",
 	"invalid-chart-field",
