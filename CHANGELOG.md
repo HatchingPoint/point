@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.50
+
+### Added
+
+- Phase 72: **Agent-app gate 6** — CI floor at six full-app cases, 100% structural pass.
+- Phase 72: **`ops-add-dashboard`** — feature-add benchmark: chart + datagrid + enqueue form from job-queue pattern.
+- Phase 72: **`sse-add-live-feed`** — feature-add benchmark: SSE route + subscribe from sse-dashboard example.
+
 ## 0.1.49
 
 ### Added

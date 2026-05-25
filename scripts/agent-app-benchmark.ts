@@ -149,6 +149,51 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "ops-add-dashboard",
+		title: "Ops — add chart + datagrid + enqueue form",
+		category: "feature-add",
+		agentTask:
+			"Upgrade a simple ops job list into a full dashboard: combined load action, bar chart, datagrid with sort/filter/pagination, enqueue form with toast + submit, and /enqueue page in navigation.",
+		baseFile: "ops-add-dashboard/base.point",
+		brokenFile: "ops-add-dashboard/broken.point",
+		goldenFile: "ops-add-dashboard/golden.point",
+		expectedCode: "unknown-load-action",
+		requiredDeclarations: [
+			"action fetch ops dashboard",
+			"view ops dashboard",
+			"view enqueue job form",
+			"page enqueue page",
+		],
+		requiredNavPaths: ["/enqueue"],
+		sourceExample: "examples/app/job-queue/job-queue.point",
+		typescriptContext: {
+			taskDescription:
+				"Add a React ops dashboard with bar chart, sortable/filterable data grid, paginated rows, and an enqueue form with toast feedback — new loader action, pages, and nav links.",
+			totalChars: 26000,
+			excerpt: "",
+		},
+	},
+	{
+		id: "sse-add-live-feed",
+		title: "Metrics — add SSE live feed",
+		category: "feature-add",
+		agentTask:
+			"Wire a push metrics dashboard: stream action, sse route with event record, subscribe view with connecting/disconnected guards, and home page rendering the live feed.",
+		baseFile: "sse-add-live-feed/base.point",
+		brokenFile: "sse-add-live-feed/broken.point",
+		goldenFile: "sse-add-live-feed/golden.point",
+		expectedCode: "unknown-sse-subscribe-route",
+		requiredDeclarations: ["sse route metric pulses", "view live pulse feed", "action stream metric pulses"],
+		requiredNavPaths: ["/"],
+		sourceExample: "examples/app/sse-dashboard/sse-dashboard.point",
+		typescriptContext: {
+			taskDescription:
+				"Add server-sent events to a Next.js metrics shell — EventSource client, stream handler route, connecting/error UI states, and home page wiring.",
+			totalChars: 16000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {

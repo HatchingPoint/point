@@ -12,7 +12,7 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | **app-repair** | Agent wired a full app but left one mistake | check-json → line fix → `point check` (full app graph) |
 | **refactor** | Rename/move blocks across app (partial agent rename) | Golden structure + check |
 
-## Cases (4)
+## Cases (6)
 
 | ID | Category | Source example |
 |----|----------|----------------|
@@ -20,6 +20,8 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | `dashboard-search-wiring` | app-repair | dashboard golden |
 | `notes-add-detail` | feature-add | `examples/app/notes/` |
 | `dashboard-rename-products` | refactor | dashboard items → products |
+| `ops-add-dashboard` | feature-add | `examples/app/job-queue/` — chart + datagrid + form |
+| `sse-add-live-feed` | feature-add | `examples/app/sse-dashboard/` — SSE push feed |
 
 ## Paired Next.js scaffolds
 
@@ -33,8 +35,9 @@ Measured TypeScript agent context comes from real files listed in each `manifest
 ## Run
 
 ```bash
-bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts
+bun test tests/agent-app-benchmark.test.ts tests/agent-app-gate.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts
 bun run benchmark:agent-app
+bun run benchmark:agent-app:gate
 bun run export:agent-app-cases
 bun run proof:agent-app -- --skip-models
 bun run benchmark:agent-app-models   # optional live API eval

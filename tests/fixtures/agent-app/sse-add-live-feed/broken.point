@@ -1,0 +1,46 @@
+module MetricsApp
+
+external point std process
+  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from "@hatchingpoint/point/std/process" as processStreamLines
+
+record Metric Pulse
+  value: Text
+
+action stream metric pulses
+  output line: Text
+  touches process
+  yield stream lines raw("sh", ["-c", "i=0; while [ $i -lt 6 ]; do echo pulse-$i; i=$((i+1)); sleep 0.1; done"], [])
+
+sse route metric pulses
+  path "/sse/metrics"
+  event Metric Pulse
+  on connect stream from action stream metric pulses
+  on disconnect return none
+
+view live pulse feed
+  subscribe to sse metric ticks
+  when connecting render muted "Connecting to SSE feed…"
+  when disconnected render danger "Feed ended"
+  each pulse in messages render pulse.value
+
+view metrics nav
+  link "Home" to "/"
+  render "Metrics"
+
+layout metrics shell
+  slot sidebar render metrics nav()
+  slot main render "Metrics"
+
+page home page
+  layout metrics shell
+  title "Metrics"
+  description "Live SSE push feed"
+  main render live pulse feed()
+
+navigation metrics app
+  path "/" page home page
+  bootstrap router
+
+command metrics demo
+  output result: Text
+  return "SSE metrics feed ready at /sse/metrics"

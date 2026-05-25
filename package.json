@@ -1,6 +1,6 @@
 {
   "name": "point",
-  "version": "0.1.49",
+  "version": "0.1.50",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -42,6 +42,7 @@
     "benchmark:agent-repair:gate": "bun scripts/agent-repair-gate.ts",
     "benchmark:agent-repair-models": "bun scripts/agent-repair-model-benchmark.ts",
     "benchmark:agent-app": "bun scripts/run-agent-app-benchmark.ts",
+    "benchmark:agent-app:gate": "bun scripts/agent-app-gate.ts",
     "benchmark:agent-app-models": "bun scripts/agent-app-model-benchmark.ts",
     "export:agent-app-cases": "bun scripts/export-agent-app-cases.ts",
     "export:agent-repair-cases": "bun scripts/export-agent-repair-cases.ts",
@@ -57,7 +58,7 @@
     "version:patch": "bun scripts/bump-version.ts patch",
     "version:minor": "bun scripts/bump-version.ts minor",
     "version:major": "bun scripts/bump-version.ts major",
-    "ci": "bun run sync:app-template && bun run sync:std-modules && bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run benchmark:agent-repair && bun run benchmark:agent-repair:gate && bun run benchmark:agent-app && bun run vscode:build && bun run vscode:package"
+    "ci": "bun run sync:app-template && bun run sync:std-modules && bun run fmt-check && bun run check && bun run check-docs && bun run build && bun run build:ts && bun run build:ast && bun run build:py && bun run build:logic && bun run point:test && bun test && bun run benchmark:agent-repair && bun run benchmark:agent-repair:gate && bun run benchmark:agent-app && bun run benchmark:agent-app:gate && bun run vscode:build && bun run vscode:package"
   },
   "devDependencies": {
     "@hatchingpoint/point": "workspace:packages/point",

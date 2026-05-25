@@ -97,6 +97,14 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 		return `error TS2307: Cannot find module '../lib/items' or its corresponding type declarations.
   at components/ProductsList.tsx:1:28`;
 	}
+	if (testCase.id === "ops-add-dashboard") {
+		return `error TS2304: Cannot find name 'fetchOpsPanel'.
+  at components/OpsDashboard.tsx:12:42`;
+	}
+	if (testCase.id === "sse-add-live-feed") {
+		return `error TS2552: Cannot find name 'metricTicks'. Did you mean 'metricPulses'?
+  at components/LivePulseFeed.tsx:8:28`;
+	}
 	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
   at components/SearchPanel.tsx:1:10`;
 }
@@ -133,10 +141,16 @@ ${currentLine}
 Numbered broken app (for multi-line inserts):
 ${numberedSource}`;
 	} else {
+		const scaffoldBody =
+			typescript.excerpt ||
+			`${testCase.typescriptContext.taskDescription}\n\n` +
+				"// Illustrative Next.js scaffold paste (components, loaders, routes)\n".repeat(
+					Math.max(1, Math.ceil(testCase.typescriptContext.totalChars / 72)),
+				);
 		context = `Workflow: TypeScript + paired Next.js scaffold
 
 Task context (~${typescript.chars} chars measured from benchmarks/next-dashboard/):
-${typescript.excerpt}
+${scaffoldBody}
 
 TypeScript compiler error:
 ${buildAppTscError(testCase)}
@@ -306,6 +320,10 @@ export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdi
 				{ kind: "insertAfterLine", line: 42, lines: ['  each product in data render link product.title to "/products/" + product.id'] },
 				{ kind: "replaceLine", line: 65, text: "  main render products list()" },
 			];
+		case "ops-add-dashboard":
+			return [{ kind: "replaceLine", line: 42, text: "  load data from action fetch ops dashboard" }];
+		case "sse-add-live-feed":
+			return [{ kind: "replaceLine", line: 21, text: "  subscribe to sse metric pulses" }];
 		default:
 			return [
 				{

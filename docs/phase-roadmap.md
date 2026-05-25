@@ -4,7 +4,9 @@
 
 ## Active execution
 
-**Next:** Phase 72+ (agent-app benchmarks, multistep UI builds)
+**Next:** Phase 73+ (ops app-repair, bind textarea repair gate 35)
+
+**Wave shipped (v0.1.50):** 72 agent-app expansion — multistep UI + SSE cases, agent-app gate 6
 
 **Wave shipped (v0.1.49):** 71 SSE route + push dashboard, repair gate 34
 
@@ -12,6 +14,7 @@
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **72** | v0.1.50 | Agent-app gate 6: ops chart/datagrid/form, SSE live feed feature-add |
 | **71–71b** | v0.1.49 | SSE route, subscribe to sse, sse-dashboard example, repair gate 34 |
 | **70–70b** | v0.1.48 | Agent plateau: bind select/textarea, toast-without-submit, LSP parity, repair gate 33 |
 | **69** | v0.1.47 | Integrator: pagination, metrics chart dashboard, repair gate 31 |

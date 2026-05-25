@@ -1,0 +1,40 @@
+module OpsApp
+
+record Job Row
+  name: Text
+  status: Text
+  score: Int
+
+view ops nav
+  link "Dashboard" to "/"
+  render "Ops"
+
+action list jobs
+  output jobs: List<Job Row>
+  touches none
+  return [{ name: "sync", status: "ok", score: 95 }, { name: "import", status: "warn", score: 72 }]
+
+view jobs list
+  load data from action list jobs
+  when loading render "Loading jobs..."
+  when error render "Could not load jobs"
+  when empty render "No jobs yet"
+  each job in data render job.name + " — " + job.status
+
+layout ops shell
+  slot sidebar render ops nav()
+  slot main render "Ops console"
+
+page dashboard page
+  layout ops shell
+  title "Ops dashboard"
+  description "Job status overview"
+  main render jobs list()
+
+navigation ops app
+  path "/" page dashboard page
+  bootstrap router
+
+command ops demo
+  output result: Text
+  return "Ops list ready"

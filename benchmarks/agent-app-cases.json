@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-app-cases.v1",
-  "generatedAt": "2026-05-22T10:57:45.496Z",
+  "generatedAt": "2026-05-25T15:28:10.737Z",
   "cases": [
     {
       "id": "dashboard-add-search",
@@ -145,10 +145,81 @@
       "nextDashboardFilesMissing": [],
       "tokenReductionPercent": 58,
       "ciPass": true
+    },
+    {
+      "id": "ops-add-dashboard",
+      "title": "Ops — add chart + datagrid + enqueue form",
+      "category": "feature-add",
+      "agentTask": "Upgrade a simple ops job list into a full dashboard: combined load action, bar chart, datagrid with sort/filter/pagination, enqueue form with toast + submit, and /enqueue page in navigation.",
+      "sourceExample": "examples/app/job-queue/job-queue.point",
+      "baseLines": 41,
+      "goldenLines": 79,
+      "deltaLines": 38,
+      "baseSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\nview jobs list\n  load data from action list jobs\n  when loading render \"Loading jobs...\"\n  when error render \"Could not load jobs\"\n  when empty render \"No jobs yet\"\n  each job in data render job.name + \" — \" + job.status\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Job status overview\"\n  main render jobs list()\n\nnavigation ops app\n  path \"/\" page dashboard page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops list ready\"\n",
+      "brokenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview jobs list\n  load data from action list jobs\n  when loading render \"Loading jobs...\"\n  when error render \"Could not load jobs\"\n  when empty render \"No jobs yet\"\n  each job in data render job.name + \" — \" + job.status\n\nview ops dashboard\n  load data from action fetch ops panel\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard scaffold ready\"\n",
+      "goldenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-load-action\",\n      \"message\": \"View ops dashboard loads unknown action fetch ops panel\",\n      \"path\": \"view.ops dashboard\",\n      \"ref\": \"point://semantic/OpsApp/view.ops dashboard\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 42,\n          \"column\": 1,\n          \"offset\": 899\n        },\n        \"end\": {\n          \"line\": 42,\n          \"column\": 40,\n          \"offset\": 938\n        }\n      },\n      \"expected\": [\n        \"fetch ops dashboard\",\n        \"list jobs\"\n      ],\n      \"actual\": \"fetch ops panel\",\n      \"repair\": \"Declare action fetch ops panel or fix the load data from action name.\",\n      \"relatedRefs\": [\n        \"point://semantic/OpsApp/view.ops dashboard\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "unknown-load-action",
+      "requiredDeclarations": [
+        "action fetch ops dashboard",
+        "view ops dashboard",
+        "view enqueue job form",
+        "page enqueue page"
+      ],
+      "requiredNavPaths": [
+        "/enqueue"
+      ],
+      "contextTokens": 210,
+      "contextChars": 839,
+      "tsContextTokens": 6500,
+      "tsContextSource": "heuristic",
+      "tsHeuristicTokens": 6500,
+      "tsTaskDescription": "Add a React ops dashboard with bar chart, sortable/filterable data grid, paginated rows, and an enqueue form with toast feedback — new loader action, pages, and nav links.",
+      "typescriptExcerpt": "",
+      "nextDashboardCaseId": null,
+      "nextNotesCaseId": null,
+      "nextDashboardFilesMissing": [],
+      "tokenReductionPercent": 97,
+      "ciPass": true
+    },
+    {
+      "id": "sse-add-live-feed",
+      "title": "Metrics — add SSE live feed",
+      "category": "feature-add",
+      "agentTask": "Wire a push metrics dashboard: stream action, sse route with event record, subscribe view with connecting/disconnected guards, and home page rendering the live feed.",
+      "sourceExample": "examples/app/sse-dashboard/sse-dashboard.point",
+      "baseLines": 24,
+      "goldenLines": 47,
+      "deltaLines": 23,
+      "baseSource": "module MetricsApp\n\nview metrics nav\n  link \"Home\" to \"/\"\n  render \"Metrics\"\n\nlayout metrics shell\n  slot sidebar render metrics nav()\n  slot main render \"Metrics\"\n\npage home page\n  layout metrics shell\n  title \"Metrics\"\n  description \"Static placeholder until live feed is wired\"\n  main render \"Add an SSE push feed next\"\n\nnavigation metrics app\n  path \"/\" page home page\n  bootstrap router\n\ncommand metrics demo\n  output result: Text\n  return \"Metrics shell ready\"\n",
+      "brokenSource": "module MetricsApp\n\nexternal point std process\n  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from \"@hatchingpoint/point/std/process\" as processStreamLines\n\nrecord Metric Pulse\n  value: Text\n\naction stream metric pulses\n  output line: Text\n  touches process\n  yield stream lines raw(\"sh\", [\"-c\", \"i=0; while [ $i -lt 6 ]; do echo pulse-$i; i=$((i+1)); sleep 0.1; done\"], [])\n\nsse route metric pulses\n  path \"/sse/metrics\"\n  event Metric Pulse\n  on connect stream from action stream metric pulses\n  on disconnect return none\n\nview live pulse feed\n  subscribe to sse metric ticks\n  when connecting render muted \"Connecting to SSE feed…\"\n  when disconnected render danger \"Feed ended\"\n  each pulse in messages render pulse.value\n\nview metrics nav\n  link \"Home\" to \"/\"\n  render \"Metrics\"\n\nlayout metrics shell\n  slot sidebar render metrics nav()\n  slot main render \"Metrics\"\n\npage home page\n  layout metrics shell\n  title \"Metrics\"\n  description \"Live SSE push feed\"\n  main render live pulse feed()\n\nnavigation metrics app\n  path \"/\" page home page\n  bootstrap router\n\ncommand metrics demo\n  output result: Text\n  return \"SSE metrics feed ready at /sse/metrics\"\n",
+      "goldenSource": "module MetricsApp\n\nexternal point std process\n  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from \"@hatchingpoint/point/std/process\" as processStreamLines\n\nrecord Metric Pulse\n  value: Text\n\naction stream metric pulses\n  output line: Text\n  touches process\n  yield stream lines raw(\"sh\", [\"-c\", \"i=0; while [ $i -lt 6 ]; do echo pulse-$i; i=$((i+1)); sleep 0.1; done\"], [])\n\nsse route metric pulses\n  path \"/sse/metrics\"\n  event Metric Pulse\n  on connect stream from action stream metric pulses\n  on disconnect return none\n\nview live pulse feed\n  subscribe to sse metric pulses\n  when connecting render muted \"Connecting to SSE feed…\"\n  when disconnected render danger \"Feed ended\"\n  each pulse in messages render pulse.value\n\nview metrics nav\n  link \"Home\" to \"/\"\n  render \"Metrics\"\n\nlayout metrics shell\n  slot sidebar render metrics nav()\n  slot main render \"Metrics\"\n\npage home page\n  layout metrics shell\n  title \"Metrics\"\n  description \"Live SSE push feed\"\n  main render live pulse feed()\n\nnavigation metrics app\n  path \"/\" page home page\n  bootstrap router\n\ncommand metrics demo\n  output result: Text\n  return \"SSE metrics feed ready at /sse/metrics\"\n",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-sse-subscribe-route\",\n      \"message\": \"Unknown sse route metric ticks in subscribe to sse metric ticks\",\n      \"path\": \"view.live pulse feed\",\n      \"ref\": \"point://semantic/MetricsApp/view.live pulse feed\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 21,\n          \"column\": 1,\n          \"offset\": 573\n        },\n        \"end\": {\n          \"line\": 21,\n          \"column\": 32,\n          \"offset\": 604\n        }\n      },\n      \"repair\": \"Declare sse route metric ticks or fix the subscribe to sse name.\",\n      \"expected\": [\n        \"metric pulses\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "unknown-sse-subscribe-route",
+      "requiredDeclarations": [
+        "sse route metric pulses",
+        "view live pulse feed",
+        "action stream metric pulses"
+      ],
+      "requiredNavPaths": [
+        "/"
+      ],
+      "contextTokens": 178,
+      "contextChars": 711,
+      "tsContextTokens": 4000,
+      "tsContextSource": "heuristic",
+      "tsHeuristicTokens": 4000,
+      "tsTaskDescription": "Add server-sent events to a Next.js metrics shell — EventSource client, stream handler route, connecting/error UI states, and home page wiring.",
+      "typescriptExcerpt": "",
+      "nextDashboardCaseId": null,
+      "nextNotesCaseId": null,
+      "nextDashboardFilesMissing": [],
+      "tokenReductionPercent": 96,
+      "ciPass": true
     }
   ],
   "summary": {
-    "caseCount": 4,
+    "caseCount": 6,
     "categories": [
       "feature-add",
       "app-repair",
@@ -156,8 +227,8 @@
     ],
     "tokenReductionPercent": {
       "minReductionPercent": 58,
-      "maxReductionPercent": 81,
-      "avgReductionPercent": 68
+      "maxReductionPercent": 97,
+      "avgReductionPercent": 78
     }
   }
 }
