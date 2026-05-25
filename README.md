@@ -6,6 +6,9 @@ Write rules, routes, pages, pipelines, and commands in one checked source. The c
 
 **Current release:** v0.1.49 · npm: `@hatchingpoint/point`
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
+[![npm](https://img.shields.io/npm/v/@hatchingpoint/point.svg)](https://www.npmjs.com/package/@hatchingpoint/point)
+
 **Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md) · **Evaluator demo:** [Golden app demo](docs/site/guide/golden-app-demo.md)
 
 ## Scaffold
@@ -112,6 +115,22 @@ point explain myfile.point point://semantic/Checkout/rule.cart total
 
 Benchmark: 34+ repair cases with CI gate at 100% sufficiency. See [AI overview](docs/site/ai/overview.md) and [agent plateau](docs/agent-plateau.md).
 
+## Open source
+
+Point is **free and open source** under the [MIT License](LICENSE).
+
+| | |
+|---|---|
+| **Use** | `npm install -g @hatchingpoint/point` — no account, no org invite |
+| **Source** | [github.com/HatchingPoint/point](https://github.com/HatchingPoint/point) — public, fork-friendly |
+| **Contribute** | [CONTRIBUTING.md](CONTRIBUTING.md) — fork → PR; `bun run ci` must pass |
+| **Conduct** | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) |
+| **Security** | [SECURITY.md](SECURITY.md) — private disclosure, not public issues |
+
+The `@hatchingpoint/*` npm scope is **public**. Root `package.json` is `"private": true` so the monorepo is not accidentally published; only `packages/point` ships to npm.
+
+Maintainers: release secrets and tagging — [docs/maintainer-release.md](docs/maintainer-release.md).
+
 ## What you write vs what runs
 
 You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS.
@@ -125,6 +144,8 @@ You author **`.point`**. JavaScript is the default runtime. Full-stack apps use 
 | Python automation | `point build-py` (advanced) |
 
 ## Repo development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
 ```bash
 bun install

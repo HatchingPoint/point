@@ -15,7 +15,7 @@ Point ships on the public npm registry under the `@hatchingpoint` scope. **Insta
 | `@hatchingpoint/point` | Compiler, CLI, LSP, core APIs, std runtime shims (`@hatchingpoint/point/std/*`) | `bun install -g @hatchingpoint/point` |
 | `@hatchingpoint/point-logic` | Pure application logic published from `.point` only (store listing readiness scoring) | `bun add @hatchingpoint/point-logic` |
 
-Both packages are MIT licensed and published from the [Point repository](https://github.com/HatchingPoint/point).
+Both packages are MIT licensed and published from the [Point repository](https://github.com/HatchingPoint/point). See [Open source](/point/ecosystem/open-source) for contributing — no org membership required.
 
 ## @hatchingpoint/point (compiler + std bridge)
 

@@ -1,0 +1,65 @@
+name: Bug report
+description: Something is broken in the compiler, CLI, LSP, or docs
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **No org membership required** — anyone can file issues.
+        For security issues, see [SECURITY.md](https://github.com/HatchingPoint/point/blob/main/SECURITY.md) instead.
+
+  - type: input
+    id: version
+    attributes:
+      label: Point version
+      description: Output of `point --version` or npm package version
+      placeholder: "0.1.49"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal `.point` source or commands
+      placeholder: |
+        point check broken.point
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: Include diagnostic output or error text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Compiler / check
+        - CLI
+        - LSP / editor
+        - Emit (JS/TS/Python)
+        - Agent repair / check-json
+        - Docs
+        - Templates / examples
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "macOS 15, Bun 1.3.x"

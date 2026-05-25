@@ -87,3 +87,11 @@ index → explain point://… → check-json → repair-plan → patch → check
 ## Version anchor
 
 Update this line each release: **v0.1.49** — Phase 71 SSE route, push dashboard example, repair gate 34.
+
+## Open source (public messaging)
+
+- **License:** MIT — badge + section in root README
+- **Contribute:** CONTRIBUTING.md — fork/PR, `bun run ci`, no org invite
+- **Community:** CODE_OF_CONDUCT.md, SECURITY.md, GitHub issue + PR templates
+- **Maintainers:** docs/maintainer-release.md — NPM_TOKEN, VSCE_PAT on tag push only
+- **Site:** docs/site/ecosystem/open-source.md

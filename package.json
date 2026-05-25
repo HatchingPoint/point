@@ -2,6 +2,7 @@
   "name": "point",
   "version": "0.1.49",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "bin": {
     "point": "./packages/point/src/cli.ts"
