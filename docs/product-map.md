@@ -86,7 +86,7 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.52** — Phase 74 ops datagrid sort app-repair, agent-app gate 8.
+Update this line each release: **v0.1.53** — Phase 75 ops datagrid filter app-repair, agent-app gate 9.
 
 ## Open source (public messaging)
 

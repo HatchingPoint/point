@@ -234,6 +234,26 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "ops-dashboard-filter-wiring",
+		title: "Ops — fix datagrid filter column on dashboard",
+		category: "app-repair",
+		agentTask:
+			"Fix the ops dashboard datagrid filter column — filter by title but columns are name, status, and score.",
+		baseFile: "ops-add-dashboard/golden.point",
+		brokenFile: "ops-dashboard-filter-wiring/broken.point",
+		goldenFile: "ops-add-dashboard/golden.point",
+		expectedCode: "invalid-datagrid-filter-column",
+		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
+		requiredNavPaths: ["/", "/enqueue"],
+		sourceExample: "examples/app/job-queue/job-queue.point",
+		typescriptContext: {
+			taskDescription:
+				"Fix JobsGrid filterColumn in a Next.js ops dashboard — datagrid columns are name/status/score but filter uses title.",
+			totalChars: 24000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {

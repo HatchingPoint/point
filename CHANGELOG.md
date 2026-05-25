@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.53
+
+### Added
+
+- Phase 75: **`ops-dashboard-filter-wiring`** — full-app app-repair for wrong datagrid filter column on ops dashboard.
+- Phase 75: **Agent-app gate 9** — chart + sort + filter ops dashboard repair trilogy complete.
+
 ## 0.1.52
 
 ### Added

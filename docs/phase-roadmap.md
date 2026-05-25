@@ -4,7 +4,9 @@
 
 ## Active execution
 
-**Next:** Phase 75+ (datagrid filter app-repair, agent-app model eval gate)
+**Next:** Phase 76+ (page-size app-repair, model eval gate)
+
+**Wave shipped (v0.1.53):** 75 ops datagrid filter app-repair, agent-app gate 9
 
 **Wave shipped (v0.1.52):** 74 ops datagrid sort app-repair, agent-app gate 8, LandingPage OSS sync
 
@@ -18,6 +20,7 @@
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **75** | v0.1.53 | Ops datagrid filter app-repair, agent-app gate 9 — chart/sort/filter trilogy complete |
 | **74** | v0.1.52 | Ops datagrid sort app-repair, agent-app gate 8, LandingPage OSS + benchmark sync |
 | **73** | v0.1.51 | Ops chart app-repair, invalid-bind-textarea-target, repair gate 35, agent-app gate 7 |
 | **72** | v0.1.50 | Agent-app gate 6: ops chart/datagrid/form, SSE live feed feature-add |
