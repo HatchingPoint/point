@@ -68,20 +68,39 @@ function checkViewDeclaration(
 	for (const statement of bindStatements) {
 		if (statement.target.kind !== "property" || statement.target.target.kind !== "name") {
 			const suggestedTarget = suggestBindTarget(declaration, statement);
+			const bindKind =
+				statement.kind === "bindSelect" ? "select" : statement.kind === "bindTextarea" ? "textarea" : "field";
 			diagnostics.push(
 				viewDiagnostic(
 					"invalid-view-bind-target",
-					`View ${declaration.name} bind target must be input.field`,
+					`View ${declaration.name} bind ${bindKind} target must be input.field`,
 					moduleName,
 					declaration.name,
 					suggestedTarget
-						? `Use bind field "${statement.label}" to ${suggestedTarget}.`
-						: `Use bind field "Label" to record.field or bind checkbox "Label" to record.field.`,
+						? `Use bind ${bindKind} "${statement.label}" to ${suggestedTarget}${statement.kind === "bindSelect" ? " options role options" : ""}.`
+						: `Use bind ${bindKind} "Label" to record.field.`,
 					statement.span,
 					suggestedTarget ? { expected: suggestedTarget } : undefined,
 				),
 			);
 		}
+	}
+
+	const hasToast = viewHasToast(declaration);
+	const hasSubmit = viewHasFormSubmit(declaration);
+	if (hasToast && !hasSubmit) {
+		const toastStatement = findToastStatement(declaration);
+		diagnostics.push(
+			viewDiagnostic(
+				"toast-without-submit",
+				`View ${declaration.name} toast requires a form submit action`,
+				moduleName,
+				declaration.name,
+				`Add submit "Label" POST "/api/..." body record after the toast lines.`,
+				toastStatement?.span ?? declaration.span,
+				{ expected: 'submit "Save" POST "/api/items" body draft' },
+			),
+		);
 	}
 
 	if (bindStatements.length > 0) {
@@ -287,15 +306,62 @@ function checkStatementStyleModifiers(
 
 function collectBindStatements(statements: PointSemanticViewStatement[]) {
 	return statements.flatMap((statement) => {
-		if (statement.kind === "bindCheckbox" || statement.kind === "bindField") return [statement];
+		if (
+			statement.kind === "bindCheckbox" ||
+			statement.kind === "bindField" ||
+			statement.kind === "bindSelect" ||
+			statement.kind === "bindTextarea"
+		) {
+			return [statement];
+		}
 		if (statement.kind === "form") {
 			return statement.bindings.filter(
-				(binding): binding is Extract<PointSemanticViewBindStatement, { kind: "bindField" | "bindCheckbox" }> =>
-					binding.kind === "bindField" || binding.kind === "bindCheckbox",
+				(
+					binding,
+				): binding is Extract<
+					PointSemanticViewBindStatement,
+					{ kind: "bindField" | "bindCheckbox" | "bindSelect" | "bindTextarea" }
+				> =>
+					binding.kind === "bindField" ||
+					binding.kind === "bindCheckbox" ||
+					binding.kind === "bindSelect" ||
+					binding.kind === "bindTextarea",
 			);
 		}
 		return [];
 	});
+}
+
+function viewHasToast(declaration: PointSemanticViewDeclaration): boolean {
+	for (const statement of declaration.body) {
+		if (statement.kind === "toastSuccess" || statement.kind === "toastError") return true;
+		if (statement.kind === "form") {
+			if (statement.bindings.some((binding) => binding.kind === "toastSuccess" || binding.kind === "toastError")) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function viewHasFormSubmit(declaration: PointSemanticViewDeclaration): boolean {
+	for (const statement of declaration.body) {
+		if (statement.kind === "form") {
+			if (statement.bindings.some((binding) => binding.kind === "submit")) return true;
+		}
+	}
+	return false;
+}
+
+function findToastStatement(declaration: PointSemanticViewDeclaration): PointSemanticViewStatement | undefined {
+	for (const statement of declaration.body) {
+		if (statement.kind === "toastSuccess" || statement.kind === "toastError") return statement;
+		if (statement.kind === "form") {
+			const toast = statement.bindings.find((binding) => binding.kind === "toastSuccess" || binding.kind === "toastError");
+			if (toast) return toast;
+		}
+	}
+	return undefined;
 }
 
 function resolveExpressionType(
@@ -391,11 +457,12 @@ function recordHasField(fields: string[], fieldName: string): boolean {
 
 function suggestBindTarget(
 	declaration: PointSemanticViewDeclaration,
-	statement: Extract<PointSemanticViewStatement, { kind: "bindField" | "bindCheckbox" }>,
+	statement: Extract<PointSemanticViewStatement, { kind: "bindField" | "bindCheckbox" | "bindSelect" | "bindTextarea" }>,
 ): string | undefined {
 	const recordInput = declaration.inputs.find((input) => input.type.name !== "Handler");
 	if (!recordInput) return undefined;
-	return `${recordInput.label}.${statement.label.toLowerCase()}`;
+	const fieldName = toIdentifier(statement.label);
+	return `${recordInput.label}.${fieldName}`;
 }
 
 function viewDiagnostic(

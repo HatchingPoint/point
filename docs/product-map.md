@@ -8,7 +8,7 @@ Internal source of truth for README, site copy, and release notes. Sync when shi
 |------|-------------|-------------------|
 | **Daily** | `capabilities`, `check`, `box`, `launch`, `demo`, `dev` | Semantic lowering, use-merge, import prune |
 | **Build** | `build`, `build-app`, `build-schema` | Multi-emit, module graph, incremental cache |
-| **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 26-case benchmark |
+| **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 33-case benchmark |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `point add` | Lockfile packages, AST tooling, Python subset |
 
 Public front door: **Point in 60 seconds** → **Golden app demo** (evaluators).
@@ -64,7 +64,7 @@ Expand with:
 index → explain point://… → check-json → repair-plan → patch → check
 ```
 
-26+ repair benchmark cases; CI gate at 100% sufficiency (31 single-shot cases).
+33+ repair benchmark cases; CI gate at 100% sufficiency (33 single-shot cases).
 
 ## CLI groups (user-facing)
 
@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.47** — Phase 68 datagrid pagination, job queue metrics chart, repair gate 31.
+Update this line each release: **v0.1.48** — Phase 70 agent plateau: bind select/toast validation, repair gate 33.

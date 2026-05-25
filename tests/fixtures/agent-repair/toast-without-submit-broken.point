@@ -1,0 +1,12 @@
+module ToastRepair
+
+record Draft
+  name: Text
+
+view create form
+  input draft: Draft
+  input on draft change: Handler<Draft>
+  on change call on draft change
+  form
+  bind field "Name" to draft.name
+  toast on success "Saved"

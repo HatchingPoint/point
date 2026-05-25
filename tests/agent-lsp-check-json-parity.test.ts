@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { analyzePointSource } from "../packages/point/src/lsp/analyze.ts";
 import { AGENT_REPAIR_CASES, loadFixture, runCheckJson } from "../scripts/agent-repair-sufficiency.ts";
 
-/** Phase 26–27 codes plus core agent-loop codes spot-checked for LSP ↔ CLI parity. */
+/** Phase 26–27 codes plus platform UI kit repair codes spot-checked for LSP ↔ CLI parity. */
 const LSP_PARITY_CASE_IDS = new Set([
 	"middleware-input-unavailable",
 	"middleware-input-type-mismatch",
@@ -10,6 +10,16 @@ const LSP_PARITY_CASE_IDS = new Set([
 	"float-money-field",
 	"missing-variant-case",
 	"invalid-view-bind-target",
+	"invalid-bind-select-target",
+	"toast-without-submit",
+	"invalid-chart-field",
+	"refresh-without-load",
+	"invalid-refresh-interval",
+	"invalid-table-link-column",
+	"terminal-unknown-stream",
+	"invalid-datagrid-sort-column",
+	"invalid-datagrid-filter-column",
+	"invalid-datagrid-page-size",
 	"unknown-field-rule",
 	"missing-await",
 	"operator-type-mismatch",
@@ -42,7 +52,7 @@ describe("LSP vs check-json diagnostic parity", () => {
 		});
 	}
 
-	test("parity matrix covers Phase 26–27 agent-repair codes", () => {
+	test("parity matrix covers platform UI and Phase 26–27 agent-repair codes", () => {
 		for (const code of [
 			"middleware-input-unavailable",
 			"middleware-input-type-mismatch",
@@ -50,6 +60,12 @@ describe("LSP vs check-json diagnostic parity", () => {
 			"float-money-field",
 			"missing-variant-case",
 			"invalid-view-bind-target",
+			"toast-without-submit",
+			"invalid-chart-field",
+			"invalid-datagrid-sort-column",
+			"invalid-datagrid-filter-column",
+			"invalid-datagrid-page-size",
+			"unknown-load-action",
 		]) {
 			expect(parityCases.some((testCase) => testCase.expectedCode === code)).toBe(true);
 		}

@@ -53,15 +53,15 @@ export function settingsFormView(settings, onSettingsChange) {
 }
 
 export function loginFormView(credentials, onCredentialsChange) {
-  return "Use password demo for the pilot workspace"; // @point 67
+  return "Use password demo for the pilot workspace"; // @point 68
 }
 
-export function createMemberFormView(draft, onDraftChange) {
-  return "Creates a member with your saved Bearer token"; // @point 77
+export function createMemberFormView(draft, roleOptions, onDraftChange) {
+  return "Creates a member with your saved Bearer token"; // @point 81
 }
 
 export function jwtSecret() {
-  return envWithDefaultResult(envGetRaw("JWT_SECRET"), "demo-jwt-secret-change-me"); // @point 81
+  return envWithDefaultResult(envGetRaw("JWT_SECRET"), "demo-jwt-secret-change-me"); // @point 85
 }
 
 import { sqlJsonRowsList as sqlJsonRowsList } from "@hatchingpoint/point/std/sql";
@@ -69,22 +69,22 @@ import { sqlJsonRowsList as sqlJsonRowsList } from "@hatchingpoint/point/std/sql
 import { sqlJsonMemberRow as sqlJsonMemberRow } from "@hatchingpoint/point/std/sql";
 
 export async function queryMemberRows() {
-  return sqlQueryRaw("SELECT id, name, role FROM members ORDER BY name", []); // @point 90
+  return sqlQueryRaw("SELECT id, name, role FROM members ORDER BY name", []); // @point 94
 }
 
 export async function fetchMembers() {
-  return sqlJsonRowsList(await queryMemberRows()); // @point 95
+  return sqlJsonRowsList(await queryMemberRows()); // @point 99
 }
 
 export function membersListView() {
 }
 
 export function memberDetailView(id) {
-  return ("Member profile for " + id); // @point 107
+  return ("Member profile for " + id); // @point 111
 }
 
 export function adminShellLayout() {
-  return ""; // @point 109
+  return ""; // @point 113
 }
 
 export function settingsPage(settings, onSettingsChange) {
@@ -104,55 +104,55 @@ export function loginPage(credentials, onCredentialsChange) {
 }
 
 export function createMemberPage(draft, onDraftChange) {
-  return createMemberFormView(draft, onDraftChange);
+  return createMemberFormView(draft, onDraftChange, ["Owner", "Admin", "Member"]);
 }
 
 export function requireAuthMiddleware(headers) {
-  if (authOk(headers.authorization, jwtSecret()) == false) { // @point 161
-    return authUnauthorizedBody(); // @point 161
+  if (authOk(headers.authorization, jwtSecret()) == false) { // @point 165
+    return authUnauthorizedBody(); // @point 165
   }
-  return null; // @point 162
+  return null; // @point 166
 }
 
 export function rejectInvalidLoginMiddleware(body) {
-  if (body.password != "demo") { // @point 167
-    return "{\"error\":\"invalid credentials\"}"; // @point 167
+  if (body.password != "demo") { // @point 171
+    return "{\"error\":\"invalid credentials\"}"; // @point 171
   }
-  return null; // @point 168
+  return null; // @point 172
 }
 
 export async function createMembersTableResult() {
-  return sqlQueryRaw("CREATE TABLE IF NOT EXISTS members (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, role TEXT NOT NULL)", []); // @point 173
+  return sqlQueryRaw("CREATE TABLE IF NOT EXISTS members (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, role TEXT NOT NULL)", []); // @point 177
 }
 
 export async function seedMembersTableResult() {
-  return sqlQueryRaw("INSERT OR IGNORE INTO members (id, name, role) VALUES (?, ?, ?), (?, ?, ?), (?, ?, ?)", ["u-1", "Alex Chen", "Owner", "u-2", "Jordan Lee", "Admin", "u-3", "Sam Rivera", "Member"]); // @point 178
+  return sqlQueryRaw("INSERT OR IGNORE INTO members (id, name, role) VALUES (?, ?, ?), (?, ?, ?), (?, ?, ?)", ["u-1", "Alex Chen", "Owner", "u-2", "Jordan Lee", "Admin", "u-3", "Sam Rivera", "Member"]); // @point 182
 }
 
 export async function initMembersDbWorkflow() {
-  const created = await createMembersTableResult(); // @point 182
-  const seeded = await seedMembersTableResult(); // @point 183
-  return seeded; // @point 184
+  const created = await createMembersTableResult(); // @point 186
+  const seeded = await seedMembersTableResult(); // @point 187
+  return seeded; // @point 188
 }
 
 export async function insertMember(body) {
-  return sqlJsonMemberRow(sqlQueryRaw("INSERT INTO members (id, name, role) VALUES (lower(hex(randomblob(8))), ?, ?) RETURNING id, name, role", [body.name, body.role])); // @point 190
+  return sqlJsonMemberRow(sqlQueryRaw("INSERT INTO members (id, name, role) VALUES (lower(hex(randomblob(8))), ?, ?) RETURNING id, name, role", [body.name, body.role])); // @point 194
 }
 
 export async function healthCheckRoute() {
-  return "ok"; // @point 196
+  return "ok"; // @point 200
 }
 
 export async function loginRoute(body) {
-  return pointJsonResponse({ token: signAuthJwtToken((("{\"sub\":\"" + body.email) + "\"}"), jwtSecret()) }, 200, {}); // @point 204
+  return pointJsonResponse({ token: signAuthJwtToken((("{\"sub\":\"" + body.email) + "\"}"), jwtSecret()) }, 200, {}); // @point 208
 }
 
 export async function listMembersRoute() {
-  return pointJsonResponse({ members: await fetchMembers() }, 200, {}); // @point 210
+  return pointJsonResponse({ members: await fetchMembers() }, 200, {}); // @point 214
 }
 
 export async function createMemberRoute(headers, body) {
-  return pointJsonResponse(await insertMember(body), 201, {}); // @point 219
+  return pointJsonResponse(await insertMember(body), 201, {}); // @point 223
 }
 
 export async function serveSaasAppCommand() {
@@ -167,11 +167,11 @@ export async function serveSaasAppCommand() {
 }
 
 export async function initDatabaseCommand() {
-  return await initMembersDbWorkflow(); // @point 227
+  return await initMembersDbWorkflow(); // @point 231
 }
 
 export async function adminDemoCommand() {
-  return "SaaS admin navigation ready"; // @point 231
+  return "SaaS admin navigation ready"; // @point 235
 }
 
 function pointRouteResponse(value, init = {}) {

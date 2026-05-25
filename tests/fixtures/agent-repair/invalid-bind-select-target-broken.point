@@ -1,0 +1,12 @@
+module SelectRepair
+
+record Draft
+  role: Text
+
+view create form
+  input draft: Draft
+  input role options: List<Text>
+  input on draft change: Handler<Draft>
+  on change call on draft change
+  form
+  bind select "Role" to draft options role options

@@ -100,7 +100,7 @@ point repair-plan src/app.point
 
 Stable refs like `point://semantic/AdminApp/route.health` — not generated TypeScript names. Introduce a typo, run `point repair-plan`, patch semantic source, re-check.
 
-Benchmark: 26+ repair cases, CI gate at 100% sufficiency. See [AI overview](/point/ai/overview).
+Benchmark: 33+ repair cases, CI gate at 100% sufficiency. See [AI overview](/point/ai/overview).
 
 ## 7. Ship (when ready)
 

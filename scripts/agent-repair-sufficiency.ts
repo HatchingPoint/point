@@ -757,6 +757,39 @@ pageSize={0} // must be positive`,
 			tscError: `error TS2322: Type '0' is not assignable to type 'PositiveInteger'.`,
 		},
 	},
+	{
+		id: "invalid-bind-select-target",
+		title: "View — bind select target must be record.field",
+		category: "typo-fix",
+		agentTask: "Fix bind select target to draft.field with options list.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-bind-select-target-broken.point",
+		fixedFile: "invalid-bind-select-target-fixed.point",
+		expectedCode: "invalid-view-bind-target",
+		chosenField: "draft.role",
+		typescriptContext: {
+			excerpt: `// CreateMemberForm.tsx — excerpt
+<Select value={draft} options={roleOptions} /> // bind value must be draft.role`,
+			totalChars: 5800,
+			tscError: `error TS2322: Type 'Draft' is not assignable to type 'string'.`,
+		},
+	},
+	{
+		id: "toast-without-submit",
+		title: "View — toast requires form submit",
+		category: "typo-fix",
+		agentTask: "Add submit action after toast lines in a form view.",
+		repairMode: "single-shot",
+		brokenFile: "toast-without-submit-broken.point",
+		fixedFile: "toast-without-submit-fixed.point",
+		expectedCode: "toast-without-submit",
+		typescriptContext: {
+			excerpt: `// CreateForm.tsx — excerpt
+toast.success("Saved"); // no POST submit handler wired`,
+			totalChars: 5200,
+			tscError: `error TS2741: Property 'onSubmit' is missing in type '{ children: Element; }'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

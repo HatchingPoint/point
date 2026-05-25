@@ -4,76 +4,92 @@
 
 
 
+
+
 import { sqlQueryRaw as sqlQueryRaw } from "@hatchingpoint/point/std/sql";
 
 import { sqlJsonRowsList as sqlJsonRowsList } from "@hatchingpoint/point/std/sql";
 
+import { sqlJsonRowsList as sqlJsonMetricRowsList } from "@hatchingpoint/point/std/sql";
+
 import { sqlJsonMemberRow as sqlJsonMemberRow } from "@hatchingpoint/point/std/sql";
 
 export async function createJobsTableResult() {
-  return sqlQueryRaw("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL)", []); // @point 30
+  return sqlQueryRaw("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL)", []); // @point 39
 }
 
 export async function queryAllJobRows() {
-  return sqlQueryRaw("SELECT id, name, status, created_at FROM jobs ORDER BY datetime(created_at) DESC", []); // @point 35
+  return sqlQueryRaw("SELECT id, name, status, created_at FROM jobs ORDER BY datetime(created_at) DESC", []); // @point 44
 }
 
 export async function fetchAllJobs() {
-  return sqlJsonRowsList(await queryAllJobRows()); // @point 40
+  return sqlJsonRowsList(await queryAllJobRows()); // @point 49
+}
+
+export async function queryJobMetricRows() {
+  return sqlQueryRaw("SELECT status AS label, COUNT(*) AS value FROM jobs GROUP BY status ORDER BY label", []); // @point 54
+}
+
+export async function fetchJobMetrics() {
+  return sqlJsonMetricRowsList(await queryJobMetricRows()); // @point 59
+}
+
+export async function fetchJobDashboard() {
+  return { jobs: await fetchAllJobs(), metrics: await fetchJobMetrics() }; // @point 64
 }
 
 export async function enqueueJob(body) {
-  return sqlJsonMemberRow(sqlQueryRaw("INSERT INTO jobs (id, name, status, created_at) VALUES (lower(hex(randomblob(8))), ?, 'pending', datetime('now')) RETURNING id, name, status, created_at", [body.name])); // @point 46
+  return sqlJsonMemberRow(sqlQueryRaw("INSERT INTO jobs (id, name, status, created_at) VALUES (lower(hex(randomblob(8))), ?, 'pending', datetime('now')) RETURNING id, name, status, created_at", [body.name])); // @point 70
 }
 
 export async function queryJobUnionRowRows(id) {
-  return sqlQueryRaw("SELECT id, name, status, created_at FROM jobs WHERE id = ? UNION ALL SELECT '__missing__', '', '', '' WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE id = ? LIMIT 1) LIMIT 1", [id, id]); // @point 52
+  return sqlQueryRaw("SELECT id, name, status, created_at FROM jobs WHERE id = ? UNION ALL SELECT '__missing__', '', '', '' WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE id = ? LIMIT 1) LIMIT 1", [id, id]); // @point 76
 }
 
 export async function decodeUnionJob(id) {
-  return sqlJsonMemberRow(await queryJobUnionRowRows(id)); // @point 58
+  return sqlJsonMemberRow(await queryJobUnionRowRows(id)); // @point 82
 }
 
 export function jobApiEnvelopeLabel(job) {
-  if (job.id == "__missing__") { // @point 63
-    return pointJsonResponse({ error: "not found" }, 404, {}); // @point 63
+  if (job.id == "__missing__") { // @point 87
+    return pointJsonResponse({ error: "not found" }, 404, {}); // @point 87
   }
-  return pointJsonResponse({ job: job }, 200, {}); // @point 64
+  return pointJsonResponse({ job: job }, 200, {}); // @point 88
 }
 
 export async function markNextPendingRunningResult() {
-  return sqlQueryRaw("UPDATE jobs SET status = 'running' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'pending' ORDER BY datetime(created_at) ASC LIMIT 1)", []); // @point 69
+  return sqlQueryRaw("UPDATE jobs SET status = 'running' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'pending' ORDER BY datetime(created_at) ASC LIMIT 1)", []); // @point 93
 }
 
 export async function completeOldestRunningJobResult() {
-  return sqlQueryRaw("UPDATE jobs SET status = 'completed' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'running' ORDER BY datetime(created_at) ASC LIMIT 1)", []); // @point 74
+  return sqlQueryRaw("UPDATE jobs SET status = 'completed' WHERE rowid IN (SELECT rowid FROM jobs WHERE status = 'running' ORDER BY datetime(created_at) ASC LIMIT 1)", []); // @point 98
 }
 
 export async function initJobsDbWorkflow() {
-  const schema = await createJobsTableResult(); // @point 78
-  return schema; // @point 79
+  const schema = await createJobsTableResult(); // @point 102
+  return schema; // @point 103
 }
 
 export async function processNextJobWorkflow() {
-  const started = await markNextPendingRunningResult(); // @point 83
-  const finalized = await completeOldestRunningJobResult(); // @point 84
-  return finalized; // @point 85
+  const started = await markNextPendingRunningResult(); // @point 107
+  const finalized = await completeOldestRunningJobResult(); // @point 108
+  return finalized; // @point 109
 }
 
 export async function postJobRoute(body) {
-  return pointJsonResponse(await enqueueJob(body), 201, {}); // @point 92
+  return pointJsonResponse(await enqueueJob(body), 201, {}); // @point 116
 }
 
 export async function listJobsRoute() {
-  return pointJsonResponse({ jobs: await fetchAllJobs() }, 200, {}); // @point 98
+  return pointJsonResponse({ jobs: await fetchAllJobs() }, 200, {}); // @point 122
 }
 
 export async function getJobRoute(id) {
-  return await jobApiEnvelopeLabel(await decodeUnionJob(id)); // @point 105
+  return await jobApiEnvelopeLabel(await decodeUnionJob(id)); // @point 129
 }
 
 export function jobQueueNavView() {
-  return "Queues"; // @point 110
+  return "Queues"; // @point 134
 }
 
 export function jobsDashboardView() {
@@ -83,7 +99,7 @@ export function enqueueJobFormView(draft, onDraftChange) {
 }
 
 export function jobQueueShellLayout() {
-  return ""; // @point 127
+  return ""; // @point 155
 }
 
 export function jobQueueDashboardPage() {
@@ -99,11 +115,11 @@ export function jobDetailPage(id) {
 }
 
 export async function initJobsDatabaseCommand() {
-  return await initJobsDbWorkflow(); // @point 160
+  return await initJobsDbWorkflow(); // @point 188
 }
 
 export async function drainOneJobDemoCommand() {
-  return await processNextJobWorkflow(); // @point 164
+  return await processNextJobWorkflow(); // @point 192
 }
 
 export async function serveJobQueueCommand() {

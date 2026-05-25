@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.48
+
+### Added
+
+- Phase 70: **Bind select/textarea validation** — `invalid-view-bind-target` when bind select or bind textarea target is not `record.field`.
+- Phase 70: **Toast without submit** — `toast-without-submit` when a form has toast lines but no submit action.
+- Phase 70b: **Agent repair gate 33** — `invalid-bind-select-target`, `toast-without-submit` fixtures.
+- Phase 70b: **LSP parity expansion** — platform UI repair codes spot-checked against CLI `check-json`.
+
+### Changed
+
+- Phase 70: **Bind repair hints** — suggest `draft.field` via label identifier for select, textarea, field, and checkbox binds.
+
 ## 0.1.47
 
 ### Added

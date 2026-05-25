@@ -1405,3 +1405,8 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 ## Checkpoint Phase 69 integrator — v0.1.47
 
 - Completed: Bumped **0.1.47**; tag + push.
+
+## Checkpoint Phase 70–70b — Agent plateau v0.1.48
+
+- Completed: Bind select/textarea validation; `toast-without-submit`; repair gate **33/33**; LSP parity expansion; `docs/agent-plateau.md`.
+- Verified: `bun run ci` green; tag + push **v0.1.48**.

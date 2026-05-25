@@ -12,7 +12,7 @@ Point is designed for a workflow where coding agents write, check, explain, and 
 
 For the full comparison to TypeScript, Python, and prompt-only workflows, see [Point vs other languages for AI engineering](/point/ai/vs-other-languages). For worked examples and benchmarks, see [Proof of concept](/point/concepts/proof-of-concept) and [Agent repair tests](/point/ai/agent-repair-tests).
 
-**Benchmark:** 26+ repair cases with CI gate at 100% sufficiency; narrow `.point` context vs whole-file TS/React paste.
+**Benchmark:** 33+ repair cases with CI gate at 100% sufficiency; narrow `.point` context vs whole-file TS/React paste.
 
 ## The problem with raw text
 
