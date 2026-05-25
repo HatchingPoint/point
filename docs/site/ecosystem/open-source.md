@@ -1,4 +1,10 @@
-# Open source at Point
+---
+title: Open source
+description: MIT license, public npm, fork-friendly contributing — no HatchingPoint org membership required.
+quadrant: Reference
+---
+
+## Summary
 
 Point is MIT-licensed open source. This page is the public-facing summary; the repo is the source of truth.
 
@@ -29,3 +35,8 @@ Point is MIT-licensed open source. This page is the public-facing summary; the r
 ## Maintainers only
 
 Publishing releases uses GitHub Actions org secrets on version tags. See [maintainer-release.md](https://github.com/HatchingPoint/point/blob/main/docs/maintainer-release.md).
+
+## See also
+
+- [npm packages](/point/ecosystem/npm-packages)
+- [Quick start](/point/guide/quick-start)
