@@ -51,6 +51,9 @@ export function semanticDeclarationMetadata(declaration: PointSemanticDeclaratio
 	if (declaration.kind === "streamRoute") {
 		return { kind: "streamRoute", name: declaration.name, outputName: "stream", effects: ["network"] };
 	}
+	if (declaration.kind === "sseRoute") {
+		return { kind: "sseRoute", name: declaration.name, outputName: "sse", effects: ["network"] };
+	}
 	if (declaration.kind === "middleware") {
 		return { kind: "middleware", name: declaration.name, outputName: declaration.output.name, effects: [] };
 	}

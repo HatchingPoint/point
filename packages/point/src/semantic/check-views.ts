@@ -44,7 +44,10 @@ export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiag
 		if (fetchStatement) {
 			paramTypes.set("data", fetchStatement.itemType);
 		}
-		if (subscribeStatement) {
+		if (resolvedSubscribe.sseSubscribeRoute) {
+			const messageType = resolveSseMessageType(program, resolvedSubscribe.sseSubscribeRoute.routeName);
+			if (messageType) paramTypes.set("messages", `List<${messageType}>`);
+		} else if (subscribeStatement) {
 			const routeName = subscribeStatement.kind === "streamSubscribeRoute" ? subscribeStatement.routeName : undefined;
 			const path = subscribeStatement.kind === "streamSubscribePath" ? subscribeStatement.path : undefined;
 			const messageType = resolveStreamMessageType(program, routeName, path);
@@ -418,6 +421,14 @@ function formatTypeLabel(type: { name: string; args: Array<{ name: string; args:
 	const primitives = new Set(["Text", "Int", "Float", "Bool", "Void", "Maybe", "Or", "Error", "Page", "Handler", "List"]);
 	if (primitives.has(type.name)) return type.name;
 	return type.name.replaceAll(" ", "");
+}
+
+function resolveSseMessageType(program: PointSemanticProgram, routeName: string): string | undefined {
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "sseRoute") continue;
+		if (declaration.name === routeName) return formatTypeLabel(declaration.eventType);
+	}
+	return undefined;
 }
 
 function resolveStreamMessageType(program: PointSemanticProgram, routeName?: string, path?: string): string | undefined {

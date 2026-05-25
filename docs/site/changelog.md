@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.48**
+Current release: **0.1.49**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.49** | Phase 71–71b: SSE route, subscribe to sse, push dashboard example, repair gate 34. |
 | **0.1.48** | Phase 70–70b: Agent plateau — bind select/toast validation, repair gate 33, LSP parity. |
 | **0.1.47** | Phase 68–68b: Datagrid pagination, job queue metrics chart, repair gate 31. |
 | **0.1.46** | Phase 66–66b: Job queue live dashboard, chart field validation, repair gate 30. |

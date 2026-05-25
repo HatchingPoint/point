@@ -3,8 +3,9 @@ import type {
 	PointSemanticMiddlewareDeclaration,
 	PointSemanticRouteDeclaration,
 	PointSemanticStreamRouteDeclaration,
+	PointSemanticSseRouteDeclaration,
 } from "../semantic/ast.ts";
-import { semanticFunctionName, streamRouteHandlerName, toIdentifier, toPascalCase } from "../semantic/naming.ts";
+import { semanticFunctionName, streamRouteHandlerName, sseRouteHandlerName, toIdentifier, toPascalCase } from "../semantic/naming.ts";
 
 export const ROUTE_HTTP_INPUTS = new Set(["query", "body", "headers"]);
 
@@ -90,6 +91,35 @@ export function streamRouteSpec(
 		connectStreamAction,
 		messageHandler: messageHandler ? streamRouteHandlerName(streamRoute.name, "message") : undefined,
 		disconnectHandler: disconnectHandler ? streamRouteHandlerName(streamRoute.name, "disconnect") : undefined,
+	};
+}
+
+export interface SseRouteSpec {
+	path: string;
+	routeName: string;
+	messageFields: string[];
+	connectStreamAction?: string;
+	disconnectHandler?: string;
+}
+
+export function sseRouteSpec(
+	sseRoute: PointSemanticSseRouteDeclaration,
+	records: Map<string, Map<string, string>>,
+	actionFnByName: Map<string, string>,
+): SseRouteSpec {
+	const messageFields = recordFieldNamesForType(sseRoute.eventType.name, records);
+	const connectHandler = sseRoute.handlers.find((handler) => handler.event === "connect");
+	const disconnectHandler = sseRoute.handlers.find((handler) => handler.event === "disconnect");
+	const connectStreamAction =
+		connectHandler?.mode === "streamFromAction" && connectHandler.actionName
+			? actionFnByName.get(connectHandler.actionName)
+			: undefined;
+	return {
+		path: sseRoute.path,
+		routeName: sseRoute.name,
+		messageFields,
+		connectStreamAction,
+		disconnectHandler: disconnectHandler ? sseRouteHandlerName(sseRoute.name, "disconnect") : undefined,
 	};
 }
 
@@ -231,6 +261,36 @@ export function emitRouteRuntimeHelpers(): string[] {
 		"    /* stream ended */",
 		"  }",
 		"}",
+		"",
+		"function pointSendSsePayload(controller, encoder, value) {",
+		"  const payload = typeof value === \"string\" ? value : JSON.stringify(value);",
+		"  controller.enqueue(encoder.encode(`data: ${payload}\\n\\n`));",
+		"}",
+		"",
+		"async function pointPumpStreamToSseResponse(streamFactory, messageFields) {",
+		"  const encoder = new TextEncoder();",
+		"  const stream = new ReadableStream({",
+		"    async start(controller) {",
+		"      try {",
+		"        const source = streamFactory();",
+		"        for await (const line of source) {",
+		"          pointSendSsePayload(controller, encoder, pointWrapStreamLine(line, messageFields));",
+		"        }",
+		"      } catch {",
+		"        /* stream ended */",
+		"      } finally {",
+		"        controller.close();",
+		"      }",
+		"    },",
+		"  });",
+		"  return new Response(stream, {",
+		"    headers: {",
+		"      \"content-type\": \"text/event-stream\",",
+		"      \"cache-control\": \"no-cache\",",
+		"      connection: \"keep-alive\",",
+		"    },",
+		"  });",
+		"}",
 	];
 }
 
@@ -311,6 +371,15 @@ export function emitRouteMatchBlock(
 	return lines;
 }
 
+function emitSseRouteBlock(spec: SseRouteSpec): string[] {
+	if (!spec.connectStreamAction) return [];
+	return [
+		`  if (req.method === "GET" && url.pathname === ${JSON.stringify(spec.path)}) {`,
+		`    return pointPumpStreamToSseResponse(() => ${spec.connectStreamAction}(), ${JSON.stringify(spec.messageFields)});`,
+		"  }",
+	];
+}
+
 function emitStreamRouteUpgradeBlock(spec: StreamRouteSpec): string[] {
 	return [
 		`  if (url.pathname === ${JSON.stringify(spec.path)}) {`,
@@ -374,13 +443,16 @@ function emitStreamRouteWebSocketHandlers(specs: StreamRouteSpec[]): string[] {
 export function emitRouteServerRuntime(
 	routes: PointSemanticRouteDeclaration[],
 	streamRoutes: PointSemanticStreamRouteDeclaration[],
+	sseRoutes: PointSemanticSseRouteDeclaration[],
 	middlewareByName: Map<string, PointSemanticMiddlewareDeclaration>,
 	records: Map<string, Map<string, string>>,
 	actionFnByName: Map<string, string> = new Map(),
 ): string[] {
 	const matchLines = routes.flatMap((route) => emitRouteMatchBlock(routeMatcherSpec(route), route, middlewareByName, records));
 	const streamSpecs = streamRoutes.map((streamRoute) => streamRouteSpec(streamRoute, records, actionFnByName));
+	const sseSpecs = sseRoutes.map((sseRoute) => sseRouteSpec(sseRoute, records, actionFnByName));
 	const streamUpgradeLines = streamSpecs.flatMap((spec) => emitStreamRouteUpgradeBlock(spec));
+	const sseLines = sseSpecs.flatMap((spec) => emitSseRouteBlock(spec));
 	const fetchParams = streamRoutes.length > 0 ? "req, server" : "req";
 	return [
 		...emitRouteRuntimeHelpers(),
@@ -388,6 +460,7 @@ export function emitRouteServerRuntime(
 		"export function createPointRouteFetchHandler() {",
 		`  return async (${fetchParams}) => {`,
 		"    const url = new URL(req.url);",
+		...sseLines,
 		...streamUpgradeLines,
 		...matchLines,
 		'    return new Response(JSON.stringify({ error: "Not found" }), { status: 404, headers: { "content-type": "application/json" } });',

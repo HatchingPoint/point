@@ -34,6 +34,7 @@ import type {
 	PointSemanticScheduleIntervalUnit,
 	PointSemanticPromptDeclaration,
 	PointSemanticStreamRouteDeclaration,
+	PointSemanticSseRouteDeclaration,
 	PointSemanticStreamRouteEvent,
 	PointSemanticStreamRouteHandler,
 	PointSemanticRuleDeclaration,
@@ -254,6 +255,12 @@ export function parseSemanticSource(source: string, options?: ParseSemanticSourc
 		}
 		if (trimmed.startsWith("stream route ")) {
 			const parsed = parseStreamRoute(lines, index, source, records, variants, callables);
+			declarations.push(parsed.declaration);
+			index = parsed.next;
+			continue;
+		}
+		if (trimmed.startsWith("sse route ")) {
+			const parsed = parseSseRoute(lines, index, source, records, variants, callables);
 			declarations.push(parsed.declaration);
 			index = parsed.next;
 			continue;
@@ -1184,6 +1191,23 @@ function parseView(
 			statements.push({
 				kind: "streamSubscribeRoute",
 				routeName: subscribeRouteMatch[1]?.trim() ?? "",
+				span: lineSpan(source, lineNumber),
+			});
+			if (!paramTypes.has("messages")) {
+				paramTypes.set("messages", "List<Text>");
+				bindings.push("messages");
+			}
+			if (!paramTypes.has("connected")) {
+				paramTypes.set("connected", "Bool");
+				bindings.push("connected");
+			}
+			continue;
+		}
+		const sseSubscribeRouteMatch = line.match(/^subscribe to sse (.+)$/);
+		if (sseSubscribeRouteMatch) {
+			statements.push({
+				kind: "sseSubscribeRoute",
+				routeName: sseSubscribeRouteMatch[1]?.trim() ?? "",
 				span: lineSpan(source, lineNumber),
 			});
 			if (!paramTypes.has("messages")) {
@@ -2153,6 +2177,71 @@ function parseStreamRoute(
 	};
 }
 
+function parseSseRoute(
+	lines: string[],
+	start: number,
+	source: string,
+	records: Map<string, Map<string, string>>,
+	variants: SemanticVariants,
+	callables: string[],
+): { declaration: PointSemanticSseRouteDeclaration; next: number } {
+	const name = (lines[start] ?? "").trim().slice("sse route ".length).trim();
+	const body = collectSemanticBody(lines, start + 1);
+	let path = "/";
+	let eventType = { kind: "typeRef" as const, name: "Text", args: [] };
+	const handlers: PointSemanticStreamRouteHandler[] = [];
+
+	for (let lineIndex = 0; lineIndex < body.lines.length; lineIndex += 1) {
+		const line = body.lines[lineIndex] ?? "";
+		const lineNumber = body.lineNumbers[lineIndex] ?? start + 2;
+		if (line.startsWith("path ")) {
+			path = line.slice("path ".length).trim().replace(/^"|"$/g, "");
+			continue;
+		}
+		if (line.startsWith("event ")) {
+			eventType = parseSemanticTypeExpression(line.slice("event ".length).trim());
+			continue;
+		}
+		const streamActionMatch = line.match(/^on (connect|disconnect) stream from action (.+)$/);
+		if (streamActionMatch) {
+			const event = streamActionMatch[1] as PointSemanticStreamRouteEvent;
+			handlers.push({
+				event,
+				mode: "streamFromAction",
+				actionName: streamActionMatch[2]?.trim() ?? "",
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		const handlerMatch = line.match(/^on (connect|disconnect)\s+return\s+(.+)$/);
+		if (handlerMatch) {
+			const event = handlerMatch[1] as PointSemanticStreamRouteEvent;
+			const returnSource = handlerMatch[2] ?? "";
+			const context = expressionContext({ bindings: [], paramTypes: new Map(), records, variants, callables });
+			handlers.push({
+				event,
+				mode: "return",
+				value: parseLineExpression(returnSource, context, source, lineNumber),
+				span: lineSpan(source, lineNumber),
+			});
+			continue;
+		}
+		throw new Error(`Unknown sse route statement: ${line}`);
+	}
+
+	return {
+		declaration: {
+			kind: "sseRoute",
+			name,
+			path,
+			eventType,
+			handlers,
+			span: lineSpan(source, start + 1),
+		},
+		next: body.next,
+	};
+}
+
 function parseRoute(
 	lines: string[],
 	start: number,
@@ -2946,7 +3035,7 @@ function collectSemanticBody(lines: string[], start: number): SemanticBody {
 
 function isSemanticTopLevel(line: string): boolean {
 	if (/^label\s+is\s+/.test(line)) return false;
-	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule|prompt|theme)\s+/.test(line);
+	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|sse route|route|workflow|pipeline|session|command|schedule|prompt|theme)\s+/.test(line);
 }
 
 function isLoopBoundary(line: string): boolean {

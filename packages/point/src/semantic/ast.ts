@@ -33,6 +33,7 @@ export type PointSemanticDeclaration =
 	| PointSemanticMiddlewareDeclaration
 	| PointSemanticRouteDeclaration
 	| PointSemanticStreamRouteDeclaration
+	| PointSemanticSseRouteDeclaration
 	| PointSemanticWorkflowDeclaration
 	| PointSemanticPipelineDeclaration
 	| PointSemanticSessionDeclaration
@@ -294,6 +295,15 @@ export interface PointSemanticStreamRouteDeclaration {
 	span?: PointSourceSpan;
 }
 
+export interface PointSemanticSseRouteDeclaration {
+	kind: "sseRoute";
+	name: string;
+	path: string;
+	eventType: PointSemanticTypeExpression;
+	handlers: PointSemanticStreamRouteHandler[];
+	span?: PointSourceSpan;
+}
+
 export interface PointSemanticWorkflowDeclaration {
 	kind: "workflow";
 	name: string;
@@ -399,6 +409,7 @@ export type PointSemanticViewStatement =
 	| { kind: "refreshEvery"; count: number; unit: "seconds" | "minutes"; span?: PointSourceSpan }
 	| { kind: "streamSubscribePath"; path: string; span?: PointSourceSpan }
 	| { kind: "streamSubscribeRoute"; routeName: string; span?: PointSourceSpan }
+	| { kind: "sseSubscribeRoute"; routeName: string; span?: PointSourceSpan }
 	/** `terminal subscribe to stream <name>` or `terminal subscribe to "<path>"` */
 	| { kind: "terminal"; path?: string; routeName?: string; span?: PointSourceSpan }
 	| { kind: "onMessageCall"; callback: string; span?: PointSourceSpan }

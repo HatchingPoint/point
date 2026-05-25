@@ -4,6 +4,7 @@ import type {
 	PointSemanticPageDeclaration,
 	PointSemanticProgram,
 	PointSemanticStreamRouteDeclaration,
+	PointSemanticSseRouteDeclaration,
 	PointSemanticViewDeclaration,
 	PointSemanticViewStatement,
 } from "./ast.ts";
@@ -14,16 +15,20 @@ export function checkSemanticStreamSubscribe(program: PointSemanticProgram): Poi
 	const moduleName = program.module ?? "anonymous";
 	const streamRoutes = new Map<string, PointSemanticStreamRouteDeclaration>();
 	const streamRoutesByPath = new Map<string, PointSemanticStreamRouteDeclaration>();
+	const sseRoutes = new Map<string, PointSemanticSseRouteDeclaration>();
 	for (const declaration of program.declarations) {
 		if (declaration.kind === "streamRoute") {
 			streamRoutes.set(declaration.name, declaration);
 			streamRoutesByPath.set(declaration.path, declaration);
 		}
+		if (declaration.kind === "sseRoute") {
+			sseRoutes.set(declaration.name, declaration);
+		}
 	}
 
 	for (const declaration of program.declarations) {
 		if (declaration.kind === "view") {
-			diagnostics.push(...checkViewStreamSubscribe(moduleName, declaration, streamRoutes, streamRoutesByPath));
+			diagnostics.push(...checkViewStreamSubscribe(moduleName, declaration, streamRoutes, streamRoutesByPath, sseRoutes));
 		}
 		if (declaration.kind === "page") {
 			diagnostics.push(...checkPageStreamSubscribe(moduleName, declaration, streamRoutes, streamRoutesByPath));
@@ -38,10 +43,11 @@ function checkViewStreamSubscribe(
 	declaration: PointSemanticViewDeclaration,
 	streamRoutes: Map<string, PointSemanticStreamRouteDeclaration>,
 	streamRoutesByPath: Map<string, PointSemanticStreamRouteDeclaration>,
+	sseRoutes: Map<string, PointSemanticSseRouteDeclaration>,
 ): PointCoreDiagnostic[] {
 	const resolved = resolveViewStreamSubscribeStatements(declaration);
-	const { subscribePath, subscribeRoute } = resolved;
-	if (!subscribePath && !subscribeRoute) return [];
+	const { subscribePath, subscribeRoute, sseSubscribeRoute } = resolved;
+	if (!subscribePath && !subscribeRoute && !sseSubscribeRoute) return [];
 
 	const diagnostics: PointCoreDiagnostic[] = [];
 	if (resolved.isTerminal && resolved.hasLegacySubscribe) {
@@ -53,9 +59,40 @@ function checkViewStreamSubscribe(
 				`view.${declaration.name}`,
 				declaration.name,
 				`Remove either the terminal subscribe line or the plain subscribe line.`,
-				subscribeRoute?.span ?? subscribePath?.span,
+				subscribeRoute?.span ?? subscribePath?.span ?? sseSubscribeRoute?.span,
 			),
 		);
+		return diagnostics;
+	}
+	if (sseSubscribeRoute && (subscribePath || subscribeRoute)) {
+		diagnostics.push(
+			streamSubscribeDiagnostic(
+				"sse-stream-subscribe-conflict",
+				`View ${declaration.name} cannot combine subscribe to sse with subscribe to stream`,
+				moduleName,
+				`view.${declaration.name}`,
+				declaration.name,
+				`Use either subscribe to sse <name> or subscribe to stream <name>, not both.`,
+				sseSubscribeRoute.span,
+			),
+		);
+		return diagnostics;
+	}
+	if (sseSubscribeRoute) {
+		if (!sseRoutes.has(sseSubscribeRoute.routeName)) {
+			diagnostics.push(
+				streamSubscribeDiagnostic(
+					"unknown-sse-subscribe-route",
+					`Unknown sse route ${sseSubscribeRoute.routeName} in subscribe to sse ${sseSubscribeRoute.routeName}`,
+					moduleName,
+					`view.${declaration.name}`,
+					declaration.name,
+					`Declare sse route ${sseSubscribeRoute.routeName} or fix the subscribe to sse name.`,
+					sseSubscribeRoute.span,
+					[...sseRoutes.keys()].sort(),
+				),
+			);
+		}
 		return diagnostics;
 	}
 	const onMessageCall = declaration.body.find((statement) => statement.kind === "onMessageCall");

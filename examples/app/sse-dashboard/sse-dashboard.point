@@ -1,0 +1,42 @@
+module SseDashboard
+
+external point std process
+  stream lines raw(command: Text, args: List<Text>, env: List<Text>): Text from "@hatchingpoint/point/std/process" as processStreamLines
+
+record Metric Pulse
+  value: Text
+
+action stream metric pulses
+  output line: Text
+  touches process
+  yield stream lines raw("sh", ["-c", "i=0; while [ $i -lt 12 ]; do echo pulse-$i; i=$((i+1)); sleep 0.2; done"], [])
+
+sse route metric pulses
+  path "/sse/metrics"
+  event Metric Pulse
+  on connect stream from action stream metric pulses
+  on disconnect return none
+
+view live pulse feed
+  subscribe to sse metric pulses
+  when connecting render muted "Connecting to SSE feed…"
+  when disconnected render danger "Feed ended"
+  each pulse in messages render pulse.value
+
+layout app shell
+  slot sidebar render "SSE"
+  slot main render "Live feed"
+
+page home page
+  layout app shell
+  title "SSE metrics"
+  description "Push dashboard — no polling, server-sent events."
+  main render live pulse feed()
+
+navigation sse dashboard app
+  path "/" page home page
+  bootstrap router
+
+command serve sse dashboard
+  output result: Text
+  return "SSE dashboard ready at /sse/metrics"

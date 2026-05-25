@@ -4,7 +4,7 @@ Point is a **general-purpose, AI-first language** for application logic — sema
 
 Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
 
-**Current release:** v0.1.48 · npm: `@hatchingpoint/point`
+**Current release:** v0.1.49 · npm: `@hatchingpoint/point`
 
 **Start here:** [Point in 60 seconds](docs/site/guide/point-in-60-seconds.md) · **Evaluator demo:** [Golden app demo](docs/site/guide/golden-app-demo.md)
 
@@ -110,7 +110,7 @@ point repair-plan myfile.point
 point explain myfile.point point://semantic/Checkout/rule.cart total
 ```
 
-Benchmark: 33+ repair cases with CI gate at 100% sufficiency. See [AI overview](docs/site/ai/overview.md) and [agent plateau](docs/agent-plateau.md).
+Benchmark: 34+ repair cases with CI gate at 100% sufficiency. See [AI overview](docs/site/ai/overview.md) and [agent plateau](docs/agent-plateau.md).
 
 ## What you write vs what runs
 

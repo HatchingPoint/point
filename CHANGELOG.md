@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.49
+
+### Added
+
+- Phase 71: **SSE route** — `sse route` with `event` record type and `on connect stream from action` for one-way server push.
+- Phase 71: **Subscribe to SSE** — `subscribe to sse <name>` emits `EventSource` client with connecting/disconnected/error guards.
+- Phase 71: **Example** — `examples/app/sse-dashboard/` push feed at `/sse/metrics`.
+- Phase 71b: **Agent repair gate 34** — `unknown-sse-subscribe-route` fixture.
+
+### Changed
+
+- Phase 71: **Realtime docs** — SSE vs WebSocket vs polling guidance in `docs/site/language/realtime.md`.
+
 ## 0.1.48
 
 ### Added

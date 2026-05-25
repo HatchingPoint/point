@@ -252,6 +252,7 @@ export interface PointSemanticStreamSubscribe {
 	bindingName: string;
 	/** When true, emit a terminal-style WebSocket log surface (`.point-terminal`). */
 	terminal?: boolean;
+	transport?: "websocket" | "sse";
 	messageCallback?: string;
 	connecting?: PointCoreExpression;
 	connectingClassName?: string;
@@ -265,7 +266,7 @@ export interface PointSemanticStreamSubscribe {
 }
 
 export interface PointSemanticDeclarationMetadata {
-	kind: "record" | "variant" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "guard" | "view" | "layout" | "navigation" | "page" | "middleware" | "route" | "streamRoute" | "workflow" | "pipeline" | "session" | "command" | "prompt";
+	kind: "record" | "variant" | "calculation" | "rule" | "label" | "external" | "action" | "policy" | "guard" | "view" | "layout" | "navigation" | "page" | "middleware" | "route" | "streamRoute" | "sseRoute" | "workflow" | "pipeline" | "session" | "command" | "prompt";
 	name: string;
 	outputName?: string;
 	effects?: string[];

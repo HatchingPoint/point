@@ -108,5 +108,5 @@ function collectBody(lines: string[], start: number): { lines: string[]; next: n
 }
 
 function isTopLevel(line: string): boolean {
-	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule)\s+/.test(line);
+	return /^(module|use|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|sse route|route|workflow|pipeline|session|command|schedule)\s+/.test(line);
 }

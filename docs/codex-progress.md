@@ -1410,3 +1410,8 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 
 - Completed: Bind select/textarea validation; `toast-without-submit`; repair gate **33/33**; LSP parity expansion; `docs/agent-plateau.md`.
 - Verified: `bun run ci` green; tag + push **v0.1.48**.
+
+## Checkpoint Phase 71–71b — SSE route v0.1.49
+
+- Completed: `sse route` + `subscribe to sse`; sse-dashboard example; repair gate **34/34**.
+- Verified: `bun run ci` green; tag + push **v0.1.49**.

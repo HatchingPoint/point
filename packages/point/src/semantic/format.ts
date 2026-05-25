@@ -222,6 +222,13 @@ function formatDeclaration(declaration: PointSemanticDeclaration): string[] {
 				`  message ${formatType(declaration.messageType)}`,
 				...declaration.handlers.map((handler) => `  ${formatStreamRouteHandler(handler)}`),
 			];
+		case "sseRoute":
+			return [
+				`sse route ${declaration.name}`,
+				`  path ${JSON.stringify(declaration.path)}`,
+				`  event ${formatType(declaration.eventType)}`,
+				...declaration.handlers.map((handler) => `  ${formatStreamRouteHandler(handler)}`),
+			];
 		case "workflow":
 			return [
 				`workflow ${declaration.name}`,
@@ -351,6 +358,7 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	if (statement.kind === "refreshEvery") return `refresh every ${statement.count} ${statement.unit}`;
 	if (statement.kind === "streamSubscribePath") return `subscribe to ${JSON.stringify(statement.path)}`;
 	if (statement.kind === "streamSubscribeRoute") return `subscribe to stream ${statement.routeName}`;
+	if (statement.kind === "sseSubscribeRoute") return `subscribe to sse ${statement.routeName}`;
 	if (statement.kind === "terminal") {
 		return statement.routeName !== undefined
 			? `terminal subscribe to stream ${statement.routeName}`

@@ -419,6 +419,7 @@
           "path": "/ws/script-runner",
           "messageTypeName": "Script Line",
           "bindingName": "messages",
+          "transport": "websocket",
           "terminal": true,
           "connecting": {
             "kind": "literal",

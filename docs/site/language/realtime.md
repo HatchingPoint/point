@@ -1,16 +1,38 @@
 ---
 title: Realtime
-description: stream route blocks and view subscriptions for WebSockets.
+description: stream route blocks, SSE routes, and view subscriptions for live updates.
 quadrant: Reference
 ---
 
 ## Summary
 
-Stream routes declare WebSocket servers with typed message handlers. Views subscribe with `subscribe to` for live updates.
+**WebSocket** `stream route` blocks handle bidirectional channels. **`sse route`** pushes one-way server events. Views subscribe with `subscribe to stream`, `subscribe to sse`, or `subscribe to "/path"`.
 
 ## Polling dashboards
 
-Simple live dashboards **without Convex or WebSockets** can use **`refresh every N seconds`** (or **`minutes`**) alongside **`load data from action`** (or fetch / `on mount call`). The compiler emits a `setInterval` refetch plus cleanup — see [UI — Data loading](/point/language/ui) and **`examples/app/live-dashboard/live-dashboard.point`**.
+Simple live dashboards can use **`refresh every N seconds`** (or **`minutes`**) alongside **`load data from action`**. See [UI — Data loading](/point/language/ui) and **`examples/app/live-dashboard/live-dashboard.point`**.
+
+## sse route (server push)
+
+One-way **Server-Sent Events** — no polling, no WebSocket client:
+
+```point
+record Metric Pulse
+  value: Text
+
+sse route metric pulses
+  path "/sse/metrics"
+  event Metric Pulse
+  on connect stream from action stream metric pulses
+  on disconnect return none
+
+view live feed
+  subscribe to sse metric pulses
+  when connecting render "Connecting..."
+  each pulse in messages render pulse.value
+```
+
+See **`examples/app/sse-dashboard/sse-dashboard.point`**. Server emits `text/event-stream`; client uses `EventSource` with the same guard states as WebSocket subscribe.
 
 ## stream route
 
@@ -34,7 +56,7 @@ See `examples/app/log-viewer/log-viewer.point` for streaming from an action on c
 
 ## View subscriptions
 
-Views subscribe with `subscribe to <stream route>` or `subscribe to "/ws/path"`. See `examples/app/log-viewer/log-viewer.point` for `when connecting`, `each line in messages`, and handler wiring.
+Views subscribe with `subscribe to <stream route>`, `subscribe to sse <name>`, or `subscribe to "/ws/path"`. See `examples/app/log-viewer/log-viewer.point` for `when connecting`, `each line in messages`, and handler wiring.
 
 ## See also
 

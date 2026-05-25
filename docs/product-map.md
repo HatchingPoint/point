@@ -64,7 +64,7 @@ Expand with:
 index → explain point://… → check-json → repair-plan → patch → check
 ```
 
-33+ repair benchmark cases; CI gate at 100% sufficiency (33 single-shot cases).
+34+ repair benchmark cases; CI gate at 100% sufficiency (34 single-shot cases).
 
 ## CLI groups (user-facing)
 
@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.48** — Phase 70 agent plateau: bind select/toast validation, repair gate 33.
+Update this line each release: **v0.1.49** — Phase 71 SSE route, push dashboard example, repair gate 34.

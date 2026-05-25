@@ -1,0 +1,18 @@
+module SseRepair
+
+record Metric Pulse
+  value: Text
+
+sse route metric pulses
+  path "/sse/metrics"
+  event Metric Pulse
+  on connect stream from action stream metric pulses
+  on disconnect return none
+
+action stream metric pulses
+  output line: Text
+  return "pulse-0"
+
+view live feed
+  subscribe to sse metric pulses
+  when connecting render "Connecting..."

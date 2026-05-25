@@ -4,14 +4,15 @@
 
 ## Active execution
 
-**Next:** Phase 71+ (SSE route, agent-app benchmarks)
+**Next:** Phase 72+ (agent-app benchmarks, multistep UI builds)
 
-**Wave shipped (v0.1.48):** 70 agent plateau — bind select/toast validation, repair gate 33
+**Wave shipped (v0.1.49):** 71 SSE route + push dashboard, repair gate 34
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **71–71b** | v0.1.49 | SSE route, subscribe to sse, sse-dashboard example, repair gate 34 |
 | **70–70b** | v0.1.48 | Agent plateau: bind select/textarea, toast-without-submit, LSP parity, repair gate 33 |
 | **69** | v0.1.47 | Integrator: pagination, metrics chart dashboard, repair gate 31 |
 | **68–68b** | (in v0.1.47) | Datagrid page size, job queue chart + combined load |

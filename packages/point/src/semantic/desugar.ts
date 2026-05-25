@@ -48,6 +48,7 @@ import type {
 	PointSemanticRouteDeclaration,
 	PointSemanticRouteStatement,
 	PointSemanticStreamRouteDeclaration,
+	PointSemanticSseRouteDeclaration,
 	PointSemanticStreamRouteHandler,
 	PointSemanticRuleDeclaration,
 	PointSemanticRuleStatement,
@@ -66,7 +67,7 @@ import type {
 	PointSemanticActionDeclaration,
 } from "./ast.ts";
 import { pipelineLogParamName } from "../core/emit-pipeline.ts";
-import { semanticFunctionName, streamRouteHandlerName, toIdentifier, toPascalCase, guardPatternsConstName } from "./naming.ts";
+import { semanticFunctionName, streamRouteHandlerName, sseRouteHandlerName, toIdentifier, toPascalCase, guardPatternsConstName } from "./naming.ts";
 import { resolveViewStreamSubscribeStatements } from "./view-stream-subscribe-resolve.ts";
 import { semanticDeclarationMetadata } from "./metadata.ts";
 
@@ -114,6 +115,7 @@ export function desugarSemanticProgram(
 	const policies = buildPolicyMap(program);
 	const guards = buildGuardMap(program);
 	const streamRoutes = buildStreamRouteMap(program);
+	const sseRoutes = buildSseRouteMap(program);
 	const declarations: PointCoreDeclaration[] = [];
 
 	for (const declaration of program.declarations) {
@@ -122,7 +124,7 @@ export function desugarSemanticProgram(
 			continue;
 		}
 		declarations.push(
-			...desugarDeclaration(declaration, records, callables, actionOutputs, policies, guards, streamRoutes, program.module),
+			...desugarDeclaration(declaration, records, callables, actionOutputs, policies, guards, streamRoutes, sseRoutes, program.module),
 		);
 	}
 
@@ -173,6 +175,7 @@ function buildCallableMap(
 			declaration.kind === "middleware" ||
 			declaration.kind === "route" ||
 			declaration.kind === "streamRoute" ||
+			declaration.kind === "sseRoute" ||
 			declaration.kind === "workflow" ||
 			declaration.kind === "pipeline" ||
 			declaration.kind === "command"
@@ -192,6 +195,7 @@ function defaultOutputName(declaration: PointSemanticDeclaration): string {
 	if (declaration.kind === "page") return "page";
 	if (declaration.kind === "route") return "route";
 	if (declaration.kind === "streamRoute") return "stream";
+	if (declaration.kind === "sseRoute") return "sse";
 	if (declaration.kind === "middleware") return toIdentifier(declaration.output.name);
 	if ("output" in declaration) return toIdentifier(declaration.output.name);
 	return "result";
@@ -241,6 +245,14 @@ function buildStreamRouteMap(program: PointSemanticProgram): Map<string, PointSe
 	return streamRoutes;
 }
 
+function buildSseRouteMap(program: PointSemanticProgram): Map<string, PointSemanticSseRouteDeclaration> {
+	const sseRoutes = new Map<string, PointSemanticSseRouteDeclaration>();
+	for (const declaration of program.declarations) {
+		if (declaration.kind === "sseRoute") sseRoutes.set(declaration.name, declaration);
+	}
+	return sseRoutes;
+}
+
 function desugarDeclaration(
 	declaration: PointSemanticDeclaration,
 	records: Map<string, Map<string, string>>,
@@ -249,6 +261,7 @@ function desugarDeclaration(
 	policies: Map<string, PointSemanticPolicyDeclaration>,
 	guards: Map<string, PointSemanticGuardDeclaration>,
 	streamRoutes: Map<string, PointSemanticStreamRouteDeclaration>,
+	sseRoutes: Map<string, PointSemanticSseRouteDeclaration>,
 	moduleName?: string,
 ): PointCoreDeclaration[] {
 	switch (declaration.kind) {
@@ -268,7 +281,7 @@ function desugarDeclaration(
 		case "policy":
 			return [desugarPolicy(declaration, records, callables)];
 		case "view":
-			return [desugarView(declaration, records, callables, actionOutputs, streamRoutes, moduleName)];
+			return [desugarView(declaration, records, callables, actionOutputs, streamRoutes, sseRoutes, moduleName)];
 		case "layout":
 			return [desugarLayout(declaration, records, callables)];
 		case "navigation":
@@ -281,6 +294,8 @@ function desugarDeclaration(
 			return [desugarRoute(declaration, records, callables)];
 		case "streamRoute":
 			return desugarStreamRoute(declaration, records, callables);
+		case "sseRoute":
+			return desugarSseRoute(declaration, records, callables);
 		case "guard":
 			return [];
 		case "workflow":
@@ -656,28 +671,52 @@ function resolveStreamSubscribeTarget(
 function buildViewStreamSubscribe(
 	declaration: PointSemanticViewDeclaration,
 	streamRoutes: Map<string, PointSemanticStreamRouteDeclaration>,
+	sseRoutes: Map<string, PointSemanticSseRouteDeclaration>,
 	ctx: DesugarContext,
 ): PointSemanticStreamSubscribe | undefined {
 	const resolved = resolveViewStreamSubscribeStatements(declaration);
 	const subscribePath = resolved.subscribePath;
 	const subscribeRoute = resolved.subscribeRoute;
+	const sseSubscribeRoute = resolved.sseSubscribeRoute;
 	const terminalSubscribe = resolved.isTerminal;
+	const connecting = declaration.body.find((statement) => statement.kind === "whenConnectingRender");
+	const disconnected = declaration.body.find((statement) => statement.kind === "whenDisconnectedRender");
+	const error = declaration.body.find((statement) => statement.kind === "whenErrorRender");
+	const onMessageCall = declaration.body.find(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "onMessageCall" }> => statement.kind === "onMessageCall",
+	);
+	if (sseSubscribeRoute) {
+		const route = sseRoutes.get(sseSubscribeRoute.routeName);
+		if (!route) return undefined;
+		return {
+			routeName: route.name,
+			path: route.path,
+			messageTypeName: route.eventType.name,
+			bindingName: "messages",
+			transport: "sse",
+			messageCallback: onMessageCall ? toIdentifier(onMessageCall.callback) : undefined,
+			connecting: connecting && "value" in connecting ? desugarExpression(connecting.value, ctx) : undefined,
+			connectingClassName: connecting && "className" in connecting ? connecting.className : undefined,
+			connectingStyle: connecting && "style" in connecting ? connecting.style : undefined,
+			disconnected: disconnected && "value" in disconnected ? desugarExpression(disconnected.value, ctx) : undefined,
+			disconnectedClassName: disconnected && "className" in disconnected ? disconnected.className : undefined,
+			disconnectedStyle: disconnected && "style" in disconnected ? disconnected.style : undefined,
+			error: error && "value" in error ? desugarExpression(error.value, ctx) : undefined,
+			errorClassName: error && "className" in error ? error.className : undefined,
+			errorStyle: error && "style" in error ? error.style : undefined,
+		};
+	}
 	if (!subscribePath && !subscribeRoute) return undefined;
 	const target = subscribePath
 		? resolveStreamSubscribeTarget({ kind: "path", path: subscribePath.path }, streamRoutes)
 		: resolveStreamSubscribeTarget({ kind: "route", routeName: subscribeRoute!.routeName }, streamRoutes);
 	if (!target) return undefined;
-	const onMessageCall = declaration.body.find(
-		(statement): statement is Extract<PointSemanticViewStatement, { kind: "onMessageCall" }> => statement.kind === "onMessageCall",
-	);
-	const connecting = declaration.body.find((statement) => statement.kind === "whenConnectingRender");
-	const disconnected = declaration.body.find((statement) => statement.kind === "whenDisconnectedRender");
-	const error = declaration.body.find((statement) => statement.kind === "whenErrorRender");
 	return {
 		routeName: target.routeName,
 		path: target.path,
 		messageTypeName: target.messageTypeName,
 		bindingName: "messages",
+		transport: "websocket",
 		...(terminalSubscribe ? { terminal: true } : {}),
 		messageCallback: onMessageCall ? toIdentifier(onMessageCall.callback) : undefined,
 		connecting: connecting && "value" in connecting ? desugarExpression(connecting.value, ctx) : undefined,
@@ -726,6 +765,7 @@ function desugarView(
 	callables: Map<string, string>,
 	actionOutputs: Map<string, PointSemanticTypeExpression>,
 	streamRoutes: Map<string, PointSemanticStreamRouteDeclaration>,
+	sseRoutes: Map<string, PointSemanticSseRouteDeclaration>,
 	moduleName?: string,
 ): PointCoreFunctionDeclaration {
 	const outputType: PointCoreTypeExpression = { kind: "typeRef", name: "Text", args: [] };
@@ -733,7 +773,7 @@ function desugarView(
 	const ctx: DesugarContext = { records, callables, bindings, outputName: "page", outputType };
 	const viewDataLoad = buildViewDataLoad(declaration, callables, actionOutputs, ctx);
 	if (viewDataLoad) ctx.bindings.set("data", "data");
-	const viewStreamSubscribe = buildViewStreamSubscribe(declaration, streamRoutes, ctx);
+	const viewStreamSubscribe = buildViewStreamSubscribe(declaration, streamRoutes, sseRoutes, ctx);
 	if (viewStreamSubscribe) {
 		ctx.bindings.set("messages", "messages");
 		ctx.bindings.set("connected", "connected");
@@ -1235,6 +1275,64 @@ function desugarStreamRouteHandler(
 		returnType: outputType,
 		body: [{ kind: "return", value: desugarExpression(handler.value!, ctx), span: handler.span }],
 		semantic: { kind: "streamRoute", name: declaration.name, outputName: handler.event, effects: ["network"] },
+		span: handler.span ?? declaration.span,
+	};
+}
+
+function desugarSseRoute(
+	declaration: PointSemanticSseRouteDeclaration,
+	records: Map<string, Map<string, string>>,
+	callables: Map<string, string>,
+): PointCoreFunctionDeclaration[] {
+	return declaration.handlers.map((handler) => desugarSseRouteHandler(declaration, handler, records, callables));
+}
+
+function inferSseHandlerReturnType(
+	declaration: PointSemanticSseRouteDeclaration,
+	handler: PointSemanticStreamRouteHandler,
+): PointCoreTypeExpression {
+	if (handler.mode === "streamFromAction") return { kind: "typeRef", name: "Void", args: [] };
+	const value = handler.value;
+	if (!value) return { kind: "typeRef", name: "Void", args: [] };
+	if (value.kind === "literal" && value.value === null) return { kind: "typeRef", name: "Void", args: [] };
+	if (value.kind === "literal" && typeof value.value === "string") return { kind: "typeRef", name: "Text", args: [] };
+	if (value.kind === "name") return { kind: "typeRef", name: toPascalCase(declaration.eventType.name), args: [] };
+	if (value.kind === "record") return { kind: "typeRef", name: toPascalCase(declaration.eventType.name), args: [] };
+	return { kind: "typeRef", name: "Text", args: [] };
+}
+
+function desugarSseRouteHandler(
+	declaration: PointSemanticSseRouteDeclaration,
+	handler: PointSemanticStreamRouteHandler,
+	records: Map<string, Map<string, string>>,
+	callables: Map<string, string>,
+): PointCoreFunctionDeclaration {
+	const outputType = inferSseHandlerReturnType(declaration, handler);
+	const ctx: DesugarContext = {
+		records,
+		callables,
+		bindings: new Map(),
+		outputName: "result",
+		outputType,
+	};
+	if (handler.mode === "streamFromAction") {
+		return {
+			kind: "function",
+			name: sseRouteHandlerName(declaration.name, handler.event === "disconnect" ? "disconnect" : "connect"),
+			params: [],
+			returnType: outputType,
+			body: [{ kind: "return" }],
+			semantic: { kind: "sseRoute", name: declaration.name, outputName: handler.event, effects: ["network"] },
+			span: handler.span ?? declaration.span,
+		};
+	}
+	return {
+		kind: "function",
+		name: sseRouteHandlerName(declaration.name, handler.event === "disconnect" ? "disconnect" : "connect"),
+		params: [],
+		returnType: outputType,
+		body: [{ kind: "return", value: desugarExpression(handler.value!, ctx), span: handler.span }],
+		semantic: { kind: "sseRoute", name: declaration.name, outputName: handler.event, effects: ["network"] },
 		span: handler.span ?? declaration.span,
 	};
 }

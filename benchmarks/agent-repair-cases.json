@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-25T14:31:34.085Z",
+  "generatedAt": "2026-05-25T14:39:58.310Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -954,6 +954,34 @@
       "ciPass": true
     },
     {
+      "id": "unknown-sse-subscribe-route",
+      "title": "View — unknown sse subscribe route",
+      "category": "typo-fix",
+      "agentTask": "Fix subscribe to sse route name typo.",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/unknown-sse-subscribe-route-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/unknown-sse-subscribe-route-broken.point",
+      "brokenSource": "module SseRepair\n\nrecord Metric Pulse\n  value: Text\n\nsse route metric pulses\n  path \"/sse/metrics\"\n  event Metric Pulse\n  on connect stream from action stream metric pulses\n  on disconnect return none\n\naction stream metric pulses\n  output line: Text\n  return \"pulse-0\"\n\nview live feed\n  subscribe to sse metric pulse\n  when connecting render \"Connecting...\"\n",
+      "fixedSource": "module SseRepair\n\nrecord Metric Pulse\n  value: Text\n\nsse route metric pulses\n  path \"/sse/metrics\"\n  event Metric Pulse\n  on connect stream from action stream metric pulses\n  on disconnect return none\n\naction stream metric pulses\n  output line: Text\n  return \"pulse-0\"\n\nview live feed\n  subscribe to sse metric pulses\n  when connecting render \"Connecting...\"\n",
+      "errorLine": 17,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"unknown-sse-subscribe-route\",\n      \"message\": \"Unknown sse route metric pulse in subscribe to sse metric pulse\",\n      \"path\": \"view.live feed\",\n      \"ref\": \"point://semantic/SseRepair/view.live feed\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 17,\n          \"column\": 1,\n          \"offset\": 285\n        },\n        \"end\": {\n          \"line\": 17,\n          \"column\": 32,\n          \"offset\": 316\n        }\n      },\n      \"repair\": \"Declare sse route metric pulse or fix the subscribe to sse name.\",\n      \"expected\": [\n        \"metric pulses\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "unknown-sse-subscribe-route",
+      "typescriptExcerpt": "// LiveFeed.tsx — excerpt\nconst source = new EventSource(\"/sse/metrics\"); // route registered as metricPulses",
+      "typescriptNote": "Illustrative ~5,600-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 5600,
+      "tscError": "error TS2820: Type '\"metricPulse\"' is not assignable to type '\"metricPulses\"'.",
+      "ref": "point://semantic/SseRepair/view.live feed",
+      "repairHint": "Declare sse route metric pulse or fix the subscribe to sse name.",
+      "expectedFields": [
+        "metric pulses"
+      ],
+      "contextChars": 698,
+      "contextTokens": 175,
+      "tsContextTokens": 1400,
+      "tokenReductionPercent": 88,
+      "ciPass": true
+    },
+    {
       "id": "feature-multistep-launch",
       "title": "Feature — launch app (2-step repair plan)",
       "category": "feature-build",
@@ -1083,7 +1111,7 @@
     }
   ],
   "summary": {
-    "caseCount": 37,
+    "caseCount": 38,
     "diagnosticCodes": [
       "unknown-field",
       "missing-await",
@@ -1108,7 +1136,8 @@
       "invalid-datagrid-filter-column",
       "invalid-chart-field",
       "invalid-datagrid-page-size",
-      "toast-without-submit"
+      "toast-without-submit",
+      "unknown-sse-subscribe-route"
     ],
     "categories": [
       "typo-fix",

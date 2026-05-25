@@ -9,7 +9,7 @@ import type {
 	PointCoreValueDeclaration,
 	PointSourceSpan,
 } from "./ast.ts";
-import type { PointSemanticMiddlewareDeclaration, PointSemanticRouteDeclaration, PointSemanticScheduleDeclaration, PointSemanticStreamRouteDeclaration } from "../semantic/ast.ts";
+import type { PointSemanticMiddlewareDeclaration, PointSemanticRouteDeclaration, PointSemanticScheduleDeclaration, PointSemanticStreamRouteDeclaration, PointSemanticSseRouteDeclaration } from "../semantic/ast.ts";
 import { emitRouteServerRuntime } from "./emit-routes.ts";
 import { emitScheduleRuntime, emitScheduleRunCommand, isScheduleRunCommand } from "./emit-schedules.ts";
 import { toIdentifier, toPascalCase } from "../semantic/naming.ts";
@@ -33,6 +33,8 @@ export function emitPointCoreJavaScript(program: PointCoreProgram, options: Emit
 	const routes = program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticRouteDeclaration => declaration.kind === "route") ?? [];
 	const streamRoutes =
 		program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticStreamRouteDeclaration => declaration.kind === "streamRoute") ?? [];
+	const sseRoutes =
+		program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticSseRouteDeclaration => declaration.kind === "sseRoute") ?? [];
 	const schedules =
 		program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticScheduleDeclaration => declaration.kind === "schedule") ?? [];
 	const routeServeCommand = program.declarations.find((declaration) => declaration.kind === "function" && isRouteServeCommand(declaration));
@@ -43,7 +45,7 @@ export function emitPointCoreJavaScript(program: PointCoreProgram, options: Emit
 	if (program.module) lines.push(`// Point module: ${program.module}`);
 	lines.push("");
 	for (const declaration of program.declarations) {
-		if (declaration.kind === "function" && declaration.semantic?.kind === "command" && (routes.length > 0 || streamRoutes.length > 0) && isRouteServeCommand(declaration)) {
+		if (declaration.kind === "function" && declaration.semantic?.kind === "command" && (routes.length > 0 || streamRoutes.length > 0 || sseRoutes.length > 0) && isRouteServeCommand(declaration)) {
 			lines.push(...emitRouteServeCommand(declaration), "");
 			continue;
 		}
@@ -53,10 +55,10 @@ export function emitPointCoreJavaScript(program: PointCoreProgram, options: Emit
 		}
 		lines.push(...emitDeclaration(declaration), "");
 	}
-	if (routes.length > 0 || streamRoutes.length > 0) {
+	if (routes.length > 0 || streamRoutes.length > 0 || sseRoutes.length > 0) {
 		const middlewareByName = buildMiddlewareMap(program.semanticSource?.declarations ?? []);
 		const records = buildRecordFieldMap(program.semanticSource?.declarations ?? []);
-		lines.push(...emitRouteServerRuntime(routes, streamRoutes, middlewareByName, records, actionFnByName), "");
+		lines.push(...emitRouteServerRuntime(routes, streamRoutes, sseRoutes, middlewareByName, records, actionFnByName), "");
 	}
 	if (schedules.length > 0) {
 		lines.push(...emitScheduleRuntime(schedules, actionFnByName), "");

@@ -12,6 +12,7 @@ const LSP_PARITY_CASE_IDS = new Set([
 	"invalid-view-bind-target",
 	"invalid-bind-select-target",
 	"toast-without-submit",
+	"unknown-sse-subscribe-route",
 	"invalid-chart-field",
 	"refresh-without-load",
 	"invalid-refresh-interval",

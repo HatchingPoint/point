@@ -1,9 +1,10 @@
 import type { PointSemanticViewDeclaration, PointSemanticViewStatement } from "./ast.ts";
 
-/** Resolves stream subscription target from `terminal subscribe …` and/or legacy `subscribe to` view lines. */
+/** Resolves stream/SSE subscription target from terminal, subscribe to stream, or subscribe to sse view lines. */
 export function resolveViewStreamSubscribeStatements(declaration: PointSemanticViewDeclaration): {
 	subscribePath: Extract<PointSemanticViewStatement, { kind: "streamSubscribePath" }> | undefined;
 	subscribeRoute: Extract<PointSemanticViewStatement, { kind: "streamSubscribeRoute" }> | undefined;
+	sseSubscribeRoute: Extract<PointSemanticViewStatement, { kind: "sseSubscribeRoute" }> | undefined;
 	isTerminal: boolean;
 	hasLegacySubscribe: boolean;
 } {
@@ -18,7 +19,11 @@ export function resolveViewStreamSubscribeStatements(declaration: PointSemanticV
 		(statement): statement is Extract<PointSemanticViewStatement, { kind: "streamSubscribeRoute" }> =>
 			statement.kind === "streamSubscribeRoute",
 	);
-	const hasLegacySubscribe = Boolean(legacyPath || legacyRoute);
+	const sseRoute = declaration.body.find(
+		(statement): statement is Extract<PointSemanticViewStatement, { kind: "sseSubscribeRoute" }> =>
+			statement.kind === "sseSubscribeRoute",
+	);
+	const hasLegacySubscribe = Boolean(legacyPath || legacyRoute || sseRoute);
 	const subscribePath =
 		legacyPath ??
 		(terminal?.path !== undefined ? { kind: "streamSubscribePath" as const, path: terminal.path, span: terminal.span } : undefined);
@@ -30,6 +35,7 @@ export function resolveViewStreamSubscribeStatements(declaration: PointSemanticV
 	return {
 		subscribePath,
 		subscribeRoute,
+		sseSubscribeRoute: sseRoute,
 		isTerminal: Boolean(terminal),
 		hasLegacySubscribe,
 	};

@@ -165,6 +165,36 @@ async function pointPumpProcessStreamToWebSocket(ws, streamFactory, messageField
   }
 }
 
+function pointSendSsePayload(controller, encoder, value) {
+  const payload = typeof value === "string" ? value : JSON.stringify(value);
+  controller.enqueue(encoder.encode(`data: ${payload}\n\n`));
+}
+
+async function pointPumpStreamToSseResponse(streamFactory, messageFields) {
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const source = streamFactory();
+        for await (const line of source) {
+          pointSendSsePayload(controller, encoder, pointWrapStreamLine(line, messageFields));
+        }
+      } catch {
+        /* stream ended */
+      } finally {
+        controller.close();
+      }
+    },
+  });
+  return new Response(stream, {
+    headers: {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
+      connection: "keep-alive",
+    },
+  });
+}
+
 export function createPointRouteFetchHandler() {
   return async (req, server) => {
     const url = new URL(req.url);

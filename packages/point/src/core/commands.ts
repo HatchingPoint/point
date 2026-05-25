@@ -38,7 +38,7 @@ export function scanCommandDeclarations(source: string): Array<{ name: string; o
 				index += 1;
 				continue;
 			}
-			if (/^(module|use|capabilities|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|route|workflow|pipeline|session|command|schedule|prompt|theme)\s+/.test(bodyLine)) {
+			if (/^(module|use|capabilities|record|variant|calculation|rule|label|external|action|policy|guard|view|layout|navigation|page|middleware|stream route|sse route|route|workflow|pipeline|session|command|schedule|prompt|theme)\s+/.test(bodyLine)) {
 				break;
 			}
 			const outputMatch = bodyLine.match(/^output\s+([A-Za-z][A-Za-z0-9 ]*(?:<[^>]+>)?(?:\s+or\s+[A-Za-z][A-Za-z0-9 ]*(?:<[^>]+>)?)?)\s*:/);

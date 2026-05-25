@@ -24,6 +24,7 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/app/log-viewer/log-viewer.point",
 	"examples/app/job-queue/job-queue.point",
 	"examples/app/script-runner/script-runner.point",
+	"examples/app/sse-dashboard/sse-dashboard.point",
 	"examples/app/operator-dashboard/operator-dashboard.point",
 	"examples/toolkit/apple-cli.point",
 	"examples/app/notes/notes.point",

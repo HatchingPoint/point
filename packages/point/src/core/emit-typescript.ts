@@ -32,6 +32,7 @@ import type {
 	PointSemanticRouteDeclaration,
 	PointSemanticScheduleDeclaration,
 	PointSemanticStreamRouteDeclaration,
+	PointSemanticSseRouteDeclaration,
 } from "../semantic/ast.ts";
 import { emitRouteServerRuntime, pathSegmentNames, toPathSegment } from "./emit-routes.ts";
 import { emitScheduleRuntime, emitScheduleRunCommand, isScheduleRunCommand } from "./emit-schedules.ts";
@@ -75,6 +76,8 @@ export function emitPointCoreTypeScript(program: PointCoreProgram, sourcePath?: 
 	const routes = program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticRouteDeclaration => declaration.kind === "route") ?? [];
 	const streamRoutes =
 		program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticStreamRouteDeclaration => declaration.kind === "streamRoute") ?? [];
+	const sseRoutes =
+		program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticSseRouteDeclaration => declaration.kind === "sseRoute") ?? [];
 	const navigations =
 		program.semanticSource?.declarations.filter((declaration): declaration is PointSemanticNavigationDeclaration => declaration.kind === "navigation") ?? [];
 	const routeServeCommand = program.declarations.find((declaration) => declaration.kind === "function" && isRouteServeCommand(declaration));
@@ -160,7 +163,7 @@ export function emitPointCoreTypeScript(program: PointCoreProgram, sourcePath?: 
 	}
 	lines.push("");
 	for (const declaration of program.declarations) {
-		if (declaration.kind === "function" && declaration.semantic?.kind === "command" && (routes.length > 0 || streamRoutes.length > 0) && isRouteServeCommand(declaration)) {
+		if (declaration.kind === "function" && declaration.semantic?.kind === "command" && (routes.length > 0 || streamRoutes.length > 0 || sseRoutes.length > 0) && isRouteServeCommand(declaration)) {
 			lines.push(...emitRouteServeCommand(declaration), "");
 			continue;
 		}
@@ -170,10 +173,10 @@ export function emitPointCoreTypeScript(program: PointCoreProgram, sourcePath?: 
 		}
 		lines.push(...emitDeclaration(declaration, program, sourcePath, themeClassName, themeLayoutShell), "");
 	}
-	if (routes.length > 0 || streamRoutes.length > 0) {
+	if (routes.length > 0 || streamRoutes.length > 0 || sseRoutes.length > 0) {
 		const middlewareByName = buildMiddlewareMap(program.semanticSource?.declarations ?? []);
 		const records = buildRecordFieldMap(program.semanticSource?.declarations ?? []);
-		lines.push(...emitRouteServerRuntime(routes, streamRoutes, middlewareByName, records, actionFnByName), "");
+		lines.push(...emitRouteServerRuntime(routes, streamRoutes, sseRoutes, middlewareByName, records, actionFnByName), "");
 	}
 	if (schedules.length > 0) {
 		lines.push(...emitScheduleRuntime(schedules, actionFnByName), "");

@@ -32,10 +32,9 @@ Parity matrix covers platform UI repair codes, not only Phase 26–27 middleware
 
 ## Next candidates (post-0.1.48)
 
-1. **SSE route** — push dashboards without polling (Phase 52 defer).
-2. **Bind textarea repair fixture** — mirror select coverage.
-3. **Agent-app benchmarks** — end-to-end feature builds scored on repair steps + token context.
-4. **Multistep UI builds** — form + datagrid + chart in one repair-plan loop.
+1. **Agent-app benchmarks** — end-to-end feature builds scored on repair steps + token context.
+2. **Multistep UI builds** — form + datagrid + chart in one repair-plan loop.
+3. **Bind textarea repair fixture** — mirror select coverage.
 
 ## Agent loop (unchanged contract)
 

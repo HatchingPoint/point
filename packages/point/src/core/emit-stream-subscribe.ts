@@ -29,6 +29,9 @@ function emitStateReturn(expression: PointCoreExpression | undefined, className?
 }
 
 export function emitStreamSubscribeHookLines(spec: PointSemanticStreamSubscribe, paramNames: string[]): string[] {
+	if (spec.transport === "sse") {
+		return emitSseSubscribeHookLines(spec, paramNames);
+	}
 	const deps = [...paramNames];
 	if (spec.messageCallback && !deps.includes(spec.messageCallback)) deps.push(spec.messageCallback);
 	const depsArray = deps.length > 0 ? `[${deps.join(", ")}]` : "[]";
@@ -67,6 +70,46 @@ export function emitStreamSubscribeHookLines(spec: PointSemanticStreamSubscribe,
 		"    setConnected(false);",
 		"  };",
 		"  return () => { ws.close(); };",
+		`}, ${depsArray});`,
+	];
+}
+
+function emitSseSubscribeHookLines(spec: PointSemanticStreamSubscribe, paramNames: string[]): string[] {
+	const deps = [...paramNames];
+	if (spec.messageCallback && !deps.includes(spec.messageCallback)) deps.push(spec.messageCallback);
+	const depsArray = deps.length > 0 ? `[${deps.join(", ")}]` : "[]";
+	const messageType = toPascalCase(spec.messageTypeName);
+	const callbackLine = spec.messageCallback
+		? `        ${spec.messageCallback}(parsed);`
+		: "";
+	return [
+		`const [${spec.bindingName}, set${capitalize(spec.bindingName)}] = React.useState<${messageType}[]>([]);`,
+		"const [connecting, setConnecting] = React.useState(true);",
+		"const [connected, setConnected] = React.useState(false);",
+		"const [error, setError] = React.useState<unknown>(null);",
+		"React.useEffect(() => {",
+		`  const source = new EventSource(\`\${window.location.origin}${spec.path}\`);`,
+		"  setConnecting(true);",
+		"  setError(null);",
+		"  source.onopen = () => {",
+		"    setConnecting(false);",
+		"    setConnected(true);",
+		"  };",
+		"  source.onmessage = (event) => {",
+		"    try {",
+		"      const parsed = JSON.parse(String(event.data)) as " + messageType + ";",
+		`      set${capitalize(spec.bindingName)}((previous) => [...previous, parsed]);`,
+		callbackLine,
+		"    } catch {",
+		"      /* ignore malformed SSE payloads */",
+		"    }",
+		"  };",
+		"  source.onerror = () => {",
+		"    setError(new Error(\"SSE connection failed\"));",
+		"    setConnecting(false);",
+		"    setConnected(false);",
+		"  };",
+		"  return () => { source.close(); };",
 		`}, ${depsArray});`,
 	];
 }

@@ -1,6 +1,6 @@
 {
   "kind": "coreProgram",
-  "module": "LogViewer",
+  "module": "SseDashboard",
   "declarations": [
     {
       "kind": "external",
@@ -97,61 +97,61 @@
         "start": {
           "line": 4,
           "column": 1,
-          "offset": 45
+          "offset": 48
         },
         "end": {
           "line": 4,
           "column": 137,
-          "offset": 181
+          "offset": 184
         }
       }
     },
     {
       "kind": "type",
-      "name": "LogLine",
+      "name": "MetricPulse",
       "fields": [
         {
-          "name": "line",
+          "name": "value",
           "type": {
             "kind": "typeRef",
             "name": "Text",
             "args": []
           },
-          "semanticName": "line",
+          "semanticName": "value",
           "span": {
             "start": {
               "line": 7,
               "column": 1,
-              "offset": 199
+              "offset": 206
             },
             "end": {
               "line": 7,
-              "column": 13,
-              "offset": 211
+              "column": 14,
+              "offset": 219
             }
           }
         }
       ],
       "semantic": {
         "kind": "record",
-        "name": "Log Line"
+        "name": "Metric Pulse"
       },
       "span": {
         "start": {
           "line": 6,
           "column": 1,
-          "offset": 183
+          "offset": 186
         },
         "end": {
           "line": 6,
-          "column": 16,
-          "offset": 198
+          "column": 20,
+          "offset": 205
         }
       }
     },
     {
       "kind": "function",
-      "name": "tailDemoLogsLine",
+      "name": "streamMetricPulsesLine",
       "params": [],
       "returnType": {
         "kind": "typeRef",
@@ -172,12 +172,12 @@
                   "start": {
                     "line": 12,
                     "column": 1,
-                    "offset": 273
+                    "offset": 287
                   },
                   "end": {
                     "line": 12,
-                    "column": 123,
-                    "offset": 395
+                    "column": 118,
+                    "offset": 404
                   }
                 }
               },
@@ -191,28 +191,28 @@
                       "start": {
                         "line": 12,
                         "column": 1,
-                        "offset": 273
+                        "offset": 287
                       },
                       "end": {
                         "line": 12,
-                        "column": 123,
-                        "offset": 395
+                        "column": 118,
+                        "offset": 404
                       }
                     }
                   },
                   {
                     "kind": "literal",
-                    "value": "i=0; while [ $i -lt 24 ]; do echo demo-line-$i; i=$((i+1)); sleep 0.15; done",
+                    "value": "i=0; while [ $i -lt 12 ]; do echo pulse-$i; i=$((i+1)); sleep 0.2; done",
                     "span": {
                       "start": {
                         "line": 12,
                         "column": 1,
-                        "offset": 273
+                        "offset": 287
                       },
                       "end": {
                         "line": 12,
-                        "column": 123,
-                        "offset": 395
+                        "column": 118,
+                        "offset": 404
                       }
                     }
                   }
@@ -221,12 +221,12 @@
                   "start": {
                     "line": 12,
                     "column": 1,
-                    "offset": 273
+                    "offset": 287
                   },
                   "end": {
                     "line": 12,
-                    "column": 123,
-                    "offset": 395
+                    "column": 118,
+                    "offset": 404
                   }
                 }
               },
@@ -237,12 +237,12 @@
                   "start": {
                     "line": 12,
                     "column": 1,
-                    "offset": 273
+                    "offset": 287
                   },
                   "end": {
                     "line": 12,
-                    "column": 123,
-                    "offset": 395
+                    "column": 118,
+                    "offset": 404
                   }
                 }
               }
@@ -251,12 +251,12 @@
               "start": {
                 "line": 12,
                 "column": 1,
-                "offset": 273
+                "offset": 287
               },
               "end": {
                 "line": 12,
-                "column": 123,
-                "offset": 395
+                "column": 118,
+                "offset": 404
               }
             }
           },
@@ -264,19 +264,19 @@
             "start": {
               "line": 12,
               "column": 1,
-              "offset": 273
+              "offset": 287
             },
             "end": {
               "line": 12,
-              "column": 123,
-              "offset": 395
+              "column": 118,
+              "offset": 404
             }
           }
         }
       ],
       "semantic": {
         "kind": "action",
-        "name": "tail demo logs",
+        "name": "stream metric pulses",
         "outputName": "line",
         "effects": [
           "process"
@@ -287,18 +287,18 @@
         "start": {
           "line": 9,
           "column": 1,
-          "offset": 213
+          "offset": 221
         },
         "end": {
           "line": 9,
-          "column": 22,
-          "offset": 234
+          "column": 28,
+          "offset": 248
         }
       }
     },
     {
       "kind": "function",
-      "name": "logsStreamRouteConnect",
+      "name": "metricPulsesSseConnect",
       "params": [],
       "returnType": {
         "kind": "typeRef",
@@ -311,8 +311,8 @@
         }
       ],
       "semantic": {
-        "kind": "streamRoute",
-        "name": "logs",
+        "kind": "sseRoute",
+        "name": "metric pulses",
         "outputName": "connect",
         "effects": [
           "network"
@@ -322,18 +322,18 @@
         "start": {
           "line": 17,
           "column": 1,
-          "offset": 452
+          "offset": 473
         },
         "end": {
           "line": 17,
-          "column": 47,
-          "offset": 498
+          "column": 53,
+          "offset": 525
         }
       }
     },
     {
       "kind": "function",
-      "name": "logsStreamRouteDisconnect",
+      "name": "metricPulsesSseDisconnect",
       "params": [],
       "returnType": {
         "kind": "typeRef",
@@ -350,12 +350,12 @@
               "start": {
                 "line": 18,
                 "column": 1,
-                "offset": 499
+                "offset": 526
               },
               "end": {
                 "line": 18,
                 "column": 28,
-                "offset": 526
+                "offset": 553
               }
             }
           },
@@ -363,19 +363,19 @@
             "start": {
               "line": 18,
               "column": 1,
-              "offset": 499
+              "offset": 526
             },
             "end": {
               "line": 18,
               "column": 28,
-              "offset": 526
+              "offset": 553
             }
           }
         }
       ],
       "semantic": {
-        "kind": "streamRoute",
-        "name": "logs",
+        "kind": "sseRoute",
+        "name": "metric pulses",
         "outputName": "disconnect",
         "effects": [
           "network"
@@ -385,18 +385,18 @@
         "start": {
           "line": 18,
           "column": 1,
-          "offset": 499
+          "offset": 526
         },
         "end": {
           "line": 18,
           "column": 28,
-          "offset": 526
+          "offset": 553
         }
       }
     },
     {
       "kind": "function",
-      "name": "logStreamPanelView",
+      "name": "livePulseFeedView",
       "params": [],
       "returnType": {
         "kind": "typeRef",
@@ -406,13 +406,13 @@
       "body": [],
       "semantic": {
         "kind": "view",
-        "name": "log stream panel",
+        "name": "live pulse feed",
         "outputName": "view",
         "effects": [],
         "viewEach": [
           {
-            "itemName": "line",
-            "itemIdentifier": "line",
+            "itemName": "pulse",
+            "itemIdentifier": "pulse",
             "iterable": {
               "kind": "identifier",
               "name": "messages",
@@ -420,12 +420,12 @@
                 "start": {
                   "line": 24,
                   "column": 1,
-                  "offset": 681
+                  "offset": 713
                 },
                 "end": {
                   "line": 24,
-                  "column": 41,
-                  "offset": 721
+                  "column": 44,
+                  "offset": 756
                 }
               }
             },
@@ -433,121 +433,99 @@
               "kind": "property",
               "target": {
                 "kind": "identifier",
-                "name": "line",
+                "name": "pulse",
                 "span": {
                   "start": {
                     "line": 24,
                     "column": 1,
-                    "offset": 681
+                    "offset": 713
                   },
                   "end": {
                     "line": 24,
-                    "column": 41,
-                    "offset": 721
+                    "column": 44,
+                    "offset": 756
                   }
                 }
               },
-              "name": "line",
+              "name": "value",
               "span": {
                 "start": {
                   "line": 24,
                   "column": 1,
-                  "offset": 681
+                  "offset": 713
                 },
                 "end": {
                   "line": 24,
-                  "column": 41,
-                  "offset": 721
+                  "column": 44,
+                  "offset": 756
                 }
               }
             }
           }
         ],
         "viewStreamSubscribe": {
-          "routeName": "logs",
-          "path": "/ws/logs",
-          "messageTypeName": "Log Line",
+          "routeName": "metric pulses",
+          "path": "/sse/metrics",
+          "messageTypeName": "Metric Pulse",
           "bindingName": "messages",
-          "transport": "websocket",
+          "transport": "sse",
           "connecting": {
             "kind": "literal",
-            "value": "Connecting to log stream...",
+            "value": "Connecting to SSE feed…",
             "span": {
               "start": {
                 "line": 22,
                 "column": 1,
-                "offset": 577
+                "offset": 609
               },
               "end": {
                 "line": 22,
-                "column": 55,
-                "offset": 631
+                "column": 57,
+                "offset": 665
               }
             }
           },
+          "connectingStyle": [
+            "muted"
+          ],
           "disconnected": {
             "kind": "literal",
-            "value": "Stream disconnected",
+            "value": "Feed ended",
             "span": {
               "start": {
                 "line": 23,
                 "column": 1,
-                "offset": 632
+                "offset": 666
               },
               "end": {
                 "line": 23,
-                "column": 49,
-                "offset": 680
+                "column": 47,
+                "offset": 712
               }
             }
-          }
+          },
+          "disconnectedStyle": [
+            "danger"
+          ]
         }
       },
       "span": {
         "start": {
           "line": 20,
           "column": 1,
-          "offset": 528
+          "offset": 555
         },
         "end": {
           "line": 20,
-          "column": 22,
-          "offset": 549
+          "column": 21,
+          "offset": 575
         }
       }
     },
     {
       "kind": "function",
-      "name": "logStreamWithHandlerView",
-      "params": [
-        {
-          "name": "onLogLine",
-          "type": {
-            "kind": "typeRef",
-            "name": "Handler",
-            "args": [
-              {
-                "kind": "typeRef",
-                "name": "LogLine",
-                "args": []
-              }
-            ]
-          },
-          "semanticName": "on log line",
-          "span": {
-            "start": {
-              "line": 27,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 27,
-              "column": 31,
-              "offset": 30
-            }
-          }
-        }
-      ],
+      "name": "appShellLayout",
+      "params": [],
       "returnType": {
         "kind": "typeRef",
         "name": "Text",
@@ -558,64 +536,99 @@
           "kind": "return",
           "value": {
             "kind": "literal",
-            "value": "Streaming logs...",
+            "value": "",
             "span": {
               "start": {
-                "line": 30,
+                "line": 26,
                 "column": 1,
-                "offset": 847
+                "offset": 758
               },
               "end": {
-                "line": 30,
-                "column": 29,
-                "offset": 875
+                "line": 26,
+                "column": 17,
+                "offset": 774
               }
             }
           },
           "span": {
             "start": {
-              "line": 30,
+              "line": 26,
               "column": 1,
-              "offset": 847
+              "offset": 758
             },
             "end": {
-              "line": 30,
-              "column": 29,
-              "offset": 875
+              "line": 26,
+              "column": 17,
+              "offset": 774
             }
           }
         }
       ],
       "semantic": {
-        "kind": "view",
-        "name": "log stream with handler",
-        "outputName": "view",
+        "kind": "layout",
+        "name": "app shell",
+        "outputName": "layout",
         "effects": [],
-        "viewStreamSubscribe": {
-          "routeName": "logs",
-          "path": "/ws/logs",
-          "messageTypeName": "Log Line",
-          "bindingName": "messages",
-          "transport": "websocket",
-          "messageCallback": "onLogLine"
+        "layoutSpec": {
+          "name": "app shell",
+          "slots": [
+            {
+              "name": "sidebar",
+              "content": {
+                "kind": "literal",
+                "value": "SSE",
+                "span": {
+                  "start": {
+                    "line": 27,
+                    "column": 1,
+                    "offset": 775
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 28,
+                    "offset": 802
+                  }
+                }
+              }
+            },
+            {
+              "name": "main",
+              "content": {
+                "kind": "literal",
+                "value": "Live feed",
+                "span": {
+                  "start": {
+                    "line": 28,
+                    "column": 1,
+                    "offset": 803
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 31,
+                    "offset": 833
+                  }
+                }
+              }
+            }
+          ]
         }
       },
       "span": {
         "start": {
           "line": 26,
           "column": 1,
-          "offset": 723
+          "offset": 758
         },
         "end": {
           "line": 26,
-          "column": 29,
-          "offset": 751
+          "column": 17,
+          "offset": 774
         }
       }
     },
     {
       "kind": "function",
-      "name": "logViewerPage",
+      "name": "homePage",
       "params": [],
       "returnType": {
         "kind": "typeRef",
@@ -627,87 +640,89 @@
           "kind": "return",
           "value": {
             "kind": "call",
-            "callee": "logStreamPanelView",
+            "callee": "livePulseFeedView",
             "args": [],
             "span": {
               "start": {
-                "line": 35,
+                "line": 34,
                 "column": 1,
-                "offset": 982
+                "offset": 956
               },
               "end": {
-                "line": 35,
-                "column": 33,
-                "offset": 1014
+                "line": 34,
+                "column": 32,
+                "offset": 987
               }
             }
           },
           "span": {
             "start": {
-              "line": 32,
+              "line": 30,
               "column": 1,
-              "offset": 877
+              "offset": 835
             },
             "end": {
-              "line": 32,
-              "column": 21,
-              "offset": 897
+              "line": 30,
+              "column": 15,
+              "offset": 849
             }
           }
         }
       ],
       "semantic": {
         "kind": "page",
-        "name": "log viewer page",
+        "name": "home page",
         "outputName": "page",
         "effects": [],
         "pageLayout": {
+          "layoutName": "app shell",
+          "layoutFunction": "appShellLayout",
           "title": {
             "kind": "literal",
-            "value": "Log Viewer",
+            "value": "SSE metrics",
             "span": {
               "start": {
-                "line": 33,
+                "line": 32,
                 "column": 1,
-                "offset": 898
+                "offset": 869
               },
               "end": {
-                "line": 33,
-                "column": 21,
-                "offset": 918
+                "line": 32,
+                "column": 22,
+                "offset": 890
               }
             }
           },
           "description": {
             "kind": "literal",
-            "value": "Live subprocess stdout streamed over WebSocket",
+            "value": "Push dashboard — no polling, server-sent events.",
             "span": {
               "start": {
-                "line": 34,
+                "line": 33,
                 "column": 1,
-                "offset": 919
+                "offset": 891
               },
               "end": {
-                "line": 34,
-                "column": 63,
-                "offset": 981
+                "line": 33,
+                "column": 65,
+                "offset": 955
               }
             }
           },
           "main": {
             "kind": "call",
-            "callee": "logStreamPanelView",
+            "callee": "livePulseFeedView",
             "args": [],
             "span": {
               "start": {
-                "line": 35,
+                "line": 34,
                 "column": 1,
-                "offset": 982
+                "offset": 956
               },
               "end": {
-                "line": 35,
-                "column": 33,
-                "offset": 1014
+                "line": 34,
+                "column": 32,
+                "offset": 987
               }
             }
           }
@@ -715,20 +730,20 @@
       },
       "span": {
         "start": {
-          "line": 32,
+          "line": 30,
           "column": 1,
-          "offset": 877
+          "offset": 835
         },
         "end": {
-          "line": 32,
-          "column": 21,
-          "offset": 897
+          "line": 30,
+          "column": 15,
+          "offset": 849
         }
       }
     },
     {
       "kind": "function",
-      "name": "serveLogViewerCommand",
+      "name": "serveSseDashboardCommand",
       "params": [],
       "returnType": {
         "kind": "typeRef",
@@ -740,50 +755,50 @@
           "kind": "return",
           "value": {
             "kind": "literal",
-            "value": "Log viewer ready — WebSocket at /ws/logs",
+            "value": "SSE dashboard ready at /sse/metrics",
             "span": {
               "start": {
-                "line": 43,
+                "line": 42,
                 "column": 1,
-                "offset": 1141
+                "offset": 1114
               },
               "end": {
-                "line": 43,
-                "column": 52,
-                "offset": 1192
+                "line": 42,
+                "column": 47,
+                "offset": 1160
               }
             }
           },
           "span": {
             "start": {
-              "line": 43,
+              "line": 42,
               "column": 1,
-              "offset": 1141
+              "offset": 1114
             },
             "end": {
-              "line": 43,
-              "column": 52,
-              "offset": 1192
+              "line": 42,
+              "column": 47,
+              "offset": 1160
             }
           }
         }
       ],
       "semantic": {
         "kind": "command",
-        "name": "serve log viewer",
+        "name": "serve sse dashboard",
         "outputName": "result",
         "effects": []
       },
       "span": {
         "start": {
-          "line": 41,
+          "line": 40,
           "column": 1,
-          "offset": 1094
+          "offset": 1064
         },
         "end": {
-          "line": 41,
-          "column": 25,
-          "offset": 1118
+          "line": 40,
+          "column": 28,
+          "offset": 1091
         }
       }
     }
@@ -796,8 +811,8 @@
     },
     "end": {
       "line": 1,
-      "column": 17,
-      "offset": 16
+      "column": 20,
+      "offset": 19
     }
   },
   "semantic": {
@@ -805,7 +820,7 @@
   },
   "semanticSource": {
     "kind": "semanticProgram",
-    "module": "LogViewer",
+    "module": "SseDashboard",
     "uses": [],
     "declarations": [
       {
@@ -899,12 +914,12 @@
               "start": {
                 "line": 4,
                 "column": 1,
-                "offset": 45
+                "offset": 48
               },
               "end": {
                 "line": 4,
                 "column": 137,
-                "offset": 181
+                "offset": 184
               }
             }
           }
@@ -913,21 +928,21 @@
           "start": {
             "line": 3,
             "column": 1,
-            "offset": 18
+            "offset": 21
           },
           "end": {
             "line": 3,
             "column": 27,
-            "offset": 44
+            "offset": 47
           }
         }
       },
       {
         "kind": "record",
-        "name": "Log Line",
+        "name": "Metric Pulse",
         "fields": [
           {
-            "label": "line",
+            "label": "value",
             "type": {
               "kind": "typeRef",
               "name": "Text",
@@ -937,12 +952,12 @@
               "start": {
                 "line": 7,
                 "column": 1,
-                "offset": 199
+                "offset": 206
               },
               "end": {
                 "line": 7,
-                "column": 13,
-                "offset": 211
+                "column": 14,
+                "offset": 219
               }
             }
           }
@@ -951,18 +966,18 @@
           "start": {
             "line": 6,
             "column": 1,
-            "offset": 183
+            "offset": 186
           },
           "end": {
             "line": 6,
-            "column": 16,
-            "offset": 198
+            "column": 20,
+            "offset": 205
           }
         }
       },
       {
         "kind": "action",
-        "name": "tail demo logs",
+        "name": "stream metric pulses",
         "inputs": [],
         "output": {
           "name": "line",
@@ -989,12 +1004,12 @@
                     "start": {
                       "line": 12,
                       "column": 1,
-                      "offset": 273
+                      "offset": 287
                     },
                     "end": {
                       "line": 12,
-                      "column": 123,
-                      "offset": 395
+                      "column": 118,
+                      "offset": 404
                     }
                   }
                 },
@@ -1008,28 +1023,28 @@
                         "start": {
                           "line": 12,
                           "column": 1,
-                          "offset": 273
+                          "offset": 287
                         },
                         "end": {
                           "line": 12,
-                          "column": 123,
-                          "offset": 395
+                          "column": 118,
+                          "offset": 404
                         }
                       }
                     },
                     {
                       "kind": "literal",
-                      "value": "i=0; while [ $i -lt 24 ]; do echo demo-line-$i; i=$((i+1)); sleep 0.15; done",
+                      "value": "i=0; while [ $i -lt 12 ]; do echo pulse-$i; i=$((i+1)); sleep 0.2; done",
                       "span": {
                         "start": {
                           "line": 12,
                           "column": 1,
-                          "offset": 273
+                          "offset": 287
                         },
                         "end": {
                           "line": 12,
-                          "column": 123,
-                          "offset": 395
+                          "column": 118,
+                          "offset": 404
                         }
                       }
                     }
@@ -1038,12 +1053,12 @@
                     "start": {
                       "line": 12,
                       "column": 1,
-                      "offset": 273
+                      "offset": 287
                     },
                     "end": {
                       "line": 12,
-                      "column": 123,
-                      "offset": 395
+                      "column": 118,
+                      "offset": 404
                     }
                   }
                 },
@@ -1054,12 +1069,12 @@
                     "start": {
                       "line": 12,
                       "column": 1,
-                      "offset": 273
+                      "offset": 287
                     },
                     "end": {
                       "line": 12,
-                      "column": 123,
-                      "offset": 395
+                      "column": 118,
+                      "offset": 404
                     }
                   }
                 }
@@ -1068,12 +1083,12 @@
                 "start": {
                   "line": 12,
                   "column": 1,
-                  "offset": 273
+                  "offset": 287
                 },
                 "end": {
                   "line": 12,
-                  "column": 123,
-                  "offset": 395
+                  "column": 118,
+                  "offset": 404
                 }
               }
             },
@@ -1081,12 +1096,12 @@
               "start": {
                 "line": 12,
                 "column": 1,
-                "offset": 273
+                "offset": 287
               },
               "end": {
                 "line": 12,
-                "column": 123,
-                "offset": 395
+                "column": 118,
+                "offset": 404
               }
             }
           }
@@ -1095,39 +1110,39 @@
           "start": {
             "line": 9,
             "column": 1,
-            "offset": 213
+            "offset": 221
           },
           "end": {
             "line": 9,
-            "column": 22,
-            "offset": 234
+            "column": 28,
+            "offset": 248
           }
         }
       },
       {
-        "kind": "streamRoute",
-        "name": "logs",
-        "path": "/ws/logs",
-        "messageType": {
+        "kind": "sseRoute",
+        "name": "metric pulses",
+        "path": "/sse/metrics",
+        "eventType": {
           "kind": "typeRef",
-          "name": "Log Line",
+          "name": "Metric Pulse",
           "args": []
         },
         "handlers": [
           {
             "event": "connect",
             "mode": "streamFromAction",
-            "actionName": "tail demo logs",
+            "actionName": "stream metric pulses",
             "span": {
               "start": {
                 "line": 17,
                 "column": 1,
-                "offset": 452
+                "offset": 473
               },
               "end": {
                 "line": 17,
-                "column": 47,
-                "offset": 498
+                "column": 53,
+                "offset": 525
               }
             }
           },
@@ -1141,12 +1156,12 @@
                 "start": {
                   "line": 18,
                   "column": 1,
-                  "offset": 499
+                  "offset": 526
                 },
                 "end": {
                   "line": 18,
                   "column": 28,
-                  "offset": 526
+                  "offset": 553
                 }
               }
             },
@@ -1154,12 +1169,12 @@
               "start": {
                 "line": 18,
                 "column": 1,
-                "offset": 499
+                "offset": 526
               },
               "end": {
                 "line": 18,
                 "column": 28,
-                "offset": 526
+                "offset": 553
               }
             }
           }
@@ -1168,18 +1183,18 @@
           "start": {
             "line": 14,
             "column": 1,
-            "offset": 397
+            "offset": 406
           },
           "end": {
             "line": 14,
-            "column": 18,
-            "offset": 414
+            "column": 24,
+            "offset": 429
           }
         }
       },
       {
         "kind": "view",
-        "name": "log stream panel",
+        "name": "live pulse feed",
         "inputs": [],
         "output": {
           "name": "page",
@@ -1191,18 +1206,18 @@
         },
         "body": [
           {
-            "kind": "streamSubscribeRoute",
-            "routeName": "logs",
+            "kind": "sseSubscribeRoute",
+            "routeName": "metric pulses",
             "span": {
               "start": {
                 "line": 21,
                 "column": 1,
-                "offset": 550
+                "offset": 576
               },
               "end": {
                 "line": 21,
-                "column": 27,
-                "offset": 576
+                "column": 33,
+                "offset": 608
               }
             }
           },
@@ -1210,30 +1225,33 @@
             "kind": "whenConnectingRender",
             "value": {
               "kind": "literal",
-              "value": "Connecting to log stream...",
+              "value": "Connecting to SSE feed…",
               "span": {
                 "start": {
                   "line": 22,
                   "column": 1,
-                  "offset": 577
+                  "offset": 609
                 },
                 "end": {
                   "line": 22,
-                  "column": 55,
-                  "offset": 631
+                  "column": 57,
+                  "offset": 665
                 }
               }
             },
+            "style": [
+              "muted"
+            ],
             "span": {
               "start": {
                 "line": 22,
                 "column": 1,
-                "offset": 577
+                "offset": 609
               },
               "end": {
                 "line": 22,
-                "column": 55,
-                "offset": 631
+                "column": 57,
+                "offset": 665
               }
             }
           },
@@ -1241,36 +1259,39 @@
             "kind": "whenDisconnectedRender",
             "value": {
               "kind": "literal",
-              "value": "Stream disconnected",
+              "value": "Feed ended",
               "span": {
                 "start": {
                   "line": 23,
                   "column": 1,
-                  "offset": 632
+                  "offset": 666
                 },
                 "end": {
                   "line": 23,
-                  "column": 49,
-                  "offset": 680
+                  "column": 47,
+                  "offset": 712
                 }
               }
             },
+            "style": [
+              "danger"
+            ],
             "span": {
               "start": {
                 "line": 23,
                 "column": 1,
-                "offset": 632
+                "offset": 666
               },
               "end": {
                 "line": 23,
-                "column": 49,
-                "offset": 680
+                "column": 47,
+                "offset": 712
               }
             }
           },
           {
             "kind": "eachRender",
-            "item": "line",
+            "item": "pulse",
             "iterable": {
               "kind": "name",
               "label": "messages",
@@ -1278,12 +1299,12 @@
                 "start": {
                   "line": 24,
                   "column": 1,
-                  "offset": 681
+                  "offset": 713
                 },
                 "end": {
                   "line": 24,
-                  "column": 41,
-                  "offset": 721
+                  "column": 44,
+                  "offset": 756
                 }
               }
             },
@@ -1291,31 +1312,31 @@
               "kind": "property",
               "target": {
                 "kind": "name",
-                "label": "line",
+                "label": "pulse",
                 "span": {
                   "start": {
                     "line": 24,
                     "column": 1,
-                    "offset": 681
+                    "offset": 713
                   },
                   "end": {
                     "line": 24,
-                    "column": 41,
-                    "offset": 721
+                    "column": 44,
+                    "offset": 756
                   }
                 }
               },
-              "label": "line",
+              "label": "value",
               "span": {
                 "start": {
                   "line": 24,
                   "column": 1,
-                  "offset": 681
+                  "offset": 713
                 },
                 "end": {
                   "line": 24,
-                  "column": 41,
-                  "offset": 721
+                  "column": 44,
+                  "offset": 756
                 }
               }
             },
@@ -1323,12 +1344,12 @@
               "start": {
                 "line": 24,
                 "column": 1,
-                "offset": 681
+                "offset": 713
               },
               "end": {
                 "line": 24,
-                "column": 41,
-                "offset": 721
+                "column": 44,
+                "offset": 756
               }
             }
           }
@@ -1337,115 +1358,78 @@
           "start": {
             "line": 20,
             "column": 1,
-            "offset": 528
+            "offset": 555
           },
           "end": {
             "line": 20,
-            "column": 22,
-            "offset": 549
+            "column": 21,
+            "offset": 575
           }
         }
       },
       {
-        "kind": "view",
-        "name": "log stream with handler",
-        "inputs": [
+        "kind": "layout",
+        "name": "app shell",
+        "slots": [
           {
-            "label": "on log line",
-            "type": {
-              "kind": "typeRef",
-              "name": "Handler",
-              "args": [
-                {
-                  "kind": "typeRef",
-                  "name": "Log Line",
-                  "args": []
-                }
-              ]
-            },
-            "span": {
-              "start": {
-                "line": 27,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 27,
-                "column": 31,
-                "offset": 30
-              }
-            }
-          }
-        ],
-        "output": {
-          "name": "page",
-          "type": {
-            "kind": "typeRef",
-            "name": "Page",
-            "args": []
-          }
-        },
-        "body": [
-          {
-            "kind": "streamSubscribePath",
-            "path": "/ws/logs",
-            "span": {
-              "start": {
-                "line": 28,
-                "column": 1,
-                "offset": 791
-              },
-              "end": {
-                "line": 28,
-                "column": 26,
-                "offset": 816
-              }
-            }
-          },
-          {
-            "kind": "onMessageCall",
-            "callback": "on log line",
-            "span": {
-              "start": {
-                "line": 29,
-                "column": 1,
-                "offset": 817
-              },
-              "end": {
-                "line": 29,
-                "column": 30,
-                "offset": 846
-              }
-            }
-          },
-          {
-            "kind": "render",
-            "value": {
+            "name": "sidebar",
+            "content": {
               "kind": "literal",
-              "value": "Streaming logs...",
+              "value": "SSE",
               "span": {
                 "start": {
-                  "line": 30,
+                  "line": 27,
                   "column": 1,
-                  "offset": 847
+                  "offset": 775
                 },
                 "end": {
-                  "line": 30,
-                  "column": 29,
-                  "offset": 875
+                  "line": 27,
+                  "column": 28,
+                  "offset": 802
                 }
               }
             },
             "span": {
               "start": {
-                "line": 30,
+                "line": 27,
                 "column": 1,
-                "offset": 847
+                "offset": 775
               },
               "end": {
-                "line": 30,
-                "column": 29,
-                "offset": 875
+                "line": 27,
+                "column": 28,
+                "offset": 802
+              }
+            }
+          },
+          {
+            "name": "main",
+            "content": {
+              "kind": "literal",
+              "value": "Live feed",
+              "span": {
+                "start": {
+                  "line": 28,
+                  "column": 1,
+                  "offset": 803
+                },
+                "end": {
+                  "line": 28,
+                  "column": 31,
+                  "offset": 833
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 28,
+                "column": 1,
+                "offset": 803
+              },
+              "end": {
+                "line": 28,
+                "column": 31,
+                "offset": 833
               }
             }
           }
@@ -1454,98 +1438,99 @@
           "start": {
             "line": 26,
             "column": 1,
-            "offset": 723
+            "offset": 758
           },
           "end": {
             "line": 26,
-            "column": 29,
-            "offset": 751
+            "column": 17,
+            "offset": 774
           }
         }
       },
       {
         "kind": "page",
-        "name": "log viewer page",
+        "name": "home page",
+        "layout": "app shell",
         "inputs": [],
         "title": {
           "kind": "literal",
-          "value": "Log Viewer",
+          "value": "SSE metrics",
           "span": {
             "start": {
-              "line": 33,
+              "line": 32,
               "column": 1,
-              "offset": 898
+              "offset": 869
             },
             "end": {
-              "line": 33,
-              "column": 21,
-              "offset": 918
+              "line": 32,
+              "column": 22,
+              "offset": 890
             }
           }
         },
         "description": {
           "kind": "literal",
-          "value": "Live subprocess stdout streamed over WebSocket",
+          "value": "Push dashboard — no polling, server-sent events.",
           "span": {
             "start": {
-              "line": 34,
+              "line": 33,
               "column": 1,
-              "offset": 919
+              "offset": 891
             },
             "end": {
-              "line": 34,
-              "column": 63,
-              "offset": 981
+              "line": 33,
+              "column": 65,
+              "offset": 955
             }
           }
         },
         "main": {
           "kind": "call",
-          "callee": "log stream panel",
+          "callee": "live pulse feed",
           "args": [],
           "span": {
             "start": {
-              "line": 35,
+              "line": 34,
               "column": 1,
-              "offset": 982
+              "offset": 956
             },
             "end": {
-              "line": 35,
-              "column": 33,
-              "offset": 1014
+              "line": 34,
+              "column": 32,
+              "offset": 987
             }
           }
         },
         "span": {
           "start": {
-            "line": 32,
+            "line": 30,
             "column": 1,
-            "offset": 877
+            "offset": 835
           },
           "end": {
-            "line": 32,
-            "column": 21,
-            "offset": 897
+            "line": 30,
+            "column": 15,
+            "offset": 849
           }
         }
       },
       {
         "kind": "navigation",
-        "name": "log viewer app",
+        "name": "sse dashboard app",
         "routes": [
           {
             "path": "/",
-            "pageName": "log viewer page",
+            "pageName": "home page",
             "span": {
               "start": {
-                "line": 38,
+                "line": 37,
                 "column": 1,
-                "offset": 1042
+                "offset": 1018
               },
               "end": {
-                "line": 38,
-                "column": 32,
-                "offset": 1073
+                "line": 37,
+                "column": 26,
+                "offset": 1043
               }
             }
           }
@@ -1553,20 +1538,20 @@
         "bootstrapRouter": true,
         "span": {
           "start": {
-            "line": 37,
+            "line": 36,
             "column": 1,
-            "offset": 1016
+            "offset": 989
           },
           "end": {
-            "line": 37,
-            "column": 26,
-            "offset": 1041
+            "line": 36,
+            "column": 29,
+            "offset": 1017
           }
         }
       },
       {
         "kind": "command",
-        "name": "serve log viewer",
+        "name": "serve sse dashboard",
         "inputs": [],
         "output": {
           "name": "result",
@@ -1581,44 +1566,44 @@
             "kind": "return",
             "value": {
               "kind": "literal",
-              "value": "Log viewer ready — WebSocket at /ws/logs",
+              "value": "SSE dashboard ready at /sse/metrics",
               "span": {
                 "start": {
-                  "line": 43,
+                  "line": 42,
                   "column": 1,
-                  "offset": 1141
+                  "offset": 1114
                 },
                 "end": {
-                  "line": 43,
-                  "column": 52,
-                  "offset": 1192
+                  "line": 42,
+                  "column": 47,
+                  "offset": 1160
                 }
               }
             },
             "span": {
               "start": {
-                "line": 43,
+                "line": 42,
                 "column": 1,
-                "offset": 1141
+                "offset": 1114
               },
               "end": {
-                "line": 43,
-                "column": 52,
-                "offset": 1192
+                "line": 42,
+                "column": 47,
+                "offset": 1160
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 41,
+            "line": 40,
             "column": 1,
-            "offset": 1094
+            "offset": 1064
           },
           "end": {
-            "line": 41,
-            "column": 25,
-            "offset": 1118
+            "line": 40,
+            "column": 28,
+            "offset": 1091
           }
         }
       }
@@ -1631,17 +1616,17 @@
       },
       "end": {
         "line": 1,
-        "column": 17,
-        "offset": 16
+        "column": 20,
+        "offset": 19
       }
     }
   },
   "semanticCallables": [
-    "log stream panel",
-    "log stream with handler",
-    "log viewer page",
-    "serve log viewer",
+    "app shell",
+    "home page",
+    "live pulse feed",
+    "serve sse dashboard",
     "stream lines raw",
-    "tail demo logs"
+    "stream metric pulses"
   ]
 }

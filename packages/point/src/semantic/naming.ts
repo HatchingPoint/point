@@ -54,3 +54,9 @@ export function streamRouteHandlerName(routeName: string, event: "connect" | "me
 	if (event === "message") return `${base}Message`;
 	return `${base}Disconnect`;
 }
+
+export function sseRouteHandlerName(routeName: string, event: "connect" | "disconnect"): string {
+	const base = semanticFunctionName(routeName, "sse", "sseRoute");
+	if (event === "connect") return `${base}Connect`;
+	return `${base}Disconnect`;
+}

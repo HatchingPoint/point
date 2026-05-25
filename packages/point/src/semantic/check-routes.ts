@@ -6,6 +6,7 @@ import type {
 	PointSemanticProgram,
 	PointSemanticRouteDeclaration,
 	PointSemanticStreamRouteDeclaration,
+	PointSemanticSseRouteDeclaration,
 	PointSemanticTypeExpression,
 } from "./ast.ts";
 import { ROUTE_HTTP_INPUTS, routeProvidesInputLabel } from "../core/emit-routes.ts";
@@ -26,6 +27,10 @@ export function checkSemanticRoutes(program: PointSemanticProgram): PointCoreDia
 	for (const declaration of program.declarations) {
 		if (declaration.kind === "streamRoute") {
 			diagnostics.push(...checkStreamRoute(declaration, moduleName, recordNames));
+			continue;
+		}
+		if (declaration.kind === "sseRoute") {
+			diagnostics.push(...checkSseRoute(declaration, moduleName, recordNames));
 			continue;
 		}
 		if (declaration.kind !== "route") continue;
@@ -167,6 +172,40 @@ function checkStreamRoute(
 	return diagnostics;
 }
 
+function checkSseRoute(
+	declaration: PointSemanticSseRouteDeclaration,
+	moduleName: string,
+	recordNames: Set<string>,
+): PointCoreDiagnostic[] {
+	const diagnostics: PointCoreDiagnostic[] = [];
+	if (!isRecordTypeName(declaration.eventType.name, recordNames)) {
+		diagnostics.push(
+			sseRouteDiagnostic(
+				"invalid-sse-route-event",
+				`SSE route event type must use a record type`,
+				moduleName,
+				declaration,
+				`Declare a record type for event instead of ${formatType(declaration.eventType)}.`,
+				declaration.span,
+			),
+		);
+	}
+	const connectStreamAction = declaration.handlers.find((handler) => handler.event === "connect" && handler.mode === "streamFromAction");
+	if (!connectStreamAction) {
+		diagnostics.push(
+			sseRouteDiagnostic(
+				"missing-sse-route-handler",
+				`SSE route ${declaration.name} requires on connect stream from action`,
+				moduleName,
+				declaration,
+				`Add "on connect stream from action <name>" to sse route ${declaration.name}.`,
+				declaration.span,
+			),
+		);
+	}
+	return diagnostics;
+}
+
 function isRecordTypeName(typeName: string, recordNames: Set<string>): boolean {
 	if (PRIMITIVE_TYPES.has(typeName)) return false;
 	return recordNames.has(toPascalCase(typeName)) || recordNames.has(typeName);
@@ -217,6 +256,25 @@ function streamRouteDiagnostic(
 		ref: `point://semantic/${moduleName}/streamRoute.${streamRoute.name}`,
 		severity: "error",
 		span: span ?? streamRoute.span ?? null,
+		repair,
+	};
+}
+
+function sseRouteDiagnostic(
+	code: string,
+	message: string,
+	moduleName: string,
+	sseRoute: PointSemanticSseRouteDeclaration,
+	repair: string,
+	span?: PointSourceSpan,
+): PointCoreDiagnostic {
+	return {
+		code,
+		message,
+		path: `sseRoute.${sseRoute.name}`,
+		ref: `point://semantic/${moduleName}/sseRoute.${sseRoute.name}`,
+		severity: "error",
+		span: span ?? sseRoute.span ?? null,
 		repair,
 	};
 }

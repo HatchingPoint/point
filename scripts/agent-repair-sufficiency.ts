@@ -790,6 +790,23 @@ toast.success("Saved"); // no POST submit handler wired`,
 			tscError: `error TS2741: Property 'onSubmit' is missing in type '{ children: Element; }'.`,
 		},
 	},
+	{
+		id: "unknown-sse-subscribe-route",
+		title: "View — unknown sse subscribe route",
+		category: "typo-fix",
+		agentTask: "Fix subscribe to sse route name typo.",
+		repairMode: "single-shot",
+		brokenFile: "unknown-sse-subscribe-route-broken.point",
+		fixedFile: "unknown-sse-subscribe-route-fixed.point",
+		expectedCode: "unknown-sse-subscribe-route",
+		chosenField: "metricpulses",
+		typescriptContext: {
+			excerpt: `// LiveFeed.tsx — excerpt
+const source = new EventSource("/sse/metrics"); // route registered as metricPulses`,
+			totalChars: 5600,
+			tscError: `error TS2820: Type '"metricPulse"' is not assignable to type '"metricPulses"'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

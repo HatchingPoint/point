@@ -13,7 +13,7 @@
 
 Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## Platform status (v0.1.48)
+## Platform status (v0.1.49)
 
 Point authors application logic, HTTP, automation, and full-stack apps in one semantic source — with simple daily commands and an agent-native compiler.
 
@@ -76,7 +76,7 @@ point index
 point explain point://semantic/...
 ```
 
-33+ repair benchmark cases; CI gate at 100% sufficiency.
+34+ repair benchmark cases; CI gate at 100% sufficiency.
 
 ## Self-hosting roadmap
 

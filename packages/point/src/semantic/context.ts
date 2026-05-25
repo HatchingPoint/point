@@ -37,6 +37,7 @@ export type PointSemanticSymbolKind =
 	| "middleware"
 	| "route"
 	| "streamRoute"
+	| "sseRoute"
 	| "workflow"
 	| "pipeline"
 	| "session"
@@ -607,6 +608,7 @@ function callableDeclaration(declaration: PointSemanticDeclaration):
 	if (
 		declaration.kind === "route" ||
 		declaration.kind === "streamRoute" ||
+		declaration.kind === "sseRoute" ||
 		declaration.kind === "middleware" ||
 		declaration.kind === "workflow" ||
 		declaration.kind === "pipeline" ||
@@ -615,12 +617,12 @@ function callableDeclaration(declaration: PointSemanticDeclaration):
 		return {
 			kind: declaration.kind,
 			name: declaration.name,
-			inputs: declaration.kind === "streamRoute" ? [] : declaration.inputs,
+			inputs: declaration.kind === "streamRoute" || declaration.kind === "sseRoute" ? [] : declaration.inputs,
 			output:
-				declaration.kind === "streamRoute"
-					? { name: "stream", type: { kind: "typeRef", name: "Void", args: [] } }
+				declaration.kind === "streamRoute" || declaration.kind === "sseRoute"
+					? { name: declaration.kind === "sseRoute" ? "sse" : "stream", type: { kind: "typeRef", name: "Void", args: [] } }
 					: declaration.output,
-			effects: declaration.kind === "streamRoute" ? ["network"] : undefined,
+			effects: declaration.kind === "streamRoute" || declaration.kind === "sseRoute" ? ["network"] : undefined,
 			declaration,
 		};
 	}
