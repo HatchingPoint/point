@@ -111,10 +111,11 @@ view job queue nav
 
 view jobs dashboard
   load data from fetch GET "/api/jobs" field jobs type List<Job>
+  refresh every 15 seconds
   when loading render "Loading jobs..."
   when error render "Could not load jobs"
   when empty render "Queue is empty - enqueue a job."
-  table row in data columns name, status link name to "/jobs/" + row.id
+  datagrid row in data columns name, status, created_at sort by created_at filter by name link name to "/jobs/" + row.id
 
 view enqueue job form
   input draft: Create Job Body
@@ -122,6 +123,8 @@ view enqueue job form
   on change call on draft change
   form
   bind field "Job name" to draft.name
+  toast on success "Job enqueued"
+  toast on error "Enqueue failed"
   submit "Enqueue job" POST "/api/jobs" body draft then navigate "/"
 
 layout job queue shell

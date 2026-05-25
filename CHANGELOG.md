@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.46
+
+### Added
+
+- Phase 66: **Job queue dashboard polish** — datagrid with filter, `refresh every 15 seconds`, enqueue toasts.
+- Phase 66b: **Chart field validation** — `invalid-chart-field` when label/value fields are not on the record type.
+- Phase 66b: **Agent repair gate 30** — `invalid-chart-field` fixture.
+
+### Changed
+
+- Phase 66: **Table/datagrid/chart parsers** — column and field names may include underscores (`created_at`).
+
 ## 0.1.45
 
 ### Added

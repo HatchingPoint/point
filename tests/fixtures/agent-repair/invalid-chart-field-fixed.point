@@ -1,0 +1,9 @@
+module ChartRepair
+
+record Metric
+  label: Text
+  value: Int
+
+view metrics chart
+  input metrics: List<Metric>
+  chart bar from metrics label field label value field value

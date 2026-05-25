@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.45** — Phase 64 datagrid filter, agent repair gate 29.
+Update this line each release: **v0.1.46** — Phase 66 job queue polish, chart field validation, repair gate 30.

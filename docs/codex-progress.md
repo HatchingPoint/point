@@ -1378,3 +1378,12 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 
 - Completed: Bumped **0.1.44**; tag + push triggers GitHub publish workflow.
 - Released: **v0.1.44** (npm via CI on tag).
+
+## Checkpoint Phase 64–64b — Datagrid filter + repair gate 29
+
+- Completed: `filter by column` datagrid syntax; saas-app + operator-dashboard; `invalid-datagrid-filter-column` fixture; gate **29/29**.
+- Verified: `bun run ci` green.
+
+## Checkpoint Phase 65 integrator — v0.1.45
+
+- Completed: Bumped **0.1.45**; tag + push.

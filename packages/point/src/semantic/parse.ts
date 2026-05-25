@@ -1441,7 +1441,7 @@ function parseView(
 			});
 			continue;
 		}
-		const tableLinkMatch = line.match(/^table (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) link ([a-z][a-z0-9 ]*) to (.+)$/i);
+		const tableLinkMatch = line.match(/^table (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) link ([a-z][a-z0-9_ ]*) to (.+)$/i);
 		if (tableLinkMatch) {
 			const tableContext = eachItemContext(
 				bindings,
@@ -1463,7 +1463,7 @@ function parseView(
 			});
 			continue;
 		}
-		const tableMatch = line.match(/^table (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*)$/i);
+		const tableMatch = line.match(/^table (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*)$/i);
 		if (tableMatch) {
 			statements.push({
 				kind: "table",
@@ -1475,7 +1475,7 @@ function parseView(
 			continue;
 		}
 		const datagridLinkMatch = line.match(
-			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*?)(?: filter by ([a-z][a-z0-9 ]*?)(?: contains (.+?))?)? link ([a-z][a-z0-9 ]*) to (.+)$/i,
+			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) sort by ([a-z][a-z0-9_ ]*?)(?: filter by ([a-z][a-z0-9_ ]*?)(?: contains (.+?))?)? link ([a-z][a-z0-9_ ]*) to (.+)$/i,
 		);
 		if (datagridLinkMatch) {
 			const gridContext = eachItemContext(
@@ -1508,7 +1508,7 @@ function parseView(
 			continue;
 		}
 		const datagridMatch = line.match(
-			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*?)(?: filter by ([a-z][a-z0-9 ]*?)(?: contains (.+))?)?$/i,
+			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) sort by ([a-z][a-z0-9_ ]*?)(?: filter by ([a-z][a-z0-9_ ]*?)(?: contains (.+))?)?$/i,
 		);
 		if (datagridMatch) {
 			statements.push({
@@ -1529,7 +1529,7 @@ function parseView(
 			});
 			continue;
 		}
-		const chartMatch = line.match(/^chart bar from (.+) label field ([a-z][a-z0-9 ]*) value field ([a-z][a-z0-9 ]*)$/i);
+		const chartMatch = line.match(/^chart bar from (.+) label field ([a-z][a-z0-9_ ]*) value field ([a-z][a-z0-9_ ]*)$/i);
 		if (chartMatch) {
 			statements.push({
 				kind: "chart",

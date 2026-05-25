@@ -1,6 +1,13 @@
 import type { PointCoreDiagnostic } from "../core/check.ts";
 import type { PointSourceSpan } from "../core/ast.ts";
+import type {
+	PointSemanticProgram,
+	PointSemanticViewBindStatement,
+	PointSemanticViewDeclaration,
+	PointSemanticViewStatement,
+} from "./ast.ts";
 import { POINT_STYLE_MODIFIERS, isPointStyleModifier } from "../core/ui-style.ts";
+import { toIdentifier } from "./naming.ts";
 import { resolveViewStreamSubscribeStatements } from "./view-stream-subscribe-resolve.ts";
 
 export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiagnostic[] {
@@ -43,13 +50,14 @@ export function checkSemanticViews(program: PointSemanticProgram): PointCoreDiag
 			const messageType = resolveStreamMessageType(program, routeName, path);
 			if (messageType) paramTypes.set("messages", `List<${messageType}>`);
 		}
-		diagnostics.push(...checkViewDeclaration(moduleName, declaration, paramTypes));
+		diagnostics.push(...checkViewDeclaration(program, moduleName, declaration, paramTypes));
 	}
 
 	return diagnostics;
 }
 
 function checkViewDeclaration(
+	program: PointSemanticProgram,
 	moduleName: string,
 	declaration: PointSemanticViewDeclaration,
 	paramTypes: Map<string, string>,
@@ -180,6 +188,36 @@ function checkViewDeclaration(
 				);
 			}
 		}
+		if (statement.kind === "chart") {
+			const iterableType = resolveExpressionType(statement.iterable, paramTypes);
+			const elementRecord = resolveListElementRecordName(iterableType);
+			if (elementRecord) {
+				const fields = findRecordFieldLabels(program, elementRecord);
+				if (fields) {
+					for (const [role, fieldName] of [
+						["label", statement.labelField] as const,
+						["value", statement.valueField] as const,
+					]) {
+						if (!recordHasField(fields, fieldName)) {
+							const closest = fields.find((field) => field.toLowerCase().includes(fieldName.toLowerCase()));
+							diagnostics.push(
+								viewDiagnostic(
+									"invalid-chart-field",
+									`View ${declaration.name} chart ${role} field "${fieldName}" is not on ${elementRecord}`,
+									moduleName,
+									declaration.name,
+									closest
+										? `Use ${role} field ${closest}.`
+										: `Use ${role} field ${fields[0] ?? "name"}.`,
+									statement.span,
+									{ expected: fields },
+								),
+							);
+						}
+					}
+				}
+			}
+		}
 		if (statement.kind === "tabs" && statement.tabs.length < 2) {
 			diagnostics.push(
 				viewDiagnostic(
@@ -272,6 +310,32 @@ function resolveStreamMessageType(program: PointSemanticProgram, routeName?: str
 		if (path && declaration.path === path) return formatTypeLabel(declaration.messageType);
 	}
 	return undefined;
+}
+
+function resolveListElementRecordName(listType: string): string | undefined {
+	const match = listType.match(/^List<(.+)>$/);
+	return match?.[1];
+}
+
+function normalizeRecordName(name: string): string {
+	return name.replaceAll(" ", "").toLowerCase();
+}
+
+function findRecordFieldLabels(program: PointSemanticProgram, recordName: string): string[] | undefined {
+	const target = normalizeRecordName(recordName);
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "record") continue;
+		if (normalizeRecordName(declaration.name) !== target && normalizeRecordName(formatTypeLabel({ name: declaration.name, args: [] })) !== target) {
+			continue;
+		}
+		return declaration.fields.map((field) => field.label);
+	}
+	return undefined;
+}
+
+function recordHasField(fields: string[], fieldName: string): boolean {
+	const normalized = toIdentifier(fieldName);
+	return fields.some((field) => toIdentifier(field) === normalized || field === fieldName);
 }
 
 function suggestBindTarget(

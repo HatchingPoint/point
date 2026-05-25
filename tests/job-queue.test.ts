@@ -15,6 +15,15 @@ describe("job-queue example", () => {
 		const result = await Bun.$`bun ${pointCli} check ${source}`.cwd(repoRoot).nothrow().quiet();
 		expect(result.exitCode).toBe(0);
 	});
+
+	test("jobs dashboard emits datagrid filter and refresh", async () => {
+		const buildOut = join(repoRoot, "generated/job-queue-ui-test.ts");
+		await Bun.$`bun ${pointCli} build-ts ${source} ${buildOut}`.cwd(repoRoot).quiet();
+		const emitted = await Bun.file(buildOut).text();
+		expect(emitted).toContain("point-datagrid-filter");
+		expect(emitted).toContain("setInterval");
+		expect(emitted).toContain("point-toast-success");
+	});
 });
 
 describe("job-queue HTTP smoke", () => {

@@ -724,6 +724,23 @@ columns={["name", "role"]} filterColumn="title" // title not in columns`,
 			tscError: `error TS2322: Type '"title"' is not assignable to type '"name" | "role"'.`,
 		},
 	},
+	{
+		id: "invalid-chart-field",
+		title: "View — chart field not on record",
+		category: "typo-fix",
+		agentTask: "Fix a chart label or value field name to match the record.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-chart-field-broken.point",
+		fixedFile: "invalid-chart-field-fixed.point",
+		expectedCode: "invalid-chart-field",
+		chosenField: "label",
+		typescriptContext: {
+			excerpt: `// MetricsChart.tsx — excerpt
+dataKey="title" // Metric record uses label, not title`,
+			totalChars: 5600,
+			tscError: `error TS2339: Property 'title' does not exist on type 'Metric'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

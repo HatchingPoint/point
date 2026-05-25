@@ -4,16 +4,18 @@
 
 ## Active execution
 
-**Next:** Phase 63+ (roadmap-analyze drafts next batch)
+**Next:** Phase 68+ (SSE route, pagination)
 
-**Wave shipped (v0.1.44):** 62 saas template polish, 62b agent repair gate 28
-
-See [codex-goal-phase62.md](./codex-goal-phase62.md)
+**Wave shipped (v0.1.46):** 66 job queue polish, 66b chart validation + repair gate 30
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **67** | v0.1.46 | Integrator: job queue live UI, chart field check, repair gate 30 |
+| **66–66b** | (in v0.1.46) | Job queue datagrid/refresh/toast; invalid-chart-field |
+| **65** | v0.1.45 | Integrator: datagrid filter, repair gate 29 |
+| **64–64b** | (in v0.1.45) | Datagrid text filter, invalid-datagrid-filter-column repair |
 | **62–62b** | (in v0.1.44) | Saas select/toast/datagrid; datagrid sort repair case |
 | **61** | v0.1.43 | Integrator: UI kit, chart/datagrid, std.image, agent repair 27, apple toolkit |
 | **56–60** | (in v0.1.43) | Form controls, chart/datagrid, std.image, agent repair gate 27, apple toolkit, emit pruning |
