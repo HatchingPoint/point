@@ -6,7 +6,7 @@ import { findPointProjectRoot } from "./resolve-cli.ts";
 import { POINT_LOCK, POINT_MANIFEST, writePointLock, writePointManifest } from "./packages.ts";
 
 const POINT_PACKAGE = "@hatchingpoint/point";
-const DEFAULT_POINT_VERSION = "^0.1.54";
+const DEFAULT_POINT_VERSION = "^0.1.55";
 
 export interface PointInitResult {
 	projectRoot: string;

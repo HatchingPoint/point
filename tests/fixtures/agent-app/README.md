@@ -12,16 +12,17 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | **app-repair** | Agent wired a full app but left one mistake | check-json → line fix → `point check` (full app graph) |
 | **refactor** | Rename/move blocks across app (partial agent rename) | Golden structure + check |
 
-## Cases (11)
+## Cases (12)
 
 | ID | Category | Source example |
 |----|----------|----------------|
 | `dashboard-add-search` | feature-add | `examples/app/dashboard/` |
 | `dashboard-search-wiring` | app-repair | dashboard golden |
 | `notes-add-detail` | feature-add | `examples/app/notes/` |
+| `notes-detail-wiring` | app-repair | notes detail load action typo |
 | `dashboard-rename-products` | refactor | dashboard items → products |
-| `ops-add-dashboard` | feature-add | `examples/app/job-queue/` — chart + datagrid + form |
-| `sse-add-live-feed` | feature-add | `examples/app/sse-dashboard/` — SSE push feed |
+| `ops-add-dashboard` | feature-add | job-queue pattern |
+| `sse-add-live-feed` | feature-add | sse-dashboard |
 | `ops-dashboard-chart-wiring` | app-repair | wrong chart label field |
 | `ops-dashboard-sort-wiring` | app-repair | wrong datagrid sort column |
 | `ops-dashboard-filter-wiring` | app-repair | wrong datagrid filter column |
@@ -43,6 +44,7 @@ Measured TypeScript agent context comes from real files listed in each `manifest
 bun test tests/agent-app-benchmark.test.ts tests/agent-app-gate.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts
 bun run benchmark:agent-app
 bun run benchmark:agent-app:gate
+bun run benchmark:agent-app:model-eval-gate
 bun run export:agent-app-cases
 bun run proof:agent-app -- --skip-models
 bun run benchmark:agent-app-models   # optional live API eval

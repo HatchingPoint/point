@@ -3,7 +3,7 @@ import { AGENT_APP_BENCHMARK_CASES, runAgentAppBenchmark } from "./agent-app-ben
 
 /** Minimum fixture counts — bump when adding cases; gate fails if cases are removed silently. */
 export const AGENT_APP_GATE_THRESHOLDS = {
-	minCases: 11,
+	minCases: 12,
 	/** All registered cases must pass structural + diagnostic checks (no partial credit). */
 	requiredPassRate: 1,
 } as const;

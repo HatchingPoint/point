@@ -294,6 +294,27 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "notes-detail-wiring",
+		title: "Notes — wire detail page load action",
+		category: "app-repair",
+		agentTask:
+			"Fix the note detail view load wiring — the view calls fetch note but the action is named get note.",
+		baseFile: "notes-add-detail/golden.point",
+		brokenFile: "notes-detail-wiring/broken.point",
+		goldenFile: "notes-detail-wiring/golden.point",
+		expectedCode: "unknown-load-action",
+		requiredDeclarations: ["action get note", "view note detail", "page note detail page"],
+		requiredNavPaths: ["/notes/:id"],
+		sourceExample: "examples/app/notes/notes.point",
+		nextNotesCaseId: "notes-add-detail",
+		typescriptContext: {
+			taskDescription:
+				"Fix NoteDetail loader in a Next.js notes app — component imports fetchNote but action is getNote.",
+			totalChars: 18000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {

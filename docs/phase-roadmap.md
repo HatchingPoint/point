@@ -4,7 +4,9 @@
 
 ## Active execution
 
-**Next:** Phase 77+ (model eval gate, notes app-repair expansion)
+**Next:** Phase 78+ (ops Next scaffold, notes form repair)
+
+**Wave shipped (v0.1.55):** 77 notes detail app-repair, agent-app model-eval gate, gate 12
 
 **Wave shipped (v0.1.54):** 76 ops page-size + refresh app-repair, agent-app gate 11
 
@@ -22,6 +24,7 @@
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **77** | v0.1.55 | Notes detail app-repair, agent-app model-eval gate (no LLM), gate 12 |
 | **76** | v0.1.54 | Ops page-size + refresh app-repair, agent-app gate 11 |
 | **75** | v0.1.53 | Ops datagrid filter app-repair, agent-app gate 9 — chart/sort/filter trilogy complete |
 | **74** | v0.1.52 | Ops datagrid sort app-repair, agent-app gate 8, LandingPage OSS + benchmark sync |

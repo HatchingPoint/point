@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.55
+
+### Added
+
+- Phase 77: **`notes-detail-wiring`** — full-app app-repair for detail view load action typo (`fetch note` → `get note`).
+- Phase 77: **`benchmark:agent-app:model-eval-gate`** — CI verifies golden model edits for all 12 cases (no LLM).
+- Phase 77: **Agent-app gate 12**.
+
 ## 0.1.54
 
 ### Added

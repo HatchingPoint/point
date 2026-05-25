@@ -86,7 +86,7 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.54** — Phase 76 ops page-size + refresh app-repair, agent-app gate 11.
+Update this line each release: **v0.1.55** — Phase 77 notes detail app-repair, model-eval gate, agent-app gate 12.
 
 ## Open source (public messaging)
 
