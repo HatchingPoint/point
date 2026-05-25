@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.43**
+Current release: **0.1.44**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.44** | Phase 62–62b: Saas select/toast/datagrid polish, agent repair gate 28. |
 | **0.1.43** | Phase 56–60: Form select/textarea/toast, chart + datagrid, std.image, agent repair 27, apple toolkit. |
 | **0.1.42** | Phase 51–54: Job queue pattern, live refresh, std.pty, terminal view + script runner. |
 | **0.1.41** | Phase 49: Button sign-out, table primitive, login validation, Stripe example. |

@@ -29,7 +29,7 @@ point launch src/app.point init database
 | Layer | Included |
 |-------|----------|
 | **Capabilities** | `auth`, `http`, `sql`, `env` |
-| **UI** | Settings, members list, login form, create-member form, theme toggle |
+| **UI** | Settings, members datagrid, login form, create-member form with role select + toasts, theme toggle |
 | **Database** | SQLite via `std.sql` — `command init database` creates + seeds members table |
 | **Auth** | JWT middleware on `POST /api/members`; login form saves Bearer token in browser storage |
 | **Routes** | `GET /api/health`, `GET /api/members`, `POST /api/login`, protected `POST /api/members` |

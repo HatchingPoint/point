@@ -690,6 +690,23 @@ useWebSocket("/ws/build", { subscribe: "buildLog" }); // route registered as bui
 			tscError: `error TS2820: Type '"buildLog"' is not assignable to type '"buildLogs"'.`,
 		},
 	},
+	{
+		id: "invalid-datagrid-sort-column",
+		title: "View — datagrid sort column missing from columns",
+		category: "typo-fix",
+		agentTask: "Fix a datagrid where sort by column is not listed in columns.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-datagrid-sort-column-broken.point",
+		fixedFile: "invalid-datagrid-sort-column-fixed.point",
+		expectedCode: "invalid-datagrid-sort-column",
+		chosenField: "name",
+		typescriptContext: {
+			excerpt: `// JobsGrid.tsx — excerpt
+columns={["name", "role"]} sortBy="title" // title not in columns`,
+			totalChars: 5900,
+			tscError: `error TS2322: Type '"title"' is not assignable to type '"name" | "role"'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

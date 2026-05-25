@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.44
+
+### Added
+
+- Phase 62: **Saas template polish** — create-member role `bind select`, login/create toasts, members `datagrid` sort by name.
+- Phase 62b: **Agent repair gate 28** — `invalid-datagrid-sort-column` fixture and diagnostic.
+
+### Changed
+
+- Phase 62: **saas-app README** — documents select, toast, and datagrid usage.
+
 ## 0.1.43
 
 ### Added

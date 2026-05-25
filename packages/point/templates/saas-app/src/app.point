@@ -63,16 +63,20 @@ view login form
   form
   bind field "Email" to credentials.email
   bind field "Password" to credentials.password
+  toast on error "Sign in failed"
   submit "Sign in" POST "/api/login" body credentials save token field token then navigate "/members"
   render "Use password demo for the pilot workspace"
 
 view create member form
   input draft: Create Member Body
+  input role options: List<Text>
   input on draft change: Handler<Create Member Body>
   on change call on draft change
   form
   bind field "Name" to draft.name
-  bind field "Role" to draft.role
+  bind select "Role" to draft.role options role options
+  toast on success "Member created"
+  toast on error "Could not create member"
   submit "Create member" POST "/api/members" body draft with auth then navigate "/members"
   render "Creates a member with your saved Bearer token"
 
@@ -99,7 +103,7 @@ view members list
   when loading render "Loading members..."
   when error render "Could not load members"
   when empty render "No members yet"
-  table member in data columns name, role link name to "/members/" + member.id
+  datagrid member in data columns name, role sort by name link name to "/members/" + member.id
 
 view member detail
   input id: Text
@@ -145,7 +149,7 @@ page create member page
   input on draft change: Handler<Create Member Body>
   title "New member"
   description "Create a workspace member"
-  main render create member form(draft, on draft change)
+  main render create member form(draft, on draft change, ["Owner", "Admin", "Member"])
 
 navigation admin app
   path "/settings" page settings page

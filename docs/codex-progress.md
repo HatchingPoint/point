@@ -1367,3 +1367,14 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Released: **v0.1.43** (tag + push).
 - Next: Phase 62+ via roadmap-analyze.
 - Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase 62–62b — Saas polish + repair gate 28
+
+- Completed: saas-app select/toast/datagrid; `invalid-datagrid-sort-column` repair fixture; gate **28/28**.
+- Verified: `bun run ci` green (680 tests).
+- Next: Phase 63 integrator / roadmap-analyze for Phase 64+.
+
+## Checkpoint Phase 63 integrator — v0.1.44
+
+- Completed: Bumped **0.1.44**; tag + push triggers GitHub publish workflow.
+- Released: **v0.1.44** (npm via CI on tag).
