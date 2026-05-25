@@ -194,6 +194,9 @@ export interface PointSemanticViewTableSpec {
 	linkColumn?: string;
 	linkPath?: PointCoreExpression;
 	sortBy?: string;
+	filterBy?: string;
+	filterContains?: PointCoreExpression;
+	filterLocal?: boolean;
 	className?: string;
 	style?: string[];
 }

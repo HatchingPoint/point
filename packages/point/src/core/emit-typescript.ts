@@ -327,6 +327,9 @@ function emitFunction(
 			...bodyLines,
 		];
 	}
+	if (viewTable?.filterLocal) {
+		bodyLines = ['const [filterText, setFilterText] = React.useState("");', ...bodyLines];
+	}
 	return [
 		...(declaration.semantic?.kind === "layout" && layoutSpec ? emitLayoutType(layoutSpec) : []),
 		`export ${isStreamAction ? "async function* " : asyncPrefix ? "async function " : "function "}${declaration.name}(${emitFunctionParams(declaration)}): ${returnType} {`,
@@ -437,6 +440,27 @@ function emitViewButton(spec: PointSemanticViewButtonSpec): string {
 	return `<button type="button" className="point-button point-view-button${styleArg}"${onClick}>${escapeJsxText(spec.label)}</button>`;
 }
 
+function emitDatagridFilterValue(spec: PointSemanticViewTableSpec): string {
+	if (spec.filterContains) return emitExpression(spec.filterContains);
+	if (spec.filterLocal) return "filterText";
+	return '""';
+}
+
+function emitDatagridRows(spec: PointSemanticViewTableSpec, item: string): string {
+	const baseRows = `(${emitExpression(spec.iterable)} ?? [])`;
+	if (!spec.filterBy) {
+		return spec.sortBy
+			? `[...${baseRows}].sort((left, right) => { const a = String(left[sortColumn] ?? ""); const b = String(right[sortColumn] ?? ""); const cmp = a.localeCompare(b); return sortDirection === "asc" ? cmp : -cmp; })`
+			: baseRows;
+	}
+	const filterValue = emitDatagridFilterValue(spec);
+	const filtered = `[...${baseRows}.filter((${item}) => { const query = String(${filterValue} ?? "").trim().toLowerCase(); if (!query) return true; return String(${item}.${spec.filterBy} ?? "").toLowerCase().includes(query); })]`;
+	if (spec.sortBy) {
+		return `[...${filtered}.sort((left, right) => { const a = String(left[sortColumn] ?? ""); const b = String(right[sortColumn] ?? ""); const cmp = a.localeCompare(b); return sortDirection === "asc" ? cmp : -cmp; })]`;
+	}
+	return filtered;
+}
+
 function emitViewTable(spec: PointSemanticViewTableSpec): string {
 	const item = spec.itemIdentifier;
 	const tableClassName = resolveViewWrapperClassName(undefined, spec.style);
@@ -464,10 +488,16 @@ function emitViewTable(spec: PointSemanticViewTableSpec): string {
 			return `<td>{String(${valueExpr})}</td>`;
 		})
 		.join("");
-	const iterableExpr = spec.sortBy
-		? `[...(${emitExpression(spec.iterable)} ?? [])].sort((left, right) => { const a = String(left[sortColumn] ?? ""); const b = String(right[sortColumn] ?? ""); const cmp = a.localeCompare(b); return sortDirection === "asc" ? cmp : -cmp; })`
-		: `(${emitExpression(spec.iterable)} ?? [])`;
-	return `<table className="${escapeJsxAttribute(className)}"><thead><tr>${headers}</tr></thead><tbody>{${iterableExpr}.map((${item}, index) => (<tr key={String(index)}>${rowCells}</tr>))}</tbody></table>`;
+	const iterableExpr = emitDatagridRows(spec, item);
+	const filterField =
+		spec.filterLocal && spec.filterBy
+			? `<label className="point-datagrid-filter"><span>Filter ${escapeJsxText(spec.filterBy.charAt(0).toUpperCase() + spec.filterBy.slice(1))}</span><input className="point-input" type="search" value={filterText} onChange={(event) => setFilterText(event.target.value)} placeholder="Type to filter..." /></label>`
+			: "";
+	const table = `<table className="${escapeJsxAttribute(className)}"><thead><tr>${headers}</tr></thead><tbody>{${iterableExpr}.map((${item}, index) => (<tr key={String(index)}>${rowCells}</tr>))}</tbody></table>`;
+	if (filterField) {
+		return `<div className="point-datagrid-wrap">${filterField}${table}</div>`;
+	}
+	return table;
 }
 
 function emitViewChart(spec: PointSemanticViewChartSpec): string {

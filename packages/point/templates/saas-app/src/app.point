@@ -103,7 +103,7 @@ view members list
   when loading render "Loading members..."
   when error render "Could not load members"
   when empty render "No members yet"
-  datagrid member in data columns name, role sort by name link name to "/members/" + member.id
+  datagrid member in data columns name, role sort by name filter by name link name to "/members/" + member.id
 
 view member detail
   input id: Text

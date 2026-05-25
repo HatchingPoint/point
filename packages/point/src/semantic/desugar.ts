@@ -963,6 +963,14 @@ function buildViewTable(declaration: PointSemanticViewDeclaration, ctx: DesugarC
 		...(source.linkColumn ? { linkColumn: toIdentifier(source.linkColumn) } : {}),
 		...(source.linkPath ? { linkPath: desugarExpression(source.linkPath, ctx) } : {}),
 		...(datagrid ? { sortBy: toIdentifier(datagrid.sortBy) } : {}),
+		...(datagrid?.filterBy
+			? {
+					filterBy: toIdentifier(datagrid.filterBy),
+					...(datagrid.filterContains
+						? { filterContains: desugarExpression(datagrid.filterContains, ctx) }
+						: { filterLocal: true }),
+				}
+			: {}),
 		className: source.className,
 		style: source.style,
 	};

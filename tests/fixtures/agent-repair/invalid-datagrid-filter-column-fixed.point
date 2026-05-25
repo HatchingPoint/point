@@ -1,0 +1,9 @@
+module DatagridFilterRepair
+
+record Member
+  name: Text
+  role: Text
+
+view members grid
+  input members: List<Member>
+  datagrid member in members columns name, role sort by name filter by name

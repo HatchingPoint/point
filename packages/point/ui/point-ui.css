@@ -343,6 +343,23 @@ body {
   padding: 0;
 }
 
+.point-datagrid-wrap {
+  display: grid;
+  gap: var(--point-space-sm);
+}
+
+.point-datagrid-filter {
+  display: grid;
+  gap: var(--point-space-xs);
+  max-width: 20rem;
+}
+
+.point-datagrid-filter span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--point-color-emphasis);
+}
+
 .point-chart {
   display: flex;
   align-items: flex-end;

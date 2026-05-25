@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.44**
+Current release: **0.1.45**
 
 Check the published npm version:
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.45
+
+### Added
+
+- Phase 64: **Datagrid text filter** — `filter by column` emits search input + client-side filter; optional `filter by column contains expr`.
+- Phase 64b: **Agent repair gate 29** — `invalid-datagrid-filter-column` fixture.
+
+### Changed
+
+- Phase 64: **saas-app members list** and **operator-dashboard jobs grid** use datagrid filter.
+
 ## 0.1.44
 
 ### Added

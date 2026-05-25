@@ -13,7 +13,7 @@ view operator panel
   input metrics: List<Metric>
   input jobs: List<Job Row>
   chart bar from metrics label field label value field value
-  datagrid row in jobs columns name, status, score sort by score
+  datagrid row in jobs columns name, status, score sort by score filter by name
 
 page operator dashboard page
   title "Operator dashboard"

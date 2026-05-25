@@ -150,6 +150,19 @@ function checkViewDeclaration(
 					),
 				);
 			}
+			if (statement.kind === "datagrid" && statement.filterBy && !statement.columns.includes(statement.filterBy)) {
+				diagnostics.push(
+					viewDiagnostic(
+						"invalid-datagrid-filter-column",
+						`View ${declaration.name} datagrid filter by column must appear in columns list`,
+						moduleName,
+						declaration.name,
+						`Add ${statement.filterBy} to the columns list or fix filter by.`,
+						statement.span,
+						{ expected: statement.columns },
+					),
+				);
+			}
 			paramTypes.set(statement.item, iterableType.startsWith("List<") ? iterableType.slice("List<".length, -1) : "Unknown");
 		}
 		if (statement.kind === "modal" && statement.when?.kind === "name") {

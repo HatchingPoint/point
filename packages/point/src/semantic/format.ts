@@ -427,10 +427,15 @@ function formatViewStatement(statement: PointSemanticViewStatement): string {
 	}
 	if (statement.kind === "datagrid") {
 		const columns = statement.columns.join(", ");
+		const filterPart = statement.filterBy
+			? statement.filterContains
+				? ` filter by ${statement.filterBy} contains ${formatExpression(statement.filterContains)}`
+				: ` filter by ${statement.filterBy}`
+			: "";
 		if (statement.linkColumn && statement.linkPath) {
-			return `datagrid ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} sort by ${statement.sortBy} link ${statement.linkColumn} to ${formatExpression(statement.linkPath)}`;
+			return `datagrid ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} sort by ${statement.sortBy}${filterPart} link ${statement.linkColumn} to ${formatExpression(statement.linkPath)}`;
 		}
-		return `datagrid ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} sort by ${statement.sortBy}`;
+		return `datagrid ${statement.item} in ${formatExpression(statement.iterable)} columns ${columns} sort by ${statement.sortBy}${filterPart}`;
 	}
 	if (statement.kind === "chart") {
 		return `chart ${statement.variant} from ${formatExpression(statement.iterable)} label field ${statement.labelField} value field ${statement.valueField}`;

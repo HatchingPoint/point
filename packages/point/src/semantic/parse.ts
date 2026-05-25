@@ -1474,7 +1474,9 @@ function parseView(
 			});
 			continue;
 		}
-		const datagridLinkMatch = line.match(/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*) link ([a-z][a-z0-9 ]*) to (.+)$/i);
+		const datagridLinkMatch = line.match(
+			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*?)(?: filter by ([a-z][a-z0-9 ]*?)(?: contains (.+?))?)? link ([a-z][a-z0-9 ]*) to (.+)$/i,
+		);
 		if (datagridLinkMatch) {
 			const gridContext = eachItemContext(
 				bindings,
@@ -1491,13 +1493,23 @@ function parseView(
 				iterable: parseLineExpression(datagridLinkMatch[2] ?? "", context, source, lineNumber),
 				columns: datagridLinkMatch[3]!.split(",").map((column) => column.trim()),
 				sortBy: datagridLinkMatch[4] ?? "",
-				linkColumn: datagridLinkMatch[5] ?? "",
-				linkPath: parseLineExpression(datagridLinkMatch[6] ?? "", gridContext, source, lineNumber),
+				...(datagridLinkMatch[5]
+					? {
+							filterBy: datagridLinkMatch[5] ?? "",
+							...(datagridLinkMatch[6]
+								? { filterContains: parseLineExpression(datagridLinkMatch[6] ?? "", context, source, lineNumber) }
+								: {}),
+						}
+					: {}),
+				linkColumn: datagridLinkMatch[7] ?? "",
+				linkPath: parseLineExpression(datagridLinkMatch[8] ?? "", gridContext, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
 		}
-		const datagridMatch = line.match(/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*)$/i);
+		const datagridMatch = line.match(
+			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9 ]*(?:, [a-z][a-z0-9 ]*)*) sort by ([a-z][a-z0-9 ]*?)(?: filter by ([a-z][a-z0-9 ]*?)(?: contains (.+))?)?$/i,
+		);
 		if (datagridMatch) {
 			statements.push({
 				kind: "datagrid",
@@ -1505,6 +1517,14 @@ function parseView(
 				iterable: parseLineExpression(datagridMatch[2] ?? "", context, source, lineNumber),
 				columns: datagridMatch[3]!.split(",").map((column) => column.trim()),
 				sortBy: datagridMatch[4] ?? "",
+				...(datagridMatch[5]
+					? {
+							filterBy: datagridMatch[5] ?? "",
+							...(datagridMatch[6]
+								? { filterContains: parseLineExpression(datagridMatch[6] ?? "", context, source, lineNumber) }
+								: {}),
+						}
+					: {}),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;

@@ -64,7 +64,7 @@ Expand with:
 index → explain point://… → check-json → repair-plan → patch → check
 ```
 
-26+ repair benchmark cases; CI gate at 100% sufficiency (28 single-shot cases).
+26+ repair benchmark cases; CI gate at 100% sufficiency (29 single-shot cases).
 
 ## CLI groups (user-facing)
 
@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.44** — Phase 62 saas select/toast/datagrid, agent repair gate 28.
+Update this line each release: **v0.1.45** — Phase 64 datagrid filter, agent repair gate 29.

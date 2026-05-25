@@ -30,12 +30,12 @@ view operator panel
   input metrics: List<Metric>
   input jobs: List<Job Row>
   chart bar from metrics label field label value field value
-  datagrid row in jobs columns name, status, score sort by score
+  datagrid row in jobs columns name, status, score sort by score filter by name
 `);
 		expect(checkPointCore(program)).toEqual([]);
 	});
 
-	test("emits chart bars and sortable datagrid", () => {
+	test("emits chart bars and sortable datagrid with filter", () => {
 		const program = parsePointSource(`module Demo
 
 record Metric
@@ -51,13 +51,15 @@ view operator panel
   input metrics: List<Metric>
   input jobs: List<Job Row>
   chart bar from metrics label field label value field value
-  datagrid row in jobs columns name, status, score sort by score
+  datagrid row in jobs columns name, status, score sort by score filter by name
 `);
 		const emitted = emitPointCoreTypeScript(program);
 		expect(emitted).toContain('className="point-chart point-chart-bar"');
 		expect(emitted).toContain("point-chart-bar-value");
 		expect(emitted).toContain("point-datagrid-sort");
 		expect(emitted).toContain("setSortColumn");
-		expect(emitted).toContain("sortDirection");
+		expect(emitted).toContain("filterText");
+		expect(emitted).toContain("point-datagrid-filter");
+		expect(emitted).toContain("point-datagrid-wrap");
 	});
 });

@@ -707,6 +707,23 @@ columns={["name", "role"]} sortBy="title" // title not in columns`,
 			tscError: `error TS2322: Type '"title"' is not assignable to type '"name" | "role"'.`,
 		},
 	},
+	{
+		id: "invalid-datagrid-filter-column",
+		title: "View — datagrid filter column missing from columns",
+		category: "typo-fix",
+		agentTask: "Fix a datagrid where filter by column is not listed in columns.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-datagrid-filter-column-broken.point",
+		fixedFile: "invalid-datagrid-filter-column-fixed.point",
+		expectedCode: "invalid-datagrid-filter-column",
+		chosenField: "name",
+		typescriptContext: {
+			excerpt: `// MembersGrid.tsx — excerpt
+columns={["name", "role"]} filterColumn="title" // title not in columns`,
+			totalChars: 5900,
+			tscError: `error TS2322: Type '"title"' is not assignable to type '"name" | "role"'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

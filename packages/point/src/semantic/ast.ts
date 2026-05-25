@@ -440,6 +440,8 @@ export type PointSemanticViewStatement =
 			iterable: PointSemanticExpression;
 			columns: string[];
 			sortBy: string;
+			filterBy?: string;
+			filterContains?: PointSemanticExpression;
 			linkColumn?: string;
 			linkPath?: PointSemanticExpression;
 			className?: string;
