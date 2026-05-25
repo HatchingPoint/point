@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.53**
+Current release: **0.1.54**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.1.54** | Phase 76: Ops page-size + refresh app-repair, agent-app gate 11. |
 | **0.1.53** | Phase 75: Ops datagrid filter app-repair, agent-app gate 9. |
 | **0.1.52** | Phase 74: Ops datagrid sort app-repair, agent-app gate 8. |
 | **0.1.51** | Phase 73: Ops chart app-repair, `invalid-bind-textarea-target`, repair gate 35, agent-app gate 7. |

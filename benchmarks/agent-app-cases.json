@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-app-cases.v1",
-  "generatedAt": "2026-05-25T15:54:24.307Z",
+  "generatedAt": "2026-05-25T16:05:44.991Z",
   "cases": [
     {
       "id": "dashboard-add-search",
@@ -321,10 +321,80 @@
       "nextDashboardFilesMissing": [],
       "tokenReductionPercent": 97,
       "ciPass": true
+    },
+    {
+      "id": "ops-dashboard-page-size-wiring",
+      "title": "Ops — fix datagrid page size on dashboard",
+      "category": "app-repair",
+      "agentTask": "Fix the ops dashboard datagrid page size — page size 0 must be a positive integer.",
+      "sourceExample": "examples/app/job-queue/job-queue.point",
+      "baseLines": 79,
+      "goldenLines": 79,
+      "deltaLines": 0,
+      "baseSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "brokenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 0\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "goldenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"invalid-datagrid-page-size\",\n      \"message\": \"View ops dashboard datagrid page size must be a positive integer\",\n      \"path\": \"view.ops dashboard\",\n      \"ref\": \"point://semantic/OpsApp/view.ops dashboard\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 41,\n          \"column\": 1,\n          \"offset\": 937\n        },\n        \"end\": {\n          \"line\": 41,\n          \"column\": 97,\n          \"offset\": 1033\n        }\n      },\n      \"repair\": \"Use page size 10 or another positive number.\",\n      \"expected\": 10\n    }\n  ]\n}",
+      "diagnosticCode": "invalid-datagrid-page-size",
+      "requiredDeclarations": [
+        "view ops dashboard",
+        "action fetch ops dashboard"
+      ],
+      "requiredNavPaths": [
+        "/",
+        "/enqueue"
+      ],
+      "contextTokens": 163,
+      "contextChars": 653,
+      "tsContextTokens": 6000,
+      "tsContextSource": "heuristic",
+      "tsHeuristicTokens": 6000,
+      "tsTaskDescription": "Fix JobsGrid pageSize in a Next.js ops dashboard — pagination size must be greater than zero.",
+      "typescriptExcerpt": "",
+      "nextDashboardCaseId": null,
+      "nextNotesCaseId": null,
+      "nextDashboardFilesMissing": [],
+      "tokenReductionPercent": 97,
+      "ciPass": true
+    },
+    {
+      "id": "ops-dashboard-refresh-wiring",
+      "title": "Ops — wire load data before live refresh",
+      "category": "app-repair",
+      "agentTask": "Fix the ops dashboard live refresh wiring — refresh every is present but load data from action is missing.",
+      "sourceExample": "examples/app/job-queue/job-queue.point",
+      "baseLines": 79,
+      "goldenLines": 79,
+      "deltaLines": 0,
+      "baseSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "brokenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  render \"Jobs dashboard\"\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "goldenSource": "module OpsApp\n\nrecord Job Row\n  name: Text\n  status: Text\n  score: Int\n\nrecord Job Metric\n  label: Text\n  value: Int\n\nrecord Ops Dashboard\n  jobs: List<Job Row>\n  metrics: List<Job Metric>\n\nrecord Enqueue Body\n  name: Text\n\nview ops nav\n  link \"Dashboard\" to \"/\"\n  link \"Enqueue\" to \"/enqueue\"\n  render \"Ops\"\n\naction list jobs\n  output jobs: List<Job Row>\n  touches none\n  return [{ name: \"sync\", status: \"ok\", score: 95 }, { name: \"import\", status: \"warn\", score: 72 }]\n\naction fetch ops dashboard\n  output dashboard: Ops Dashboard\n  touches none\n  return { jobs: await list jobs(), metrics: [{ label: \"Jobs\", value: 12 }, { label: \"Errors\", value: 3 }] }\n\nview ops dashboard\n  load data from action fetch ops dashboard\n  refresh every 15 seconds\n  when loading render \"Loading dashboard...\"\n  when error render \"Dashboard failed\"\n  when empty render \"No jobs in queue\"\n  chart bar from data.metrics label field label value field value\n  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6\n\nview enqueue job form\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  on change call on draft change\n  form\n  bind field \"Job name\" to draft.name\n  toast on success \"Job enqueued\"\n  toast on error \"Enqueue failed\"\n  submit \"Enqueue\" POST \"/api/jobs\" body draft then navigate \"/\"\n\nlayout ops shell\n  slot sidebar render ops nav()\n  slot main render \"Ops console\"\n\npage dashboard page\n  layout ops shell\n  title \"Ops dashboard\"\n  description \"Chart + datagrid overview\"\n  main render ops dashboard()\n\npage enqueue page\n  layout ops shell\n  input draft: Enqueue Body\n  input on draft change: Handler<Enqueue Body>\n  title \"Enqueue\"\n  description \"Add a job to the queue\"\n  main render enqueue job form(draft, on draft change)\n\nnavigation ops app\n  path \"/\" page dashboard page\n  path \"/enqueue\" page enqueue page\n  bootstrap router\n\ncommand ops demo\n  output result: Text\n  return \"Ops dashboard ready\"\n",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"refresh-without-load\",\n      \"message\": \"View ops dashboard uses refresh every without load data from action, on mount call, or load data from fetch\",\n      \"path\": \"view.ops dashboard\",\n      \"ref\": \"point://semantic/OpsApp/view.ops dashboard\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 35,\n          \"column\": 1,\n          \"offset\": 677\n        },\n        \"end\": {\n          \"line\": 35,\n          \"column\": 27,\n          \"offset\": 703\n        }\n      },\n      \"expected\": [\n        \"load data from action fetch ops dashboard\",\n        \"load data from action list jobs\"\n      ],\n      \"repair\": \"Add load data from action <name> (or on mount call, or load data from fetch GET ...) before refresh every.\",\n      \"relatedRefs\": [\n        \"point://semantic/OpsApp/view.ops dashboard\"\n      ]\n    }\n  ]\n}",
+      "diagnosticCode": "refresh-without-load",
+      "requiredDeclarations": [
+        "view ops dashboard",
+        "action fetch ops dashboard"
+      ],
+      "requiredNavPaths": [
+        "/",
+        "/enqueue"
+      ],
+      "contextTokens": 235,
+      "contextChars": 938,
+      "tsContextTokens": 6000,
+      "tsContextSource": "heuristic",
+      "tsHeuristicTokens": 6000,
+      "tsTaskDescription": "Fix live dashboard polling in a Next.js ops app — setInterval refresh exists but data loader hook is missing.",
+      "typescriptExcerpt": "",
+      "nextDashboardCaseId": null,
+      "nextNotesCaseId": null,
+      "nextDashboardFilesMissing": [],
+      "tokenReductionPercent": 96,
+      "ciPass": true
     }
   ],
   "summary": {
-    "caseCount": 9,
+    "caseCount": 11,
     "categories": [
       "feature-add",
       "app-repair",
@@ -333,7 +403,7 @@
     "tokenReductionPercent": {
       "minReductionPercent": 58,
       "maxReductionPercent": 97,
-      "avgReductionPercent": 84
+      "avgReductionPercent": 86
     }
   }
 }

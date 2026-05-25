@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.54
+
+### Added
+
+- Phase 76: **`ops-dashboard-page-size-wiring`** — full-app app-repair for `invalid-datagrid-page-size`.
+- Phase 76: **`ops-dashboard-refresh-wiring`** — full-app app-repair for `refresh-without-load`.
+- Phase 76: **Agent-app gate 11** — complete ops live-dashboard repair matrix.
+
 ## 0.1.53
 
 ### Added

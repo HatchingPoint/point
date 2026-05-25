@@ -254,6 +254,46 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "ops-dashboard-page-size-wiring",
+		title: "Ops — fix datagrid page size on dashboard",
+		category: "app-repair",
+		agentTask:
+			"Fix the ops dashboard datagrid page size — page size 0 must be a positive integer.",
+		baseFile: "ops-add-dashboard/golden.point",
+		brokenFile: "ops-dashboard-page-size-wiring/broken.point",
+		goldenFile: "ops-add-dashboard/golden.point",
+		expectedCode: "invalid-datagrid-page-size",
+		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
+		requiredNavPaths: ["/", "/enqueue"],
+		sourceExample: "examples/app/job-queue/job-queue.point",
+		typescriptContext: {
+			taskDescription:
+				"Fix JobsGrid pageSize in a Next.js ops dashboard — pagination size must be greater than zero.",
+			totalChars: 24000,
+			excerpt: "",
+		},
+	},
+	{
+		id: "ops-dashboard-refresh-wiring",
+		title: "Ops — wire load data before live refresh",
+		category: "app-repair",
+		agentTask:
+			"Fix the ops dashboard live refresh wiring — refresh every is present but load data from action is missing.",
+		baseFile: "ops-add-dashboard/golden.point",
+		brokenFile: "ops-dashboard-refresh-wiring/broken.point",
+		goldenFile: "ops-add-dashboard/golden.point",
+		expectedCode: "refresh-without-load",
+		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
+		requiredNavPaths: ["/", "/enqueue"],
+		sourceExample: "examples/app/job-queue/job-queue.point",
+		typescriptContext: {
+			taskDescription:
+				"Fix live dashboard polling in a Next.js ops app — setInterval refresh exists but data loader hook is missing.",
+			totalChars: 24000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {

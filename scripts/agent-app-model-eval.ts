@@ -117,6 +117,14 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 		return `error TS2322: Type '"title"' is not assignable to type '"name" | "status" | "score"'.
   at components/OpsDashboard.tsx:19:15`;
 	}
+	if (testCase.id === "ops-dashboard-page-size-wiring") {
+		return `error TS2322: Type '0' is not assignable to type 'PositiveInteger'.
+  at components/OpsDashboard.tsx:20:13`;
+	}
+	if (testCase.id === "ops-dashboard-refresh-wiring") {
+		return `error TS2304: Cannot find name 'refetch'.
+  at components/OpsDashboard.tsx:12:51`;
+	}
 	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
   at components/SearchPanel.tsx:1:10`;
 }
@@ -360,6 +368,16 @@ export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdi
 					text: "  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6",
 				},
 			];
+		case "ops-dashboard-page-size-wiring":
+			return [
+				{
+					kind: "replaceLine",
+					line: 41,
+					text: "  datagrid row in data.jobs columns name, status, score sort by score filter by name page size 6",
+				},
+			];
+		case "ops-dashboard-refresh-wiring":
+			return [{ kind: "insertAfterLine", line: 34, lines: ["  load data from action fetch ops dashboard"] }];
 		default:
 			return [
 				{
