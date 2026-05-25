@@ -1387,3 +1387,21 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 ## Checkpoint Phase 65 integrator — v0.1.45
 
 - Completed: Bumped **0.1.45**; tag + push.
+
+## Checkpoint Phase 66–66b — Job queue + chart validation
+
+- Completed: Job queue datagrid/filter/refresh/toasts; `invalid-chart-field` checker + repair; underscore column names; gate **30/30**.
+- Verified: `bun run ci` green.
+
+## Checkpoint Phase 67 integrator — v0.1.46
+
+- Completed: Bumped **0.1.46**; tag + push.
+
+## Checkpoint Phase 68–68b — Pagination + metrics dashboard
+
+- Completed: Datagrid `page size N`; job queue combined dashboard with SQL metrics chart; property-path type checking; gate **31/31**.
+- Verified: `bun run ci` green.
+
+## Checkpoint Phase 69 integrator — v0.1.47
+
+- Completed: Bumped **0.1.47**; tag + push.

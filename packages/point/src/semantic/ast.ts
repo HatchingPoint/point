@@ -442,6 +442,7 @@ export type PointSemanticViewStatement =
 			sortBy: string;
 			filterBy?: string;
 			filterContains?: PointSemanticExpression;
+			pageSize?: number;
 			linkColumn?: string;
 			linkPath?: PointSemanticExpression;
 			className?: string;

@@ -741,6 +741,22 @@ dataKey="title" // Metric record uses label, not title`,
 			tscError: `error TS2339: Property 'title' does not exist on type 'Metric'.`,
 		},
 	},
+	{
+		id: "invalid-datagrid-page-size",
+		title: "View — datagrid page size must be positive",
+		category: "typo-fix",
+		agentTask: "Fix datagrid page size to a positive integer.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-datagrid-page-size-broken.point",
+		fixedFile: "invalid-datagrid-page-size-fixed.point",
+		expectedCode: "invalid-datagrid-page-size",
+		typescriptContext: {
+			excerpt: `// MembersGrid.tsx — excerpt
+pageSize={0} // must be positive`,
+			totalChars: 5400,
+			tscError: `error TS2322: Type '0' is not assignable to type 'PositiveInteger'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

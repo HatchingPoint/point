@@ -4,14 +4,16 @@
 
 ## Active execution
 
-**Next:** Phase 68+ (SSE route, pagination)
+**Next:** Phase 70+ (SSE route, select/toast repair)
 
-**Wave shipped (v0.1.46):** 66 job queue polish, 66b chart validation + repair gate 30
+**Wave shipped (v0.1.47):** 68 datagrid pagination + job queue metrics chart, 68b repair gate 31
 
 ## Completed (integrator shipped)
 
 | Phase | Release | Highlights |
 |-------|---------|------------|
+| **69** | v0.1.47 | Integrator: pagination, metrics chart dashboard, repair gate 31 |
+| **68–68b** | (in v0.1.47) | Datagrid page size, job queue chart + combined load |
 | **67** | v0.1.46 | Integrator: job queue live UI, chart field check, repair gate 30 |
 | **66–66b** | (in v0.1.46) | Job queue datagrid/refresh/toast; invalid-chart-field |
 | **65** | v0.1.45 | Integrator: datagrid filter, repair gate 29 |

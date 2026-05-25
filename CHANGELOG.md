@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.47
+
+### Added
+
+- Phase 68: **Datagrid pagination** — `page size N` with Previous/Next controls and CSS.
+- Phase 68: **Job queue metrics chart** — combined `fetch job dashboard` action; bar chart of status counts + paginated datagrid.
+- Phase 68b: **Agent repair gate 31** — `invalid-datagrid-page-size` fixture.
+
+### Changed
+
+- Phase 68: **View checker** resolves record field types for property paths like `data.jobs`.
+
 ## 0.1.46
 
 ### Added

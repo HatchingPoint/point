@@ -197,6 +197,7 @@ export interface PointSemanticViewTableSpec {
 	filterBy?: string;
 	filterContains?: PointCoreExpression;
 	filterLocal?: boolean;
+	pageSize?: number;
 	className?: string;
 	style?: string[];
 }

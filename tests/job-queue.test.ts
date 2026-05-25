@@ -23,6 +23,8 @@ describe("job-queue example", () => {
 		expect(emitted).toContain("point-datagrid-filter");
 		expect(emitted).toContain("setInterval");
 		expect(emitted).toContain("point-toast-success");
+		expect(emitted).toContain("point-chart-bar");
+		expect(emitted).toContain("point-datagrid-pagination");
 	});
 });
 

@@ -103,7 +103,7 @@ function checkViewDeclaration(
 
 	for (const statement of declaration.body) {
 		if (statement.kind === "eachRender") {
-			const iterableType = resolveExpressionType(statement.iterable, paramTypes);
+			const iterableType = resolveExpressionType(statement.iterable, paramTypes, program);
 			if (!iterableType.startsWith("List<")) {
 				diagnostics.push(
 					viewDiagnostic(
@@ -119,7 +119,7 @@ function checkViewDeclaration(
 			paramTypes.set(statement.item, iterableType.slice("List<".length, -1));
 		}
 		if (statement.kind === "table" || statement.kind === "datagrid") {
-			const iterableType = resolveExpressionType(statement.iterable, paramTypes);
+			const iterableType = resolveExpressionType(statement.iterable, paramTypes, program);
 			if (!iterableType.startsWith("List<")) {
 				diagnostics.push(
 					viewDiagnostic(
@@ -171,10 +171,23 @@ function checkViewDeclaration(
 					),
 				);
 			}
+			if (statement.kind === "datagrid" && statement.pageSize !== undefined && statement.pageSize < 1) {
+				diagnostics.push(
+					viewDiagnostic(
+						"invalid-datagrid-page-size",
+						`View ${declaration.name} datagrid page size must be a positive integer`,
+						moduleName,
+						declaration.name,
+						`Use page size 10 or another positive number.`,
+						statement.span,
+						{ expected: 10 },
+					),
+				);
+			}
 			paramTypes.set(statement.item, iterableType.startsWith("List<") ? iterableType.slice("List<".length, -1) : "Unknown");
 		}
 		if (statement.kind === "modal" && statement.when?.kind === "name") {
-			const whenType = resolveExpressionType(statement.when, paramTypes);
+			const whenType = resolveExpressionType(statement.when, paramTypes, program);
 			if (whenType !== "Unknown" && whenType !== "Bool") {
 				diagnostics.push(
 					viewDiagnostic(
@@ -189,7 +202,7 @@ function checkViewDeclaration(
 			}
 		}
 		if (statement.kind === "chart") {
-			const iterableType = resolveExpressionType(statement.iterable, paramTypes);
+			const iterableType = resolveExpressionType(statement.iterable, paramTypes, program);
 			const elementRecord = resolveListElementRecordName(iterableType);
 			if (elementRecord) {
 				const fields = findRecordFieldLabels(program, elementRecord);
@@ -285,11 +298,49 @@ function collectBindStatements(statements: PointSemanticViewStatement[]) {
 	});
 }
 
-function resolveExpressionType(expression: { kind: string; label?: string }, paramTypes: Map<string, string>): string {
+function resolveExpressionType(
+	expression: { kind: string; label?: string; target?: { kind: string; label?: string } },
+	paramTypes: Map<string, string>,
+	program?: PointSemanticProgram,
+): string {
 	if (expression.kind === "name" && expression.label) {
 		return paramTypes.get(expression.label) ?? "Unknown";
 	}
+	if (expression.kind === "property" && expression.target && expression.label) {
+		const targetType = resolveExpressionType(expression.target, paramTypes, program);
+		const recordName = resolveRecordNameFromTypeLabel(targetType);
+		if (recordName && program) {
+			const fields = findRecordFieldTypes(program, recordName);
+			const fieldType = fields?.get(expression.label) ?? fields?.get(toIdentifier(expression.label));
+			if (fieldType) return fieldType;
+		}
+	}
 	return "Unknown";
+}
+
+function resolveRecordNameFromTypeLabel(typeLabel: string): string | undefined {
+	if (typeLabel.startsWith("List<") || typeLabel.startsWith("Maybe<")) return undefined;
+	return typeLabel;
+}
+
+function findRecordFieldTypes(program: PointSemanticProgram, recordName: string): Map<string, string> | undefined {
+	const target = normalizeRecordName(recordName);
+	for (const declaration of program.declarations) {
+		if (declaration.kind !== "record") continue;
+		if (normalizeRecordName(declaration.name) !== target && normalizeRecordName(formatTypeLabel({ name: declaration.name, args: [] })) !== target) {
+			continue;
+		}
+		return new Map(
+			declaration.fields.flatMap((field) => {
+				const typeLabel = formatTypeLabel(field.type);
+				return [
+					[field.label, typeLabel],
+					[toIdentifier(field.label), typeLabel],
+				];
+			}),
+		);
+	}
+	return undefined;
 }
 
 function formatTypeLabel(type: { name: string; args: Array<{ name: string; args: unknown[] }> }): string {

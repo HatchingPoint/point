@@ -330,6 +330,9 @@ function emitFunction(
 	if (viewTable?.filterLocal) {
 		bodyLines = ['const [filterText, setFilterText] = React.useState("");', ...bodyLines];
 	}
+	if (viewTable?.pageSize) {
+		bodyLines = ['const [page, setPage] = React.useState(0);', ...bodyLines];
+	}
 	return [
 		...(declaration.semantic?.kind === "layout" && layoutSpec ? emitLayoutType(layoutSpec) : []),
 		`export ${isStreamAction ? "async function* " : asyncPrefix ? "async function " : "function "}${declaration.name}(${emitFunctionParams(declaration)}): ${returnType} {`,
@@ -489,13 +492,20 @@ function emitViewTable(spec: PointSemanticViewTableSpec): string {
 		})
 		.join("");
 	const iterableExpr = emitDatagridRows(spec, item);
+	const rowsExpr = spec.pageSize
+		? `(${iterableExpr}).slice(page * ${spec.pageSize}, (page + 1) * ${spec.pageSize})`
+		: iterableExpr;
 	const filterField =
 		spec.filterLocal && spec.filterBy
-			? `<label className="point-datagrid-filter"><span>Filter ${escapeJsxText(spec.filterBy.charAt(0).toUpperCase() + spec.filterBy.slice(1))}</span><input className="point-input" type="search" value={filterText} onChange={(event) => setFilterText(event.target.value)} placeholder="Type to filter..." /></label>`
+			? `<label className="point-datagrid-filter"><span>Filter ${escapeJsxText(spec.filterBy.charAt(0).toUpperCase() + spec.filterBy.slice(1))}</span><input className="point-input" type="search" value={filterText} onChange={(event) => { setFilterText(event.target.value); setPage(0); }} placeholder="Type to filter..." /></label>`
 			: "";
-	const table = `<table className="${escapeJsxAttribute(className)}"><thead><tr>${headers}</tr></thead><tbody>{${iterableExpr}.map((${item}, index) => (<tr key={String(index)}>${rowCells}</tr>))}</tbody></table>`;
-	if (filterField) {
-		return `<div className="point-datagrid-wrap">${filterField}${table}</div>`;
+	const table = `<table className="${escapeJsxAttribute(className)}"><thead><tr>${headers}</tr></thead><tbody>{${rowsExpr}.map((${item}, index) => (<tr key={String(index)}>${rowCells}</tr>))}</tbody></table>`;
+	const pagination =
+		spec.pageSize
+			? `<div className="point-datagrid-pagination"><button type="button" className="point-button" disabled={page === 0} onClick={() => setPage((current) => Math.max(0, current - 1))}>Previous</button><span className="point-datagrid-page-label">Page {page + 1}</span><button type="button" className="point-button" disabled={(page + 1) * ${spec.pageSize} >= (${iterableExpr}).length} onClick={() => setPage((current) => current + 1)}>Next</button></div>`
+			: "";
+	if (filterField || pagination) {
+		return `<div className="point-datagrid-wrap">${filterField}${table}${pagination}</div>`;
 	}
 	return table;
 }

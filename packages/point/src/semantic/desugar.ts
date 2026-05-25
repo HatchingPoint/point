@@ -971,6 +971,7 @@ function buildViewTable(declaration: PointSemanticViewDeclaration, ctx: DesugarC
 						: { filterLocal: true }),
 				}
 			: {}),
+		...(datagrid?.pageSize ? { pageSize: datagrid.pageSize } : {}),
 		className: source.className,
 		style: source.style,
 	};

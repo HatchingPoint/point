@@ -360,6 +360,17 @@ body {
   color: var(--point-color-emphasis);
 }
 
+.point-datagrid-pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--point-space-sm);
+}
+
+.point-datagrid-page-label {
+  font-size: 0.875rem;
+  color: var(--point-color-muted);
+}
+
 .point-chart {
   display: flex;
   align-items: flex-end;

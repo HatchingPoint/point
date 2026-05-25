@@ -13,6 +13,14 @@ record Job
   status: Text
   created_at: Text
 
+record Job Metric
+  label: Text
+  value: Int
+
+record Job Dashboard
+  jobs: List<Job>
+  metrics: List<Job Metric>
+
 record Jobs Response
   jobs: List<Job>
 
@@ -22,6 +30,7 @@ record Create Job Body
 external point std sql
   sql query raw(sql: Text, params: List<Text>): Text or Error from "@hatchingpoint/point/std/sql" as sqlQueryRaw
   sql json rows list(raw: Text or Error): List<Job> from "@hatchingpoint/point/std/sql" as sqlJsonRowsList
+  sql json metric rows list(raw: Text or Error): List<Job Metric> from "@hatchingpoint/point/std/sql" as sqlJsonRowsList
   sql json member row(raw: Text or Error): Job from "@hatchingpoint/point/std/sql" as sqlJsonMemberRow
 
 action create jobs table
@@ -38,6 +47,21 @@ action fetch all jobs
   output jobs: List<Job>
   touches database
   return sql json rows list(await query all job rows())
+
+action query job metric rows
+  output rows: Text or Error
+  touches database
+  return sql query raw("SELECT status AS label, COUNT(*) AS value FROM jobs GROUP BY status ORDER BY label", [])
+
+action fetch job metrics
+  output metrics: List<Job Metric>
+  touches database
+  return sql json metric rows list(await query job metric rows())
+
+action fetch job dashboard
+  output dashboard: Job Dashboard
+  touches database
+  return { jobs: await fetch all jobs(), metrics: await fetch job metrics() }
 
 action enqueue job
   input body: Create Job Body
@@ -110,12 +134,13 @@ view job queue nav
   render "Queues"
 
 view jobs dashboard
-  load data from fetch GET "/api/jobs" field jobs type List<Job>
+  load data from action fetch job dashboard
   refresh every 15 seconds
   when loading render "Loading jobs..."
   when error render "Could not load jobs"
   when empty render "Queue is empty - enqueue a job."
-  datagrid row in data columns name, status, created_at sort by created_at filter by name link name to "/jobs/" + row.id
+  chart bar from data.metrics label field label value field value
+  datagrid row in data.jobs columns name, status, created_at sort by created_at filter by name page size 8 link name to "/jobs/" + row.id
 
 view enqueue job form
   input draft: Create Job Body

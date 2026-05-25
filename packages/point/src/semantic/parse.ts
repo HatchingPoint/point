@@ -1475,7 +1475,7 @@ function parseView(
 			continue;
 		}
 		const datagridLinkMatch = line.match(
-			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) sort by ([a-z][a-z0-9_ ]*?)(?: filter by ([a-z][a-z0-9_ ]*?)(?: contains (.+?))?)? link ([a-z][a-z0-9_ ]*) to (.+)$/i,
+			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) sort by ([a-z][a-z0-9_ ]*?)(?: filter by ([a-z][a-z0-9_ ]*?)(?: contains (.+?))?)?(?: page size (\d+))? link ([a-z][a-z0-9_ ]*) to (.+)$/i,
 		);
 		if (datagridLinkMatch) {
 			const gridContext = eachItemContext(
@@ -1501,14 +1501,15 @@ function parseView(
 								: {}),
 						}
 					: {}),
-				linkColumn: datagridLinkMatch[7] ?? "",
-				linkPath: parseLineExpression(datagridLinkMatch[8] ?? "", gridContext, source, lineNumber),
+				...(datagridLinkMatch[7] ? { pageSize: Number(datagridLinkMatch[7]) } : {}),
+				linkColumn: datagridLinkMatch[8] ?? "",
+				linkPath: parseLineExpression(datagridLinkMatch[9] ?? "", gridContext, source, lineNumber),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;
 		}
 		const datagridMatch = line.match(
-			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) sort by ([a-z][a-z0-9_ ]*?)(?: filter by ([a-z][a-z0-9_ ]*?)(?: contains (.+))?)?$/i,
+			/^datagrid (.+) in (.+) columns ([a-z][a-z0-9_ ]*(?:, [a-z][a-z0-9_ ]*)*) sort by ([a-z][a-z0-9_ ]*?)(?: filter by ([a-z][a-z0-9_ ]*?)(?: contains (.+))?)?(?: page size (\d+))?$/i,
 		);
 		if (datagridMatch) {
 			statements.push({
@@ -1525,6 +1526,7 @@ function parseView(
 								: {}),
 						}
 					: {}),
+				...(datagridMatch[7] ? { pageSize: Number(datagridMatch[7]) } : {}),
 				span: lineSpan(source, lineNumber),
 			});
 			continue;

@@ -64,7 +64,7 @@ Expand with:
 index → explain point://… → check-json → repair-plan → patch → check
 ```
 
-26+ repair benchmark cases; CI gate at 100% sufficiency (29 single-shot cases).
+26+ repair benchmark cases; CI gate at 100% sufficiency (31 single-shot cases).
 
 ## CLI groups (user-facing)
 
@@ -86,4 +86,4 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Version anchor
 
-Update this line each release: **v0.1.46** — Phase 66 job queue polish, chart field validation, repair gate 30.
+Update this line each release: **v0.1.47** — Phase 68 datagrid pagination, job queue metrics chart, repair gate 31.
