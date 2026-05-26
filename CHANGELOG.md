@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+### Added
+
+- Owned runtime stack: bytecode interpreter, HTTP server, and SSR for `experiments/point-only` with home-base CLI routing and no emit/React/Vite fallbacks.
+
 ## 0.1.55
 
 ### Added
