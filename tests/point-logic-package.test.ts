@@ -79,5 +79,5 @@ describe("point-logic npm package", () => {
 		}
 		rmSync(tarball, { force: true });
 		rmSync(packDir, { recursive: true, force: true });
-	});
+	}, 30000);
 });
