@@ -139,6 +139,7 @@ Lowering rejects unchecked programs by running `checkPointCore` before bytecode 
 - [x] **R3:** owned HTTP + dev, integrator
 - [x] **R4:** SSR + e2e, **no React/Vite on home base**, integrator
 - [x] **Pivot complete (home base):** fully in-box — expand to templates/product next
+- [x] **Product default:** `point create` scaffolds `runtime-app` (`point.json` `runtime: "owned"`)
 
 ---
 
@@ -177,7 +178,7 @@ Integrator: merge, **delete home-base fallback paths**, update checkboxes, appen
 
 - Surgent `@point/logic` migration (paused)
 - Keeping dual emit+runtime for home base after R2 integrator
-- npm publish until R2+ integrator green
+- npm publish until R2+ integrator green → **done at 0.2.0**; default `point create` is now `runtime-app` (0.2.1+)
 
 ---
 

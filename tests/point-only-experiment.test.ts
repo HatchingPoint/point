@@ -109,21 +109,21 @@ describe("point-only experiment author surface", () => {
 		expect(disallowedAuthorFiles).toEqual([]);
 	});
 
-	test("CLI hard-routes home-base run and test through the runtime entrypoint", async () => {
+	test("CLI hard-routes runtime-owned apps through the runtime entrypoint", async () => {
 		const cli = await readFile("packages/point/src/core/cli.ts", "utf8");
 		const runtime = await readFile("packages/point/runtime/index.ts", "utf8");
 		expect(cli).toContain('import { runModule, runPointRuntimeDev, runPointRuntimeServe, runPointRuntimeTests } from "../../runtime/index.ts";');
-		expect(cli).toContain("if (isHomeBaseInput(input))");
+		expect(cli).toContain("if (isRuntimeNativeInput(input))");
 		expect(cli).toContain("runModule(input, program, entryName)");
 		expect(cli).toContain("runPointRuntimeTests(input, program)");
 		expect(cli).toContain("runPointRuntimeDev(devInput, program");
 		expect(cli).toContain("runPointRuntimeServe(serveInput, program");
-		expect(cli).toContain("blockHomeBaseEmit(command, input)");
-		expect(cli).toContain("blockHomeBaseEmit(command, appInput)");
+		expect(cli).toContain("blockRuntimeNativeEmit(command, input)");
+		expect(cli).toContain("blockRuntimeNativeEmit(command, appInput)");
 		expect(cli).not.toContain("point dev for experiments/point-only/** must be implemented");
 		expect(cli).not.toContain("POINT_RUNTIME");
-		expect(cli.indexOf("if (isHomeBaseInput(devInput))")).toBeLessThan(cli.indexOf("await runPointDev(devInput"));
-		expect(cli.indexOf("blockHomeBaseEmit(command, appInput)")).toBeLessThan(cli.indexOf("await runPointBuildApp(appInput)"));
+		expect(cli.indexOf("if (isRuntimeNativeInput(devInput))")).toBeLessThan(cli.indexOf("await runPointDev(devInput"));
+		expect(cli.indexOf("blockRuntimeNativeEmit(command, appInput)")).toBeLessThan(cli.indexOf("await runPointBuildApp(appInput)"));
 		expect(runtime).toContain('import { interpretCoreProgramEntry } from "./interpreter/index.ts";');
 		expect(runtime).toContain("const value = interpretCoreProgramEntry(program, entryName)");
 		expect(runtime).toContain("const value = interpretCoreProgramEntry(program, test.name)");
@@ -147,21 +147,21 @@ describe("point-only experiment author surface", () => {
 		expect(output.tests.every((entry) => entry.ok)).toBe(true);
 	});
 
-	test("home-base build emit is blocked", async () => {
+	test("runtime-owned build emit is blocked", async () => {
 		const build = await Bun.$`bun packages/point/src/cli.ts build experiments/point-only/src/app.point`.quiet().nothrow();
 		expect(build.exitCode).toBe(1);
-		expect(build.stderr.toString()).toContain("Home base runs through packages/point/runtime/index.ts");
+		expect(build.stderr.toString()).toContain('runtime: "owned"');
 	});
 
-	test("home-base TypeScript and Vite app build paths are blocked", async () => {
+	test("runtime-owned TypeScript and Vite app build paths are blocked", async () => {
 		const buildTs = await Bun.$`bun packages/point/src/cli.ts build-ts experiments/point-only/src/app.point`.quiet().nothrow();
 		expect(buildTs.exitCode).toBe(1);
-		expect(buildTs.stderr.toString()).toContain("Home base runs through packages/point/runtime/index.ts");
+		expect(buildTs.stderr.toString()).toContain('runtime: "owned"');
 		expect(buildTs.stderr.toString()).not.toContain("Point core TypeScript build wrote");
 
 		const buildApp = await Bun.$`bun packages/point/src/cli.ts build-app experiments/point-only/src/app.point`.quiet().nothrow();
 		expect(buildApp.exitCode).toBe(1);
-		expect(buildApp.stderr.toString()).toContain("Home base runs through packages/point/runtime/index.ts");
+		expect(buildApp.stderr.toString()).toContain('runtime: "owned"');
 		expect(buildApp.stderr.toString()).not.toContain("web/vite.config");
 		expect(buildApp.stderr.toString()).not.toContain("vite build failed");
 	});

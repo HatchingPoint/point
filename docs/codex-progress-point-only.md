@@ -465,7 +465,12 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - `bun run ci` was attempted and still stops at repo-wide `fmt-check-all` on pre-existing unformatted `.point` files in `compiler/passes/`, `examples/`, and `std/` before later CI stages run.
 - No commit was made.
 
-## 2026-05-26 - R4 integrator (pivot complete)
+## 2026-05-26 - Transition: runtime-app default template
+
+- Added `packages/point/templates/runtime-app/` and set `point create` default to `runtime-app` (`point.json` `runtime: "owned"`).
+- Generalized CLI routing from `experiments/point-only/**` path checks to manifest-based `isRuntimeNativeInput` / `blockRuntimeNativeEmit`.
+- Updated quick-start, external pilot checklist, and pivot docs for runtime-native default; legacy templates remain via `--template full-stack-app` / `saas-app`.
+- Added `tests/runtime-project.test.ts` and onboarding coverage for runtime-app scaffold + run/test.
 
 - Merged R4-A through R4-E. Home base is fully in-box: interpreter + HTTP + SSR + forms + navigation, no author JS, no React/Vite, no emit fallbacks.
 - **Parent shell verification (pass):**

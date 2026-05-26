@@ -89,7 +89,7 @@ Prefer semantic refs over line numbers or generated names.
 
 ## Scaffold an app
 
-Create a Point-native full-stack admin app (UI + API in `.point`, Vite host included):
+Create a **runtime-native** Point app (`.point` only — owned interpreter, HTTP, and SSR; no Vite or React):
 
 ```bash
 point create my-app
@@ -99,11 +99,13 @@ point check src/app.point
 point dev src/app.point
 ```
 
-Open **http://localhost:5173** for the UI. The Bun API runs on **http://localhost:3456**.
+Open the URL printed by `point dev` — SSR readiness UI, JSON at `/readiness`, navigation at `/readiness-ui`.
+
+Legacy full-stack (React + Vite host): `point create my-app --template full-stack-app` then open **http://localhost:5173** (UI) and **http://localhost:3456** (API).
 
 Walkthrough: [Golden app demo](/point/guide/golden-app-demo).
 
-Production: `bun run build` then `bun run serve`. See [Deploy](/point/toolchain/deploy).
+Production (runtime app): `bun run serve`. Legacy template: `bun run build` then `bun run serve`. See [Deploy](/point/toolchain/deploy).
 
 Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.
 

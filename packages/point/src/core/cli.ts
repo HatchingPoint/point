@@ -28,6 +28,7 @@ import { checkSemanticSqlSchema, mergeSemanticProgramsForSchema } from "../seman
 import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
+import { isRuntimeNativeInput } from "./runtime-project.ts";
 import { runPointDemo } from "./demo.ts";
 import {
 	isCapabilitiesLine,
@@ -87,7 +88,7 @@ export async function main() {
 	if (command === "dev") {
 		const parsed = parseDevCliFlags(tail);
 		const devInput = parsed.positional[0] ?? DEFAULT_INPUT;
-		if (isHomeBaseInput(devInput)) {
+		if (isRuntimeNativeInput(devInput)) {
 			const lock = await readPointLock();
 			const coreFile = await loadCoreFile(devInput, lock);
 			const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
@@ -106,7 +107,7 @@ export async function main() {
 	if (command === "serve") {
 		const parsed = parseServeCliFlags(tail);
 		const serveInput = parsed.positional[0] ?? DEFAULT_INPUT;
-		if (isHomeBaseInput(serveInput)) {
+		if (isRuntimeNativeInput(serveInput)) {
 			const lock = await readPointLock();
 			const coreFile = await loadCoreFile(serveInput, lock);
 			const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
@@ -124,7 +125,7 @@ export async function main() {
 	}
 	if (command === "build-app") {
 		const appInput = tail[0] ?? "src/app.point";
-		blockHomeBaseEmit(command, appInput);
+		blockRuntimeNativeEmit(command, appInput);
 		await runPointBuildApp(appInput);
 		return;
 	}
@@ -375,7 +376,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		blockHomeBaseEmit(command, input);
+		blockRuntimeNativeEmit(command, input);
 		const emitTarget = await resolveEmitTargetForInputPath(input);
 		if (emitTarget === "python") {
 			const lock = await readPointLock();
@@ -416,7 +417,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		blockHomeBaseEmit(command, input);
+		blockRuntimeNativeEmit(command, input);
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 		await Bun.write(outputPath, `${JSON.stringify(program, null, 2)}\n`);
@@ -429,7 +430,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		blockHomeBaseEmit(command, input);
+		blockRuntimeNativeEmit(command, input);
 		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
 		const emitProgram = graph ? programWithTypeScriptImports(coreFile, graph) : program;
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_TS_OUTPUT : output);
@@ -440,7 +441,7 @@ export async function main() {
 	}
 
 	if (command === "build-py") {
-		blockHomeBaseEmit(command, input);
+		blockRuntimeNativeEmit(command, input);
 		const lock = await readPointLock();
 		const coreFile = await loadCoreFile(input, lock);
 		const graph = await createModuleGraphForFile(coreFile, lock);
@@ -463,7 +464,7 @@ export async function main() {
 			process.exit(1);
 		}
 		let entryName: string | null = null;
-		if (isHomeBaseInput(input)) {
+		if (isRuntimeNativeInput(input)) {
 			try {
 				entryName = findRunEntryName(program, runCommandName);
 				if (!entryName) {
@@ -524,7 +525,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		if (isHomeBaseInput(input)) {
+		if (isRuntimeNativeInput(input)) {
 			const result = await runPointRuntimeTests(input, program);
 			console.log(JSON.stringify(result, null, 2));
 			if (!result.ok) process.exit(1);
@@ -769,15 +770,10 @@ function pathToFileUrl(path: string): string {
 	return `file://${path.replaceAll("\\", "/")}`;
 }
 
-function isHomeBaseInput(input: string): boolean {
-	const relativeInput = relative(process.cwd(), resolve(process.cwd(), input)).replaceAll("\\", "/");
-	return relativeInput === "experiments/point-only" || relativeInput.startsWith("experiments/point-only/");
-}
-
-function blockHomeBaseEmit(command: string, input: string): void {
-	if (!isHomeBaseInput(input)) return;
+function blockRuntimeNativeEmit(command: string, input: string): void {
+	if (!isRuntimeNativeInput(input)) return;
 	throw new Error(
-		`${command} is disabled for experiments/point-only/**. Home base runs through packages/point/runtime/index.ts and does not emit generated artifacts.`,
+		`${command} is disabled for runtime-owned Point apps (point.json runtime: "owned"). These apps run through packages/point/runtime and do not emit generated artifacts.`,
 	);
 }
 

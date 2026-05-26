@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 import { runPointInit } from "./init-project.ts";
 
 export const REPO_TEMPLATE_REL = "examples/full-stack-template";
-export const DEFAULT_APP_TEMPLATE_ID = "full-stack-app";
+export const RUNTIME_APP_TEMPLATE_ID = "runtime-app";
+export const FULL_STACK_APP_TEMPLATE_ID = "full-stack-app";
+export const DEFAULT_APP_TEMPLATE_ID = RUNTIME_APP_TEMPLATE_ID;
 
 const APP_NAME_PATTERN = /^[a-z][a-z0-9-]*$/;
 
@@ -20,9 +22,15 @@ export type AppTemplateSpec = {
 
 export const APP_TEMPLATES: AppTemplateSpec[] = [
 	{
-		id: DEFAULT_APP_TEMPLATE_ID,
-		title: "Full-stack admin app",
-		description: "Layout, navigation, three pages, data loading, and CLI entry — SaaS admin starter",
+		id: RUNTIME_APP_TEMPLATE_ID,
+		title: "Runtime-native app",
+		description: "Point-only app with owned interpreter, HTTP server, and SSR — no Vite, React, or emit fallbacks",
+		resolveDir: () => bundledTemplateDir(RUNTIME_APP_TEMPLATE_ID),
+	},
+	{
+		id: FULL_STACK_APP_TEMPLATE_ID,
+		title: "Full-stack admin app (legacy emit + Vite)",
+		description: "Layout, navigation, three pages, data loading, and CLI entry — React/Vite host (use --template full-stack-app)",
 		resolveDir: resolveFullStackTemplateDir,
 	},
 	{
@@ -63,7 +71,7 @@ export function bundledTemplateDir(templateId: string): string {
 }
 
 export function resolveFullStackTemplateDir(): string {
-	const bundled = bundledTemplateDir(DEFAULT_APP_TEMPLATE_ID);
+	const bundled = bundledTemplateDir(FULL_STACK_APP_TEMPLATE_ID);
 	if (existsSync(bundled)) return bundled;
 	const repoRoot = locatePointToolkitRoot();
 	return join(repoRoot, REPO_TEMPLATE_REL);
@@ -188,7 +196,7 @@ function printCreateNextSteps(appName: string, targetDir: string): void {
 	console.log(`  cd ${relativeTarget}`);
 	console.log("  bun install");
 	console.log("  bun run check");
-	console.log("  bun run dev");
+	console.log("  bun run dev          # runtime-owned HTTP + SSR (see printed URL)");
 	console.log("");
 	console.log("Editor: open a .point file — VS Code/Cursor will recommend the Point extension.");
 	console.log("Other editors: see .point/editor.json (Neovim, Zed, or any LSP client).");
@@ -207,7 +215,7 @@ export async function runCreateApp(args: string[]): Promise<void> {
 		return;
 	}
 	if (!parsed.appName) {
-		throw new Error("Usage: point create <name> [directory] [--template full-stack-app]");
+		throw new Error("Usage: point create <name> [directory] [--template runtime-app]");
 	}
 	const result = await scaffoldAppFromTemplate(parsed.appName, {
 		targetDir: parsed.targetDir,
