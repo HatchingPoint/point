@@ -48,6 +48,7 @@ function exportCase(testCase: (typeof AGENT_APP_BENCHMARK_CASES)[number]) {
 		typescriptExcerpt: typescriptContext.excerpt,
 		nextDashboardCaseId: testCase.nextDashboardCaseId ?? null,
 		nextNotesCaseId: testCase.nextNotesCaseId ?? null,
+		nextOpsCaseId: testCase.nextOpsCaseId ?? null,
 		nextDashboardFilesMissing: typescriptContext.filesMissing,
 		tokenReductionPercent: result.tokenReductionPercent,
 		ciPass: result.passed,

@@ -1,0 +1,100 @@
+{
+  "title": "Next.js ops dashboard (paired benchmark scaffold)",
+  "description": "Mirrors tests/fixtures/agent-app/ ops cases for measured TypeScript agent context.",
+  "variants": {
+    "base": "base",
+    "golden": "golden",
+    "ops-add-dashboard-broken": "broken-feature-add",
+    "ops-dashboard-chart-wiring-broken": "broken-chart-wiring",
+    "ops-dashboard-sort-wiring-broken": "broken-sort-wiring",
+    "ops-dashboard-filter-wiring-broken": "broken-filter-wiring",
+    "ops-dashboard-page-size-wiring-broken": "broken-page-size-wiring",
+    "ops-dashboard-refresh-wiring-broken": "broken-refresh-wiring"
+  },
+  "caseMapping": {
+    "ops-add-dashboard": {
+      "baseVariant": "base",
+      "brokenVariant": "ops-add-dashboard-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/page.tsx",
+        "app/enqueue/page.tsx",
+        "components/OpsDashboard.tsx",
+        "components/OpsNav.tsx",
+        "components/EnqueueJobForm.tsx",
+        "lib/types.ts",
+        "lib/fetchOpsDashboard.ts"
+      ]
+    },
+    "ops-dashboard-chart-wiring": {
+      "baseVariant": "golden",
+      "brokenVariant": "ops-dashboard-chart-wiring-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/page.tsx",
+        "app/enqueue/page.tsx",
+        "components/OpsDashboard.tsx",
+        "components/OpsNav.tsx",
+        "components/EnqueueJobForm.tsx",
+        "lib/types.ts",
+        "lib/fetchOpsDashboard.ts"
+      ]
+    },
+    "ops-dashboard-sort-wiring": {
+      "baseVariant": "golden",
+      "brokenVariant": "ops-dashboard-sort-wiring-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/page.tsx",
+        "app/enqueue/page.tsx",
+        "components/OpsDashboard.tsx",
+        "components/OpsNav.tsx",
+        "components/EnqueueJobForm.tsx",
+        "lib/types.ts",
+        "lib/fetchOpsDashboard.ts"
+      ]
+    },
+    "ops-dashboard-filter-wiring": {
+      "baseVariant": "golden",
+      "brokenVariant": "ops-dashboard-filter-wiring-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/page.tsx",
+        "app/enqueue/page.tsx",
+        "components/OpsDashboard.tsx",
+        "components/OpsNav.tsx",
+        "components/EnqueueJobForm.tsx",
+        "lib/types.ts",
+        "lib/fetchOpsDashboard.ts"
+      ]
+    },
+    "ops-dashboard-page-size-wiring": {
+      "baseVariant": "golden",
+      "brokenVariant": "ops-dashboard-page-size-wiring-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/page.tsx",
+        "app/enqueue/page.tsx",
+        "components/OpsDashboard.tsx",
+        "components/OpsNav.tsx",
+        "components/EnqueueJobForm.tsx",
+        "lib/types.ts",
+        "lib/fetchOpsDashboard.ts"
+      ]
+    },
+    "ops-dashboard-refresh-wiring": {
+      "baseVariant": "golden",
+      "brokenVariant": "ops-dashboard-refresh-wiring-broken",
+      "goldenVariant": "golden",
+      "agentContextFiles": [
+        "app/page.tsx",
+        "app/enqueue/page.tsx",
+        "components/OpsDashboard.tsx",
+        "components/OpsNav.tsx",
+        "components/EnqueueJobForm.tsx",
+        "lib/types.ts",
+        "lib/fetchOpsDashboard.ts"
+      ]
+    }
+  }
+}

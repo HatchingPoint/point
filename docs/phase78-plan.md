@@ -6,7 +6,7 @@
 
 ## Success criteria
 
-- [ ] **P78-1** `benchmarks/next-ops-dashboard/` paired scaffold + manifest; ops agent-app cases use measured TS context (not heuristic padding)
+- [x] **P78-1** `benchmarks/next-ops-dashboard/` paired scaffold + manifest; ops agent-app cases use measured TS context (not heuristic padding)
 - [ ] **P78-2** `notes-create-form-wiring` app-repair — bind textarea target on notes create form (`invalid-view-bind-target`)
 - [ ] **P78-3** Agent-app gate **13** + model-eval gate **13**; `bun run ci` green
 - [ ] **P78-4** Release **v0.1.56** — bump, CHANGELOG, tag, push; LandingPage `sync:agent-app-cases`

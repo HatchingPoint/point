@@ -68,6 +68,15 @@ async function main() {
 	});
 	console.log(notesScaffoldTest.passed ? "✓" : "✗", sections.at(-1)!.title);
 
+	const opsScaffoldTest = await runTestFile("tests/next-ops-dashboard-scaffold.test.ts");
+	sections.push({
+		title: "CI: paired Next.js ops dashboard scaffold",
+		verified: "ci",
+		passed: opsScaffoldTest.passed,
+		detail: `${measureAllPairedScaffoldCases("next-ops-dashboard").length} measured TS context bundles in benchmarks/next-ops-dashboard/`,
+	});
+	console.log(opsScaffoldTest.passed ? "✓" : "✗", sections.at(-1)!.title);
+
 	const modelEvalTest = await runTestFile("tests/agent-app-model-eval.test.ts");
 	sections.push({
 		title: "CI: app model eval prompts and golden edit verification",
@@ -135,6 +144,7 @@ async function main() {
 			cases: AGENT_APP_BENCHMARK_CASES.length,
 			nextDashboardVariants: measureAllPairedScaffoldCases("next-dashboard").length,
 			nextNotesVariants: measureAllPairedScaffoldCases("next-notes").length,
+			nextOpsVariants: measureAllPairedScaffoldCases("next-ops-dashboard").length,
 		},
 		tokenReductionPercent: tokenSummary,
 		modelEval: modelReport
@@ -146,7 +156,7 @@ async function main() {
 			: null,
 		reproduce: [
 			"bun run proof:agent-app",
-			"bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts",
+			"bun test tests/agent-app-benchmark.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/next-ops-dashboard-scaffold.test.ts tests/agent-app-model-eval.test.ts",
 			"bun run benchmark:agent-app-models",
 		],
 	};

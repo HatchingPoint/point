@@ -1430,3 +1430,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Output: `docs/phase-roadmap.md` — analyze snapshot + refreshed candidate table (79 model-eval, 80 gate 36+, deferred primitives ranked)
 - Next expansion tick: **B** — draft `docs/phase79-plan.md` + `docs/codex-goal-phase79.md` after Phase 78 promotes; or **D** — Money primitive scope if friction evidence appears in agent-app cases
 - Principles gate: N/A (planning only)
+
+## Checkpoint Phase 78 P78-1 — Measured ops Next scaffold
+
+- Completed: `benchmarks/next-ops-dashboard/` paired scaffold (base, golden, 6 broken variants) + `manifest.json`; wired all 6 ops agent-app cases via `nextOpsCaseId`; `tests/next-ops-dashboard-scaffold.test.ts`; `pairedScaffoldRef` + export + model-eval scaffold path; `agent-app-proof` ops section; re-exported `benchmarks/agent-app-cases.json` (ops cases now `tsContextSource: measured`).
+- Verified: `bun test tests/next-ops-dashboard-scaffold.test.ts tests/agent-app-benchmark.test.ts`; `bun run ci` green.
+- Checkboxes marked: Phase 78 P78-1.
+- Next: P78-2 notes create-form app-repair.
+- Blocked: none

@@ -15,6 +15,7 @@ import {
 	runCheckJson,
 	serializeCheckJson,
 } from "./agent-repair-sufficiency.ts";
+import { pairedScaffoldRef } from "./paired-scaffold-types.ts";
 import {
 	callModel,
 	DEFAULT_MODELS,
@@ -165,6 +166,8 @@ ${currentLine}
 Numbered broken app (for multi-line inserts):
 ${numberedSource}`;
 	} else {
+		const scaffoldRef = pairedScaffoldRef(testCase);
+		const scaffoldPath = scaffoldRef ? `benchmarks/${scaffoldRef.scaffold}/` : "benchmarks/next-dashboard/";
 		const scaffoldBody =
 			typescript.excerpt ||
 			`${testCase.typescriptContext.taskDescription}\n\n` +
@@ -173,7 +176,7 @@ ${numberedSource}`;
 				);
 		context = `Workflow: TypeScript + paired Next.js scaffold
 
-Task context (~${typescript.chars} chars measured from benchmarks/next-dashboard/):
+Task context (~${typescript.chars} chars measured from ${scaffoldPath}):
 ${scaffoldBody}
 
 TypeScript compiler error:

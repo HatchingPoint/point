@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-app-cases.v1",
-  "generatedAt": "2026-05-25T16:09:13.111Z",
+  "generatedAt": "2026-05-26T10:11:45.963Z",
   "cases": [
     {
       "id": "dashboard-add-search",
@@ -33,6 +33,7 @@
       "typescriptExcerpt": "// app/admin/layout.tsx\nimport { AdminNav } from \"../../components/AdminNav\";\n\nexport default function AdminLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"admin-shell\">\n      <aside>\n        <AdminNav />\n      </aside>\n      <main>{children}</main>\n    </div>\n  );\n}\n\n// app/admin/settings/page.tsx\nimport { SettingsForm } from \"../../../components/SettingsForm\";\n\nconst defaultSettings = {\n  workspaceName: \"Acme\",\n  notificationsEnabled: true,\n  theme: \"light\",\n};\n\nexport default function SettingsPage() {\n  return (\n    <section>\n      <h1>Settings</h1>\n      <p>Manage workspace preferences</p>\n      <SettingsForm settings={defaultSettings} onSettingsChange={() => undefined} />\n    </section>\n  );\n}\n\n// app/admin/items/page.tsx\nimport { ItemsList } from \"../../../components/ItemsList\";\nimport { fetchItems } from \"../../../lib/items\";\n\nexport default async function ItemsPage() {\n  const items = await fetchItems();\n  return (\n    <section>\n      <h1>Items</h1>\n      <p>Browse tracked items</p>\n      <ItemsList items={items} />\n    </section>\n  );\n}\n\n// app/admin/items/[id]/page.tsx\nimport { ItemDetail } from \"../../../../components/ItemDetail\";\n\nex",
       "nextDashboardCaseId": "dashboard-add-search",
       "nextNotesCaseId": null,
+      "nextOpsCaseId": null,
       "nextDashboardFilesMissing": [
         "lib/searchItems.ts"
       ],
@@ -70,6 +71,7 @@
       "typescriptExcerpt": "// app/admin/layout.tsx\nimport { AdminNav } from \"../../components/AdminNav\";\n\nexport default function AdminLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"admin-shell\">\n      <aside>\n        <AdminNav />\n      </aside>\n      <main>{children}</main>\n    </div>\n  );\n}\n\n// app/admin/search/page.tsx\nimport { SearchPanel } from \"../../../components/SearchPanel\";\n\nexport default async function SearchPage() {\n  return (\n    <section>\n      <h1>Search</h1>\n      <p>Find items by title</p>\n      <SearchPanel />\n    </section>\n  );\n}\n\n// components/AdminNav.tsx\nimport Link from \"next/link\";\n\nconst links = [\n  { href: \"/admin/settings\", label: \"Settings\" },\n  { href: \"/admin/items\", label: \"Items\" },\n  { href: \"/admin/search\", label: \"Search\" },\n];\n\nexport function AdminNav() {\n  return (\n    <nav className=\"admin-nav\">\n      {links.map((link) => (\n        <Link key={link.href} href={link.href}>\n          {link.label}\n        </Link>\n      ))}\n      <span>Dashboard</span>\n    </nav>\n  );\n}\n\n// components/SearchPanel.tsx\nimport { searchItem } from \"../lib/searchItems\";\n\nexport async function SearchPanel() {\n  const items = await searchItem(\"\");\n  return <p",
       "nextDashboardCaseId": "dashboard-search-wiring",
       "nextNotesCaseId": null,
+      "nextOpsCaseId": null,
       "nextDashboardFilesMissing": [],
       "tokenReductionPercent": 58,
       "ciPass": true
@@ -105,6 +107,7 @@
       "typescriptExcerpt": "// app/notes/layout.tsx\nimport { NotesNav } from \"../../components/NotesNav\";\n\nexport default function NotesLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div>\n      <aside>\n        <NotesNav />\n      </aside>\n      <main>{children}</main>\n    </div>\n  );\n}\n\n// app/notes/page.tsx\nimport { NotesList } from \"../../../components/NotesList\";\nimport { listNotes } from \"../../../lib/notes\";\n\nexport default async function NotesPage() {\n  const notes = await listNotes();\n  return (\n    <section>\n      <h1>Notes</h1>\n      <NotesList notes={notes} />\n    </section>\n  );\n}\n\n// app/notes/new/page.tsx\nimport { NoteCreateForm } from \"../../../components/NoteCreateForm\";\n\nconst draft = { title: \"\", body: \"\" };\n\nexport default function NewNotePage() {\n  return (\n    <section>\n      <h1>New note</h1>\n      <NoteCreateForm draft={draft} onDraftChange={() => undefined} />\n    </section>\n  );\n}\n\n// app/notes/[id]/page.tsx\nimport { NoteDetail } from \"../../../components/NoteDetail\";\n\nexport default async function NoteDetailPage({ params }: { params: { id: string } }) {\n  return (\n    <section>\n      <h1>Note detail</h1>\n      <NoteDetail id={params.id} />\n    </section>\n  );\n}\n\n",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": "notes-add-detail",
+      "nextOpsCaseId": null,
       "nextDashboardFilesMissing": [
         "lib/getNote.ts"
       ],
@@ -142,6 +145,7 @@
       "typescriptExcerpt": "// app/admin/layout.tsx\nimport { AdminNav } from \"../../components/AdminNav\";\n\nexport default function AdminLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"admin-shell\">\n      <aside>\n        <AdminNav />\n      </aside>\n      <main>{children}</main>\n    </div>\n  );\n}\n\n// app/admin/settings/page.tsx\nimport { SettingsForm } from \"../../../components/SettingsForm\";\n\nconst defaultSettings = {\n  workspaceName: \"Acme\",\n  notificationsEnabled: true,\n  theme: \"light\",\n};\n\nexport default function SettingsPage() {\n  return (\n    <section>\n      <h1>Settings</h1>\n      <p>Manage workspace preferences</p>\n      <SettingsForm settings={defaultSettings} onSettingsChange={() => undefined} />\n    </section>\n  );\n}\n\n// app/admin/products/page.tsx\nimport { ProductsList } from \"../../../components/ProductsList\";\n\nexport default async function ProductsPage() {\n  return (\n    <section>\n      <h1>Products</h1>\n      <ProductsList />\n    </section>\n  );\n}\n\n// components/AdminNav.tsx\nimport Link from \"next/link\";\n\nconst links = [\n  { href: \"/admin/settings\", label: \"Settings\" },\n  { href: \"/admin/products\", label: \"Products\" },\n];\n\nexport function AdminNav() {\n  return",
       "nextDashboardCaseId": "dashboard-rename-products",
       "nextNotesCaseId": null,
+      "nextOpsCaseId": null,
       "nextDashboardFilesMissing": [],
       "tokenReductionPercent": 58,
       "ciPass": true
@@ -171,15 +175,18 @@
       ],
       "contextTokens": 210,
       "contextChars": 839,
-      "tsContextTokens": 6500,
-      "tsContextSource": "heuristic",
+      "tsContextTokens": 812,
+      "tsContextSource": "measured",
       "tsHeuristicTokens": 6500,
       "tsTaskDescription": "Add a React ops dashboard with bar chart, sortable/filterable data grid, paginated rows, and an enqueue form with toast feedback — new loader action, pages, and nav links.",
-      "typescriptExcerpt": "",
+      "typescriptExcerpt": "// app/page.tsx\nimport { OpsDashboard } from \"../../components/OpsDashboard\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function DashboardPage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Ops dashboard</h1>\n\t\t\t<p>Chart + datagrid overview</p>\n\t\t\t<OpsDashboard />\n\t\t</section>\n\t);\n}\n\n// app/enqueue/page.tsx\nimport { EnqueueJobForm } from \"../../components/EnqueueJobForm\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function EnqueuePage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Enqueue</h1>\n\t\t\t<p>Add a job to the queue</p>\n\t\t\t<EnqueueJobForm />\n\t\t</section>\n\t);\n}\n\n// components/OpsDashboard.tsx\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport type { Column, JobMetric, PositiveInteger } from \"../lib/types\";\n\nexport function OpsDashboard() {\n\tconst [metrics, setMetrics] = useState<JobMetric[]>([]);\n\tconst [jobs, setJobs] = useState<{ name: string; status: string; score: number }[]>([]);\n\n\tuseEffect(() => {\n\t\tfetchOpsPanel().then((data) => {\n\t\t\tsetMetrics(data.metrics);\n\t\t\tsetJobs(data.jobs);\n\t\t});\n\t}, []);\n\n\tconst sortBy: Column = \"score\";\n\tconst filterColumn: Column = ",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
-      "nextDashboardFilesMissing": [],
-      "tokenReductionPercent": 97,
+      "nextOpsCaseId": "ops-add-dashboard",
+      "nextDashboardFilesMissing": [
+        "lib/fetchOpsDashboard.ts"
+      ],
+      "tokenReductionPercent": 74,
       "ciPass": true
     },
     {
@@ -213,6 +220,7 @@
       "typescriptExcerpt": "",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
+      "nextOpsCaseId": null,
       "nextDashboardFilesMissing": [],
       "tokenReductionPercent": 96,
       "ciPass": true
@@ -241,15 +249,16 @@
       ],
       "contextTokens": 166,
       "contextChars": 665,
-      "tsContextTokens": 6000,
-      "tsContextSource": "heuristic",
+      "tsContextTokens": 954,
+      "tsContextSource": "measured",
       "tsHeuristicTokens": 6000,
       "tsTaskDescription": "Fix MetricsChart dataKey in a Next.js ops dashboard — chart expects label field but component passes title from Metric type.",
-      "typescriptExcerpt": "",
+      "typescriptExcerpt": "// app/page.tsx\nimport { OpsDashboard } from \"../../components/OpsDashboard\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function DashboardPage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Ops dashboard</h1>\n\t\t\t<p>Chart + datagrid overview</p>\n\t\t\t<OpsDashboard />\n\t\t</section>\n\t);\n}\n\n// app/enqueue/page.tsx\nimport { EnqueueJobForm } from \"../../components/EnqueueJobForm\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function EnqueuePage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Enqueue</h1>\n\t\t\t<p>Add a job to the queue</p>\n\t\t\t<EnqueueJobForm />\n\t\t</section>\n\t);\n}\n\n// components/OpsDashboard.tsx\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { fetchOpsDashboard } from \"../lib/fetchOpsDashboard\";\nimport type { Column, JobMetric, PositiveInteger } from \"../lib/types\";\n\nexport function OpsDashboard() {\n\tconst [metrics, setMetrics] = useState<JobMetric[]>([]);\n\tconst [jobs, setJobs] = useState<{ name: string; status: string; score: number }[]>([]);\n\tconst refetch = () =>\n\t\tfetchOpsDashboard().then((data) => {\n\t\t\tsetMetrics(data.metrics);\n\t\t\tsetJobs(data.jobs);\n\t\t});\n\n\tus",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
+      "nextOpsCaseId": "ops-dashboard-chart-wiring",
       "nextDashboardFilesMissing": [],
-      "tokenReductionPercent": 97,
+      "tokenReductionPercent": 83,
       "ciPass": true
     },
     {
@@ -276,15 +285,16 @@
       ],
       "contextTokens": 180,
       "contextChars": 719,
-      "tsContextTokens": 6000,
-      "tsContextSource": "heuristic",
+      "tsContextTokens": 949,
+      "tsContextSource": "measured",
       "tsHeuristicTokens": 6000,
       "tsTaskDescription": "Fix JobsGrid sortBy in a Next.js ops dashboard — datagrid columns are name/status/score but sort uses title.",
-      "typescriptExcerpt": "",
+      "typescriptExcerpt": "// app/page.tsx\nimport { OpsDashboard } from \"../../components/OpsDashboard\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function DashboardPage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Ops dashboard</h1>\n\t\t\t<p>Chart + datagrid overview</p>\n\t\t\t<OpsDashboard />\n\t\t</section>\n\t);\n}\n\n// app/enqueue/page.tsx\nimport { EnqueueJobForm } from \"../../components/EnqueueJobForm\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function EnqueuePage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Enqueue</h1>\n\t\t\t<p>Add a job to the queue</p>\n\t\t\t<EnqueueJobForm />\n\t\t</section>\n\t);\n}\n\n// components/OpsDashboard.tsx\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { fetchOpsDashboard } from \"../lib/fetchOpsDashboard\";\nimport type { Column, JobMetric, PositiveInteger } from \"../lib/types\";\n\nexport function OpsDashboard() {\n\tconst [metrics, setMetrics] = useState<JobMetric[]>([]);\n\tconst [jobs, setJobs] = useState<{ name: string; status: string; score: number }[]>([]);\n\tconst refetch = () =>\n\t\tfetchOpsDashboard().then((data) => {\n\t\t\tsetMetrics(data.metrics);\n\t\t\tsetJobs(data.jobs);\n\t\t});\n\n\tus",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
+      "nextOpsCaseId": "ops-dashboard-sort-wiring",
       "nextDashboardFilesMissing": [],
-      "tokenReductionPercent": 97,
+      "tokenReductionPercent": 81,
       "ciPass": true
     },
     {
@@ -311,15 +321,16 @@
       ],
       "contextTokens": 181,
       "contextChars": 725,
-      "tsContextTokens": 6000,
-      "tsContextSource": "heuristic",
+      "tsContextTokens": 949,
+      "tsContextSource": "measured",
       "tsHeuristicTokens": 6000,
       "tsTaskDescription": "Fix JobsGrid filterColumn in a Next.js ops dashboard — datagrid columns are name/status/score but filter uses title.",
-      "typescriptExcerpt": "",
+      "typescriptExcerpt": "// app/page.tsx\nimport { OpsDashboard } from \"../../components/OpsDashboard\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function DashboardPage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Ops dashboard</h1>\n\t\t\t<p>Chart + datagrid overview</p>\n\t\t\t<OpsDashboard />\n\t\t</section>\n\t);\n}\n\n// app/enqueue/page.tsx\nimport { EnqueueJobForm } from \"../../components/EnqueueJobForm\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function EnqueuePage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Enqueue</h1>\n\t\t\t<p>Add a job to the queue</p>\n\t\t\t<EnqueueJobForm />\n\t\t</section>\n\t);\n}\n\n// components/OpsDashboard.tsx\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { fetchOpsDashboard } from \"../lib/fetchOpsDashboard\";\nimport type { Column, JobMetric, PositiveInteger } from \"../lib/types\";\n\nexport function OpsDashboard() {\n\tconst [metrics, setMetrics] = useState<JobMetric[]>([]);\n\tconst [jobs, setJobs] = useState<{ name: string; status: string; score: number }[]>([]);\n\tconst refetch = () =>\n\t\tfetchOpsDashboard().then((data) => {\n\t\t\tsetMetrics(data.metrics);\n\t\t\tsetJobs(data.jobs);\n\t\t});\n\n\tus",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
+      "nextOpsCaseId": "ops-dashboard-filter-wiring",
       "nextDashboardFilesMissing": [],
-      "tokenReductionPercent": 97,
+      "tokenReductionPercent": 81,
       "ciPass": true
     },
     {
@@ -346,15 +357,16 @@
       ],
       "contextTokens": 163,
       "contextChars": 653,
-      "tsContextTokens": 6000,
-      "tsContextSource": "heuristic",
+      "tsContextTokens": 949,
+      "tsContextSource": "measured",
       "tsHeuristicTokens": 6000,
       "tsTaskDescription": "Fix JobsGrid pageSize in a Next.js ops dashboard — pagination size must be greater than zero.",
-      "typescriptExcerpt": "",
+      "typescriptExcerpt": "// app/page.tsx\nimport { OpsDashboard } from \"../../components/OpsDashboard\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function DashboardPage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Ops dashboard</h1>\n\t\t\t<p>Chart + datagrid overview</p>\n\t\t\t<OpsDashboard />\n\t\t</section>\n\t);\n}\n\n// app/enqueue/page.tsx\nimport { EnqueueJobForm } from \"../../components/EnqueueJobForm\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function EnqueuePage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Enqueue</h1>\n\t\t\t<p>Add a job to the queue</p>\n\t\t\t<EnqueueJobForm />\n\t\t</section>\n\t);\n}\n\n// components/OpsDashboard.tsx\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { fetchOpsDashboard } from \"../lib/fetchOpsDashboard\";\nimport type { Column, JobMetric, PositiveInteger } from \"../lib/types\";\n\nexport function OpsDashboard() {\n\tconst [metrics, setMetrics] = useState<JobMetric[]>([]);\n\tconst [jobs, setJobs] = useState<{ name: string; status: string; score: number }[]>([]);\n\tconst refetch = () =>\n\t\tfetchOpsDashboard().then((data) => {\n\t\t\tsetMetrics(data.metrics);\n\t\t\tsetJobs(data.jobs);\n\t\t});\n\n\tus",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
+      "nextOpsCaseId": "ops-dashboard-page-size-wiring",
       "nextDashboardFilesMissing": [],
-      "tokenReductionPercent": 97,
+      "tokenReductionPercent": 83,
       "ciPass": true
     },
     {
@@ -381,15 +393,16 @@
       ],
       "contextTokens": 235,
       "contextChars": 938,
-      "tsContextTokens": 6000,
-      "tsContextSource": "heuristic",
+      "tsContextTokens": 916,
+      "tsContextSource": "measured",
       "tsHeuristicTokens": 6000,
       "tsTaskDescription": "Fix live dashboard polling in a Next.js ops app — setInterval refresh exists but data loader hook is missing.",
-      "typescriptExcerpt": "",
+      "typescriptExcerpt": "// app/page.tsx\nimport { OpsDashboard } from \"../../components/OpsDashboard\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function DashboardPage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Ops dashboard</h1>\n\t\t\t<p>Chart + datagrid overview</p>\n\t\t\t<OpsDashboard />\n\t\t</section>\n\t);\n}\n\n// app/enqueue/page.tsx\nimport { EnqueueJobForm } from \"../../components/EnqueueJobForm\";\nimport { OpsNav } from \"../../components/OpsNav\";\n\nexport default function EnqueuePage() {\n\treturn (\n\t\t<section>\n\t\t\t<aside>\n\t\t\t\t<OpsNav />\n\t\t\t</aside>\n\t\t\t<h1>Enqueue</h1>\n\t\t\t<p>Add a job to the queue</p>\n\t\t\t<EnqueueJobForm />\n\t\t</section>\n\t);\n}\n\n// components/OpsDashboard.tsx\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { fetchOpsDashboard } from \"../lib/fetchOpsDashboard\";\nimport type { Column, JobMetric, PositiveInteger } from \"../lib/types\";\n\nexport function OpsDashboard() {\n\tconst [metrics, setMetrics] = useState<JobMetric[]>([]);\n\tconst [jobs, setJobs] = useState<{ name: string; status: string; score: number }[]>([]);\n\n\tuseEffect(() => {\n\t\tconst timer = setInterval(refetch, 15000);\n\t\treturn () => clearInterval(timer);\n\t}, []);\n\n\tconst sortB",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": null,
+      "nextOpsCaseId": "ops-dashboard-refresh-wiring",
       "nextDashboardFilesMissing": [],
-      "tokenReductionPercent": 96,
+      "tokenReductionPercent": 74,
       "ciPass": true
     },
     {
@@ -423,6 +436,7 @@
       "typescriptExcerpt": "// app/notes/layout.tsx\nimport { NotesNav } from \"../../components/NotesNav\";\n\nexport default function NotesLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div>\n      <aside>\n        <NotesNav />\n      </aside>\n      <main>{children}</main>\n    </div>\n  );\n}\n\n// app/notes/page.tsx\nimport { NotesList } from \"../../../components/NotesList\";\nimport { listNotes } from \"../../../lib/notes\";\n\nexport default async function NotesPage() {\n  const notes = await listNotes();\n  return (\n    <section>\n      <h1>Notes</h1>\n      <NotesList notes={notes} />\n    </section>\n  );\n}\n\n// app/notes/new/page.tsx\nimport { NoteCreateForm } from \"../../../components/NoteCreateForm\";\n\nconst draft = { title: \"\", body: \"\" };\n\nexport default function NewNotePage() {\n  return (\n    <section>\n      <h1>New note</h1>\n      <NoteCreateForm draft={draft} onDraftChange={() => undefined} />\n    </section>\n  );\n}\n\n// app/notes/[id]/page.tsx\nimport { NoteDetail } from \"../../../components/NoteDetail\";\n\nexport default async function NoteDetailPage({ params }: { params: { id: string } }) {\n  return (\n    <section>\n      <h1>Note detail</h1>\n      <NoteDetail id={params.id} />\n    </section>\n  );\n}\n\n",
       "nextDashboardCaseId": null,
       "nextNotesCaseId": "notes-add-detail",
+      "nextOpsCaseId": null,
       "nextDashboardFilesMissing": [
         "lib/getNote.ts"
       ],
@@ -439,8 +453,8 @@
     ],
     "tokenReductionPercent": {
       "minReductionPercent": 58,
-      "maxReductionPercent": 97,
-      "avgReductionPercent": 85
+      "maxReductionPercent": 96,
+      "avgReductionPercent": 77
     }
   }
 }

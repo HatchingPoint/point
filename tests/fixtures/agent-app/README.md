@@ -35,13 +35,14 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 |----------|------|
 | Dashboard + rename | `benchmarks/next-dashboard/` |
 | Notes | `benchmarks/next-notes/` |
+| Ops dashboard | `benchmarks/next-ops-dashboard/` |
 
 Measured TypeScript agent context comes from real files listed in each `manifest.json`.
 
 ## Run
 
 ```bash
-bun test tests/agent-app-benchmark.test.ts tests/agent-app-gate.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/agent-app-model-eval.test.ts
+bun test tests/agent-app-benchmark.test.ts tests/agent-app-gate.test.ts tests/next-dashboard-scaffold.test.ts tests/next-notes-scaffold.test.ts tests/next-ops-dashboard-scaffold.test.ts tests/agent-app-model-eval.test.ts
 bun run benchmark:agent-app
 bun run benchmark:agent-app:gate
 bun run benchmark:agent-app:model-eval-gate

@@ -33,6 +33,7 @@ export type PairedScaffoldMetrics = {
 
 export function pairedScaffoldRef(testCase: AgentAppBenchmarkCase): { scaffold: string; caseId: string } | null {
 	if (testCase.nextNotesCaseId) return { scaffold: "next-notes", caseId: testCase.nextNotesCaseId };
+	if (testCase.nextOpsCaseId) return { scaffold: "next-ops-dashboard", caseId: testCase.nextOpsCaseId };
 	if (testCase.nextDashboardCaseId) return { scaffold: "next-dashboard", caseId: testCase.nextDashboardCaseId };
 	return null;
 }

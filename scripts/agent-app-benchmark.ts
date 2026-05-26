@@ -42,6 +42,8 @@ export type AgentAppBenchmarkCase = {
 	nextDashboardCaseId?: string;
 	/** Paired Next.js scaffold under benchmarks/next-notes/ */
 	nextNotesCaseId?: string;
+	/** Paired Next.js scaffold under benchmarks/next-ops-dashboard/ */
+	nextOpsCaseId?: string;
 	typescriptContext: AgentAppTypescriptContext;
 };
 
@@ -167,6 +169,7 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		],
 		requiredNavPaths: ["/enqueue"],
 		sourceExample: "examples/app/job-queue/job-queue.point",
+		nextOpsCaseId: "ops-add-dashboard",
 		typescriptContext: {
 			taskDescription:
 				"Add a React ops dashboard with bar chart, sortable/filterable data grid, paginated rows, and an enqueue form with toast feedback — new loader action, pages, and nav links.",
@@ -207,6 +210,7 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
 		requiredNavPaths: ["/", "/enqueue"],
 		sourceExample: "examples/app/job-queue/job-queue.point",
+		nextOpsCaseId: "ops-dashboard-chart-wiring",
 		typescriptContext: {
 			taskDescription:
 				"Fix MetricsChart dataKey in a Next.js ops dashboard — chart expects label field but component passes title from Metric type.",
@@ -227,6 +231,7 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
 		requiredNavPaths: ["/", "/enqueue"],
 		sourceExample: "examples/app/job-queue/job-queue.point",
+		nextOpsCaseId: "ops-dashboard-sort-wiring",
 		typescriptContext: {
 			taskDescription:
 				"Fix JobsGrid sortBy in a Next.js ops dashboard — datagrid columns are name/status/score but sort uses title.",
@@ -247,6 +252,7 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
 		requiredNavPaths: ["/", "/enqueue"],
 		sourceExample: "examples/app/job-queue/job-queue.point",
+		nextOpsCaseId: "ops-dashboard-filter-wiring",
 		typescriptContext: {
 			taskDescription:
 				"Fix JobsGrid filterColumn in a Next.js ops dashboard — datagrid columns are name/status/score but filter uses title.",
@@ -267,6 +273,7 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
 		requiredNavPaths: ["/", "/enqueue"],
 		sourceExample: "examples/app/job-queue/job-queue.point",
+		nextOpsCaseId: "ops-dashboard-page-size-wiring",
 		typescriptContext: {
 			taskDescription:
 				"Fix JobsGrid pageSize in a Next.js ops dashboard — pagination size must be greater than zero.",
@@ -287,6 +294,7 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		requiredDeclarations: ["view ops dashboard", "action fetch ops dashboard"],
 		requiredNavPaths: ["/", "/enqueue"],
 		sourceExample: "examples/app/job-queue/job-queue.point",
+		nextOpsCaseId: "ops-dashboard-refresh-wiring",
 		typescriptContext: {
 			taskDescription:
 				"Fix live dashboard polling in a Next.js ops app — setInterval refresh exists but data loader hook is missing.",
