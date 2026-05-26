@@ -824,6 +824,23 @@ const source = new EventSource("/sse/metrics"); // route registered as metricPul
 			tscError: `error TS2322: Type 'Draft' is not assignable to type 'string'.`,
 		},
 	},
+	{
+		id: "invalid-bind-checkbox-target",
+		title: "View — bind checkbox target must be record.field",
+		category: "typo-fix",
+		agentTask: "Fix bind checkbox target to draft.field.",
+		repairMode: "single-shot",
+		brokenFile: "invalid-bind-checkbox-target-broken.point",
+		fixedFile: "invalid-bind-checkbox-target-fixed.point",
+		expectedCode: "invalid-view-bind-target",
+		chosenField: "draft.alerts",
+		typescriptContext: {
+			excerpt: `// SettingsForm.tsx — excerpt
+<input type="checkbox" checked={draft} onChange={...} /> // bind value must be draft.alerts`,
+			totalChars: 5400,
+			tscError: `error TS2322: Type 'Draft' is not assignable to type 'boolean'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

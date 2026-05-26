@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-cases.v1",
-  "generatedAt": "2026-05-25T15:50:11.641Z",
+  "generatedAt": "2026-05-26T10:10:41.149Z",
   "cases": [
     {
       "id": "unknown-field-rule",
@@ -1010,6 +1010,34 @@
       "ciPass": true
     },
     {
+      "id": "invalid-bind-checkbox-target",
+      "title": "View — bind checkbox target must be record.field",
+      "category": "typo-fix",
+      "agentTask": "Fix bind checkbox target to draft.field.",
+      "repairMode": "single-shot",
+      "summary": "tests/fixtures/agent-repair/invalid-bind-checkbox-target-broken.point",
+      "fixturePath": "tests/fixtures/agent-repair/invalid-bind-checkbox-target-broken.point",
+      "brokenSource": "module CheckboxRepair\n\nrecord Draft\n  alerts: Bool\n\nview settings form\n  input draft: Draft\n  input on draft change: Handler<Draft>\n  on change call on draft change\n  form\n  bind checkbox \"Alerts\" to draft options alerts\n",
+      "fixedSource": "module CheckboxRepair\n\nrecord Draft\n  alerts: Bool\n\nview settings form\n  input draft: Draft\n  input on draft change: Handler<Draft>\n  on change call on draft change\n  form\n  bind checkbox \"Alerts\" to draft.alerts\n",
+      "errorLine": 11,
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"invalid-view-bind-target\",\n      \"message\": \"View settings form bind field target must be input.field\",\n      \"path\": \"view.settings form\",\n      \"ref\": \"point://semantic/CheckboxRepair/view.settings form\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 11,\n          \"column\": 1,\n          \"offset\": 172\n        },\n        \"end\": {\n          \"line\": 11,\n          \"column\": 49,\n          \"offset\": 220\n        }\n      },\n      \"repair\": \"Use bind field \\\"Alerts\\\" to draft.alerts.\",\n      \"expected\": \"draft.alerts\"\n    }\n  ]\n}",
+      "diagnosticCode": "invalid-view-bind-target",
+      "typescriptExcerpt": "// SettingsForm.tsx — excerpt\n<input type=\"checkbox\" checked={draft} onChange={...} /> // bind value must be draft.alerts",
+      "typescriptNote": "Illustrative ~5,400-char paste heuristic. Not from a logged agent session.",
+      "typescriptTotalChars": 5400,
+      "tscError": "error TS2322: Type 'Draft' is not assignable to type 'boolean'.",
+      "ref": "point://semantic/CheckboxRepair/view.settings form",
+      "repairHint": "Use bind field \"Alerts\" to draft.alerts.",
+      "expectedFields": [
+        "draft.alerts"
+      ],
+      "contextChars": 660,
+      "contextTokens": 165,
+      "tsContextTokens": 1350,
+      "tokenReductionPercent": 88,
+      "ciPass": true
+    },
+    {
       "id": "feature-multistep-launch",
       "title": "Feature — launch app (2-step repair plan)",
       "category": "feature-build",
@@ -1139,7 +1167,7 @@
     }
   ],
   "summary": {
-    "caseCount": 39,
+    "caseCount": 40,
     "diagnosticCodes": [
       "unknown-field",
       "missing-await",

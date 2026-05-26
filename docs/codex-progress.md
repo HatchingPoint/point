@@ -1415,3 +1415,18 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 
 - Completed: `sse route` + `subscribe to sse`; sse-dashboard example; repair gate **34/34**.
 - Verified: `bun run ci` green; tag + push **v0.1.49**.
+
+## Checkpoint Phase 74 — Agent repair gate 36 (loop)
+
+- Completed: `invalid-bind-checkbox-target` single-shot fixture (platform UI bind checkbox wrong target); registered in `agent-repair-sufficiency.ts`; gate **36/36**; LSP parity; exported `benchmarks/agent-repair-cases.json`; `docs/agent-plateau.md` gate row.
+- Verified: `bun run ci` green (40 repair cases, 100% sufficiency).
+- Next: gate 36+ satisfied — loop skips until new platform UI / agent-loop codes need coverage.
+- Principles gate: Semantic ✅ Agent loop ✅ Block family ✅ Effects ✅ General example ✅ Boring emit ✅ No overfit ✅
+
+## Checkpoint Phase expansion — 2026-05-26 tick 4 (slice A)
+
+- Analyzed: `point roadmap-analyze` — active execution Phase **78** (4 open); plans 26/28/29 show 0 open criteria (stale Active labels); `nextSuggestedPhaseNumber: 79`; audit gaps narrowed to generic `Result` + native Money; **39** agent-repair cases, **62** examples
+- Decision: **A — Reprioritize backlog** (skipped **B**: Phase 78 draft already on disk)
+- Output: `docs/phase-roadmap.md` — analyze snapshot + refreshed candidate table (79 model-eval, 80 gate 36+, deferred primitives ranked)
+- Next expansion tick: **B** — draft `docs/phase79-plan.md` + `docs/codex-goal-phase79.md` after Phase 78 promotes; or **D** — Money primitive scope if friction evidence appears in agent-app cases
+- Principles gate: N/A (planning only)

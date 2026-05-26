@@ -8,7 +8,7 @@
 | Layer | v0.1.47 | v0.1.48 plateau |
 |-------|---------|-----------------|
 | **UI kit validation** | Chart + datagrid + refresh | Bind select/textarea targets, toast requires submit |
-| **Repair gate** | 31 single-shot | **33** single-shot at 100% sufficiency |
+| **Repair gate** | 31 single-shot | **36** single-shot at 100% sufficiency |
 | **LSP parity** | Phase 26–27 spot check | Platform UI codes (chart, datagrid, refresh, toast, bind select) |
 | **Agent loop** | check-json → line patch | Same loop; richer expected fields on form controls |
 
@@ -26,6 +26,10 @@ Forms with `toast on success/error` but no `submit` line emit `toast-without-sub
 
 New fixtures: `invalid-bind-select-target`, `toast-without-submit`.
 
+### P73–P74 — Agent repair gate 35–36
+
+New fixtures: `invalid-bind-textarea-target`, `invalid-bind-checkbox-target`.
+
 ### P70-4 — LSP ↔ CLI parity expansion
 
 Parity matrix covers platform UI repair codes, not only Phase 26–27 middleware/pipeline cases.
@@ -35,6 +39,7 @@ Parity matrix covers platform UI repair codes, not only Phase 26–27 middleware
 1. **Agent-app benchmarks** — end-to-end feature builds scored on repair steps + token context.
 2. **Multistep UI builds** — form + datagrid + chart in one repair-plan loop.
 3. **Bind textarea repair fixture** — mirror select coverage. ✅ Phase 73 `invalid-bind-textarea-target`
+4. **Bind checkbox repair fixture** — mirror select coverage. ✅ Phase 74 `invalid-bind-checkbox-target`
 
 ## Agent loop (unchanged contract)
 

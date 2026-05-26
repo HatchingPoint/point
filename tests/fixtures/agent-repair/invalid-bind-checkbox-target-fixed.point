@@ -1,0 +1,11 @@
+module CheckboxRepair
+
+record Draft
+  alerts: Bool
+
+view settings form
+  input draft: Draft
+  input on draft change: Handler<Draft>
+  on change call on draft change
+  form
+  bind checkbox "Alerts" to draft.alerts
