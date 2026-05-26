@@ -4,7 +4,7 @@
 
 ## Active execution
 
-**Next:** Phase 78+ (ops Next scaffold, notes form repair)
+**Next:** Phase 78 (ops Next scaffold, notes form app-repair) → v0.1.56 — **overnight loops armed**
 
 **Wave shipped (v0.1.55):** 77 notes detail app-repair, agent-app model-eval gate, gate 12
 
