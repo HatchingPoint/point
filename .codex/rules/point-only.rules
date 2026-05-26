@@ -1,0 +1,79 @@
+# Point-only experiment — auto-approve routine compiler commands.
+
+prefix_rule(
+    pattern = ["bun", "run", "ci"],
+    decision = "allow",
+    justification = "Full CI gate",
+)
+
+prefix_rule(
+    pattern = ["bun", "test"],
+    decision = "allow",
+    justification = "Test suite",
+)
+
+prefix_rule(
+    pattern = ["bun", "run", "check"],
+    decision = "allow",
+    justification = "Biome check",
+)
+
+prefix_rule(
+    pattern = ["bun", "run", "fmt-check"],
+    decision = "allow",
+    justification = "Format check",
+)
+
+prefix_rule(
+    pattern = ["bun", "run", "build"],
+    decision = "allow",
+    justification = "Build scripts",
+)
+
+prefix_rule(
+    pattern = ["point", "check"],
+    decision = "allow",
+    justification = "Point check",
+)
+
+prefix_rule(
+    pattern = ["point", "run"],
+    decision = "allow",
+    justification = "Point run",
+)
+
+prefix_rule(
+    pattern = ["point", "test"],
+    decision = "allow",
+    justification = "Point test",
+)
+
+prefix_rule(
+    pattern = ["rg"],
+    decision = "allow",
+    justification = "Search",
+)
+
+prefix_rule(
+    pattern = ["git", "status"],
+    decision = "allow",
+    justification = "Read-only git",
+)
+
+prefix_rule(
+    pattern = ["git", "diff"],
+    decision = "allow",
+    justification = "Read-only git",
+)
+
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "forbidden",
+    justification = "Do not push unless user asked",
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "forbidden",
+    justification = "Do not commit unless user asked",
+)

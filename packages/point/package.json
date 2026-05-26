@@ -15,6 +15,7 @@
   },
   "files": [
     "src",
+    "runtime",
     "std",
     "ui",
     "templates",
@@ -29,6 +30,7 @@
     ".": "./src/index.ts",
     "./cli": "./src/cli.ts",
     "./core": "./src/core/index.ts",
+    "./runtime": "./runtime/index.ts",
     "./std/json": "./src/std/json.ts",
     "./std/http": "./src/std/http.ts",
     "./std/text": "./src/std/text.ts",

@@ -1,4 +1,4 @@
-import { dirname, resolve } from "node:path";
+import { dirname, relative, resolve } from "node:path";
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import type { PointCoreDeclaration, PointCoreProgram } from "./ast.ts";
@@ -9,6 +9,7 @@ import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCorePython, isPureLogicProgram } from "./emit-python.ts";
 import { canBundleRunInMemory, executeBundledEntry, bundleJavaScriptForEval } from "./run-bridge.ts";
+import { runModule, runPointRuntimeDev, runPointRuntimeServe, runPointRuntimeTests } from "../../runtime/index.ts";
 import { runtimeSourceLocation } from "./source-map.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
@@ -18,7 +19,6 @@ import { runCheckDocs } from "./check-docs.ts";
 import { runAppNew, runCreateApp } from "./app-cli.ts";
 import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
-import { isCapabilitiesLine, normalizeUseModuleName, parseCapabilityNamesFromLine } from "./capabilities.ts";
 import { dedupeCoreDeclarationsByName, filteredImportNamesForDependency, filteredPublicCoreDeclarations } from "./use-merge.ts";
 import { runPointLspServer } from "../lsp/server.ts";
 import { parseDevCliFlags, runPointDev } from "./dev.ts";
@@ -86,16 +86,46 @@ export async function main() {
 	}
 	if (command === "dev") {
 		const parsed = parseDevCliFlags(tail);
-		await runPointDev(parsed.positional[0] ?? DEFAULT_INPUT, { port: parsed.port, apiOnly: parsed.apiOnly });
+		const devInput = parsed.positional[0] ?? DEFAULT_INPUT;
+		if (isHomeBaseInput(devInput)) {
+			const lock = await readPointLock();
+			const coreFile = await loadCoreFile(devInput, lock);
+			const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
+			const program = graph ? programWithDependencyDeclarations(coreFile, graph) : coreFile.program;
+			const diagnostics = checkPointCore(program);
+			if (diagnostics.length > 0) {
+				console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+				process.exit(1);
+			}
+			await runPointRuntimeDev(devInput, program, { port: parsed.port });
+			return;
+		}
+		await runPointDev(devInput, { port: parsed.port, apiOnly: parsed.apiOnly });
 		return;
 	}
 	if (command === "serve") {
 		const parsed = parseServeCliFlags(tail);
-		await runPointServe(parsed.positional[0] ?? DEFAULT_INPUT, { port: parsed.port, staticDir: parsed.staticDir });
+		const serveInput = parsed.positional[0] ?? DEFAULT_INPUT;
+		if (isHomeBaseInput(serveInput)) {
+			const lock = await readPointLock();
+			const coreFile = await loadCoreFile(serveInput, lock);
+			const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
+			const program = graph ? programWithDependencyDeclarations(coreFile, graph) : coreFile.program;
+			const diagnostics = checkPointCore(program);
+			if (diagnostics.length > 0) {
+				console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+				process.exit(1);
+			}
+			await runPointRuntimeServe(serveInput, program, { port: parsed.port });
+			return;
+		}
+		await runPointServe(serveInput, { port: parsed.port, staticDir: parsed.staticDir });
 		return;
 	}
 	if (command === "build-app") {
-		await runPointBuildApp(tail[0] ?? "src/app.point");
+		const appInput = tail[0] ?? "src/app.point";
+		blockHomeBaseEmit(command, appInput);
+		await runPointBuildApp(appInput);
 		return;
 	}
 	if (command === "test" && tail[0] === "integration") {
@@ -345,6 +375,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
+		blockHomeBaseEmit(command, input);
 		const emitTarget = await resolveEmitTargetForInputPath(input);
 		if (emitTarget === "python") {
 			const lock = await readPointLock();
@@ -385,6 +416,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
+		blockHomeBaseEmit(command, input);
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_OUTPUT : output);
 		await Bun.$`mkdir -p ${dirname(outputPath)}`.quiet();
 		await Bun.write(outputPath, `${JSON.stringify(program, null, 2)}\n`);
@@ -397,6 +429,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
+		blockHomeBaseEmit(command, input);
 		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
 		const emitProgram = graph ? programWithTypeScriptImports(coreFile, graph) : program;
 		const outputPath = resolve(process.cwd(), output === DEFAULT_OUTPUT ? DEFAULT_TS_OUTPUT : output);
@@ -407,6 +440,7 @@ export async function main() {
 	}
 
 	if (command === "build-py") {
+		blockHomeBaseEmit(command, input);
 		const lock = await readPointLock();
 		const coreFile = await loadCoreFile(input, lock);
 		const graph = await createModuleGraphForFile(coreFile, lock);
@@ -429,6 +463,26 @@ export async function main() {
 			process.exit(1);
 		}
 		let entryName: string | null = null;
+		if (isHomeBaseInput(input)) {
+			try {
+				entryName = findRunEntryName(program, runCommandName);
+				if (!entryName) {
+					const available = availableCommandNames(program);
+					if (runCommandName) {
+						throw new Error(
+							`Unknown command "${runCommandName}".${available.length > 0 ? ` Available: ${available.join(", ")}` : ""} Run: point commands ${input}`,
+						);
+					}
+					throw new Error("No zero-argument entrypoint found. Define a command block or run: point commands <file>");
+				}
+				const runtime = await runModule(input, program, entryName);
+				if (runtime.value !== undefined) console.log(typeof runtime.value === "string" ? runtime.value : JSON.stringify(runtime.value));
+			} catch (error) {
+				console.error(`Runtime error in ${input}: ${error instanceof Error ? error.message : String(error)}`);
+				process.exit(1);
+			}
+			return;
+		}
 		const emittedJavaScript = emitPointCoreJavaScript(program);
 		let runOutput: string | undefined;
 		let useBundle = false;
@@ -469,6 +523,12 @@ export async function main() {
 		if (diagnostics.length > 0) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
+		}
+		if (isHomeBaseInput(input)) {
+			const result = await runPointRuntimeTests(input, program);
+			console.log(JSON.stringify(result, null, 2));
+			if (!result.ok) process.exit(1);
+			return;
 		}
 		const result = await runPointTests(program, input);
 		console.log(JSON.stringify(result, null, 2));
@@ -707,6 +767,18 @@ async function runPointTests(program: PointCoreProgram, input: string): Promise<
 
 function pathToFileUrl(path: string): string {
 	return `file://${path.replaceAll("\\", "/")}`;
+}
+
+function isHomeBaseInput(input: string): boolean {
+	const relativeInput = relative(process.cwd(), resolve(process.cwd(), input)).replaceAll("\\", "/");
+	return relativeInput === "experiments/point-only" || relativeInput.startsWith("experiments/point-only/");
+}
+
+function blockHomeBaseEmit(command: string, input: string): void {
+	if (!isHomeBaseInput(input)) return;
+	throw new Error(
+		`${command} is disabled for experiments/point-only/**. Home base runs through packages/point/runtime/index.ts and does not emit generated artifacts.`,
+	);
 }
 
 async function executeTempModuleRun(
