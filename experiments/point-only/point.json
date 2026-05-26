@@ -1,0 +1,6 @@
+{
+  "name": "point-only",
+  "version": "0.0.0",
+  "entry": "src/app.point",
+  "runtime": "owned"
+}

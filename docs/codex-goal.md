@@ -5,6 +5,8 @@ Use this doc to run the entire Point language roadmap as a long-running Codex go
 **Master plan:** [full-language-plan.md](./full-language-plan.md)  
 **Progress log:** [codex-progress.md](./codex-progress.md)
 
+**Point runtime pivot (parallel goals):** [point-runtime-pivot.md](./point-runtime-pivot.md) · [codex-goal-point-only.md](./codex-goal-point-only.md) · **hard pivot, no fallbacks** · launch Wave R0 from `point-1` root.
+
 ---
 
 ## 1. Enable goals in Codex CLI

@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
-import { bundledTemplateDir, scaffoldAppFromTemplate } from "../packages/point/src/core/app-cli.ts";
+import { bundledTemplateDir, RUNTIME_APP_TEMPLATE_ID, scaffoldAppFromTemplate } from "../packages/point/src/core/app-cli.ts";
 
 const repoRoot = join(import.meta.dir, "..");
 const cli = join(repoRoot, "packages/point/src/cli.ts");
@@ -28,7 +28,6 @@ describe("onboarding smoke", () => {
 				templateId: "saas-app",
 			});
 			const appDir = result.targetDir;
-			await installLocalPoint(appDir);
 			await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
 			const demo = await Bun.$`bun ${cli} demo src/app.point`.cwd(appDir).quiet();
 			expect(demo.stdout.toString()).toContain("Next steps");
@@ -43,6 +42,25 @@ describe("onboarding smoke", () => {
 			await rm(projectDir, { recursive: true, force: true });
 		}
 	}, 90000);
+
+	test("runtime-app template scaffolds, checks, and runs through owned runtime", async () => {
+		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
+		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/onboarding-runtime-"));
+		try {
+			const result = await scaffoldAppFromTemplate("runtime-smoke", {
+				cwd: projectDir,
+				templateId: RUNTIME_APP_TEMPLATE_ID,
+			});
+			const appDir = result.targetDir;
+			await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
+			const run = await Bun.$`bun ${cli} run src/app.point smoke`.cwd(appDir).quiet();
+			expect(run.stdout.toString().trim()).toBe("ready");
+			const test = await Bun.$`bun ${cli} test tests/score.test.point`.cwd(appDir).quiet();
+			expect(test.stdout.toString()).toContain('"ok": true');
+		} finally {
+			await rm(projectDir, { recursive: true, force: true });
+		}
+	}, 60000);
 
 	test("full-stack-app template still scaffolds and launches", async () => {
 		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });

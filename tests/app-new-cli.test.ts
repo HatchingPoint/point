@@ -5,10 +5,12 @@ import { join } from "node:path";
 import {
 	bundledTemplateDir,
 	DEFAULT_APP_TEMPLATE_ID,
+	FULL_STACK_APP_TEMPLATE_ID,
 	fullStackTemplateDir,
 	locatePointToolkitRoot,
 	parseCreateAppArgs,
 	REPO_TEMPLATE_REL,
+	RUNTIME_APP_TEMPLATE_ID,
 	resolveAppTemplateDir,
 	scaffoldAppFromTemplate,
 	validateAppName,
@@ -45,16 +47,22 @@ describe("full-stack template and point create", () => {
 		expect(() => validateAppName("")).toThrow(/Invalid app name/);
 	});
 
-	test("bundled template ships inside @hatchingpoint/point package", () => {
+	test("bundled default template ships inside @hatchingpoint/point package", () => {
 		const bundled = bundledTemplateDir(DEFAULT_APP_TEMPLATE_ID);
 		expect(existsSync(bundled)).toBe(true);
 		expect(existsSync(join(bundled, "src/app.point"))).toBe(true);
-		expect(existsSync(join(bundled, "package.json"))).toBe(true);
+		expect(existsSync(join(bundled, "point.json"))).toBe(true);
 		expect(existsSync(join(bundled, ".gitignore"))).toBe(true);
+		expect(JSON.parse(readFileSync(join(bundled, "point.json"), "utf8")).runtime).toBe("owned");
 	});
 
-	test("resolveAppTemplateDir prefers bundled template over repo walk", () => {
+	test("resolveAppTemplateDir prefers bundled runtime template", () => {
 		const dir = resolveAppTemplateDir(DEFAULT_APP_TEMPLATE_ID);
+		expect(dir.replaceAll("\\", "/")).toContain("/packages/point/templates/runtime-app");
+	});
+
+	test("full-stack template resolves explicitly", () => {
+		const dir = resolveAppTemplateDir(FULL_STACK_APP_TEMPLATE_ID);
 		expect(dir.replaceAll("\\", "/")).toContain("/packages/point/templates/full-stack-app");
 	});
 
@@ -106,15 +114,19 @@ describe("full-stack template and point create", () => {
 		await Bun.$`bun ${cli} check ${join(target, "src/app.point")}`.cwd(target).quiet();
 	});
 
-	test("scaffold uses bundled template directory", async () => {
+	test("scaffold uses bundled runtime template directory", async () => {
 		const result = await scaffoldAppFromTemplate("bundled-app", { cwd: projectDir });
-		expect(result.templateDir.replaceAll("\\", "/")).toContain("/packages/point/templates/full-stack-app");
+		expect(result.templateDir.replaceAll("\\", "/")).toContain("/packages/point/templates/runtime-app");
+		expect(result.templateId).toBe(RUNTIME_APP_TEMPLATE_ID);
+		const manifest = JSON.parse(readFileSync(join(projectDir, "bundled-app", "point.json"), "utf8")) as { runtime?: string };
+		expect(manifest.runtime).toBe("owned");
 		expect(existsSync(join(projectDir, "bundled-app", "package.json"))).toBe(true);
 	});
 
 	test("npm-style package layout scaffolds without repo examples path", async () => {
 		const miniPackage = join(projectDir, "mini-point");
 		await cp(join(repoRoot, "packages/point/src"), join(miniPackage, "src"), { recursive: true });
+		await cp(join(repoRoot, "packages/point/runtime"), join(miniPackage, "runtime"), { recursive: true });
 		await cp(join(repoRoot, "packages/point/templates"), join(miniPackage, "templates"), { recursive: true });
 		const miniCli = join(miniPackage, "src/cli.ts");
 		await Bun.$`bun ${miniCli} create npm-style-app`.cwd(projectDir).quiet();
@@ -123,13 +135,23 @@ describe("full-stack template and point create", () => {
 		await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
 	});
 
-	test("point create CLI creates scaffold in cwd", async () => {
-		const name = "demo-saas";
+	test("point create CLI creates runtime-native scaffold in cwd", async () => {
+		const name = "demo-runtime";
 		await Bun.$`bun ${cli} create ${name}`.cwd(projectDir).quiet();
 		const appDir = join(projectDir, name);
 		expect(existsSync(join(appDir, "src/app.point"))).toBe(true);
-		const manifest = JSON.parse(readFileSync(join(appDir, "point.json"), "utf8")) as { name: string };
+		const manifest = JSON.parse(readFileSync(join(appDir, "point.json"), "utf8")) as { name: string; runtime?: string };
 		expect(manifest.name).toBe(name);
+		expect(manifest.runtime).toBe("owned");
+		await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
+		const blocked = await Bun.$`bun ${cli} build-ts src/app.point generated/app.ts`.cwd(appDir).quiet().nothrow();
+		expect(blocked.exitCode).toBe(1);
+	});
+
+	test("point create full-stack template still emits TypeScript", async () => {
+		const name = "demo-saas";
+		await Bun.$`bun ${cli} create ${name} --template ${FULL_STACK_APP_TEMPLATE_ID}`.cwd(projectDir).quiet();
+		const appDir = join(projectDir, name);
 		await Bun.$`bun ${cli} build-ts src/app.point generated/app.ts`.cwd(appDir).quiet();
 		expect(existsSync(join(appDir, "generated/app.ts"))).toBe(true);
 	});
@@ -164,7 +186,6 @@ describe("full-stack template and point create", () => {
 		});
 		expect(result.templateId).toBe("saas-app");
 		const appDir = join(projectDir, "saas-demo");
-		await installLocalPoint(appDir);
 		await Bun.$`bun ${cli} launch src/app.point admin demo`.cwd(appDir).quiet();
 	});
 

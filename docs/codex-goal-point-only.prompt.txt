@@ -1,0 +1,16 @@
+Read docs/point-runtime-pivot.md, docs/codex-goal-point-only.md, and docs/codex-progress-point-only.md first.
+
+HARD PIVOT — NO FALLBACK POLICY (non-negotiable):
+- Home base experiments/point-only/** uses runtime ONLY — never add if (!runtime) emit or author *-runtime.js shims
+- When stuck: extend packages/point/runtime/ or std builtins — NOT JS in the app tree
+- Move fast, break things: delete superseded dual-path code on home base after each integrator
+- Parity emit tests are temporary until R2-E; then cut home-base emit
+
+Execute the next incomplete R track in wave order. Respect file ownership.
+
+Append checkpoint to docs/codex-progress-point-only.md.
+Do NOT commit or push unless user asked.
+
+Wave order: R0 parallel → integrator → R1 parallel → integrator → R2 (A solo, then B/C/D) → integrator → R3 → R4.
+
+If pivot exit gate passes, append PIVOT COMPLETE and stop.

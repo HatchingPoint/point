@@ -1,0 +1,15 @@
+# Point-only experiment + compiler work — hands-off Codex from repo root.
+# Launch: codex   (from point-1 root)
+
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = true
+
+[profiles.point-only]
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[profiles.point-only.sandbox_workspace_write]
+network_access = true

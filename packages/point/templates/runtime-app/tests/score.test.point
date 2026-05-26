@@ -1,0 +1,57 @@
+module PointOnlyScoreTest
+
+record Deploy Signals
+  has build artifact: Bool
+  has passing checks: Bool
+  has rollback plan: Bool
+  has owner approval: Bool
+
+rule deploy readiness
+  input signals: Deploy Signals
+  output score: Int
+  score starts at 0
+  add 25 when signals.has build artifact
+  add 35 when signals.has passing checks
+  add 20 when signals.has rollback plan
+  add 20 when signals.has owner approval
+  return score
+
+label readiness label
+  input score: Int
+  output Text
+  when score >= 90 return "ready"
+  when score >= 70 return "review"
+  when score >= 40 return "blocked"
+  otherwise return "not ready"
+
+label readiness tone
+  input score: Int
+  output Text
+  when score >= 90 return "positive"
+  when score >= 70 return "caution"
+  when score >= 40 return "warning"
+  otherwise return "critical"
+
+calculation complete signals
+  output signals: Deploy Signals
+  return { has build artifact: true, has passing checks: true, has rollback plan: true, has owner approval: true }
+
+calculation test ready label
+  output passed: Bool
+  return readiness label(90) == "ready"
+
+calculation test review label
+  output passed: Bool
+  return readiness label(70) == "review"
+
+calculation test blocked label
+  output passed: Bool
+  return readiness label(40) == "blocked"
+
+calculation test critical tone
+  output passed: Bool
+  return readiness tone(39) == "critical"
+
+calculation test perfect score
+  output passed: Bool
+  return deploy readiness(complete signals()) == 100

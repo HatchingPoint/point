@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.1
+
+### Changed
+
+- Default `point create` template is now `runtime-app` with `point.json` `runtime: "owned"` (owned interpreter, HTTP, SSR — no Vite/React).
+- Legacy `full-stack-app`, `saas-app`, and `vercel-app` templates remain via `--template`.
+
+## 0.2.0
+
+### Added
+
+- Owned runtime stack: bytecode interpreter, HTTP server, and SSR for `experiments/point-only` with home-base CLI routing and no emit/React/Vite fallbacks.
+
 ## 0.1.55
 
 ### Added

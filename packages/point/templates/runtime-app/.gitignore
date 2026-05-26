@@ -1,0 +1,4 @@
+.point-cache/
+generated/
+node_modules/
+data/

@@ -18,6 +18,9 @@ export interface PointModuleEmitConfig {
 export interface PointManifest {
 	name: string;
 	version: string;
+	entry?: string;
+	/** When `"owned"`, run/dev/serve/test use packages/point/runtime with no emit fallbacks. */
+	runtime?: "owned";
 	dependencies?: Record<string, string>;
 	emit?: PointEmitTarget;
 	target?: PointEmitTarget;
