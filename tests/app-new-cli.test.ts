@@ -115,6 +115,7 @@ describe("full-stack template and point create", () => {
 	test("npm-style package layout scaffolds without repo examples path", async () => {
 		const miniPackage = join(projectDir, "mini-point");
 		await cp(join(repoRoot, "packages/point/src"), join(miniPackage, "src"), { recursive: true });
+		await cp(join(repoRoot, "packages/point/runtime"), join(miniPackage, "runtime"), { recursive: true });
 		await cp(join(repoRoot, "packages/point/templates"), join(miniPackage, "templates"), { recursive: true });
 		const miniCli = join(miniPackage, "src/cli.ts");
 		await Bun.$`bun ${miniCli} create npm-style-app`.cwd(projectDir).quiet();
