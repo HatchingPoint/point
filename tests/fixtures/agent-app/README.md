@@ -12,7 +12,7 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | **app-repair** | Agent wired a full app but left one mistake | check-json → line fix → `point check` (full app graph) |
 | **refactor** | Rename/move blocks across app (partial agent rename) | Golden structure + check |
 
-## Cases (12)
+## Cases (13)
 
 | ID | Category | Source example |
 |----|----------|----------------|
@@ -20,6 +20,7 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | `dashboard-search-wiring` | app-repair | dashboard golden |
 | `notes-add-detail` | feature-add | `examples/app/notes/` |
 | `notes-detail-wiring` | app-repair | notes detail load action typo |
+| `notes-create-form-wiring` | app-repair | notes create form textarea bind target |
 | `dashboard-rename-products` | refactor | dashboard items → products |
 | `ops-add-dashboard` | feature-add | job-queue pattern |
 | `sse-add-live-feed` | feature-add | sse-dashboard |

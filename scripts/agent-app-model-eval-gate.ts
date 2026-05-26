@@ -8,7 +8,7 @@ import {
 
 /** Minimum fixture counts — bump when adding cases; gate fails if cases are removed silently. */
 export const AGENT_APP_MODEL_EVAL_GATE_THRESHOLDS = {
-	minCases: 12,
+	minCases: 13,
 	/** Every case must have golden-derived edits that pass point check (no LLM). */
 	requiredGoldenEditPassRate: 1,
 } as const;

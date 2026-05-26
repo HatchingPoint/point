@@ -126,6 +126,10 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 		return `error TS2304: Cannot find name 'refetch'.
   at components/OpsDashboard.tsx:12:51`;
 	}
+	if (testCase.id === "notes-create-form-wiring") {
+		return `error TS2339: Property 'options' does not exist on type 'CreateNoteInput'.
+  at components/NoteCreateForm.tsx:15:28`;
+	}
 	if (testCase.id === "notes-detail-wiring") {
 		return `error TS2304: Cannot find name 'fetchNote'.
   at components/NoteDetail.tsx:8:42`;
@@ -385,6 +389,8 @@ export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdi
 			];
 		case "ops-dashboard-refresh-wiring":
 			return [{ kind: "insertAfterLine", line: 34, lines: ["  load data from action fetch ops dashboard"] }];
+		case "notes-create-form-wiring":
+			return [{ kind: "replaceLine", line: 58, text: '  bind textarea "Body" to draft.body' }];
 		case "notes-detail-wiring":
 			return [{ kind: "replaceLine", line: 47, text: "  load data from action get note" }];
 		default:

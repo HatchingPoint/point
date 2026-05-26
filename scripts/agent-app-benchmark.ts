@@ -303,6 +303,27 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 		},
 	},
 	{
+		id: "notes-create-form-wiring",
+		title: "Notes — fix create form textarea bind target",
+		category: "app-repair",
+		agentTask:
+			"Fix the note create form textarea bind target — bind textarea Body must target draft.body, not draft options body.",
+		baseFile: "notes-detail-wiring/golden.point",
+		brokenFile: "notes-create-form-wiring/broken.point",
+		goldenFile: "notes-create-form-wiring/golden.point",
+		expectedCode: "invalid-view-bind-target",
+		requiredDeclarations: ["view note create form", "action create note", "page note create page"],
+		requiredNavPaths: ["/notes/new"],
+		sourceExample: "examples/app/notes/notes.point",
+		nextNotesCaseId: "notes-add-detail",
+		typescriptContext: {
+			taskDescription:
+				"Fix NoteCreateForm textarea bind in a Next.js notes app — body field must bind to draft.body not draft.options.body.",
+			totalChars: 18000,
+			excerpt: "",
+		},
+	},
+	{
 		id: "notes-detail-wiring",
 		title: "Notes — wire detail page load action",
 		category: "app-repair",

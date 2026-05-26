@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-app-cases.v1",
-  "generatedAt": "2026-05-26T10:11:45.963Z",
+  "generatedAt": "2026-05-26T10:23:56.065Z",
   "cases": [
     {
       "id": "dashboard-add-search",
@@ -406,6 +406,44 @@
       "ciPass": true
     },
     {
+      "id": "notes-create-form-wiring",
+      "title": "Notes — fix create form textarea bind target",
+      "category": "app-repair",
+      "agentTask": "Fix the note create form textarea bind target — bind textarea Body must target draft.body, not draft options body.",
+      "sourceExample": "examples/app/notes/notes.point",
+      "baseLines": 95,
+      "goldenLines": 95,
+      "deltaLines": 0,
+      "baseSource": "module NotesApp\n\nrecord Note\n  id: Text\n  title: Text\n  body: Text\n\nrecord Create Note Input\n  title: Text\n  body: Text\n\ncalculation sample notes\n  output notes: List<Note>\n  return [{ id: \"n1\", title: \"Hello\", body: \"World\" }, { id: \"n2\", title: \"Draft\", body: \"Work in progress\" }]\n\naction list notes\n  output notes: List<Note>\n  touches none\n  return sample notes()\n\naction create note\n  input input: Create Note Input\n  output note: Note\n  touches none\n  return { id: \"new\", title: input.title, body: input.body }\n\naction get note\n  input id: Text\n  output note: Note\n  touches none\n  return { id: id, title: \"Note \" + id, body: \"Detail for \" + id }\n\nview notes nav\n  link \"Notes\" to \"/notes\"\n  link \"New note\" to \"/notes/new\"\n  render \"Notes app\"\n\nview notes list\n  load data from action list notes\n  when loading render \"Loading notes...\"\n  when error render \"Could not load notes\"\n  when empty render \"No notes yet\"\n  each note in data render link note.title to \"/notes/\" + note.id\n\nview note detail\n  input id: Text\n  load data from action get note\n  when loading render \"Loading note...\"\n  when error render \"Could not load note\"\n  render \"Note detail for \" + id\n\nview note create form\n  input draft: Create Note Input\n  input on draft change: Handler<Create Note Input>\n  on change call on draft change\n  form\n  bind field \"Title\" to draft.title\n  bind field \"Body\" to draft.body\n  render \"Create a note\"\n\nlayout notes shell\n  slot sidebar render notes nav()\n  slot main render \"Select a notes page\"\n\npage notes list page\n  layout notes shell\n  title \"Notes\"\n  description \"Browse saved notes\"\n  main render notes list()\n\npage note create page\n  layout notes shell\n  input draft: Create Note Input\n  input on draft change: Handler<Create Note Input>\n  title \"New note\"\n  description \"Create a note\"\n  main render note create form(draft, on draft change)\n\npage note detail page\n  layout notes shell\n  input id: Text\n  title \"Note detail\"\n  description \"Read a saved note\"\n  main render note detail(id)\n\nnavigation notes app\n  path \"/notes\" page notes list page\n  path \"/notes/new\" page note create page\n  path \"/notes/:id\" page note detail page\n  bootstrap router\n\ncommand notes demo\n  output result: Text\n  return \"Notes app ready\"\n",
+      "brokenSource": "module NotesApp\n\nrecord Note\n  id: Text\n  title: Text\n  body: Text\n\nrecord Create Note Input\n  title: Text\n  body: Text\n\ncalculation sample notes\n  output notes: List<Note>\n  return [{ id: \"n1\", title: \"Hello\", body: \"World\" }, { id: \"n2\", title: \"Draft\", body: \"Work in progress\" }]\n\naction list notes\n  output notes: List<Note>\n  touches none\n  return sample notes()\n\naction create note\n  input input: Create Note Input\n  output note: Note\n  touches none\n  return { id: \"new\", title: input.title, body: input.body }\n\naction get note\n  input id: Text\n  output note: Note\n  touches none\n  return { id: id, title: \"Note \" + id, body: \"Detail for \" + id }\n\nview notes nav\n  link \"Notes\" to \"/notes\"\n  link \"New note\" to \"/notes/new\"\n  render \"Notes app\"\n\nview notes list\n  load data from action list notes\n  when loading render \"Loading notes...\"\n  when error render \"Could not load notes\"\n  when empty render \"No notes yet\"\n  each note in data render link note.title to \"/notes/\" + note.id\n\nview note detail\n  input id: Text\n  load data from action get note\n  when loading render \"Loading note...\"\n  when error render \"Could not load note\"\n  render \"Note detail for \" + id\n\nview note create form\n  input draft: Create Note Input\n  input on draft change: Handler<Create Note Input>\n  on change call on draft change\n  form\n  bind field \"Title\" to draft.title\n  bind textarea \"Body\" to draft options body\n  render \"Create a note\"\n\nlayout notes shell\n  slot sidebar render notes nav()\n  slot main render \"Select a notes page\"\n\npage notes list page\n  layout notes shell\n  title \"Notes\"\n  description \"Browse saved notes\"\n  main render notes list()\n\npage note create page\n  layout notes shell\n  input draft: Create Note Input\n  input on draft change: Handler<Create Note Input>\n  title \"New note\"\n  description \"Create a note\"\n  main render note create form(draft, on draft change)\n\npage note detail page\n  layout notes shell\n  input id: Text\n  title \"Note detail\"\n  description \"Read a saved note\"\n  main render note detail(id)\n\nnavigation notes app\n  path \"/notes\" page notes list page\n  path \"/notes/new\" page note create page\n  path \"/notes/:id\" page note detail page\n  bootstrap router\n\ncommand notes demo\n  output result: Text\n  return \"Notes app ready\"\n",
+      "goldenSource": "module NotesApp\n\nrecord Note\n  id: Text\n  title: Text\n  body: Text\n\nrecord Create Note Input\n  title: Text\n  body: Text\n\ncalculation sample notes\n  output notes: List<Note>\n  return [{ id: \"n1\", title: \"Hello\", body: \"World\" }, { id: \"n2\", title: \"Draft\", body: \"Work in progress\" }]\n\naction list notes\n  output notes: List<Note>\n  touches none\n  return sample notes()\n\naction create note\n  input input: Create Note Input\n  output note: Note\n  touches none\n  return { id: \"new\", title: input.title, body: input.body }\n\naction get note\n  input id: Text\n  output note: Note\n  touches none\n  return { id: id, title: \"Note \" + id, body: \"Detail for \" + id }\n\nview notes nav\n  link \"Notes\" to \"/notes\"\n  link \"New note\" to \"/notes/new\"\n  render \"Notes app\"\n\nview notes list\n  load data from action list notes\n  when loading render \"Loading notes...\"\n  when error render \"Could not load notes\"\n  when empty render \"No notes yet\"\n  each note in data render link note.title to \"/notes/\" + note.id\n\nview note detail\n  input id: Text\n  load data from action get note\n  when loading render \"Loading note...\"\n  when error render \"Could not load note\"\n  render \"Note detail for \" + id\n\nview note create form\n  input draft: Create Note Input\n  input on draft change: Handler<Create Note Input>\n  on change call on draft change\n  form\n  bind field \"Title\" to draft.title\n  bind textarea \"Body\" to draft.body\n  render \"Create a note\"\n\nlayout notes shell\n  slot sidebar render notes nav()\n  slot main render \"Select a notes page\"\n\npage notes list page\n  layout notes shell\n  title \"Notes\"\n  description \"Browse saved notes\"\n  main render notes list()\n\npage note create page\n  layout notes shell\n  input draft: Create Note Input\n  input on draft change: Handler<Create Note Input>\n  title \"New note\"\n  description \"Create a note\"\n  main render note create form(draft, on draft change)\n\npage note detail page\n  layout notes shell\n  input id: Text\n  title \"Note detail\"\n  description \"Read a saved note\"\n  main render note detail(id)\n\nnavigation notes app\n  path \"/notes\" page notes list page\n  path \"/notes/new\" page note create page\n  path \"/notes/:id\" page note detail page\n  bootstrap router\n\ncommand notes demo\n  output result: Text\n  return \"Notes app ready\"\n",
+      "checkJson": "{\n  \"schemaVersion\": \"point.core.check.v1\",\n  \"ok\": false,\n  \"diagnostics\": [\n    {\n      \"code\": \"invalid-view-bind-target\",\n      \"message\": \"View note create form bind textarea target must be input.field\",\n      \"path\": \"view.note create form\",\n      \"ref\": \"point://semantic/NotesApp/view.note create form\",\n      \"severity\": \"error\",\n      \"span\": {\n        \"start\": {\n          \"line\": 58,\n          \"column\": 1,\n          \"offset\": 1356\n        },\n        \"end\": {\n          \"line\": 58,\n          \"column\": 45,\n          \"offset\": 1400\n        }\n      },\n      \"repair\": \"Use bind textarea \\\"Body\\\" to draft.body.\",\n      \"expected\": \"draft.body\"\n    }\n  ]\n}",
+      "diagnosticCode": "invalid-view-bind-target",
+      "requiredDeclarations": [
+        "view note create form",
+        "action create note",
+        "page note create page"
+      ],
+      "requiredNavPaths": [
+        "/notes/new"
+      ],
+      "contextTokens": 166,
+      "contextChars": 665,
+      "tsContextTokens": 820,
+      "tsContextSource": "measured",
+      "tsHeuristicTokens": 4500,
+      "tsTaskDescription": "Fix NoteCreateForm textarea bind in a Next.js notes app — body field must bind to draft.body not draft.options.body.",
+      "typescriptExcerpt": "// app/notes/layout.tsx\nimport { NotesNav } from \"../../components/NotesNav\";\n\nexport default function NotesLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div>\n      <aside>\n        <NotesNav />\n      </aside>\n      <main>{children}</main>\n    </div>\n  );\n}\n\n// app/notes/page.tsx\nimport { NotesList } from \"../../../components/NotesList\";\nimport { listNotes } from \"../../../lib/notes\";\n\nexport default async function NotesPage() {\n  const notes = await listNotes();\n  return (\n    <section>\n      <h1>Notes</h1>\n      <NotesList notes={notes} />\n    </section>\n  );\n}\n\n// app/notes/new/page.tsx\nimport { NoteCreateForm } from \"../../../components/NoteCreateForm\";\n\nconst draft = { title: \"\", body: \"\" };\n\nexport default function NewNotePage() {\n  return (\n    <section>\n      <h1>New note</h1>\n      <NoteCreateForm draft={draft} onDraftChange={() => undefined} />\n    </section>\n  );\n}\n\n// app/notes/[id]/page.tsx\nimport { NoteDetail } from \"../../../components/NoteDetail\";\n\nexport default async function NoteDetailPage({ params }: { params: { id: string } }) {\n  return (\n    <section>\n      <h1>Note detail</h1>\n      <NoteDetail id={params.id} />\n    </section>\n  );\n}\n\n",
+      "nextDashboardCaseId": null,
+      "nextNotesCaseId": "notes-add-detail",
+      "nextOpsCaseId": null,
+      "nextDashboardFilesMissing": [
+        "lib/getNote.ts"
+      ],
+      "tokenReductionPercent": 80,
+      "ciPass": true
+    },
+    {
       "id": "notes-detail-wiring",
       "title": "Notes — wire detail page load action",
       "category": "app-repair",
@@ -445,7 +483,7 @@
     }
   ],
   "summary": {
-    "caseCount": 12,
+    "caseCount": 13,
     "categories": [
       "feature-add",
       "app-repair",

@@ -1438,3 +1438,11 @@ Codex appends a checkpoint here after each verified section. Do not delete entri
 - Checkboxes marked: Phase 78 P78-1.
 - Next: P78-2 notes create-form app-repair.
 - Blocked: none
+
+## Checkpoint Phase 78 P78-2 — Notes create-form app-repair
+
+- Completed: `notes-create-form-wiring` app-repair fixture (`bind textarea "Body" to draft options body` → `draft.body`); registered in `agent-app-benchmark.ts`, `goldenEditsForCase`, model-eval TSC stub; agent-app gate **13** + model-eval gate **13**; re-exported `benchmarks/agent-app-cases.json`.
+- Verified: `bun run ci` green.
+- Checkboxes marked: Phase 78 P78-2.
+- Next: P78-3 CI + gates confirmation.
+- Blocked: none
