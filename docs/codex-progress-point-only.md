@@ -750,3 +750,21 @@ Agents append checkpoints after each R goal. Do not delete entries.
   - `bun test tests/runtime-owned-author-surface.test.ts`
   - `bun test` (854 pass)
 - No commit was made.
+
+## 2026-05-27 - Post-pivot P7-B Runtime deploy docs
+
+- Added `docs/site/ecosystem/runtime-deploy.md` for owned-runtime production deploy (Render/Railway/Fly, Docker, env vars, runtime-saas checklist).
+- Updated `docs/site/toolchain/deploy.md` and `docs/site/guide/quick-start.md` to lead with owned runtime and link the new page.
+- Verification: `bun run check-docs` passed.
+
+## 2026-05-27 - Post-pivot P7-C Manifest-only runtime routing
+
+- Removed `experiments/point-only` path hard-code from `packages/point/src/core/runtime-project.ts`; `isRuntimeNativeInput` now relies on `point.json` `runtime: "owned"` only.
+- Updated `tests/runtime-project.test.ts` to assert home base detection via manifest.
+- Verification: `bun test tests/runtime-project.test.ts` passed.
+
+## 2026-05-27 - Post-pivot P7 docs reframe (UI + stdlib bridge)
+
+- Updated `docs/site/language/ui.md` — owned runtime SSR as default; React emit scoped to legacy templates.
+- Updated `docs/site/stdlib/bridge.md` — runtime std-dispatch path for owned apps; emit bridge labeled legacy.
+- Updated `docs/point-runtime-pivot.md` post-pivot checklist through P6; added P7/P8 tracks and P7 goals in `docs/codex-goal-point-only.md`.

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { POINT_MANIFEST, type PointManifest } from "./packages.ts";
 
 export const RUNTIME_OWNED = "owned";
@@ -29,9 +29,5 @@ export function findRuntimeOwnedProjectRoot(input: string, cwd = process.cwd()):
 }
 
 export function isRuntimeNativeInput(input: string, cwd = process.cwd()): boolean {
-	const relativeInput = relative(cwd, resolve(cwd, input)).replaceAll("\\", "/");
-	if (relativeInput === "experiments/point-only" || relativeInput.startsWith("experiments/point-only/")) {
-		return true;
-	}
 	return findRuntimeOwnedProjectRoot(input, cwd) !== null;
 }

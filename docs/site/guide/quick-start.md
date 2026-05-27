@@ -112,7 +112,7 @@ Those React + Vite templates print their own UI/API URLs when `point dev` starts
 
 Walkthrough: [Golden app demo](/point/guide/golden-app-demo).
 
-Production (runtime app): `bun run serve`. Legacy template: `bun run build` then `bun run serve`. See [Deploy](/point/toolchain/deploy).
+Production (runtime app): `bun run serve`. Legacy template: `bun run build` then `bun run serve`. See [Deploy runtime-owned apps](/point/ecosystem/runtime-deploy) and [Deploy](/point/toolchain/deploy).
 
 Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.
 

@@ -6,11 +6,24 @@ quadrant: Explanation
 
 ## Summary
 
-Point keeps application logic in semantic `.point` files. When that logic needs npm packages, Node built-ins, or (for pure modules) Python, the compiler emits explicit import boundaries — never hidden magic.
+Point keeps application logic in semantic `.point` files. **Runtime-owned apps** (`point.json` `runtime: "owned"`) resolve `use std.*` and `capabilities` through `packages/point/runtime/std-dispatch.ts` — no npm std imports in author source.
 
-The **stdlib bridge** is the pattern where `std/*.point` modules declare typed `external` blocks that import runtime helpers from `@hatchingpoint/point/std/*`. Application code imports std with `use std.http` (and similar) instead of repeating raw externals.
+**Legacy emit apps** and pure logic modules still use the stdlib bridge: `std/*.point` declares typed `external` blocks that import runtime helpers from `@hatchingpoint/point/std/*`, and the compiler emits explicit import boundaries.
 
-## The bridge in one picture
+## Owned runtime std (default apps)
+
+```text
+Author (.point)                    Runtime (packages/point/runtime/)
+──────────────────────────────────────────────────────────────────
+capabilities http json sql    →    std-dispatch → builtins/*.ts
+use std.http in actions       →    interpreter awaits host IO
+```
+
+Authors import with `capabilities` or `use std.*`. Host code lives only inside the runtime package — not in app-tree `*.js` shims.
+
+## Legacy emit bridge
+
+When emit is the execution path (legacy templates, `point build`, examples):
 
 ```text
 Author (.point)          Compiler                 Runtime
@@ -20,7 +33,7 @@ external node fs  →   check + emit JS/TS   →   import from "node:fs"
 calculation …     →   point build-py       →   pure Python module (no IO yet)
 ```
 
-Authors stay on the left. Generated JavaScript or TypeScript (default) and optional Python (pure logic) sit on the right.
+Authors stay on the left. Generated JavaScript or TypeScript and optional Python sit on the right.
 
 ## external blocks
 
@@ -122,7 +135,7 @@ python -c "import importlib.util; spec=importlib.util.spec_from_file_location('m
 | Records, calculations, rules, labels | ✅ | ✅ |
 | Actions | ✅ async JS | ✅ async Python (minimal; see limits below) |
 | Workflows, commands | ✅ | ⏳ skipped with comment |
-| Views, routes | ✅ React/Hono targets | ⏳ not emitted |
+| Views, routes | ✅ Owned runtime SSR (default) or React/Hono emit (legacy) | ⏳ not emitted |
 | npm-style `external` | ✅ ES imports | Minimal shims only |
 | `use std.*` IO | ✅ via `@hatchingpoint/point/std/*` | ⏳ no Python std mirror yet |
 

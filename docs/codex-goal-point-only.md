@@ -231,3 +231,37 @@ Open **four** Codex chats. Paste one goal each.
 | **R4** | R4-A … R4-E → integrator |
 
 **Loop:** paste [codex-goal-point-only.prompt.txt](./codex-goal-point-only.prompt.txt) into `/loop`.
+
+---
+
+## Post-pivot P7 (product depth)
+
+### P7-A1 — Runtime SSR datagrid
+
+```text
+/goal Post-pivot P7-A1: Add runtime SSR datagrid with sort/filter in packages/point/runtime/ssr/. tests/runtime/ssr-datagrid.test.ts. bun test tests/runtime. Append docs/codex-progress-point-only.md. Do NOT commit unless user asked.
+```
+
+### P7-A2 — Runtime SSR forms (bind select/textarea, toast)
+
+```text
+/goal Post-pivot P7-A2: Add runtime SSR bind select, bind textarea, toast on success/error in packages/point/runtime/ssr/. tests/runtime/ssr-forms.test.ts. bun test tests/runtime. Append progress. Do NOT commit unless user asked.
+```
+
+### P7-B — Runtime deploy docs
+
+```text
+/goal Post-pivot P7-B: Verify docs/site/ecosystem/runtime-deploy.md covers owned-runtime deploy (Render/Railway/Fly, Docker, env vars, runtime-saas). Link from quick-start and deploy.md. bun run check-docs. Append progress. Do NOT commit unless user asked.
+```
+
+### P7-C — Manifest-only routing
+
+```text
+/goal Post-pivot P7-C: Remove experiments/point-only hard-code from packages/point/src/core/runtime-project.ts; rely on point.json runtime:owned only. Update tests/runtime-project.test.ts. bun test tests/runtime-project.test.ts. Append progress. Do NOT commit unless user asked.
+```
+
+### P7-D — LandingPage live demo
+
+```text
+/goal Post-pivot P7-D: In ../LandingPage add or update /point/examples with runtime-native demo narrative (owned SSR, not Vite). npm run build. Commit and push LandingPage. Append progress with commit hash.
+```

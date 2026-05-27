@@ -6,7 +6,9 @@ quadrant: Reference
 
 ## Summary
 
-Point source stays in `.point` files. Deploy pipelines **check**, **build** emit, then run or host the generated JavaScript or TypeScript. The CLI does not upload binaries or provision cloud resources — you wire the same artifacts into Bun, Vercel, or your own host.
+**Default path:** apps with `point.json` `"runtime": "owned"` deploy as one Bun process — `point serve` runs owned HTTP, SSR, forms, and JSON routes with no Vite or React build. See [Deploy runtime-owned apps](/point/ecosystem/runtime-deploy).
+
+**Legacy path:** emit-based apps check, build JavaScript or TypeScript, then run through Bun, Vercel, or your host. The CLI does not upload binaries or provision cloud resources — you wire artifacts into your platform.
 
 ## Production build
 
@@ -124,6 +126,7 @@ point dev src/app.point --port 3456   # hot reload; not for production
 
 ## See also
 
+- [Deploy runtime-owned apps](/point/ecosystem/runtime-deploy)
 - [Dev and serve](/point/toolchain/dev)
 - [Build and emit](/point/toolchain/build-emit)
 - [point run](/point/toolchain/run)

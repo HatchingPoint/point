@@ -1,18 +1,32 @@
 ---
 title: UI
-description: view, page, layout, and navigation blocks for React-oriented applications.
+description: view, page, layout, and navigation — owned runtime SSR by default; React emit for legacy templates.
 quadrant: Reference
 ---
 
 ## Summary
 
-UI blocks connect application logic to React-style components and multi-page app shells — still checked as Point source first.
+UI blocks describe pages, layouts, navigation, forms, and view fragments in Point source. **Default apps** (`point.json` `runtime: "owned"`) render through **owned runtime SSR** — HTML strings from `packages/point/runtime/ssr/` with no React or Vite in the author tree.
+
+**Legacy emit apps** (`--template full-stack-app`, `saas-app`, `vercel-app`) still lower views to React-style components consumed by a generated TypeScript host — see [Build and emit](/point/toolchain/build-emit).
+
+## Owned runtime SSR (default)
+
+`point dev` and `point serve` interpret view, page, layout, and navigation blocks directly. Authors stay in `.point`; the runtime owns HTTP, form POST handling, and link navigation.
+
+Scaffold and run:
+
+```bash
+point create my-app
+cd my-app
+point dev src/app.point
+```
 
 ## view
 
-React-oriented UI (first target). See `examples/view.point`.
+See `examples/view.point` for syntax. Callable expressions in `render` and `when ... render` clauses produce dynamic content.
 
-Callable expressions in `render` and `when ... render` clauses produce dynamic content in views. Use `point build` when a host framework consumes the output — see [Build and emit](/point/toolchain/build-emit).
+For **legacy React hosts**, use `point build-ts` when a generated TypeScript bundle consumes the output — not required for owned-runtime apps.
 
 ### Semantic styling
 

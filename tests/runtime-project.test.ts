@@ -6,7 +6,8 @@ import { tmpdir } from "node:os";
 import { findRuntimeOwnedProjectRoot, isRuntimeNativeInput } from "../packages/point/src/core/runtime-project.ts";
 
 describe("runtime-owned project detection", () => {
-	test("detects experiments/point-only by repo path", () => {
+	test("detects experiments/point-only via runtime owned manifest", () => {
+		expect(findRuntimeOwnedProjectRoot("experiments/point-only/src/app.point")).toBeTruthy();
 		expect(isRuntimeNativeInput("experiments/point-only/src/app.point")).toBe(true);
 	});
 
