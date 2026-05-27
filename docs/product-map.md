@@ -101,7 +101,7 @@ When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point se
 
 ## Version anchor
 
-Update this line each release: **v0.2.1** — runtime-native `point create` default (`runtime-app`) with legacy Vite/React templates as explicit opt-ins.
+Update this line each release: **v0.2.2** — runtime-native `point create` default, runtime SaaS template, runtime std dispatch, and repo-wide CI green.
 
 ## Open source (public messaging)
 

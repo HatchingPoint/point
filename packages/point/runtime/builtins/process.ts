@@ -1,6 +1,6 @@
-type PointStdError = { message: string };
+export type PointRuntimeProcessError = { message: string };
 
-export type ProcessResult = {
+export type PointRuntimeProcessResult = {
 	stdout: string;
 	stderr: string;
 	exitCode: number;
@@ -20,11 +20,7 @@ function normalizeCommand(command: string, args: string[]): string[] {
 	if (process.platform !== "win32") return [command, ...args];
 	if (command.toLowerCase() === "echo") return ["cmd", "/d", "/s", "/c", `echo ${args.join(" ")}`];
 	if (command === "sh" && args[0] === "-c" && args[1]?.includes("while [ $i -lt")) {
-		return [
-			"bun",
-			"-e",
-			"for (let i = 0; i < 12; i++) { console.log(`pulse-${i}`); await Bun.sleep(200); }",
-		];
+		return ["bun", "-e", "for (let i = 0; i < 12; i++) { console.log(`pulse-${i}`); await Bun.sleep(200); }"];
 	}
 	if (command === "sh") return ["bash", ...args];
 	return [command, ...args];
@@ -38,7 +34,7 @@ export async function processSpawn(
 	command: string,
 	args: string[],
 	envEntries: string[],
-): Promise<ProcessResult | PointStdError> {
+): Promise<PointRuntimeProcessResult | PointRuntimeProcessError> {
 	try {
 		const proc = Bun.spawn(normalizeCommand(command, args), {
 			env: parseEnvEntries(envEntries),
@@ -70,7 +66,7 @@ export async function* processStreamLines(
 	command: string,
 	args: string[],
 	envEntries: string[],
-): AsyncGenerator<string, ProcessResult | PointStdError, unknown> {
+): AsyncGenerator<string, PointRuntimeProcessResult | PointRuntimeProcessError, unknown> {
 	let proc: ReturnType<typeof Bun.spawn> | undefined;
 	try {
 		proc = Bun.spawn(normalizeCommand(command, args), {
@@ -87,14 +83,10 @@ export async function* processStreamLines(
 			const chunk = decoder.decode(value, { stream: true });
 			const split = splitStdoutLines(chunk, remainder);
 			remainder = split.remainder;
-			for (const line of split.lines) {
-				yield line;
-			}
+			for (const line of split.lines) yield line;
 		}
 		remainder += decoder.decode();
-		if (remainder.length > 0) {
-			yield remainder.replace(/\r$/, "");
-		}
+		if (remainder.length > 0) yield remainder.replace(/\r$/, "");
 		const [stderr, exitCode] = await Promise.all([new Response(proc.stderr).text(), proc.exited]);
 		return { stdout: "", stderr: normalizeOutput(stderr), exitCode };
 	} catch (error) {

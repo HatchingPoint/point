@@ -2,6 +2,8 @@ module StdSql
 
 external point std sql
   sql query raw(sql: Text, params: List<Text>): Text or Error from "@hatchingpoint/point/std/sql" as sqlQueryRaw
+  sql json rows list raw(raw: Text or Error): List<Map<Text, Text>> from "@hatchingpoint/point/std/sql" as sqlJsonRowsList
+  sql json member row raw(raw: Text or Error): Map<Text, Text> from "@hatchingpoint/point/std/sql" as sqlJsonMemberRow
 
 action sql query
   input sql: Text
@@ -9,3 +11,13 @@ action sql query
   output rows: Text or Error
   touches database
   return sql query raw(sql, params)
+
+calculation sql json rows list
+  input raw: Text or Error
+  output rows: List<Map<Text, Text>>
+  return sql json rows list raw(raw)
+
+calculation sql json member row
+  input raw: Text or Error
+  output member: Map<Text, Text>
+  return sql json member row raw(raw)

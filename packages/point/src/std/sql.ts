@@ -53,6 +53,8 @@ export function sqlQueryRaw(sql: string, params: string[]): string | PointStdErr
 		return JSON.stringify(rows);
 	} catch (error) {
 		return { message: error instanceof Error ? error.message : String(error) };
+	} finally {
+		dbResult.close();
 	}
 }
 

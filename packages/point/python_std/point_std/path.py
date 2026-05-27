@@ -3,8 +3,12 @@ from __future__ import annotations
 import os
 
 
+def _to_point_path(value: str) -> str:
+	return value.replace("\\", "/")
+
+
 def pathJoin(left: str, right: str) -> str:
-	return os.path.join(left, right)
+	return _to_point_path(os.path.join(left, right))
 
 
 def pathBasename(value: str) -> str:
@@ -12,7 +16,7 @@ def pathBasename(value: str) -> str:
 
 
 def pathDirname(value: str) -> str:
-	return os.path.dirname(value)
+	return _to_point_path(os.path.dirname(value))
 
 
 def pathExtname(value: str) -> str:
@@ -20,7 +24,7 @@ def pathExtname(value: str) -> str:
 
 
 def pathResolve(value: str) -> str:
-	return os.path.abspath(value)
+	return _to_point_path(os.path.abspath(value))
 
 
 def pathIsAbsolute(value: str) -> bool:

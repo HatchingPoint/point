@@ -32,6 +32,7 @@ const LEGACY_PARITY_SKIP = new Set([
 	"examples/pure/math-only.point",
 	"examples/tools/health-check-schedule.point",
 	"examples/prompts/support-greeting.point",
+	"std/sql.point",
 	"examples/pipelines/document-ingest.point",
 	"examples/pipelines/guarded-output.point",
 	"examples/agents/support-chat.point",

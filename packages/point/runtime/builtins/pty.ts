@@ -1,20 +1,8 @@
-/**
- * std.pty — pseudo-terminal subprocess I/O via Bun.
- *
- * **PTY path (best effort):** On POSIX (macOS, Linux), `Bun.spawn` is called with
- * `terminal: { … }` so the child sees a TTY. Input uses `subprocess.terminal.write`;
- * output arrives through the terminal `data` callback and is split into lines by
- * `ptyStreamLines`.
- *
- * **Pipe fallback:** On Windows, or when PTY attach fails or leaves `terminal`
- * undefined, the implementation uses `stdin` / `stdout` / `stderr` pipes (similar to
- * `std.process`). The child does not get a controlling terminal (`isTTY` is false).
- */
-type PointStdError = { message: string };
+export type PointRuntimePtyError = { message: string };
 
-export type PtyHandle = { id: string };
+export type PointRuntimePtyHandle = { id: string };
 
-export type PtyOutput = {
+export type PointRuntimePtyOutput = {
 	stderr: string;
 	exitCode: number;
 };
@@ -70,41 +58,31 @@ function createByteQueue(onFirstWait?: () => void): {
 } {
 	const events: PtyEvent[] = [];
 	const waiters: Array<() => void> = [];
-
 	const notify = (): void => {
 		const waiter = waiters.shift();
 		if (waiter) waiter();
 	};
-
 	let firstWaitDone = false;
-
 	const push = (ev: PtyEvent): void => {
 		events.push(ev);
 		notify();
 	};
-
 	const waitBytes = (): Promise<Uint8Array | null> =>
 		new Promise((resolve) => {
 			if (!firstWaitDone) {
 				firstWaitDone = true;
 				onFirstWait?.();
 			}
-
 			const drain = (): void => {
 				const next = events.shift();
 				if (!next) {
 					waiters.push(drain);
 					return;
 				}
-				if (next.kind === "close") {
-					resolve(null);
-					return;
-				}
-				resolve(next.bytes);
+				resolve(next.kind === "close" ? null : next.bytes);
 			};
 			drain();
 		});
-
 	return { push, waitBytes };
 }
 
@@ -124,23 +102,19 @@ function trySpawnPtyDriver(id: string, command: string, args: string[], env: Rec
 							: data instanceof ArrayBuffer
 								? new Uint8Array(data)
 								: new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
-					if (bytes.byteLength === 0) return;
-					push({ kind: "bytes", bytes });
+					if (bytes.byteLength > 0) push({ kind: "bytes", bytes });
 				},
 			},
 		});
 	} catch {
 		return null;
 	}
-
 	const term = proc?.terminal;
 	if (proc === null || term === undefined) return null;
-
 	proc.exited.then(
 		() => push({ kind: "close" }),
 		() => push({ kind: "close" }),
 	);
-
 	let writerClosed = false;
 	const finalizeWriter = (): void => {
 		if (writerClosed || !proc) return;
@@ -151,7 +125,6 @@ function trySpawnPtyDriver(id: string, command: string, args: string[], env: Rec
 			/* ignore */
 		}
 	};
-
 	let disposed = false;
 	const dispose = (): void => {
 		if (disposed || !proc) return;
@@ -163,7 +136,6 @@ function trySpawnPtyDriver(id: string, command: string, args: string[], env: Rec
 		}
 		push({ kind: "close" });
 	};
-
 	return {
 		id,
 		write(text: string): void {
@@ -177,12 +149,7 @@ function trySpawnPtyDriver(id: string, command: string, args: string[], env: Rec
 	};
 }
 
-function spawnPipeDriver(
-	id: string,
-	command: string,
-	args: string[],
-	env: Record<string, string>,
-): PtyDriver | PointStdError {
+function spawnPipeDriver(id: string, command: string, args: string[], env: Record<string, string>): PtyDriver | PointRuntimePtyError {
 	let proc: ReturnType<typeof Bun.spawn>;
 	try {
 		proc = Bun.spawn(normalizeCommand(command, args), {
@@ -194,7 +161,6 @@ function spawnPipeDriver(
 	} catch (error) {
 		return { message: error instanceof Error ? error.message : String(error) };
 	}
-
 	const { push, waitBytes } = createByteQueue(() => {
 		try {
 			proc.stdin.flush?.();
@@ -202,9 +168,7 @@ function spawnPipeDriver(
 			/* ignore */
 		}
 	});
-
 	const stderrPromise = new Response(proc.stderr).text();
-
 	void (async () => {
 		const reader = proc.stdout.getReader();
 		try {
@@ -217,11 +181,7 @@ function spawnPipeDriver(
 			push({ kind: "close" });
 		}
 	})().catch(() => push({ kind: "close" }));
-
-	proc.exited.catch(() => {
-		push({ kind: "close" });
-	});
-
+	proc.exited.catch(() => push({ kind: "close" }));
 	let writerClosed = false;
 	const finalizeWriter = (): void => {
 		if (writerClosed) return;
@@ -232,7 +192,6 @@ function spawnPipeDriver(
 			/* ignore */
 		}
 	};
-
 	let disposed = false;
 	const dispose = (): void => {
 		if (disposed) return;
@@ -240,7 +199,6 @@ function spawnPipeDriver(
 		proc.kill();
 		push({ kind: "close" });
 	};
-
 	return {
 		id,
 		write(text: string): void {
@@ -254,25 +212,21 @@ function spawnPipeDriver(
 	};
 }
 
-export async function ptySpawn(command: string, args: string[], envEntries: string[]): Promise<PtyHandle | PointStdError> {
+export async function ptySpawn(command: string, args: string[], envEntries: string[]): Promise<PointRuntimePtyHandle | PointRuntimePtyError> {
 	const id = crypto.randomUUID();
 	const env = parseEnvEntries(envEntries);
-
 	let driver: PtyDriver | null = null;
-	if (process.platform !== "win32") {
-		driver = trySpawnPtyDriver(id, command, args, env);
-	}
+	if (process.platform !== "win32") driver = trySpawnPtyDriver(id, command, args, env);
 	if (driver === null) {
 		const piped = spawnPipeDriver(id, command, args, env);
 		if ("message" in piped) return piped;
 		driver = piped;
 	}
-
 	sessions.set(driver.id, driver);
 	return { id };
 }
 
-export async function ptyWrite(handle: PtyHandle, input: string): Promise<void | PointStdError> {
+export async function ptyWrite(handle: PointRuntimePtyHandle, input: string): Promise<void | PointRuntimePtyError> {
 	try {
 		const driver = sessions.get(handle.id);
 		if (!driver) return { message: "Unknown or closed pty handle" };
@@ -282,35 +236,25 @@ export async function ptyWrite(handle: PtyHandle, input: string): Promise<void |
 	}
 }
 
-export async function* ptyStreamLines(
-	handle: PtyHandle,
-): AsyncGenerator<string, PtyOutput | PointStdError, unknown> {
+export async function* ptyStreamLines(handle: PointRuntimePtyHandle): AsyncGenerator<string, PointRuntimePtyOutput | PointRuntimePtyError, unknown> {
 	const driver = sessions.get(handle.id);
 	if (!driver) return { message: "Unknown or closed pty handle" };
-
 	const decoder = new TextDecoder();
 	let remainder = "";
 	try {
 		while (true) {
 			const chunk = await driver.waitBytes();
 			if (chunk === null) break;
-
 			const text = decoder.decode(chunk, { stream: true });
 			const split = splitStdoutLines(text, remainder);
 			remainder = split.remainder;
-			for (const line of split.lines) {
-				yield line;
-			}
+			for (const line of split.lines) yield line;
 		}
 		remainder += decoder.decode();
-		if (remainder.length > 0) {
-			yield remainder.replace(/\r$/, "");
-		}
-
+		if (remainder.length > 0) yield remainder.replace(/\r$/, "");
 		const [stderr, exitCode] = await Promise.all([driver.stderrPromise, driver.exitPromise]);
 		driver.finalizeWriter();
 		sessions.delete(handle.id);
-
 		return { stderr: normalizeOutput(stderr), exitCode };
 	} catch (error) {
 		driver.dispose();

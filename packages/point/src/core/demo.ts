@@ -25,7 +25,7 @@ export async function runPointDemo(input: string | undefined, cwd = process.cwd(
 		console.error(`No demo file found. Run: point create my-app  or  point demo path/to/app.point`);
 		return 1;
 	}
-	const relative = file.replace(resolve(cwd), "").replace(/^[/\\]/, "") || file;
+	const relative = (file.replace(resolve(cwd), "").replace(/^[/\\]/, "") || file).replaceAll("\\", "/");
 	const source = await Bun.file(file).text();
 	const lock = await readPointLock(cwd);
 	const coreFile = buildCoreFileFromSource(relative, source, lock, cwd);

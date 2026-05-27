@@ -100,7 +100,7 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - [x] `point run` / `point dev` / `point serve` / `point test` use `packages/point/runtime/` for experiment app
 - [x] Interpreter default (post-R2) with home-base emit path cut
 - [x] HTTP + SSR without React/Vite for experiment app
-- [ ] `bun run ci` green (repo-wide fmt-check-all on legacy `.point` files)
+- [x] `bun run ci` green (repo-wide fmt-check-all on legacy `.point` files)
 
 ---
 
@@ -667,4 +667,86 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - Updated `packages/point/src/core/app-cli.ts` template-list descriptions so `full-stack-app` and `vercel-app` are explicitly legacy emit + Vite compatibility templates.
 - Added deprecation notes to `packages/point/templates/full-stack-app/README.md` and `packages/point/templates/vercel-app/README.md`, pointing new apps to `runtime-app` or `runtime-saas-app`.
 - Verification: targeted documentation/code search confirmed both legacy template descriptions and README deprecation notes are present.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P6-A Runtime fs/env/path std dispatch
+
+- Added runtime-owned builtins for `std.fs`, `std.path`, and `std.env` under `packages/point/runtime/builtins/`, mirroring the raw exports from `packages/point/std/fs.point`, `packages/point/std/path.point`, and `packages/point/std/env.point`.
+- Extended `packages/point/runtime/std-dispatch.ts` with `std.fs`, `std.path`, and `std.env` dispatch tables plus lowered call aliases for `readFileRaw`, `writeFileRaw`, `joinPaths`, `pathBasename`, `pathDirname`, `pathExtname`, `resolvePath`, `pathIsAbsolute`, and `envGetRaw`.
+- Exported the new runtime builtins from `packages/point/runtime/index.ts`.
+- Added `tests/runtime/builtins-fs-env-path.test.ts` covering direct builtin behavior and Point modules using `capabilities fs env path` through the runtime interpreter.
+- Updated `tests/runtime/std-dispatch.test.ts` to assert the expanded dispatch table and alias resolution.
+- Verification passed:
+  - `bun test tests/runtime/builtins-fs-env-path.test.ts tests/runtime/std-dispatch.test.ts`
+  - `bun run check`
+  - `git diff --check -- packages/point/runtime/builtins/fs.ts packages/point/runtime/builtins/path.ts packages/point/runtime/builtins/env.ts packages/point/runtime/std-dispatch.ts packages/point/runtime/index.ts tests/runtime/builtins-fs-env-path.test.ts tests/runtime/std-dispatch.test.ts`
+- Broader `bun test tests/runtime` was attempted; the new fs/env/path runtime tests passed, but two existing `runtime-saas-app` tests still fail while checking/parsing `sql json rows list(await query member rows())`.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P6-D Runtime SaaS std.sql cleanup
+
+- Rewrote `packages/point/templates/runtime-saas-app/src/app.point` so the scaffolded app uses `capabilities auth sql` and no longer declares local `external point std sql` imports from `@hatchingpoint/point/std/...`.
+- Moved SQL row/member JSON decode helpers behind `std.sql` Point declarations in both `std/sql.point` and `packages/point/std/sql.point`, so the template can call `sql json rows list(...)` and `sql json member row(...)` through capabilities.
+- Extended `tests/runtime-saas-template.test.ts` to assert scaffolded runtime SaaS app source contains `capabilities auth sql` and does not contain `@hatchingpoint/point/std/` or `external point std`.
+- Verification passed:
+  - `bun test tests/runtime-saas-template.test.ts`
+  - `rg -n "@hatchingpoint/point/std/|external point std" packages/point/templates/runtime-saas-app/src/app.point` returned no matches.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P5 integrator
+
+- Ran `bun run ci` in the parent shell; the gate passed end to end: fmt/check/docs, JS/TS/AST/Python builds, point tests, 847 Bun tests, benchmark gates, VS Code build, and VSIX package.
+- Closed the pivot exit-gate CI checkbox above.
+- Updated `docs/product-map.md` release anchor to `v0.2.2`.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P6-B1 Runtime crypto/yaml std dispatch
+
+- Expanded `packages/point/runtime/builtins/crypto.ts` to mirror `packages/point/std/crypto.point` raw exports: `cryptoSha256`, `cryptoHmacSha256`, `cryptoJwtSign`, `cryptoJwtVerify`, and `cryptoJwtIsValid`, while preserving the existing `sha256` helper.
+- Added `packages/point/runtime/builtins/yaml.ts` mirroring `packages/point/std/yaml.point` raw exports: `yamlParse` and `yamlStringify`.
+- Extended `packages/point/runtime/std-dispatch.ts` with `std.crypto` and `std.yaml` dispatch tables plus lowered aliases for the raw std import names.
+- Exported the new runtime crypto/yaml helpers from `packages/point/runtime/index.ts`.
+- Added `tests/runtime/builtins-crypto-yaml.test.ts` covering direct runtime helper behavior and Point modules using `capabilities crypto yaml` through the runtime interpreter.
+- Updated `tests/runtime/std-dispatch.test.ts` for the expanded runtime std module set; preserved existing `std.money` and `std.stream` entries already present in the worktree.
+- Verification passed:
+  - `bun test tests/runtime/builtins-crypto-yaml.test.ts tests/runtime/std-dispatch.test.ts tests/runtime/builtins-crypto.test.ts`
+  - `bun test tests/runtime` (58 pass)
+  - `git diff --check -- packages/point/runtime/builtins/crypto.ts packages/point/runtime/builtins/yaml.ts packages/point/runtime/std-dispatch.ts packages/point/runtime/index.ts tests/runtime/builtins-crypto-yaml.test.ts tests/runtime/std-dispatch.test.ts`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P6-B2 Runtime money/stream std dispatch
+
+- Added runtime-owned `packages/point/runtime/builtins/money.ts` with `formatCentsUsd(...)`, mirroring `packages/point/std/money.point` / `packages/point/src/std/money.ts`.
+- Added runtime-owned `packages/point/runtime/builtins/stream.ts` with `streamReadText`, `streamWriteText`, `streamReadLines`, `streamWriteLines`, and `streamJoinLines`, mirroring `packages/point/std/stream.point` / `packages/point/src/std/stream.ts`.
+- Extended `packages/point/runtime/std-dispatch.ts` with `std.money` and `std.stream` dispatch tables plus lowered raw aliases: `formatCentsUsdRaw`, `streamReadTextRaw`, `streamWriteTextRaw`, `streamReadLinesRaw`, `streamWriteLinesRaw`, and `streamJoinLinesRaw`.
+- Added `tests/runtime/builtins-money-stream.test.ts` covering direct builtin behavior, dispatch table exports, normalized package std resolution, and lowered alias dispatch.
+- Verification passed:
+  - `bun test tests/runtime/builtins-money-stream.test.ts`
+  - `bun test tests/runtime` (58 pass)
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P6-C Runtime process/image/pty/ai std dispatch
+
+- Added runtime-owned builtins for `std.process`, `std.image`, `std.pty`, and `std.ai` under `packages/point/runtime/builtins/`, mirroring the raw host exports from the corresponding `packages/point/std/*.point` modules.
+- Extended `packages/point/runtime/std-dispatch.ts` with dispatch tables and lowered-call aliases for process spawn/streaming, image metadata/resize, PTY spawn/write/streaming, and OpenAI/Anthropic complete/stream calls.
+- Exported the new runtime builtin surfaces from `packages/point/runtime/index.ts`.
+- Added tests:
+  - `tests/runtime/builtins-process-pty.test.ts`
+  - `tests/runtime/builtins-image-ai.test.ts`
+  - extended `tests/runtime/std-dispatch.test.ts`
+- Verification passed:
+  - `bun test tests/runtime/builtins-process-pty.test.ts tests/runtime/builtins-image-ai.test.ts tests/runtime/std-dispatch.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P6-E Runtime-owned template author-surface guard
+
+- Added `tests/runtime-owned-author-surface.test.ts` to scan both runtime-owned templates:
+  - `packages/point/templates/runtime-app`
+  - `packages/point/templates/runtime-saas-app`
+- The guard fails on forbidden runtime-owned author-surface patterns: `@hatchingpoint/point/std/`, `external point std`, author `*.ts` / `*.tsx`, and `vite.config.*`.
+- Kept the existing home-base author-surface coverage in `tests/point-only-experiment.test.ts` intact; the new test extends the same policy to shipped runtime templates.
+- Verification passed:
+  - `bun test tests/runtime-owned-author-surface.test.ts`
+  - `bun test` (854 pass)
 - No commit was made.

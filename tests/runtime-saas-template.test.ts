@@ -40,6 +40,10 @@ describe("runtime-saas-app template", () => {
 			expect(existsSync(join(result.targetDir, "point.json"))).toBe(true);
 			expect(existsSync(join(result.targetDir, "src/app.point"))).toBe(true);
 			expect(existsSync(join(result.targetDir, "web"))).toBe(false);
+			const scaffoldedSource = await Bun.file(join(result.targetDir, "src/app.point")).text();
+			expect(scaffoldedSource).toContain("capabilities auth sql");
+			expect(scaffoldedSource).not.toContain('@hatchingpoint/point/std/');
+			expect(scaffoldedSource).not.toContain("external point std");
 			const pkg = await Bun.file(join(result.targetDir, "package.json")).json();
 			expect(JSON.stringify(pkg)).not.toContain("vite");
 			expect(await Bun.file(join(result.targetDir, "point.json")).json()).toMatchObject({ runtime: "owned" });
@@ -51,6 +55,10 @@ describe("runtime-saas-app template", () => {
 			const cliAppDir = join(projectDir, "runtime-saas-cli");
 			expect(existsSync(join(cliAppDir, "src/app.point"))).toBe(true);
 			expect(existsSync(join(cliAppDir, "web"))).toBe(false);
+			const cliScaffoldedSource = await Bun.file(join(cliAppDir, "src/app.point")).text();
+			expect(cliScaffoldedSource).toContain("capabilities auth sql");
+			expect(cliScaffoldedSource).not.toContain('@hatchingpoint/point/std/');
+			expect(cliScaffoldedSource).not.toContain("external point std");
 			expect(await Bun.file(join(cliAppDir, "point.json")).json()).toMatchObject({ runtime: "owned" });
 		} finally {
 			rmSync(projectDir, { recursive: true, force: true });

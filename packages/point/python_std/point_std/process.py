@@ -16,6 +16,18 @@ def _parse_env_entries(entries: list[str]) -> dict[str, str]:
 	return env
 
 
+def _normalize_command(command: str, args: list[str]) -> list[str]:
+	if os.name != "nt":
+		return [command, *args]
+	if command.lower() == "echo":
+		return ["cmd", "/d", "/s", "/c", f"echo {' '.join(args)}"]
+	return [command, *args]
+
+
+def _normalize_output(value: str) -> str:
+	return value.replace("\r\n", "\n").replace("\r", "\n")
+
+
 async def processSpawn(
 	command: str,
 	args: list[str],
@@ -24,14 +36,14 @@ async def processSpawn(
 	try:
 		completed = await asyncio.to_thread(
 			subprocess.run,
-			[command, *args],
+			_normalize_command(command, args),
 			capture_output=True,
 			text=True,
 			env=_parse_env_entries(env_entries),
 		)
 		return {
-			"stdout": completed.stdout,
-			"stderr": completed.stderr,
+			"stdout": _normalize_output(completed.stdout),
+			"stderr": _normalize_output(completed.stderr),
 			"exitCode": completed.returncode,
 		}
 	except Exception as error:
@@ -53,7 +65,7 @@ async def processStreamLines(
 	proc: subprocess.Popen[str] | None = None
 	try:
 		proc = subprocess.Popen(
-			[command, *args],
+			_normalize_command(command, args),
 			stdout=subprocess.PIPE,
 			stderr=subprocess.PIPE,
 			text=True,
