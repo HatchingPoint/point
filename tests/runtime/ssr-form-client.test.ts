@@ -54,7 +54,7 @@ navigation app
 		expect(page.status).toBe(200);
 		const html = await page.text();
 		expect(html).toContain("data-point-form-submit");
-		expect(html).toContain('<script>(function(){const TOKEN_KEY="point.auth.token"');
+		expect(html).toContain('TOKEN_KEY="point.auth.token"');
 		expect(html).toContain("localStorage.setItem(TOKEN_KEY");
 	});
 

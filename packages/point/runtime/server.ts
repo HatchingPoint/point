@@ -11,6 +11,11 @@ import type { PointSemanticMiddlewareDeclaration, PointSemanticRouteDeclaration 
 import { semanticFunctionName } from "../src/semantic/naming.ts";
 import { interpretCoreProgramEntryAsync, type PointRuntimeJsonResponse, type PointRuntimeValue } from "./interpreter/index.ts";
 import { renderPointRuntimePage } from "./ssr/index.ts";
+import { servePointUiCss } from "./ssr/theme-ssr.ts";
+import { collectRuntimeSseRoutes, handleRuntimeSseRoute } from "./sse-routes.ts";
+import { collectRuntimeStreamRoutes, createRuntimeWebSocketHandlers, tryUpgradeRuntimeStreamRoute } from "./stream-routes.ts";
+
+type RuntimeFetchServer = { upgrade: (request: Request, options: { data: { route: string } }) => boolean };
 
 export type PointRuntimeRoute = {
 	readonly method: string;
@@ -20,7 +25,7 @@ export type PointRuntimeRoute = {
 
 export type PointRuntimeRouteRegistry = {
 	readonly routes: PointRuntimeRoute[];
-	fetch(request: Request): Promise<Response>;
+	fetch(request: Request, server?: RuntimeFetchServer): Promise<Response | undefined>;
 };
 
 type RouteRegistration = {
@@ -55,17 +60,26 @@ export function registerRuntimeRoutes(program: PointCoreProgram): PointRuntimeRo
 			}),
 			pattern: pathPattern(route.path),
 		}));
+	const sseRoutes = collectRuntimeSseRoutes(program);
+	const streamRoutes = collectRuntimeStreamRoutes(program);
 
 	return {
-		routes: registrations.map(({ route }) => ({ method: route.method.toUpperCase(), path: route.path, name: route.name })),
-		async fetch(request: Request): Promise<Response> {
-			return handleRuntimeRoute(program, registrations, request);
+		routes: [
+			...registrations.map(({ route }) => ({ method: route.method.toUpperCase(), path: route.path, name: route.name })),
+			...sseRoutes.map((route) => ({ method: route.method, path: route.path, name: route.routeName })),
+			...streamRoutes.map((route) => ({ method: "GET", path: route.path, name: route.routeName })),
+		],
+		async fetch(request: Request, server?: RuntimeFetchServer): Promise<Response | undefined> {
+			return handleRuntimeRoute(program, registrations, request, server);
 		},
 	};
 }
 
-export function createPointRuntimeFetchHandler(program: PointCoreProgram): (request: Request) => Promise<Response> {
-	return registerRuntimeRoutes(program).fetch;
+export function createPointRuntimeFetchHandler(
+	program: PointCoreProgram,
+): (request: Request, server?: RuntimeFetchServer) => Promise<Response | undefined> {
+	const registry = registerRuntimeRoutes(program);
+	return (request, server) => registry.fetch(request, server);
 }
 
 export type PointRuntimeDevOptions = {
@@ -84,9 +98,12 @@ export type PointRuntimeServerOptions = {
 export type PointRuntimeServer = ReturnType<typeof Bun.serve>;
 export type PointRuntimeDevServer = PointRuntimeServer;
 
-export function createPointRuntimeDevFetchHandler(filePath: string, program: PointCoreProgram): (request: Request) => Promise<Response> {
+export function createPointRuntimeDevFetchHandler(
+	filePath: string,
+	program: PointCoreProgram,
+): (request: Request, server?: RuntimeFetchServer) => Promise<Response | undefined> {
 	const routes = registerRuntimeRoutes(program);
-	return async (request: Request) => {
+	return async (request: Request, server?: RuntimeFetchServer) => {
 		const url = new URL(request.url);
 		if (url.pathname === "/" || url.pathname === "/runtime") {
 			return jsonResponse({
@@ -105,7 +122,16 @@ export function createPointRuntimeDevFetchHandler(filePath: string, program: Poi
 			const value = await interpretCoreProgramEntryAsync(program, command.name);
 			return jsonResponse({ ok: true, command: command.semantic?.name ?? command.name, value });
 		}
-		return routes.fetch(request);
+		return routes.fetch(request, server);
+	};
+}
+
+function createRuntimeServeOptions(program: PointCoreProgram) {
+	const streamRoutes = collectRuntimeStreamRoutes(program);
+	const fetch = createPointRuntimeFetchHandler(program);
+	return {
+		fetch,
+		...(streamRoutes.length > 0 ? { websocket: createRuntimeWebSocketHandlers(program) } : {}),
 	};
 }
 
@@ -113,14 +139,16 @@ export function startPointRuntimeServer(program: PointCoreProgram, options: Poin
 	return Bun.serve({
 		port: options.port ?? 0,
 		hostname: options.hostname,
-		fetch: createPointRuntimeFetchHandler(program),
+		...createRuntimeServeOptions(program),
 	});
 }
 
 export async function runPointRuntimeDev(filePath: string, program: PointCoreProgram, options: PointRuntimeDevOptions): Promise<PointRuntimeDevServer> {
+	const streamRoutes = collectRuntimeStreamRoutes(program);
 	const server = Bun.serve({
 		port: options.port,
 		fetch: createPointRuntimeDevFetchHandler(filePath, program),
+		...(streamRoutes.length > 0 ? { websocket: createRuntimeWebSocketHandlers(program) } : {}),
 	});
 	console.log(`Point runtime dev listening on http://localhost:${server.port}`);
 	await new Promise<void>(() => {});
@@ -138,8 +166,21 @@ async function handleRuntimeRoute(
 	program: PointCoreProgram,
 	registrations: RouteRegistration[],
 	request: Request,
-): Promise<Response> {
+	server?: RuntimeFetchServer,
+): Promise<Response | undefined> {
 	const url = new URL(request.url);
+	if (request.method === "GET" && url.pathname === "/point-ui.css") return servePointUiCss();
+	if (server) {
+		const upgraded = tryUpgradeRuntimeStreamRoute(program, request, server);
+		if (upgraded !== undefined) return upgraded;
+	}
+	if (request.method === "GET") {
+		for (const sseRoute of collectRuntimeSseRoutes(program)) {
+			if (url.pathname !== sseRoute.path) continue;
+			const response = await handleRuntimeSseRoute(program, sseRoute);
+			if (response) return response;
+		}
+	}
 	for (const registration of registrations) {
 		if (request.method.toUpperCase() !== registration.route.method.toUpperCase()) continue;
 		const match = url.pathname.match(registration.pattern);

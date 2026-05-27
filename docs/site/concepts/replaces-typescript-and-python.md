@@ -10,16 +10,17 @@ quadrant: Explanation
 
 Point is the language for **new application logic** you want checked in one place. Authors maintain `.point` files; optional build commands produce host modules when needed.
 
-## What Point replaces now (v0.1.0)
+## What Point replaces now (v0.2.6)
 
 | Layer | Status |
 |-------|--------|
 | Business logic (records, rules, calculations, labels, variants) | ✅ Author in Point |
-| HTTP routes, middleware, WebSockets, actions, workflows, CLI | ✅ Author in Point; emit TS/JS |
-| Multi-page UI (layout, navigation, forms, tabs, modals) | ✅ Author in Point; emit TSX |
+| HTTP routes, middleware, WebSockets, SSE, actions, workflows, CLI | ✅ Author in Point; owned runtime or emit |
+| Multi-page UI (layout, navigation, forms, tabs, modals) | ✅ Author in Point; **owned runtime SSR by default** |
+| Live UI (refresh, SSE, terminal streams) | ✅ Owned runtime client + server (default apps) |
 | Database access | ✅ `action` + `external` or `std.sql` — any driver |
 | Agent pipelines, sessions, prompts | ✅ Author in Point |
-| `point run` / `point test` without editing emit | ✅ JS-default via temp emit; `build-ts` opt-in |
+| `point run` / `point test` / `point dev` / `point serve` | ✅ Owned runtime for default apps |
 | Python automation scripts | ✅ `point build-py` for routes, workflows, commands, stdlib |
 | Libraries published from `.point` only | ✅ `@hatchingpoint/point-logic` on npm |
 | Interactive views and pages | ✅ `view`, `page`, controlled checkboxes, `Handler` callbacks |

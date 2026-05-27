@@ -6,6 +6,7 @@ import type {
 	PointSemanticViewButtonSpec,
 	PointSemanticViewChartSpec,
 	PointSemanticViewControls,
+	PointSemanticViewEachSpec,
 	PointSemanticViewFieldBinding,
 	PointSemanticViewModalSpec,
 	PointSemanticViewTableSpec,
@@ -13,6 +14,7 @@ import type {
 } from "../../src/core/ast.ts";
 import { interpretCoreProgramEntry, type PointRuntimeValue } from "../interpreter/index.ts";
 import { serializePointFormSubmitConfig } from "./form-client.ts";
+import { renderViewToggleThemeHtml } from "./theme-ssr.ts";
 
 export type SsrRenderFrame = {
 	locals: Map<string, unknown>;
@@ -203,6 +205,32 @@ export function renderViewButtonsHtml(buttons: PointSemanticViewButtonSpec[]): s
 		.join("");
 }
 
+function eachItemClassName(spec: PointSemanticViewEachSpec): string {
+	const tokens = ["point-each-item", spec.className, ...(spec.style?.map((token) => `point-style-${token}`) ?? [])].filter(Boolean);
+	return tokens.join(" ");
+}
+
+export function renderViewEachHtml(
+	helpers: SsrRenderHelpers,
+	spec: PointSemanticViewEachSpec,
+	evaluateForRow?: (row: Record<string, PointRuntimeValue>, expression: PointCoreExpression) => unknown,
+): string {
+	const rows = toRecordRows(helpers.evaluateExpression(spec.iterable));
+	const items = rows
+		.map((row) => {
+			const content = evaluateForRow
+				? escapeHtml(String(evaluateForRow(row, spec.render) ?? ""))
+				: helpers.renderExpression(spec.render);
+			if (spec.linkPath) {
+				const linkPath = evaluateForRow ? escapeAttribute(String(evaluateForRow(row, spec.linkPath) ?? "")) : helpers.renderExpression(spec.linkPath);
+				return `<li class="${escapeAttribute(eachItemClassName(spec))}" role="listitem"><a class="point-link" href="${linkPath}">${content}</a></li>`;
+			}
+			return `<li class="${escapeAttribute(eachItemClassName(spec))}" role="listitem">${content}</li>`;
+		})
+		.join("");
+	return `<ul class="point-list" role="list">${items}</ul>`;
+}
+
 export function renderViewChartHtml(helpers: SsrRenderHelpers, spec: PointSemanticViewChartSpec): string {
 	const rows = toRecordRows(helpers.evaluateExpression(spec.iterable));
 	const className = styleClassTokens("point-chart point-chart-bar", spec.style);
@@ -292,10 +320,14 @@ export function renderViewSemanticExtras(
 		}
 	}
 	if (fn.semantic?.viewButtons?.length) parts.push(renderViewButtonsHtml(fn.semantic.viewButtons));
+	if (fn.semantic?.viewToggleTheme) parts.push(renderViewToggleThemeHtml(fn.semantic.viewToggleTheme));
 	if (fn.semantic?.viewControls) parts.push(renderViewControlsHtml(helpers, fn.semantic.viewControls));
 	if (fn.semantic?.viewTable) parts.push(renderViewTableHtml(helpers, fn.semantic.viewTable, { evaluateForRow }));
 	if (fn.semantic?.viewChart) parts.push(renderViewChartHtml(helpers, fn.semantic.viewChart));
 	if (fn.semantic?.viewTabs) parts.push(renderViewTabsHtml(helpers, fn.semantic.viewTabs));
 	if (fn.semantic?.viewModal) parts.push(renderViewModalHtml(helpers, fn.semantic.viewModal));
+	if (fn.semantic?.viewEach?.length && fn.semantic.viewStreamSubscribe?.transport !== "sse" && fn.semantic.viewStreamSubscribe?.transport !== "websocket") {
+		parts.push(renderViewEachHtml(helpers, fn.semantic.viewEach[0]!, evaluateForRow));
+	}
 	return parts.join("");
 }

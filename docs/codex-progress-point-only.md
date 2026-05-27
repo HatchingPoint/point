@@ -856,6 +856,50 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - `point dev`, `point serve`, and `point build-app` require `--legacy` for those hosts; route-only dev without `web/` remains available.
 - Added `tests/legacy-vite-workflow-gate.test.ts`; updated `tests/point-build-app.test.ts`.
 - Verification passed:
-  - `bun test tests/legacy-vite-workflow-gate.test.ts tests/point-build-app.test.ts tests/point-dev.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P9-A Theme toggle SSR
+
+- Added `packages/point/runtime/ssr/theme-ssr.ts` and `document.ts` for theme shell wrapping, `/point-ui.css` serving, and localStorage-backed light/dark toggle client script.
+- Wired `toggle theme` rendering in SSR view extras; runtime HTTP serves `packages/point/ui/point-ui.css`.
+- Upgraded `runtime-saas-app` template with `theme app theme` + nav `toggle theme`.
+- Added `tests/runtime/ssr-theme.test.ts`; updated `tests/runtime/ssr-form-client.test.ts`.
+- Verification passed:
+  - `bun test tests/runtime/ssr-theme.test.ts tests/runtime/ssr-form-client.test.ts tests/runtime-saas-template.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P9-B Refresh every in owned SSR
+
+- Added `packages/point/runtime/ssr/refresh-ssr.ts` — live region wrapper, `X-Point-Refresh: view` fragment responses, and client polling script.
+- Views with `load data` + `refresh every N seconds|minutes` poll the current page for updated HTML without a full reload.
+- Fixed truncated `form-client.ts` and refresh client snippet semicolons.
+- Added `tests/runtime/ssr-refresh.test.ts`.
+- Verification passed:
+  - `bun test tests/runtime/ssr-refresh.test.ts tests/runtime/ssr-data-load.test.ts tests/runtime/ssr-theme.test.ts tests/runtime/ssr-form-client.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P9-C SSE subscribe in owned runtime
+
+- Added `packages/point/runtime/sse-routes.ts` for owned SSE route handling and stream pumping.
+- Added async `YIELD` / `interpretCoreStreamActionAsync` so stream actions can drive SSE responses.
+- Added `packages/point/runtime/ssr/sse-ssr.ts` for `subscribe to sse` pages (EventSource client + connecting/disconnected shell).
+- Wired SSE routes into `packages/point/runtime/server.ts`; added `renderViewEachHtml` for static each lists in SSR.
+- Added `tests/runtime/sse-routes.test.ts`.
+- Verification passed:
+  - `bun test tests/runtime/sse-routes.test.ts tests/runtime/ssr-refresh.test.ts tests/runtime/ssr-theme.test.ts tests/runtime/ssr-form-client.test.ts tests/runtime/ssr-data-load.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P9-D WebSocket and terminal views in owned runtime
+
+- Added `packages/point/runtime/stream-routes.ts` for owned WebSocket stream routes (upgrade, connect/message/disconnect handlers, process stream pumping).
+- Added `packages/point/runtime/ssr/ws-ssr.ts` for `subscribe to stream` and `terminal subscribe to stream` pages (WebSocket client + terminal line rendering).
+- Wired WebSocket handlers into `startPointRuntimeServer` / runtime dev serve; extended SSR view rendering and UI client script injection.
+- Added `tests/runtime/stream-routes.test.ts`.
+- Verification passed:
+  - `bun test tests/runtime/stream-routes.test.ts tests/runtime/sse-routes.test.ts tests/runtime/ssr-refresh.test.ts tests/runtime/ssr-theme.test.ts tests/runtime/ssr-form-client.test.ts tests/runtime/server.test.ts`
   - `bun run check`
 - No commit was made.

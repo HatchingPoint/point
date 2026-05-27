@@ -137,11 +137,21 @@ view items list
 
 ### Periodic refresh (polling)
 
-After `load data from action …`, `on mount call …`, or `load data from fetch …`, add **`refresh every <N> seconds`** or **`refresh every <N> minutes`**. The compiler emits `setInterval` refetches and clears the timer on unmount. Background refreshes do not toggle the loading state (initial load still does).
+After `load data from action …`, `on mount call …`, or `load data from fetch …`, add **`refresh every <N> seconds`** or **`refresh every <N> minutes`**.
+
+On **runtime-owned apps**, the runtime wraps the view in a live region and polls the current page for updated HTML (no React). On **legacy emit apps**, the compiler emits `setInterval` refetches in the host bundle.
 
 Multiple `refresh every` lines on one view are a `duplicate-refresh-interval` error; `refresh every` without a data-load binding is `refresh-without-load`.
 
 Example: **`examples/app/live-dashboard/live-dashboard.point`**.
+
+### Theme toggle
+
+Declare **`theme app theme`** (or another name) with optional `accent`, `density`, and `radius`. Views can include **`toggle theme`**. Runtime-owned apps serve `/point-ui.css` and persist light/dark mode in localStorage.
+
+### Live subscriptions (runtime-owned)
+
+On default apps, **`subscribe to sse`**, **`subscribe to stream`**, and **`terminal subscribe to stream`** render owned-runtime client shells (EventSource / WebSocket) — no React emit. See [Realtime](/point/language/realtime).
 
 See `examples/app/dashboard/dashboard.point` for a list view that loads from `action fetch items`.
 

@@ -13,7 +13,7 @@
 
 Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## Platform status (v0.2.5)
+## Platform status (v0.2.6)
 
 Point authors application logic, HTTP, automation, and full-stack apps in one semantic source — with simple daily commands and an agent-native compiler.
 
@@ -22,7 +22,7 @@ Point authors application logic, HTTP, automation, and full-stack apps in one se
 | Logic (records, rules, calculations) | ✅ Shipped |
 | HTTP routes, middleware, CLI, workflows | ✅ Production depth |
 | UI (views, pages, layouts, navigation) | ✅ Runtime-owned SSR for default apps; legacy Vite/React templates remain opt-in |
-| Realtime | ✅ Stream routes |
+| Realtime | ✅ Stream + SSE routes; owned SSR live UI (refresh, SSE subscribe, WebSocket terminal) |
 | Data | ✅ `std.sql`, `build-schema`, migrations |
 | Agents | ✅ Pipelines, prompts, repair CI gate |
 | Python | ✅ Logic, routes, workflows, pipelines (not UI/views) |

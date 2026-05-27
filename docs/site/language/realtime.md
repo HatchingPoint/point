@@ -54,6 +54,19 @@ stream route echo
 
 See `examples/app/log-viewer/log-viewer.point` for streaming from an action on connect.
 
+## Owned runtime (default apps)
+
+When `point.json` sets `runtime: "owned"`, the runtime in `packages/point/runtime/` serves stream and SSE routes and renders live view shells without React emit:
+
+| Author syntax | Runtime behavior |
+|---------------|-------------------|
+| `refresh every N seconds` | Live region polling on the current page |
+| `subscribe to sse …` | `EventSource` client + SSE route handler |
+| `subscribe to stream …` | WebSocket client + message list |
+| `terminal subscribe to stream …` | WebSocket client + `.point-terminal` log lines |
+
+Use `point dev` or `point serve` on a runtime-owned app — no Vite host required.
+
 ## View subscriptions
 
 Views subscribe with `subscribe to <stream route>`, `subscribe to sse <name>`, or `subscribe to "/ws/path"`. See `examples/app/log-viewer/log-viewer.point` for `when connecting`, `each line in messages`, and handler wiring.

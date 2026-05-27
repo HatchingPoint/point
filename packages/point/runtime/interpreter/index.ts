@@ -98,6 +98,28 @@ export async function interpretCoreProgramEntryAsync(
 	return interpretPointIrFunctionAsync(lowerCheckedCoreProgramToBytecode(program), entryName, args);
 }
 
+export async function interpretCoreStreamActionAsync(
+	program: PointCoreProgram,
+	entryName: string,
+	args: PointRuntimeValue[] = [],
+): Promise<AsyncIterable<string>> {
+	const declaration = program.declarations.find(
+		(candidate): candidate is Extract<(typeof program.declarations)[number], { kind: "function" }> =>
+			candidate.kind === "function" && candidate.name === entryName,
+	);
+	if (!declaration?.semantic?.isStreamAction) {
+		throw new PointInterpreterError(`Runtime stream action not found: ${entryName}`);
+	}
+	const scope = createRuntimeScope(lowerCheckedCoreProgramToBytecode(program));
+	const fn = scope.functions.get(entryName);
+	if (!fn) throw new PointInterpreterError(`Runtime stream action not found: ${entryName}`);
+	const source = await executeStreamActionAsync(scope, fn, args);
+	if (!isAsyncIterableString(source)) {
+		throw new PointInterpreterError(`Runtime stream action ${entryName} did not return a line stream.`);
+	}
+	return source;
+}
+
 function createRuntimeScope(program: PointIrProgram): RuntimeScope {
 	const scope: RuntimeScope = {
 		globals: new Map(),
@@ -328,7 +350,7 @@ async function executeInstructionsAsync(scope: RuntimeScope, frame: FunctionFram
 			return instruction.hasValue ? await resolveRuntimeValue(pop(frame)) : null;
 		}
 		if (instruction.op === "YIELD") {
-			throw new Error("Runtime interpreter does not support yield yet.");
+			return instruction.hasValue ? await resolveRuntimeValue(pop(frame)) : null;
 		}
 		if (instruction.op === "LABEL") {
 			continue;
@@ -359,6 +381,25 @@ async function executeInstructionsAsync(scope: RuntimeScope, frame: FunctionFram
 		}
 	}
 	return null;
+}
+
+async function executeStreamActionAsync(
+	scope: RuntimeScope,
+	fn: PointIrFunction,
+	args: PointRuntimeValue[],
+): Promise<unknown> {
+	const frame = createFrame();
+	if (args.length !== fn.params.length) {
+		throw new PointInterpreterError(`Function ${fn.name} expected ${fn.params.length} argument(s), got ${args.length}.`);
+	}
+	for (const [index, param] of fn.params.entries()) {
+		frame.locals.set(param.name, args[index] ?? null);
+	}
+	return executeInstructionsAsync(scope, frame, fn.bytecode);
+}
+
+function isAsyncIterableString(value: unknown): value is AsyncIterable<string> {
+	return value !== null && typeof value === "object" && Symbol.asyncIterator in value;
 }
 
 async function resolveRuntimeValue(value: RuntimeStackValue): Promise<PointRuntimeValue> {

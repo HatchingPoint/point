@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.6
+
+### Added
+
+- Owned-runtime UX parity (P9): theme toggle SSR, `refresh every` polling, SSE subscribe, WebSocket stream routes and terminal views — no React/Vite in default apps.
+
 ## 0.2.5
 
 ### Added

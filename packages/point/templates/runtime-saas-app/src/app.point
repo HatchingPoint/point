@@ -2,6 +2,12 @@ module RuntimeSaasApp
 
 capabilities auth sql
 
+theme app theme
+  accent slate
+  density comfortable
+  radius medium
+  toggle
+
 record Auth Headers
   authorization: Text
 
@@ -39,6 +45,7 @@ view admin nav
   link "New member" to "/members/new"
   link "Login" to "/login"
   button "Sign out" clear auth navigate "/login"
+  toggle theme
   render "Runtime SaaS"
 
 view settings form

@@ -3,7 +3,10 @@ import { checkPointCore } from "../../src/core/check.ts";
 import type { PointSemanticNavigationDeclaration, PointSemanticPageDeclaration } from "../../src/semantic/ast.ts";
 import { interpretCoreProgramEntry, type PointRuntimeValue } from "../interpreter/index.ts";
 import { renderViewSemanticExtras, type SsrRenderFrame } from "./view-extras.ts";
-import { wrapSsrHtmlDocument } from "./form-client.ts";
+import { wrapSsrHtmlDocument } from "./document.ts";
+import { extractLiveRegionInnerHtml, POINT_REFRESH_HEADER, POINT_REFRESH_HEADER_VALUE, wrapLiveRegionHtml } from "./refresh-ssr.ts";
+import { buildSseSubscribeConfig, renderSseSubscribeRegion } from "./sse-ssr.ts";
+import { buildWsSubscribeConfig, renderWsSubscribeRegion } from "./ws-ssr.ts";
 
 type HtmlValue = { readonly __pointHtml: true; readonly html: string };
 type SsrValue = PointRuntimeValue | HtmlValue;
@@ -60,7 +63,16 @@ export async function renderPointRuntimePage(program: PointCoreProgram, request:
 			const args = page.inputs.map((input) => match.params.get(input.label) ?? url.searchParams.get(input.label) ?? null);
 			const pageFn = findRenderable(program, "page", page.name);
 			const body = renderFunctionToHtml(program, pageFn, args, new Map(), url.pathname).html;
-			return new Response(wrapSsrHtmlDocument(body), {
+			if (request.headers.get(POINT_REFRESH_HEADER) === POINT_REFRESH_HEADER_VALUE) {
+				const fragment = extractLiveRegionInnerHtml(body);
+				if (fragment) {
+					return new Response(fragment, {
+						status: 200,
+						headers: { "content-type": "text/html; charset=utf-8" },
+					});
+				}
+			}
+			return new Response(wrapSsrHtmlDocument(body, program), {
 				status: 200,
 				headers: { "content-type": "text/html; charset=utf-8" },
 			});
@@ -93,10 +105,36 @@ function renderFunctionToHtml(
 					evaluateExpression(program, createRowFrame(frame, itemIdentifier, row), expression)
 			: undefined;
 		const extras = renderViewSemanticExtras(program, fn, frame as SsrRenderFrame, helpers, evaluateForRow);
+		const streamSubscribe = fn.semantic.viewStreamSubscribe;
+		if (streamSubscribe?.transport === "sse") {
+			frame.locals.set(streamSubscribe.bindingName, []);
+		}
+		if (streamSubscribe?.transport === "websocket") {
+			frame.locals.set(streamSubscribe.bindingName, []);
+		}
 		const result = executeStatements(program, frame, fn.body);
 		const body = result.returned ? renderValue(result.value) : "";
 		const navigation = renderViewNavigation(fn.semantic.viewNavigation?.links ?? [], currentPath);
-		const content = `${navigation}${extras}${body}`;
+		let content = `${navigation}${extras}${body}`;
+		if (streamSubscribe?.transport === "sse") {
+			const eachSpec = fn.semantic.viewEach?.[0];
+			const connectingHtml = streamSubscribe.connecting ? helpers.renderExpression(streamSubscribe.connecting) : undefined;
+			const disconnectedHtml = streamSubscribe.disconnected ? helpers.renderExpression(streamSubscribe.disconnected) : undefined;
+			const errorHtml = streamSubscribe.error ? helpers.renderExpression(streamSubscribe.error) : undefined;
+			const config = buildSseSubscribeConfig(streamSubscribe, eachSpec, connectingHtml, disconnectedHtml, errorHtml);
+			content = `${navigation}${renderSseSubscribeRegion(config, "")}${body}`;
+		}
+		if (streamSubscribe?.transport === "websocket") {
+			const eachSpec = fn.semantic.viewEach?.[0];
+			const connectingHtml = streamSubscribe.connecting ? helpers.renderExpression(streamSubscribe.connecting) : undefined;
+			const disconnectedHtml = streamSubscribe.disconnected ? helpers.renderExpression(streamSubscribe.disconnected) : undefined;
+			const errorHtml = streamSubscribe.error ? helpers.renderExpression(streamSubscribe.error) : undefined;
+			const config = buildWsSubscribeConfig(streamSubscribe, eachSpec, connectingHtml, disconnectedHtml, errorHtml);
+			content = `${navigation}${renderWsSubscribeRegion(config)}${body}`;
+		}
+		if (fn.semantic.viewDataLoad?.refreshIntervalMs) {
+			content = wrapLiveRegionHtml(content, fn.semantic.viewDataLoad, currentPath);
+		}
 		return html(
 			wrap(
 				"div",

@@ -171,6 +171,12 @@ Contract:
   - [x] P8-B: Remove legacy templates from npm package
   - [x] P8-C: Cut Vite dev/serve for app workflows globally (`--legacy` opt-in)
 
+- [x] **P9:** Owned-runtime UX parity
+  - [x] P9-A: Theme toggle SSR (`theme` block + `toggle theme`, `/point-ui.css`, localStorage persistence)
+  - [x] P9-B: `refresh every N seconds` in owned SSR (live region polling via `X-Point-Refresh`)
+  - [x] P9-C: SSE `subscribe to sse` in owned runtime
+  - [x] P9-D: WebSocket / terminal views in owned runtime
+
 ---
 
 ## File ownership
