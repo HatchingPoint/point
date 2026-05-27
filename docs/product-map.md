@@ -101,7 +101,7 @@ When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point se
 
 ## Version anchor
 
-Update this line each release: **v0.2.3** — full runtime std dispatch for owned apps, owned-template author-surface guards, and runtime-saas capabilities-only cleanup.
+Update this line each release: **v0.2.4** — owned-runtime SSR product depth, runtime-saas UI template, and LandingPage owned-runtime demo export.
 
 ## Open source (public messaging)
 

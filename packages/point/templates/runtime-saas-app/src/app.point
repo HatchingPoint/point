@@ -36,20 +36,59 @@ calculation jwt secret
 view admin nav
   link "Settings" to "/settings"
   link "Members" to "/members"
+  link "New member" to "/members/new"
   link "Login" to "/login"
+  button "Sign out" clear auth navigate "/login"
   render "Runtime SaaS"
 
-view settings summary
-  render "Workspace settings run through the owned Point runtime."
+view settings form
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
+  on change call on settings change
+  form
+  bind field "Workspace name" to settings.workspace name
+  bind checkbox "Email notifications" to settings.notifications enabled
+  tabs
+  tab "General" render "Theme: " + settings.theme
+  tab "Advanced" render "Notification settings apply workspace-wide"
+  modal "Notifications enabled" when settings.notifications enabled render "Email alerts are active for this workspace"
+  render "Workspace settings"
 
-view members summary
-  render "Members are stored in SQLite. Use the JSON API to list or create rows."
+view login form
+  input credentials: Login Body
+  input on credentials change: Handler<Login Body>
+  on change call on credentials change
+  form
+  bind field "Email" to credentials.email
+  bind field "Password" to credentials.password
+  toast on error "Sign in failed"
+  submit "Sign in" POST "/api/login" body credentials save token field token then navigate "/members"
+  render "Use password demo for the pilot workspace"
 
-view login summary
-  render "POST /api/login with password demo to receive a Bearer token."
+view create member form
+  input draft: Create Member Body
+  input role options: List<Text>
+  input on draft change: Handler<Create Member Body>
+  on change call on draft change
+  form
+  bind field "Name" to draft.name
+  bind select "Role" to draft.role options role options
+  toast on success "Member created"
+  toast on error "Could not create member"
+  submit "Create member" POST "/api/members" body draft with auth then navigate "/members"
+  render "Creates a member with your saved Bearer token"
 
-view create member summary
-  render "POST /api/members with a Bearer token to create a member."
+view members list
+  load data from action fetch members
+  when loading render "Loading members..."
+  when error render "Could not load members"
+  when empty render "No members yet"
+  datagrid member in data columns name, role sort by name filter by name link name to "/members/" + member.id
+
+view member detail
+  input id: Text
+  modal "Member actions" when id != "" render "Manage access for " + id
+  render "Member profile for " + id
 
 layout admin shell
   slot sidebar render admin nav()
@@ -57,32 +96,46 @@ layout admin shell
 
 page settings page
   layout admin shell
+  input settings: WorkspaceSettings
+  input on settings change: Handler<WorkspaceSettings>
   title "Settings"
   description "Runtime-owned SaaS settings"
-  main render settings summary()
+  main render settings form(settings, on settings change)
 
 page members page
   layout admin shell
   title "Members"
   description "SQLite-backed workspace members"
-  main render members summary()
+  main render members list()
+
+page member detail page
+  layout admin shell
+  input id: Text
+  title "Member"
+  description "Inspect a workspace member"
+  main render member detail(id)
 
 page login page
   layout admin shell
+  input credentials: Login Body
+  input on credentials change: Handler<Login Body>
   title "Login"
-  description "Demo auth endpoint"
-  main render login summary()
+  description "Sign in to get a Bearer token for protected routes"
+  main render login form(credentials, on credentials change)
 
 page create member page
   layout admin shell
+  input draft: Create Member Body
+  input on draft change: Handler<Create Member Body>
   title "New member"
-  description "Protected create-member API"
-  main render create member summary()
+  description "Create a workspace member"
+  main render create member form(draft, on draft change, ["Owner", "Admin", "Member"])
 
 navigation admin app
   path "/settings" page settings page
   path "/members" page members page
   path "/members/new" page create member page
+  path "/members/:id" page member detail page
   path "/login" page login page
   bootstrap router
 

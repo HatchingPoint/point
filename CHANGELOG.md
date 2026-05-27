@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.4
+
+### Added
+
+- Owned-runtime SSR product depth: datagrid, bind select/textarea, load data, form interactivity (`save token`, `with auth`, navigate), view buttons, bar charts, tabs, and modals.
+- `scripts/export-runtime-demo-ssr.ts` for LandingPage owned-runtime demo sync.
+- Runtime tests for SSR datagrid, forms, load data, form client, and view extras.
+
+### Changed
+
+- `runtime-saas-app` ships full UI (members datagrid, login/create forms, sign-out, settings tabs/modal).
+- Public docs examples page narrative updated for owned-runtime demo.
+
 ## 0.2.3
 
 ### Added

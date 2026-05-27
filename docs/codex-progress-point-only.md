@@ -768,3 +768,62 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - Updated `docs/site/language/ui.md` — owned runtime SSR as default; React emit scoped to legacy templates.
 - Updated `docs/site/stdlib/bridge.md` — runtime std-dispatch path for owned apps; emit bridge labeled legacy.
 - Updated `docs/point-runtime-pivot.md` post-pivot checklist through P6; added P7/P8 tracks and P7 goals in `docs/codex-goal-point-only.md`.
+
+## 2026-05-27 - Post-pivot P7-A Runtime SSR datagrid + forms
+
+- Added `packages/point/runtime/ssr/view-extras.ts` — datagrid (sort, filter markup, pagination, link columns), form controls (text/checkbox/select/textarea, submit, toast hints), and action-backed data-load prep.
+- Wired view semantic extras into `packages/point/runtime/ssr/index.ts` so owned-runtime views render datagrid/form HTML before the view body.
+- Added tests:
+  - `tests/runtime/ssr-datagrid.test.ts`
+  - `tests/runtime/ssr-forms.test.ts`
+- Verification passed:
+  - `bun test tests/runtime/ssr-datagrid.test.ts tests/runtime/ssr-forms.test.ts tests/runtime/ssr.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P7-E Runtime-saas UI language surface
+
+- Upgraded `packages/point/templates/runtime-saas-app/src/app.point` from text-only summaries to owned-runtime UI: `load data`, datagrid, settings/login/create-member forms (bind field/select/checkbox, toast, submit).
+- Added `tests/runtime/ssr-data-load.test.ts` for action-backed `load data` + datagrid and empty-state SSR.
+- Extended `tests/runtime-saas-template.test.ts` to assert `/members` SSR renders SQLite-backed datagrid rows.
+- Verification passed:
+  - `bun test tests/runtime/ssr-data-load.test.ts tests/runtime-saas-template.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P7-F Runtime SSR form interactivity
+
+- Added `packages/point/runtime/ssr/form-client.ts` — owned-runtime form submit client (`fetch` JSON POST, Bearer token from localStorage, save token field, toast, navigate).
+- Updated `renderViewControlsHtml` to emit `data-point-form-submit` + `data-point-field` metadata instead of native form POST.
+- Navigation SSR pages inject the form client script when interactive forms are present (`wrapSsrHtmlDocument`).
+- Upgraded `runtime-saas-app` login/create-member submits to use `save token field`, `with auth`, and `then navigate`.
+- Added tests: `tests/runtime/ssr-form-client.test.ts`; extended `ssr-forms.test.ts` and `runtime-saas-template.test.ts`.
+- Verification passed:
+  - `bun test tests/runtime/ssr-forms.test.ts tests/runtime/ssr-form-client.test.ts tests/runtime-saas-template.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P7-G Runtime SSR buttons, chart, tabs, modal
+
+- Extended `packages/point/runtime/ssr/view-extras.ts` with owned-runtime HTML for view buttons (`clear auth navigate`), bar charts, tabs, and conditional modals.
+- Extended `packages/point/runtime/ssr/form-client.ts` UI client script for sign-out buttons and tab switching (injected when pages use interactive controls).
+- Upgraded `runtime-saas-app`: sign-out in nav, settings tabs/modal, member-detail modal.
+- Added `tests/runtime/ssr-view-extras.test.ts`; extended form-client and runtime-saas template tests.
+- Verification passed:
+  - `bun test tests/runtime/ssr-view-extras.test.ts tests/runtime/ssr-form-client.test.ts tests/runtime-saas-template.test.ts tests/runtime/ssr.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P7-D LandingPage owned-runtime demo
+
+- Added `scripts/export-runtime-demo-ssr.ts` — exports owned-runtime SSR HTML + readiness evaluation matrix + SaaS login/datagrid fragments for the public site.
+- Added `tests/export-runtime-demo-ssr.test.ts`.
+- Updated `docs/site/examples.md` live demo narrative for owned runtime (not React widget).
+- LandingPage (`../LandingPage`):
+  - `scripts/sync-point-runtime-demo.js` + `sync:point-runtime-demo` prebuild hook
+  - `RuntimeOwnedDemo` component on `/point/examples`
+  - `src/content/pointRuntimeDemo.generated.json` synced from point runtime
+- Verification passed:
+  - `bun test tests/export-runtime-demo-ssr.test.ts`
+  - `npm run build` in LandingPage
+- No commit was made.

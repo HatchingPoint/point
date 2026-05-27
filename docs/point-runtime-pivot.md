@@ -163,9 +163,9 @@ Contract:
 - [x] **P2:** Runtime-owned apps resolve `use std.*` through `packages/point/runtime/std-dispatch.ts` and runtime builtins only; no emitted std imports
 - [x] **P3:** `runtime-saas-app` template ships with auth + SQLite via owned runtime
 - [x] **P4:** Repo-wide fmt gate green; legacy template deprecation notes
-- [x] **P5:** Full CI green; product-map and public version anchors through 0.2.3
+- [x] **P5:** Full CI green; product-map and public version anchors through 0.2.4
 - [x] **P6:** Full capability catalog in runtime std dispatch; owned-template author-surface guards
-- [ ] **P7:** Product depth — SSR parity, deploy docs, manifest-only routing, live site demo
+- [x] **P7:** Product depth — SSR parity, deploy docs, manifest-only routing, live site demo
 - [ ] **P8:** Legacy sunset — delete dual emit/Vite app path
 
 ---

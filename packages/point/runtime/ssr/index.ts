@@ -2,6 +2,8 @@ import type { PointCoreExpression, PointCoreFunctionDeclaration, PointCoreProgra
 import { checkPointCore } from "../../src/core/check.ts";
 import type { PointSemanticNavigationDeclaration, PointSemanticPageDeclaration } from "../../src/semantic/ast.ts";
 import { interpretCoreProgramEntry, type PointRuntimeValue } from "../interpreter/index.ts";
+import { renderViewSemanticExtras, type SsrRenderFrame } from "./view-extras.ts";
+import { wrapSsrHtmlDocument } from "./form-client.ts";
 
 type HtmlValue = { readonly __pointHtml: true; readonly html: string };
 type SsrValue = PointRuntimeValue | HtmlValue;
@@ -58,7 +60,7 @@ export async function renderPointRuntimePage(program: PointCoreProgram, request:
 			const args = page.inputs.map((input) => match.params.get(input.label) ?? url.searchParams.get(input.label) ?? null);
 			const pageFn = findRenderable(program, "page", page.name);
 			const body = renderFunctionToHtml(program, pageFn, args, new Map(), url.pathname).html;
-			return new Response(`<!doctype html>${body}`, {
+			return new Response(wrapSsrHtmlDocument(body), {
 				status: 200,
 				headers: { "content-type": "text/html; charset=utf-8" },
 			});
@@ -83,14 +85,42 @@ function renderFunctionToHtml(
 	if (fn.semantic?.kind === "layout" && fn.semantic.layoutSpec) return html(renderLayout(program, fn, slotOverrides, currentPath));
 
 	const frame = createFrame(fn, args, currentPath);
+	if (fn.semantic?.kind === "view") {
+		const helpers = createSsrHelpers(program, frame);
+		const itemIdentifier = fn.semantic.viewTable?.itemIdentifier;
+		const evaluateForRow = itemIdentifier
+			? (row: Record<string, PointRuntimeValue>, expression: PointCoreExpression) =>
+					evaluateExpression(program, createRowFrame(frame, itemIdentifier, row), expression)
+			: undefined;
+		const extras = renderViewSemanticExtras(program, fn, frame as SsrRenderFrame, helpers, evaluateForRow);
+		const result = executeStatements(program, frame, fn.body);
+		const body = result.returned ? renderValue(result.value) : "";
+		const navigation = renderViewNavigation(fn.semantic.viewNavigation?.links ?? [], currentPath);
+		const content = `${navigation}${extras}${body}`;
+		return html(
+			wrap(
+				"div",
+				content,
+				classTokens("point-view-render", result.returned ? result.className : undefined, result.returned ? result.style : undefined),
+			),
+		);
+	}
+
 	const result = executeStatements(program, frame, fn.body);
 	const value = result.returned ? result.value : null;
 	const rendered = renderValue(value);
-	if (fn.semantic?.kind === "view") {
-		const navigation = renderViewNavigation(fn.semantic.viewNavigation?.links ?? [], currentPath);
-		return html(wrap("div", `${navigation}${rendered}`, classTokens("point-view-render", result.returned ? result.className : undefined, result.returned ? result.style : undefined)));
-	}
 	return html(rendered);
+}
+
+function createSsrHelpers(program: PointCoreProgram, frame: RenderFrame) {
+	return {
+		evaluateExpression: (expression: PointCoreExpression) => evaluateExpression(program, frame, expression),
+		renderExpression: (expression: PointCoreExpression) => renderExpression(program, frame, expression),
+	};
+}
+
+function createRowFrame(frame: RenderFrame, itemIdentifier: string, row: Record<string, PointRuntimeValue>): RenderFrame {
+	return { locals: new Map([...frame.locals.entries(), [itemIdentifier, row]]), currentPath: frame.currentPath };
 }
 
 function renderPage(program: PointCoreProgram, fn: PointCoreFunctionDeclaration, args: PointRuntimeValue[], currentPath: string): string {

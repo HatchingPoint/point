@@ -42,6 +42,8 @@ describe("runtime-saas-app template", () => {
 			expect(existsSync(join(result.targetDir, "web"))).toBe(false);
 			const scaffoldedSource = await Bun.file(join(result.targetDir, "src/app.point")).text();
 			expect(scaffoldedSource).toContain("capabilities auth sql");
+			expect(scaffoldedSource).toContain("load data from action fetch members");
+			expect(scaffoldedSource).toContain("datagrid member in data");
 			expect(scaffoldedSource).not.toContain('@hatchingpoint/point/std/');
 			expect(scaffoldedSource).not.toContain("external point std");
 			const pkg = await Bun.file(join(result.targetDir, "package.json")).json();
@@ -117,6 +119,36 @@ describe("runtime-saas-app template", () => {
 			expect(listed.status).toBe(200);
 			const body = (await listed.json()) as { members: Array<{ name: string }> };
 			expect(body.members.some((member) => member.name === "Runtime Member")).toBe(true);
+
+			const membersPage = await handler(new Request("http://point.test/members"));
+			expect(membersPage.status).toBe(200);
+			const membersHtml = await membersPage.text();
+			expect(membersHtml).toContain("point-datagrid");
+			expect(membersHtml).toContain("Alex Chen");
+			expect(membersHtml).not.toContain("React");
+
+			const loginPage = await handler(new Request("http://point.test/login"));
+			expect(loginPage.status).toBe(200);
+			const loginHtml = await loginPage.text();
+			expect(loginHtml).toContain("data-point-form-submit");
+			expect(loginHtml).toContain("saveTokenField&quot;:&quot;token");
+			expect(loginHtml).toContain("navigateTo&quot;:&quot;/members");
+
+			const createPage = await handler(new Request("http://point.test/members/new"));
+			expect(createPage.status).toBe(200);
+			const createHtml = await createPage.text();
+			expect(createHtml).toContain("withAuth&quot;:true");
+
+			const settingsPage = await handler(new Request("http://point.test/settings"));
+			expect(settingsPage.status).toBe(200);
+			const settingsHtml = await settingsPage.text();
+			expect(settingsHtml).toContain("data-point-tabs");
+
+			const memberDetailPage = await handler(new Request("http://point.test/members/u-1"));
+			expect(memberDetailPage.status).toBe(200);
+			const memberDetailHtml = await memberDetailPage.text();
+			expect(memberDetailHtml).toContain("point-modal");
+			expect(memberDetailHtml).toContain("Manage access for u-1");
 		} finally {
 			if (oldDatabaseUrl === undefined) delete process.env.DATABASE_URL;
 			else process.env.DATABASE_URL = oldDatabaseUrl;

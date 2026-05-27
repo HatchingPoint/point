@@ -31,7 +31,7 @@ export const APP_TEMPLATES: AppTemplateSpec[] = [
 	{
 		id: RUNTIME_SAAS_APP_TEMPLATE_ID,
 		title: "Runtime-native SaaS app",
-		description: "Runtime-owned SaaS starter with auth middleware and SQLite via runtime std.sql - no web/ or Vite",
+		description: "Runtime-owned SaaS starter with auth, SQLite, SSR datagrid/forms (load data, bind, toast) — no web/ or Vite",
 		resolveDir: () => bundledTemplateDir(RUNTIME_SAAS_APP_TEMPLATE_ID),
 	},
 	{

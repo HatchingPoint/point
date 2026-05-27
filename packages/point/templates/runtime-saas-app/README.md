@@ -18,7 +18,9 @@ Useful routes:
 | Path | Purpose |
 |------|---------|
 | `/settings` | Runtime-rendered settings page |
-| `/members` | Runtime-rendered members page |
+| `/members` | Runtime-rendered members datagrid (SQLite via `load data`) |
+| `/members/new` | Create-member form |
+| `/login` | Login form |
 | `/api/health` | Health check |
 | `/api/login` | Demo login, password `demo` |
 | `/api/members` | SQLite-backed members API; `POST` requires a Bearer token |
