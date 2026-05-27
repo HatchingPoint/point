@@ -13,7 +13,7 @@
 
 Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## Platform status (v0.2.1)
+## Platform status (v0.2.3)
 
 Point authors application logic, HTTP, automation, and full-stack apps in one semantic source — with simple daily commands and an agent-native compiler.
 
@@ -28,9 +28,9 @@ Point authors application logic, HTTP, automation, and full-stack apps in one se
 | Python | ✅ Logic, routes, workflows, pipelines (not UI/views) |
 | Dev experience | ✅ `point dev`, `point create`, `capabilities`, `point box`, `point launch` |
 | Cross-module imports | ✅ CLI + LSP + selective use merge |
-| Built-in capabilities | ✅ `capabilities http json`, `point capabilities` |
+| Built-in capabilities | ✅ Full std catalog in owned runtime dispatch; `capabilities http json`, `point capabilities` |
 
-**621 tests** in CI. **Master roadmap:** [phase-roadmap.md](./phase-roadmap.md)
+**850+ tests** in CI. **Master roadmap:** [phase-roadmap.md](./phase-roadmap.md)
 
 ## What you write vs what runs
 

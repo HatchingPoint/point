@@ -11,7 +11,7 @@ Use this when a **team outside core Point** runs their first project. Goal: one 
 
 ## Day 1 — Scaffold
 
-**Default (runtime-native, 0.2.1+):**
+**Default (runtime-native, 0.2.3+):**
 
 ```bash
 npm install -g @hatchingpoint/point
@@ -25,6 +25,20 @@ point dev src/app.point
 - [ ] `GET /readiness` returns JSON score/label/tone
 - [ ] `point run src/app.point smoke` prints `ready`
 - [ ] `point test tests/score.test.point` passes
+
+**Runtime SaaS pilot (SQLite + auth — no Vite, explicit template):**
+
+```bash
+point create my-saas --template runtime-saas-app
+cd my-saas
+bun install
+point run src/app.point init database
+point dev src/app.point
+```
+
+- [ ] Dev server prints a URL; SSR admin pages load
+- [ ] `POST /api/login` with password `demo` returns a JWT
+- [ ] `GET /api/members` lists seeded members after init
 
 **Legacy SaaS pilot (SQLite + auth + Vite — explicit template):**
 
