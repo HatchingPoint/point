@@ -8,7 +8,23 @@ export const REPO_TEMPLATE_REL = "examples/full-stack-template";
 export const RUNTIME_APP_TEMPLATE_ID = "runtime-app";
 export const RUNTIME_SAAS_APP_TEMPLATE_ID = "runtime-saas-app";
 export const FULL_STACK_APP_TEMPLATE_ID = "full-stack-app";
+export const VERCEL_APP_TEMPLATE_ID = "vercel-app";
+export const SAAS_APP_TEMPLATE_ID = "saas-app";
 export const DEFAULT_APP_TEMPLATE_ID = RUNTIME_APP_TEMPLATE_ID;
+
+export const LEGACY_APP_TEMPLATE_IDS = new Set<string>([
+	FULL_STACK_APP_TEMPLATE_ID,
+	VERCEL_APP_TEMPLATE_ID,
+	SAAS_APP_TEMPLATE_ID,
+]);
+
+export function isLegacyAppTemplate(templateId: string): boolean {
+	return LEGACY_APP_TEMPLATE_IDS.has(templateId);
+}
+
+export function legacyTemplateUnavailableMessage(templateId: string): string {
+	return `Template "${templateId}" is legacy (emit + Vite) and is not shipped in @hatchingpoint/point. Clone https://github.com/HatchingPoint/point for legacy templates, or use runtime-app / runtime-saas-app.`;
+}
 
 const APP_NAME_PATTERN = /^[a-z][a-z0-9-]*$/;
 
@@ -38,23 +54,38 @@ export const APP_TEMPLATES: AppTemplateSpec[] = [
 		id: FULL_STACK_APP_TEMPLATE_ID,
 		title: "Full-stack admin app (legacy emit + Vite)",
 		description:
-			"Legacy React/Vite host with generated app artifacts; use only for compatibility or transition work",
+			"Legacy React/Vite host with generated app artifacts; requires --legacy on point create — prefer runtime-app",
 		resolveDir: resolveFullStackTemplateDir,
 	},
 	{
-		id: "vercel-app",
+		id: VERCEL_APP_TEMPLATE_ID,
 		title: "Vercel app (legacy emit + Vite)",
 		description:
-			"Legacy Vercel/Vite host with generated app artifacts and Edge adapter; use only for compatibility or transition work",
-		resolveDir: () => bundledTemplateDir("vercel-app"),
+			"Legacy Vercel/Vite host with generated app artifacts and Edge adapter; requires --legacy on point create",
+		resolveDir: () => bundledTemplateDir(VERCEL_APP_TEMPLATE_ID),
 	},
 	{
-		id: "saas-app",
-		title: "SaaS starter",
-		description: "Full-stack admin with auth middleware, SQLite via std.sql, and DB init command — opinionated SaaS path",
-		resolveDir: () => bundledTemplateDir("saas-app"),
+		id: SAAS_APP_TEMPLATE_ID,
+		title: "SaaS starter (legacy emit + Vite)",
+		description:
+			"Legacy React/Vite SaaS admin with auth and SQLite; requires --legacy on point create — prefer runtime-saas-app",
+		resolveDir: () => bundledTemplateDir(SAAS_APP_TEMPLATE_ID),
 	},
 ];
+
+export function isAppTemplateBundled(templateId: string): boolean {
+	const template = APP_TEMPLATES.find((item) => item.id === templateId);
+	if (!template) return false;
+	try {
+		return existsSync(template.resolveDir());
+	} catch {
+		return false;
+	}
+}
+
+export function listAppTemplates(): AppTemplateSpec[] {
+	return APP_TEMPLATES.filter((template) => !isLegacyAppTemplate(template.id) || isAppTemplateBundled(template.id));
+}
 
 export function validateAppName(name: string): void {
 	if (!name || !APP_NAME_PATTERN.test(name)) {
@@ -82,8 +113,12 @@ export function bundledTemplateDir(templateId: string): string {
 export function resolveFullStackTemplateDir(): string {
 	const bundled = bundledTemplateDir(FULL_STACK_APP_TEMPLATE_ID);
 	if (existsSync(bundled)) return bundled;
-	const repoRoot = locatePointToolkitRoot();
-	return join(repoRoot, REPO_TEMPLATE_REL);
+	try {
+		const repoRoot = locatePointToolkitRoot();
+		return join(repoRoot, REPO_TEMPLATE_REL);
+	} catch {
+		throw new Error(legacyTemplateUnavailableMessage(FULL_STACK_APP_TEMPLATE_ID));
+	}
 }
 
 export function fullStackTemplateDir(toolkitRoot?: string): string {
@@ -102,8 +137,19 @@ export function resolveAppTemplate(templateId = DEFAULT_APP_TEMPLATE_ID): AppTem
 
 export function resolveAppTemplateDir(templateId = DEFAULT_APP_TEMPLATE_ID): string {
 	const template = resolveAppTemplate(templateId);
-	const dir = template.resolveDir();
+	let dir: string;
+	try {
+		dir = template.resolveDir();
+	} catch (error) {
+		if (isLegacyAppTemplate(templateId)) {
+			throw new Error(legacyTemplateUnavailableMessage(templateId), { cause: error });
+		}
+		throw error;
+	}
 	if (!existsSync(dir)) {
+		if (isLegacyAppTemplate(templateId)) {
+			throw new Error(legacyTemplateUnavailableMessage(templateId));
+		}
 		throw new Error(`Template "${templateId}" not found at ${dir}`);
 	}
 	return dir;
@@ -114,15 +160,21 @@ export function parseCreateAppArgs(args: string[]): {
 	targetDir?: string;
 	templateId: string;
 	listTemplates: boolean;
+	legacy: boolean;
 } {
 	let templateId = DEFAULT_APP_TEMPLATE_ID;
 	let listTemplates = false;
+	let legacy = false;
 	const positional: string[] = [];
 
 	for (let index = 0; index < args.length; index += 1) {
 		const arg = args[index]!;
 		if (arg === "--list-templates" || arg === "--list") {
 			listTemplates = true;
+			continue;
+		}
+		if (arg === "--legacy") {
+			legacy = true;
 			continue;
 		}
 		if (arg === "--template" && args[index + 1]) {
@@ -144,7 +196,20 @@ export function parseCreateAppArgs(args: string[]): {
 		targetDir: positional[1],
 		templateId,
 		listTemplates,
+		legacy,
 	};
+}
+
+function assertLegacyTemplateAllowed(templateId: string, legacy: boolean): void {
+	if (!isLegacyAppTemplate(templateId)) return;
+	if (!legacy) {
+		throw new Error(
+			`Template "${templateId}" is legacy (emit + Vite). Pass --legacy to opt in, or use runtime-app / runtime-saas-app.`,
+		);
+	}
+	console.warn(
+		`Warning: "${templateId}" is a legacy emit/Vite template and will be removed in a future release. Prefer runtime-app or runtime-saas-app.`,
+	);
 }
 
 async function copyTemplateTree(sourceDir: string, targetDir: string, appName: string): Promise<string[]> {
@@ -177,10 +242,11 @@ export interface AppNewResult {
 
 export async function scaffoldAppFromTemplate(
 	appName: string,
-	options: { cwd?: string; targetDir?: string; templateId?: string } = {},
+	options: { cwd?: string; targetDir?: string; templateId?: string; legacy?: boolean } = {},
 ): Promise<AppNewResult> {
 	validateAppName(appName);
 	const templateId = options.templateId ?? DEFAULT_APP_TEMPLATE_ID;
+	assertLegacyTemplateAllowed(templateId, options.legacy ?? false);
 	const templateDir = resolveAppTemplateDir(templateId);
 	const cwd = options.cwd ?? process.cwd();
 	const targetDir = resolve(cwd, options.targetDir ?? appName);
@@ -218,17 +284,19 @@ export async function runCreateApp(args: string[]): Promise<void> {
 	const parsed = parseCreateAppArgs(args);
 	if (parsed.listTemplates) {
 		console.log("Available templates:");
-		for (const template of APP_TEMPLATES) {
-			console.log(`  ${template.id.padEnd(16)} ${template.title} — ${template.description}`);
+		for (const template of listAppTemplates()) {
+			const tag = isLegacyAppTemplate(template.id) ? " [legacy — requires --legacy]" : "";
+			console.log(`  ${template.id.padEnd(16)} ${template.title}${tag} — ${template.description}`);
 		}
 		return;
 	}
 	if (!parsed.appName) {
-		throw new Error("Usage: point create <name> [directory] [--template runtime-app|runtime-saas-app]");
+		throw new Error("Usage: point create <name> [directory] [--template runtime-app|runtime-saas-app] [--legacy]");
 	}
 	const result = await scaffoldAppFromTemplate(parsed.appName, {
 		targetDir: parsed.targetDir,
 		templateId: parsed.templateId,
+		legacy: parsed.legacy,
 	});
 	await runPointInit(["--skip-install", "--quiet", "--force", result.targetDir]);
 	console.log(`Created ${result.appName} at ${result.targetDir.replaceAll("\\", "/")}`);

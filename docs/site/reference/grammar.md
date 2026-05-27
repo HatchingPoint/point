@@ -8,7 +8,7 @@ quadrant: Reference
 
 This page summarizes public **semantic** syntax. Full normative detail lives in the repository `docs/language-spec.md`. Internal core syntax (`fn`, `let`, `type`) is not author-facing.
 
-**Version:** aligned with `@hatchingpoint/point@0.2.4`.
+**Version:** aligned with `@hatchingpoint/point@0.2.5`.
 
 ## Program structure
 

@@ -42,7 +42,7 @@ describe("point build-app", () => {
 				'export default { root: ".", build: { outDir: "../dist", emptyOutDir: true } };\n',
 			);
 			await writeFile(join(projectDir, "web/index.html"), "<!doctype html><html><body><div id=root></div></body></html>\n");
-			const result = await buildPointApp("app.point", projectDir);
+			const result = await buildPointApp("app.point", projectDir, { legacy: true });
 			expect(result.ok).toBe(true);
 			expect(await Bun.file(result.jsOutput).exists()).toBe(true);
 			expect(await Bun.file(result.tsOutput).exists()).toBe(true);

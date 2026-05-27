@@ -101,7 +101,7 @@ When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point se
 
 ## Version anchor
 
-Update this line each release: **v0.2.4** — owned-runtime SSR product depth, runtime-saas UI template, and LandingPage owned-runtime demo export.
+Update this line each release: **v0.2.5** — legacy sunset gates (P8): `--legacy` opt-in for emit/Vite templates and dev/serve/build-app; npm ships runtime templates only.
 
 ## Open source (public messaging)
 

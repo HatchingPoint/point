@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.2.4**
+Current release: **0.2.5**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.2.5** | Legacy sunset gates (P8): `--legacy` for emit/Vite templates, dev/serve/build-app; npm ships runtime templates only. |
 | **0.2.4** | Owned-runtime SSR depth (datagrid, forms, load data, UI extras); runtime-saas UI template; LandingPage owned-runtime demo export. |
 | **0.2.3** | Full runtime std dispatch for all capability modules; owned-template author-surface guards; runtime-saas capabilities-only cleanup. |
 | **0.2.2** | Runtime std dispatch (text/json/http/sql/auth/time); `runtime-saas-app` template; site docs for owned-runtime default. |

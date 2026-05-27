@@ -4,7 +4,7 @@ Point is a **general-purpose, AI-first language** for application logic — sema
 
 Write rules, routes, pages, pipelines, and commands in one checked source. New apps run through the owned Point runtime by default, with JavaScript/TypeScript/Python/SQL emit still available for legacy hosts and integrations.
 
-**Current release:** v0.2.4 · npm: `@hatchingpoint/point`
+**Current release:** v0.2.5 · npm: `@hatchingpoint/point`
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/@hatchingpoint/point.svg)](https://www.npmjs.com/package/@hatchingpoint/point)

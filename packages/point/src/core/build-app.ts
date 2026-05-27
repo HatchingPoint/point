@@ -15,6 +15,7 @@ import { viteWebRoot } from "./dev.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { readPointLock } from "./packages.ts";
+import { assertLegacyViteAppWorkflowAllowed } from "./legacy-app-workflow.ts";
 
 export interface PointBuildAppResult {
 	ok: boolean;
@@ -35,8 +36,9 @@ function viteConfigPath(cwd: string): string | null {
 	return null;
 }
 
-export async function buildPointApp(entry: string, cwd = process.cwd()): Promise<PointBuildAppResult> {
+export async function buildPointApp(entry: string, cwd = process.cwd(), options: { legacy?: boolean } = {}): Promise<PointBuildAppResult> {
 	const normalizedEntry = entry.replaceAll("\\", "/");
+	assertLegacyViteAppWorkflowAllowed("point build-app", normalizedEntry, { legacy: options.legacy, cwd });
 	const distDir = resolve(cwd, "dist");
 	const lock = await readPointLock(cwd);
 	const coreFile = await loadCoreFile(normalizedEntry, lock, cwd);
@@ -79,8 +81,8 @@ export async function buildPointApp(entry: string, cwd = process.cwd()): Promise
 	return { ok: true, entry: normalizedEntry, jsOutput, tsOutput, tsxOutput, distDir, diagnostics: [] };
 }
 
-export async function runPointBuildApp(entry: string, cwd = process.cwd()): Promise<void> {
-	const result = await buildPointApp(entry, cwd);
+export async function runPointBuildApp(entry: string, cwd = process.cwd(), options: { legacy?: boolean } = {}): Promise<void> {
+	const result = await buildPointApp(entry, cwd, options);
 	if (!result.ok) {
 		console.error(JSON.stringify({ ok: false, diagnostics: result.diagnostics }, null, 2));
 		process.exit(1);

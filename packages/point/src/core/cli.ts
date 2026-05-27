@@ -29,6 +29,7 @@ import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
 import { isRuntimeNativeInput } from "./runtime-project.ts";
+import { assertLegacyViteAppWorkflowAllowed, parseLegacyCliFlag } from "./legacy-app-workflow.ts";
 import { runPointDemo } from "./demo.ts";
 import {
 	isCapabilitiesLine,
@@ -101,7 +102,7 @@ export async function main() {
 			await runPointRuntimeDev(devInput, program, { port: parsed.port });
 			return;
 		}
-		await runPointDev(devInput, { port: parsed.port, apiOnly: parsed.apiOnly });
+		await runPointDev(devInput, { port: parsed.port, apiOnly: parsed.apiOnly, legacy: parsed.legacy });
 		return;
 	}
 	if (command === "serve") {
@@ -120,13 +121,15 @@ export async function main() {
 			await runPointRuntimeServe(serveInput, program, { port: parsed.port });
 			return;
 		}
-		await runPointServe(serveInput, { port: parsed.port, staticDir: parsed.staticDir });
+		await runPointServe(serveInput, { port: parsed.port, staticDir: parsed.staticDir, legacy: parsed.legacy });
 		return;
 	}
 	if (command === "build-app") {
-		const appInput = tail[0] ?? "src/app.point";
+		const buildAppArgs = parseLegacyCliFlag(tail);
+		const appInput = buildAppArgs.rest[0] ?? "src/app.point";
 		blockRuntimeNativeEmit(command, appInput);
-		await runPointBuildApp(appInput);
+		assertLegacyViteAppWorkflowAllowed(command, appInput, { legacy: buildAppArgs.legacy });
+		await runPointBuildApp(appInput, process.cwd(), { legacy: buildAppArgs.legacy });
 		return;
 	}
 	if (command === "test" && tail[0] === "integration") {

@@ -40,19 +40,21 @@ The runtime app template includes:
 
 ## Legacy full-stack template
 
-The **`full-stack-app`** template is still available for projects that intentionally need the legacy emit + Vite host:
+The **`full-stack-app`**, **`saas-app`**, and **`vercel-app`** templates remain in the [Point repository](https://github.com/HatchingPoint/point) for maintainers and migration work. They are **not** shipped in the published **`@hatchingpoint/point`** npm tarball. Clone the repo and pass **`--legacy`** when you intentionally need the emit + Vite host:
 
 ```bash
-point create my-app --template full-stack-app
+git clone https://github.com/HatchingPoint/point.git
+cd point
+point create my-app --template full-stack-app --legacy
 ```
 
-That template includes a React/Vite `web/` host, generated output during builds, TypeScript config, and `render.yaml`. Treat it as an opt-in compatibility path, not the default new-app path.
+Those templates include a React/Vite `web/` host, generated output during builds, TypeScript config, and deployment helpers. Treat them as an opt-in compatibility path inside the monorepo, not the default new-app path.
 
 ## Monorepo reference
 
-The canonical runtime template lives at `packages/point/templates/runtime-app/` in the [Point repository](https://github.com/HatchingPoint/point). The runtime SaaS template lives at `packages/point/templates/runtime-saas-app/`. The legacy emit + Vite template remains at `packages/point/templates/full-stack-app/`.
+The canonical runtime template lives at `packages/point/templates/runtime-app/` in the [Point repository](https://github.com/HatchingPoint/point). The runtime SaaS template lives at `packages/point/templates/runtime-saas-app/`. Legacy emit + Vite templates remain under `packages/point/templates/full-stack-app/`, `saas-app/`, and `vercel-app/` for repo development only — the npm package `files` list ships only `templates/runtime-app` and `templates/runtime-saas-app`.
 
-To publish legacy full-stack template updates, maintainers run `bun run sync:app-template` before releasing `@hatchingpoint/point`. Runtime app template updates are maintained directly in `packages/point/templates/runtime-app/`.
+To refresh the repo copy of the legacy full-stack template, maintainers run `bun run sync:app-template`. Runtime app template updates are maintained directly in `packages/point/templates/runtime-app/`.
 
 ## Registry note
 

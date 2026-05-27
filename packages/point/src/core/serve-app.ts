@@ -13,6 +13,7 @@ import {
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { hasBootstrapNavigation, hasRoutes } from "./dev.ts";
 import { readPointLock } from "./packages.ts";
+import { assertLegacyViteAppWorkflowAllowed } from "./legacy-app-workflow.ts";
 
 const DEFAULT_STATIC_DIR = "dist";
 const DEFAULT_PORT = 3456;
@@ -21,6 +22,7 @@ export interface PointServeOptions {
 	port: number;
 	cwd?: string;
 	staticDir?: string;
+	legacy?: boolean;
 }
 
 export interface PointServeBuildResult {
@@ -31,9 +33,10 @@ export interface PointServeBuildResult {
 	diagnostics: PointCoreDiagnostic[];
 }
 
-export function parseServeCliFlags(args: string[]): { port: number; staticDir: string; positional: string[] } {
+export function parseServeCliFlags(args: string[]): { port: number; staticDir: string; legacy: boolean; positional: string[] } {
 	let port = DEFAULT_PORT;
 	let staticDir = DEFAULT_STATIC_DIR;
+	let legacy = false;
 	const positional: string[] = [];
 	for (let index = 0; index < args.length; index += 1) {
 		const arg = args[index]!;
@@ -53,10 +56,14 @@ export function parseServeCliFlags(args: string[]): { port: number; staticDir: s
 			staticDir = arg.slice("--static=".length);
 			continue;
 		}
+		if (arg === "--legacy") {
+			legacy = true;
+			continue;
+		}
 		positional.push(arg);
 	}
 	if (!Number.isFinite(port) || port <= 0) throw new Error(`Invalid --port value: ${port}`);
-	return { port, staticDir, positional };
+	return { port, staticDir, legacy, positional };
 }
 
 export function supportsPointServe(program: PointCoreProgram): boolean {
@@ -161,6 +168,7 @@ export async function buildServeEntry(entry: string, cwd = process.cwd(), static
 
 export async function runPointServe(entry: string, options: PointServeOptions): Promise<void> {
 	const cwd = options.cwd ?? process.cwd();
+	assertLegacyViteAppWorkflowAllowed("point serve", entry, { legacy: options.legacy, cwd });
 	const staticDir = options.staticDir ?? DEFAULT_STATIC_DIR;
 	const resolvedStatic = resolve(cwd, staticDir);
 	if (!existsSync(resolvedStatic)) {

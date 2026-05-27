@@ -176,7 +176,7 @@ Point does not replace the LLM. It replaces **guesswork about where and how to p
 
 ## PoC 8 — Agent context and token savings (live demo)
 
-On the public docs site, the **Agent context demo** on [Proof of concept](/point/concepts/proof-of-concept#agent-context-demo) walks through a real repair scenario using output from `@hatchingpoint/point@0.2.4`:
+On the public docs site, the **Agent context demo** on [Proof of concept](/point/concepts/proof-of-concept#agent-context-demo) walks through a real repair scenario using output from `@hatchingpoint/point@0.2.5`:
 
 | Workflow | Context loaded per repair turn | Stable patch target |
 |----------|-------------------------------|---------------------|

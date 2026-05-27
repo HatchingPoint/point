@@ -166,7 +166,10 @@ Contract:
 - [x] **P5:** Full CI green; product-map and public version anchors through 0.2.4
 - [x] **P6:** Full capability catalog in runtime std dispatch; owned-template author-surface guards
 - [x] **P7:** Product depth — SSR parity, deploy docs, manifest-only routing, live site demo
-- [ ] **P8:** Legacy sunset — delete dual emit/Vite app path
+- [x] **P8:** Legacy sunset — delete dual emit/Vite app path
+  - [x] P8-A: `point create --legacy` required for emit/Vite templates (`full-stack-app`, `saas-app`, `vercel-app`)
+  - [x] P8-B: Remove legacy templates from npm package
+  - [x] P8-C: Cut Vite dev/serve for app workflows globally (`--legacy` opt-in)
 
 ---
 

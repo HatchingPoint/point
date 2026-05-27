@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.5
+
+### Added
+
+- Legacy template gate: `point create --legacy` required for emit/Vite templates (`full-stack-app`, `saas-app`, `vercel-app`).
+- Legacy Vite app workflow gate: `point dev`, `point serve`, and `point build-app` require `--legacy` when the project has a `web/vite.config.*` host.
+- npm pack test proving published tarball ships `runtime-app` and `runtime-saas-app` only.
+
+### Changed
+
+- `@hatchingpoint/point` npm `files` list excludes legacy templates; repo-only for `--legacy` maintainers.
+- `listAppTemplates()` hides legacy templates when not bundled (npm installs).
+- Standalone-template docs updated for repo-only legacy scaffolds.
+
 ## 0.2.4
 
 ### Added

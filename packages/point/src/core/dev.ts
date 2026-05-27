@@ -17,6 +17,7 @@ import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { isCacheHit, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { readPointLock } from "./packages.ts";
+import { assertLegacyViteAppWorkflowAllowed } from "./legacy-app-workflow.ts";
 
 const DEV_CACHE_DIR = ".point-cache";
 const DEV_RUNNER = "dev-runner.ts";
@@ -25,6 +26,7 @@ export interface PointDevOptions {
 	port: number;
 	cwd?: string;
 	apiOnly?: boolean;
+	legacy?: boolean;
 }
 
 export type PointDevMode =
@@ -43,9 +45,10 @@ export interface PointDevBuildResult {
 	watchedInputs: string[];
 }
 
-export function parseDevCliFlags(args: string[]): { port: number; apiOnly: boolean; positional: string[] } {
+export function parseDevCliFlags(args: string[]): { port: number; apiOnly: boolean; legacy: boolean; positional: string[] } {
 	let port = 3456;
 	let apiOnly = false;
+	let legacy = false;
 	const positional: string[] = [];
 	for (let index = 0; index < args.length; index += 1) {
 		const arg = args[index]!;
@@ -61,10 +64,14 @@ export function parseDevCliFlags(args: string[]): { port: number; apiOnly: boole
 			apiOnly = true;
 			continue;
 		}
+		if (arg === "--legacy") {
+			legacy = true;
+			continue;
+		}
 		positional.push(arg);
 	}
 	if (!Number.isFinite(port) || port <= 0) throw new Error(`Invalid --port value: ${port}`);
-	return { port, apiOnly, positional };
+	return { port, apiOnly, legacy, positional };
 }
 
 export function hasRoutes(program: PointCoreProgram): boolean {
@@ -240,6 +247,7 @@ async function startRouteServerFromBuild(cwd: string, jsOutput: string, port: nu
 export async function runPointDev(entry: string, options: PointDevOptions): Promise<void> {
 	const cwd = options.cwd ?? process.cwd();
 	const normalizedEntry = entry.replaceAll("\\", "/");
+	assertLegacyViteAppWorkflowAllowed("point dev", normalizedEntry, { legacy: options.legacy, cwd });
 	let activeProcess: DevProcess | null = null;
 	let viteProcess: DevProcess | null = null;
 	let routeServer: RouteServer | null = null;

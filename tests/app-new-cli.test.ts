@@ -87,6 +87,7 @@ describe("full-stack template and point create", () => {
 			targetDir: "./out",
 			templateId: "full-stack-app",
 			listTemplates: false,
+			legacy: false,
 		});
 	});
 
@@ -135,7 +136,14 @@ describe("full-stack template and point create", () => {
 		const miniPackage = join(projectDir, "mini-point");
 		await cp(join(repoRoot, "packages/point/src"), join(miniPackage, "src"), { recursive: true });
 		await cp(join(repoRoot, "packages/point/runtime"), join(miniPackage, "runtime"), { recursive: true });
-		await cp(join(repoRoot, "packages/point/templates"), join(miniPackage, "templates"), { recursive: true });
+		await cp(join(repoRoot, "packages/point/templates/runtime-app"), join(miniPackage, "templates/runtime-app"), {
+			recursive: true,
+		});
+		await cp(
+			join(repoRoot, "packages/point/templates/runtime-saas-app"),
+			join(miniPackage, "templates/runtime-saas-app"),
+			{ recursive: true },
+		);
 		const miniCli = join(miniPackage, "src/cli.ts");
 		await Bun.$`bun ${miniCli} create npm-style-app`.cwd(projectDir).quiet();
 		const appDir = join(projectDir, "npm-style-app");
@@ -158,7 +166,7 @@ describe("full-stack template and point create", () => {
 
 	test("point create full-stack template still emits TypeScript", async () => {
 		const name = "demo-saas";
-		await Bun.$`bun ${cli} create ${name} --template ${FULL_STACK_APP_TEMPLATE_ID}`.cwd(projectDir).quiet();
+		await Bun.$`bun ${cli} create ${name} --template ${FULL_STACK_APP_TEMPLATE_ID} --legacy`.cwd(projectDir).quiet();
 		const appDir = join(projectDir, name);
 		await Bun.$`bun ${cli} build-ts src/app.point generated/app.ts`.cwd(appDir).quiet();
 		expect(existsSync(join(appDir, "generated/app.ts"))).toBe(true);
@@ -191,6 +199,7 @@ describe("full-stack template and point create", () => {
 		const result = await scaffoldAppFromTemplate("saas-demo", {
 			cwd: projectDir,
 			templateId: "saas-app",
+			legacy: true,
 		});
 		expect(result.templateId).toBe("saas-app");
 		const appDir = join(projectDir, "saas-demo");
@@ -229,6 +238,7 @@ describe("full-stack template and point create", () => {
 		const result = await scaffoldAppFromTemplate("vercel-demo", {
 			cwd: projectDir,
 			templateId: "vercel-app",
+			legacy: true,
 		});
 		expect(result.templateDir.replaceAll("\\", "/")).toContain("/packages/point/templates/vercel-app");
 		const target = join(projectDir, "vercel-demo");

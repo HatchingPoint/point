@@ -827,3 +827,35 @@ Agents append checkpoints after each R goal. Do not delete entries.
   - `bun test tests/export-runtime-demo-ssr.test.ts`
   - `npm run build` in LandingPage
 - No commit was made.
+
+## 2026-05-27 - Post-pivot P8-A Legacy template opt-in gate
+
+- Added `LEGACY_APP_TEMPLATE_IDS` and `--legacy` requirement for `point create --template full-stack-app|saas-app|vercel-app`.
+- Legacy scaffolds emit a deprecation warning pointing to `runtime-app` / `runtime-saas-app`.
+- Added `tests/legacy-template-gate.test.ts`; updated app-new and onboarding smoke tests.
+- Verification passed:
+  - `bun test tests/legacy-template-gate.test.ts tests/app-new-cli.test.ts tests/onboarding-smoke.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P8-B Remove legacy templates from npm package
+
+- Added `packages/point/.npmignore` and narrowed `packages/point/package.json` `files` to ship only `templates/runtime-app` and `templates/runtime-saas-app`.
+- `listAppTemplates()` hides legacy templates when they are not bundled; clearer error when legacy scaffold is requested from npm-only installs.
+- Added `tests/point-package.test.ts` (npm pack layout + npm-style mini package rejection).
+- Updated `tests/app-new-cli.test.ts` npm-style layout to copy runtime templates only.
+- Updated `docs/site/ecosystem/standalone-template.md` and pivot checklist P8-B.
+- Verification passed:
+  - `bun test tests/point-package.test.ts tests/legacy-template-gate.test.ts tests/app-new-cli.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P8-C Legacy Vite dev/serve/build-app gate
+
+- Added `legacy-app-workflow.ts` — detects emit/Vite app hosts (`web/vite.config.*`) outside runtime-owned projects.
+- `point dev`, `point serve`, and `point build-app` require `--legacy` for those hosts; route-only dev without `web/` remains available.
+- Added `tests/legacy-vite-workflow-gate.test.ts`; updated `tests/point-build-app.test.ts`.
+- Verification passed:
+  - `bun test tests/legacy-vite-workflow-gate.test.ts tests/point-build-app.test.ts tests/point-dev.test.ts`
+  - `bun run check`
+- No commit was made.

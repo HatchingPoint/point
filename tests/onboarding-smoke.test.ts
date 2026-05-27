@@ -26,6 +26,7 @@ describe("onboarding smoke", () => {
 			const result = await scaffoldAppFromTemplate("saas-smoke", {
 				cwd: projectDir,
 				templateId: "saas-app",
+				legacy: true,
 			});
 			const appDir = result.targetDir;
 			await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
@@ -66,7 +67,7 @@ describe("onboarding smoke", () => {
 		await mkdir(join(repoRoot, "tests/tmp"), { recursive: true });
 		const projectDir = await mkdtemp(join(repoRoot, "tests/tmp/onboarding-full-"));
 		try {
-			await scaffoldAppFromTemplate("full-smoke", { cwd: projectDir, templateId: "full-stack-app" });
+			await scaffoldAppFromTemplate("full-smoke", { cwd: projectDir, templateId: "full-stack-app", legacy: true });
 			const appDir = join(projectDir, "full-smoke");
 			await Bun.$`bun ${cli} check src/app.point`.cwd(appDir).quiet();
 			const launch = await Bun.$`bun ${cli} launch src/app.point admin demo`.cwd(appDir).quiet();

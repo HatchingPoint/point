@@ -11,7 +11,7 @@ Use this when a **team outside core Point** runs their first project. Goal: one 
 
 ## Day 1 — Scaffold
 
-**Default (runtime-native, 0.2.4+):**
+**Default (runtime-native, 0.2.5+):**
 
 ```bash
 npm install -g @hatchingpoint/point
