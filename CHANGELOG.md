@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2
+
+### Added
+
+- Runtime `std-dispatch` for owned apps (`use std.text`, `std.json`, `std.http`, `std.sql`, `std.auth`, `std.time`).
+- `runtime-saas-app` template (`point create --template runtime-saas-app`) with SQLite and auth via owned runtime.
+
+### Changed
+
+- Site docs updated for runtime-native default; legacy Vite templates marked deprecated.
+- Repo-wide Point source formatting (`examples/`, `std/`, `compiler/passes/`).
+
 ## 0.2.1
 
 ### Changed
