@@ -2,6 +2,8 @@
 
 A Point-native full-stack admin app — UI, API, and application logic in `.point` source.
 
+> Deprecation note: `full-stack-app` is a legacy emit + Vite/React compatibility template. New apps should use the default `runtime-app` template, or `runtime-saas-app` for runtime-owned auth and SQLite.
+
 ## Quick start
 
 ```bash

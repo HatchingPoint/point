@@ -6,6 +6,7 @@ import { runPointInit } from "./init-project.ts";
 
 export const REPO_TEMPLATE_REL = "examples/full-stack-template";
 export const RUNTIME_APP_TEMPLATE_ID = "runtime-app";
+export const RUNTIME_SAAS_APP_TEMPLATE_ID = "runtime-saas-app";
 export const FULL_STACK_APP_TEMPLATE_ID = "full-stack-app";
 export const DEFAULT_APP_TEMPLATE_ID = RUNTIME_APP_TEMPLATE_ID;
 
@@ -28,15 +29,23 @@ export const APP_TEMPLATES: AppTemplateSpec[] = [
 		resolveDir: () => bundledTemplateDir(RUNTIME_APP_TEMPLATE_ID),
 	},
 	{
+		id: RUNTIME_SAAS_APP_TEMPLATE_ID,
+		title: "Runtime-native SaaS app",
+		description: "Runtime-owned SaaS starter with auth middleware and SQLite via runtime std.sql - no web/ or Vite",
+		resolveDir: () => bundledTemplateDir(RUNTIME_SAAS_APP_TEMPLATE_ID),
+	},
+	{
 		id: FULL_STACK_APP_TEMPLATE_ID,
 		title: "Full-stack admin app (legacy emit + Vite)",
-		description: "Layout, navigation, three pages, data loading, and CLI entry — React/Vite host (use --template full-stack-app)",
+		description:
+			"Legacy React/Vite host with generated app artifacts; use only for compatibility or transition work",
 		resolveDir: resolveFullStackTemplateDir,
 	},
 	{
 		id: "vercel-app",
-		title: "Vercel app",
-		description: "Point UI + API routes with Vite host, Edge adapter, and theme tokens — deploy to Vercel",
+		title: "Vercel app (legacy emit + Vite)",
+		description:
+			"Legacy Vercel/Vite host with generated app artifacts and Edge adapter; use only for compatibility or transition work",
 		resolveDir: () => bundledTemplateDir("vercel-app"),
 	},
 	{
@@ -215,7 +224,7 @@ export async function runCreateApp(args: string[]): Promise<void> {
 		return;
 	}
 	if (!parsed.appName) {
-		throw new Error("Usage: point create <name> [directory] [--template runtime-app]");
+		throw new Error("Usage: point create <name> [directory] [--template runtime-app|runtime-saas-app]");
 	}
 	const result = await scaffoldAppFromTemplate(parsed.appName, {
 		targetDir: parsed.targetDir,

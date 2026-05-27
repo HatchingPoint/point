@@ -15,7 +15,7 @@ Public front door: **Point in 60 seconds** → **Golden app demo** (evaluators).
 
 Tagline for agents: **The compiler is the agent's IDE.**
 
-Honest boundaries (reuse everywhere): You author `.point`. JS default runtime. Full-stack = Vite/React host for UI. Python = logic/routes/workflows/pipelines, not views.
+Honest boundaries (reuse everywhere): You author `.point`. Runtime-owned apps are the default (`point create` -> `runtime-app`, `point.json` `runtime: "owned"`). Legacy Vite/React host templates remain opt-in with `--template full-stack-app`, `--template saas-app`, or `--template vercel-app`. Python = logic/routes/workflows/pipelines, not views.
 
 ## One sentence
 
@@ -53,8 +53,9 @@ Expand with:
 
 | Target | Command | Use |
 |--------|---------|-----|
-| JavaScript | `point build` | Default run/deploy |
-| TypeScript | `point build-ts` | React/Vite/tsc |
+| Runtime app | `point create`, `point run`, `point dev`, `point serve`, `point test` | Default app workflow; owned by `packages/point/runtime/` via `point.json` `runtime: "owned"` |
+| JavaScript | `point build` | Legacy/non-runtime emit |
+| TypeScript | `point build-ts` | Legacy React/Vite/tsc |
 | Python | `point build-py` | Automation parity |
 | SQL DDL | `point build-schema` | Postgres/SQLite migrations |
 
@@ -80,13 +81,27 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 ## Templates
 
-- `full-stack-app` — Vite + routes + pages (default)
-- `saas-app` — auth + SQLite + DB init + protected POST route
-- `vercel-app` — deploy-oriented variant
+- `runtime-app` — default runtime-owned app (`point.json` `runtime: "owned"`), no app-level JS/React/Vite or generated author artifacts
+- `runtime-saas-app` — runtime-owned auth middleware + SQLite starter (`--template runtime-saas-app`), no `web/` or Vite host
+- `full-stack-app` — legacy Vite + routes + pages (`point create my-app --template full-stack-app`)
+- `saas-app` — legacy auth + SQLite + DB init + protected POST route (`--template saas-app`)
+- `vercel-app` — legacy deploy-oriented Vite/Vercel variant (`--template vercel-app`)
+
+## Runtime ownership
+
+`point.json` is the app ownership switch. New apps use:
+
+```json
+{
+  "runtime": "owned"
+}
+```
+
+When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point serve` execute through `packages/point/runtime/`. App-level emit paths (`build`, `build-js`, `build-ts`, `build-app`) are blocked for that app. Legacy templates omit the owned-runtime flag and keep their generated host/Vite workflow until those surfaces are replaced.
 
 ## Version anchor
 
-Update this line each release: **v0.1.55** — Phase 77 notes detail app-repair, model-eval gate, agent-app gate 12.
+Update this line each release: **v0.2.1** — runtime-native `point create` default (`runtime-app`) with legacy Vite/React templates as explicit opt-ins.
 
 ## Open source (public messaging)
 

@@ -11,7 +11,7 @@ Use this when a **team outside core Point** runs their first project. Goal: one 
 
 ## Day 1 — Scaffold
 
-**Default (runtime-native, 0.2.0+):**
+**Default (runtime-native, 0.2.1+):**
 
 ```bash
 npm install -g @hatchingpoint/point
@@ -50,7 +50,7 @@ bun run dev
 
 ## Day 4–5 — Ship something
 
-The **default saas-app path** already uses a real DB query — members load from SQLite after `init:db`. Pick one customization:
+The **legacy saas-app path** already uses a real DB query — members load from SQLite after `init:db`. Pick one customization:
 
 - [ ] Extend the members model (new fields, filters, or a second table)
 - [x] Login UI + Bearer token for protected `POST /api/members` (built into saas-app template)

@@ -102,6 +102,20 @@ Lowering rejects unchecked programs by running `checkPointCore` before bytecode 
 
 ---
 
+## Runtime std dispatch
+
+Post-pivot runtime std imports are resolved inside `packages/point/runtime/std-dispatch.ts`, not through emitted npm imports.
+
+Contract:
+
+- `use std.text`, `use std.json`, `use std.http`, and `use std.time` map to runtime-owned builtin functions under `packages/point/runtime/builtins/`.
+- Dispatch keys are the std module name (`std.text`, `std.json`, `std.http`, `std.time`) plus the external import alias from the matching `std/*.point` file, such as `textTrim`, `jsonParse`, `httpFetch`, or `instantNow`.
+- `resolveRuntimeStdBuiltin(moduleName, importName)` returns the builtin function when the runtime owns that std function, and `undefined` when the module/function is outside the dispatch table.
+- Async builtins such as `httpFetch`, `httpGet`, `httpPost`, and `sleep` remain async host boundaries; interpreter wiring must await them instead of falling back to emit.
+- Adding a new std runtime capability means extending `packages/point/runtime/builtins/` and this dispatch table. Do not add app-tree shims, generated std wrappers, or emit/Vite fallbacks for runtime-native apps.
+
+---
+
 ## Home-base app
 
 **Path:** `experiments/point-only/`
@@ -140,6 +154,13 @@ Lowering rejects unchecked programs by running `checkPointCore` before bytecode 
 - [x] **R4:** SSR + e2e, **no React/Vite on home base**, integrator
 - [x] **Pivot complete (home base):** fully in-box — expand to templates/product next
 - [x] **Product default:** `point create` scaffolds `runtime-app` (`point.json` `runtime: "owned"`)
+
+---
+
+## Post-pivot checklist
+
+- [x] **P1:** Runtime-owned app is the documented/default `point create` path; legacy emit/Vite templates are explicit opt-ins
+- [x] **P2:** Runtime-owned apps resolve `use std.*` through `packages/point/runtime/std-dispatch.ts` and runtime builtins only; no emitted std imports
 
 ---
 

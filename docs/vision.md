@@ -13,7 +13,7 @@
 
 Point is a **general-purpose, AI-first language** you **write**; JavaScript and Python are what the **machine runs** — generated automatically, not authored by you.
 
-## Platform status (v0.1.55)
+## Platform status (v0.2.1)
 
 Point authors application logic, HTTP, automation, and full-stack apps in one semantic source — with simple daily commands and an agent-native compiler.
 
@@ -21,7 +21,7 @@ Point authors application logic, HTTP, automation, and full-stack apps in one se
 |-------|--------|
 | Logic (records, rules, calculations) | ✅ Shipped |
 | HTTP routes, middleware, CLI, workflows | ✅ Production depth |
-| UI (views, pages, layouts, navigation) | ✅ Full-stack template (Vite/React host) |
+| UI (views, pages, layouts, navigation) | ✅ Runtime-owned SSR for default apps; legacy Vite/React templates remain opt-in |
 | Realtime | ✅ Stream routes |
 | Data | ✅ `std.sql`, `build-schema`, migrations |
 | Agents | ✅ Pipelines, prompts, repair CI gate |
@@ -34,7 +34,7 @@ Point authors application logic, HTTP, automation, and full-stack apps in one se
 
 ## What you write vs what runs
 
-You author **`.point`**. JavaScript is the default runtime (`point build`, `point run`, `point dev`). Full-stack apps compose with a Vite/React host for UI — Point generates routes, views, and glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS. Database engines, npm packages, and native SDKs integrate via `external`, `use`, and `point add` — Point does not replace them.
+You author **`.point`**. Runtime-owned apps are the default (`point create` -> `runtime-app`, `point.json` `runtime: "owned"`): `point run`, `point test`, `point dev`, and `point serve` execute through `packages/point/runtime/`. Legacy Vite/React hosts remain opt-in templates. Python emit covers supported logic, routes, workflows, and pipelines. Database engines, npm packages, and native SDKs integrate via `external`, `use`, and `point add` — Point does not replace them.
 
 ## What we replace
 

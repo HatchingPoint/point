@@ -1,0 +1,15 @@
+{
+  "name": "{{APP_NAME}}",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "point check src/app.point",
+    "run": "point run src/app.point admin demo",
+    "init:db": "mkdir -p data && DATABASE_URL=sqlite:./data/members.db point run src/app.point init database",
+    "dev": "point dev src/app.point",
+    "serve": "point serve src/app.point"
+  },
+  "devDependencies": {
+    "@hatchingpoint/point": "^0.2.1"
+  }
+}

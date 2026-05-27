@@ -2,6 +2,8 @@
 
 Point app scaffold for **Vercel** — UI + API entirely in `src/app.point`.
 
+> Deprecation note: `vercel-app` is a legacy emit + Vite/Vercel compatibility template. New apps should use the default `runtime-app` template, or `runtime-saas-app` for runtime-owned auth and SQLite.
+
 ## Quick start
 
 ```bash

@@ -101,7 +101,14 @@ point dev src/app.point
 
 Open the URL printed by `point dev` — SSR readiness UI, JSON at `/readiness`, navigation at `/readiness-ui`.
 
-Legacy full-stack (React + Vite host): `point create my-app --template full-stack-app` then open **http://localhost:5173** (UI) and **http://localhost:3456** (API).
+Legacy hosts are opt-in:
+
+```bash
+point create my-app --template full-stack-app
+point create my-saas --template saas-app
+```
+
+Those React + Vite templates print their own UI/API URLs when `point dev` starts.
 
 Walkthrough: [Golden app demo](/point/guide/golden-app-demo).
 

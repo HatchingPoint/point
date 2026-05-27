@@ -1,6 +1,7 @@
 import type { PointIrFunction, PointIrInstruction, PointIrProgram } from "../ir/index.ts";
 import type { PointCoreProgram } from "../../src/core/ast.ts";
 import { lowerCheckedCoreProgramToBytecode } from "../ir/index.ts";
+import { resolveRuntimeStdBuiltin, type PointRuntimeStdBuiltin } from "../std-dispatch.ts";
 
 export type PointRuntimeJsonResponse = {
 	readonly __pointRuntimeResponse: true;
@@ -28,11 +29,14 @@ export class PointInterpreterError extends Error {
 type RuntimeScope = {
 	globals: Map<string, PointRuntimeValue>;
 	functions: Map<string, PointIrFunction>;
+	stdFunctions: Map<string, PointRuntimeStdBuiltin>;
 };
+
+type RuntimeStackValue = PointRuntimeValue | Promise<PointRuntimeValue>;
 
 type FunctionFrame = {
 	locals: Map<string, PointRuntimeValue>;
-	stack: PointRuntimeValue[];
+	stack: RuntimeStackValue[];
 	iterators: Map<string, { items: PointRuntimeValue[]; index: number }>;
 };
 
@@ -59,11 +63,51 @@ export function interpretCoreProgramEntry(program: PointCoreProgram, entryName: 
 	return interpretPointIrFunction(lowerCheckedCoreProgramToBytecode(program), entryName, args);
 }
 
+export async function interpretPointIrFunctionAsync(
+	program: PointIrProgram,
+	functionName: string,
+	args: PointRuntimeValue[] = [],
+): Promise<PointRuntimeValue> {
+	const scope = createRuntimeScope(program);
+	const fn = scope.functions.get(functionName);
+	if (!fn) throw new Error(`Runtime function not found: ${functionName}`);
+	return executeFunctionAsync(scope, fn, args);
+}
+
+export async function interpretIrProgramEntryAsync(
+	program: PointIrProgram,
+	entryName: string,
+	args: PointRuntimeValue[] = [],
+): Promise<PointRuntimeValue> {
+	return interpretPointIrFunctionAsync(program, entryName, args);
+}
+
+export async function interpretPointIrEntryAsync(
+	program: PointIrProgram,
+	entryName: string,
+	args: PointRuntimeValue[] = [],
+): Promise<PointRuntimeValue> {
+	return interpretPointIrFunctionAsync(program, entryName, args);
+}
+
+export async function interpretCoreProgramEntryAsync(
+	program: PointCoreProgram,
+	entryName: string,
+	args: PointRuntimeValue[] = [],
+): Promise<PointRuntimeValue> {
+	return interpretPointIrFunctionAsync(lowerCheckedCoreProgramToBytecode(program), entryName, args);
+}
+
 function createRuntimeScope(program: PointIrProgram): RuntimeScope {
 	const scope: RuntimeScope = {
 		globals: new Map(),
 		functions: new Map(program.functions.map((fn) => [fn.name, fn])),
+		stdFunctions: new Map(),
 	};
+	for (const external of program.externals) {
+		const builtin = resolveRuntimeStdBuiltin(external.from, external.importName ?? external.name);
+		if (builtin) scope.stdFunctions.set(external.name, builtin);
+	}
 	for (const global of program.globals) {
 		executeInstructions(scope, createFrame(), global.bytecode);
 	}
@@ -79,6 +123,17 @@ function executeFunction(scope: RuntimeScope, fn: PointIrFunction, args: PointRu
 		frame.locals.set(param.name, args[index] ?? null);
 	}
 	return executeInstructions(scope, frame, fn.bytecode);
+}
+
+async function executeFunctionAsync(scope: RuntimeScope, fn: PointIrFunction, args: PointRuntimeValue[]): Promise<PointRuntimeValue> {
+	const frame = createFrame();
+	if (args.length !== fn.params.length) {
+		throw new PointInterpreterError(`Function ${fn.name} expected ${fn.params.length} argument(s), got ${args.length}.`);
+	}
+	for (const [index, param] of fn.params.entries()) {
+		frame.locals.set(param.name, args[index] ?? null);
+	}
+	return executeInstructionsAsync(scope, frame, fn.bytecode);
 }
 
 function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instructions: PointIrInstruction[]): PointRuntimeValue {
@@ -98,19 +153,19 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 			continue;
 		}
 		if (instruction.op === "STORE_LOCAL") {
-			storeValue(frame.locals, instruction.name, pop(frame), instruction.operator);
+			storeValue(frame.locals, instruction.name, popSync(frame), instruction.operator);
 			continue;
 		}
 		if (instruction.op === "STORE_GLOBAL") {
-			storeValue(scope.globals, instruction.name, pop(frame), instruction.operator);
+			storeValue(scope.globals, instruction.name, popSync(frame), instruction.operator);
 			continue;
 		}
 		if (instruction.op === "MAKE_LIST") {
-			frame.stack.push(popMany(frame, instruction.count));
+			frame.stack.push(popManySync(frame, instruction.count));
 			continue;
 		}
 		if (instruction.op === "MAKE_RECORD") {
-			const values = popMany(frame, instruction.fields.length);
+			const values = popManySync(frame, instruction.fields.length);
 			const record: { [key: string]: PointRuntimeValue } = {};
 			for (const [index, field] of instruction.fields.entries()) {
 				record[field] = values[index] ?? null;
@@ -119,7 +174,7 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 			continue;
 		}
 		if (instruction.op === "GET_FIELD") {
-			const target = pop(frame);
+			const target = popSync(frame);
 			if (target === null || typeof target !== "object" || Array.isArray(target)) {
 				throw new Error(`Cannot read field ${instruction.name} from non-record value.`);
 			}
@@ -127,9 +182,16 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 			continue;
 		}
 		if (instruction.op === "CALL") {
-			const args = popMany(frame, instruction.argc);
+			const args = popManySync(frame, instruction.argc);
 			if (instruction.callee === "pointJsonResponse") {
 				frame.stack.push(pointJsonResponse(args));
+				continue;
+			}
+			const stdFn = scope.stdFunctions.get(instruction.callee);
+			if (stdFn) {
+				const value = stdFn(...(args as never[]));
+				if (value instanceof Promise) throw new Error(`Runtime std function ${instruction.callee} requires async execution.`);
+				frame.stack.push(value as PointRuntimeValue);
 				continue;
 			}
 			const fn = scope.functions.get(instruction.callee);
@@ -141,8 +203,8 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 			continue;
 		}
 		if (instruction.op === "BINARY") {
-			const right = pop(frame);
-			const left = pop(frame);
+			const right = popSync(frame);
+			const left = popSync(frame);
 			frame.stack.push(evaluateBinary(left, right, instruction.operator));
 			continue;
 		}
@@ -151,7 +213,7 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 			continue;
 		}
 		if (instruction.op === "RETURN") {
-			return instruction.hasValue ? pop(frame) : null;
+			return instruction.hasValue ? popSync(frame) : null;
 		}
 		if (instruction.op === "YIELD") {
 			throw new Error("Runtime interpreter does not support yield yet.");
@@ -164,11 +226,11 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 			continue;
 		}
 		if (instruction.op === "JUMP_IF_FALSE") {
-			if (!pop(frame)) pc = jumpTo(labels, instruction.label);
+			if (!popSync(frame)) pc = jumpTo(labels, instruction.label);
 			continue;
 		}
 		if (instruction.op === "ITER_START") {
-			const iterable = pop(frame);
+			const iterable = popSync(frame);
 			if (!Array.isArray(iterable)) throw new Error("Runtime for-each expected a list.");
 			frame.iterators.set(instruction.iterator, { items: iterable, index: 0 });
 			continue;
@@ -185,6 +247,122 @@ function executeInstructions(scope: RuntimeScope, frame: FunctionFrame, instruct
 		}
 	}
 	return null;
+}
+
+async function executeInstructionsAsync(scope: RuntimeScope, frame: FunctionFrame, instructions: PointIrInstruction[]): Promise<PointRuntimeValue> {
+	const labels = indexLabels(instructions);
+	for (let pc = 0; pc < instructions.length; pc += 1) {
+		const instruction = instructions[pc]!;
+		if (instruction.op === "PUSH_CONST") {
+			frame.stack.push(instruction.value);
+			continue;
+		}
+		if (instruction.op === "LOAD_LOCAL") {
+			frame.stack.push(frame.locals.get(instruction.name) ?? null);
+			continue;
+		}
+		if (instruction.op === "LOAD_GLOBAL") {
+			frame.stack.push(scope.globals.get(instruction.name) ?? null);
+			continue;
+		}
+		if (instruction.op === "STORE_LOCAL") {
+			storeValue(frame.locals, instruction.name, await resolveRuntimeValue(pop(frame)), instruction.operator);
+			continue;
+		}
+		if (instruction.op === "STORE_GLOBAL") {
+			storeValue(scope.globals, instruction.name, await resolveRuntimeValue(pop(frame)), instruction.operator);
+			continue;
+		}
+		if (instruction.op === "MAKE_LIST") {
+			frame.stack.push(await Promise.all(popMany(frame, instruction.count).map(resolveRuntimeValue)));
+			continue;
+		}
+		if (instruction.op === "MAKE_RECORD") {
+			const values = await Promise.all(popMany(frame, instruction.fields.length).map(resolveRuntimeValue));
+			const record: { [key: string]: PointRuntimeValue } = {};
+			for (const [index, field] of instruction.fields.entries()) {
+				record[field] = values[index] ?? null;
+			}
+			frame.stack.push(record);
+			continue;
+		}
+		if (instruction.op === "GET_FIELD") {
+			const target = await resolveRuntimeValue(pop(frame));
+			if (target === null || typeof target !== "object" || Array.isArray(target)) {
+				throw new Error(`Cannot read field ${instruction.name} from non-record value.`);
+			}
+			frame.stack.push(target[instruction.name] ?? null);
+			continue;
+		}
+		if (instruction.op === "CALL") {
+			const args = await Promise.all(popMany(frame, instruction.argc).map(resolveRuntimeValue));
+			if (instruction.callee === "pointJsonResponse") {
+				frame.stack.push(pointJsonResponse(args));
+				continue;
+			}
+			const stdFn = scope.stdFunctions.get(instruction.callee);
+			if (stdFn) {
+				frame.stack.push((await stdFn(...(args as never[]))) as PointRuntimeValue);
+				continue;
+			}
+			const fn = scope.functions.get(instruction.callee);
+			if (!fn) throw new Error(`Runtime call target not found: ${instruction.callee}`);
+			frame.stack.push(await executeFunctionAsync(scope, fn, args));
+			continue;
+		}
+		if (instruction.op === "AWAIT") {
+			frame.stack.push(await resolveRuntimeValue(pop(frame)));
+			continue;
+		}
+		if (instruction.op === "BINARY") {
+			const right = await resolveRuntimeValue(pop(frame));
+			const left = await resolveRuntimeValue(pop(frame));
+			frame.stack.push(evaluateBinary(left, right, instruction.operator));
+			continue;
+		}
+		if (instruction.op === "POP") {
+			pop(frame);
+			continue;
+		}
+		if (instruction.op === "RETURN") {
+			return instruction.hasValue ? await resolveRuntimeValue(pop(frame)) : null;
+		}
+		if (instruction.op === "YIELD") {
+			throw new Error("Runtime interpreter does not support yield yet.");
+		}
+		if (instruction.op === "LABEL") {
+			continue;
+		}
+		if (instruction.op === "JUMP") {
+			pc = jumpTo(labels, instruction.label);
+			continue;
+		}
+		if (instruction.op === "JUMP_IF_FALSE") {
+			if (!(await resolveRuntimeValue(pop(frame)))) pc = jumpTo(labels, instruction.label);
+			continue;
+		}
+		if (instruction.op === "ITER_START") {
+			const iterable = await resolveRuntimeValue(pop(frame));
+			if (!Array.isArray(iterable)) throw new Error("Runtime for-each expected a list.");
+			frame.iterators.set(instruction.iterator, { items: iterable, index: 0 });
+			continue;
+		}
+		if (instruction.op === "ITER_NEXT") {
+			const iterator = frame.iterators.get(instruction.iterator);
+			if (!iterator) throw new Error(`Runtime iterator not found: ${instruction.iterator}`);
+			if (iterator.index >= iterator.items.length) {
+				pc = jumpTo(labels, instruction.doneLabel);
+				continue;
+			}
+			frame.locals.set(instruction.item, iterator.items[iterator.index++] ?? null);
+			continue;
+		}
+	}
+	return null;
+}
+
+async function resolveRuntimeValue(value: RuntimeStackValue): Promise<PointRuntimeValue> {
+	return value;
 }
 
 function pointJsonResponse(args: PointRuntimeValue[]): PointRuntimeJsonResponse {
@@ -216,14 +394,27 @@ function jumpTo(labels: Map<string, number>, label: string): number {
 	return index;
 }
 
-function pop(frame: FunctionFrame): PointRuntimeValue {
+function pop(frame: FunctionFrame): RuntimeStackValue {
 	if (frame.stack.length === 0) throw new Error("Runtime stack underflow.");
 	return frame.stack.pop()!;
 }
 
-function popMany(frame: FunctionFrame, count: number): PointRuntimeValue[] {
+function popMany(frame: FunctionFrame, count: number): RuntimeStackValue[] {
 	if (frame.stack.length < count) throw new Error("Runtime stack underflow.");
 	return frame.stack.splice(frame.stack.length - count, count);
+}
+
+function popSync(frame: FunctionFrame): PointRuntimeValue {
+	const value = pop(frame);
+	if (value instanceof Promise) throw new Error("Runtime async value requires async execution.");
+	return value;
+}
+
+function popManySync(frame: FunctionFrame, count: number): PointRuntimeValue[] {
+	return popMany(frame, count).map((value) => {
+		if (value instanceof Promise) throw new Error("Runtime async value requires async execution.");
+		return value;
+	});
 }
 
 function storeValue(target: Map<string, PointRuntimeValue>, name: string, value: PointRuntimeValue, operator: "=" | "+=" | "-="): void {

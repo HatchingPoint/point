@@ -1,0 +1,6 @@
+{
+  "name": "{{APP_NAME}}",
+  "version": "0.1.0",
+  "entry": "src/app.point",
+  "runtime": "owned"
+}

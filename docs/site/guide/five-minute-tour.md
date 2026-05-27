@@ -54,7 +54,7 @@ Same as separate `use http` lines. The compiler merges **only symbols you refere
 
 ## 3. App surface (2 minutes)
 
-Scaffold a full-stack admin app:
+Scaffold a runtime-native app:
 
 ```bash
 point create my-app
@@ -62,7 +62,7 @@ cd my-app
 point dev src/app.point
 ```
 
-Open **http://localhost:5173** (UI). API on **http://localhost:3456** — pages, routes, and API from one `src/app.point` file.
+Open the URL printed by `point dev`. The default `runtime-app` serves SSR pages, forms, navigation, and JSON routes from one `src/app.point` file, without a Vite/React host.
 
 Full walkthrough: [Golden app demo](/point/guide/golden-app-demo).
 

@@ -54,7 +54,14 @@ cd my-app
 point dev src/app.point
 ```
 
-Open **http://localhost:5173** (UI). API on **http://localhost:3456**.
+Open the URL printed by `point dev`. The default `runtime-app` template serves Point-owned SSR, forms, navigation, and JSON routes from the runtime. No Vite or React host is required.
+
+Legacy hosts are still available when you need them:
+
+```bash
+point create my-app --template full-stack-app
+point create my-saas --template saas-app
+```
 
 ## Agent path (same source)
 
@@ -69,7 +76,7 @@ Stable refs like `point://semantic/Module/rule.cart total`. See [AI overview](/p
 
 ## What you write vs what runs
 
-You author **`.point`**. JavaScript is the default runtime (`point build`, `point run`, `point dev`). Full-stack apps use a Vite/React host for UI — Point generates the glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS.
+You author **`.point`**. The default app path is runtime-owned: `point dev` runs the interpreter, HTTP server, and SSR from `packages/point/runtime/`. JavaScript/TypeScript emit and Vite/React hosts are legacy template paths, not the default app workflow. Python emit remains available for supported logic and route surfaces.
 
 ## Go deeper (when ready)
 

@@ -1,12 +1,12 @@
 ---
 title: Standalone app template
-description: Create a full-stack Point app outside the monorepo.
+description: Create a runtime-native Point app outside the monorepo.
 quadrant: How-to
 ---
 
 ## Summary
 
-You do not need a clone of the Point repository to start an application. The **`full-stack-app`** template ships inside the **`@hatchingpoint/point`** npm package and scaffolds with **`point create`**.
+You do not need a clone of the Point repository to start an application. The **`runtime-app`** template is the canonical default shipped inside the **`@hatchingpoint/point`** npm package. It scaffolds with **`point create`** and runs through the owned Point runtime, without React, Vite, or generated app code.
 
 ## Create from npm
 
@@ -18,29 +18,45 @@ npm install
 point dev
 ```
 
-Use **`--template full-stack-app`** explicitly when listing templates:
+Use **`--template runtime-app`** only when you want to be explicit; it is the default:
 
 ```bash
-point create my-app --template full-stack-app
+point create my-app --template runtime-app
 point create --list-templates
 ```
 
-The template includes:
+Use **`--template runtime-saas-app`** when you want the runtime-owned SaaS starter with auth middleware and SQLite, without a `web/` directory or Vite host:
+
+```bash
+point create my-saas --template runtime-saas-app
+```
+
+The runtime app template includes:
 
 - Semantic `.point` source under `src/`
-- Vite + React UI under `web/`
+- Point-only tests under `tests/`
 - Editor/LSP config under `.point/` and `.vscode/`
-- `render.yaml` for deployment
+- `point.json` with `runtime: "owned"`
+
+## Legacy full-stack template
+
+The **`full-stack-app`** template is still available for projects that intentionally need the legacy emit + Vite host:
+
+```bash
+point create my-app --template full-stack-app
+```
+
+That template includes a React/Vite `web/` host, generated output during builds, TypeScript config, and `render.yaml`. Treat it as an opt-in compatibility path, not the default new-app path.
 
 ## Monorepo reference
 
-The canonical template lives at `packages/point/templates/full-stack-app/` in the [Point repository](https://github.com/HatchingPoint/point). The monorepo also keeps `examples/full-stack-template/` for dogfooding — same layout, different name substitution.
+The canonical runtime template lives at `packages/point/templates/runtime-app/` in the [Point repository](https://github.com/HatchingPoint/point). The runtime SaaS template lives at `packages/point/templates/runtime-saas-app/`. The legacy emit + Vite template remains at `packages/point/templates/full-stack-app/`.
 
-To publish template updates, maintainers run `bun run sync:app-template` before releasing `@hatchingpoint/point`.
+To publish legacy full-stack template updates, maintainers run `bun run sync:app-template` before releasing `@hatchingpoint/point`. Runtime app template updates are maintained directly in `packages/point/templates/runtime-app/`.
 
 ## Registry note
 
-Phase 13 registry work covers **`point add npm:`** and GitHub Packages — not a hosted Point catalog. Third-party modules install like any npm dependency; see [point-add.md](./point-add.md).
+Phase 13 registry work covers **`point add npm:`** and GitHub Packages, not a hosted Point catalog. Third-party modules install like any npm dependency; see [point-add.md](./point-add.md).
 
 ## See also
 

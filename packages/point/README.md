@@ -28,7 +28,7 @@ Pair with the [Point Language](https://marketplace.visualstudio.com/items?itemNa
 
 ## What you write vs what runs
 
-You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue.
+You author **`.point`**. New apps scaffold as runtime-owned `runtime-app` projects by default: `point dev` runs the interpreter, HTTP server, and SSR from `packages/point/runtime/`. Use `--template runtime-saas-app` for runtime-owned auth middleware and SQLite without Vite. Legacy Vite/React hosts remain available with `--template full-stack-app` or `--template saas-app`.
 
 Built-in import:
 

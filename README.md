@@ -2,9 +2,9 @@
 
 Point is a **general-purpose, AI-first language** for application logic — semantic blocks you write, JavaScript and Python the machine runs.
 
-Write rules, routes, pages, pipelines, and commands in one checked source. The compiler emits JS by default (Bun/Node), with TypeScript, Python, and SQL schema when you need them.
+Write rules, routes, pages, pipelines, and commands in one checked source. New apps run through the owned Point runtime by default, with JavaScript/TypeScript/Python/SQL emit still available for legacy hosts and integrations.
 
-**Current release:** v0.1.55 · npm: `@hatchingpoint/point`
+**Current release:** v0.2.1 · npm: `@hatchingpoint/point`
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/@hatchingpoint/point.svg)](https://www.npmjs.com/package/@hatchingpoint/point)
@@ -14,8 +14,10 @@ Write rules, routes, pages, pipelines, and commands in one checked source. The c
 ## Scaffold
 
 ```bash
-point create my-app --template saas-app   # auth + SQL + admin UI
-point create my-app                       # full-stack admin (default)
+point create my-app                       # runtime-native app (default)
+point create my-saas --template runtime-saas-app
+point create my-app --template full-stack-app
+point create my-app --template saas-app   # legacy auth + SQL + Vite host
 point create --list-templates
 ```
 
@@ -133,7 +135,7 @@ Maintainers: release secrets and tagging — [docs/maintainer-release.md](docs/m
 
 ## What you write vs what runs
 
-You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS.
+You author **`.point`**. Runtime-owned apps are the default (`point create` -> `runtime-app`, `point.json` `runtime: "owned"`): `point run`, `point test`, `point dev`, and `point serve` execute through `packages/point/runtime/`. `--template runtime-saas-app` adds runtime-owned auth middleware and SQLite without Vite. Legacy Vite/React hosts remain available with `--template full-stack-app` or `--template saas-app`. Python emit covers supported logic, routes, workflows, and pipelines.
 
 | Need | Command |
 |------|---------|

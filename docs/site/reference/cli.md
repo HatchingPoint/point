@@ -17,7 +17,7 @@ Most users need only these:
 | Ring | Commands | Purpose |
 |------|----------|---------|
 | **Daily** | `check`, `box`, `launch`, `demo`, `dev` | Validate, discover, run, app dev |
-| **Build** | `build`, `build-app`, `build-schema` | Emit for hosts and deploy |
+| **Build** | `build`, `build-app`, `build-schema` | Emit for legacy hosts and deploy |
 | **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Compiler as agent IDE |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `*-all`, `repl` | Alternate emit, batch, tooling |
 
@@ -55,9 +55,9 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 | `build-py-all` | Emit Python for all discovered files (skips unsupported blocks) | 1 on diagnostics |
 | `run` | Check, run zero-arg entrypoint: `point run <file> [command name]` | 1 on check/runtime error |
 | `launch` | Alias for `point run` — requires command name: `point launch <file> <command name>` | 1 on check/runtime error |
-| `dev` | Watch module graph, incremental check/build, restart Bun server or re-run entry; auto-starts Vite when navigation + routes + `web/` exist | 1 on initial check failure |
-| `serve` | Production Path B server: static `dist/` + `/api/*` routes | 1 on check failure or missing `dist/` |
-| `build-app` | Emit JS + TS then run Vite build → `dist/` (requires `web/vite.config.*`) | 1 on check failure or vite error |
+| `dev` | Runtime-owned apps (`point.json` `runtime: "owned"`) run through `packages/point/runtime/`; legacy apps still use incremental build/dev and may start Vite | 1 on initial check failure |
+| `serve` | Runtime-owned apps serve through `packages/point/runtime/`; legacy Path B apps serve static `dist/` + `/api/*` routes | 1 on check failure or missing legacy `dist/` |
+| `build-app` | Legacy app build: emit JS + TS then run Vite build → `dist/` (requires `web/vite.config.*`; disabled for `runtime: "owned"`) | 1 on check failure, vite error, or runtime-owned app |
 | `test` | Run `test*` Bool calculations/actions | 1 on failure |
 | `test integration` | Start route server and run `integration test*` Bool actions | 1 on failure |
 | `repl` | Evaluate expressions from stdin or inline | 0 |
@@ -67,12 +67,24 @@ Defaults when omitted: `input` = `examples/math.point`, `output` = `generated/ma
 
 | Command | Purpose | Exit |
 |---------|---------|------|
-| `create` | Scaffold a new app: `point create <name> [directory] [--template full-stack-app]` | 1 on invalid name or non-empty target |
+| `create` | Scaffold a new runtime-owned app: `point create <name> [directory]` (default `--template runtime-app`) | 1 on invalid name or non-empty target |
 | `create --list-templates` | List bundled app templates | 0 |
 | `init` | Add Point to an existing repo: `point init [directory] [--skip-install] [--force]` | 0 |
 | `app new` | Legacy alias for `point create` | same as `create` |
 
-Creates a project directory with `point.json`, `package.json`, `src/app.point`, editor configs (`.vscode/`, `.point/`), `.gitignore`, and README. Templates ship inside `@hatchingpoint/point` at `templates/full-stack-app/` (synced from `examples/full-stack-template/` in the repo).
+Creates a project directory with `point.json`, `package.json`, `src/app.point`, editor configs (`.vscode/`, `.point/`), `.gitignore`, and README. The default `runtime-app` template sets `point.json` to `runtime: "owned"` so `point run`, `point test`, `point dev`, and `point serve` use the Point runtime instead of generated app artifacts.
+
+Available templates include:
+
+| Template | Command | Runtime mode |
+|----------|---------|--------------|
+| `runtime-app` | `point create my-app` or `point create my-app --template runtime-app` | Runtime-owned (`point.json` `runtime: "owned"`) |
+| `runtime-saas-app` | `point create my-app --template runtime-saas-app` | Runtime-owned auth middleware + SQLite, no `web/` or Vite |
+| `full-stack-app` | `point create my-app --template full-stack-app` | Legacy Vite/React host |
+| `saas-app` | `point create my-app --template saas-app` | Legacy Vite/React host with auth/SQLite |
+| `vercel-app` | `point create my-app --template vercel-app` | Legacy Vite/React/Vercel host |
+
+Runtime-owned apps disable emit/app-build paths (`build`, `build-js`, `build-ts`, `build-app`) for that app surface. Use legacy templates only when you explicitly want generated host artifacts and Vite/React integration during the transition.
 
 `point init` adds `@hatchingpoint/point`, workspace editor settings, `.point/lsp.mjs` (portable LSP launcher), and a `check` script when `.point` files are present.
 
@@ -105,7 +117,7 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 
 | Variable | Effect |
 |----------|--------|
-| `POINT_INCREMENTAL=1` | Cache unchanged files during `check-all` and `point dev` rebuilds |
+| `POINT_INCREMENTAL=1` | Cache unchanged files during `check-all` and legacy `point dev` rebuilds |
 
 ## Run and test conventions
 
@@ -113,6 +125,7 @@ Discovered globs: `examples/**/*.point`, `std/**/*.point`, `compiler/**/*.point`
 - **launch:** same as run but command name is required
 - **commands / box:** discover entrypoints before running
 - **test:** zero-input `calculation` or `action` whose semantic name starts with `test` and returns `Bool`
+- **runtime-owned apps:** a nearby `point.json` with `runtime: "owned"` is the app ownership boundary. Run/test/dev/serve stay inside `packages/point/runtime/`; generated JS/TS app artifacts are not part of that workflow.
 
 ## Agent-facing commands
 

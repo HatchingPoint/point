@@ -70,6 +70,30 @@ Agents append checkpoints after each R goal. Do not delete entries.
 
 ---
 
+## Post-pivot P1 checklist
+
+- [x] P1-A: Site guide default path documents `runtime-app` and runtime-owned `point dev`
+- [x] P1-B: CLI reference and product map document `runtime-app` as the `point create` default
+- [x] P1-C: Standalone template docs identify `runtime-app` as the canonical npm-shipped default
+- [x] Integrator: 0.2.1 docs consistently document the runtime-native default; legacy Vite/React templates are explicit opt-ins
+
+---
+
+## Post-pivot P2 checklist
+
+- [x] P2-A: Runtime std dispatch contract for `std.text`, `std.json`, `std.http`, and `std.time`
+- [x] P2-B: Interpreter resolves `std.text` and `std.json` through runtime std dispatch; runtime-owned app CLI coverage
+- [x] P2-C: Async `std.http` helpers execute through awaited runtime interpreter paths
+- [x] Integrator: Runtime-owned apps resolve `use std.*` through `packages/point/runtime/` only; no emitted std imports
+
+---
+
+## Post-pivot P3 checklist
+
+- [x] P3-A: `runtime-saas-app` template is runtime-owned, has auth middleware + SQLite through runtime builtins, and scaffolds with `point create --template runtime-saas-app`
+
+---
+
 ## Pivot exit gate (final)
 
 - [x] `experiments/point-only/` contains no author TS/JS/React/Vite artifacts
@@ -489,4 +513,158 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - Current core check passed: `bun run check`.
 - Current full CI attempt still stops at repo-wide `fmt-check-all` on pre-existing unformatted `.point` files in `compiler/passes/`, `examples/`, and `std/`; this remains outside the home-base pivot exit criteria documented in the plan.
 - Direct CLI proof commands for home-base `check`, `run`, and `test` were retried in Codex but failed before Point started with the Windows sandbox `spawn setup refresh` error; the passing home-base guard test covers those runtime-routed CLI paths.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P1-B docs: runtime default
+
+- Updated `docs/site/reference/cli.md` so `point create` defaults to `runtime-app`, documents `point.json` `runtime: "owned"` as the app ownership boundary, and explains that run/test/dev/serve use `packages/point/runtime/` for runtime-owned apps.
+- Documented legacy template flags in the CLI reference: `--template full-stack-app`, `--template saas-app`, and `--template vercel-app` keep the Vite/React/generated-host workflow during transition.
+- Updated `docs/product-map.md` so product messaging names runtime-owned apps as the default workflow, adds a runtime-app target row, and records `point.json` `runtime: "owned"` as the ownership switch.
+- No code changes or commits were made for this docs-only checkpoint.
+
+## 2026-05-26 - Post-pivot P1-A site guide defaults
+
+- Updated `docs/site/guide/quick-start.md`, `docs/site/guide/point-in-60-seconds.md`, and `docs/site/guide/golden-app-demo.md` so the default scaffold path is `point create <app>` with the runtime-owned `runtime-app` template and `point dev src/app.point`.
+- Removed default-path `localhost:5173` / Vite UI guidance from those three guide pages; the default instructions now tell users to open the URL printed by `point dev`.
+- Documented legacy React/Vite templates as explicit opt-ins: `point create <app> --template full-stack-app` and `point create <app> --template saas-app`.
+- Verification: `rg -n 'point create|point dev|5173|3456|Vite|vite|React|full-stack-app|saas-app|runtime-app' docs/site/guide/quick-start.md docs/site/guide/point-in-60-seconds.md docs/site/guide/golden-app-demo.md` shows Vite/React only in legacy-template context and no `5173`/`:5173` hits.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P1-C Standalone template docs
+
+- Updated `docs/site/ecosystem/standalone-template.md` so `runtime-app` is documented as the canonical `point create` default.
+- Reframed `full-stack-app` as the opt-in legacy emit + Vite template, with explicit `--template full-stack-app` usage.
+- Updated monorepo references: canonical runtime template is `packages/point/templates/runtime-app/`; legacy full-stack remains `packages/point/templates/full-stack-app/`.
+- Wording audit passed: `rg -n "full-stack-app.*default|default.*full-stack-app|runtime-app|legacy emit \\+ Vite|full-stack-app" docs/site/ecosystem/standalone-template.md` shows `runtime-app` as default and `full-stack-app` only as legacy.
+- `bun run check-docs` was attempted twice but failed before Bun started with the Windows sandbox `spawn setup refresh` error.
+- No commit was made.
+## 2026-05-26 - Post-pivot P1-B Docs runtime app default
+
+- Updated `docs/site/reference/cli.md` to document `runtime-app` as the default `point create` template, `point.json` `runtime: "owned"` as the runtime-owned app boundary, and legacy host templates as explicit `--template full-stack-app` / `saas-app` / `vercel-app` opt-ins.
+- Updated CLI command rows for `dev`, `serve`, and `build-app`: runtime-owned apps run through `packages/point/runtime/`; legacy apps keep Vite/static emit paths; runtime-owned app-build/emit paths are blocked.
+- Updated `docs/product-map.md` so runtime-owned apps are the default app workflow, JavaScript/TypeScript emit are legacy/non-runtime targets, and the product map has a runtime ownership section for `point.json`.
+- Verification: documentation search confirmed `runtime-app`, `runtime: "owned"`, and legacy template flags are present in both requested docs.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P2-B Runtime std.text/std.json dispatch
+
+- Wired the interpreter to resolve IR externals through `packages/point/runtime/std-dispatch.ts` before looking for Point functions, using each external's std module path and import alias; runtime-owned execution no longer needs emitted std imports for `std.text` or `std.json`.
+- Added runtime-owned `std.json` builtins and completed the `std.text` runtime builtin names used by `std/text.point` (`textLength`, `textContains`, `textSplit`, `textTrim`, `textFromInt`, `textPadStart`).
+- Added `tests/runtime/std-text-json.test.ts`; it loads a real `capabilities text json` Point module through the module graph, checks it, lowers it, confirms std externals are present, and interprets text/json calls against runtime builtin parity expectations.
+- Verification passed:
+  - `bun test tests/runtime/std-text-json.test.ts`
+  - `bun test tests/runtime/interpreter.test.ts tests/runtime/server-routes.test.ts`
+  - `bun test tests/runtime`
+  - `bun test tests/point-only-experiment.test.ts`
+  - `bun run check`
+- Audit: search over `packages/point/runtime/interpreter`, `packages/point/runtime/std-dispatch.ts`, runtime builtins, and the new test found no `emitPointCoreJavaScript` or `bundleJavaScriptForEval` dependency in the runtime std dispatch path.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P2-A Runtime std dispatch contract
+
+- Added `packages/point/runtime/std-dispatch.ts` as the runtime-owned dispatch table for `use std.text`, `use std.json`, `use std.http`, and `use std.time`; module names plus std external import aliases resolve to functions under `packages/point/runtime/builtins/`.
+- Added runtime-owned `std.http` and `std.time` builtin modules, exported the dispatch surface from `packages/point/runtime/index.ts`, and kept existing `std.text` / `std.json` runtime dispatch compatibility.
+- Documented the dispatch contract in `docs/point-runtime-pivot.md`: std dispatch stays inside runtime, unknown modules/functions return `undefined`, async std host boundaries must be awaited by interpreter wiring, and new std capabilities extend runtime builtins rather than app-tree shims or emit fallbacks.
+- Added `tests/runtime/std-dispatch.test.ts` covering the four-module dispatch table, npm-style std source normalization, lowered core call aliases, and unknown std entries.
+- Verification passed:
+  - `bun test tests/runtime/std-dispatch.test.ts tests/runtime/std-text-json.test.ts`
+  - `bun test tests/runtime`
+- Audit over the new dispatch/builtin/test/doc touchpoints found no runtime dependency on emit JavaScript, emit TypeScript, eval bundling, or Vite outside policy text.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P2-B verification follow-up
+
+- Cleaned duplicate `std.text` runtime builtin declarations so each std text function has one runtime-owned implementation.
+- Updated the existing runtime-owned app guard to expect async interpreter entrypoints after std host-boundary support.
+- Fixed the existing `tests/runtime/std-http.test.ts` inline Point module to load its real `use std.http` dependency graph before checking/interpreting, matching the P2-B std text/json parity setup.
+- Final verification passed:
+  - `bun test tests/runtime/std-text-json.test.ts`
+  - `bun test tests/runtime/std-text-json.test.ts tests/runtime/std-dispatch.test.ts tests/runtime/builtins-text.test.ts`
+  - `bun test tests/runtime/std-http.test.ts`
+  - `bun test tests/runtime`
+  - `bun test tests/point-only-experiment.test.ts`
+  - `bun run check`
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P2-C Runtime std.http helpers
+
+- Wired runtime execution for `std.http` fetch/response helpers through `packages/point/runtime/`: HTTP helper functions live under `runtime/builtins/http.ts`, resolve through `runtime/std-dispatch.ts`, and are executed by async runtime interpreter entrypoints.
+- Updated runtime app execution paths (`runModule`, runtime tests, and runtime HTTP/dev route execution) to await `interpretCoreProgramEntryAsync(...)`, so runtime-owned apps can cross async std host boundaries without falling back to emit.
+- Added `tests/runtime/std-http.test.ts` covering runtime-owned helper behavior (`httpFetch`, `httpGet`, `httpPost`, status/body assertions) and a real `use std.http` Point module interpreted through the runtime dependency graph.
+- Verification passed:
+  - `bun test tests/runtime/std-http.test.ts`
+  - `bun test tests/runtime/std-dispatch.test.ts tests/runtime/std-text-json.test.ts`
+  - `bun test tests/runtime`
+  - `bun test tests/point-only-experiment.test.ts`
+  - `bun run check`
+- A direct `bun -e` runtime barrel import smoke command was retried but failed before Bun started with the Windows sandbox `spawn setup refresh` error; the runtime test suite imports the same runtime barrel successfully.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P2 integrator
+
+- Merged the post-pivot std wiring state: `std.text`, `std.json`, `std.http`, and `std.time` resolve through `packages/point/runtime/std-dispatch.ts` to runtime-owned builtins.
+- Confirmed runtime-owned execution paths (`point run`, `point test`, runtime dev command endpoint, runtime HTTP routes) use async interpreter entrypoints so `use std.*` does not require emitted npm imports.
+- Expanded `tests/runtime/std-text-json.test.ts` with a runtime-owned app boundary check: a temporary `point.json` `runtime: "owned"` app using `capabilities text json` runs through `point run` and leaves no app-tree `generated/` or `.point-cache`.
+- Marked P2 done in `docs/point-runtime-pivot.md` and the post-pivot checklist above.
+- Verification passed:
+  - `bun test tests/runtime/std-text-json.test.ts`
+  - `bun test tests/runtime`
+  - `bun test tests/point-only-experiment.test.ts`
+  - `bun run check`
+- Audit found no `emitPointCoreJavaScript` or `bundleJavaScriptForEval` dependency in the runtime std dispatch/interpreter/builtin path.
+- No commit was made.
+
+## 2026-05-26 - Post-pivot P1 integrator
+
+- Verified 0.2.1 runtime-native default wording across README, package README, site guide pages, CLI reference, standalone-template docs, dev/deploy docs, product map, vision, changelog, and external pilot checklist.
+- Updated remaining stale public docs so `point create` defaults to `runtime-app` / `point.json` `runtime: "owned"`; legacy Vite/React templates are documented as explicit `--template full-stack-app` / `--template saas-app` opt-ins.
+- Strict stale-wording audit passed with no hits for the old full-stack/Vite/0.1.55 default-path phrases.
+- Remaining `:5173`, Vite, and React references are scoped to legacy template or historical docs.
+- Marked P1 done in the post-pivot checklist above.
+- `bun run check-docs` was retried three times but failed before Bun started with the Windows sandbox `spawn setup refresh` error; a direct `bun --version` smoke command failed the same way.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P3-A Runtime SaaS template
+
+- Added `packages/point/templates/runtime-saas-app/` with `point.json` `runtime: "owned"`, Point-only `src/app.point`, package scripts, README, and `.gitignore`; the template has no `web/` directory, Vite host, or generated app tree.
+- Wired `point create --template runtime-saas-app` through `packages/point/src/core/app-cli.ts` and documented the template in README/package README, CLI reference, standalone-template docs, and product map.
+- Added runtime-owned std dispatch for `std.auth` and `std.sql`; SQLite now runs through `packages/point/runtime/builtins/sql.ts`, with auth helpers in `packages/point/runtime/builtins/auth.ts`.
+- Added `tests/runtime-saas-template.test.ts` covering scaffold shape, CLI `point create --template runtime-saas-app`, runtime-owned `point run`, SQLite init/query, login token issuance, auth middleware rejection, protected member creation, and member listing through the runtime route handler.
+- Updated `tests/app-new-cli.test.ts` and `tests/runtime/std-dispatch.test.ts` for the new template and std dispatch modules.
+- Verification passed:
+  - `bun test tests/runtime-saas-template.test.ts tests/runtime/std-dispatch.test.ts`
+  - `bun test tests/app-new-cli.test.ts -t 'runtime SaaS|runtime-saas-app'`
+  - `bun run check`
+  - `git diff --check -- packages/point/src/core/app-cli.ts packages/point/runtime/std-dispatch.ts packages/point/runtime/builtins/sql.ts packages/point/runtime/builtins/auth.ts packages/point/templates/runtime-saas-app tests/runtime-saas-template.test.ts tests/app-new-cli.test.ts tests/runtime/std-dispatch.test.ts README.md packages/point/README.md docs/site/reference/cli.md docs/site/ecosystem/standalone-template.md docs/product-map.md`
+- Direct `bun packages/point/src/cli.ts create --list-templates` and `bun run check-docs` smoke commands were retried but failed before Bun started with the Windows sandbox `spawn setup refresh` error; the runtime-saas test covers the CLI create template path directly.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P4-A fmt-check-all start
+
+- Captured the authoritative `bun run fmt-check` failure list. All reported unformatted files are in the requested scope: `compiler/passes/*.point`, `examples/**/*.point`, and `std/*.point`.
+- `bun run check` passed after the fmt-check failure, confirming the current blocker is formatting rather than Point semantic checks.
+- Formatting commands (`bun run fmt`, `bun packages/point/src/cli.ts fmt-all`, and targeted `point fmt` loops) were retried but repeatedly failed before Bun started with the Windows sandbox `spawn setup refresh` error.
+- Follow-up retries confirmed the same blocker: `fmt-check` can sometimes start and still reports the same all-in-scope list, but `fmt-all`, targeted `fmt`, temporary Bun formatter runners, and temporary PowerShell normalization runners fail before execution with `spawn setup refresh`.
+- P4-A remains open until the formatter can run, `bun run fmt-check` passes, and the full `bun run ci` gate is verified.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P4-A closed (parent shell)
+
+- **Codex blocker (not a code failure):** `fmt-all` / targeted `point fmt` failed in Windows Codex with `spawn setup refresh` before Bun started.
+- **Parent shell:** `bun packages/point/src/cli.ts fmt-all` wrote 81 files; `bun run fmt-check` and `bun run check` both pass.
+- P4-A formatting gate is green; full `bun run ci` not re-run here.
+- Formatted `.point` files are unstaged until user requests commit.
+- No commit was made.
+
+## 2026-05-27 - Post-pivot P4 integrator
+
+- P4-B legacy deprecation notes present in `app-cli.ts`, `full-stack-app/README.md`, and `vercel-app/README.md`.
+- P4-A fmt gate closed via parent shell (see above).
+- **Post-pivot P4:** done pending commit + optional full CI run.
+
+## 2026-05-27 - Post-pivot P4-B Legacy template deprecation notes
+
+- Updated `packages/point/src/core/app-cli.ts` template-list descriptions so `full-stack-app` and `vercel-app` are explicitly legacy emit + Vite compatibility templates.
+- Added deprecation notes to `packages/point/templates/full-stack-app/README.md` and `packages/point/templates/vercel-app/README.md`, pointing new apps to `runtime-app` or `runtime-saas-app`.
+- Verification: targeted documentation/code search confirmed both legacy template descriptions and README deprecation notes are present.
 - No commit was made.

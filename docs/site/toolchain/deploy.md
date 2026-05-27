@@ -27,42 +27,41 @@ point build-ts src/app.point generated/app.ts
 
 Database access stays in `action` blocks with `touches database` — wire connection strings via `std.env` in your host bootstrap. See [Database interop](/point/ecosystem/database-interop).
 
-## Bun — Path B native full stack
+## Bun — Runtime-native app
 
-For apps scaffolded with `point create` (navigation + routes + `web/` Vite host):
+For apps scaffolded with `point create` (the default `runtime-app`):
 
 ```bash
 bun install
 point check src/app.point
-bun run dev          # Vite UI on :5173, Bun API on :3456
+point dev src/app.point
 ```
 
 Production:
 
 ```bash
-point build-app src/app.point   # emit + vite build → dist/
 point serve src/app.point --port 8080
 ```
 
-Or `bun run build` then `bun run serve` from the template.
+Or `bun run serve` from the template.
 
-`point serve` serves static files from `dist/` and routes under `/api/*` from one Bun listener. No Next.js host required.
+`point serve` runs the owned runtime server for HTTP, SSR, forms, and JSON routes. No Vite build or Next.js host is required for the default app.
 
-Use `point dev --api` when you only want the API process (no Vite).
+Legacy React/Vite templates remain available with `point create my-app --template full-stack-app` or `--template saas-app`; those still use `bun run build` then `bun run serve`.
 
 ### Render, Railway, Fly (no Docker)
 
-Path B is a single **Web Service**: one Bun process serves the Vite-built UI and `/api/*`.
+Runtime apps are a single **Web Service**: one Bun process serves runtime SSR and routes.
 
 | Setting | Value |
 |---------|--------|
 | Runtime | Bun |
-| Build command | `bun install && bun run build` |
+| Build command | `bun install` |
 | Start command | `bun run serve` |
 
 Set environment variables (`DATABASE_URL`, etc.) in the host dashboard — load them in Point via `std.env` inside actions.
 
-Vite runs only at **build time** (`point build-app` → `dist/`). Production is just `point serve` reading static files and API emit. No container required unless you choose one.
+Legacy templates run Vite only at **build time** (`point build-app` -> `dist/`). Production is just `point serve` reading static files and API emit. No container required unless you choose one.
 
 ## Bun — API and route apps
 

@@ -11,6 +11,7 @@ import {
 	parseCreateAppArgs,
 	REPO_TEMPLATE_REL,
 	RUNTIME_APP_TEMPLATE_ID,
+	RUNTIME_SAAS_APP_TEMPLATE_ID,
 	resolveAppTemplateDir,
 	scaffoldAppFromTemplate,
 	validateAppName,
@@ -64,6 +65,13 @@ describe("full-stack template and point create", () => {
 	test("full-stack template resolves explicitly", () => {
 		const dir = resolveAppTemplateDir(FULL_STACK_APP_TEMPLATE_ID);
 		expect(dir.replaceAll("\\", "/")).toContain("/packages/point/templates/full-stack-app");
+	});
+
+	test("runtime SaaS template resolves explicitly", () => {
+		const dir = resolveAppTemplateDir(RUNTIME_SAAS_APP_TEMPLATE_ID);
+		expect(dir.replaceAll("\\", "/")).toContain("/packages/point/templates/runtime-saas-app");
+		expect(existsSync(join(dir, "src/app.point"))).toBe(true);
+		expect(existsSync(join(dir, "web"))).toBe(false);
 	});
 
 	test("locatePointToolkitRoot finds examples/full-stack-template", () => {
@@ -187,6 +195,28 @@ describe("full-stack template and point create", () => {
 		expect(result.templateId).toBe("saas-app");
 		const appDir = join(projectDir, "saas-demo");
 		await Bun.$`bun ${cli} launch src/app.point admin demo`.cwd(appDir).quiet();
+	});
+
+	test("runtime-saas-app template is bundled without web or Vite", async () => {
+		const bundled = bundledTemplateDir(RUNTIME_SAAS_APP_TEMPLATE_ID);
+		expect(existsSync(bundled)).toBe(true);
+		expect(existsSync(join(bundled, "src/app.point"))).toBe(true);
+		expect(existsSync(join(bundled, "web"))).toBe(false);
+		const source = readFileSync(join(bundled, "src/app.point"), "utf8");
+		expect(source).toContain("capabilities auth sql");
+		expect(source).toContain("middleware require auth");
+		expect(source).toContain("sql query raw");
+		await Bun.$`bun ${cli} check ${join(bundled, "src/app.point")}`.quiet();
+		const result = await scaffoldAppFromTemplate("runtime-saas-demo", {
+			cwd: projectDir,
+			templateId: RUNTIME_SAAS_APP_TEMPLATE_ID,
+		});
+		expect(result.templateId).toBe(RUNTIME_SAAS_APP_TEMPLATE_ID);
+		const appDir = join(projectDir, "runtime-saas-demo");
+		const manifest = JSON.parse(readFileSync(join(appDir, "point.json"), "utf8")) as { runtime?: string };
+		expect(manifest.runtime).toBe("owned");
+		expect(existsSync(join(appDir, "web"))).toBe(false);
+		await Bun.$`bun ${cli} run src/app.point admin demo`.cwd(appDir).quiet();
 	});
 
 	test("vercel-app template is bundled and scaffolds", async () => {

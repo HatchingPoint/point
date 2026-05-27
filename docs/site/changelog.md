@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.1.55**
+Current release: **0.2.1**
 
 Check the published npm version:
 
@@ -22,6 +22,8 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.2.1** | Post-pivot default: `point create` scaffolds `runtime-app`; legacy Vite/React templates are explicit opt-ins. |
+| **0.2.0** | Runtime pivot baseline: home-base runtime owns interpreter, HTTP, SSR/forms/navigation. |
 | **0.1.55** | Phase 77: Notes detail app-repair, agent-app model-eval gate, gate 12. |
 | **0.1.54** | Phase 76: Ops page-size + refresh app-repair, agent-app gate 11. |
 | **0.1.53** | Phase 75: Ops datagrid filter app-repair, agent-app gate 9. |

@@ -6,9 +6,9 @@ quadrant: Reference
 
 ## Summary
 
-`point dev` watches your module graph, re-checks on save, and re-runs the dev entry. For full-stack apps (navigation + routes + `web/`), it also starts Vite for the React UI.
+`point dev` watches your module graph, re-checks on save, and re-runs the dev entry. Runtime-owned apps (`point.json` `runtime: "owned"`, the `point create` default) run through `packages/point/runtime/` for interpreter, HTTP, and SSR. Legacy host apps with `web/vite.config.*` can still start Vite.
 
-`point serve` is the production counterpart: one Bun process serves static files from `dist/` and API routes under `/api/*`.
+`point serve` is the production counterpart. Runtime-owned apps serve through `packages/point/runtime/`; legacy host apps serve static files from `dist/` and API routes under `/api/*`.
 
 ## point dev
 
@@ -21,31 +21,32 @@ point dev src/app.point --api
 | Flag | Effect |
 |------|--------|
 | `--port <n>` | API / route server port (default `3456`) |
-| `--api` | API-only — skip Vite even when `web/` exists |
+| `--api` | Legacy API-only mode — skip Vite even when `web/` exists |
 
 ### Modes (auto-detected)
 
 | Mode | When | What runs |
 |------|------|-----------|
-| **app** | Bootstrap navigation + routes + `web/vite.config.*` | Bun API + Vite UI (`:5173` by default) |
+| **runtime** | `point.json` has `runtime: "owned"` | Point runtime interpreter + HTTP + SSR |
+| **app** | Legacy bootstrap navigation + routes + `web/vite.config.*` | Bun API + Vite UI (`:5173` by default) |
 | **routes** | Route blocks present | Bun HTTP server only |
 | **schedules** | Schedule blocks + run entry | Re-runs schedule entry on rebuild |
 | **run** | Zero-input action/command | Re-runs entry (smoke / CLI apps) |
 
-On `.point` file changes, Point rebuilds emit and restarts the API. Vite handles UI hot module replacement for generated TypeScript.
+On `.point` file changes, runtime-owned apps re-check and restart the runtime server. Legacy app mode rebuilds emit and restarts the API; Vite handles UI hot module replacement for generated TypeScript.
 
-**UI port:** set `VITE_PORT` (default `5173`). Vite proxies `/api` to the API port via `VITE_API_PORT`.
+**Legacy UI port:** set `VITE_PORT` (default `5173`). Vite proxies `/api` to the API port via `VITE_API_PORT`.
 
-### Full-stack template
+### Runtime app template
 
 ```bash
 point create my-app
 cd my-app
 bun install
-bun run dev
+point dev src/app.point
 ```
 
-Open **http://localhost:5173** for the UI. API listens on **http://localhost:3456**.
+Open the URL printed by `point dev`. Use `point create my-app --template full-stack-app` or `--template saas-app` only when you explicitly want the legacy Vite/React host.
 
 ### point build-app
 
@@ -53,11 +54,11 @@ Open **http://localhost:5173** for the UI. API listens on **http://localhost:345
 point build-app src/app.point
 ```
 
-Check + emit JS/TS + Vite production build → `dist/`.
+Legacy host build: check + emit JS/TS + Vite production build -> `dist/`. Runtime-owned apps block this path.
 
 ## point serve
 
-Production server for Path B apps — requires a prior frontend build (`dist/`) and route emit (`generated/*.js`).
+Production server for runtime-owned apps or legacy Path B apps. Runtime-owned apps do not require `dist/` or route emit; legacy apps require a prior frontend build (`dist/`) and route emit (`generated/*.js`).
 
 ```bash
 point build-ts src/app.point generated/app.ts
@@ -84,8 +85,8 @@ Routing:
 |----------|--------|
 | `POINT_INCREMENTAL=1` | Cache unchanged modules during dev rebuilds |
 | `PORT` | Override listen port for route/serve servers |
-| `VITE_PORT` | Vite dev server port (app mode) |
-| `VITE_API_PORT` | API port Vite proxies to (app mode) |
+| `VITE_PORT` | Vite dev server port (legacy app mode) |
+| `VITE_API_PORT` | API port Vite proxies to (legacy app mode) |
 
 ## See also
 

@@ -9,7 +9,7 @@ import {
 } from "../src/core/emit-routes.ts";
 import type { PointSemanticMiddlewareDeclaration, PointSemanticRouteDeclaration } from "../src/semantic/ast.ts";
 import { semanticFunctionName } from "../src/semantic/naming.ts";
-import { interpretCoreProgramEntry, type PointRuntimeJsonResponse, type PointRuntimeValue } from "./interpreter/index.ts";
+import { interpretCoreProgramEntryAsync, type PointRuntimeJsonResponse, type PointRuntimeValue } from "./interpreter/index.ts";
 import { renderPointRuntimePage } from "./ssr/index.ts";
 
 export type PointRuntimeRoute = {
@@ -102,7 +102,7 @@ export function createPointRuntimeDevFetchHandler(filePath: string, program: Poi
 			const commandName = decodeURIComponent(url.pathname.slice("/runtime/command/".length));
 			const command = runtimeCommands(program).find((candidate) => candidate.semantic?.name === commandName || candidate.name === commandName);
 			if (!command) return jsonResponse({ ok: false, error: `Unknown command ${commandName}` }, 404);
-			const value = interpretCoreProgramEntry(program, command.name);
+			const value = await interpretCoreProgramEntryAsync(program, command.name);
 			return jsonResponse({ ok: true, command: command.semantic?.name ?? command.name, value });
 		}
 		return routes.fetch(request);
@@ -150,12 +150,12 @@ async function handleRuntimeRoute(
 			const middlewareArgs = middlewareArgExpressions(registration.route, middleware.declaration).map((expression) =>
 				valueForExpression(expression, routeValues, match),
 			);
-			const result = interpretCoreProgramEntry(program, middleware.handlerName, middlewareArgs);
+			const result = await interpretCoreProgramEntryAsync(program, middleware.handlerName, middlewareArgs);
 			if (result !== null) return runtimeValueToResponse(result, 401);
 		}
 
 		const args = handlerInputs(registration.route).map((input) => routeValues[input.label] ?? null);
-		return runtimeValueToResponse(interpretCoreProgramEntry(program, registration.handlerName, args));
+		return runtimeValueToResponse(await interpretCoreProgramEntryAsync(program, registration.handlerName, args));
 	}
 	const page = await renderPointRuntimePage(program, request);
 	if (page) return page;

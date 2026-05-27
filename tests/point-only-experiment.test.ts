@@ -124,9 +124,9 @@ describe("point-only experiment author surface", () => {
 		expect(cli).not.toContain("POINT_RUNTIME");
 		expect(cli.indexOf("if (isRuntimeNativeInput(devInput))")).toBeLessThan(cli.indexOf("await runPointDev(devInput"));
 		expect(cli.indexOf("blockRuntimeNativeEmit(command, appInput)")).toBeLessThan(cli.indexOf("await runPointBuildApp(appInput)"));
-		expect(runtime).toContain('import { interpretCoreProgramEntry } from "./interpreter/index.ts";');
-		expect(runtime).toContain("const value = interpretCoreProgramEntry(program, entryName)");
-		expect(runtime).toContain("const value = interpretCoreProgramEntry(program, test.name)");
+		expect(runtime).toContain('import { interpretCoreProgramEntryAsync } from "./interpreter/index.ts";');
+		expect(runtime).toContain("const value = await interpretCoreProgramEntryAsync(program, entryName)");
+		expect(runtime).toContain("const value = await interpretCoreProgramEntryAsync(program, test.name)");
 		expect(runtime).toContain("runPointRuntimeDev");
 		expect(runtime).toContain("runPointRuntimeServe");
 		expect(runtime).not.toContain("emitPointCoreJavaScript");

@@ -77,7 +77,7 @@ When a host app imports compiled output: `point build`. See [Build and emit](/po
 
 ## What you write vs what runs
 
-You author **`.point`**. JavaScript is the default runtime. Full-stack apps use a Vite/React host for UI — Point generates the glue. Python emit covers logic, routes, workflows, and pipelines; views and rich UI stay on JS/TS.
+You author **`.point`**. Runtime-owned apps are the default: `point create` scaffolds `runtime-app`, and `point dev` runs the interpreter, HTTP server, and SSR from `packages/point/runtime/`. Legacy Vite/React hosts remain opt-in templates. Python emit covers supported logic, routes, workflows, and pipelines.
 
 ## See also
 
