@@ -122,8 +122,9 @@ describe("point-only experiment author surface", () => {
 		expect(cli).toContain("blockRuntimeNativeEmit(command, appInput)");
 		expect(cli).not.toContain("point dev for experiments/point-only/** must be implemented");
 		expect(cli).not.toContain("POINT_RUNTIME");
-		expect(cli.indexOf("if (isRuntimeNativeInput(devInput))")).toBeLessThan(cli.indexOf("await runPointDev(devInput"));
-		expect(cli.indexOf("blockRuntimeNativeEmit(command, appInput)")).toBeLessThan(cli.indexOf("await runPointBuildApp(appInput)"));
+		expect(cli.indexOf("if (isRuntimeNativeInput(devInput))")).toBeLessThan(cli.indexOf("await runPointDev(devInput,"));
+		expect(cli.indexOf("blockRuntimeNativeEmit(command, appInput)")).toBeLessThan(cli.indexOf("await runPointBuildApp(appInput,"));
+		expect(cli).toContain("assertLegacyViteAppWorkflowAllowed");
 		expect(runtime).toContain('import { interpretCoreProgramEntryAsync } from "./interpreter/index.ts";');
 		expect(runtime).toContain("const value = await interpretCoreProgramEntryAsync(program, entryName)");
 		expect(runtime).toContain("const value = await interpretCoreProgramEntryAsync(program, test.name)");
