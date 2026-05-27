@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.3
+
+### Added
+
+- Full runtime `std-dispatch` for all capability modules (`fs`, `env`, `path`, `crypto`, `yaml`, `money`, `stream`, `process`, `image`, `pty`, `ai` plus existing text/json/http/time/auth/sql).
+- Owned-template author-surface guard test for `runtime-app` and `runtime-saas-app`.
+
+### Changed
+
+- `runtime-saas-app` uses `capabilities auth sql` only — no npm std externals in author source.
+- Pivot exit gate: full `bun run ci` green.
+
 ## 0.2.2
 
 ### Added
