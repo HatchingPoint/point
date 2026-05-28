@@ -13,7 +13,7 @@ import {
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { hasBootstrapNavigation, hasRoutes } from "./dev.ts";
 import { readPointLock } from "./packages.ts";
-import { assertLegacyViteAppWorkflowAllowed } from "./legacy-app-workflow.ts";
+import { removedLegacyAppHostMessage } from "./runtime-project.ts";
 
 const DEFAULT_STATIC_DIR = "dist";
 const DEFAULT_PORT = 3456;
@@ -166,30 +166,8 @@ export async function buildServeEntry(entry: string, cwd = process.cwd(), static
 }
 
 
-export async function runPointServe(entry: string, options: PointServeOptions): Promise<void> {
-	const cwd = options.cwd ?? process.cwd();
-	assertLegacyViteAppWorkflowAllowed("point serve", entry, { legacy: options.legacy, cwd });
-	const staticDir = options.staticDir ?? DEFAULT_STATIC_DIR;
-	const resolvedStatic = resolve(cwd, staticDir);
-	if (!existsSync(resolvedStatic)) {
-		throw new Error(`Static directory not found: ${resolvedStatic}. Run your frontend build first (e.g. vite build).`);
-	}
-	const build = await buildServeEntry(entry, cwd, staticDir);
-	if (!build.ok) {
-		console.error(JSON.stringify({ ok: false, diagnostics: build.diagnostics }, null, 2));
-		process.exit(1);
-	}
-	const runnerPath = resolve(cwd, ".point-cache", "serve-runner.ts");
-	await Bun.$`mkdir -p ${dirname(runnerPath)}`.quiet();
-	await Bun.write(runnerPath, createServeBootstrap(build.jsOutput, build.staticDir));
-	process.env.PORT = String(options.port);
-	const serverProcess = Bun.spawn(["bun", runnerPath], {
-		cwd,
-		env: { ...process.env, PORT: String(options.port) },
-		stdout: "inherit",
-		stderr: "inherit",
-	});
-	await serverProcess.exited;
+export async function runPointServe(_entry: string, _options: PointServeOptions): Promise<void> {
+	throw new Error(removedLegacyAppHostMessage("point serve"));
 }
 
 export function validateServeProgram(program: PointCoreProgram): void {

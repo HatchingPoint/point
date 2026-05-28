@@ -24,28 +24,16 @@ point dev src/app.point
 
 The default template is `runtime-app`: one `src/app.point`, owned runtime HTTP, SSR pages/forms/navigation, and JSON routes. No Vite, React, or author JavaScript is generated.
 
-**Legacy full-stack host** (React + Vite):
+**Runtime SaaS starter** (auth + SQLite + DB init):
 
 ```bash
-point create eval-demo --template full-stack-app
+point create eval-demo --template runtime-saas-app
 cd eval-demo
 bun install
+point run init database
 point demo src/app.point
 point dev src/app.point
 ```
-
-**Legacy SaaS starter** (React + Vite, auth + SQLite + DB init):
-
-```bash
-point create eval-demo --template saas-app
-cd eval-demo
-bun install
-bun run init:db
-point demo src/app.point
-point dev src/app.point
-```
-
-The legacy templates still use a Vite host in `web/`; choose them explicitly with `--template full-stack-app` or `--template saas-app`.
 
 ## 2. Discover (1 minute)
 

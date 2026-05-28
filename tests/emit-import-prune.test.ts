@@ -6,9 +6,9 @@ const repoRoot = join(import.meta.dir, "..");
 const cli = join(repoRoot, "packages/point/src/cli.ts");
 
 describe("emit import pruning", () => {
-	test("saas-app build inlines dependencies and emits startRoutesServer", async () => {
-		const source = "packages/point/templates/saas-app/src/app.point";
-		const output = join(repoRoot, "generated/saas-app-build-test.js");
+	test("route app build inlines dependencies and emits startRoutesServer", async () => {
+		const source = "examples/api/middleware-demo.point";
+		const output = join(repoRoot, "generated/middleware-demo-build-test.js");
 		const result = await Bun.$`bun ${cli} build ${source} ${output}`.cwd(repoRoot).quiet();
 		expect(result.exitCode).toBe(0);
 		const emitted = readFileSync(output, "utf8");

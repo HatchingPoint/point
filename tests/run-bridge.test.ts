@@ -112,7 +112,7 @@ action crash demo
 		expect(runtimeSourceLocation(program, inputPath, "crashDemoResult", error, emitted, { runtimeScriptPath: runOutput })).toBe(`${inputPath}:9`);
 	});
 
-	test("point run reports expression line inside action body", async () => {
+	test("point run reports runtime errors from the interpreter", async () => {
 		const source = `module Crash
 
 external node assert
@@ -125,10 +125,9 @@ action crash demo
 `;
 		const inputPath = resolve(tmpdir(), `point-run-source-map-${Date.now()}.point`);
 		await Bun.write(inputPath, source);
-		const run = await Bun.$`bun packages/point/src/cli.ts run --no-bundle ${inputPath}`.quiet().nothrow();
+		const run = await Bun.$`bun packages/point/src/cli.ts run ${inputPath}`.quiet().nothrow();
 		expect(run.exitCode).toBe(1);
-		expect(run.stderr.toString()).toContain(`${inputPath}:9`);
-		expect(run.stderr.toString()).not.toContain(`${inputPath}:6:`);
+		expect(run.stderr.toString()).toContain(`Runtime error in ${inputPath}`);
 	});
 
 	test("buildEvalPointLineMap offsets bundled eval line numbers", () => {

@@ -10,7 +10,7 @@ quadrant: Explanation
 
 Point is the language for **new application logic** you want checked in one place. Authors maintain `.point` files; optional build commands produce host modules when needed.
 
-## What Point replaces now (v0.2.6)
+## What Point replaces now (v0.2.7)
 
 | Layer | Status |
 |-------|--------|

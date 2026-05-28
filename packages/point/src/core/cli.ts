@@ -8,9 +8,7 @@ import { createSemanticIndex, explainSemanticRef, mapPublicDiagnostics } from ".
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCorePython, isPureLogicProgram } from "./emit-python.ts";
-import { canBundleRunInMemory, executeBundledEntry, bundleJavaScriptForEval } from "./run-bridge.ts";
 import { runModule, runPointRuntimeDev, runPointRuntimeServe, runPointRuntimeTests } from "../../runtime/index.ts";
-import { runtimeSourceLocation } from "./source-map.ts";
 import { formatPointSource } from "./format.ts";
 import { isCacheHit, isIncrementalEnabled, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { parsePointSource } from "./parser.ts";
@@ -21,15 +19,13 @@ import { runPointInit } from "./init-project.ts";
 import { addPointDependency, modulePathFromLock, POINT_LOCK, POINT_MANIFEST, readPointLock, resolveEmitTargetForInputPath } from "./packages.ts";
 import { dedupeCoreDeclarationsByName, filteredImportNamesForDependency, filteredPublicCoreDeclarations } from "./use-merge.ts";
 import { runPointLspServer } from "../lsp/server.ts";
-import { parseDevCliFlags, runPointDev } from "./dev.ts";
-import { runPointBuildApp } from "./build-app.ts";
+import { parseDevCliFlags } from "./dev.ts";
 import { emitPointSqlSchema, migrationFileName, type SqlDialect } from "./emit-sql-schema.ts";
 import { checkSemanticSqlSchema, mergeSemanticProgramsForSchema } from "../semantic/check-sql-schema.ts";
-import { parseServeCliFlags, runPointServe } from "./serve-app.ts";
+import { parseServeCliFlags } from "./serve-app.ts";
 import { runPointIntegrationTests } from "./integration-test.ts";
 import { analyzePointRoadmap, formatPointRoadmapAnalysis } from "./roadmap-analyze.ts";
-import { isRuntimeNativeInput } from "./runtime-project.ts";
-import { assertLegacyViteAppWorkflowAllowed, parseLegacyCliFlag } from "./legacy-app-workflow.ts";
+import { isRuntimeNativeInput, removedLegacyAppHostMessage, shouldUseRuntimeExecution } from "./runtime-project.ts";
 import { runPointDemo } from "./demo.ts";
 import {
 	isCapabilitiesLine,
@@ -61,7 +57,6 @@ export async function main() {
 	const tail = Bun.argv.slice(3);
 	let input = tail[0] ?? DEFAULT_INPUT;
 	let output = tail[1] ?? DEFAULT_OUTPUT;
-	let runFlags: Record<string, boolean | undefined> | undefined;
 	let runCommandName: string | undefined;
 	let buildProduction = false;
 	let schemaFlags: ReturnType<typeof parseBuildSchemaCliFlags> | undefined;
@@ -72,7 +67,6 @@ export async function main() {
 	}
 	if (command === "run" || command === "launch") {
 		const parsed = parseRunArgs(tail);
-		runFlags = parsed.flags;
 		input = parsed.input;
 		runCommandName = parsed.commandName;
 		if (command === "launch" && !runCommandName) {
@@ -89,48 +83,41 @@ export async function main() {
 	if (command === "dev") {
 		const parsed = parseDevCliFlags(tail);
 		const devInput = parsed.positional[0] ?? DEFAULT_INPUT;
-		if (isRuntimeNativeInput(devInput)) {
-			const lock = await readPointLock();
-			const coreFile = await loadCoreFile(devInput, lock);
-			const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
-			const program = graph ? programWithDependencyDeclarations(coreFile, graph) : coreFile.program;
-			const diagnostics = checkPointCore(program);
-			if (diagnostics.length > 0) {
-				console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
-				process.exit(1);
-			}
-			await runPointRuntimeDev(devInput, program, { port: parsed.port });
-			return;
+		const lock = await readPointLock();
+		const coreFile = await loadCoreFile(devInput, lock);
+		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
+		const program = graph ? programWithDependencyDeclarations(coreFile, graph) : coreFile.program;
+		const diagnostics = checkPointCore(program);
+		if (diagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+			process.exit(1);
 		}
-		await runPointDev(devInput, { port: parsed.port, apiOnly: parsed.apiOnly, legacy: parsed.legacy });
+		if (!shouldUseRuntimeExecution(devInput, program)) {
+			throw new Error(removedLegacyAppHostMessage("point dev"));
+		}
+		await runPointRuntimeDev(devInput, program, { port: parsed.port });
 		return;
 	}
 	if (command === "serve") {
 		const parsed = parseServeCliFlags(tail);
 		const serveInput = parsed.positional[0] ?? DEFAULT_INPUT;
-		if (isRuntimeNativeInput(serveInput)) {
-			const lock = await readPointLock();
-			const coreFile = await loadCoreFile(serveInput, lock);
-			const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
-			const program = graph ? programWithDependencyDeclarations(coreFile, graph) : coreFile.program;
-			const diagnostics = checkPointCore(program);
-			if (diagnostics.length > 0) {
-				console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
-				process.exit(1);
-			}
-			await runPointRuntimeServe(serveInput, program, { port: parsed.port });
-			return;
+		const lock = await readPointLock();
+		const coreFile = await loadCoreFile(serveInput, lock);
+		const graph = coreFile.uses.length > 0 ? await createModuleGraphForFile(coreFile, lock) : null;
+		const program = graph ? programWithDependencyDeclarations(coreFile, graph) : coreFile.program;
+		const diagnostics = checkPointCore(program);
+		if (diagnostics.length > 0) {
+			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
+			process.exit(1);
 		}
-		await runPointServe(serveInput, { port: parsed.port, staticDir: parsed.staticDir, legacy: parsed.legacy });
+		if (!shouldUseRuntimeExecution(serveInput, program)) {
+			throw new Error(removedLegacyAppHostMessage("point serve"));
+		}
+		await runPointRuntimeServe(serveInput, program, { port: parsed.port });
 		return;
 	}
 	if (command === "build-app") {
-		const buildAppArgs = parseLegacyCliFlag(tail);
-		const appInput = buildAppArgs.rest[0] ?? "src/app.point";
-		blockRuntimeNativeEmit(command, appInput);
-		assertLegacyViteAppWorkflowAllowed(command, appInput, { legacy: buildAppArgs.legacy });
-		await runPointBuildApp(appInput, process.cwd(), { legacy: buildAppArgs.legacy });
-		return;
+		throw new Error(`${removedLegacyAppHostMessage("point build-app")} Use point dev or point serve on runtime-owned apps instead.`);
 	}
 	if (command === "test" && tail[0] === "integration") {
 		const integrationInput = tail[1] ?? DEFAULT_INPUT;
@@ -467,29 +454,6 @@ export async function main() {
 			process.exit(1);
 		}
 		let entryName: string | null = null;
-		if (isRuntimeNativeInput(input)) {
-			try {
-				entryName = findRunEntryName(program, runCommandName);
-				if (!entryName) {
-					const available = availableCommandNames(program);
-					if (runCommandName) {
-						throw new Error(
-							`Unknown command "${runCommandName}".${available.length > 0 ? ` Available: ${available.join(", ")}` : ""} Run: point commands ${input}`,
-						);
-					}
-					throw new Error("No zero-argument entrypoint found. Define a command block or run: point commands <file>");
-				}
-				const runtime = await runModule(input, program, entryName);
-				if (runtime.value !== undefined) console.log(typeof runtime.value === "string" ? runtime.value : JSON.stringify(runtime.value));
-			} catch (error) {
-				console.error(`Runtime error in ${input}: ${error instanceof Error ? error.message : String(error)}`);
-				process.exit(1);
-			}
-			return;
-		}
-		const emittedJavaScript = emitPointCoreJavaScript(program);
-		let runOutput: string | undefined;
-		let useBundle = false;
 		try {
 			entryName = findRunEntryName(program, runCommandName);
 			if (!entryName) {
@@ -501,23 +465,10 @@ export async function main() {
 				}
 				throw new Error("No zero-argument entrypoint found. Define a command block or run: point commands <file>");
 			}
-			useBundle = runFlags?.bundle === true || (runFlags?.bundle !== false && canBundleRunInMemory(program));
-			if (runFlags?.bundle === true && !canBundleRunInMemory(program)) {
-				throw new Error("Cannot use --bundle: module has imports, externals, or non-pure logic (views, routes, workflows, commands).");
-			}
-			const value = useBundle
-				? await executeBundledEntry(program, entryName)
-				: await executeTempModuleRun(program, entryName, emittedJavaScript, process.cwd(), (path) => {
-						runOutput = path;
-					});
-			if (value !== undefined) console.log(typeof value === "string" ? value : JSON.stringify(value));
+			const runtime = await runModule(input, program, entryName);
+			if (runtime.value !== undefined) console.log(typeof runtime.value === "string" ? runtime.value : JSON.stringify(runtime.value));
 		} catch (error) {
-			console.error(
-				`Runtime error in ${runtimeSourceLocation(program, input, entryName, error, emittedJavaScript, {
-					runtimeScriptPath: runOutput,
-					evalBody: useBundle ? bundleJavaScriptForEval(emittedJavaScript).body : undefined,
-				})}: ${error instanceof Error ? error.message : String(error)}`,
-			);
+			console.error(`Runtime error in ${input}: ${error instanceof Error ? error.message : String(error)}`);
 			process.exit(1);
 		}
 		return;
@@ -528,13 +479,7 @@ export async function main() {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		if (isRuntimeNativeInput(input)) {
-			const result = await runPointRuntimeTests(input, program);
-			console.log(JSON.stringify(result, null, 2));
-			if (!result.ok) process.exit(1);
-			return;
-		}
-		const result = await runPointTests(program, input);
+		const result = await runPointRuntimeTests(input, program);
 		console.log(JSON.stringify(result, null, 2));
 		if (!result.ok) process.exit(1);
 		return;
@@ -683,7 +628,9 @@ async function runProjectCommand(command: string) {
 			console.error(JSON.stringify({ ok: false, diagnostics }, null, 2));
 			process.exit(1);
 		}
-		const results = await Promise.all(orderedResults.map((result) => runPointTests(programWithDependencyDeclarations(result, graph), result.input)));
+		const results = await Promise.all(
+			orderedResults.map((result) => runPointRuntimeTests(result.input, programWithDependencyDeclarations(result, graph))),
+		);
 		const failed = results.filter((result) => !result.ok);
 		if (failed.length > 0) {
 			console.error(JSON.stringify({ ok: false, files: failed }, null, 2));
@@ -735,67 +682,11 @@ function pointTypeOfRuntimeValue(value: unknown): string {
 	return "Record";
 }
 
-interface PointTestResult {
-	file: string;
-	ok: boolean;
-	tests: Array<{ name: string; ok: boolean; error?: string }>;
-}
-
-async function runPointTests(program: PointCoreProgram, input: string): Promise<PointTestResult> {
-	const tests = program.declarations.filter(
-		(declaration) =>
-			declaration.kind === "function" &&
-			declaration.params.length === 0 &&
-			declaration.returnType.name === "Bool" &&
-			(declaration.semantic?.name.startsWith("test") || declaration.name.startsWith("test")),
-	);
-	if (tests.length === 0) return { file: input, ok: true, tests: [] };
-	const testDir = resolve(process.cwd(), GENERATED_DIR, ".point-tests");
-	await Bun.$`mkdir -p ${testDir}`.quiet();
-	const testOutput = resolve(testDir, `point-test-${Date.now()}-${Math.random().toString(16).slice(2)}.js`);
-	await Bun.write(testOutput, emitPointCoreJavaScript(program));
-	const mod = await import(pathToFileUrl(testOutput));
-	const results = [];
-	for (const test of tests) {
-		try {
-			const candidate = mod[test.name];
-			if (typeof candidate !== "function") throw new Error(`Test ${test.name} was not exported.`);
-			const value = await candidate();
-			results.push({ name: test.semantic?.name ?? test.name, ok: value === true, error: value === true ? undefined : "Expected true." });
-		} catch (error) {
-			results.push({ name: test.semantic?.name ?? test.name, ok: false, error: error instanceof Error ? error.message : String(error) });
-		}
-	}
-	return { file: input, ok: results.every((result) => result.ok), tests: results };
-}
-
-function pathToFileUrl(path: string): string {
-	return `file://${path.replaceAll("\\", "/")}`;
-}
-
 function blockRuntimeNativeEmit(command: string, input: string): void {
 	if (!isRuntimeNativeInput(input)) return;
 	throw new Error(
 		`${command} is disabled for runtime-owned Point apps (point.json runtime: "owned"). These apps run through packages/point/runtime and do not emit generated artifacts.`,
 	);
-}
-
-async function executeTempModuleRun(
-	_program: PointCoreProgram,
-	entryName: string,
-	emittedJavaScript: string,
-	cwd = process.cwd(),
-	onWrite?: (path: string) => void,
-): Promise<unknown> {
-	const cacheDir = resolve(cwd, ".point-cache");
-	await mkdir(cacheDir, { recursive: true });
-	const runOutput = resolve(cacheDir, `point-run-${Date.now()}.js`);
-	onWrite?.(runOutput);
-	await Bun.write(runOutput, emittedJavaScript);
-	const mod = await import(pathToFileUrl(runOutput));
-	const entry = mod[entryName];
-	if (typeof entry !== "function") throw new Error(`Entrypoint ${entryName} was not exported.`);
-	return await entry();
 }
 
 function parseRunArgs(args: string[]): {

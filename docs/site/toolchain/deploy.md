@@ -8,7 +8,7 @@ quadrant: Reference
 
 **Default path:** apps with `point.json` `"runtime": "owned"` deploy as one Bun process — `point serve` runs owned HTTP, SSR, forms, and JSON routes with no Vite or React build. See [Deploy runtime-owned apps](/point/ecosystem/runtime-deploy).
 
-**Legacy path:** emit-based apps check, build JavaScript or TypeScript, then run through Bun, Vercel, or your host. The CLI does not upload binaries or provision cloud resources — you wire artifacts into your platform.
+**Advanced emit path:** check and build JavaScript or TypeScript for tooling, automation, or host integration. The CLI does not upload binaries or provision cloud resources — you wire artifacts into your platform.
 
 ## Production build
 
@@ -49,8 +49,6 @@ Or `bun run serve` from the template.
 
 `point serve` runs the owned runtime server for HTTP, SSR, forms, and JSON routes. No Vite build or Next.js host is required for the default app.
 
-Legacy React/Vite templates remain available with `point create my-app --template full-stack-app` or `--template saas-app`; those still use `bun run build` then `bun run serve`.
-
 ### Render, Railway, Fly (no Docker)
 
 Runtime apps are a single **Web Service**: one Bun process serves runtime SSR and routes.
@@ -62,8 +60,6 @@ Runtime apps are a single **Web Service**: one Bun process serves runtime SSR an
 | Start command | `bun run serve` |
 
 Set environment variables (`DATABASE_URL`, etc.) in the host dashboard — load them in Point via `std.env` inside actions.
-
-Legacy templates run Vite only at **build time** (`point build-app` -> `dist/`). Production is just `point serve` reading static files and API emit. No container required unless you choose one.
 
 ## Bun — API and route apps
 

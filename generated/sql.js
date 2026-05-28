@@ -3,6 +3,18 @@
 
 import { sqlQueryRaw as sqlQueryRaw } from "@hatchingpoint/point/std/sql";
 
+import { sqlJsonRowsList as sqlJsonRowsListRaw } from "@hatchingpoint/point/std/sql";
+
+import { sqlJsonMemberRow as sqlJsonMemberRowRaw } from "@hatchingpoint/point/std/sql";
+
 export async function sqlQueryRows(sql, params) {
-  return sqlQueryRaw(sql, params); // @point 11
+  return sqlQueryRaw(sql, params); // @point 13
+}
+
+export function sqlJsonRowsListRows(raw) {
+  return sqlJsonRowsListRaw(raw); // @point 18
+}
+
+export function sqlJsonMemberRowMember(raw) {
+  return sqlJsonMemberRowRaw(raw); // @point 23
 }

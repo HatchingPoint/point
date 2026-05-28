@@ -903,3 +903,13 @@ Agents append checkpoints after each R goal. Do not delete entries.
   - `bun test tests/runtime/stream-routes.test.ts tests/runtime/sse-routes.test.ts tests/runtime/ssr-refresh.test.ts tests/runtime/ssr-theme.test.ts tests/runtime/ssr-form-client.test.ts tests/runtime/server.test.ts`
   - `bun run check`
 - No commit was made.
+
+## 2026-05-26 - Post-pivot P10 Runtime-only execution
+
+- Routed `point run`, `point launch`, `point test`, and `point test-all` through `packages/point/runtime/` interpreter (`runModule`, `runPointRuntimeTests`).
+- Removed legacy emit/Vite templates (`full-stack-app`, `saas-app`, `vercel-app`) and `--legacy` create gate; `point create` ships only `runtime-app` and `runtime-saas-app`.
+- Removed legacy Vite `dev` / `serve` / `build-app` paths; runtime HTTP/SSR is the only app host.
+- Added `tests/p10-runtime-only.test.ts`, `tests/runtime/interpreter-workflow.test.ts`; migrated deploy/saas smoke to `runtime-saas-app`.
+- Updated docs (`run.md`, `dev.md`, `product-map.md`, `standalone-template.md`, quick-start, deploy, golden-app-demo); removed `sync:app-template` from CI/npm prepublish.
+- Verification: `bun run ci`
+- No commit was made.

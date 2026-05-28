@@ -7,7 +7,7 @@ Internal source of truth for README, site copy, and release notes. Sync when shi
 | Ring | Authors see | Compiler provides |
 |------|-------------|-------------------|
 | **Daily** | `capabilities`, `check`, `box`, `launch`, `demo`, `dev` | Semantic lowering, use-merge, import prune |
-| **Build** | `build`, `build-app`, `build-schema` | Multi-emit, module graph, incremental cache |
+| **Build** | `build`, `build-schema` | Multi-emit, module graph, incremental cache |
 | **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 33-case benchmark |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `point add` | Lockfile packages, AST tooling, Python subset |
 
@@ -15,7 +15,7 @@ Public front door: **Point in 60 seconds** → **Golden app demo** (evaluators).
 
 Tagline for agents: **The compiler is the agent's IDE.**
 
-Honest boundaries (reuse everywhere): You author `.point`. Runtime-owned apps are the default (`point create` -> `runtime-app`, `point.json` `runtime: "owned"`). Legacy Vite/React host templates remain opt-in with `--template full-stack-app`, `--template saas-app`, or `--template vercel-app`. Python = logic/routes/workflows/pipelines, not views.
+Honest boundaries (reuse everywhere): You author `.point`. Runtime-owned apps are the default (`point create` -> `runtime-app`, `point.json` `runtime: "owned"`). `point run`, `point test`, `point dev`, and `point serve` execute through `packages/point/runtime/`. Legacy Vite/React host templates and `point build-app` were removed in P10. Python = logic/routes/workflows/pipelines, not views.
 
 ## One sentence
 
@@ -54,8 +54,8 @@ Expand with:
 | Target | Command | Use |
 |--------|---------|-----|
 | Runtime app | `point create`, `point run`, `point dev`, `point serve`, `point test` | Default app workflow; owned by `packages/point/runtime/` via `point.json` `runtime: "owned"` |
-| JavaScript | `point build` | Legacy/non-runtime emit |
-| TypeScript | `point build-ts` | Legacy React/Vite/tsc |
+| JavaScript | `point build` | Advanced emit / tooling |
+| TypeScript | `point build-ts` | Advanced emit / tsc |
 | Python | `point build-py` | Automation parity |
 | SQL DDL | `point build-schema` | Postgres/SQLite migrations |
 
@@ -74,7 +74,7 @@ index → explain point://… → check-json → repair-plan → patch → check
 | Quality | `check`, `check-all`, `check-json`, `fmt`, `fmt-check` |
 | Emit | `build`, `build-ts`, `build-py`, `build-schema`, `build-ast` |
 | Run | `run`, `launch`, `test`, `test integration`, `repl` |
-| App | `create`, `init`, `dev`, `serve`, `build-app` |
+| App | `create`, `init`, `dev`, `serve` |
 | Discover | `capabilities`, `commands`, `box`, `index`, `explain`, `repair-plan` |
 | Ecosystem | `add` |
 | Editor | `lsp` |
@@ -83,9 +83,6 @@ index → explain point://… → check-json → repair-plan → patch → check
 
 - `runtime-app` — default runtime-owned app (`point.json` `runtime: "owned"`), no app-level JS/React/Vite or generated author artifacts
 - `runtime-saas-app` — runtime-owned auth middleware + SQLite starter (`--template runtime-saas-app`), no `web/` or Vite host
-- `full-stack-app` — legacy Vite + routes + pages (`point create my-app --template full-stack-app`)
-- `saas-app` — legacy auth + SQLite + DB init + protected POST route (`--template saas-app`)
-- `vercel-app` — legacy deploy-oriented Vite/Vercel variant (`--template vercel-app`)
 
 ## Runtime ownership
 
@@ -97,11 +94,11 @@ index → explain point://… → check-json → repair-plan → patch → check
 }
 ```
 
-When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point serve` execute through `packages/point/runtime/`. App-level emit paths (`build`, `build-js`, `build-ts`, `build-app`) are blocked for that app. Legacy templates omit the owned-runtime flag and keep their generated host/Vite workflow until those surfaces are replaced.
+When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point serve` execute through `packages/point/runtime/`. App-level emit paths (`build`, `build-js`, `build-ts`, `build-app`) are blocked for that app. Modules with app surface (routes, pages, navigation, streams) also route through the owned runtime even without an explicit manifest flag.
 
 ## Version anchor
 
-Update this line each release: **v0.2.5** — legacy sunset gates (P8): `--legacy` opt-in for emit/Vite templates and dev/serve/build-app; npm ships runtime templates only.
+Update this line each release: **v0.2.7** — runtime-only execution (P10): interpreter default for run/test/dev/serve; legacy emit/Vite templates and `point build-app` removed.
 
 ## Open source (public messaging)
 

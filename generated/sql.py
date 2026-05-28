@@ -15,5 +15,15 @@ if _point_std_root is not None and str(_point_std_root) not in sys.path:
 
 from point_std.sql import sqlQueryRaw as sqlQueryRaw
 
+from point_std.sql import sqlJsonRowsList as sqlJsonRowsListRaw
+
+from point_std.sql import sqlJsonMemberRow as sqlJsonMemberRowRaw
+
 async def sqlQueryRows(sql: str, params: list[str]) -> str | dict[str, str]:
     return sqlQueryRaw(sql, params)
+
+def sqlJsonRowsListRows(raw: str | dict[str, str]) -> list[Map]:
+    return sqlJsonRowsListRaw(raw)
+
+def sqlJsonMemberRowMember(raw: str | dict[str, str]) -> Map:
+    return sqlJsonMemberRowRaw(raw)

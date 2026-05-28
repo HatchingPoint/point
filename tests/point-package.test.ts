@@ -58,15 +58,14 @@ describe("@hatchingpoint/point npm package", () => {
 		);
 
 		const appCliPath = join(miniPackage, "src/core/app-cli.ts").replaceAll("\\", "/");
-		const { listAppTemplates, scaffoldAppFromTemplate, SAAS_APP_TEMPLATE_ID } = await import(appCliPath);
+		const { listAppTemplates, scaffoldAppFromTemplate } = await import(appCliPath);
 		expect(listAppTemplates().map((template) => template.id)).toEqual(["runtime-app", "runtime-saas-app"]);
 		await expect(
 			scaffoldAppFromTemplate("blocked", {
 				cwd: projectDir,
-				templateId: SAAS_APP_TEMPLATE_ID,
-				legacy: true,
+				templateId: "saas-app",
 			}),
-		).rejects.toThrow(/not shipped in @hatchingpoint\/point/);
+		).rejects.toThrow(/Unknown template/);
 
 		rmSync(projectDir, { recursive: true, force: true });
 	});

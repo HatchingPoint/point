@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Deploy smoke — build + serve saas-app, login, create member, verify list.
+# Deploy smoke — runtime-owned saas app: init db, serve, login, create member, verify list.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CLI="${POINT_CLI:-bun $ROOT/packages/point/src/cli.ts}"
-SOURCE="${POINT_SOURCE:-packages/point/templates/saas-app/src/app.point}"
+SOURCE="${POINT_SOURCE:-packages/point/templates/runtime-saas-app/src/app.point}"
 
 mkdir -p "$ROOT/tests/tmp"
 SMOKE_DIR="$(mktemp -d "$ROOT/tests/tmp/point-deploy-smoke-XXXXXX")"
@@ -12,29 +12,32 @@ cleanup() { rm -rf "$SMOKE_DIR"; }
 trap cleanup EXIT
 
 cd "$ROOT"
-echo "[deploy-smoke] build saas app"
-BUILD_OUT="$SMOKE_DIR/saas-app.js"
-$CLI build "$SOURCE" "$BUILD_OUT" >/dev/null
-
 echo "[deploy-smoke] init database"
 DB_PATH="$SMOKE_DIR/members.db"
 export DATABASE_URL="sqlite:$DB_PATH"
 export JWT_SECRET="deploy-smoke-secret"
-bun -e "
-const mod = await import('file://${BUILD_OUT}');
-await mod.initDatabaseCommand();
-"
+$CLI run "$SOURCE" init database >/dev/null
 
 echo "[deploy-smoke] start server"
-PORT=$((39000 + RANDOM % 1000))
-export PORT
-bun -e "
-const mod = await import('file://${BUILD_OUT}');
-const server = mod.startRoutesServer();
-await Bun.write('${SMOKE_DIR}/port.txt', String(server.port));
-" &
-SERVER_PID=$!
-sleep 2
+SERVER_PID=""
+for attempt in 1 2 3 4 5; do
+  PORT=$((39000 + RANDOM % 10000))
+  export PORT
+  rm -f "$SMOKE_DIR/port.txt"
+  bun "$ROOT/scripts/deploy-smoke-runtime-serve.ts" "$SOURCE" "$SMOKE_DIR/port.txt" &
+  SERVER_PID=$!
+  sleep 2
+  if [[ -f "$SMOKE_DIR/port.txt" ]]; then
+    break
+  fi
+  kill "$SERVER_PID" 2>/dev/null || true
+  wait "$SERVER_PID" 2>/dev/null || true
+  SERVER_PID=""
+  if [[ $attempt -eq 5 ]]; then
+    echo "[deploy-smoke] FAIL: could not bind an ephemeral port after 5 attempts"
+    exit 1
+  fi
+done
 PORT="$(cat "$SMOKE_DIR/port.txt")"
 BASE="http://127.0.0.1:$PORT"
 

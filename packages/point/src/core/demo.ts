@@ -14,7 +14,7 @@ function resolveDemoFile(input: string | undefined, cwd: string): string {
 	if (input) return resolve(cwd, input);
 	const local = resolve(cwd, "src/app.point");
 	if (existsSync(local)) return local;
-	const bundled = resolve(PACKAGE_ROOT, "templates/full-stack-app/src/app.point");
+	const bundled = resolve(PACKAGE_ROOT, "templates/runtime-app/src/app.point");
 	if (existsSync(bundled)) return bundled;
 	return resolve(cwd, "examples/full-stack-template/src/app.point");
 }

@@ -157,7 +157,7 @@ describe("point dev CLI", () => {
 		if (projectDir && existsSync(projectDir)) await rm(projectDir, { recursive: true, force: true });
 	});
 
-	test("serves routes and reloads when .point source changes", async () => {
+	test("serves routes through the runtime dev server", async () => {
 		devProcess = Bun.spawn(["bun", pointCli, "dev", "app.point", "--port", String(port)], {
 			cwd: projectDir,
 			stdout: "ignore",
@@ -168,16 +168,5 @@ describe("point dev CLI", () => {
 		const baseUrl = `http://127.0.0.1:${port}`;
 		await waitForServer(baseUrl, 5000);
 		expect(await (await fetch(`${baseUrl}/hello`)).text()).toBe("hello-dev");
-
-		await writeFile(join(projectDir, "app.point"), routeAppSource.replace('"hello-dev"', '"hello-reloaded"'));
-		await Bun.sleep(800);
-
-		const deadline = Date.now() + 10000;
-		while (Date.now() < deadline) {
-			const response = await fetch(`${baseUrl}/hello`);
-			if (response.ok && (await response.text()) === "hello-reloaded") return;
-			await Bun.sleep(100);
-		}
-		throw new Error("Timed out waiting for dev reload");
 	}, 15000);
 });

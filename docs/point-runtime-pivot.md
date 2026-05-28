@@ -177,6 +177,13 @@ Contract:
   - [x] P9-C: SSE `subscribe to sse` in owned runtime
   - [x] P9-D: WebSocket / terminal views in owned runtime
 
+- [ ] **P10:** Runtime-only execution (kill dual stack)
+  - [x] P10-A: `point run` / `point test` / `point test-all` always use `packages/point/runtime/` interpreter
+  - [x] P10-B: Remove legacy emit/Vite templates (`full-stack-app`, `saas-app`, `vercel-app`) and `--legacy` create gate
+  - [x] P10-C: Remove legacy Vite `dev` / `serve` / `build-app` paths; runtime HTTP/SSR is the only app host
+  - [x] P10-D: Interpreter + workflow/SaaS integration tests; migrate deploy/saas smoke to `runtime-saas-app`
+  - [x] P10-E: Docs/product-map sync; CI green
+
 ---
 
 ## File ownership

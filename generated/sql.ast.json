@@ -91,6 +91,156 @@
       }
     },
     {
+      "kind": "external",
+      "name": "sqlJsonRowsListRaw",
+      "params": [
+        {
+          "name": "raw",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "raw",
+          "span": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Map",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/sql",
+      "importName": "sqlJsonRowsList",
+      "semantic": {
+        "kind": "external",
+        "name": "sql json rows list raw"
+      },
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 151
+        },
+        "end": {
+          "line": 5,
+          "column": 123,
+          "offset": 273
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "sqlJsonMemberRowRaw",
+      "params": [
+        {
+          "name": "raw",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "raw",
+          "span": {
+            "start": {
+              "line": 6,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Map",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "from": "@hatchingpoint/point/std/sql",
+      "importName": "sqlJsonMemberRow",
+      "semantic": {
+        "kind": "external",
+        "name": "sql json member row raw"
+      },
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 1,
+          "offset": 274
+        },
+        "end": {
+          "line": 6,
+          "column": 119,
+          "offset": 392
+        }
+      }
+    },
+    {
       "kind": "function",
       "name": "sqlQueryRows",
       "params": [
@@ -104,12 +254,12 @@
           "semanticName": "sql",
           "span": {
             "start": {
-              "line": 7,
+              "line": 9,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 7,
+              "line": 9,
               "column": 10,
               "offset": 9
             }
@@ -131,12 +281,12 @@
           "semanticName": "params",
           "span": {
             "start": {
-              "line": 8,
+              "line": 10,
               "column": 1,
               "offset": 0
             },
             "end": {
-              "line": 8,
+              "line": 10,
               "column": 19,
               "offset": 18
             }
@@ -171,14 +321,14 @@
                 "name": "sql",
                 "span": {
                   "start": {
-                    "line": 11,
+                    "line": 13,
                     "column": 1,
-                    "offset": 262
+                    "offset": 504
                   },
                   "end": {
-                    "line": 11,
+                    "line": 13,
                     "column": 36,
-                    "offset": 297
+                    "offset": 539
                   }
                 }
               },
@@ -187,41 +337,41 @@
                 "name": "params",
                 "span": {
                   "start": {
-                    "line": 11,
+                    "line": 13,
                     "column": 1,
-                    "offset": 262
+                    "offset": 504
                   },
                   "end": {
-                    "line": 11,
+                    "line": 13,
                     "column": 36,
-                    "offset": 297
+                    "offset": 539
                   }
                 }
               }
             ],
             "span": {
               "start": {
-                "line": 11,
+                "line": 13,
                 "column": 1,
-                "offset": 262
+                "offset": 504
               },
               "end": {
-                "line": 11,
+                "line": 13,
                 "column": 36,
-                "offset": 297
+                "offset": 539
               }
             }
           },
           "span": {
             "start": {
-              "line": 11,
+              "line": 13,
               "column": 1,
-              "offset": 262
+              "offset": 504
             },
             "end": {
-              "line": 11,
+              "line": 13,
               "column": 36,
-              "offset": 297
+              "offset": 539
             }
           }
         }
@@ -236,14 +386,266 @@
       },
       "span": {
         "start": {
-          "line": 6,
+          "line": 8,
           "column": 1,
-          "offset": 152
+          "offset": 394
         },
         "end": {
-          "line": 6,
+          "line": 8,
           "column": 17,
-          "offset": 168
+          "offset": 410
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sqlJsonRowsListRows",
+      "params": [
+        {
+          "name": "raw",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "raw",
+          "span": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "List",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Map",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlJsonRowsListRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "raw",
+                "span": {
+                  "start": {
+                    "line": 18,
+                    "column": 1,
+                    "offset": 636
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 37,
+                    "offset": 672
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 636
+              },
+              "end": {
+                "line": 18,
+                "column": 37,
+                "offset": 672
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 636
+            },
+            "end": {
+              "line": 18,
+              "column": 37,
+              "offset": 672
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sql json rows list",
+        "outputName": "rows",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 541
+        },
+        "end": {
+          "line": 15,
+          "column": 31,
+          "offset": 571
+        }
+      }
+    },
+    {
+      "kind": "function",
+      "name": "sqlJsonMemberRowMember",
+      "params": [
+        {
+          "name": "raw",
+          "type": {
+            "kind": "typeRef",
+            "name": "Or",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Error",
+                "args": []
+              }
+            ]
+          },
+          "semanticName": "raw",
+          "span": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 21,
+              "column": 19,
+              "offset": 18
+            }
+          }
+        }
+      ],
+      "returnType": {
+        "kind": "typeRef",
+        "name": "Map",
+        "args": [
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          },
+          {
+            "kind": "typeRef",
+            "name": "Text",
+            "args": []
+          }
+        ]
+      },
+      "body": [
+        {
+          "kind": "return",
+          "value": {
+            "kind": "call",
+            "callee": "sqlJsonMemberRowRaw",
+            "args": [
+              {
+                "kind": "identifier",
+                "name": "raw",
+                "span": {
+                  "start": {
+                    "line": 23,
+                    "column": 1,
+                    "offset": 766
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 38,
+                    "offset": 803
+                  }
+                }
+              }
+            ],
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 766
+              },
+              "end": {
+                "line": 23,
+                "column": 38,
+                "offset": 803
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 23,
+              "column": 1,
+              "offset": 766
+            },
+            "end": {
+              "line": 23,
+              "column": 38,
+              "offset": 803
+            }
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "calculation",
+        "name": "sql json member row",
+        "outputName": "member",
+        "effects": []
+      },
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 674
+        },
+        "end": {
+          "line": 20,
+          "column": 32,
+          "offset": 705
         }
       }
     }
@@ -352,6 +754,144 @@
                 "offset": 150
               }
             }
+          },
+          {
+            "label": "sql json rows list raw",
+            "params": [
+              {
+                "label": "raw",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Or",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    },
+                    {
+                      "kind": "typeRef",
+                      "name": "Error",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 19,
+                    "offset": 18
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "List",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Map",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    },
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/sql",
+            "importAs": "sqlJsonRowsList",
+            "span": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 151
+              },
+              "end": {
+                "line": 5,
+                "column": 123,
+                "offset": 273
+              }
+            }
+          },
+          {
+            "label": "sql json member row raw",
+            "params": [
+              {
+                "label": "raw",
+                "type": {
+                  "kind": "typeRef",
+                  "name": "Or",
+                  "args": [
+                    {
+                      "kind": "typeRef",
+                      "name": "Text",
+                      "args": []
+                    },
+                    {
+                      "kind": "typeRef",
+                      "name": "Error",
+                      "args": []
+                    }
+                  ]
+                },
+                "span": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 19,
+                    "offset": 18
+                  }
+                }
+              }
+            ],
+            "returnType": {
+              "kind": "typeRef",
+              "name": "Map",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                }
+              ]
+            },
+            "from": "@hatchingpoint/point/std/sql",
+            "importAs": "sqlJsonMemberRow",
+            "span": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 274
+              },
+              "end": {
+                "line": 6,
+                "column": 119,
+                "offset": 392
+              }
+            }
           }
         ],
         "span": {
@@ -380,12 +920,12 @@
             },
             "span": {
               "start": {
-                "line": 7,
+                "line": 9,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 7,
+                "line": 9,
                 "column": 10,
                 "offset": 9
               }
@@ -406,12 +946,12 @@
             },
             "span": {
               "start": {
-                "line": 8,
+                "line": 10,
                 "column": 1,
                 "offset": 0
               },
               "end": {
-                "line": 8,
+                "line": 10,
                 "column": 19,
                 "offset": 18
               }
@@ -452,14 +992,14 @@
                   "label": "sql",
                   "span": {
                     "start": {
-                      "line": 11,
+                      "line": 13,
                       "column": 1,
-                      "offset": 262
+                      "offset": 504
                     },
                     "end": {
-                      "line": 11,
+                      "line": 13,
                       "column": 36,
-                      "offset": 297
+                      "offset": 539
                     }
                   }
                 },
@@ -468,55 +1008,299 @@
                   "label": "params",
                   "span": {
                     "start": {
-                      "line": 11,
+                      "line": 13,
                       "column": 1,
-                      "offset": 262
+                      "offset": 504
                     },
                     "end": {
-                      "line": 11,
+                      "line": 13,
                       "column": 36,
-                      "offset": 297
+                      "offset": 539
                     }
                   }
                 }
               ],
               "span": {
                 "start": {
-                  "line": 11,
+                  "line": 13,
                   "column": 1,
-                  "offset": 262
+                  "offset": 504
                 },
                 "end": {
-                  "line": 11,
+                  "line": 13,
                   "column": 36,
-                  "offset": 297
+                  "offset": 539
                 }
               }
             },
             "span": {
               "start": {
-                "line": 11,
+                "line": 13,
                 "column": 1,
-                "offset": 262
+                "offset": 504
               },
               "end": {
-                "line": 11,
+                "line": 13,
                 "column": 36,
-                "offset": 297
+                "offset": 539
               }
             }
           }
         ],
         "span": {
           "start": {
-            "line": 6,
+            "line": 8,
             "column": 1,
-            "offset": 152
+            "offset": 394
           },
           "end": {
-            "line": 6,
+            "line": 8,
             "column": 17,
-            "offset": 168
+            "offset": 410
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sql json rows list",
+        "inputs": [
+          {
+            "label": "raw",
+            "type": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 16,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 19,
+                "offset": 18
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "rows",
+          "type": {
+            "kind": "typeRef",
+            "name": "List",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Map",
+                "args": [
+                  {
+                    "kind": "typeRef",
+                    "name": "Text",
+                    "args": []
+                  },
+                  {
+                    "kind": "typeRef",
+                    "name": "Text",
+                    "args": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql json rows list raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "raw",
+                  "span": {
+                    "start": {
+                      "line": 18,
+                      "column": 1,
+                      "offset": 636
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 37,
+                      "offset": 672
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 18,
+                  "column": 1,
+                  "offset": 636
+                },
+                "end": {
+                  "line": 18,
+                  "column": 37,
+                  "offset": 672
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 18,
+                "column": 1,
+                "offset": 636
+              },
+              "end": {
+                "line": 18,
+                "column": 37,
+                "offset": 672
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 15,
+            "column": 1,
+            "offset": 541
+          },
+          "end": {
+            "line": 15,
+            "column": 31,
+            "offset": 571
+          }
+        }
+      },
+      {
+        "kind": "calculation",
+        "name": "sql json member row",
+        "inputs": [
+          {
+            "label": "raw",
+            "type": {
+              "kind": "typeRef",
+              "name": "Or",
+              "args": [
+                {
+                  "kind": "typeRef",
+                  "name": "Text",
+                  "args": []
+                },
+                {
+                  "kind": "typeRef",
+                  "name": "Error",
+                  "args": []
+                }
+              ]
+            },
+            "span": {
+              "start": {
+                "line": 21,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 19,
+                "offset": 18
+              }
+            }
+          }
+        ],
+        "output": {
+          "name": "member",
+          "type": {
+            "kind": "typeRef",
+            "name": "Map",
+            "args": [
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              },
+              {
+                "kind": "typeRef",
+                "name": "Text",
+                "args": []
+              }
+            ]
+          }
+        },
+        "body": [
+          {
+            "kind": "return",
+            "value": {
+              "kind": "call",
+              "callee": "sql json member row raw",
+              "args": [
+                {
+                  "kind": "name",
+                  "label": "raw",
+                  "span": {
+                    "start": {
+                      "line": 23,
+                      "column": 1,
+                      "offset": 766
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 38,
+                      "offset": 803
+                    }
+                  }
+                }
+              ],
+              "span": {
+                "start": {
+                  "line": 23,
+                  "column": 1,
+                  "offset": 766
+                },
+                "end": {
+                  "line": 23,
+                  "column": 38,
+                  "offset": 803
+                }
+              }
+            },
+            "span": {
+              "start": {
+                "line": 23,
+                "column": 1,
+                "offset": 766
+              },
+              "end": {
+                "line": 23,
+                "column": 38,
+                "offset": 803
+              }
+            }
+          }
+        ],
+        "span": {
+          "start": {
+            "line": 20,
+            "column": 1,
+            "offset": 674
+          },
+          "end": {
+            "line": 20,
+            "column": 32,
+            "offset": 705
           }
         }
       }
@@ -535,6 +1319,10 @@
     }
   },
   "semanticCallables": [
+    "sql json member row",
+    "sql json member row raw",
+    "sql json rows list",
+    "sql json rows list raw",
     "sql query",
     "sql query raw"
   ]

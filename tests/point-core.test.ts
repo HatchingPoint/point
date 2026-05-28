@@ -198,16 +198,15 @@ calculation known user
 		expect(generated).toContain("export function");
 	});
 
-	test("point run uses JavaScript emit without writing .ts into the project", async () => {
+	test("point run uses the runtime interpreter without writing emit artifacts", async () => {
 		const beforeTs = await Bun.$`git ls-files --others --exclude-standard generated/*.ts`.quiet().nothrow();
 		const run = await Bun.$`bun packages/point/src/cli.ts run examples/hello.point`.quiet();
 		expect(run.stdout.toString().trim()).toBe("Hello from Point");
 		const afterTs = await Bun.$`git ls-files --others --exclude-standard generated/*.ts`.quiet().nothrow();
 		expect(afterTs.stdout.toString()).toBe(beforeTs.stdout.toString());
 		const cli = await Bun.file("packages/point/src/core/cli.ts").text();
-		expect(cli).toContain("point-run-");
-		expect(cli).toContain(".js");
-		expect(cli).toContain("emitPointCoreJavaScript(program)");
+		expect(cli).toContain("runModule(input, program, entryName)");
+		expect(cli).not.toContain("executeTempModuleRun");
 	});
 
 	test("point build defaults to JavaScript output", async () => {
@@ -270,14 +269,12 @@ calculation echo
 		expect(built.length).toBeGreaterThan(1000);
 	});
 
-	test("documents and wires runtime source mapping boundaries", async () => {
-		const cli = await Bun.file("packages/point/src/core/cli.ts").text();
-		expect(cli).toContain("runtimeSourceLocation");
-		expect(cli).toContain("Runtime error in");
+	test("documents runtime source mapping boundaries", async () => {
 		const sourceMap = await Bun.file("packages/point/src/core/source-map.ts").text();
 		expect(sourceMap).toContain("tagEmittedLine");
 		expect(sourceMap).toContain("@point");
 		const runDoc = await Bun.file("docs/site/toolchain/run.md").text();
+		expect(runDoc).toContain("packages/point/runtime/");
 		expect(runDoc).toContain("statement-level");
 		expect(runDoc).toContain("Views and pages");
 	});

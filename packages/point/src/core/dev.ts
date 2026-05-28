@@ -17,7 +17,7 @@ import { emitPointCoreJavaScript } from "./emit-javascript.ts";
 import { emitPointCoreTypeScript } from "./emit-typescript.ts";
 import { isCacheHit, readBuildCache, recordCacheEntry, writeBuildCache } from "./incremental.ts";
 import { readPointLock } from "./packages.ts";
-import { assertLegacyViteAppWorkflowAllowed } from "./legacy-app-workflow.ts";
+import { removedLegacyAppHostMessage } from "./runtime-project.ts";
 
 const DEV_CACHE_DIR = ".point-cache";
 const DEV_RUNNER = "dev-runner.ts";
@@ -244,137 +244,6 @@ async function startRouteServerFromBuild(cwd: string, jsOutput: string, port: nu
 	return mod.startRoutesServer();
 }
 
-export async function runPointDev(entry: string, options: PointDevOptions): Promise<void> {
-	const cwd = options.cwd ?? process.cwd();
-	const normalizedEntry = entry.replaceAll("\\", "/");
-	assertLegacyViteAppWorkflowAllowed("point dev", normalizedEntry, { legacy: options.legacy, cwd });
-	let activeProcess: DevProcess | null = null;
-	let viteProcess: DevProcess | null = null;
-	let routeServer: RouteServer | null = null;
-	let watchedPaths = new Set<string>();
-	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-	let reloadGeneration = 0;
-	let watcherStop: (() => void) | null = null;
-	let viteStarted = false;
-
-	const stopActiveProcess = async () => {
-		if (routeServer) {
-			routeServer.stop(true);
-			routeServer = null;
-		}
-		if (viteProcess) {
-			viteProcess.kill();
-			await viteProcess.exited.catch(() => undefined);
-			viteProcess = null;
-			viteStarted = false;
-		}
-		if (!activeProcess) return;
-		activeProcess.kill();
-		await activeProcess.exited.catch(() => undefined);
-		activeProcess = null;
-	};
-
-	const startViteProcess = (webRoot: string) => {
-		if (viteStarted) return;
-		const configPath = viteConfigPath(cwd);
-		if (!configPath) {
-			throw new Error("Vite config not found under web/. Add web/vite.config.ts for full-stack dev.");
-		}
-		const vitePort = Number(process.env.VITE_PORT ?? DEFAULT_VITE_PORT);
-		const env = {
-			...process.env,
-			VITE_API_PORT: String(options.port),
-			VITE_PORT: String(vitePort),
-		};
-		viteProcess = Bun.spawn(["bunx", "vite", "--config", configPath.replaceAll("\\", "/")], {
-			cwd: webRoot,
-			env,
-			stdout: "inherit",
-			stderr: "inherit",
-		});
-		viteStarted = true;
-		console.log(`Point dev UI (Vite) on http://localhost:${vitePort} — web root ${webRoot.replaceAll("\\", "/")}`);
-	};
-
-	const startDevProcess = async (build: PointDevBuildResult) => {
-		const env = { ...process.env, PORT: String(options.port) };
-		if (build.mode.kind === "app") {
-			if (routeServer) {
-				routeServer.stop(true);
-				routeServer = null;
-			}
-			routeServer = await startRouteServerFromBuild(cwd, build.jsOutput, options.port);
-			console.log(`Point dev API on http://localhost:${routeServer.port}`);
-			startViteProcess(build.mode.webRoot);
-			return;
-		}
-		await stopActiveProcess();
-		if (build.mode.kind === "routes") {
-			routeServer = await startRouteServerFromBuild(cwd, build.jsOutput, options.port);
-			console.log(`Point dev listening on http://localhost:${routeServer.port}`);
-			return;
-		}
-		const runnerPath = await writeDevRunner(cwd, build.jsOutput, build.mode);
-		if (build.mode.kind === "run") {
-			activeProcess = Bun.spawn(["bun", runnerPath], { cwd, env, stdout: "inherit", stderr: "inherit" });
-			await activeProcess.exited;
-			activeProcess = null;
-			return;
-		}
-		activeProcess = Bun.spawn(["bun", runnerPath], { cwd, env, stdout: "inherit", stderr: "inherit" });
-	};
-
-	const restartWatcher = () => {
-		watcherStop?.();
-		watcherStop = null;
-		const paths = [...watchedPaths].map((path) => resolve(cwd, path));
-		if (paths.length === 0) return;
-		const watchers = paths.map((path) =>
-			watch(path, { persistent: true }, (eventType) => {
-				if (eventType !== "change" && eventType !== "rename") return;
-				scheduleRebuild();
-			}),
-		);
-		watcherStop = () => {
-			for (const watcher of watchers) watcher.close();
-		};
-	};
-
-	const rebuild = async (initial = false) => {
-		const generation = ++reloadGeneration;
-		console.log(`Point dev rebuilding ${normalizedEntry}...`);
-		const build = await buildDevEntry(normalizedEntry, cwd, { apiOnly: options.apiOnly });
-		if (generation !== reloadGeneration) return;
-		if (!build.ok) {
-			console.error(JSON.stringify({ ok: false, diagnostics: build.diagnostics }, null, 2));
-			if (initial) process.exit(1);
-			console.error("Point dev kept the previous build running.");
-			return;
-		}
-		watchedPaths = new Set(build.watchedInputs);
-		await startDevProcess(build);
-		restartWatcher();
-		console.log(`Point dev ready (${build.mode.kind}) — watching ${build.watchedInputs.length} file(s)`);
-	};
-
-	const scheduleRebuild = () => {
-		if (debounceTimer) clearTimeout(debounceTimer);
-		debounceTimer = setTimeout(() => {
-			debounceTimer = null;
-			void rebuild();
-		}, 150);
-	};
-
-	process.on("SIGINT", () => {
-		watcherStop?.();
-		void stopActiveProcess().finally(() => process.exit(0));
-	});
-	process.on("SIGTERM", () => {
-		watcherStop?.();
-		void stopActiveProcess().finally(() => process.exit(0));
-	});
-
-	console.log(`Point dev starting ${normalizedEntry} on port ${options.port}...`);
-	await rebuild(true);
-	await new Promise(() => {});
+export async function runPointDev(_entry: string, _options: PointDevOptions): Promise<void> {
+	throw new Error(removedLegacyAppHostMessage("point dev"));
 }

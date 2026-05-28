@@ -2,10 +2,20 @@ import { describe, expect, test } from "bun:test";
 import { mkdir, mkdtemp } from "node:fs/promises";
 import { join } from "node:path";
 
+import { startPointRuntimeServer } from "../packages/point/runtime/server.ts";
+import { checkPointCore } from "../packages/point/src/core/check.ts";
+import {
+	buildCoreFileFromSource,
+	createModuleGraphForFile,
+	programWithDependencyDeclarations,
+} from "../packages/point/src/core/cli.ts";
+import { bundledTemplateDir, RUNTIME_SAAS_APP_TEMPLATE_ID } from "../packages/point/src/core/app-cli.ts";
+import { readPointLock } from "../packages/point/src/core/packages.ts";
+
 const repoRoot = join(import.meta.dir, "..");
 const script = join(repoRoot, "scripts/deploy-smoke.sh");
 const cli = join(repoRoot, "packages/point/src/cli.ts");
-const source = "packages/point/templates/saas-app/src/app.point";
+const source = join(bundledTemplateDir(RUNTIME_SAAS_APP_TEMPLATE_ID), "src/app.point");
 
 async function hasBash(): Promise<boolean> {
 	const result = await Bun.$`bash --version`.nothrow().quiet();
@@ -16,19 +26,24 @@ async function runPortableSmoke(): Promise<string> {
 	const tmpRoot = join(repoRoot, "tests/tmp");
 	await mkdir(tmpRoot, { recursive: true });
 	const smokeDir = await mkdtemp(join(tmpRoot, "point-deploy-smoke-"));
-	const buildOut = join(smokeDir, "saas-app.js");
 	const dbPath = join(smokeDir, "members.db");
-	await Bun.$`bun ${cli} build ${source} ${buildOut}`.cwd(repoRoot).quiet();
+	await Bun.$`bun ${cli} run ${source} init database`
+		.cwd(repoRoot)
+		.env({ DATABASE_URL: `sqlite:${dbPath}`, JWT_SECRET: "deploy-smoke-secret" })
+		.quiet();
+
+	const lock = await readPointLock(repoRoot);
+	const coreFile = buildCoreFileFromSource(source, await Bun.file(source).text(), lock, repoRoot);
+	const graph = await createModuleGraphForFile(coreFile, lock, repoRoot);
+	const program = programWithDependencyDeclarations(coreFile, graph, repoRoot);
+	expect(checkPointCore(program)).toEqual([]);
 
 	const previousDatabaseUrl = process.env.DATABASE_URL;
 	const previousJwtSecret = process.env.JWT_SECRET;
 	process.env.DATABASE_URL = `sqlite:${dbPath}`;
 	process.env.JWT_SECRET = "deploy-smoke-secret";
-	let server: ReturnType<typeof Bun.serve> | null = null;
+	const server = startPointRuntimeServer(program, { hostname: "127.0.0.1" });
 	try {
-		const mod = await import(buildOut);
-		await mod.initDatabaseCommand();
-		server = mod.startRoutesServer();
 		const base = `http://127.0.0.1:${server.port}`;
 		expect(await (await fetch(`${base}/api/health`)).text()).toBe("ok");
 
@@ -52,7 +67,7 @@ async function runPortableSmoke(): Promise<string> {
 		expect(members).toContain("Alex Chen");
 		return "[deploy-smoke] PASS";
 	} finally {
-		server?.stop(true);
+		server.stop(true);
 		if (previousDatabaseUrl === undefined) delete process.env.DATABASE_URL;
 		else process.env.DATABASE_URL = previousDatabaseUrl;
 		if (previousJwtSecret === undefined) delete process.env.JWT_SECRET;
@@ -61,7 +76,7 @@ async function runPortableSmoke(): Promise<string> {
 }
 
 describe("deploy smoke", () => {
-	test("saas login + create member path passes", async () => {
+	test("runtime saas login + create member path passes", async () => {
 		if (await hasBash()) {
 			const result = await Bun.$`bash ${script}`.cwd(repoRoot).nothrow();
 			expect(result.exitCode).toBe(0);

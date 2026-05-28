@@ -101,18 +101,19 @@ point dev src/app.point
 
 Open the URL printed by `point dev` — SSR readiness UI, JSON at `/readiness`, navigation at `/readiness-ui`.
 
-Legacy hosts are opt-in:
+For auth + SQLite, use the runtime SaaS template:
 
 ```bash
-point create my-app --template full-stack-app
-point create my-saas --template saas-app
+point create my-saas --template runtime-saas-app
+cd my-saas
+bun install
+point run init database
+point dev src/app.point
 ```
-
-Those React + Vite templates print their own UI/API URLs when `point dev` starts.
 
 Walkthrough: [Golden app demo](/point/guide/golden-app-demo).
 
-Production (runtime app): `bun run serve`. Legacy template: `bun run build` then `bun run serve`. See [Deploy runtime-owned apps](/point/ecosystem/runtime-deploy) and [Deploy](/point/toolchain/deploy).
+Production: `bun run serve`. See [Deploy runtime-owned apps](/point/ecosystem/runtime-deploy) and [Deploy](/point/toolchain/deploy).
 
 Templates ship inside `@hatchingpoint/point` — no monorepo checkout required. List options with `point create --list-templates`.
 

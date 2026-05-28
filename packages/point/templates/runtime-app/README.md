@@ -26,4 +26,4 @@ point run src/app.point smoke
 | `tests/score.test.point` | Point-only tests |
 | `point.json` | Manifest (`runtime: "owned"`) |
 
-Legacy full-stack templates remain available: `point create my-app --template full-stack-app`.
+For auth + SQLite, scaffold with `point create my-saas --template runtime-saas-app`.

@@ -1,6 +1,6 @@
 {
   "name": "@hatchingpoint/point",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": false,
   "type": "module",
   "description": "Point language compiler and CLI.",
@@ -62,7 +62,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "prepublishOnly": "cd ../.. && bun run sync:app-template && bun run sync:std-modules"
+    "prepublishOnly": "cd ../.. && bun run sync:std-modules"
   },
   "license": "MIT"
 }

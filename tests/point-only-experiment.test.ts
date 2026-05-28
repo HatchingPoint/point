@@ -109,27 +109,23 @@ describe("point-only experiment author surface", () => {
 		expect(disallowedAuthorFiles).toEqual([]);
 	});
 
-	test("CLI hard-routes runtime-owned apps through the runtime entrypoint", async () => {
+	test("CLI routes all execution through the runtime entrypoint", async () => {
 		const cli = await readFile("packages/point/src/core/cli.ts", "utf8");
 		const runtime = await readFile("packages/point/runtime/index.ts", "utf8");
 		expect(cli).toContain('import { runModule, runPointRuntimeDev, runPointRuntimeServe, runPointRuntimeTests } from "../../runtime/index.ts";');
-		expect(cli).toContain("if (isRuntimeNativeInput(input))");
 		expect(cli).toContain("runModule(input, program, entryName)");
 		expect(cli).toContain("runPointRuntimeTests(input, program)");
+		expect(cli).toContain("shouldUseRuntimeExecution(devInput, program)");
 		expect(cli).toContain("runPointRuntimeDev(devInput, program");
 		expect(cli).toContain("runPointRuntimeServe(serveInput, program");
 		expect(cli).toContain("blockRuntimeNativeEmit(command, input)");
-		expect(cli).toContain("blockRuntimeNativeEmit(command, appInput)");
-		expect(cli).not.toContain("point dev for experiments/point-only/** must be implemented");
+		expect(cli).toContain("removedLegacyAppHostMessage(\"point build-app\")");
+		expect(cli).not.toContain("await runPointDev(");
+		expect(cli).not.toContain("executeTempModuleRun");
 		expect(cli).not.toContain("POINT_RUNTIME");
-		expect(cli.indexOf("if (isRuntimeNativeInput(devInput))")).toBeLessThan(cli.indexOf("await runPointDev(devInput,"));
-		expect(cli.indexOf("blockRuntimeNativeEmit(command, appInput)")).toBeLessThan(cli.indexOf("await runPointBuildApp(appInput,"));
-		expect(cli).toContain("assertLegacyViteAppWorkflowAllowed");
 		expect(runtime).toContain('import { interpretCoreProgramEntryAsync } from "./interpreter/index.ts";');
 		expect(runtime).toContain("const value = await interpretCoreProgramEntryAsync(program, entryName)");
 		expect(runtime).toContain("const value = await interpretCoreProgramEntryAsync(program, test.name)");
-		expect(runtime).toContain("runPointRuntimeDev");
-		expect(runtime).toContain("runPointRuntimeServe");
 		expect(runtime).not.toContain("emitPointCoreJavaScript");
 		expect(runtime).not.toContain("bundleJavaScriptForEval");
 		expect(runtime).not.toContain("executeBundledEntry");
