@@ -8,7 +8,7 @@ Internal source of truth for README, site copy, and release notes. Sync when shi
 |------|-------------|-------------------|
 | **Daily** | `capabilities`, `check`, `box`, `launch`, `demo`, `dev` | Semantic lowering, use-merge, import prune |
 | **Build** | `build`, `build-schema` | Multi-emit, module graph, incremental cache |
-| **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 33-case benchmark |
+| **Agent** | `check-json`, `repair`, `repair-plan`, `index`, `explain` | Domain checkers, semantic refs, repair ordering, 41-case repair + 15-case app benchmark |
 | **Advanced** | `build-ts`, `build-py`, `build-ast`, `point add` | Lockfile packages, AST tooling, Python subset |
 
 Public front door: **Point in 60 seconds** → **Golden app demo** (evaluators).
@@ -98,7 +98,7 @@ When `runtime` is `owned`, `point run`, `point test`, `point dev`, and `point se
 
 ## Version anchor
 
-Update this line each release: **v0.2.7** — runtime-only execution (P10): interpreter default for run/test/dev/serve; legacy emit/Vite templates and `point build-app` removed.
+Update this line each release: **v0.2.8** — runtime-owned proof cases (P11): 41 repair + 15 app benchmark gates; stream subscribe and runtime-saas fixtures.
 
 ## Open source (public messaging)
 

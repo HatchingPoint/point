@@ -10,7 +10,7 @@ Release history lives in the Point repo changelog and package metadata.
 
 ## Package version
 
-Current release: **0.2.7**
+Current release: **0.2.8**
 
 Check the published npm version:
 
@@ -22,6 +22,7 @@ npm view @hatchingpoint/point version
 
 | Version | Highlights |
 |---------|------------|
+| **0.2.8** | Runtime-owned proof cases (P11): stream subscribe repair fixture, runtime-saas app benchmarks; 41 repair + 15 app gate cases. |
 | **0.2.7** | Runtime-only execution (P10): interpreter default for run/test/dev/serve; legacy emit/Vite templates and `point build-app` removed. |
 | **0.2.6** | Owned-runtime UX parity (P9): theme toggle SSR, `refresh every` polling, SSE subscribe, WebSocket + terminal views — no React/Vite in default apps. |
 | **0.2.5** | Legacy sunset gates (P8): `--legacy` for emit/Vite templates, dev/serve/build-app; npm ships runtime templates only. |

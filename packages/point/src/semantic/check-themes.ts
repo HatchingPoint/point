@@ -77,6 +77,7 @@ export function checkSemanticThemes(program: PointSemanticProgram): PointCoreDia
 					theme?.name ?? "theme",
 					'Add `toggle` under the theme block (for example `theme app theme` then `  toggle`).',
 					declaration.body.find((statement) => statement.kind === "toggleTheme")?.span,
+					["toggle"],
 				),
 			);
 		}
@@ -91,13 +92,16 @@ function themeDiagnostic(
 	themeName: string,
 	repair: string,
 	span?: { start: { line: number; column: number; offset: number }; end: { line: number; column: number; offset: number } },
+	expected?: string[],
 ): PointCoreDiagnostic {
 	return {
 		code,
 		message,
+		path: `theme.${themeName}`,
 		severity: "error",
 		ref: `point://semantic/${moduleName}/theme.${themeName}`,
 		repair,
 		span,
+		...(expected ? { expected } : {}),
 	};
 }

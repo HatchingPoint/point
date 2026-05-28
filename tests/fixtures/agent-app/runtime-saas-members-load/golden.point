@@ -1,0 +1,30 @@
+module RuntimeSaasMembers
+
+record Member
+  id: Text
+  name: Text
+  role: Text
+
+view admin nav
+  link "Members" to "/members"
+  render "Runtime SaaS"
+
+action fetch members
+  output members: List<Member>
+  touches none
+  return [{ id: "u-1", name: "Alex Chen", role: "Owner" }]
+
+view members list
+  load data from action fetch members
+  when loading render "Loading members..."
+  when error render "Could not load members"
+  when empty render "No members yet"
+  datagrid member in data columns name, role sort by name filter by name link name to "/members/" + member.id
+
+page members page
+  title "Members"
+  main render members list()
+
+navigation admin app
+  path "/members" page members page
+  bootstrap router

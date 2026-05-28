@@ -175,6 +175,7 @@ function validateSubscribeTarget(
 				name,
 				`Add a stream route with path ${JSON.stringify(subscribePath.path)} or subscribe to stream <name>.`,
 				subscribePath.span,
+				[...streamRoutesByPath.keys()].sort(),
 			),
 		];
 	}

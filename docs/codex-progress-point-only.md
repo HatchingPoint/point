@@ -913,3 +913,16 @@ Agents append checkpoints after each R goal. Do not delete entries.
 - Updated docs (`run.md`, `dev.md`, `product-map.md`, `standalone-template.md`, quick-start, deploy, golden-app-demo); removed `sync:app-template` from CI/npm prepublish.
 - Verification: `bun run ci`
 - No commit was made.
+
+## 2026-05-28 - Post-pivot P11 Runtime-owned proof cases
+
+- Added agent-repair fixture `unknown-stream-subscribe-path` for owned-runtime WebSocket subscribe paths.
+- Added agent-app fixtures `runtime-saas-members-load` and `runtime-saas-create-member-wiring` from `runtime-saas-app` template.
+- Improved theme/stream diagnostics (`path`, `expected` on theme and stream subscribe path checkers).
+- Bumped gates: 37 single-shot repair + 4 multistep; 15 agent-app cases.
+- Updated `docs/site/ai/agent-repair-tests.md`, `docs/product-map.md`, fixture READMEs; regenerated proof reports and exports.
+- Verification passed:
+  - `bun test tests/agent-repair-sufficiency.test.ts tests/agent-repair-gate.test.ts tests/agent-app-benchmark.test.ts tests/agent-app-gate.test.ts tests/agent-app-model-eval.test.ts`
+  - `bun run proof:agent-repair -- --skip-models`
+  - `bun run proof:agent-app -- --skip-models`
+- No commit was made.

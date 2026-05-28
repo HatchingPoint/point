@@ -1,6 +1,6 @@
 {
   "schemaVersion": "point.agent-repair-proof.v1",
-  "generatedAt": "2026-05-22T03:14:26.469Z",
+  "generatedAt": "2026-05-28T12:29:27.694Z",
   "overallOk": true,
   "ciPassed": true,
   "sections": [
@@ -8,109 +8,44 @@
       "title": "CI: check-json sufficiency (single-shot agent loop, no LLM)",
       "verified": "ci",
       "passed": true,
-      "detail": "13 fixtures · real check-json → golden line → point check"
+      "detail": "37 fixtures · real check-json → golden line → point check"
     },
     {
       "title": "CI: repair-plan loop (check → fix → check again, no LLM)",
       "verified": "ci",
       "passed": true,
-      "detail": "1 multistep fixture(s) · simulates rushed auto-coding scaffold"
+      "detail": "4 multistep fixture(s) · simulates rushed auto-coding scaffold"
     },
     {
       "title": "Measured: check-json context size per fixture",
       "verified": "ci",
       "passed": true,
-      "detail": "unknown-field-rule: 1051 chars (~263 tok); label-unknown-field: 813 chars (~203 tok); calc-unknown-field: 907 chars (~227 tok); rule-stock-unknown-field: 936 chars (~234 tok); rule-user-unknown-field: 809 chars (~202 tok); missing-await: 747 chars (~187 tok); arity-mismatch: 755 chars (~189 tok); operator-type-mismatch: 672 chars (~168 tok); feature-dashboard-load: 963 chars (~241 tok); feature-pipeline-await: 807 chars (~202 tok); feature-notes-crud: 789 chars (~197 tok); feature-nav-routes: 849 chars (~212 tok); feature-guard-policy: 784 chars (~196 tok)"
+      "detail": "unknown-field-rule: 1051 chars (~263 tok); label-unknown-field: 838 chars (~210 tok); calc-unknown-field: 907 chars (~227 tok); rule-stock-unknown-field: 936 chars (~234 tok); rule-user-unknown-field: 834 chars (~209 tok); missing-await: 747 chars (~187 tok); load-data-repair: 1097 chars (~274 tok); middleware-input-unavailable: 895 chars (~224 tok); middleware-input-type-mismatch: 913 chars (~228 tok); auth-bearer: 1053 chars (~263 tok); pipeline-step-type-mismatch: 746 chars (~187 tok); float-money-field: 913 chars (~228 tok); missing-variant-case: 874 chars (~219 tok); action-outcome-not-exhaustive: 940 chars (~235 tok); calculation-on-failure-type-mismatch: 738 chars (~185 tok); invalid-view-bind-target: 682 chars (~171 tok); arity-mismatch: 755 chars (~189 tok); operator-type-mismatch: 672 chars (~168 tok); feature-dashboard-load: 1112 chars (~278 tok); feature-pipeline-await: 807 chars (~202 tok); feature-notes-crud: 789 chars (~197 tok); feature-nav-routes: 849 chars (~212 tok); feature-guard-policy: 784 chars (~196 tok); refresh-without-load: 814 chars (~204 tok); invalid-refresh-interval: 874 chars (~219 tok); invalid-table-link-column: 689 chars (~172 tok); terminal-unknown-stream: 706 chars (~177 tok); invalid-datagrid-sort-column: 702 chars (~176 tok); invalid-datagrid-filter-column: 714 chars (~179 tok); invalid-chart-field: 665 chars (~166 tok); invalid-datagrid-page-size: 659 chars (~165 tok); invalid-bind-select-target: 669 chars (~167 tok); toast-without-submit: 710 chars (~178 tok); unknown-sse-subscribe-route: 698 chars (~175 tok); invalid-bind-textarea-target: 657 chars (~164 tok); invalid-bind-checkbox-target: 660 chars (~165 tok); unknown-stream-subscribe-path: 691 chars (~173 tok)"
     },
     {
       "title": "Compared: Point check-json vs illustrative TS paste heuristic",
       "verified": "estimated",
       "passed": true,
-      "detail": "79–93% less context (avg 87%). TS paste sizes are heuristics, not logged agent traces."
+      "detail": "78–92% less context (avg 87%). TS paste sizes are heuristics, not logged agent traces."
     },
     {
       "title": "CI: multistep golden repair",
       "verified": "ci",
       "passed": true,
-      "detail": "feature-multistep-launch: 2/2 steps"
-    },
-    {
-      "title": "Live: frontier models — real API, point check verifier",
-      "verified": "live-model",
-      "passed": true,
-      "detail": "78/78 runs pass point check · Point workflow 100% · TS workflow 100%"
+      "detail": "feature-multistep-launch: 2/2 steps; feature-multistep-cart: 2/2 steps; feature-multistep-notes: 2/2 steps; feature-multistep-pipeline: 2/2 steps"
     }
   ],
   "fixtureCounts": {
-    "singleShot": 13,
-    "multistep": 1,
-    "exported": 14
+    "singleShot": 37,
+    "multistep": 4,
+    "exported": 41
   },
   "tokenReductionPercent": {
-    "minReductionPercent": 79,
-    "maxReductionPercent": 93,
+    "minReductionPercent": 78,
+    "maxReductionPercent": 92,
     "avgReductionPercent": 87
   },
-  "modelEval": {
-    "generatedAt": "2026-05-22T03:16:58.464Z",
-    "summary": {
-      "overall": {
-        "point": {
-          "passed": 39,
-          "total": 39,
-          "rate": 100
-        },
-        "typescript": {
-          "passed": 39,
-          "total": 39,
-          "rate": 100
-        }
-      },
-      "byModel": {
-        "gpt-4.1": {
-          "point": {
-            "passed": 13,
-            "total": 13,
-            "rate": 100
-          },
-          "typescript": {
-            "passed": 13,
-            "total": 13,
-            "rate": 100
-          }
-        },
-        "claude-opus-4-6": {
-          "point": {
-            "passed": 13,
-            "total": 13,
-            "rate": 100
-          },
-          "typescript": {
-            "passed": 13,
-            "total": 13,
-            "rate": 100
-          }
-        },
-        "claude-sonnet-4-6": {
-          "point": {
-            "passed": 13,
-            "total": 13,
-            "rate": 100
-          },
-          "typescript": {
-            "passed": 13,
-            "total": 13,
-            "rate": 100
-          }
-        }
-      }
-    },
-    "models": [
-      "gpt-4.1",
-      "claude-opus-4-6",
-      "claude-sonnet-4-6"
-    ]
-  },
+  "modelEval": null,
   "reproduce": [
     "bun run proof:agent-repair",
     "bun test tests/agent-repair-sufficiency.test.ts tests/agent-repair-multistep.test.ts",

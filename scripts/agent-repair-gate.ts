@@ -8,7 +8,7 @@ import {
 
 /** Minimum fixture counts — bump when adding cases; gate fails if cases are removed silently. */
 export const AGENT_REPAIR_GATE_THRESHOLDS = {
-	minSingleShotCases: 36,
+	minSingleShotCases: 37,
 	minMultistepCases: 4,
 	/** All registered cases must pass sufficiency (no partial credit). */
 	requiredPassRate: 1,

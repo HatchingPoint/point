@@ -134,6 +134,14 @@ export function buildAppTscError(testCase: AgentAppBenchmarkCase): string {
 		return `error TS2304: Cannot find name 'fetchNote'.
   at components/NoteDetail.tsx:8:42`;
 	}
+	if (testCase.id === "runtime-saas-members-load") {
+		return `error TS2304: Cannot find name 'listMembers'.
+  at components/MembersList.tsx:8:42`;
+	}
+	if (testCase.id === "runtime-saas-create-member-wiring") {
+		return `error TS2339: Property 'options' does not exist on type 'CreateMemberBody'.
+  at components/CreateMemberForm.tsx:15:28`;
+	}
 	return `error TS2724: '"../lib/searchItems"' has no exported member named 'searchItem'. Did you mean 'searchItems'?
   at components/SearchPanel.tsx:1:10`;
 }
@@ -393,6 +401,10 @@ export function goldenEditsForCase(testCase: AgentAppBenchmarkCase): AppModelEdi
 			return [{ kind: "replaceLine", line: 58, text: '  bind textarea "Body" to draft.body' }];
 		case "notes-detail-wiring":
 			return [{ kind: "replaceLine", line: 47, text: "  load data from action get note" }];
+		case "runtime-saas-members-load":
+			return [{ kind: "replaceLine", line: 18, text: "  load data from action fetch members" }];
+		case "runtime-saas-create-member-wiring":
+			return [{ kind: "replaceLine", line: 14, text: '  bind select "Role" to draft.role options role options' }];
 		default:
 			return [
 				{

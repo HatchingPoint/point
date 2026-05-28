@@ -841,6 +841,23 @@ const source = new EventSource("/sse/metrics"); // route registered as metricPul
 			tscError: `error TS2322: Type 'Draft' is not assignable to type 'boolean'.`,
 		},
 	},
+	{
+		id: "unknown-stream-subscribe-path",
+		title: "View — unknown stream subscribe path",
+		category: "typo-fix",
+		agentTask: "Fix subscribe to stream path typo for owned-runtime WebSocket views.",
+		repairMode: "single-shot",
+		brokenFile: "unknown-stream-subscribe-path-broken.point",
+		fixedFile: "unknown-stream-subscribe-path-fixed.point",
+		expectedCode: "unknown-stream-subscribe-path",
+		chosenField: "/ws/build",
+		typescriptContext: {
+			excerpt: `// BuildTerminal.tsx — excerpt
+useWebSocket("/ws/logs"); // route registered at /ws/build`,
+			totalChars: 5800,
+			tscError: `error TS2820: Type '"/ws/logs"' is not assignable to type '"/ws/build"'.`,
+		},
+	},
 ];
 
 export const AGENT_REPAIR_MULTISTEP_CASES: AgentRepairMultistepCase[] = [

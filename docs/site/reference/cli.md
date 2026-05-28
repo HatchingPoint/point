@@ -8,7 +8,7 @@ quadrant: Reference
 
 The `point` CLI ships in `@hatchingpoint/point`. Commands take a file path unless noted. Project-wide commands end in `-all`.
 
-**Version:** `@hatchingpoint/point@0.2.7` (see `npm view @hatchingpoint/point version`)
+**Version:** `@hatchingpoint/point@0.2.8` (see `npm view @hatchingpoint/point version`)
 
 ## CLI rings (start here)
 

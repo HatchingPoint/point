@@ -12,7 +12,7 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | **app-repair** | Agent wired a full app but left one mistake | check-json → line fix → `point check` (full app graph) |
 | **refactor** | Rename/move blocks across app (partial agent rename) | Golden structure + check |
 
-## Cases (13)
+## Cases (15)
 
 | ID | Category | Source example |
 |----|----------|----------------|
@@ -29,6 +29,8 @@ Unlike `agent-repair/` (single-line typo fixes on mini fixtures), these cases us
 | `ops-dashboard-filter-wiring` | app-repair | wrong datagrid filter column |
 | `ops-dashboard-page-size-wiring` | app-repair | invalid datagrid page size |
 | `ops-dashboard-refresh-wiring` | app-repair | refresh without load data |
+| `runtime-saas-members-load` | app-repair | `runtime-saas-app` members datagrid load action |
+| `runtime-saas-create-member-wiring` | app-repair | `runtime-saas-app` create form bind select |
 
 ## Paired Next.js scaffolds
 

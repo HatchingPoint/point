@@ -344,6 +344,46 @@ export const AGENT_APP_BENCHMARK_CASES: AgentAppBenchmarkCase[] = [
 			excerpt: "",
 		},
 	},
+	{
+		id: "runtime-saas-members-load",
+		title: "Runtime SaaS — wire members list load action",
+		category: "app-repair",
+		agentTask:
+			"Fix the runtime-owned SaaS members datagrid — the view loads list members but the action is fetch members.",
+		baseFile: "runtime-saas-members-load/golden.point",
+		brokenFile: "runtime-saas-members-load/broken.point",
+		goldenFile: "runtime-saas-members-load/golden.point",
+		expectedCode: "unknown-load-action",
+		requiredDeclarations: ["action fetch members", "view members list", "page members page"],
+		requiredNavPaths: ["/members"],
+		sourceExample: "packages/point/templates/runtime-saas-app/src/app.point",
+		typescriptContext: {
+			taskDescription:
+				"Fix MembersList data loader in a runtime-owned SaaS app — view calls listMembers but SQLite action is fetchMembers.",
+			totalChars: 19000,
+			excerpt: "",
+		},
+	},
+	{
+		id: "runtime-saas-create-member-wiring",
+		title: "Runtime SaaS — fix create member bind select",
+		category: "app-repair",
+		agentTask:
+			"Fix the runtime-owned create member form — bind select Role must target draft.role, not draft.options.role.",
+		baseFile: "runtime-saas-create-member-wiring/golden.point",
+		brokenFile: "runtime-saas-create-member-wiring/broken.point",
+		goldenFile: "runtime-saas-create-member-wiring/golden.point",
+		expectedCode: "invalid-view-bind-target",
+		requiredDeclarations: ["view create member form", "page create member page"],
+		requiredNavPaths: ["/members/new"],
+		sourceExample: "packages/point/templates/runtime-saas-app/src/app.point",
+		typescriptContext: {
+			taskDescription:
+				"Fix CreateMemberForm role select bind in a runtime-owned SaaS app — controlled value must be draft.role.",
+			totalChars: 17000,
+			excerpt: "",
+		},
+	},
 ];
 
 export function loadAppFixture(relativePath: string): string {

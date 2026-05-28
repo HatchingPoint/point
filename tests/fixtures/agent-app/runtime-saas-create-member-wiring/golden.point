@@ -1,0 +1,26 @@
+module RuntimeSaasCreateMember
+
+record Create Member Body
+  name: Text
+  role: Text
+
+view create member form
+  input draft: Create Member Body
+  input role options: List<Text>
+  input on draft change: Handler<Create Member Body>
+  on change call on draft change
+  form
+  bind field "Name" to draft.name
+  bind select "Role" to draft.role options role options
+  submit "Create member" POST "/api/members" body draft then navigate "/members"
+  render "Create a workspace member"
+
+page create member page
+  input draft: Create Member Body
+  input on draft change: Handler<Create Member Body>
+  title "New member"
+  main render create member form(draft, on draft change, ["Owner", "Admin", "Member"])
+
+navigation admin app
+  path "/members/new" page create member page
+  bootstrap router

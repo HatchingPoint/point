@@ -177,12 +177,18 @@ Contract:
   - [x] P9-C: SSE `subscribe to sse` in owned runtime
   - [x] P9-D: WebSocket / terminal views in owned runtime
 
-- [ ] **P10:** Runtime-only execution (kill dual stack)
+- [x] **P10:** Runtime-only execution (kill dual stack)
   - [x] P10-A: `point run` / `point test` / `point test-all` always use `packages/point/runtime/` interpreter
   - [x] P10-B: Remove legacy emit/Vite templates (`full-stack-app`, `saas-app`, `vercel-app`) and `--legacy` create gate
   - [x] P10-C: Remove legacy Vite `dev` / `serve` / `build-app` paths; runtime HTTP/SSR is the only app host
   - [x] P10-D: Interpreter + workflow/SaaS integration tests; migrate deploy/saas smoke to `runtime-saas-app`
   - [x] P10-E: Docs/product-map sync; CI green
+
+- [x] **P11:** Runtime-owned proof cases (agent repair + app benchmarks)
+  - [x] P11-A: Runtime-owned agent-repair fixtures (stream subscribe path)
+  - [x] P11-B: Runtime-saas agent-app proof cases (members load, create form wiring)
+  - [x] P11-C: Proof reports + site sync (`proof:agent-repair`, `proof:agent-app`, LandingPage)
+  - [x] P11-D: CI green; docs/agent-repair-tests counts updated
 
 ---
 
